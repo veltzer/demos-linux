@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+
+#include "us_helper.hh"
+#include "ioctls.h"
+
+/*
+ *      This test explores how kmalloc behaves when given various
+ *      sizes to allocate
+ */
+int main(int argc, char **argv, char **envp) {
+	// file to be used
+	const char *filename = "/dev/demo";
+	// file descriptor
+	int d;
+
+	//klog_clear();
+	scie(d = open(filename, O_RDWR), "open");
+	printf("starting out\n");
+	for (unsigned int i = 1; i < 1000000; i += 100) {
+		// kmalloc does not allocate on a page boundry...
+		//sc(ioctl(d,IOCTL_DEMO_KMALLOC,i),"kmalloc");
+		//printf("kmalloc: i is %d\n",i);
+		scie(ioctl(d, IOCTL_DEMO_GET_FREE_PAGES, i), "__get_free_pages");
+		printf("__get_free_pages: i is %d\n", i);
+		// I don't seem to be able to call these unless I have a real
+		// device (like PCI etc...).
+		//sc(ioctl(d,IOCTL_DEMO_PCI_ALLOC_CONSISTENT,i),"pci_alloc_consistent");
+		//printf("pci_alloc_consistent: i is %d",i);
+		//sc(ioctl(d,IOCTL_DEMO_DMA_ALLOC_COHERENT,i),"dma_alloc_coherent");
+		//printf("dma_alloc_coherent: i is %d",i);
+	}
+	scie(close(d), "close");
+	return(0);
+}

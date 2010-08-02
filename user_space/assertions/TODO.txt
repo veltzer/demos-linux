@@ -1,0 +1,7 @@
+To add here:
+- ACE assertions.
+- Boost assertions.
+- Other assertion libraries ?!? (CWD ?).
+- Home grown assertion libraries. (__PRETTY_FUNCTION__).
+- Home grown with C++ support assertion libraries.
+- system call assertions (with or without C++ support).

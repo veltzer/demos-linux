@@ -1,0 +1,2 @@
+look at the documentation for dlopen(NULL) - it appears to open the executable itself!
+use that to show how to do aop.

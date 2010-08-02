@@ -1,0 +1,49 @@
+// Exercise 1
+// 1. Write a program that will have two functions FunA and FunB.
+//	use a loop counter to call twice FunA and this function will call FunB.
+// 2. Each function will print a message when entered, using the ACE utility.
+// 3. Use the ACE to set and unset this capability.
+// 4. In each function print debugging information using 3 levels:
+//	1. LM_TRACE
+//	2. LM_DEBUG
+//	3. LM_INFO
+//	Use the following options in each output line:
+//	1. Print program pid (%P).
+//	2. Print line number (%l).
+//	3. Print File Name (%N).
+//
+// Use %I to cause indentation. without trace this does nothing.
+// With trace enabled it will indent according to functions entered.
+// Multiple "%I" usage is possible.
+//
+#define ACE_NTRACE 0
+#include <ace/Log_Msg.h>
+
+/*
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
+ */
+void FunB() {
+	//ACE_TRACE(ACE_TEXT("FunB"));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%I DEBUG : pid=%P Line:%l File=%N\n")));
+	//ACE_DEBUG((LM_INFO,ACE_TEXT("%I INFO : pid=%P Line:%l File=%N\n")));
+	//ACE_DEBUG((LM_NOTICE,ACE_TEXT("%I NOTICE: pid=%P Line:%l File=%N\n")));
+}
+
+
+void FunA() {
+	//ACE_TRACE(ACE_TEXT("FunA"));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%I DEBUG : pid=%P Line:%l File=%N\n")));
+	//ACE_DEBUG((LM_INFO,ACE_TEXT("%I INFO : pid=%P Line:%l File=%N\n")));
+	//ACE_DEBUG((LM_NOTICE,ACE_TEXT("%I NOTICE: pid=%P Line:%l File=%N\n")));
+	FunB();
+}
+
+
+int ACE_TMAIN(int, ACE_TCHAR **) {
+	ACE_LOG_MSG->priority_mask(LM_DEBUG | LM_INFO | LM_NOTICE | LM_TRACE, ACE_Log_Msg::PROCESS);
+	ACE_TRACE(ACE_TEXT("main"));
+	for (int i = 0; i < 2; i++) {
+		FunA();
+	}
+	return(0);
+}

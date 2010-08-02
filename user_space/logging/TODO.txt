@@ -1,0 +1,12 @@
+more examples that I need to put here:
+1. how to use __FILE__, __LINE__, __FUNCTION__.
+	__PRETTY_FUNCTION__ (c++ demangle).
+2. how to print back traces.
+3. measure times for all debugging.
+3. demo on how to put the debug file on a ram disk.
+4. libcwd logging.
+5. boost logging.
+6. buffering examples to show how to line buffer files for logging.
+7. show the difference between syslog times and standard log (printf) times.
+	explain the difference.
+	explain advantages and disadvantages of using each.

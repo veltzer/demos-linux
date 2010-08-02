@@ -1,0 +1,2 @@
+- do example of an OO wrapper for pthreads.
+- show how this is solved in ACE and Boost and stdlibc++.

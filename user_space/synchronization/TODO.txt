@@ -1,0 +1,3 @@
+These are the list of more demos to write in the realm of synchronization:
+- example of how to write a spin lock.
+- example of event passing between threads (eventfd).

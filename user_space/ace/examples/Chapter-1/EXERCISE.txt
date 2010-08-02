@@ -1,0 +1,6 @@
+Exercise 0
+Write the ACE hello world program according to the slides and verify that it works correctly.
+Check what libraries are linked in to your ACE application on the specific operating system
+you are running on. (Windows: use binary inspector, linux/unix: use ldd).
+
+Where do ACE_DEUBG and ACE_ERROR messages go to ?

@@ -1,0 +1,7 @@
+Exercise 8
+1. Use Exercise 1 (Hello World Example) but use the Log facility to send all the output
+   to the system messages file.
+2. Assig a prefix to each message:  'ACE-Course'
+3. Before the end of the program issue an INFO message into the stdin and display
+   the following message: 
+       End of Program
