@@ -1,5 +1,2 @@
 These are more examples to write under this topic:
-- show what happens when a processes father is killed
-	print his ppid before and after.
-	explain how init does whatever it is that it does.
 - show a primitive example of pstree.
