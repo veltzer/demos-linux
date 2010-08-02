@@ -5,11 +5,15 @@
  *      of gcc...
  *
  *      Things to notice:
- *      1. We don't need any special header files.
+ *      1. We don't need any special header files (we are using compiler built ins
+ *      	which are something akin to "sizeof").
  *      2. We use the __attribute__ feature to make sure the compiler checks that
  *      we are passing the arguments right (gcc feature).
  *      3. Notice we can only put the __attribute__ feature on function declaration
  *      (that is why we have the funny declaration after the definition).
+ *
+ * TODO:
+ * - add an example using the glibc wrappers to show the difference.
  *
  *              Mark Veltzer
  *

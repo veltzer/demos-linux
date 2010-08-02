@@ -17,7 +17,6 @@ int do_something(int val) {
 	return(val);
 }
 
-
 int main(int argc, char **argv, char **envp) {
 	if (argc != 3) {
 		printf("usage: %s [val1] [val2]\n", argv[0]);
