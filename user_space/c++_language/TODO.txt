@@ -1,0 +1,4 @@
+- add a demo where each c++ object allocated or deallocated registers these
+	facts using atomic variables.
+	add a monitoring thread that allows a user via telnet to get a dump
+	of a histogram of currently allocated objects.

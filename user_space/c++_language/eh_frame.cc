@@ -4,6 +4,9 @@
 /*
  *      This example explores the funky eh_frame
  *
+ * TODO:
+ *      What does this demo do ? try to find out and document it...
+ *
  *              Mark Veltzer
  *
  * EXTRA_LIBS=

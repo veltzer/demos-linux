@@ -1,2 +1,5 @@
 - do example of an OO wrapper for pthreads.
+	in the wrapper each thread will have a name.
+	Add the ability to connect via telnet to this application and see all of
+	it's threads.
 - show how this is solved in ACE and Boost and stdlibc++.

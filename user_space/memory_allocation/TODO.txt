@@ -10,6 +10,7 @@ TODO:
 6) demo obstacks in GNU.
 7) demo malloc hooks.
 8) demo mallinfo and more of the functions in info libc.
+9) demo slab allocation (is there a library for it ?!?)
 
 9) show an example of malloc hooks and real time applications:
 	show how to replace malloc with a function generating an exception.
