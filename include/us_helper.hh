@@ -14,6 +14,13 @@
 #include <proc/readproc.h> // for look_up_our_self(3)
 
 /*
+ * Stringify macros - helps you turn anything into a string
+ * Need to explain how this works...
+ */
+#define __stringify_1(x) # x
+#define __stringify(x) __stringify_1(x)
+
+/*
  * getting a thread id (glibc doesnt have this)
  */
 static inline pid_t gettid(void) {
@@ -120,11 +127,13 @@ static inline void scpe(void *t, const char *msg, void *errval = (void *)-1) {
 	}
 }
 
-
 #define SCIE(v, msg) std::cout << msg << " " << "started" << std::endl; scie(v, msg); std::cout << msg << " " << "ended" << std::endl;
 #define SCPE(v, msg) std::cout << msg << " " << "started" << std::endl; scpe(v, msg); std::cout << msg << " " << "ended" << std::endl;
 #define SCIG(v, msg) std::cout << msg << " " << "started" << std::endl; scig(v, msg); std::cout << msg << " " << "ended" << std::endl;
 #define SCIG2(v, msg, v1, v2) std::cout << msg << " " << "started" << std::endl; scig2(v, msg, v1, v2); std::cout << msg << " " << "ended" << std::endl;
+
+#define SC(v) SCIE(v, __stringify(v));
+#define sc(v) scie(v, __stringify(v));
 
 // kernel log handling functions
 static inline void klog_clear(void) {
@@ -260,9 +269,5 @@ static inline void my_system(const char *fmt, ...) {
 }
 
 void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
-
-#define __stringify_1(x) # x
-#define __stringify(x) __stringify_1(x)
-
 
 #endif // __us_helper_h
