@@ -4,16 +4,7 @@
 #include<unistd.h> // for close(2), dup(2), execl(3), fork(2)
 #include<stdio.h> // for perror(3)
 
-// Here is a template that will take care of
-// calling system calls and throwing an exception if something bad happens.
-
-template<class T> T syscall(T val,T err_val) {
-	if(val==err_val) {
-		perror("C++ exception thrown");
-		throw std::exception();
-	}
-	return val;
-}
+#include"us_helper.hh"
 
 /*
  * This is the first child
@@ -30,13 +21,13 @@ template<class T> T syscall(T val,T err_val) {
 
 void doChildOne(int* fd) {
 	// close standard output 
-	syscall(close(1),-1);
+	sc(close(1));
 	// close the read end of the pipe
-	syscall(close(fd[0]),-1);
+	sc(close(fd[0]));
 	// setup fd 1 to be correct
-	syscall(dup2(fd[1],1),-1);
+	sc(dup2(fd[1],1));
 	// execute ls -l
-	syscall(execl("/bin/ls","/bin/ls","-l",NULL),-1);
+	sc(execl("/bin/ls","/bin/ls","-l",NULL));
 }
 
 /*
@@ -45,33 +36,35 @@ void doChildOne(int* fd) {
 
 void doChildTwo(int* fd) {
 	// close standard input 
-	syscall(close(0),-1);
+	sc(close(0));
 	// close the write end of the pipe
-	syscall(close(fd[1]),-1);
+	sc(close(fd[1]));
 	// setup fd 1 to be correct
-	syscall(dup2(fd[0],0),-1);
+	sc(dup2(fd[0],0));
 	// execute ls -l
-	syscall(execl("/usr/bin/wc","/usr/bin/wc","-l",NULL),-1);
+	sc(execl("/usr/bin/wc","/usr/bin/wc","-l",NULL));
 }
 
 int main(int argc,char** argv,char** envp) {
 	// here is an example of using this construct
 	int fd[2];
-	syscall(pipe(fd),-1);
-	int pid1=syscall(fork(),-1);
+	sc(pipe(fd));
+	int pid1;
+	sc(pid1=fork());
 	if(pid1==0) {
 		doChildOne(fd);
 	}
-	int pid2=syscall(fork(),-1);
+	int pid2;
+	sc(pid2=fork());
 	if(pid2==0) {
 		doChildTwo(fd);
 	}
 	// close the pipe at the parent
-	syscall(close(fd[0]),-1);
-	syscall(close(fd[1]),-1);
+	sc(close(fd[0]));
+	sc(close(fd[1]));
 	int status;
-	syscall(waitpid(pid1,&status,0),-1);
-	syscall(waitpid(pid2,&status,0),-1);
-	std::cerr << "both children died" << std::endl;
+	sc(waitpid(pid1,&status,0));
+	sc(waitpid(pid2,&status,0));
+	//std::cerr << "both children died" << std::endl;
 	return 0;
 }

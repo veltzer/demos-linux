@@ -7,7 +7,7 @@
  *      you called a syscall with the wrong parameter and what you get back
  *      is an error.
  *      Note yet that read(2) return ssize_t which is SIGNED as opposed to size_t
- *      which is unsigned. The idea here is the ability to return -1.
+ *      which is UNSIGNED. The idea here is the ability to return -1.
  *
  *              Mark Veltzer
  *

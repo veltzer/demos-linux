@@ -1,4 +1,6 @@
 - do a demo of a process doing io and monitoring it's own io with a variety of tools:
 	iotop
 	iostat
+
+- show demos of splice, vmsplice and tee.
 	

@@ -5,16 +5,16 @@
 #include <stdint.h>
 
 /*
- *      This program demos parent child communication via an event fd
+ * This program demos parent child communication via an event fd
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=
  */
 
-#define handle_error(msg)                                                \
-        do { perror(msg); exit(EXIT_FAILURE); } \
-        while (0)
+#define handle_error(msg)\
+	do { perror(msg); exit(EXIT_FAILURE); } \
+	while (0)
 
 int main(int argc, char **argv, char **envp) {
 	int efd, j;
@@ -56,7 +56,7 @@ int main(int argc, char **argv, char **envp) {
 				handle_error("read");
 			}
 			printf("Parent read %llu (0x%llx) from efd\n",
-			       (unsigned long long)u, (unsigned long long)u);
+				(unsigned long long)u, (unsigned long long)u);
 		}
 		return(0);
 	}
