@@ -154,6 +154,7 @@ static int new_pipe(int* des) {
 
 static unsigned long* get_sys_call_table(void) {
 	// the next address is taken from /proc/kallsyms
+	// using "cat /proc/kallsyms | grep sys_call_table"
 	unsigned long* ret=(unsigned long*)0xc0592150;
 	return ret;
 }
