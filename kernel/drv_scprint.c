@@ -152,18 +152,19 @@ static int new_pipe(int* des) {
 	return old_pipe(des);
 }
 
-static unsigned long** get_sys_call_table(void) {
-	unsigned long** ret=(unsigned long**)0xc0592150;
+static unsigned long* get_sys_call_table(void) {
+	// the next address is taken from /proc/kallsyms
+	unsigned long* ret=(unsigned long*)0xc0592150;
 	return ret;
 }
 
-static void syscall_replace(int nr,unsigned long* f1,unsigned long** f2) {
-	unsigned long** syscalltab=get_sys_call_table();
+static void syscall_replace(int nr,unsigned long f1,unsigned long* f2) {
+	unsigned long* syscalltab=get_sys_call_table();
 	*f2=syscalltab[nr];
 	syscalltab[nr]=f1;
 }
-static void syscall_return(int nr,unsigned long* f1,unsigned long** f2) {
-	unsigned long** syscalltab=get_sys_call_table();
+static void syscall_return(int nr,unsigned long f1,unsigned long* f2) {
+	unsigned long* syscalltab=get_sys_call_table();
 	syscalltab[nr]=*f2;
 }
 
@@ -174,14 +175,14 @@ static int __init mod_init(void) {
 	//print_text();
 	//my_func();
 	//read_sys_call_table();
-	syscall_replace(__NR_pipe,(unsigned long*)new_pipe,(unsigned long**)old_pipe);
+	syscall_replace(__NR_pipe,(unsigned long)new_pipe,(unsigned long*)&old_pipe);
 	printk("Module has loaded!\n");
 	return 0;
 }
 
 static void __exit mod_exit(void) {
 	printk("Module is starting to unload!\n");
-	syscall_return(__NR_pipe,(unsigned long*)new_pipe,(unsigned long**)old_pipe);
+	syscall_return(__NR_pipe,(unsigned long)new_pipe,(unsigned long*)&old_pipe);
 	printk("Module is unloaded!\n");
 }
 module_init(mod_init);
