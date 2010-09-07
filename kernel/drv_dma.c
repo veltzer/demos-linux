@@ -16,6 +16,11 @@
 
 /*
  *      This example demos how to allocate and deallocate coherent memoery for DMA
+ *      When runnig this on intel/ubuntu 10.04 these are the conclusions:
+ *      - dma_alloc_coherent limit is 2Mb.
+ *      - kmalloc(GFP_DMA) limit is 2Mb.
+ *      - kmalloc(GFP_KERNEL) limit is 4Mb (which is still contiguous but ok
+ *      to use for most hardware to do DMA). 
  */
 
 MODULE_LICENSE("GPL");
@@ -78,7 +83,8 @@ static int __init mod_init(void) {
 	stop=false;
 	while(!stop) {
 		//vptr = dma_alloc_coherent(NULL, size, &device_addr, GFP_DMA);
-		vptr = kmalloc(size,GFP_DMA);
+		//vptr = kmalloc(size,GFP_DMA);
+		vptr = kmalloc(size,GFP_KERNEL);
 		if(vptr!=NULL) {
 			printk("vptr is %p\n", vptr);
 			printk("size is %d\n", size);
