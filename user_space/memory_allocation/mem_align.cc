@@ -25,6 +25,17 @@
  *
  * EXTRA_LIBS=
  */
+
+// this next function takes an address and aligns it to page size
+
+
+inline void* align_address(void* addr) {
+	unsigned long uladdr=(unsigned long)addr;
+	int ps = getpagesize();
+	return (void*) (uladdr & ~(ps-1));
+}
+
+
 void *mem_align(unsigned int size) {
 	int ps = getpagesize();
 	void *ptr;
@@ -90,6 +101,7 @@ int main(int argc, char **argv, char **envp) {
 	long ps2 = sysconf(_SC_PAGESIZE);
 	int ps = ps1;
 
+
 	printf("getpagesize() is %d\n", ps1);
 	printf("sysconf(_SC_PAGESIZE) is %ld\n", ps2);
 	void *pt1 = valloc(size);
@@ -108,5 +120,9 @@ int main(int argc, char **argv, char **envp) {
 	printf("pt4 is %p (%d)\n", pt4, (unsigned int)pt4 % ps);
 	printf("pt5 is %p (%d)\n", pt5, (unsigned int)pt5 % ps);
 	printproc(NULL);
+	
+	void* ptr=(void*)main;
+	printf("ptr is %p\n",ptr);
+	printf("ptr aligned is %p\n",align_address(ptr));
 	return(0);
 }
