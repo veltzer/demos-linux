@@ -7,6 +7,9 @@
  * This is an exploration of how to compiler coverts between float
  * double.
  *
+ * Note:
+ * Some of these lines will be caught if you add -Wconversion flag to gcc.
+ *
  *		Mark Veltzer
  *
  * EXTRA_LIBS=
@@ -35,12 +38,12 @@ double my_double_func(double a, double b) __attribute__((noinline));
 
 int main(int argc, char **argv, char **envp) {
 	if(argc!=3) {
-		fprintf(stderr,"usage [program] [float] [double]\n");
+		fprintf(stderr,"usage %s [float] [double]\n",argv[0]);
 		return -1;
 	}
 	// a float and double which will NEVER be optimized away by the compiler
 	// since their origin is the user...
-	float f=atof(argv[1]);
+	float f=(float)atof(argv[1]);
 	double d=atof(argv[2]);
 	printf("%f\n",my_float_func(f,f));
 	printf("%lf\n",my_double_func(f,f));
