@@ -1,2 +1,5 @@
 things to add here:
 - semaphore demo. include/asm/semaphore.h
+
+- check that spin_lock_bh actually works by waiting in the kernel and seeing the DPC not enter...
+	do a demo that shows this.
