@@ -9,3 +9,4 @@ These are the list of more demos to write in the realm of synchronization:
 - example of how to iterate the list of currently held futexes in user space
 	in order to report which mutexes are taken. From the C futex pointer
 	try to go back to the c++ object wrapping it and print it's name.
+- do a demo of inter-process mutexes using sem_open, sem_close, sem_wait and the like.
