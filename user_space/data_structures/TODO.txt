@@ -1,1 +1,0 @@
-demo how to use libc style hash tables in user space.
