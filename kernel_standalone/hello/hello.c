@@ -1,8 +1,6 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-#include "kernel_helper.h"
-
 /*
  *      This is a minimal driver doing just init and cleanup
  */
@@ -17,13 +15,13 @@ MODULE_DESCRIPTION("Demo module for testing");
 
 // our own functions
 static int __init mod_init(void) {
-	DEBUG("start");
+	printk(KERN_DEBUG "in init");
 	return(0);
 }
 
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
+	printk(KERN_DEBUG "in exit");
 }
 
 
