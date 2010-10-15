@@ -6,6 +6,10 @@
  *      View the resulting assembly code with:
  *      objdump --disassemble --line-numbers --source --demangle barrier
  *
+ *      TODO:
+ *      - store a instead of printing it and show the various values.
+ *      - try out with different inlining attributes of the print_int function.
+ *
  *              Mark Veltzer
  *
  * EXTRA_LIBS=

@@ -19,7 +19,7 @@ CC_OBJECTS=$(addsuffix .o,$(basename $(CC_SOURCES)))
 # this rule was also taken from running with V=1
 $(ko-m): top.o top.mod.o $(CC_OBJECTS) 
 	ld -r -m elf_i386 --build-id -o $(ko-m) top.o top.mod.o $(CC_OBJECTS)
-# who was this monstrosity created?
+# how was this monstrosity created?
 # I ran the build with V=1 and registered the command to compile via gcc.
 # picked the same version g++ and gave it the entire flag set (especially the -f stuff).
 # removed all -D, preprocessor and
