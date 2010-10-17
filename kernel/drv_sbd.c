@@ -4,6 +4,11 @@
  * (C) 2003 Eklektix, Inc.
  * (C) 2010 Pat Patterson <pat at superpat dot com>
  * Redistributable under the terms of the GNU GPL.
+ *
+ * References:
+ * LDD3 - chapter on block device drivers.
+ * http://lwn.net/Articles/58720/
+ * http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/
  */
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */
