@@ -1,57 +1,29 @@
-#include <linux/module.h>
-#include <linux/moduleparam.h>
-#include <linux/kernel.h>
-#include <linux/init.h>
-#include <linux/stat.h>
+/*
+ * A sample, extra-simple block driver. Updated for kernel 2.6.31.
+ *
+ * (C) 2003 Eklektix, Inc.
+ * (C) 2010 Pat Patterson <pat at superpat dot com>
+ * Redistributable under the terms of the GNU GPL.
+ */
+#include <linux/hdreg.h> /* for geometry of hard drive */
+#include <linux/blkdev.h> /* for block operations */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 
-/*
- *  A sample, extra-simple block driver.
- */
-
-#include <linux/module.h>
-#include <linux/moduleparam.h>
-#include <linux/init.h>
-
-#include <linux/kernel.h> /* printk() */
-#include <linux/fs.h>     /* everything... */
-#include <linux/errno.h>  /* error codes */
-#include <linux/types.h>  /* size_t */
-#include <linux/vmalloc.h>
-#include <linux/genhd.h>
-#include <linux/blkdev.h>
-#include <linux/hdreg.h>
-
-#include <linux/module.h>
-#include <linux/errno.h>
-#include <linux/interrupt.h>
-#include <linux/mm.h>
-#include <linux/fs.h>
-#include <linux/kernel.h>
-#include <linux/timer.h>
-#include <linux/genhd.h>
-#include <linux/hdreg.h>
-#include <linux/ioport.h>
-#include <linux/init.h>
-#include <linux/wait.h>
-#include <linux/blkdev.h>
-#include <linux/blkpg.h>
-#include <linux/delay.h>
-#include <linux/io.h>
-
-static char *Version = "1.3";
+//static char *Version = "1.4";
 static int major_num = 0;
 module_param(major_num, int, 0);
-static int hardsect_size = 512;
-module_param(hardsect_size, int, 0);
-static int nsectors = 4096;  /* How big the drive is */
+static int logical_block_size = 512;
+module_param(logical_block_size, int, 0);
+static int nsectors = 1024; /* How big the drive is */
 module_param(nsectors, int, 0);
+static int debug = 0;
+static int dowork = 1;
 
 /*
- *  We can tweak our hardware sector size, but the kernel talks to us
- *  in terms of small sectors, always.
+ * We can tweak our hardware sector size, but the kernel talks to us
+ * in terms of small sectors, always.
  */
 #define KERNEL_SECTOR_SIZE 512
 
@@ -73,10 +45,11 @@ static struct sbd_device {
 /*
  * Handle an I/O request.
  */
-static void sbd_transfer(struct sbd_device *dev, unsigned long sector,unsigned long nsect, char *buffer, int write)
-{
-	unsigned long offset = sector*hardsect_size;
-	unsigned long nbytes = nsect*hardsect_size;
+static void sbd_transfer(struct sbd_device *dev, sector_t sector,
+		unsigned long nsect, char *buffer, int write) {
+	unsigned long offset = sector * logical_block_size;
+	unsigned long nbytes = nsect * logical_block_size;
+
 	if ((offset + nbytes) > dev->size) {
 		printk (KERN_NOTICE "sbd: Beyond-end write (%ld %ld)\n", offset, nbytes);
 		return;
@@ -87,71 +60,75 @@ static void sbd_transfer(struct sbd_device *dev, unsigned long sector,unsigned l
 		memcpy(buffer, dev->data + offset, nbytes);
 }
 
-static void sbd_request(struct request_queue *q)
-{
+static void sbd_request(struct request_queue *q) {
 	struct request *req;
-	while ((req = elv_next_request(q)) != NULL) {
+
+	req = blk_fetch_request(q);
+	while (req != NULL) {
 		if (!blk_fs_request(req)) {
 			printk (KERN_NOTICE "Skip non-CMD request\n");
-			end_request(req, 0);
+			__blk_end_request_all(req, -EIO);
 			continue;
 		}
-		sbd_transfer(&Device, req->sector, req->current_nr_sectors,
-		req->buffer, rq_data_dir(req));
-		end_request(req, 1);
+		if(debug) {
+			printk(KERN_DEBUG "sectors is %u, pos is %llu, buffer is %p, rq_data_dir is %d",
+				blk_rq_sectors(req),
+				blk_rq_pos(req),
+				req->buffer,
+				rq_data_dir(req)
+			);
+		}
+		if(dowork) {
+			sbd_transfer(&Device, blk_rq_pos(req), blk_rq_cur_sectors(req),
+					req->buffer, rq_data_dir(req));
+			if ( ! __blk_end_request_cur(req, 0) ) {
+				req = blk_fetch_request(q);
+			}
+		}
 	}
 }
 
 /*
- * Ioctl.
+ * The HDIO_GETGEO ioctl is handled in blkdev_ioctl(), which
+ * calls this. We need to implement getgeo, since we can't
+ * use tools such as fdisk to partition the drive otherwise.
  */
-int sbd_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg)
-{
+int sbd_getgeo(struct block_device * block_device, struct hd_geometry * geo) {
 	long size;
-	struct hd_geometry geo;
-	switch(cmd) {
-		/*
-		 * The only command we need to interpret is HDIO_GETGEO, since
-		 * we can't partition the drive otherwise.  We have no real
-		 * geometry, of course, so make something up.
-		 */
-		case HDIO_GETGEO:
-			size = Device.size*(hardsect_size/KERNEL_SECTOR_SIZE);
-			geo.cylinders = (size & ~0x3f) >> 6;
-			geo.heads = 4;
-			geo.sectors = 16;
-			geo.start = 4;
-			if (copy_to_user((void *) arg, &geo, sizeof(geo)))
-				return -EFAULT;
-			return 0;
-	}
-	return -ENOTTY; /* unknown command */
+
+	/* We have no real geometry, of course, so make something up. */
+	size = Device.size * (logical_block_size / KERNEL_SECTOR_SIZE);
+	geo->cylinders = (size & ~0x3f) >> 6;
+	geo->heads = 4;
+	geo->sectors = 16;
+	geo->start = 0;
+	return 0;
 }
 
 /*
  * The device operations structure.
  */
-static struct block_device_operations sbd_ops={
+static struct block_device_operations sbd_ops = {
 	.owner=THIS_MODULE,
-	.ioctl=sbd_ioctl
+	.getgeo=sbd_getgeo
 };
 
-static int __init sbd_init(void)
-{
+static int __init sbd_init(void) {
 	/*
 	 * Set up our internal device.
 	 */
-	Device.size = nsectors*hardsect_size;
+	Device.size = nsectors * logical_block_size;
 	spin_lock_init(&Device.lock);
 	Device.data = vmalloc(Device.size);
 	if (Device.data == NULL)
 		return -ENOMEM;
 	/*
 	 * Get a request queue.
- 	 */
+	 */
 	Queue = blk_init_queue(sbd_request, &Device.lock);
-	if (Queue == NULL) goto out;
-	blk_queue_hardsect_size(Queue, hardsect_size);
+	if (Queue == NULL)
+		goto out;
+	blk_queue_logical_block_size(Queue, logical_block_size);
 	/*
 	 * Get registered.
 	 */
@@ -164,22 +141,24 @@ static int __init sbd_init(void)
 	 * And the gendisk structure.
 	 */
 	Device.gd = alloc_disk(16);
-	if (! Device.gd) goto out_unregister;
+	if (!Device.gd)
+		goto out_unregister;
 	Device.gd->major = major_num;
 	Device.gd->first_minor = 0;
 	Device.gd->fops = &sbd_ops;
 	Device.gd->private_data = &Device;
-	strcpy (Device.gd->disk_name, "sbd0");
-	set_capacity(Device.gd, nsectors*(hardsect_size/KERNEL_SECTOR_SIZE));
+	strcpy(Device.gd->disk_name, "sbd0");
+	set_capacity(Device.gd, nsectors);
 	Device.gd->queue = Queue;
 	add_disk(Device.gd);
+
 	return 0;
 
-	out_unregister:
-		unregister_blkdev(major_num, "sbd");
-	out:
-		vfree(Device.data);
-		return -ENOMEM;
+out_unregister:
+	unregister_blkdev(major_num, "sbd");
+out:
+	vfree(Device.data);
+	return -ENOMEM;
 }
 
 static void __exit sbd_exit(void)
