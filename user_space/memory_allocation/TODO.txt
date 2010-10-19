@@ -5,7 +5,6 @@ TODO:
 		demo it.
 2) demo dmalloc.
 3) demo electric fence.
-4) demo mprotect.
 5) demo valgrind.
 6) demo obstacks in GNU.
 7) demo malloc hooks.
@@ -28,3 +27,4 @@ TODO:
 	multi thread access).
 
 15) do example of using the mtrace function.
+16) show how to map hugetlbfs pages (huge pages) into user memory.
