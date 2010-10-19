@@ -3,10 +3,15 @@
 #include "us_helper.hh"
 
 /*
- * This example shows that private in C++ is no protection at all...
+ * This example shows that private in C++ is protection only for compile time
+ * and not for run time. 
  *
  *                              Mark Veltzer
  * EXTRA_LIBS=
+ *
+ * TODO:
+ * - use run time type information in order to determine at runtime if a class has
+ *   a virtual table or not and so simplify the 'setSecret' function even more.
  */
 
 /*
@@ -48,6 +53,11 @@ class B {
 		}
 };
 
+/*
+ * This is the function that does the fiddling. It touches the object of your choice.
+ * In this version you have to tell it whether or not the object passed to it has virtual
+ * function or not.
+ */
 void setSecret(void* a, int val, bool has_virt) {
 	int* p=(int*)a;
 	if(has_virt) {
@@ -61,7 +71,8 @@ int main(int argc, char **argv, char **envp) {
 	B b;
 	printf("a.getSecret() is %d\n",a.getSecret());
 	printf("b.getSecret() is %d\n",b.getSecret());
-	// this next line will not compile... compiler enforces access restriction...
+	// this next line will not compile... compiler enforces access restriction at compile
+	// time...
 	//a.secret=7;
 	setSecret(&a,7,false);
 	setSecret(&b,7,true);
