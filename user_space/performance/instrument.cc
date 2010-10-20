@@ -19,19 +19,23 @@
  *
  *              Mark Veltzer
  *
- * EXTRA_LIBS=-finstrument-functions -finstrument-functions-exclude-function-list=__cyg_profile_func_enter,__cyg_profile_func_exit,printf,main
+ * EXTRA_LIBS=-finstrument-functions -finstrument-functions-exclude-function-list=printf
+ * OPTION_WITHOUT_FUNCTION_ATTRIBUTES=-finstrument-functions -finstrument-functions-exclude-function-list=__cyg_profile_func_enter,__cyg_profile_func_exit,printf
  */
 void long_task(void) {
 	sleep(1);
 }
 
+extern "C" void __cyg_profile_func_enter(void *this_fn, void *call_site) __attribute__((no_instrument_function));
 extern "C" void __cyg_profile_func_enter(void *this_fn, void *call_site) {
 	printf("entering %p,%p\n",this_fn,call_site);
 }
+extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) __attribute__((no_instrument_function));
 extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) {
 	printf("exiting %p,%p\n",this_fn,call_site);
 }
 
+int main(int argc, char **argv, char **envp) __attribute__((no_instrument_function));
 int main(int argc, char **argv, char **envp) {
 	long_task();
 	return(0);
