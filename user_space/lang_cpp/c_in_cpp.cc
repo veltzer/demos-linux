@@ -24,6 +24,13 @@
  * EXTRA_LIBS=
  */
 
+/*
+ * The class here is just to make sure that this code does not get compiled by a C
+ * compiler but rather by a C++ compiler.
+ *
+ * TODO:
+ * Move to checking this using #ifdef cplusplus and #error.
+ */
 class A {
 public:
 	int a;
