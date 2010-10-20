@@ -22,6 +22,7 @@ TODO:
 	returns differently (more tightly or more loosly). This is useful to
 	make the data better aligned to CPU cache lines. Find out what the Intel
 	CPU cache line and show how to allocate aligned to that.
+	you can see the cache lines in /proc/cpuinfo on recent linux kernels.
 13) do an example of checking at compile time that a structure fits in a CPU cache line.
 14) do an example of finding out the cache line of the cpu at runtime or compile time.
 	show how to allocate memory which is aligned to that cache line.
