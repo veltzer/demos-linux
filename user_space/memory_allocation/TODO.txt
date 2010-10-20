@@ -21,7 +21,7 @@ TODO:
 12) show how to modify malloc options so that it will align the pointers it
 	returns differently (more tightly or more loosly). This is useful to
 	make the data better aligned to CPU cache lines. Find out what the Intel
-	CPU cache line and show how to allocate alighned to that.
+	CPU cache line and show how to allocate aligned to that.
 13) do an example of checking at compile time that a structure fits in a CPU cache line.
 14) show an example of writing a good cache allocator with little contention (using spin locks for
 	multi thread access).

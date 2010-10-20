@@ -1,8 +1,12 @@
-#include <stdio.h>
+#include <stdio.h> // for printf(3)
 
 /*
  *      This is a demo of how to write a function for which the user must check the
  *      return value for...
+ *
+ *      There are many more attributes that you can attach to functions in order to
+ *      get more checks from the compiler at compile time and get better code. Check
+ *      'info gcc' for more details.
  *
  *              Mark Veltzer
  *
@@ -13,7 +17,7 @@
 // this is the right place to put the __attribute__...
 int add(int a, int b) __attribute__((warn_unused_result));
 
-// now for the function definition...
+// now for the function definition (you cant put the __attribute__ here)...
 int add(int a, int b) {
 	return(a + b);
 }
