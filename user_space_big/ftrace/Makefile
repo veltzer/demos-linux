@@ -1,4 +1,6 @@
-all: main.objdump mainpg.objdump
+ALL:=mainpg main main.objdump mainpg.objdump
+.PHONY: all
+all: $(ALL) 
 
 main: main.c
 	gcc $< -o $@
@@ -12,5 +14,6 @@ main.objdump: main
 mainpg.objdump: mainpg
 	objdump -D $< > $@
 
+.PHONY: clean
 clean:
-	-rm mainpg main main.objdump mainpg.objdump gmon.out
+	-rm $(ALL) gmon.out
