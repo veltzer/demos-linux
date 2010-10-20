@@ -22,7 +22,7 @@
  * - assert(X) should never produce side effects so that the program will behave
  *   the same whether assertions are enabled or not.
  * - The `assert' facility is designed for detecting _internal inconsistency_;
- *   it is not suitable for reporting invalid input or improper usage by the
+ *   it is not suitable for reporting invalid input or improper usage to the
  *   _user_ of the program.
  *
  *              Mark Veltzer

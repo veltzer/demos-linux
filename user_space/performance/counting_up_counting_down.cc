@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h> // for printf(3)
 
 /*
  * This example examines the question of whether it is more efficient to loop
  * from a number down to 0 rather than from 0 to the number. In theory this
  * could have some advantage because comparing to 0 is supposed to be more
- * efficient either in execution or in size of machine command when compared
+ * efficient either in execution or in size of machine instruction when compared
  * to comparison with an arbitrary value.
  *
  * Compile this code and disassemble it using objdump in order to test this
@@ -16,6 +15,9 @@
  * instruction inside the loop.
  *
  *              Mark Veltzer
+ *
+ * TODO:
+ * - actually measure the time with a performance counter and see it.
  *
  * EXTRA_LIBS=
  */
