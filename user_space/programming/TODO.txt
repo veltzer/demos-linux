@@ -1,0 +1,2 @@
+- do more examples line the usused result one to show how to use the compiler
+to guard against problems.
