@@ -3,13 +3,15 @@
 # default bahviour of linking with standard C/C++ runtime libraries.
 FLAGS_FOR_SHARED_LIB:=-shared -fpic
 # app name
-APP:=main
+APP:=app.exe
 # lib name
 LIBNAME:=myaudit
 # full lib name
 FULLLIBNAME:=lib$(LIBNAME).so
 # the compiler we will be using
 CXX:=g++
+# flags for the compiler
+CXXFLAGS:=-Wall -Werror -O2
 # all targets
 ALL:=$(APP) $(FULLLIBNAME)
 
@@ -19,9 +21,9 @@ ALL:=$(APP) $(FULLLIBNAME)
 all: $(ALL)
 
 $(FULLLIBNAME): $(LIBNAME).cc
-	$(CXX) $(FLAGS_FOR_SHARED_LIB) -o $@ $<
-$(APP): $(APP).cc
-	$(CXX) -o $@ $<
+	$(CXX) $(CXXFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $@ $<
+$(APP): $(basename $(APP)).cc
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 .PHONY: clean
 clean:
