@@ -19,11 +19,12 @@
  * EXTRA_CMDS=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
  */
 
-#include <stdio.h> // for snprintf(3), printf(3)
-#include <time.h> // for strptime(3), mktime(3)
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2)
-#include "us_helper.hh"
+#include<stdio.h> // for snprintf(3), printf(3)
+#include<time.h> // for strptime(3), mktime(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+
+#include"us_helper.hh"
 
 #define STRING_VERSION "1.23.56"
 #define NUMERIC_VERSION 1.23.56
