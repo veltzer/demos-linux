@@ -1,7 +1,10 @@
-#include <syslog.h> // for openlog(3), syslog(3), closelog(3)
-#include <unistd.h> // for sleep(3)
-#include <stdlib.h> // for system(3)
-#include <stdarg.h> // for vsyslog(3)
+#include<syslog.h> // for openlog(3), syslog(3), closelog(3)
+#include<unistd.h> // for sleep(3)
+#include<stdarg.h> // for vsyslog(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+
+#include"us_helper.hh" // for my_system
 
 /*
  * This example shows syslog basic usage. At the end it demostrates that the log
@@ -14,23 +17,35 @@
  * How is syslog implemented? Either as a socket or udp socket.
  *
  * A question that is often raised is what is the performance of syslog compared to
- * printf to a file.
+ * printf to a file - the answer is faster since it is sending the data through the socket
+ * and does not wait for it to be written to disk.
+ *
+ * 					Mark Veltzer
  *
  * TODO:
- * - show the open file descriptor table after doing openlog.
  * - show the use of vsyslog
  */
 
 int main(int argc, char **argv, char **envp) {
-	const int a = 2, b = 2;
-	int c = a + b;
-
-	openlog("driver_dlls", LOG_PID, LOG_USER);
+	const char* myname="thisismyname";
+	openlog(myname, LOG_PID, LOG_USER);
+	// show the open file descriptor map after opening syslog
+	// at this point the socket is still not created...
+	my_system("ls -l /proc/%d/fd",getpid());
+	// lets send different messages...
 	for (int i = 0; i < 200; i++) {
-		syslog(LOG_ERR, "did you know that %d+%d=%d?", a, b, c);
+		syslog(LOG_ERR, "did you know that %d+%d=%d?", i, i, i+i);
 	}
-	sleep(1);
-	int err=system("tail /var/log/syslog");
+	// lets send the same message
+	for (int i = 0; i < 200; i++) {
+		syslog(LOG_ERR, "did you know that 2+2=4?");
+	}
+	// show the open file descriptor map after opening syslog
+	// the socket is now here - it seems that syslog is lazy...
+	my_system("ls -l /proc/%d/fd",getpid());
+	sleep(1); // let syslog a chance to actually put the data in the log
+	//my_system("tail /var/log/syslog | grep %s | grep %d",myname,getpid());
+	my_system("tail /var/log/syslog");
 	closelog();
-	return err;
+	return 0;
 }

@@ -11,6 +11,8 @@
  *
  * note that ACE_NTRACE can be enabled/disabled on a per file basis and so can
  * only be enabled at compile time in modules that you want to debug...
+ *
+ * 			Mark Veltzer
  */
 
 // the next

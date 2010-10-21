@@ -10,3 +10,7 @@ more examples that I need to put here:
 7. show the difference between syslog times and standard log (printf) times.
 	explain the difference.
 	explain advantages and disadvantages of using each.
+8. do very fast logging example: open a shared memory and copy messages to it
+	using memcpy and some kind of synchronization.
+	Do a daemon that reads from the shared memory and transfers to syslog
+	or whatever.
