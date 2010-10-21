@@ -5,6 +5,7 @@
 #include <sys/stat.h> // for open(2)
 #include <fcntl.h> // for open(2)
 #include <sys/sendfile.h> // for senffile(2)
+#include <unistd.h> // getpagesize(2)
 
 #include "us_helper.hh"
 
@@ -25,24 +26,23 @@ int main(int argc, char **argv, char **envp) {
 		printf("usage: %s [infile] [outfile]\n",argv[0]);
 		exit(1);
 	}
+	size_t sendfile_bufsize=getpagesize();
+	int err_code=0;
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	int fdin;
-	int fdout;
+	int fdin,fdout;
 	sc(fdin=open(filein, O_RDONLY, 0666));
 	sc(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	int ret;
-	while((ret=sendfile(fdout,fdin,NULL,1024))>0) {
-		printf("copy ok\n");
+	while((ret=sendfile(fdout,fdin,NULL,sendfile_bufsize))>0) {
 	}
 	if(ret==0) {
-		printf("I seem to have reached EOF\n");
-	}
-	if(ret<0) {
+		//printf("I seem to have reached EOF\n");
+	} else { // ret<0
 		perror("unable to send file");
-		exit(1);
+		err_code=1;
 	}
 	sc(close(fdin));
 	sc(close(fdout));
-	return(0);
+	return(err_code);
 }

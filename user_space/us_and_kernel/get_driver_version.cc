@@ -29,11 +29,12 @@
 #include "us_helper.hh"
 
 void get_driver_version(const char *filename) {
-	void *handle;
-
-	scpe(handle = dlopen(filename, RTLD_LAZY), "dlopen", NULL);
-	printf("handle is %p", handle);
-	SCIG(dlclose(handle), "dlclose");
+	void* handle = dlopen(filename, RTLD_LAZY);
+	if(handle==NULL) {
+		perror(dlerror());
+		exit(1);
+	}
+	scie(dlclose(handle), "dlclose");
 }
 
 
