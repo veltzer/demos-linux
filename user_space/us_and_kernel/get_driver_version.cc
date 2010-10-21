@@ -12,7 +12,6 @@
  *
  *      BEWARE: This code DOES NOT WORK!!!
  *
- *
  *      This code has led me to the conclusion that modinfo does not use dlopen to get
  *      the information from the .ko files but rather mmaps them directly and uses
  *      'man 5 elf' to find the format of the executable file. Do NOT use this code - it
