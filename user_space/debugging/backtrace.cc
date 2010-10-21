@@ -1,8 +1,9 @@
-#include <stdio.h>
-#include <execinfo.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <string.h>
+#include<execinfo.h> // for backtrace(3), backtrace_symbols(3), backtrace_symbols_fd(3)
+#include<signal.h> // for signal(2)
+#include<stdio.h> // for perror(3), fprintf(3)
+#include<stdlib.h> // for exit(3)
+
+#include"us_helper.hh"
 
 /*
  *      This exapmle shows how to obtain a stack trace for various purposes (mostly
@@ -19,7 +20,10 @@
  *
  *              Mark Veltzer
  *
- * EXTRA_LIBS=
+ * EXTRA_LIBS=-rdynamic
+ *
+ * TODO:
+ * 	do cxx name demangling.
  */
 
 /*
@@ -48,7 +52,6 @@ void print_trace(void) {
 	 */
 }
 
-
 //void print_trace(void) __attribute__ ((__noinline__));
 
 /*
@@ -67,7 +70,6 @@ void print_trace_sighandler(int sig) {
 	(*old_handler)(sig);
 }
 
-
 /*
  *      Signal handler registration function
  */
@@ -84,7 +86,6 @@ void trace_register(void) {
 	 */
 }
 
-
 /*
  *      Simple function that generates a segmentation fault...
  */
@@ -94,40 +95,39 @@ void do_fault(void) {
 	p[0] = 0;
 }
 
-
 /*
  *      I use several ways to try to force the compiler not to flatten the next function:
  *      1. use asm("").
  *      2. __attribtue__ (( __noinline__ ));
- *      3. complicating the function code with an integer accumulator and recursion.
+ *      3. The value passed is from the user and not hardcoded and so the compiler cannot
+ *      unroll the function calls.
+ *      4. complicating the function code with an integer accumulator and recursion.
  *      finally it worked but I think it is number (3) that made it happen...
  *      Need to investigate this further...
  */
-int rec_func(unsigned int ncalls, unsigned int ret) {
-	printf("ncalls is %d\n", ncalls);
-	ret += ncalls;
-	asm ("");
+int rec_func(unsigned int ncalls) {
+	static unsigned int counter=0;
+	DEBUG("another call %d",counter++);
+//	asm ("");
 	if (ncalls > 1) {
-		rec_func(ncalls - 1, ret);
+		rec_func(ncalls - 1);
 	} else {
 		//print_trace();
 		do_fault();
 	}
-	return(ret);
+	return(0);
 }
-
-
-int rec_func(unsigned int ncalls, unsigned int ret) __attribute__((__noinline__));
+//int rec_func(unsigned int ncalls, unsigned int ret) __attribute__((__noinline__));
 
 int main(int argc, char **argv, char **envp) {
-	unsigned int num;
-
 	trace_register();
+
+	unsigned int num;
 	if (argc > 1) {
 		num = atoi(argv[1]);
 	} else {
 		num = 3;
 	}
-	rec_func(num, 0);
+	rec_func(num);
 	return(0);
 }
