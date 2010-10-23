@@ -41,6 +41,10 @@
  * 	- move to registering the handler via sigaction and show how to specify it's own stack
  * 	and the effect of this on the result.
  * 	- show in another example what happnes if we do a segfault inside a segfault handler.
+ * 	- do the recommendations from the gilad ben yossef slide show:
+ * 		pipe the data to another process standing by,
+ * 		malloc and heap poisoning
+ * 		and more.
  */
 
 /*
@@ -72,6 +76,8 @@ void print_trace(bool full) {
 	 */
 }
 
+// this is not really required since we are taking the address of this functino
+// which will cause the compiler to make it a "real" one...
 //void print_trace(void) __attribute__ ((__noinline__));
 
 /*
