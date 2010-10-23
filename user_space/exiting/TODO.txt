@@ -1,0 +1,2 @@
+- show how to exit cleanly by breaking out of syscalls in other threads
+	(siginterrupt(2)).
