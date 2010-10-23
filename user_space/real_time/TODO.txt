@@ -1,0 +1,2 @@
+- write an example of how to disable malloc before the critical section of your program
+	using malloc hooks in glibc.
