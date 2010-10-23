@@ -4,6 +4,10 @@
 #include <exception>
 #include "demangle.hh"
 
+/*
+ * EXTRA_LIBS=-rdynamic
+ */
+
 class TracedException : public std::exception {
 private:
 	// how many frames to drop from the stack frame

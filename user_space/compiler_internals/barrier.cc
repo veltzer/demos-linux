@@ -48,7 +48,7 @@ int main(int argc, char **argv, char **envp) {
 	// that 999 is printed for a. It looks like the compiler is certain that
 	// the memory location for a IS synchronized with the register value for a
 	// bacause it wrote it to memory after the 'for' loop.
-	__sync_synchronize();
+	//__sync_synchronize();
 	print_int(a);
 	while (a < 3000) {
 		a++;

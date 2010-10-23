@@ -7,7 +7,7 @@
 #include"us_helper.hh"
 
 /*
- * This is an example which shows how to monitory your own virtual memory using getrusage
+ * This is an example which shows how to monitor your own virtual memory using getrusage
  *
  * Note that if you do not zero the memory (see the bzero call below) then this program
  * works much faster and does not generate and page faults and the usage stays the same.
@@ -39,7 +39,7 @@ int main(int argc,char** argv,char** envp) {
 	for(unsigned int i=0;i<num_chunks;i++) {
 		printf("trying to allocate block number %d\n",i);
 		char* buf=(char*)malloc(chunk_size);
-		bzero(buf,chunk_size);
+		//bzero(buf,chunk_size);
 		if(buf==NULL) {
 			perror("error in malloc");
 			exit(1);

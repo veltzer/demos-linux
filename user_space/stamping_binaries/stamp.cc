@@ -51,7 +51,7 @@ static const char* ATTR id_numeric_version="id_numeric_version=" __stringify(NUM
 static const char* ATTR id_checksum="id_checksum=" __stringify(CHECKSUM);
 static const char* ATTR id_version="id_version=" __VERSION__;
 
-const char* script="user_space/stamping_binaries/stamp.gdb";
+const char* script="cpp/user_space/stamping_binaries/stamp.gdb";
 
 int main(int argc, char **argv, char **envp) {
 	printf("date is %s\n", __DATE__);
