@@ -10,3 +10,9 @@ This demo shows all the required steps needed in order to make a dynamic library
 - LD_LIBRARY_PATH in the previous statement is not needed if the library is installed in
 	standard paths.
 - have a look at my Makefile to see how to write a makefile for such a library.
+
+How to see what you've created:
+make show_results
+make show_results_verbose
+
+This also demostrates the fact that shared libraries carry their own depenency information with them. You can see this by linking a library when you create your library and then seeing this information in the output of ldd.
