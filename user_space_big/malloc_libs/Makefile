@@ -1,18 +1,16 @@
-ALL:=memory.dmalloc.exe memory.regular.exe memory.efence.exe free.regular.exe free.dmalloc.exe free.efence.exe
+ALL:=memory_error.dmalloc.exe memory_error.regular.exe memory_error.efence.exe
+
+ALL_DEPS:=Makefile
+
+.PHONY: all
 all: $(ALL) 
 
-memory.regular.exe: memory.cc
-	g++ -g3 -o $@ $<
-memory.efence.exe: memory.cc
-	g++ -g3 -o $@ $< -lefence
-memory.dmalloc.exe: memory.cc
-	g++ -g3 -o $@ $< -ldmalloc
-free.regular.exe: free.cc
-	g++ -g3 -o $@ $<
-free.dmalloc.exe: free.cc
-	g++ -g3 -DDMALLOC -o $@ $< -ldmalloc
-free.efence.exe: free.cc
-	g++ -g3 -o $@ $< -lefence
+memory_error.regular.exe: memory_error.cc $(ALL_DEPS)
+	g++ -O2 -g3 -o $@ $<
+memory_error.efence.exe: memory_error.cc $(ALL_DEPS)
+	g++ -O2 -g3 -o $@ $< -lefence
+memory_error.dmalloc.exe: memory_error.cc $(ALL_DEPS)
+	g++ -O2 -g3 -DDMALLOC -o $@ $< -ldmalloc
 .PHONY: clean
 clean:
-	-rm -f $(ALL) 
+	-rm -f $(ALL) logfile.out
