@@ -11,12 +11,15 @@
 int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {
 		fprintf(stderr,"usage: memory_error [0-5]\n");
-		fprintf(stderr,"\t0 - write before the buffer\n");
-		fprintf(stderr,"\t1 - write after the buffer\n");
-		fprintf(stderr,"\t2 - read before the buffer\n");
-		fprintf(stderr,"\t3 - read after the buffer\n");
-		fprintf(stderr,"\t4 - forget to release the buffer\n");
-		fprintf(stderr,"\t5 - release the buffer twice\n");
+		fprintf(stderr,"\t0 - write before the buffer and free\n");
+		fprintf(stderr,"\t1 - write after the buffer and free\n");
+		fprintf(stderr,"\t2 - write before the buffer and dont free\n");
+		fprintf(stderr,"\t3 - write after the buffer and dont free\n");
+		fprintf(stderr,"\t4 - read before the buffer\n");
+		fprintf(stderr,"\t5 - read after the buffer\n");
+		fprintf(stderr,"\t6 - forget to release the buffer\n");
+		fprintf(stderr,"\t7 - release the buffer twice\n");
+		return 1;
 	}
 	unsigned int type=atoi(argv[1]);
 	const int size=100;
@@ -37,13 +40,24 @@ int main(int argc,char** argv,char** envp) {
 			free(buffer);
 			break;
 		case 2:
+			for(int i=0;i>-50;i--) {
+				buffer[i]=i%256;
+			}
 			break;
 		case 3:
+			for(int i=0;i<size*2;i++) {
+				fprintf(stderr,"i is %d\n",i);
+				buffer[i]=i%256;
+			}
 			break;
 		case 4:
-			// no need to do anything, just don't free the buffer
 			break;
 		case 5:
+			break;
+		case 6:
+			// no need to do anything, just don't free the buffer
+			break;
+		case 7:
 			free(buffer);
 			free(buffer);
 			break;
