@@ -51,8 +51,14 @@ int main(int argc,char** argv,char** envp) {
 			}
 			break;
 		case 4:
+			for(int i=0;i>-50;i--) {
+				printf("value at %d is %c\n",i,buffer[i]);
+			}
 			break;
 		case 5:
+			for(int i=0;i<size*2;i++) {
+				printf("value at %d is %c\n",i,buffer[i]);
+			}
 			break;
 		case 6:
 			// no need to do anything, just don't free the buffer
