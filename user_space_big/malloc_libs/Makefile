@@ -14,3 +14,7 @@ memory_error.dmalloc.exe: memory_error.cc $(ALL_DEPS)
 .PHONY: clean
 clean:
 	-rm -f $(ALL) logfile.out
+
+.PHONY: valgrind_memcheck
+valgrind_memcheck:
+	valgrind --tool=memcheck ./memory_error.regular.exe 0
