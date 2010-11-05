@@ -91,6 +91,12 @@ static inline void scie(int t, const char *msg, int errval = -1) {
 		exit(1);
 	}
 }
+static inline void scassert(int t,const char* msg) {
+	if(!t) {
+		perror("error in system call");
+		exit(1);
+	}
+}
 template<class T> inline void scie(T t,const char *msg, T errval) {
 	if (t == errval) {
 		throw new std::exception();
