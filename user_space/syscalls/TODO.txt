@@ -1,0 +1,2 @@
+- show diassembly of calling syscall.
+- add a sample of calling a syscall without the aid of the glibc library
