@@ -13,9 +13,6 @@
 	- there is no wrapper function in libc for gettid. I use a wrapper
 	here that I defined myself in "us_helper.hh". Check it out. You can either
 	use that or use some framework which gives you wrappers.
-	- there are no "thread names" in linux. There are process names that you may
-	control via prctl with a limited size.
-	- The way to get thread names is to create some user space construct that stores that information.
  
 EXTRA_LIBS=-lpthread
 */
