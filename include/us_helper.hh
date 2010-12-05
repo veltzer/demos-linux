@@ -52,7 +52,6 @@ static inline ticks_t getticks(void) {
 	return(((ticks_t)a) | (((ticks_t)d) << 32));
 }
 
-
 static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	if (t2 < t1) {
 		fprintf(stderr, "ERROR: What's going on? t2<t1...\n");
@@ -78,7 +77,6 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	return(mdiff);
 }
 
-
 /*
  * A system call handler, will take care of all those pesky error values
  * and will throw an exception if any of them pops up.
@@ -103,7 +101,6 @@ template<class T> inline void scie(T t,const char *msg, T errval) {
 	}
 }
 
-
 static inline void scig(int t, const char *msg, int goodval = 0) {
 	if (t != goodval) {
 		throw new std::exception();
@@ -112,7 +109,6 @@ static inline void scig(int t, const char *msg, int goodval = 0) {
 		//exit(1);
 	}
 }
-
 
 static inline void scig2(int t, const char *msg, int v1, int v2) {
 	if ((t != v1) && (t != v2)) {
@@ -123,13 +119,18 @@ static inline void scig2(int t, const char *msg, int v1, int v2) {
 	}
 }
 
-
 static inline void scpe(void *t, const char *msg, void *errval = (void *)-1) {
 	if (t == errval) {
 		throw new std::exception();
 
 		//perror("error in system call");
 		//exit(1);
+	}
+}
+static inline void check_zero(int val,const char* msg) {
+	if (val != 0) {
+		perror("error in system call");
+		exit(1);
 	}
 }
 
@@ -141,22 +142,21 @@ static inline void scpe(void *t, const char *msg, void *errval = (void *)-1) {
 #define SC(v) SCIE(v, __stringify(v));
 #define sc(v) scie(v, __stringify(v));
 
+#define CHECK_ZERO(v) check_zero(v, __stringify(v));
+
 // kernel log handling functions
 static inline void klog_clear(void) {
 	SCIE(system("sudo dmesg -c > /dev/null"), "clearing log");
 }
 
-
 static inline void klog_show(void) {
 	SCIE(system("sudo dmesg"), "showing log");
 }
-
 
 static inline void klog_show_clear(void) {
 	klog_show();
 	klog_clear();
 }
-
 
 static inline void waitkey(const char *msg = NULL) {
 	if (msg) {
@@ -167,7 +167,6 @@ static inline void waitkey(const char *msg = NULL) {
 	//scie(setvbuf(stdin,NULL,_IONBF,0),"setvbuf");
 	fgetc(stdin);
 }
-
 
 static inline void debug(const char *file, const char *function, int line, const char *fmt, ...) {
 	extern char *program_invocation_short_name;
@@ -181,7 +180,6 @@ static inline void debug(const char *file, const char *function, int line, const
 	vfprintf(stderr, str, args);
 	va_end(args);
 }
-
 
 void debug(const char *file, const char *function, int line, const char *fmt, ...) __attribute__((format(printf, 4, 5)));
 
@@ -204,14 +202,12 @@ static inline int printproc(const char *filter) {
 	return(res);
 }
 
-
 static inline int printbuddy(void) {
 	int res = system("cat /proc/buddyinfo");
 
 	//waitkey();
 	return(res);
 }
-
 
 static inline void memcheck(void *buf, char val, unsigned int size) {
 	char *cbuf = (char *)buf;
@@ -224,13 +220,11 @@ static inline void memcheck(void *buf, char val, unsigned int size) {
 	}
 }
 
-
 // progress handling functions...
 static inline void do_prog_init(void) {
 	printf("progress: \n");
 	fflush(stdout);
 }
-
 
 static inline void do_prog(unsigned int i, unsigned int mod, unsigned int full) {
 	if (i % mod == 0) {
@@ -238,7 +232,6 @@ static inline void do_prog(unsigned int i, unsigned int mod, unsigned int full) 
 		fflush(stdout);
 	}
 }
-
 
 static inline void do_prog_finish(void) {
 	printf("\tfinished...\n");

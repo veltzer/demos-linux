@@ -3,3 +3,4 @@
 	Add the ability to connect via telnet to this application and see all of
 	it's threads.
 - show how this is solved in ACE and Boost and stdlibc++.
+- do an example of threads setting their own name (prctl(2)).
