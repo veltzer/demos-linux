@@ -1,0 +1,9 @@
+- Showing various attributes of processes with ps:
+	ps -o cmd,vm, ...
+	This causes ps to ONLY show the fields that you want.
+
+- Controlling the width of the fields:
+	ps -o cmd:100
+
+- Showing thread data:
+	ps -L

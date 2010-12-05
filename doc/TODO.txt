@@ -1,0 +1,139 @@
+- write a script that use "git ls-files" and a recursive traveral of a directory
+	to show all files which are not under git control
+	this way I could check after a "make clean" there are no leftovers.
+
+- when making kernel modules the build process complains:
+	Makefile:602: "WARNING: Appending $KCFLAGS (-Werror) from command line to kernel $CFLAGS"
+	shut it up somehow (this is a good warning).
+- do an example of debugging a driver for memory leaks.
+	The idea: directing all the drivers kmalloc and kfree to a pool of its own
+	and seeing that that pools usage drops back to 0 when the driver is rmmoded.
+	or maybe my own hand coded hash table that checks all allocations and deallocations?
+	See how it goes.
+- bring back the hellofcmp example once I have built an fcmp package for ubuntu.
+	and installed it on the laptop.
+- core dump example: show how an application can dump its own core
+and continue running (gcore on the cmd line, sending itself a signal,
+running the right function).
+- give an example of a binary that accesses it's own symbols by name.
+	(how can we do that ?)
+
+- do an example that links dlls together and create a "mega dll".
+- do an example that links object files + a bunch of dlls into a "exe + dlls in one file" package. This way this exe can have backtrace capability with good symbol names. Demo it.
+
+- compile all the kernel modules in one go.
+- add my signature to all those examples with some copyright.
+- unify everything to one makefile.
+- make the output of the makefile look nicer.
+- start blogging about the different entries.
+
+do a demo of using the rtc in an application.
+Demo the accuracy of those sleeps as compared to an application using a regular clock
+Show that when using the RTC the interrupts are coming in (/etc/interrupts) not via
+the timer interrupts but rather through the RTC line...
+
+add a feature to the makefile that deduces all the libraries that I'm using
+and all the packages that I need (and installs them ?!?).
+
+1. Add a demo about how to catch this exception from regular C code using signal and
+	sigaction and show what can be done about it (c level).
+3. Example of how to raise exceptions on all system calls.
+	C++ wrapper for all system calls.
+4. Examples of debugging malloc stuff:
+	showing statistics of malloc,
+	hooking into the malloc free hooks
+	replacing the malloc library.
+5. Expand the example BreakOut.cc to show that you can break out of other system calls too (for example shmget).
+
+1. Write an example using futexes.
+2. Write an example that demostrates priorities.
+	a. Show an example showing different nice levels.
+	b. Show an example showing priority in the same nice level.
+	c. Show running a real time process.
+	d. Show inversion of priority.
+3. Write an example using NTPL and not posix threads.
+1. examples using NTPL.
+2. Starting a thread in suspended mode (pthread or NTPL).
+3. Show code of mutexes in pthread with timeout.
+
+This is a list of examples I need to write to demo expert
+use of signals in a C/C++ linux application.
+
+1. Application which receives a SIGTERM and in the sig handler
+marks a boolean value for the main application to check.
+The main application runs in a loop and checks the boolean
+variable regularly and stops it's work once the signal arrives.
+
+2. Application which generates a SIGSEGV by doing some illegal
+memory access. The application handles this signal in it's
+own code and then calls the default handler (which creates
+a core dump).
+
+3. Application which shows how to pass extra information using
+a signal handler.
+
+4. Application which generates an FPE, then does not core dump
+but rather continues processing. Show how to know where the FPE
+came from (extra information?).
+
+5. Show combinations of signal handlers and C++ exceptions. Where
+do they conflict and where do they match.
+
+signal demos:
+=============
+
+This is a list of examples I need to write to demo expert
+use of signals in a C/C++ linux application.
+
+1. Application which receives a SIGTERM and in the sig handler
+marks a boolean value for the main application to check.
+The main application runs in a loop and checks the boolean
+variable regularly and stops it's work once the signal arrives.
+
+2. Application which generates a SIGSEGV by doing some illegal
+memory access. The application handles this signal in it's
+own code and then calls the default handler (which creates
+a core dump).
+
+3. Application which shows how to pass extra information using
+a signal handler.
+
+4. Application which generates an FPE, then does not core dump
+but rather continues processing. Show how to know where the FPE
+came from (extra information?).
+
+5. Show combinations of signal handlers and C++ exceptions. Where
+do they conflict and where do they match.
+
+kernel locking test:
+====================
+In the real time faq on linux it says that "ioctl" when implemented in the linux
+kernel grabs the BKL while "unlocked_ioctl" does not.
+
+The idea is to write a test to check that no locking occurs.
+
+A program which spawns two threads and affines them to two cpus (the program fails if it is run on less than two cpus).
+
+First thread goes into the kernel and sleeps via an ioctl in a pre-prepared driver.
+
+Second thread does the same.
+
+The idea is to see how long it took both of them. If it is close to one time period then
+both of them happened together. If it is two time periods then the kernel was locked.
+
+Question: is going to sleep in the kernel actually release the BLK ? probably so. This means that we should busy wait in the kernel instead... Do both.
+
+User space demos:
+=================
+- profile how long it takes to setup a timer from user space.
+        (this is for the userspace guys - do an example).
+- show how to break from a blocking sys call in user space using a signal.
+        show how to do this using a timer thus turning each sys call to timed.
+        show that the wakeup is pretty near the expected time (rdtsc).
+- do example of fifo and priorities in pthreads.
+
+Kernel demos:
+=============
+- do demo of mempool in demo_kernel.
+- do demo of debugging kmalloc and kfree.
+- do demo of handling interrupts (mouse for instance). take this from the gilad slides.

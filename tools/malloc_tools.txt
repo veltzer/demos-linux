@@ -1,0 +1,19 @@
+mpatrol
+valgrind
+yamd
+ccmalloc
+dmalloc
+njamd
+insure++
+electric-fence
+
+scalable malloc:
+hoard
+google-perftools
+tcmalloc-minimal
+libtalloc
+
+coprocess mallocs:
+libmm
+
+libdmalloc
