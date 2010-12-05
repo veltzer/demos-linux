@@ -1,0 +1,8 @@
+- the build system does not do dependencies!!!
+- write a script that use "git ls-files" and a recursive traveral of a directory
+	to show all files which are not under git control
+	this way I could check after a "make clean" there are no leftovers.
+- unify everything to one makefile.
+- make the output of the makefile look nicer.
+- add a feature to the makefile that deduces all the libraries that I'm using
+and all the packages that I need (and installs them ?!?).

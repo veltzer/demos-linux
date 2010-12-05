@@ -1,7 +1,3 @@
-- write a script that use "git ls-files" and a recursive traveral of a directory
-	to show all files which are not under git control
-	this way I could check after a "make clean" there are no leftovers.
-
 - when making kernel modules the build process complains:
 	Makefile:602: "WARNING: Appending $KCFLAGS (-Werror) from command line to kernel $CFLAGS"
 	shut it up somehow (this is a good warning).
@@ -23,17 +19,11 @@ running the right function).
 
 - compile all the kernel modules in one go.
 - add my signature to all those examples with some copyright.
-- unify everything to one makefile.
-- make the output of the makefile look nicer.
-- start blogging about the different entries.
 
 do a demo of using the rtc in an application.
 Demo the accuracy of those sleeps as compared to an application using a regular clock
 Show that when using the RTC the interrupts are coming in (/etc/interrupts) not via
 the timer interrupts but rather through the RTC line...
-
-add a feature to the makefile that deduces all the libraries that I'm using
-and all the packages that I need (and installs them ?!?).
 
 1. Add a demo about how to catch this exception from regular C code using signal and
 	sigaction and show what can be done about it (c level).
