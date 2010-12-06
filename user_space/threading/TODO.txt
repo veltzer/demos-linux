@@ -27,3 +27,5 @@
 - do examples that compare futex to mutex run times.
 
 - do example of thread detach.
+
+- do example of thread local storage ala pthread (see man pthread_setspecific).
