@@ -1,7 +1,7 @@
 #include<pthread.h> // for pthread_create, pthread_join
 #include<stdio.h> // for printf(3)
 #include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2), sleep(3)
+#include<unistd.h> // for getpid(2)
 #include<string.h> // for strncpy(3)
 #include<sys/prctl.h> // for prctl(2)
 
@@ -17,13 +17,6 @@
  *
  * 			Mark Veltzer
  * EXTRA_LIBS=-lpthread
- *
- * TODO:
- * - don't do the ugly sleep(3) here but rather wait on a condition in the threads
- *   and have the main thread signal that condition after doing the "ps" command.
- * - also have the main thread wait on a barrier that will be released once the two threads
- *   did their setup work (set their own names). Only then should the main thread actually
- *   do the ps to find their names.
  */
 
 void get_thread_name(char* buffer,unsigned int bufsize) {
@@ -44,17 +37,25 @@ void print_thread_name_from_proc() {
 	my_system("cat /proc/%d/comm",gettid());
 }
 
+typedef struct _thread_data {
+	pthread_mutex_t start_mutex;
+	pthread_mutex_t end_mutex;
+	char name[256];
+} thread_data;
+
 void* doit(void* arg) {
 	char orig_name[256];
 	get_thread_name(orig_name,256);
 	TRACE("original thread name is [%s]",orig_name);
-	const char* name=(const char*)arg;
-	set_thread_name(name);
+	thread_data* td=(thread_data*)arg;
+	
+	set_thread_name(td->name);
 	TRACE("gettid() is %d",gettid());
 	TRACE("getpid() is %d",getpid());
 	TRACE("pthread_self() is %u",(unsigned int)pthread_self());
 	print_thread_name_from_proc();
-	sleep(10);
+	CHECK_ZERO(pthread_mutex_unlock(&(td->start_mutex)));
+	CHECK_ZERO(pthread_mutex_lock(&(td->end_mutex)));
 	return NULL;
 }
 
@@ -63,10 +64,30 @@ int main(int argc,char** argv,char** envp) {
 	TRACE("getpid() is %d",getpid());
 	TRACE("pthread_self() is %u",(unsigned int)pthread_self());
 	pthread_t t1,t2;
-	CHECK_ZERO(pthread_create(&t1,NULL,doit,(void*)"thread one"));
-	CHECK_ZERO(pthread_create(&t2,NULL,doit,(void*)"thread two"));
-	// show the threads with their names...
+	thread_data td1,td2;
+	strncpy(td1.name,"thread one",256);
+	strncpy(td2.name,"thread two",256);
+	CHECK_ZERO(pthread_mutex_init(&td1.start_mutex,NULL));
+	CHECK_ZERO(pthread_mutex_init(&td2.start_mutex,NULL));
+	CHECK_ZERO(pthread_mutex_init(&td1.end_mutex,NULL));
+	CHECK_ZERO(pthread_mutex_init(&td2.end_mutex,NULL));
+	CHECK_ZERO(pthread_mutex_lock(&td1.start_mutex));
+	CHECK_ZERO(pthread_mutex_lock(&td2.start_mutex));
+	CHECK_ZERO(pthread_mutex_lock(&td1.end_mutex));
+	CHECK_ZERO(pthread_mutex_lock(&td2.end_mutex));
+	CHECK_ZERO(pthread_create(&t1,NULL,doit,&td1));
+	CHECK_ZERO(pthread_create(&t2,NULL,doit,&td2));
+
+	// wait for the threads to be initialized, if we got the lock then they are...
+	CHECK_ZERO(pthread_mutex_lock(&td1.start_mutex));
+	CHECK_ZERO(pthread_mutex_lock(&td2.start_mutex));
+	
+	// now that both threads have set their name, show the threads with their names...
 	my_system("ps -p %d -L",getpid());
+	// let the threads die (if we do not unlock they will wait forever...)
+	CHECK_ZERO(pthread_mutex_unlock(&td1.end_mutex));
+	CHECK_ZERO(pthread_mutex_unlock(&td2.end_mutex));
+	// join the theads so that everything will be clean...
 	CHECK_ZERO(pthread_join(t1,NULL));
 	CHECK_ZERO(pthread_join(t2,NULL));
 	return 0;
