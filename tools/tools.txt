@@ -42,6 +42,7 @@ kernel:
 	crash
 	slabtop
 	kerneltop
+	btrace
 
 networking:
 	ping

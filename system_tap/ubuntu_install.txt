@@ -1,0 +1,3 @@
+apt-get install systemtap
+wget http://ddebs.ubuntu.com/pool/main/l/linux/linux-image-2.6.35-22-generic-dbgsym_2.6.35-22.34_i386.ddeb
+install it.

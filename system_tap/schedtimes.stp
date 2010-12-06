@@ -1,0 +1,155 @@
+#! /usr/bin/env stap
+
+############################################################
+# Schedtimes.stp
+# Author: Jason Baron <jbaron@redhat.com>
+# profiles threads and displays their run times, queued times,
+# wait times, including i/o wait times.
+# Has two modes. When no arguments are given it profiles all
+# threads. Alternatively, you can pass -c "program name"
+############################################################
+
+//constants
+global RUNNING=0, QUEUED=1, SLEEPING=2
+
+global traced_pid
+global run_time, queued_time,  sleep_time, io_wait_time
+global pid_state, pid_names
+global previous_timestamp
+global io_wait_count
+global io_wait_incremented
+
+function get_iowait:long(queue:long)
+{
+  return @cast(queue,"rq","kernel")->nr_iowait->counter;
+}
+
+probe kernel.trace("sched_switch") {
+  previous_pid = $prev->pid;
+  next_pid = $next->pid;
+  if (traced_pid) {
+    if (previous_pid != traced_pid) {
+      previous_pid = 0;
+    }
+    if (next_pid != traced_pid) {
+      next_pid = 0;
+    }
+  }
+  if (previous_pid) {
+    if (!([previous_pid] in pid_state)) {
+      //use this state as entry into state machine
+      previous_timestamp[previous_pid] = gettimeofday_us();
+      pid_names[previous_pid] = kernel_string($prev->comm);
+      if ($prev->state > 0) {
+        pid_state[previous_pid] = SLEEPING;
+      } else if ($prev->state == 0) {
+        pid_state[previous_pid] = QUEUED;
+      } else {
+        printf("unknown transition:\n");
+        printf("pid state: %d our state: %d\n",
+          $prev->state, pid_state[previous_pid]);
+      }
+    } else if (pid_state[previous_pid] == RUNNING) {
+      pid_names[previous_pid] = kernel_string($prev->comm);
+      t = gettimeofday_us();  
+      run_time[previous_pid] += (t - previous_timestamp[previous_pid]);
+      previous_timestamp[previous_pid] = t;
+      if ($prev->state > 0) {
+        if (@defined($rq) && (get_iowait($rq) - io_wait_count[previous_pid]) > 0)
+          io_wait_incremented[previous_pid] = 1;  
+        pid_state[previous_pid] = SLEEPING;
+      } else if ($prev->state == 0) {
+        pid_state[previous_pid] = QUEUED;
+      } else {
+        printf("unknown transition:\n");
+        printf("pid state: %d our state: %d\n",
+          $prev->state, pid_state[previous_pid]);
+      }
+    } else {
+      printf("unknown transition:\n");
+      printf("%s pid state: %d our state: %d\n",
+           pid_names[previous_pid],
+           $prev->state, pid_state[previous_pid]);
+    }
+  }
+  if (next_pid) {
+    if (@defined($rq))
+      io_wait_count[next_pid] = get_iowait($rq);
+    if (!([next_pid] in pid_state)) {
+      //use this state as entry into state machine
+      previous_timestamp[next_pid] =  gettimeofday_us();
+      pid_state[next_pid] = RUNNING;
+      pid_names[next_pid] = kernel_string($next->comm);
+    } else if (pid_state[next_pid] == QUEUED) {
+      t = gettimeofday_us();
+      queued_time[next_pid] += (t - previous_timestamp[next_pid]);
+      previous_timestamp[next_pid] = t;
+      pid_state[next_pid] = RUNNING;
+      pid_names[next_pid] = kernel_string($next->comm);
+    } else {
+      printf("unknown transition:\n");
+      printf("%s pid state: %d our state: %d\n",
+        pid_names[next_pid],
+        $next->state, pid_state[next_pid]);
+    }
+  }
+}
+
+probe kernel.trace("sched_wakeup") {
+  wakeup_pid = $p->pid;
+  if (traced_pid && (wakeup_pid != traced_pid)) next
+  if ((!$success) && (pid_state[wakeup_pid] != SLEEPING)) next
+  if (!wakeup_pid) next
+
+  if (!([wakeup_pid] in pid_state)) {
+    //use this state as entry into state machine
+    previous_timestamp[wakeup_pid] =  gettimeofday_us();
+    pid_state[wakeup_pid] = QUEUED;
+    pid_names[wakeup_pid] = kernel_string($p->comm);
+  } else if (pid_state[wakeup_pid] == SLEEPING) {
+    t = gettimeofday_us();
+    sleep_time[wakeup_pid] += (t - previous_timestamp[wakeup_pid]);
+    if (io_wait_incremented[wakeup_pid] == 1) {
+      io_wait_time[wakeup_pid] += (t - previous_timestamp[wakeup_pid]);
+      io_wait_incremented[wakeup_pid] = 0;
+    }
+    previous_timestamp[wakeup_pid] = t;
+    pid_state[wakeup_pid] = QUEUED;
+    pid_names[wakeup_pid] = kernel_string($p->comm);
+  } else {
+    printf("unknown transition:\n");
+    printf("pid state: %d our state: %d\n",
+      $p->state, pid_state[wakeup_pid]);
+  }
+}
+
+probe begin {
+  traced_pid = target();
+  if (traced_pid == 0) {
+    printf("all mode\n");
+  } else {
+    printf("target mode\n");
+    printf("traced pid: %d\n", traced_pid);
+  }
+}
+
+probe end {
+  t = gettimeofday_us();
+  foreach (pid in pid_state) {
+    if (pid_state[pid] == SLEEPING)
+      sleep_time[pid] += (t - previous_timestamp[pid]);
+    if (pid_state[pid] == QUEUED)
+      queued_time[pid] += (t - previous_timestamp[pid]);
+    if (pid_state[pid] == RUNNING)
+      run_time[pid] += (t - previous_timestamp[pid]);
+  }
+  printf ("%16s: %6s %10s %10s %10s %10s %10s\n\n",
+         "execname", "pid", "run(us)", "sleep(us)", "io_wait(us)",
+         "queued(us)", "total(us)")
+  foreach (pid+ in run_time) {
+    printf("%16s: %6d %10d %10d %10d %10d %10d\n", 
+      pid_names[pid], pid, run_time[pid], sleep_time[pid], 
+      io_wait_time[pid], queued_time[pid],
+      (run_time[pid] + sleep_time[pid] + queued_time[pid]));
+  }
+}

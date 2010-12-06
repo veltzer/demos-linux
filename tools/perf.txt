@@ -1,0 +1,8 @@
+This is a document about using the "perf" set of tools...
+
+Installation
+============
+You will probably need a set of package along the following lines:
+linux-tools
+linux-tools-common
+linux-tools-2.6.35-23
