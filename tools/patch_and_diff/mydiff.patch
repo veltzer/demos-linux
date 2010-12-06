@@ -1,0 +1,12 @@
+--- threads_affinity.cc	2010-02-15 15:05:15.000000000 +0200
++++ threads_affinity1.cc	2010-02-15 15:06:09.000000000 +0200
+@@ -21,6 +21,9 @@
+ 			printf("    CPU %d\n", j);
+ 		}
+ 	}
++	for(int j=0;j<max;j++) {
++		printf("j is %d",j);
++	}
+ }
+ 
+ void* worker(void* p) {

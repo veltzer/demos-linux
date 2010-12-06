@@ -37,6 +37,7 @@ core dumps:
 	gdbtui
 	gcore
 	resolve_stack_dump
+	dwarves
 
 kernel:
 	crash
@@ -71,3 +72,7 @@ programming tracing:
 
 power managements:
 	powertop.
+
+big tools:
+	systemtap
+	perf
