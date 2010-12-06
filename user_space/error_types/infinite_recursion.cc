@@ -1,8 +1,8 @@
-#include<stdio.h> // for printf(3)
-#include<sys/time.h> // for getrusage(2)
-#include<sys/resource.h> // for getrusage(2)
+#include <stdio.h> // for printf(3)
+#include <sys/time.h> // for getrusage(2)
+#include <sys/resource.h> // for getrusage(2)
 
-#include"us_helper.hh"
+#include "us_helper.hh"
 
 /*
  * This is an example of infinite recursion prevention using setting the stack size

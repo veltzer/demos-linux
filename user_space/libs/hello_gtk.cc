@@ -1,5 +1,5 @@
 #include <gtk/gtk.h>
-//#include<stdio.h>
+//#include <stdio.h>
 
 /*
  *      This is an simple gtk application.

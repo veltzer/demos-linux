@@ -1,5 +1,5 @@
-#include<unistd.h> // for sleep(3)
-#include<stdio.h> // for printf(3)
+#include <unistd.h> // for sleep(3)
+#include <stdio.h> // for printf(3)
 
 /*
  * This is a demo of how to use the instrumentation feature of the gnu compiler.

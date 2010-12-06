@@ -1,11 +1,11 @@
 //#define _GNU_SOURCE
-#include<pthread.h> // for pthread_create, pthread_join
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for exit(3)
-#include<unistd.h> // for syscall(2)
-#include<sys/types.h> // for gettid(2) 
-#include<sys/syscall.h> // for syscall(2)
-#include<strings.h> // for bzero(3)
+#include <pthread.h> // for pthread_create, pthread_join
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for exit(3)
+#include <unistd.h> // for syscall(2)
+#include <sys/types.h> // for gettid(2) 
+#include <sys/syscall.h> // for syscall(2)
+#include <strings.h> // for bzero(3)
 
 /*
 	This test shows how to test for bad stack state (distance from

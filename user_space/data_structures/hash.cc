@@ -1,6 +1,6 @@
-#include<search.h> // for hcreate_r(3), hdestroy_r(3),
-#include<stdlib.h> // for exit(3)
-#include<stdio.h> // for perror(3)
+#include <search.h> // for hcreate_r(3), hdestroy_r(3),
+#include <stdlib.h> // for exit(3)
+#include <stdio.h> // for perror(3)
 
 // the hash table
 static hsearch_data HTAB;

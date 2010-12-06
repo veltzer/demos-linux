@@ -1,12 +1,11 @@
-#include<stdio.h>
-#include<string.h> // for memset(3)
+#include <string.h> // for memset(3)
 
 /*
  * This example shows the stack limitations of a regular program
  *
  * Notes:
  * - this is why it's a bad idea to store stuff on the stack.
- * - not that without the memset there will be no problem.
+ * - note that without the memset there will be no problem.
  *
  * 			Mark Veltzer
  */

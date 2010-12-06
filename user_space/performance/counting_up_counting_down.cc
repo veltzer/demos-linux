@@ -1,4 +1,4 @@
-#include<stdio.h> // for printf(3)
+#include <stdio.h> // for printf(3)
 
 /*
  * This example examines the question of whether it is more efficient to loop

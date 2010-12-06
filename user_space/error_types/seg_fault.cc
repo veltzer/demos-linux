@@ -1,4 +1,4 @@
-#include<stdio.h> // for fprintf(3)
+#include <stdio.h> // for fprintf(3)
 
 void func() {
 	int i;

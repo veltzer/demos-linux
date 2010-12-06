@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
-//#include<linux/time.h>
+#include <stdio.h> // for printf(3)
+#include <time.h> // for clock_getres(2)
 
 #include "us_helper.hh"
 
@@ -42,7 +40,7 @@ int main(int argc, char **argv, char **envp) {
 	for (int i = 0; i < num_clocks; i++) {
 		clockid_t clk_id = clocks[i].id;
 		struct timespec res;
-		scig(clock_getres(clk_id, &res), "clock_getres");
+		CHECK_ZERO(clock_getres(clk_id, &res));
 		printf("clock resolution for clock %s (%d) is %ld (sec) %ld (nsec)\n", clocks[i].name, clocks[i].id, res.tv_sec, res.tv_nsec);
 	}
 	return(0);

@@ -1,7 +1,7 @@
-#include<pthread.h> // for pthread_create, pthread_join
-#include<stdio.h> // for printf(3)
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <stdio.h> // for printf(3)
 
-#include"us_helper.hh"
+#include "us_helper.hh"
 
 /*
 	This demo explored gettid() and getpid() issues on linux

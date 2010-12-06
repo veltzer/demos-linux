@@ -1,10 +1,10 @@
-#include<stdio.h> // for printf(3), perror(3)
-#include<stdlib.h> // for malloc(3), free(3), exit(3)
-#include<sys/mman.h> // for mprotect(2)
-#include<signal.h> // for sigaction(2)
-#include<malloc.h> // for memalign(3)
-#include<errno.h> // for errno
-#include<unistd.h> // for getpagesize(2)
+#include <stdio.h> // for printf(3), perror(3)
+#include <stdlib.h> // for malloc(3), free(3), exit(3)
+#include <sys/mman.h> // for mprotect(2)
+#include <signal.h> // for sigaction(2)
+#include <malloc.h> // for memalign(3)
+#include <errno.h> // for errno
+#include <unistd.h> // for getpagesize(2)
 
 #define HANDLE_SEGV
 

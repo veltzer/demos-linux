@@ -1,5 +1,5 @@
 #include <mysql/mysql.h>
-//#include<stdlib.h>
+//#include <stdlib.h>
 #include <iostream>
 
 /* This is a demo program for regular C mysql access */

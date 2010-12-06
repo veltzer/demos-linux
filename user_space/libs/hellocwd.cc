@@ -1,9 +1,9 @@
-//#include<libcw/sysd.h>
+//#include <libcw/sysd.h>
 
 /*
  #ifdef DEBUG
  #define CWDEBUG
- #include<libcw/debug.h>
+ #include <libcw/debug.h>
  #endif
  *
  #ifdef DEBUG

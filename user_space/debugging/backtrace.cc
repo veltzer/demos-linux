@@ -1,9 +1,9 @@
-#include<execinfo.h> // for backtrace(3), backtrace_symbols(3), backtrace_symbols_fd(3)
-#include<signal.h> // for signal(2)
-#include<stdio.h> // for perror(3), fprintf(3)
-#include<stdlib.h> // for exit(3)
+#include <execinfo.h> // for backtrace(3), backtrace_symbols(3), backtrace_symbols_fd(3)
+#include <signal.h> // for signal(2)
+#include <stdio.h> // for perror(3), fprintf(3)
+#include <stdlib.h> // for exit(3)
 
-#include"us_helper.hh"
+#include "us_helper.hh"
 
 /*
  *      This exapmle shows how to obtain a stack trace for various purposes (mostly

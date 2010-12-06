@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include <stdio.h>
 
 void my_func() {
 	int x=7;

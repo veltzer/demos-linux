@@ -1,8 +1,8 @@
-#include<unistd.h> // for reboot(2), syscall(2)
-#include<linux/reboot.h> // for reboot(2)
-#include<sys/syscall.h> // for syscall(2), SYS_xxx definitions
+#include <unistd.h> // for reboot(2), syscall(2)
+#include <linux/reboot.h> // for reboot(2)
+#include <sys/syscall.h> // for syscall(2), SYS_xxx definitions
 
-#include"us_helper.hh"
+#include "us_helper.hh"
 
 /*
  *      Example of how to reboot the system
