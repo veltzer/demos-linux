@@ -29,3 +29,9 @@
 - do example of thread detach.
 
 - do example of thread local storage ala pthread (see man pthread_setspecific).
+
+- show usage of pthread_exit. Actually, show all ways that allow one to exit a thread
+	- pthread_exit
+	- pthread_cancell.
+	- send sigkill to the thread.
+	- more ?!?
