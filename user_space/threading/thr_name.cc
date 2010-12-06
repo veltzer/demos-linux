@@ -9,7 +9,7 @@
 
 /*
  * This exapmles shows how to set thread names in Linux.
- * The heard of the idea is to call prctl(2).
+ * The heart of the idea is to call prctl(2).
  * If you look at the documentation of prctl(2), it states that it only sets PROCESS
  * names, but this is actually wrong since it sets the name of the current schedualable
  * entity which may be a thread or a process. The reason that it says what is says is

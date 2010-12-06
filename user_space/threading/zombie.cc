@@ -1,5 +1,7 @@
 #include <pthread.h> // for pthread_create
-#include <unistd.h>  // for sleep
+#include <string.h> // for strncpy(3)
+#include <sys/prctl.h> // for prctl(2)
+#include <unistd.h> // for sleep(3)
 
 #include "us_helper.hh"
 
@@ -13,28 +15,60 @@
  *
  * EXTRA_LIBS=-lpthread
  */
-void *worker(void *p) {
-	DEBUG("starting thread");
-	sleep(3);
-	DEBUG("ending thread");
+void set_thread_name(const char* newname) {
+	const unsigned int size=16;
+	char name[size];
+	strncpy(name,newname,size);
+	scie(prctl(PR_SET_NAME,name),"prctl");
+}
+
+pthread_mutex_t mutex_init,mutex_start,mutex_end;
+pid_t tid;
+
+void *worker(void *) {
+	TRACE("start");
+	set_thread_name("child");
+	tid=gettid();
+	// lets notify the parent thread that we did initialisation...
+	CHECK_ZERO(pthread_mutex_unlock(&mutex_init));
+	// wait till the parent tells us to continue...
+	CHECK_ZERO(pthread_mutex_lock(&mutex_start));
+	// lets notify the parent thread that we're dead...
+	CHECK_ZERO(pthread_mutex_unlock(&mutex_end));
+	TRACE("end");
 	return(NULL);
 }
 
-
 int main(int argc, char **argv, char **envp) {
+	set_thread_name("parent");
 	pthread_t thread;
 
-	DEBUG("main started");
-	SCIG(pthread_create(&thread, NULL, worker, NULL), "pthread_create");
-	DEBUG("main created thread");
-	// we do not join the thread but rather just go to sleep for an hour...
-	//SCIG(pthread_join(thread,&ret),"pthread_join");
-	// print the status of the threads...
-	my_system("ps -L -p %d", getpid());
-	// wait for 10 seconds to let the thread end...
-	sleep(10);
-	// print the status of the threads...
-	my_system("ps -L -p %d", getpid());
-	DEBUG("main ended");
+	TRACE("main started");
+	CHECK_ZERO(pthread_mutex_init(&mutex_init,NULL));
+	CHECK_ZERO(pthread_mutex_init(&mutex_start,NULL));
+	CHECK_ZERO(pthread_mutex_init(&mutex_end,NULL));
+	CHECK_ZERO(pthread_mutex_lock(&mutex_init));
+	CHECK_ZERO(pthread_mutex_lock(&mutex_start));
+	CHECK_ZERO(pthread_mutex_lock(&mutex_end));
+
+	CHECK_ZERO(pthread_create(&thread, NULL, worker, NULL));
+	TRACE("main created thread");
+	// wait till the thread has done initialisation
+	CHECK_ZERO(pthread_mutex_lock(&mutex_init));
+	// ok, the thread is initialized, lets print it's state
+	my_system("ps --no-headers -L -p %d -o pid,lwp,comm", getpid());
+	// signal the thead to continue...
+	CHECK_ZERO(pthread_mutex_unlock(&mutex_start));
+
+	// wait till the thread is over...
+	CHECK_ZERO(pthread_mutex_lock(&mutex_end));
+	// since the thead called the unlock just before it ended wait just a tiny
+	// weeny bit more...
+	sleep(1);
+	//CHECK_ZERO(pthread_join(thread,NULL));
+
+	// now the thread is dead, lets print it's state (same as before...)
+	my_system("ps --no-headers -L -p %d -o pid,lwp,comm", getpid());
+	TRACE("main ended");
 	return(0);
 }

@@ -10,7 +10,8 @@
  * The name itself is up to 16 bytes long.
  * It also shows that this is reflected in the output of tools like ps and in the /proc
  * filesystem.
- * Notice that the comm attribute is what you are setting getting (/proc/[pid]/comm, ps -o comm) and not other attributes like command, cmd and others from ps or from /proc.
+ * Notice that the 'comm' attribute is what you are setting getting (/proc/[pid]/comm,
+ * ps -o comm) and not other attributes like command, cmd and others from ps or from /proc.
  *
  * When would you want to use this?
  * - when you're doing lots of multi processing (fork(2)) and want to distinguish between

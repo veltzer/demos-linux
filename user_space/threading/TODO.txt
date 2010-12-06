@@ -11,10 +11,19 @@
 	pthread_cleanup_pop
 	pthread_cleanup_push
 
-- show an example of doing pthread_once (this is a sort of a signleton pattern).
+- show an example of doing pthread_once (this is a sort of a singleton pattern).
 
 - do an example of yield.
 
 - do an example of pthread_atfork
 
-- do examples of m
+- do an example of named semaphore usage:
+	sem_* functions.
+
+- do examples of mutex usage.
+
+- do examples of futex usage.
+
+- do examples that compare futex to mutex run times.
+
+- do example of thread detach.
