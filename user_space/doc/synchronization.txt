@@ -1,0 +1,41 @@
+Mechanisms of synchronization in Linux:
+=======================================
+- no synchronization
+	Just use a different data structure per thread and avoid synchronization at all.
+	This is the best solution and the fastest.
+
+	Caveat: On Intel the CPU caches are synchronized and so if the two CPUs access
+	different memory areas which reside in the same CPU cache line (cache lines on
+	Intel are usually 64 byte wide) then one CPU will delay the execution of code
+	by another. Just make sure to have data structures wide enough.
+
+	* TODO:
+	show how to find the cache line width both as compile time constant and as
+	runtime variable. Show how to pad a data structure correctly so that it will
+	be wide enough.
+	
+	When should you use them?
+	This is the most efficient synchronization mechanism as it has no overhead.
+
+- atomic variables.
+	__sync_fetch_and_add and the like.
+	Why shouldn't you just use an int? You can, if you just increment it and do not
+	necessarily want to see the value. But usually you want to do two things atomically
+	like: add and fetch, fetch and add, fetch and sub, sub and fetch, test and set
+	and more. If you try to do that then you run into a syncrhonization problem because
+	the value that you use may be:
+	- stored in a register (each CPU has it's own registers) and not even synchronized
+	with memory at all.
+	- stored in memory but because of synchronization got meddled with between the two
+	operations that you did on it.
+	- stored in memory and looks differently to the two (or more) CPUs. This cannot
+	happen on Intel but can certainly happen on other platforms.
+
+	When should you use them?
+	- when the atomic operation is the only thing you want to do in the critical
+	section and it satisfies you.
+
+	This is the best synchronization mechanism if you have to have synchronization at all.
+
+- spinlock.
+	These are implemented using atomic variables and yielding.
