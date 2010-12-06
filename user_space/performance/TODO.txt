@@ -1,1 +1,5 @@
 - add an example here that show how long is it to call a system call.
+
+- show that the performance of getpid(2) is good (the manpage states that pids
+	are cached). Show that gettid are not cached and therefore the user code
+	needs to cache it itself.
