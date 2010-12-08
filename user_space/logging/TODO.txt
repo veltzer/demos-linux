@@ -13,8 +13,3 @@
 	or whatever.
 - do an example of showing the nesting level with the debug info automatically!
 	(do this using function entry and exit markers, either explicit or implicit...).
-- do an example which combines everything together:
-	- compiler builtins (__FILE__,...).
-	- nesting levels.
-	- syslog.
-	- backtraces.
