@@ -5,7 +5,11 @@
 /*
  * This example shows how to eliminate lots of redundant C error checking
  * from your code when calling system calls or C APIs from C++ and turning
- * all of those errors in to exceptions...
+ * all of those errors into exceptions...
+ *
+ * Why is this good ? Explain the theory behind exceptions.
+ *
+ * 			Mark Veltzer
  */
 
 // this is the non template approach
@@ -35,7 +39,6 @@ void myhandler(int sig) {
 int main(int argc, char **argv, char **envp) {
 	// here is an example of using this construct
 	int fd[2];
-
 	try {
 		syscall(pipe(fd), -1);
 		syscall(signal(SIGPIPE, myhandler), SIG_ERR);
