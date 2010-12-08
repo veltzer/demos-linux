@@ -13,3 +13,8 @@
 	or whatever.
 - do an example of showing the nesting level with the debug info automatically!
 	(do this using function entry and exit markers, either explicit or implicit...).
+- explain about different alternatives to syslog.
+	(rsyslogd, syslog-ng).
+- explain about the kernel logger.
+
+- read http://linuxpoison.blogspot.com/2008/04/tune-syslogd-for-high-performance.html and think about it.
