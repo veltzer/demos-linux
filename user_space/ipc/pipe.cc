@@ -17,6 +17,8 @@
  * It executes ls which prints to the pipes write side.
  * 	When ls dies this process dies.
  * 	The line after execl doesn't get executed...
+ *
+ * 			Mark Veltzer
  */
 
 void doChildOne(int* fd) {
@@ -60,6 +62,8 @@ int main(int argc,char** argv,char** envp) {
 		doChildTwo(fd);
 	}
 	// close the pipe at the parent
+	// we cannot close before the fork or the children will not be able to use this
+	// pipe...
 	sc(close(fd[0]));
 	sc(close(fd[1]));
 	int status;

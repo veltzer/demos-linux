@@ -27,42 +27,42 @@
  * - add a fork(2) to this demo and show that parent and child can have different names.
  */
 
-void print_process_name() {
+void my_print_process_name() {
 	const unsigned int size=16;
 	char name[size];
-	scie(prctl(PR_GET_NAME,name),"prctl");
+	CHECK_ZERO(prctl(PR_GET_NAME,name));
 	TRACE("process name is [%s]",name);
 }
 
-void get_process_name(char* buffer,unsigned int bufsize) {
+void my_get_process_name(char* buffer,unsigned int bufsize) {
 	const unsigned int size=16;
 	char name[size];
-	scie(prctl(PR_GET_NAME,name),"prctl");
+	CHECK_ZERO(prctl(PR_GET_NAME,name));
 	strncpy(buffer,name,bufsize);
 }
 
-void set_process_name(const char* newname) {
+void my_set_process_name(const char* newname) {
 	const unsigned int size=16;
 	char name[size];
 	strncpy(name,newname,size);
-	scie(prctl(PR_SET_NAME,name),"prctl");
+	CHECK_ZERO(prctl(PR_SET_NAME,name));
 }
 
-void print_process_name_from_proc() {
+void my_print_process_name_from_proc() {
 	my_system("cat /proc/%d/comm",getpid());
 }
 
 int main(int argc, char **argv, char **envp) {
 	TRACE("start");
 	const char* newname="newpname";
-	print_process_name();
-	print_process_name_from_proc();
+	my_print_process_name();
+	my_print_process_name_from_proc();
 	char myname[256];
-	get_process_name(myname,256);
+	my_get_process_name(myname,256);
 	my_system("ps -o comm | grep %s | grep -v grep",myname);
-	set_process_name(newname);
-	print_process_name();
-	print_process_name_from_proc();
+	my_set_process_name(newname);
+	my_print_process_name();
+	my_print_process_name_from_proc();
 	my_system("ps -o comm | grep %s | grep -v grep",newname);
 	TRACE("end");
 	return(0);
