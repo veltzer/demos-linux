@@ -34,8 +34,6 @@
  *                              Mark Veltzer
  * EXTRA_LIBS=-lproc
  *
- * TODO:
- * - communicate between the parent and child and avoid the ugly sleeps.
  */
 void print_status(int status) {
 	if (WIFEXITED(status)) {
