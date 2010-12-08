@@ -20,10 +20,10 @@
  * printf to a file - the answer is faster since it is sending the data through the socket
  * and does not wait for it to be written to disk.
  *
- * 					Mark Veltzer
+ * See a different example of how to use syslog as a general logging and tracing facility
+ * using the vsyslog function.
  *
- * TODO:
- * - show the use of vsyslog
+ * 					Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

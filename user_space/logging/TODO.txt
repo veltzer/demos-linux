@@ -1,16 +1,20 @@
-more examples that I need to put here:
-1. how to use __FILE__, __LINE__, __FUNCTION__.
-	__PRETTY_FUNCTION__ (c++ demangle).
-2. how to print back traces.
-3. measure times for all debugging.
-3. demo on how to put the debug file on a ram disk.
-4. libcwd logging.
-5. boost logging.
-6. buffering examples to show how to line buffer files for logging.
-7. show the difference between syslog times and standard log (printf) times.
+- how to print back traces.
+- measure times for all debugging.
+- demo on how to put the debug file on a ram disk.
+- libcwd logging.
+- boost logging.
+- buffering examples to show how to line buffer files for logging.
+- show the difference between syslog times and standard log (printf) times.
 	explain the difference.
 	explain advantages and disadvantages of using each.
-8. do very fast logging example: open a shared memory and copy messages to it
+- do very fast logging example: open a shared memory and copy messages to it
 	using memcpy and some kind of synchronization.
 	Do a daemon that reads from the shared memory and transfers to syslog
 	or whatever.
+- do an example of showing the nesting level with the debug info automatically!
+	(do this using function entry and exit markers, either explicit or implicit...).
+- do an example which combines everything together:
+	- compiler builtins (__FILE__,...).
+	- nesting levels.
+	- syslog.
+	- backtraces.
