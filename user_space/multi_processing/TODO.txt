@@ -1,6 +1,4 @@
-These are more examples to write under this topic:
 - show a primitive example of pstree.
-
 - extend the make_zombie example.
 	Show that if the parent dies then the child gets
 		adopted by init(1) and is cleared.
