@@ -257,12 +257,6 @@ static inline void do_prog_finish(void) {
 	fflush(stdout);
 }
 
-static inline void print_stats(void) {
-	proc_t myproc;
-	look_up_our_self(&myproc);
-	printf("size is %ld, min_flt is %ld\n",myproc.rss, myproc.min_flt);
-}
-
 static inline void print_stats(pid_t pid) {
 	proc_t myproc;
 	get_proc_stats(pid,&myproc);

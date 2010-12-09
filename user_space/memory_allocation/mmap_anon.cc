@@ -33,6 +33,12 @@ static bool do_mlock=false;
 // do you want to touch the memory after getting it ?
 static bool do_touch=false;
 
+static inline void print_stats(void) {
+	proc_t myproc;
+	look_up_our_self(&myproc);
+	printf("size is %ld, min_flt is %ld\n",myproc.rss, myproc.min_flt);
+}
+
 int main(int argc, char **argv, char **envp) {
 	const int size = 1000000;
 	void      *p;

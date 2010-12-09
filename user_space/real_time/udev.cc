@@ -11,6 +11,8 @@
  * Strictly speaking this demo is not a real time demo per se. It is a demo that will
  * usually be used on embedded systems where a full udev is not available but not
  * necessarily a real time system.
+ *
+ * 				Mark Veltzer
  */
 
 int main(int argc,char** argv,char** envp) {

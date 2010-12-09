@@ -24,6 +24,12 @@
  * EXTRA_LIBS=-lproc
  */
 
+static inline void print_stats(void) {
+	proc_t myproc;
+	look_up_our_self(&myproc);
+	printf("size is %ld, min_flt is %ld\n",myproc.rss, myproc.min_flt);
+}
+
 int main(int argc, char **argv, char **envp) {
 	const unsigned int page_number = 2000;
 	int page_size=getpagesize();
