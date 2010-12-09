@@ -13,6 +13,7 @@
 #include <cpufreq.h>
 #include <proc/readproc.h> // for look_up_our_self(3)
 #include <sys/prctl.h> // for prctl(2)
+#include <string.h> // for strncpy(3)
 
 /*
  * Stringify macros - helps you turn anything into a string

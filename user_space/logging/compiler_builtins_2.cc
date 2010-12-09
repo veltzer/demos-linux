@@ -4,14 +4,14 @@
 #include "us_helper.hh"
 
 /*
- * This is an expanshion of the previous example showing how to use compiler builtins
+ * This is an expansion of the previous example showing how to use compiler builtins
  * and still enjoy the blessings of your own debugging facility.
  *
  * Notice:
  * - the use of pre-processor var args type of macro.
  * - the use of __attribute__((format)) for compile time type checking of arguments
  *   to the tracer.
- * - the use 
+ * - the use of vfprintf to finally log the results.
  *
  * 					Mark Veltzer
  *
