@@ -6,6 +6,8 @@
 #include <errno.h> // for errno
 #include <unistd.h> // for getpagesize(2)
 
+#include "us_helper.hh"
+
 #define HANDLE_SEGV
 
 #ifdef HANDLE_SEGV
@@ -13,7 +15,6 @@ static void handler(int sig, siginfo_t *si, void *unused) {
 	printf("Got SIGSEGV at address: 0x%lx\n",(long) si->si_addr);
 	exit(EXIT_FAILURE);
 }
-#endif // HANDLE_SEGV
 
 static void register_handler() {
 	struct sigaction sa;
@@ -25,6 +26,7 @@ static void register_handler() {
 		exit(errno);
 	}
 }
+#endif // HANDLE_SEGV
 
 const void* mymalloc(unsigned int size,int protect) {
 	if(protect) {
@@ -33,7 +35,7 @@ const void* mymalloc(unsigned int size,int protect) {
 			perror("memalign");
 			exit(errno);
 		}
-		int val=mprotect(buf,size,PROT_NONE);
+		int val=mprotect(buf,size,PROT_READ);
 		if(val==-1) {
 			perror("error in mprotect");
 			exit(1);
@@ -65,11 +67,13 @@ void bug_doing_write(char* buf) {
 	}
 }
 
-void bug_doing_read(char* buf) {
+int bug_doing_read(char* buf) {
 	int i;
+	int sum=0;
 	for(i=0;i<10;i++) {
-		char t __attribute__((unused))=buf[i];
+		sum+=buf[i];
 	}
+	return sum;
 }
 
 int main(int argc,char** argv,char** envp) {
@@ -79,8 +83,11 @@ int main(int argc,char** argv,char** envp) {
 
 	char* buffer=(char*)mymalloc(10,1);
 
+	TRACE("before trying to read the memory");
+	int sum=bug_doing_read(buffer);
+	TRACE("sum is %d\n",sum);
+	TRACE("before trying to write the memory");
 	bug_doing_write(buffer);
-	bug_doing_read(buffer);
 
 	free(buffer);
 	return(0);

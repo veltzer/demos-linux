@@ -24,7 +24,7 @@ void myhandler(enum mcheck_status status) {
 			break;
 	}
 	printf("state is %s\n",state);
-	abort();
+	//abort();
 }
 
 int main(int argc,char** argv,char** envp) {
@@ -33,16 +33,24 @@ int main(int argc,char** argv,char** envp) {
 	// This call is neccessary if you havent linked with -lmcheck or if you really
 	// want to use your own handler.
 	mcheck(myhandler);
-	char* buf=(char*)malloc(10);
+	const int size_of_buffer=10;
+	char* buf=(char*)malloc(size_of_buffer);
+	char* buf2=(char*)malloc(size_of_buffer);
+	const int to_overrun=1;
 	int i;
-	for(i=0;i<1000;i++) {
+	for(i=0;i<size_of_buffer+to_overrun;i++) {
 		buf[i]=i%26+'a';
 	}
-	buf[1000]='\0';
+	for(i=-to_overrun;i<0;i++) {
+		buf2[i]=i%26+'a';
+	}
+	buf[size_of_buffer+to_overrun]='\0';
 	printf("buf is %s\n",buf);
 	// check the status of our allocated chunk...
 	int status=mprobe(buf);
+	int status2=mprobe(buf2);
 	printf("You will not reach this line if the probe fails");
 	printf("status is %d\n",status);
+	printf("status is %d\n",status2);
 	return(0);
 }
