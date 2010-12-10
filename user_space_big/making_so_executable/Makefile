@@ -11,7 +11,7 @@ ALL_DEPS:=Makefile
 # on Intel this usually works without the -fpic but use it none
 # the less, you can also add -nostdlib to avoid the default 
 # bahviour of linking with standard C/C++ runtime libraries.
-FLAGS_FOR_SHARED_LIB:=-shared
+FLAGS_FOR_SHARED_LIB:=-shared -Xlinker -e -Xlinker my_entry
 # These are the libraries used by your library
 EXTRA_LIBS:=
 

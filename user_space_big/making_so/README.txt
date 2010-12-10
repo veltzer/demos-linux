@@ -1,6 +1,6 @@
 This demo shows all the required steps needed in order to make a dynamic library:
 - write a bunch of c/c++ files with headers interface files.
-- compile them all, prefereably with -O2 and -Wall -WerrorO.
+- compile them all, prefereably with -O2 and -Wall -Werror.
 - link them with -shared -fpic (-fpic not strictly needed on Intel).
 - library name should be lib[libname].so
 - compile an application.

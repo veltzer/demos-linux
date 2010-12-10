@@ -15,7 +15,8 @@ static double (*psin)(double);
  */
 static void init(void) {
 	TRACE("in here");
-	handle=dlopen("/lib/tls/i686/cmov/libm.so.6", RTLD_LAZY);
+	//handle=dlopen("/lib/tls/i686/cmov/libm.so.6", RTLD_LAZY);
+	handle=dlopen("/lib/libm-2.12.1.so", RTLD_LAZY);
 	if(handle==NULL) {
 		fprintf(stderr,"error in dlopen [%s]\n",dlerror());
 		exit(1);
