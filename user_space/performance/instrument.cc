@@ -15,7 +15,8 @@
  *   code from the main code and is compiled without the instrumentation flags.
  * - It seems that printf is inlined also and so you have to tell the compiler not to instrument
  *   that as well.
- * - Since I do not wish to instrument main then I add it to the flags as well.
+ * - Since I do not wish to instrument main then I put an attribute on it not to be
+ *   instrumented. 
  *
  *              Mark Veltzer
  *
