@@ -54,4 +54,4 @@ ErrorHandle: example of throwing all OS interfaces as C++ exception and cutting 
 
 Syncronization and Asynchronization
 
-BreakOut: demostrates how to cause a thread that is stuck in a long system call to break out of it. The idea is to generate a signal and to define that signal as an interrupt signal. This will not cause the system call to be restarted but rather the system call (in this examples case read(2)) will return with an error(-1) and the error code will be -EINTR.
+

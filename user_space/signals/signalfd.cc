@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*
+ * This demo of signalfd was stolen shamelessly from the signalfd(2) manpage.
+ *
+ * 			Mark Veltzer
+ */
+
 #define handle_error(msg) \
 do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
