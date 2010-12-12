@@ -13,6 +13,12 @@
 #include <string.h>
 #include <strings.h>
 
+/*
+ * This is a demo of a socket server implementation in pure C in Linux
+ *
+ * 			Mark Veltzer
+ */
+
 int main(int argc, char **argv) {
 	int brsock, sendsock;
 	ssize_t datalen;

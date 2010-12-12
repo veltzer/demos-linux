@@ -4,6 +4,16 @@
 #include <stdio.h>
 
 /*
+ * This demp demostrates C++ style exception handling as response to OS signals.
+ *
+ * Things to notice:
+ * - the need to unblock the signal in the signal handler
+ * - the fact that raise(3) and kill(2) do not work exactly the same.
+ *
+ * 			Mark Veltzer
+ */
+
+/*
  * static void printStatus() {
  *      sigset_t old;
  *      if(sigprocmask(SIG_BLOCK,NULL,&old)==-1) {

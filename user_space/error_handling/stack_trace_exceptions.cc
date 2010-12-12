@@ -5,6 +5,15 @@
 #include "demangle.hh"
 
 /*
+ * This is a C++ example of how to create exceptions which contain a stack trace
+ * of where they occured. This uses the backtrace function.
+ *
+ * Note:
+ * - the '-rdynamic' flag is needed if the 'backtrace_symbols' function is to
+ *   work and return symbols to you. 
+ *
+ * 			Mark Veltzer
+ *
  * EXTRA_LIBS=-rdynamic
  */
 

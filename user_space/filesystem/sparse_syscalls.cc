@@ -6,7 +6,9 @@
 #include <stdlib.h>
 
 /*
- * This example explores sparse files on a unix system.
+ * This example explores sparse files on a UNIX system.
+ *
+ * 			Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	const char *buf = "hello";
