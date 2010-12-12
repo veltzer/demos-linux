@@ -2,6 +2,12 @@
 #include <stdlib.h> // for exit(3)
 #include <stdio.h> // for perror(3)
 
+/*
+ * This is a demo of using the GNU C libraries hash table implementation
+ *
+ * 			Mark Veltzer
+ */
+
 // the hash table
 static hsearch_data HTAB;
 

@@ -1,0 +1,5 @@
+- demostrate stuff you can do with sigaction(2) as opposed to signal(2).
+
+- demostrate the use of sigpending(2).
+
+- many more signal functions: see man -k sig | grep 2

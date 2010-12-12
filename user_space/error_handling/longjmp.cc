@@ -1,5 +1,12 @@
-#include <stdio.h>
-#include <setjmp.h>
+#include <stdio.h> // for fprintf(3)
+#include <setjmp.h> // for longjmp(3), setjmp(3)
+
+/*
+ * This is a demo of how to use the setjmp/longjmp in order to simulate exception
+ * handling in C code.
+ *
+ * 			Mark Veltzer
+ */
 
 // This buffer saves the context of the jump. We need one for each unique
 // point we wish to jump to
