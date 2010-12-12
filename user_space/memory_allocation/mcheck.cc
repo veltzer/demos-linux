@@ -3,6 +3,12 @@
 #include <mcheck.h> // for mcheck(3), states, mprobe(3)
 #include <string.h> // for strcpy(3)
 
+/*
+ * This is a demo of using the mcheck feature of the GNU C standard library
+ *
+ * 		Mark Veltzer
+ */
+
 void myhandler(enum mcheck_status status) {
 	printf("inside my handler, careful not to do something complicated here since the system is in a bad state as it is...\n");
 	char state[256];
@@ -31,7 +37,8 @@ int main(int argc,char** argv,char** envp) {
 	// I am using my own handler but the default one is ok (prints an error
 	// message and aborts).
 	// This call is neccessary if you havent linked with -lmcheck or if you really
-	// want to use your own handler.
+	// want to use your own handler. I haven't linked with -lmcheck so I will
+	// use my own handler...
 	mcheck(myhandler);
 	const int size_of_buffer=10;
 	char* buf=(char*)malloc(size_of_buffer);

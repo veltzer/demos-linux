@@ -8,6 +8,13 @@
 
 #include "us_helper.hh"
 
+/*
+ * This is a demo of the use of mprotect(2) to protect your memory and thus try to
+ * find a memory violation.
+ * 
+ * 				Mark Veltzer
+ */
+
 #define HANDLE_SEGV
 
 #ifdef HANDLE_SEGV

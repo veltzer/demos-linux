@@ -1,33 +1,34 @@
 TODO:
-1) here is a link:
+
+various replacements for malloc:
+- here is a link:
 	http://hackingheaven.com/
 	there is a mmalloc library there - check it out.
 		demo it.
-2) demo dmalloc.
-3) demo electric fence.
-5) demo valgrind.
-6) demo obstacks in GNU.
-7) demo malloc hooks.
-8) demo mallinfo and more of the functions in info libc.
-9) demo slab allocation (is there a library for it ?!?)
+	show example of mmalloc and it's use to reduce malloc contention for many core
+		systems. This library allows to create many memory pools and thus we can
+		create a pool per thread and thus have no contention between threads.
+- demo slab allocation (is there a library for it ?!?)
+- show an example of writing a good cache allocator with little contention (using spin locks for multi thread access).
 
-9) show an example of malloc hooks and real time applications:
-	show how to replace malloc with a function generating an exception.
-10) show an example of third party libraries and malloc - if they call malloc
-	we can write a better malloc version - say using obstacks or caches.
-11) show example of mmalloc and it's use to reduce malloc contention for many core
-	systems. This library allows to create many memory pools and thus we can
-	create a pool per thread and thus have no contention between threads.
-12) show how to modify malloc options so that it will align the pointers it
+glibc malloc issues:
+- demo mallinfo and more of the functions in info libc.
+- do example of using the mtrace function.
+- demo obstacks in GNU.
+
+malloc and cache lines:
+- show how to modify malloc options so that it will align the pointers it
 	returns differently (more tightly or more loosly). This is useful to
 	make the data better aligned to CPU cache lines. Find out what the Intel
 	CPU cache line and show how to allocate aligned to that.
 	you can see the cache lines in /proc/cpuinfo on recent linux kernels.
-13) do an example of checking at compile time that a structure fits in a CPU cache line.
-14) do an example of finding out the cache line of the cpu at runtime or compile time.
+- do an example of checking at compile time that a structure fits in a CPU cache line.
+- do an example of finding out the cache line of the cpu at runtime or compile time.
 	show how to allocate memory which is aligned to that cache line.
-15) show an example of writing a good cache allocator with little contention (using spin locks for
-	multi thread access).
 
-16) do example of using the mtrace function.
-17) show how to map hugetlbfs pages (huge pages) into user memory.
+allocating memory from kernel:
+- show how to map hugetlbfs pages (huge pages) into user memory.
+
+malloc debuggers:
+- memwatch http://www.linkdata.se/sourcecode.html
+- yamd (yet another malloc debugger).
