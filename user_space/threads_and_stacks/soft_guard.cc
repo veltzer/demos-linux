@@ -1,4 +1,3 @@
-//#define _GNU_SOURCE
 #include <pthread.h> // for pthread_create, pthread_join
 #include <stdio.h> // for printf(3)
 #include <stdlib.h> // for exit(3)
@@ -7,9 +6,14 @@
 #include <sys/syscall.h> // for syscall(2)
 #include <strings.h> // for bzero(3)
 
+#include "us_helper.hh"
+
 /*
-	This test shows how to test for bad stack state (distance from
-	end of the stack is too short...)
+ * This test shows how to test for bad stack state (distance from
+ * end of the stack is too short...)
+ *
+ * 				Mark Veltzer
+ *
  * EXTRA_LIBS=-lpthread
 */
 
@@ -19,18 +23,10 @@ typedef struct big_struct {
 
 void check_stack() {
 	pthread_attr_t at;
-	int res=pthread_getattr_np(pthread_self(),&at);
-	if(res!=0) {
-		fprintf(stderr,"error in pthread_create");
-		exit(-1);
-	}
+	CHECK_ZERO(pthread_getattr_np(pthread_self(),&at));
 	void* stackaddr;
 	size_t stacksize;
-	res=pthread_attr_getstack(&at,&stackaddr,&stacksize);
-	if(res!=0) {
-		fprintf(stderr,"error in pthread_create");
-		exit(-1);
-	}
+	CHECK_ZERO(pthread_attr_getstack(&at,&stackaddr,&stacksize));
 	void* myaddr=&at;
 	unsigned int diff=(char*)myaddr-(char*)stackaddr;
 	if(diff<stacksize*0.2) {
@@ -47,11 +43,7 @@ void check_stack() {
 		fprintf(stderr,"\n");
 		exit(-1);
 	}
-	res=pthread_attr_destroy(&at);
-	if(res!=0) {
-		fprintf(stderr,"error in pthread_create");
-		exit(-1);
-	}
+	CHECK_ZERO(pthread_attr_destroy(&at));
 }
 
 void call_big() {
@@ -68,16 +60,7 @@ void* doit(void*) {
 
 int main(int argc,char** argv,char** envp) {
 	pthread_t t;
-	int res;
-	res=pthread_create(&t,NULL,doit,NULL);
-	if(res!=0) {
-		fprintf(stderr,"error in pthread_create");
-		exit(-1);
-	}
-	res=pthread_join(t,NULL);
-	if(res!=0) {
-		fprintf(stderr,"error in pthread_join");
-		exit(-1);
-	}
+	CHECK_ZERO(pthread_create(&t,NULL,doit,NULL));
+	CHECK_ZERO(pthread_join(t,NULL));
 	return 0;
 }

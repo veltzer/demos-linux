@@ -1,5 +1,11 @@
 #include <stdio.h> // for fprintf(3)
 
+/*
+ * This is a demo of a segmentation fault created by calling a function badly.
+ *
+ * 		Mark Veltzer
+ */
+
 void func() {
 	int i;
 	const char* y __attribute__((unused))="123123dsfshfdkj$%^$%&^^%&@";

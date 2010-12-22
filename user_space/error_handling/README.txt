@@ -3,13 +3,7 @@ code in systems programming on a linux system.
 
 - some of these examples need to be compiled with -rdynamic and -g to work (tracing stuff)
 
-// Creating errors (this is the easy part)
-
-You can trace the actual signal sent by the OS using strace.
-
-CreateFPE: demostrates a very short program creating a floating point exception.
-
-CreateSEGV: an easy demostration about creating a segmentation fault.
+- you can trace the actual signal sent by the OS using strace.
 
 // Catching signals
 
@@ -33,10 +27,6 @@ LongJmpStackTrace: demostrates longjmp with easy to use C wrappers
 
 // C++
 
-ThrowCatchSigs: demostrates C++ style exception handling as response to OS signals.
-	Things to notice:
-	- the need to unblock the signal in the signal handler
-	- the fact that raise(3) and kill(2) do not work exactly the same.
 
 StackedTracedExceptions: demostrates how to create stack traced exceptions in C++.
 	Notice that if you compile with -O2 you get less stack frames in the output
@@ -49,7 +39,3 @@ StackedTracedExceptions: demostrates how to create stack traced exceptions in C+
 	line using the 'c++filt' tool or in the code by using the C++ library.
 
 ErrorHandle: example of throwing all OS interfaces as C++ exception and cutting on the size of code you need to write.
-
-Syncronization and Asynchronization
-
-BreakOut: demostrates how to cause a thread that is stuck in a long system call to break out of it. The idea is to generate a signal and to define that signal as an interrupt signal. This will not cause the system call to be restarted but rather the system call (in this examples case read(2)) will return with an error(-1) and the error code will be -EINTR.

@@ -21,6 +21,8 @@
  * You can also look at how this program is working using this:
  * while [[ true ]]; do ps -C malloc_lazy.exe -o comm,min_flt,rss; sleep 1;done
  *
+ * 				Mark Veltzer
+ *
  * EXTRA_LIBS=-lproc
  */
 

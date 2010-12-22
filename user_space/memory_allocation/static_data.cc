@@ -1,4 +1,3 @@
-#include <stdio.h> // for printf(3)
 #include <stdlib.h> // for atoi(3)
 #include <string.h> // for memset(3)
 
@@ -34,7 +33,7 @@ int main(int argc,char** argv,char** envp) {
 	for(unsigned int l=0;l<size;l++) {
 		sum+=myarray[l];
 	}
-	printf("sum is %u\n",sum);
+	TRACE("sum is %u\n",sum);
 	my_system("ls -l %s",argv[0]);
 	return(0);
 }
