@@ -28,7 +28,7 @@ MODULE_DESCRIPTION("Demo module for testing");
 static int __init mod_init(void) {
 	struct resource *rp;
 
-	PRINT("start");
+	INFO("start");
 	rp = iomem_resource.child;
 	while (rp) {
 		printk("  %0*llx-%0*llx\n",
@@ -43,7 +43,7 @@ static int __init mod_init(void) {
 
 
 static void __exit mod_exit(void) {
-	PRINT("start");
+	INFO("start");
 }
 
 

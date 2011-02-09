@@ -31,7 +31,7 @@ static int __init mod_init(void) {
 	//alloc_bootmem(10000000);
 	p = alloc_bootmem(PAGE_SIZE);
 	if (p == NULL) {
-		PRINT("unable to allocate bootmem");
+		INFO("unable to allocate bootmem");
 		return(-1);
 	}
 	return(0);

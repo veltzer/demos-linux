@@ -71,10 +71,10 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 			return(-EFAULT);
 		}
 		DEBUG("after copy");
-		PRINT("b.u1 is %llu", b.u1);
-		PRINT("b.u2 is %llu", b.u2);
-		PRINT("b.d1 is %lld", b.d1);
-		PRINT("b.d2 is %lld", b.d2);
+		INFO("b.u1 is %llu", b.u1);
+		INFO("b.u2 is %llu", b.u2);
+		INFO("b.d1 is %lld", b.d1);
+		INFO("b.d2 is %lld", b.d2);
 		b.udiv = b.u1 / b.u2;
 		b.umul = b.u1 * b.u2;
 		b.uadd = b.u1 + b.u2;

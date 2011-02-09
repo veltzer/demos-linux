@@ -32,24 +32,24 @@ static void capi_print_addressinfo(void *logical_adr) {
 	struct page *page = virt_to_page(logical_adr);
 
 	if (page == NULL) {
-		PRINT("unable to translate address %p to page", logical_adr);
+		INFO("unable to translate address %p to page", logical_adr);
 		return;
 	}
-	PRINT("address %p, page:%p flags:0x%0*lx mapping:%p mapcount:%d count:%d\n",
+	INFO("address %p, page:%p flags:0x%0*lx mapping:%p mapcount:%d count:%d\n",
 	      logical_adr,
 	      page, (int)(2 * sizeof(unsigned long)),
 	      page->flags, page->mapping,
 	      page_mapcount(page), page_count(page));
 
-	PRINT("PG_lru is %lu", page->flags & (1 << PG_lru));
-	PRINT("PG_private is %lu", page->flags & (1 << PG_private));
-	PRINT("PG_locked is %lu", page->flags & (1 << PG_locked));
-	PRINT("PG_buddy is %lu", page->flags & (1 << PG_buddy));
-	PRINT("PG_writeback is %lu", page->flags & (1 << PG_writeback));
-	PRINT("PG_slab is %lu", page->flags & (1 << PG_slab));
-	PRINT("PG_swapcache is %lu", page->flags & (1 << PG_swapcache));
-	PRINT("PG_active is %lu", page->flags & (1 << PG_active));
-	PRINT("PG_reserved is %lu", page->flags & (1 << PG_reserved));
+	INFO("PG_lru is %lu", page->flags & (1 << PG_lru));
+	INFO("PG_private is %lu", page->flags & (1 << PG_private));
+	INFO("PG_locked is %lu", page->flags & (1 << PG_locked));
+	INFO("PG_buddy is %lu", page->flags & (1 << PG_buddy));
+	INFO("PG_writeback is %lu", page->flags & (1 << PG_writeback));
+	INFO("PG_slab is %lu", page->flags & (1 << PG_slab));
+	INFO("PG_swapcache is %lu", page->flags & (1 << PG_swapcache));
+	INFO("PG_active is %lu", page->flags & (1 << PG_active));
+	INFO("PG_reserved is %lu", page->flags & (1 << PG_reserved));
 }
 
 
@@ -58,10 +58,10 @@ static void capi_debug_address(unsigned int phys) {
 	void         *logical2 = phys_to_virt(phys);
 	unsigned int phys2 = __pa(logical);
 
-	PRINT("phys is %u", phys);
-	PRINT("logical is %p", logical);
-	PRINT("phys2 is %u", phys2);
-	PRINT("logical2 is %p", logical2);
+	INFO("phys is %u", phys);
+	INFO("logical is %p", logical);
+	INFO("phys2 is %u", phys2);
+	INFO("logical2 is %p", logical2);
 	capi_print_addressinfo(logical);
 }
 
@@ -86,10 +86,10 @@ static int __init mod_init(void) {
 		release_mem_region(physaddr, size);
 		return(1);
 	}
-	PRINT("got logical address %p", logical);
+	INFO("got logical address %p", logical);
 	//memset(logical,0,size);
 	//*logical=5;
-	//PRINT("read %c",*logical);
+	//INFO("read %c",*logical);
 	//logical=phys_to_virt(physaddr);
 	//for(i=0;i<170*1024*1024;i++) {
 	//	logical[i]=0;
