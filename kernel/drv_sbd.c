@@ -1,15 +1,4 @@
-/*
- * A sample, extra-simple block driver. Updated for kernel 2.6.31.
- *
- * (C) 2003 Eklektix, Inc.
- * (C) 2010 Pat Patterson <pat at superpat dot com>
- * Redistributable under the terms of the GNU GPL.
- *
- * References:
- * LDD3 - chapter on block device drivers.
- * http://lwn.net/Articles/58720/
- * http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/
- */
+#include <linux/module.h> // for the MODULE_* stuff
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */
 
@@ -18,13 +7,30 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A simple demo of how to write a block device driver");
+MODULE_VERSION("1.4.0");
 
-//static char *Version = "1.4";
+/*
+ * A sample, extra-simple block driver. Updated for kernel 2.6.31.
+ *
+ * (C) 2003 Eklektix, Inc.
+ * (C) 2010 Pat Patterson <pat at superpat dot com>
+ * Redistributable under the terms of the GNU GPL.
+ * Changed by Mark Veltzer to match newer kernels, added comments and debug.
+ *
+ * References:
+ * LDD3 - chapter on block device drivers.
+ * http://lwn.net/Articles/58720/
+ * http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/
+ *
+ * TODO:
+ * - add a user space script that shows how to format, mount use and unmount the device.
+ */
+
 static int major_num = 0;
 module_param(major_num, int, 0);
 static int logical_block_size = 512;
 module_param(logical_block_size, int, 0);
-static int nsectors = 1024; /* How big the drive is */
+static int nsectors = 65536; /* How big the drive is, this is number of sectors where each sector is as above */
 module_param(nsectors, int, 0);
 static int debug = 0;
 static int dowork = 1;
@@ -51,7 +57,8 @@ static struct sbd_device {
 } Device;
 
 /*
- * Handle an I/O request.
+ * This is our own helper function to handle a single read or write request. We obviously
+ * do a memcpy since our device is very simple.
  */
 static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 		unsigned long nsect, char *buffer, int write) {
@@ -68,16 +75,25 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 		memcpy(buffer, dev->data + offset, nbytes);
 }
 
+/*
+ * Handle many I/O requests on the queue. This is a contract function with the kernel.
+ * This is the function that will be called by the kernel for us to handle requests.
+ * We pump the request queue here asking for requests. Each request is a structure with
+ * all the data of the request (is it read or write, where from, how much,...).
+ */
 static void sbd_request(struct request_queue *q) {
 	struct request *req;
 
 	req = blk_fetch_request(q);
 	while (req != NULL) {
 		if (!blk_fs_request(req)) {
+			// we go a request that we can not handle. We give errors on these.
+			// a real device should handle these as well...
 			printk (KERN_NOTICE "Skip non-CMD request\n");
 			__blk_end_request_all(req, -EIO);
 			continue;
 		}
+		// from now on we know that we have a read or write request
 		if(debug) {
 			printk(KERN_DEBUG "sectors is %u, pos is %llu, buffer is %p, rq_data_dir is %d",
 				blk_rq_sectors(req),
@@ -126,7 +142,9 @@ static int __init sbd_init(void) {
 	 * Set up our internal device.
 	 */
 	Device.size = nsectors * logical_block_size;
+	// setup a spin lock to be used for the device
 	spin_lock_init(&Device.lock);
+	// allocate the device (we use the .data user pointer to store it)
 	Device.data = vmalloc(Device.size);
 	if (Device.data == NULL)
 		return -ENOMEM;
@@ -135,7 +153,7 @@ static int __init sbd_init(void) {
 	 */
 	Queue = blk_init_queue(sbd_request, &Device.lock);
 	if (Queue == NULL)
-		goto out;
+		goto out_free;
 	blk_queue_logical_block_size(Queue, logical_block_size);
 	/*
 	 * Get registered.
@@ -143,7 +161,7 @@ static int __init sbd_init(void) {
 	major_num = register_blkdev(major_num, "sbd");
 	if (major_num <= 0) {
 		printk(KERN_WARNING "sbd: unable to get major number\n");
-		goto out;
+		goto out_queue;
 	}
 	/*
 	 * And the gendisk structure.
@@ -162,15 +180,19 @@ static int __init sbd_init(void) {
 
 	return 0;
 
+//out_deldisk:
+//	del_gendisk(Device.gd);
+//	put_disk(Device.gd);
 out_unregister:
 	unregister_blkdev(major_num, "sbd");
-out:
+out_queue:
+	blk_cleanup_queue(Queue);
+out_free:
 	vfree(Device.data);
 	return -ENOMEM;
 }
 
-static void __exit sbd_exit(void)
-{
+static void __exit sbd_exit(void) {
 	del_gendisk(Device.gd);
 	put_disk(Device.gd);
 	unregister_blkdev(major_num, "sbd");
