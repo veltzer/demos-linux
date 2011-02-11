@@ -1,2 +1,2 @@
 - If you want to find the kernel headers that you are using they are under:
-	/usr/src/`uname -r`/include/linux on ubuntu systems.
+	/usr/src/linux-headers-`uname -r`/include/linux on ubuntu systems.

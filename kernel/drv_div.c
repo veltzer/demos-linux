@@ -1,34 +1,22 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/device.h>
-#include <linux/types.h>
-#include <linux/proc_fs.h>
-#include <linux/mm.h>
+#include <linux/module.h> // for MODULE_* stuff
+#include <linux/cdev.h> // for a character device
+#include <linux/device.h> // to register our device
+#include <linux/uaccess.h> // copy_to_user, copy_from_user
+#include <linux/slab.h> // kmalloc, kfree
+#include <linux/fs.h> // for alloc_chrdev_region, register_chrdev_region, unregister_chrdev_region, struct file_operations
 
 #include "kernel_helper.h" // our own helper
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Driver that adds 64 bit integer arithmetic operations to the kernel");
 
 #include "div_buffer.h"
 
 /*
- *      Driver that demostrates arithmetic operations in the kernel...
-This demo is all about doing arithmetic in the kernel.
-======================================================
-- If you compile on kernel 2.6.31-14-generic (ubuntu 9.10)
-- If you compile on kernel 2.6.28-15-generic (ubuntu 9.04)
-	you will find that the symbol __udivdi3 is missing.
-	You see that in two place:
-	- when you compile the module you get the warning:
-	WARNING: "__udivdi3" [/home/mark/bla/kernel_arithmetic/demo.ko] undefined!
-	- when you try to insmod the module you get the error:
-	[12697.177574] demo: Unknown symbol __udivdi3
-	This means that you need to link with libgcc.
-	just run 'make relink'.
+ * Why do you need this module?
+ * Because on a 32 bit intel system you do not have long long operations for division.
+ * Other operations work fine btw.
  */
 
 // parameters for this module
@@ -95,7 +83,6 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	}
 	return(-EFAULT);
 }
-
 
 /*
  * The file operations structure.
@@ -172,7 +159,6 @@ goto_nothing:
 	return(-1);
 }
 
-
 static void unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
@@ -191,13 +177,43 @@ static void __exit mod_exit(void) {
 	unregister_dev();
 }
 
-
 module_init(mod_init);
 module_exit(mod_exit);
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+// this is what gives us the division...
+#include <asm/div64.h>
+
+/*
+ * The header above gave us functions as div_u64_rem. We can either use them directly or
+ * we could define the functions under the names __udivdi3 __divdi3 which are the names that
+ * gcc plants to be searched in case we want regular code like:
+ * long long x=
+ * long long y=
+ * long long z=x/y
+ * to work.
+ * See the following code...
+ */
+
+unsigned long long __udivdi3(unsigned long long divided, unsigned long long divisor) {
+	unsigned int reminder;
+
+	DEBUG("divided is %llu", divided);
+	DEBUG("divisor is %llu", divisor);
+	return(div_u64_rem(divided, divisor, &reminder));
+}
+
+
+long long __divdi3(long long divided, long long divisor) {
+	unsigned int reminder;
+
+	DEBUG("divided is %lld", divided);
+	DEBUG("divisor is %lld", divisor);
+	return(div_u64_rem(divided, divisor, &reminder));
+}
+
+/* disregard the next section. It is documentation for myself since it took me quite a long
+ * time to find the above and I want to preserve the road I got there by...
+ */
 
 // this is where the 64 bit division magic starts...
 
@@ -239,22 +255,15 @@ MODULE_DESCRIPTION("Demo module for testing");
 // there is no such file for x86
 //#include <math-emu/sfp-util.h>
 
-// this is what gives us the division...
-#include <asm/div64.h>
-
-unsigned long long __udivdi3(unsigned long long divided, unsigned long long divisor) {
-	unsigned int reminder;
-
-	DEBUG("divided is %llu", divided);
-	DEBUG("divisor is %llu", divisor);
-	return(div_u64_rem(divided, divisor, &reminder));
-}
-
-
-long long __divdi3(long long divided, long long divisor) {
-	unsigned int reminder;
-
-	DEBUG("divided is %lld", divided);
-	DEBUG("divisor is %lld", divisor);
-	return(div_u64_rem(divided, divisor, &reminder));
-}
+/*
+- If you compile on kernel 2.6.31-14-generic (ubuntu 9.10)
+- If you compile on kernel 2.6.28-15-generic (ubuntu 9.04)
+	you will find that the symbol __udivdi3 is missing.
+	You see that in two place:
+	- when you compile the module you get the warning:
+	WARNING: "__udivdi3" [/home/mark/bla/kernel_arithmetic/demo.ko] undefined!
+	- when you try to insmod the module you get the error:
+	[12697.177574] demo: Unknown symbol __udivdi3
+	This means that you need to link with libgcc.
+	just run 'make relink'.
+*/
