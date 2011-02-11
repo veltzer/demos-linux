@@ -12,20 +12,20 @@
 #include <linux/mm.h>
 #include <linux/pagemap.h>
 
-#include "ioctls.h"
-
-/*
- *      This driver demostrates how to map user space (virtual space) to kernel space.
- *      You can either get it fragmented in pages, or if you really need to,
- *      use the MMU to map it to a single kernel side linear address...
- */
-
-#include "shared.h"
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("get_user_pages demo");
+
+/*
+ *	This driver demostrates how to map user space (virtual space) to kernel space.
+ *	You can either get it fragmented in pages, or if you really need to,
+ *	use the MMU to map it to a single kernel side linear address...
+ */
+
+#include "ioctls.h"
+#include "shared.h"
 
 // parameters for this module
 
@@ -49,10 +49,10 @@ struct kern_dev {
 };
 
 // static data
-static struct kern_dev *pdev;
-static const char      *name = "demo";
-static struct class    *my_class;
-static struct device   *my_device;
+static struct kern_dev* pdev;
+static const char* name="demo";
+static struct class* my_class;
+static struct device* my_device;
 
 // now the functions
 
@@ -145,7 +145,7 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	DEBUG("start with ioctl %u", cmd);
 	switch (cmd) {
 	/*
-	 *      This is asking the kernel to map the memory to kernel space.
+	 *	This is asking the kernel to map the memory to kernel space.
 	 */
 	case IOCTL_DEMO_MAP:
 		// get the data from the user
@@ -166,8 +166,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		/*
 		 * // make sure that the user data is page aligned...
 		 * if(((unsigned int)b.pointer)%PAGE_SIZE!=0) {
-		 *      ERROR("ERROR: pointer is not page aligned");
-		 *      return -EFAULT;
+		 *	ERROR("ERROR: pointer is not page aligned");
+		 *	return -EFAULT;
 		 * }
 		 * DEBUG("after modulu check");
 		 */
@@ -184,15 +184,15 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		down_write(&current->mm->mmap_sem);
 		// rw==READ means read from drive, write into memory area
 		res = get_user_pages(
-		        current,
-		        current->mm,
-		        aligned,
-		        nr_pages,
-		        1,                                                                                                                                                          /* write */
-		        0,                                                                                                                                                          /* force */
-		        pages,
-		        NULL
-		        );
+			current,
+			current->mm,
+			aligned,
+			nr_pages,
+			1,/* write */
+			0,/* force */
+			pages,
+			NULL
+		);
 		vma = find_vma(current->mm, bpointer);
 		vma->vm_flags |= VM_DONTCOPY;
 		up_write(&current->mm->mmap_sem);
@@ -227,8 +227,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      This is asking the kernel to unmap the data
-	 *      No arguments are passed
+	 *	This is asking the kernel to unmap the data
+	 *	No arguments are passed
 	 */
 	case IOCTL_DEMO_UNMAP:
 		// this function does NOT return an error code. Strange...:)
@@ -243,8 +243,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      This is asking the kernel to read the data.
-	 *      No arguments are passed
+	 *	This is asking the kernel to read the data.
+	 *	No arguments are passed
 	 */
 	case IOCTL_DEMO_READ:
 		cptr = (char *)ptr;
@@ -258,8 +258,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      This is asking the kernel to write on our data
-	 *      argument is the constant which will be used...
+	 *	This is asking the kernel to write on our data
+	 *	argument is the constant which will be used...
 	 */
 	case IOCTL_DEMO_WRITE:
 		memset(ptr, arg, size);
@@ -319,13 +319,13 @@ static int register_dev(void) {
 	DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        name,
-	        0
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		name,
+		0
+	);
 	if (my_device == NULL) {
 		DEBUG("cannot create device");
 		goto goto_create_device;

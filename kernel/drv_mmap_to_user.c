@@ -14,13 +14,16 @@
 #include <linux/pagemap.h>
 #include <linux/version.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
+
 #include "ioctls.h"
 
 /*
- *      This is a driver that maps memory allocated by the kernel into user space.
- *      The method is a user drive ioctl.
- *
+ *	This is a driver that maps memory allocated by the kernel into user space.
+ *	The method is a user driven ioctl.
+ *	The device does not support the 'mmap' operation (as you can see from its
+ *	ops table below) but rather does the equivalent of mmap from it's ioctl
+ *	context.
  */
 
 // parameters for this module
@@ -46,9 +49,9 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char      *name = "demo";
-static struct class    *my_class;
-static struct device   *my_device;
+static const char* name = "demo";
+static struct class* my_class;
+static struct device* my_device;
 
 // do we want to use kmalloc or get_free_pages ?
 static bool do_kmalloc = true;
@@ -110,14 +113,13 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 	oldval = filp->private_data;
 	filp->private_data = kptr;
 	uptr = do_mmap_pgoff(
-	        filp,                                                                                                                      /* file pointer for which filp->mmap will be called */
-	        0,                                                                                                                         /* address - this is the address we recommend for user space - best not to ... */
-	        size,                                                                                                                      /* size */
-	        PROT_READ | PROT_WRITE,                                                                                                    /* protection */
-	        //PROT_READ, /* protection */
-	        flags,                                                                                                                     /* flags */
-	        0                                                                                                                          /* pg offset */
-	        );
+		filp,/* file pointer for which filp->mmap will be called */
+		0,/* address - this is the address we recommend for user space - best not to ... */
+		size,/* size */
+		PROT_READ | PROT_WRITE,/* protection */
+		flags,/* flags */
+		0/* pg offset */
+	);
 	filp->private_data = oldval;
 	up_write(&mm->mmap_sem);
 	if (IS_ERR_VALUE(uptr)) {
@@ -131,11 +133,11 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 
 /*
  * static int unmap(unsigned long uadr,unsigned int size) {
- *      int res=do_munmap(current->mm,uadr,size);
- *      if(res) {
- *              ERROR("ERROR: unable to do_munmap");
- *      }
- *      return res;
+ *	int res=do_munmap(current->mm,uadr,size);
+ *	if(res) {
+ *		ERROR("ERROR: unable to do_munmap");
+ *	}
+ * return res;
  * }
  */
 
@@ -158,9 +160,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	DEBUG("start with cmd %d", cmd);
 	switch (cmd) {
 	/*
-	 *      Asking the kernel to mmap into user space.
-	 *
-	 *      Only argument is size.
+	 *	Asking the kernel to mmap into user space.
+	 *	Only argument is size.
 	 */
 	case IOCTL_DEMO_MAP:
 		DEBUG("trying to mmap");
@@ -183,9 +184,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      Asking the kernel to munmap user space.
-	 *
-	 *      Not arguments are required
+	 *	Asking the kernel to munmap user space.
+	 *	No arguments are required.
 	 */
 	case IOCTL_DEMO_UNMAP:
 		DEBUG("trying to munmap");
@@ -205,9 +205,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      Asking the kernel to write to the buffer
-	 *
-	 *      One argument which is the value to write
+	 *	Asking the kernel to write to the buffer.
+	 *	One argument which is the value to write.
 	 */
 	case IOCTL_DEMO_WRITE:
 		if (kptr == NULL) {
@@ -220,10 +219,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      Asking the kernel to check that the buffer
-	 *      is a certain value
-	 *
-	 *      One argument which is the value to check
+	 *	Asking the kernel to check that the buffer is a certain value.
+	 *	One argument which is the value to check.
 	 */
 	case IOCTL_DEMO_READ:
 		if (kptr == NULL) {
@@ -235,11 +232,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		break;
 
 	/*
-	 *      Asking the kernel to copy the in kernel buffer
-	 *      to user space
-	 *
-	 *      One argument which is the pointer to the user space
-	 *      buffer
+	 *	Asking the kernel to copy the in kernel buffer to user space.
+	 *	One argument which is the pointer to the user space buffer.
 	 */
 	case IOCTL_DEMO_COPY:
 		if (kptr == NULL) {
@@ -255,7 +249,7 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 
 
 /*
- *      VMA ops
+ *	VMA ops
  */
 static void kern_vma_open(struct vm_area_struct *vma) {
 	DEBUG("start");
@@ -295,9 +289,9 @@ static int kern_vma_fault(struct vm_area_struct *vma, struct vm_fault *vmf) {
 
 
 static struct vm_operations_struct kern_vm_ops = {
-	.open  = kern_vma_open,
-	.close = kern_vma_close,
-	.fault = kern_vma_fault,
+	.open=kern_vma_open,
+	.close=kern_vma_close,
+	.fault=kern_vma_fault,
 };
 
 /*
@@ -305,36 +299,36 @@ static struct vm_operations_struct kern_vm_ops = {
  */
 static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	/*
-	 *      // size of memory to map
-	 *      unsigned int size;
-	 *      // for the physical address
-	 *      unsigned long phys;
-	 *      // for the starting page number
-	 *      unsigned int pg_num;
-	 *      // for return values
-	 *      int ret;
+	 *	// size of memory to map
+	 *	unsigned int size;
+	 *	// for the physical address
+	 *	unsigned long phys;
+	 *	// for the starting page number
+	 *	unsigned int pg_num;
+	 *	// for return values
+	 *	int ret;
 	 *
-	 *      size=vma->vm_end-vma->vm_start;
-	 *      phys=virt_to_phys(kadr);
-	 *      pg_num=phys >> PAGE_SHIFT;
-	 *      DEBUG("size is %d",size);
-	 *      DEBUG("kadr is %p",kadr);
-	 *      DEBUG("phys is %lx",phys);
-	 *      DEBUG("pg_num is %d",pg_num);
-	 *      DEBUG("vm_start is %lx",vma->vm_start);
-	 *      DEBUG("vm_end is %lx",vma->vm_end);
-	 *      DEBUG("vm_pgoff is %lx",vma->vm_pgoff);
-	 *      ret=remap_pfn_range(
-	 *              vma, // into which vma
-	 *              vma->vm_start, // where in the vma
-	 *              pg_num, // which starting physical page
-	 *              size, // how much to map (in bytes)
-	 *              vma->vm_page_prot // what protection to give
-	 *      );
-	 *      if(ret) {
-	 *              ERROR("ERROR: could not remap_pfn_range");
-	 *              return ret;
-	 *      }
+	 *	size=vma->vm_end-vma->vm_start;
+	 *	phys=virt_to_phys(kadr);
+	 *	pg_num=phys >> PAGE_SHIFT;
+	 *	DEBUG("size is %d",size);
+	 *	DEBUG("kadr is %p",kadr);
+	 *	DEBUG("phys is %lx",phys);
+	 *	DEBUG("pg_num is %d",pg_num);
+	 *	DEBUG("vm_start is %lx",vma->vm_start);
+	 *	DEBUG("vm_end is %lx",vma->vm_end);
+	 *	DEBUG("vm_pgoff is %lx",vma->vm_pgoff);
+	 *	ret=remap_pfn_range(
+	 *		vma, // into which vma
+	 *		vma->vm_start, // where in the vma
+	 *		pg_num, // which starting physical page
+	 *		size, // how much to map (in bytes)
+	 *		vma->vm_page_prot // what protection to give
+	 *	);
+	 *	if(ret) {
+	 *		ERROR("ERROR: could not remap_pfn_range");
+	 *		return ret;
+	 *	}
 	 */
 	// pointer for already allocated memory
 	void *kadr;
@@ -355,9 +349,9 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
  * The file operations structure.
  */
 static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
-	.ioctl = kern_ioctl,
-	.mmap  = kern_mmap,
+	.owner=THIS_MODULE,
+	.ioctl=kern_ioctl,
+	.mmap=kern_mmap,
 };
 
 static int register_dev(void) {
@@ -399,23 +393,23 @@ static int register_dev(void) {
 	DEBUG("added the device");
 
 	// now register it in /dev
-#if LINUX_VERSION_CODE == 132634                     /* target kernel */
+#if LINUX_VERSION_CODE == 132634 /* target kernel */
 	my_device = device_create(
-	        my_class,                                                                                                                          /* our class */
-	        NULL,                                                                                                                              /* device we are subdevices of */
-	        pdev->first_dev,
-	        "%s",
-	        name
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		"%s",
+		name
+	);
 #else /* ubuntu kernel */
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                   /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        "%s",
-	        name
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		"%s",
+		name
+	);
 #endif
 	if (my_device == NULL) {
 		DEBUG("cannot create device");

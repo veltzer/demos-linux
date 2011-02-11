@@ -11,7 +11,7 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

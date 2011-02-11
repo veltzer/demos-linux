@@ -11,7 +11,7 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  *      This is a driver to walk the iomem list and see all the resources...

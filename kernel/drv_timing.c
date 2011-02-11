@@ -14,10 +14,10 @@
 #include <linux/cpufreq.h>
 #include <asm/div64.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
- *      This driver shows how various timing delays are done in the kernel
+ *	This driver shows how various timing delays are done in the kernel
  */
 
 MODULE_LICENSE("GPL");
@@ -57,18 +57,18 @@ struct kern_dev {
 };
 
 // static data
-static struct kern_dev *pdev;
-static const char      *name = "demo";
-static struct class    *my_class;
-static struct device   *my_device;
+static struct kern_dev* pdev;
+static const char* name = "demo";
+static struct class* my_class;
+static struct device* my_device;
 
 // now the functions
 static void long_code(unsigned long mic) {
 	/*
 	 * int i;
 	 * for(i=0;i<10000000;i++) {
-	 *      void* ptr=kmalloc(1000,GFP_KERNEL);
-	 *      kfree(ptr);
+	 *	void* ptr=kmalloc(1000,GFP_KERNEL);
+	 *	kfree(ptr);
 	 * }
 	 */
 	// sleep for 1 second
@@ -131,9 +131,9 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	case 2:
 
 		/*
-		 *      This shows how to work with jiffies...
-		 *      It will demostrate the most important attribute of jiffies and that
-		 *      is that juffies DO NOT change
+		 *	This shows how to work with jiffies...
+		 *	It will demostrate the most important attribute of jiffies and that
+		 *	is that juffies DO NOT change
 		 */
 		j1 = jiffies;
 		long_code(arg);
@@ -153,8 +153,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	case 3:
 
 		/*
-		 *      This syscall does nothing on purpose to enable timing
-		 *      from user space
+		 *	This syscall does nothing on purpose to enable timing
+		 *	from user space
 		 */
 		//udelay(24);
 		break;
@@ -210,13 +210,13 @@ int register_dev(void) {
 	DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        name,
-	        0
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		name,
+		0
+	);
 	if (my_device == NULL) {
 		DEBUG("cannot create device");
 		goto goto_create_device;

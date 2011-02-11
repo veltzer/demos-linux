@@ -11,15 +11,15 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
- *      minimal driver that supports ioctl
+ *	Minimal driver that supports ioctl.
  */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("Minimal driver that supports ioctl");
 
 // parameters for this module
 
@@ -73,10 +73,10 @@ struct kern_dev {
 };
 
 // static data
-static struct kern_dev *pdev;
-static const char      *name = "demo";
-static struct class    *my_class;
-static struct device   *my_device;
+static struct kern_dev* pdev;
+static const char* name="demo";
+static struct class* my_class;
+static struct device* my_device;
 
 // now the functions
 
@@ -137,13 +137,13 @@ int register_dev() {
 	DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        "%s",
-	        name
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		"%s",
+		name
+	);
 	if (my_device == NULL) {
 		DEBUG("cannot create device");
 		goto goto_create_device;
@@ -151,8 +151,8 @@ int register_dev() {
 	DEBUG("did device_create");
 	return(0);
 
-	//goto_all:
-	//	device_destroy(my_class,pdev->first_dev);
+//goto_all:
+//	device_destroy(my_class,pdev->first_dev);
 goto_create_device:
 	cdev_del(&pdev->cdev);
 goto_deregister:
@@ -165,8 +165,7 @@ goto_nothing:
 	return(-1);
 }
 
-
-void unregister_dev() {
+void unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
 	unregister_chrdev_region(pdev->first_dev, MINORS_COUNT);

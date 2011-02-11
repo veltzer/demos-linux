@@ -12,7 +12,7 @@
 #include <linux/mm.h>
 #include <linux/eventfd.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  *      Driver that demos how ioctl can trigger eventfd

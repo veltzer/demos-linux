@@ -11,15 +11,18 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#include "kernel_helper.h"
-
-/*
- *      Kernel module which shows how to use kernel spin locks
- */
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("Showing how to use spin locks in the kernel");
+
+/*
+ * For a full description of which types of spin locks to use where please refere
+ * to Rusty Russel's "Unreliable Guide to Kernel Locking" which comes with the kernel
+ * documentation within the kernel sources or here:
+ * http://www.kernel.org/pub/linux/kernel/people/rusty/kernel-locking/index.html
+ */
 
 // parameters for this module
 
@@ -44,9 +47,9 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char      *name = "demo";
-static struct class    *my_class;
-static struct device   *my_device;
+static const char* name="demo";
+static struct class* my_class;
+static struct device* my_device;
 
 // now the functions
 
@@ -65,7 +68,8 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 		spin_lock_irqsave(&mr_lock, flags);
 		/* critical section ... */
 		spin_unlock_irqrestore(&mr_lock, flags);
-		// lock - this will not disable interrupts and may cause a dead lock!!!
+		// lock - this will not disable interrupts and may cause a dead lock if you
+		// try to acquire the same lock from an interrupt handler or higher level task
 		spin_lock(&mr_lock);
 		spin_unlock(&mr_lock);
 		break;
@@ -129,13 +133,13 @@ int register_dev(void) {
 	DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        name,
-	        0
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		name,
+		0
+	);
 	if (my_device == NULL) {
 		DEBUG("cannot create device");
 		goto goto_create_device;

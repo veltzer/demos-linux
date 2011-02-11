@@ -13,7 +13,7 @@
 #include <linux/pagemap.h>
 
 #define DO_DEBUG
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  * This driver shows how to find the system call table.
@@ -34,9 +34,9 @@
  *
  * TODO:
  * - make finding the sys call table be dynamic and not with the current hard code
- *   address.
+ *	address.
  * - how come I don't manage to do this with the set_memory_{rw},{x} etc? They are
- *   supposed to work. Check it out again.
+ *	supposed to work. Check it out again.
  */
 
 MODULE_LICENSE("GPL");
@@ -91,7 +91,7 @@ static void read_sys_call_table(void) {
 static void my_func(void) {
 	unsigned long **sctable=NULL;
 	unsigned long ptr_start=0xc0100000; // taken from /proc/kallsysms
-	//extern struct   mm_struct init_mm;
+	//extern struct mm_struct init_mm;
 	//unsigned long ptr_start=(unsigned long)&init_mm;
 	unsigned long ptr_end=ptr_start+0x1000000;
 	unsigned long ptr;

@@ -13,8 +13,11 @@
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */
 
+#include "kernel_helper.h" // our own helper
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("A simple demo of how to write a block device driver");
 
 //static char *Version = "1.4";
 static int major_num = 0;

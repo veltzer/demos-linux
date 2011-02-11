@@ -13,7 +13,7 @@
 #include <linux/mman.h>
 #include <linux/pagemap.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  *      This is a driver that maps memory allocated by the kernel into user space.

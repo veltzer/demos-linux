@@ -13,7 +13,7 @@
 #include <linux/mman.h>
 #include <linux/pagemap.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  *      A very simple mmap implementation...

@@ -13,7 +13,7 @@
 #include <linux/err.h>
 
 #define DO_DEBUG
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 static int __init mod_init(void) {
 	unsigned long ptr1 = 15;

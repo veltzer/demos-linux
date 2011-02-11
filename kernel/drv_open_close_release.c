@@ -11,12 +11,12 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
- *      This is a driver which prints stuff at open and release and allows you
- *      to explore how open and close in user space translate to open and release
- *      calls in the kernel
+ *	This is a driver which prints stuff at open and release and allows you
+ *	to explore how open and close in user space translate to open and release
+ *	calls in the kernel
  */
 
 MODULE_LICENSE("GPL");
@@ -76,9 +76,9 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char      *name = "demo";
-static struct class    *my_class;
-static struct device   *my_device;
+static const char* name = "demo";
+static struct class* my_class;
+static struct device* my_device;
 
 // now the functions
 
@@ -104,8 +104,8 @@ static int kern_release(struct inode *inode, struct file *filp) {
  * The file operations structure.
  */
 static struct file_operations my_fops = {
-	.owner   = THIS_MODULE,
-	.open    = kern_open,
+	.owner=THIS_MODULE,
+	.open=kern_open,
 	.release = kern_release,
 };
 
@@ -148,13 +148,13 @@ int register_dev() {
 	DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        name,
-	        0
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		name,
+		0
+	);
 	if (my_device == NULL) {
 		DEBUG("cannot create device");
 		goto goto_create_device;

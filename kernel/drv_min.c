@@ -1,7 +1,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  *      This is a minimal driver doing just init and cleanup

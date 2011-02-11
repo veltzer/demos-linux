@@ -9,7 +9,7 @@
 #include <linux/sched.h>
 #include <asm/uaccess.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  * This is a module that demos how to read and write files inside the kernel
@@ -49,7 +49,7 @@ static int __init read_file(char *filename) {
 
 
 static int __init write_file(char *filename, char *data) {
-	struct file  *filp;
+	struct file* filp;
 	loff_t pos = 0;
 	unsigned int len;
 

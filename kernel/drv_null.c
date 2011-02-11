@@ -1,20 +1,15 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/init.h>
+#include <linux/module.h> // for the MODULE_* stuff
 
-#include "kernel_helper.h"
-
-/*
- *      This is a test to see how the kernel prints NULL pointers...
- */
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("Showing how the kernel prints NULL pointers");
 
-// parameters for this module
-
-// constants for this module
+/*
+ * TODO:
+ * - show a snipplet here of how the printing shows up in the kernel log.
+ */
 
 // our own functions
 static int __init mod_init(void) {
@@ -28,8 +23,6 @@ static void __exit mod_exit(void) {
 	DEBUG("start");
 }
 
-
 // declaration of init/cleanup functions of this module
-
 module_init(mod_init);
 module_exit(mod_exit);

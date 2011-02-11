@@ -11,10 +11,10 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
- *      This module demos how to insmod one module from another...
+ *	This module demos how to insmod one module from another...
  */
 
 MODULE_LICENSE("GPL");

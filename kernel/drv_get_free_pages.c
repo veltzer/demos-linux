@@ -12,15 +12,11 @@
 #include <linux/mm.h>
 #include <linux/slab.h>
 
-#include "kernel_helper.h"
-
-/*
- *      This driver shows how to use get_free_pages
- */
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("This driver shows how to use get_free_pages");
 
 // parameters for this module
 

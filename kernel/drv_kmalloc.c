@@ -17,7 +17,7 @@
 #include "ioctls.h"
 
 #define DO_DEBUG
-#include "kernel_helper.h"
+#include "kernel_helper.h" // our own helper
 
 /*
  *      A driver which allocates memory. This is intended to explore kmalloc
