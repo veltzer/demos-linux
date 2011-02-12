@@ -1,23 +1,14 @@
-- when making kernel modules the build process complains:
-	Makefile:602: "WARNING: Appending $KCFLAGS (-Werror) from command line to kernel $CFLAGS"
-	shut it up somehow (this is a good warning).
-- do an example of debugging a driver for memory leaks.
-	The idea: directing all the drivers kmalloc and kfree to a pool of its own
-	and seeing that that pools usage drops back to 0 when the driver is rmmoded.
-	or maybe my own hand coded hash table that checks all allocations and deallocations?
-	See how it goes.
 - bring back the hellofcmp example once I have built an fcmp package for ubuntu.
 	and installed it on the laptop.
 - core dump example: show how an application can dump its own core
 and continue running (gcore on the cmd line, sending itself a signal,
 running the right function).
 - give an example of a binary that accesses it's own symbols by name.
-	(how can we do that ?)
+	ld_ functions with NULL.
 
 - do an example that links dlls together and create a "mega dll".
 - do an example that links object files + a bunch of dlls into a "exe + dlls in one file" package. This way this exe can have backtrace capability with good symbol names. Demo it.
 
-- compile all the kernel modules in one go.
 - add my signature to all those examples with some copyright.
 
 do a demo of using the rtc in an application.
@@ -95,35 +86,9 @@ came from (extra information?).
 5. Show combinations of signal handlers and C++ exceptions. Where
 do they conflict and where do they match.
 
-kernel locking test:
-====================
-In the real time faq on linux it says that "ioctl" when implemented in the linux
-kernel grabs the BKL while "unlocked_ioctl" does not.
-
-The idea is to write a test to check that no locking occurs.
-
-A program which spawns two threads and affines them to two cpus (the program fails if it is run on less than two cpus).
-
-First thread goes into the kernel and sleeps via an ioctl in a pre-prepared driver.
-
-Second thread does the same.
-
-The idea is to see how long it took both of them. If it is close to one time period then
-both of them happened together. If it is two time periods then the kernel was locked.
-
-Question: is going to sleep in the kernel actually release the BLK ? probably so. This means that we should busy wait in the kernel instead... Do both.
-
-User space demos:
-=================
 - profile how long it takes to setup a timer from user space.
         (this is for the userspace guys - do an example).
 - show how to break from a blocking sys call in user space using a signal.
         show how to do this using a timer thus turning each sys call to timed.
         show that the wakeup is pretty near the expected time (rdtsc).
 - do example of fifo and priorities in pthreads.
-
-Kernel demos:
-=============
-- do demo of mempool in demo_kernel.
-- do demo of debugging kmalloc and kfree.
-- do demo of handling interrupts (mouse for instance). take this from the gilad slides.

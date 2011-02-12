@@ -1,0 +1,59 @@
+Kernel demos:
+=============
+- kernel subsystem does not do depenency management. For instance, if I change kernel_helper.h
+	then the modules do NOT get recompiled.
+- add a clean kernel target for the makefile.
+- sometimes the kernel modules are rebuilt even thought they are built - probably
+	a bug in the makefile but i can't seem to find it.
+- compile all the kernel modules in one go.
+
+- do demo of mempool in demo_kernel.
+- do demo of debugging kmalloc and kfree.
+- do demo of handling interrupts (mouse for instance). take this from the gilad slides.
+
+- add a semaphore demo. include/asm/semaphore.h
+
+- check that spin_lock_bh actually works by waiting in the kernel and seeing the DPC not enter...
+	do a demo that shows this.
+
+- there are TODO items in each demo to be done.
+
+- format the sources exactly the way I want (no "  " etc...).
+
+- remove unneeded include files.
+
+- do not repeat the description of each module both in the comments and in the
+MODULE_DESCRIPTION macro. Instead use only the MODULE_DESCRIPTION macro. Put it right
+above the comments describing the module in detail.
+
+- Add a comment on each include stating what is it there for.
+
+- add an example of how to check the version of linux you are compiling against.
+	look at cpp/kernel/drv_mmap_to_user.c for one way of doing this.
+
+- when making kernel modules the build process complains:
+	Makefile:602: "WARNING: Appending $KCFLAGS (-Werror) from command line to kernel $CFLAGS"
+	shut it up somehow (this is a good warning).
+- do an example of debugging a driver for memory leaks.
+	The idea: directing all the drivers kmalloc and kfree to a pool of its own
+	and seeing that that pools usage drops back to 0 when the driver is rmmoded.
+	or maybe my own hand coded hash table that checks all allocations and deallocations?
+	See how it goes.
+
+kernel locking test:
+====================
+In the real time faq on linux it says that "ioctl" when implemented in the linux
+kernel grabs the BKL while "unlocked_ioctl" does not.
+
+The idea is to write a test to check that no locking occurs.
+
+A program which spawns two threads and affines them to two cpus (the program fails if it is run on less than two cpus).
+
+First thread goes into the kernel and sleeps via an ioctl in a pre-prepared driver.
+
+Second thread does the same.
+
+The idea is to see how long it took both of them. If it is close to one time period then
+both of them happened together. If it is two time periods then the kernel was locked.
+
+Question: is going to sleep in the kernel actually release the BLK ? probably so. This is what everyone says. This means that we should busy wait in the kernel instead... Do both.
