@@ -6,6 +6,8 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("A simple block device driver for pre 2.6.31 versions");4
+MODULE_VERSION("1.3");
 
 /*
  *  A sample, extra-simple block driver.
@@ -24,12 +26,11 @@ MODULE_AUTHOR("Mark Veltzer");
 #include <linux/blkdev.h>
 #include <linux/hdreg.h>
 
-//static char *Version = "1.3";
 static int major_num = 0;
 module_param(major_num, int, 0);
 static int hardsect_size = 512;
 module_param(hardsect_size, int, 0);
-static int nsectors = 1024;  /* How big the drive is */
+static int nsectors = 4096;  /* How big the drive is */
 module_param(nsectors, int, 0);
 
 /*

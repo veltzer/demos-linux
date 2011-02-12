@@ -47,7 +47,6 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char* name="demo";
 static struct class* my_class;
 static struct device* my_device;
 
@@ -96,7 +95,7 @@ static struct file_operations my_fops = {
 
 int register_dev(void) {
 	// create a class
-	my_class = class_create(THIS_MODULE, MYNAME);
+	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
@@ -109,13 +108,13 @@ int register_dev(void) {
 	memset(pdev, 0, sizeof(struct kern_dev));
 	DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
-		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, myname)) {
+		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
 			DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
-		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, myname)) {
+		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
 			DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
@@ -125,7 +124,7 @@ int register_dev(void) {
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
-	kobject_set_name(&pdev->cdev.kobj, MYNAME);
+	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
 		DEBUG("cannot cdev_add");
 		goto goto_deregister;
@@ -137,7 +136,7 @@ int register_dev(void) {
 		NULL,/* device we are subdevices of */
 		pdev->first_dev,
 		NULL,
-		name,
+		THIS_MODULE->name,
 		0
 	);
 	if (my_device == NULL) {

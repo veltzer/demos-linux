@@ -197,7 +197,7 @@ static struct file_operations my_fops = {
 
 int register_dev() {
 	// create a class
-	my_class = class_create(THIS_MODULE, MYNAME);
+	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
@@ -210,13 +210,13 @@ int register_dev() {
 	memset(pdev, 0, sizeof(struct kern_dev));
 	DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
-		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, myname)) {
+		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
 			DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
-		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, myname)) {
+		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
 			DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
@@ -226,7 +226,7 @@ int register_dev() {
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
-	kobject_set_name(&pdev->cdev.kobj, MYNAME);
+	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
 		DEBUG("cannot cdev_add");
 		goto goto_deregister;

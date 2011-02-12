@@ -173,7 +173,7 @@ static int __init sbd_init(void) {
 	Device.gd->first_minor = 0;
 	Device.gd->fops = &sbd_ops;
 	Device.gd->private_data = &Device;
-	strcpy(Device.gd->disk_name, "sbd0");
+	sprintf(Device.gd->disk_name,"%s%d",THIS_MODULE->name,0);
 	set_capacity(Device.gd, nsectors);
 	Device.gd->queue = Queue;
 	add_disk(Device.gd);

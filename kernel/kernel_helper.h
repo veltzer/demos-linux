@@ -1,25 +1,20 @@
 #ifndef __kernel_helper_h
 #define __kernel_helper_h
 
-// The name of this module (several options)
-//#define MYNAME THIS_MODULE->name
-#define MYNAME KBUILD_MODNAME
-static const char myname[] = MYNAME;
-
 // do we want debug information ?!?
 //#define DO_DEBUG
 // TODO - the macros here could (and should?!?) be turned into inline functions...
 
 #ifdef DO_DEBUG
-#define DEBUG(fmt, args...) printk(KERN_DEBUG "DEBUG %s %s %s %d: " fmt "\n", myname, __BASE_FILE__, __FUNCTION__, __LINE__, ## args)
+#define DEBUG(fmt, args...) printk(KERN_DEBUG "DEBUG %s %s %s %d: " fmt "\n", THIS_MODULE->name, __BASE_FILE__, __FUNCTION__, __LINE__, ## args)
 #else
 #define DEBUG(fmt, args...)
 #endif
 // errors are always shown
-#define ERROR(fmt, args...) printk(KERN_ERR "ERROR %s %s %s %d: " fmt "\n", myname, __BASE_FILE__, __FUNCTION__, __LINE__, ## args)
+#define ERROR(fmt, args...) printk(KERN_ERR "ERROR %s %s %s %d: " fmt "\n", THIS_MODULE->name, __BASE_FILE__, __FUNCTION__, __LINE__, ## args)
 
 // prints are always shown
-#define INFO(fmt, args...) printk(KERN_INFO "INFO %s %s %s %d: " fmt "\n", myname, __BASE_FILE__, __FUNCTION__, __LINE__, ## args)
+#define INFO(fmt, args...) printk(KERN_INFO "INFO %s %s %s %d: " fmt "\n", THIS_MODULE->name, __BASE_FILE__, __FUNCTION__, __LINE__, ## args)
 
 static inline int memcheck(void *buf, char val, unsigned int size) {
 	unsigned int i;
@@ -33,6 +28,5 @@ static inline int memcheck(void *buf, char val, unsigned int size) {
 	}
 	return(0);
 }
-
 
 #endif // __kernel_helper_h
