@@ -24,6 +24,11 @@ MODULE_DESCRIPTION("A proc/interrupt/clipboard example");
  * TODO:
  * We have only one wait queue which is bad if we have multiple clipboards.
  * We also have just one in-kernel buffer which is shared by all clipboard /dev/ devices.
+ * store the clipboard itself in the device itself.
+ * work with an ioctl that can trigger an interrupt.
+ * write user space demos of how to work with this (do I need this ? won't cat do ?).
+ * add makefile targets for insmod/rmmod etc.
+ * improve the write method to write as much as it can and return what is written.
  */
 
 static dev_t clipboard_dev;
@@ -39,7 +44,8 @@ static const unsigned int MOUSE_INT=12;
 // the /proc entry with which you can view the size of the clipboard.
 static const char* proc_filename="driver/clipboard";
 // the wait queue we will use to put processes to sleep on and wake them up...
-DECLARE_WAIT_QUEUE_HEAD(clipboard_wq);
+DECLARE_WAIT_QUEUE_HEAD(clipboard_read_wq);
+DECLARE_WAIT_QUEUE_HEAD(clipboard_write_wq);
 
 // module paramters
 module_param(debug_param,uint,S_IRWXU);
@@ -76,7 +82,7 @@ ssize_t clipboard_read(struct file* filp,char* user_buf,size_t count,loff_t* off
 	}
 	/* lets go to sleep until an intterupt occurs in which case we will have data */
 	flag=0;
-	wait_event_interruptible(clipboard_wq,flag);
+	wait_event_interruptible(clipboard_read_wq,flag);
 	if(copy_to_user(
 		user_buf /* to */,
 		*offset+clipboard /* from */,
@@ -86,28 +92,46 @@ ssize_t clipboard_read(struct file* filp,char* user_buf,size_t count,loff_t* off
 	} else {
 		/* Increase the position in the open file */
 		*offset+=remaining_bytes;
+		wake_up_interruptible(&clipboard_write_wq);
 		return remaining_bytes;
 	}
 }
 
 /*
  * Writing to the clipboard. This simply copied the data from user space into the in-kernel buffer
- * using copy_from_user. If the clipboard does not have enough space for the data we return an
- * IO error. We could have handled this more gracefully and copied whatever we could.
+ * using copy_from_user. If the clipboard is full we do not return 0 since this will cause the user
+ * process to think that it had reached end of file. Instead, we put it to sleep and wait to be
+ * woken up by a reader that has read from the clipboard. Then we check the size again since the
+ * clipboard has chanced. Once we can write any positive amount we do the write and return the
+ * number of bytes written to the user. Why don't we loop until we write the entire buffer of
+ * the user (count bytes)? Well, we could do it but then we would not comply with the standard
+ * UNIX semantics for write that state that we should write what we can NOW and return the number
+ * of bytes written. 
+ *
+ * A simpler approach would have been to just see if we have at least count bytes free in the
+ * buffer and return an error if that is not the case. This is too simplistic and would break
+ * lots of prefectly legal user space programs.
  */
 ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff_t* offset) {
-	/* Number of bytes not written yet in the device */
-	int remaining_bytes=CLIPBOARD_SIZE-(*offset);
+	int remaining_bytes=min(CLIPBOARD_SIZE-(*offset),(loff_t)count);
+	// clipboard is full, put the process to sleep
+	while(remaining_bytes==0) {
+		wait_event_interruptible(clipboard_write_wq,flag);
+		remaining_bytes=min(CLIPBOARD_SIZE-(*offset),(loff_t)count);
+	}
+	// now we have room in the clipboard
+	/* old code - we can write less than count
 	if(count>remaining_bytes) {
-		/* Can't write beyond the end of the device */
+		// Can't write beyond the end of the device
 		return(-EIO);
 	}
-	if(copy_from_user(*offset+clipboard /* to */,user_buf /* from */,count)) {
+	 */
+	if(copy_from_user(*offset+clipboard /* to */,user_buf /* from */,remaining_bytes)) {
 		return(-EFAULT);
 	} else {
-		/* Increase the position in the open file */
-		*offset+=count;
-		return count;
+		// Increase the position in the open file
+		*offset+=remaining_bytes;
+		return remaining_bytes;
 	}
 }
 
@@ -135,7 +159,7 @@ int clipboard_proc_reader(char* page,char** start,off_t off,int count,int* eof,v
 irqreturn_t clipboard_int_handler(int irq,void* dev) {
 	flag=1;
 	mb();
-	wake_up_interruptible(&clipboard_wq);
+	wake_up_interruptible(&clipboard_read_wq);
 	return IRQ_HANDLED;
 }
 
