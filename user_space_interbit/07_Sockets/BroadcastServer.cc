@@ -71,7 +71,10 @@ int main(int argc,char** argv,char** envp)
 			perror("sendsock connect failed");
 			exit(errno);
 		}
-		write(sendsock, obuffer, strlen(obuffer));
+		ssize_t ret=write(sendsock, obuffer, strlen(obuffer));
+		if(ret!=(ssize_t)strlen(obuffer)) {
+			perror("write(2) error");
+		}
 		close(sendsock);
 	}
 	return 0;

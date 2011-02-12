@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+ 
+/*
+ * EXTRA_LIBS=-lpthread
+ */
 
 void* PrintHello(void *threadid)
 {

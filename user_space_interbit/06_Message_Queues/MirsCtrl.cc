@@ -130,7 +130,10 @@ int main(int argc,char** argv,char** envp)
 		printf("2. Stop the service (it's a strike).\n");
 		printf("3. Change queue size\n");
 		printf("4. Change permission\n -> ");
-		fscanf(stdin, "%d", & Ans);
+		int ret=scanf("%d", & Ans);
+		if(ret<1) {
+			perror("fscanf(3)");
+		}
 		switch (Ans)
 		{
 			case 1:
@@ -176,7 +179,10 @@ int main(int argc,char** argv,char** envp)
 					exit(errno);
 				}
 				printf("From %ld\nTo ",msgCtlBuf.msg_qbytes);
-				fscanf(stdin, "%ld", & msgCtlBuf.msg_qbytes);
+				ret=scanf("%ld", & msgCtlBuf.msg_qbytes);
+				if(ret<1) {
+					perror("scanf");
+				}
 				if (msgctl(msqid, IPC_SET, & msgCtlBuf) == -1)
 				{
 					perror("msgctl: msgctl failed");
@@ -185,11 +191,20 @@ int main(int argc,char** argv,char** envp)
 				break;
 			case 4:
 				fprintf(stderr, "Enter msg_perm.uid: ");
-				scanf ("%d", &msgCtlBuf.msg_perm.uid);
+				ret=scanf ("%d", &msgCtlBuf.msg_perm.uid);
+				if(ret<1) {
+					perror("scanf");
+				}
 				fprintf(stderr, "Enter msg_perm.gid: ");
-				scanf("%d", &msgCtlBuf.msg_perm.gid);
+				ret=scanf("%d", &msgCtlBuf.msg_perm.gid);
+				if(ret<1) {
+					perror("scanf");
+				}
 				fprintf(stderr, "Enter msg_perm.mode: ");
-				scanf("%hd", &msgCtlBuf.msg_perm.mode); 
+				ret=scanf("%hd", &msgCtlBuf.msg_perm.mode); 
+				if(ret<1) {
+					perror("scanf");
+				}
 				if (msgctl(msqid, IPC_SET, & msgCtlBuf) == -1)
 				{
 					perror("msgctl: msgctl failed");

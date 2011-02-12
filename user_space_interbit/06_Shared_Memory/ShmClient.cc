@@ -75,11 +75,17 @@ void doParent(int semid, struct data * smdata, int myID)
 	while(1)
 	{
 		printf("To: ");
-		fgets(Sto, 7, stdin);
+		char* s=fgets(Sto, 7, stdin);
+		if(s!=Sto) {
+			perror("fgets error");
+		}
 		toID = atoi(Sto);
 		printf("Message to %d: ", toID);
 	
-		fgets(message+sizeof(int)*2, sizeof(message) - sizeof(int)*2 -1, stdin);
+		s=fgets(message+sizeof(int)*2, sizeof(message) - sizeof(int)*2 -1, stdin);
+		if(s!=message) {
+			perror("fgets error");
+		}
 		
 		messageSizePTR = (int *)message;
 		* messageSizePTR = strlen(message+sizeof(int)*2) + sizeof(int)*2;

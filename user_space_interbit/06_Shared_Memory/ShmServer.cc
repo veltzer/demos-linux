@@ -62,7 +62,10 @@ int main(int argc,char** argv,char** envp)
 		smdata[i].writeOffset = 0;
 	}
 	printf("Hit <Enter> to finish\n");
-	fgets(ans, sizeof(ans), stdin);
+	char* res=fgets(ans, sizeof(ans), stdin);
+	if(res!=ans) {
+		perror("fgets failed");
+	}
 	if (shmctl(shmid, IPC_RMID, 0) == -1)
 	{
 		perror("shmctl IPC_RMID failed");

@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include <errno.h>
 
+/*
+ * EXTRA_LIBS=-lpthread
+ */
+
 const int NUM_THREADS=8;
 void *PrintHello(void *threadid)
 {

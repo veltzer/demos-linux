@@ -26,11 +26,17 @@ void doParent(int msqid, long myID)
 	while(1)
 	{
 		printf("Call ID: ");
-		fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin);
+		char* ret=fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin);
+		if(ret!=SsubscriberID) {
+			perror("fgets(3)");
+		}
 		sbuf.mtype = atoi(SsubscriberID);
 		sbuf.fromID = myID;
 		printf("Message to %ld: ", sbuf.mtype);
-		fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin);
+		ret=fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin);
+		if(ret!=SsubscriberID) {
+			perror("fgets(3)");
+		}
 		if (msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0) == -1)
 		{
 			perror("msgsnd failed");

@@ -38,7 +38,10 @@ void do1()
 		if (errno != EINTR)
 		{
 			buffer[rcount] = '\0';
-			write(1, buffer, strlen(buffer));
+			ssize_t ret=write(1, buffer, strlen(buffer));
+			if(ret!=(ssize_t)strlen(buffer)) {
+				perror("did not write fully");
+			}
 		}
 	}
 }
