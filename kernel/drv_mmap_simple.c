@@ -353,7 +353,7 @@ static struct file_operations my_fops = {
 	.write=kern_write,
 };
 
-int register_dev() {
+int register_dev(void) {
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {

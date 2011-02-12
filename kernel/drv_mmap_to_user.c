@@ -18,6 +18,10 @@
 
 #include "ioctls.h"
 
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Mmapping kernel allocated memory to user space");
+
 /*
  *	This is a driver that maps memory allocated by the kernel into user space.
  *	The method is a user driven ioctl.
@@ -49,7 +53,6 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char* name = "demo";
 static struct class* my_class;
 static struct device* my_device;
 
@@ -399,7 +402,7 @@ static int register_dev(void) {
 		NULL,/* device we are subdevices of */
 		pdev->first_dev,
 		"%s",
-		name
+		THIS_MODULE->name
 	);
 #else /* ubuntu kernel */
 	my_device = device_create(
@@ -408,7 +411,7 @@ static int register_dev(void) {
 		pdev->first_dev,
 		NULL,
 		"%s",
-		name
+		THIS_MODULE->name
 	);
 #endif
 	if (my_device == NULL) {
@@ -457,7 +460,3 @@ static void __exit mod_exit(void) {
 
 module_init(mod_init);
 module_exit(mod_exit);
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");

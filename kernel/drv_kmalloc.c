@@ -47,7 +47,6 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char      *name = "demo";
 static struct class    *my_class;
 static struct device   *my_device;
 
@@ -209,7 +208,7 @@ static int register_dev(void) {
 	        pdev->first_dev,
 	        NULL,
 	        "%s",
-	        name
+		THIS_MODULE->name
 	        );
 	if (my_device == NULL) {
 		DEBUG("cannot create device");

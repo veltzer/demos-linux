@@ -10,6 +10,7 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
+#include <linux/list.h> // for list handling functions
 
 #include "kernel_helper.h" // our own helper
 
@@ -19,7 +20,7 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Kernel module that demostrates manipulation list structures in the kernel");
+MODULE_DESCRIPTION("Kernel module that demostrates manipulation of list structures using kernel built in lists");
 
 // parameters for this module
 
@@ -87,7 +88,6 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static const char      *name = "demo";
 static struct class    *my_class;
 static struct device   *my_device;
 
@@ -195,7 +195,7 @@ static struct file_operations my_fops = {
 	.ioctl   = kern_ioctl,
 };
 
-int register_dev() {
+int register_dev(void) {
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
@@ -238,7 +238,7 @@ int register_dev() {
 	        NULL,                                                                                                                       /* device we are subdevices of */
 	        pdev->first_dev,
 	        NULL,
-	        name,
+	        THIS_MODULE->name,
 	        0
 	        );
 	if (my_device == NULL) {
@@ -248,8 +248,8 @@ int register_dev() {
 	DEBUG("did device_create");
 	return(0);
 
-	//goto_all:
-	//	device_destroy(my_class,pdev->first_dev);
+//goto_all:
+//	device_destroy(my_class,pdev->first_dev);
 goto_create_device:
 	cdev_del(&pdev->cdev);
 goto_deregister:
@@ -262,8 +262,7 @@ goto_nothing:
 	return(-1);
 }
 
-
-void unregister_dev() {
+void unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
 	unregister_chrdev_region(pdev->first_dev, MINORS_COUNT);
@@ -272,7 +271,6 @@ void unregister_dev() {
 }
 
 
-#include <linux/list.h>
 
 /*
  *      List handling functions

@@ -108,7 +108,7 @@ static struct file_operations my_fops = {
 	.release = kern_release,
 };
 
-int register_dev() {
+int register_dev(void) {
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
@@ -175,8 +175,7 @@ goto_nothing:
 	return(-1);
 }
 
-
-void unregister_dev() {
+void unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
 	unregister_chrdev_region(pdev->first_dev, MINORS_COUNT);

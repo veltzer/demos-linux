@@ -14,3 +14,6 @@ MODULE_DESCRIPTION macro. Instead use only the MODULE_DESCRIPTION macro. Put it 
 above the comments describing the module in detail.
 
 - Add a comment on each include stating what is it there for.
+
+- add an example of how to check the version of linux you are compiling against.
+	look at cpp/kernel/drv_mmap_to_user.c for one way of doing this.
