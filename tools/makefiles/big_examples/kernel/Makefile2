@@ -14,3 +14,10 @@ insmod:
 .PHONY: rmmod
 rmmod:
 	sudo rmmod $(base)
+# Indents the kernel source the way linux/Documentation/CodingStyle.txt specifies.
+.PHONY: indent
+indent:
+	indent -kr -i8 $($(MODULE_NAME)-objs:.o=.c)
+.PHONY: install
+install:
+	$(MAKE) -C $(KDIR) M=$$PWD modules_install
