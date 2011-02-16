@@ -2,12 +2,12 @@
 #include <linux/module.h>
 
 /*
- *      This is a minimal driver doing just init and cleanup
+ *      This is a minimal Hello, World! driver doing just init and cleanup
  */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("Hello World module");
 
 // parameters for this module
 
@@ -15,13 +15,13 @@ MODULE_DESCRIPTION("Demo module for testing");
 
 // our own functions
 static int __init mod_init(void) {
-	printk(KERN_DEBUG "in init");
+	printk(KERN_ALERT "in init");
 	return(0);
 }
 
 
 static void __exit mod_exit(void) {
-	printk(KERN_DEBUG "in exit");
+	printk(KERN_ALERT "in exit");
 }
 
 
