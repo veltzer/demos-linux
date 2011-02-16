@@ -2,18 +2,19 @@
 # CURDIR is the current directory (GNU make built in variable).
 
 # the base name of the module (the name of the variable is your own)
-NAME:=multifile
+NAMES:=multifile multifile2
 # the name of the .ko
-KO:=$(NAME).ko
+KOS:=$(addsuffix .ko,$(NAMES))
 # the .ko file that will be generated
 # the variable obj-m is required for the kernel to know which module to create.
 # I know that it's weird but this should be a .o name and is probably due to backwards
 # compatibility issues.
-obj-m:=$(NAME).o
+obj-m:=$(addsuffix .o,$(NAMES))
 # This is not strictly required for a single object module where the name of the module
 # is the name of the single file in it. In my case this is not the case since the module
 # is hello.ko while the single file is main.c.
-$(NAME)-objs:=main.o another_file.o
+multifile-objs:=main.o another_file.o
+multifile2-objs:=main2.o another_file2.o
 # fill in the version of the kernel for which you want the module compiled to
 # the ?= means that it will only be set if you have not provided this via the command line.
 # You can override using "make KVER=2.6.35".
@@ -42,15 +43,16 @@ help:
 # a target to debug my own makefile...
 .PHONY: debug
 debug:
-	$(info NAME is $(NAME))
-	$(info KO is $(KO))
+	$(info NAMES is $(NAMES))
+	$(info KOS is $(KOS))
 	$(info KVER is $(KVER))
 	$(info KDIR is $(KDIR))
 	$(info V is $(V))
 	$(info CURDIR is $(CURDIR))
 	$(info obj-m is $(obj-m))
-	$(info $(NAME)-objs is $($(NAME)-objs))
-# easy macros to enable kernel development
+	$(info multifile-objs is $(multifile-objs))
+	$(info multifile2-objs is $(multifile2-objs))
+# easy macros to enable kernel development (these make little sense in this context)
 .PHONY: insmod
 insmod:
 	-sudo rmmod $(NAME)
