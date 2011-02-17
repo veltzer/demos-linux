@@ -9,4 +9,4 @@ you either messed up bigtime (SIGFPE, SIGSEGV, SIGILL)
 
 allowing you to handle timers without resorting to multi threading (SIGALRM)
 
-allowing you to respons to events that you do not control (SIGTERM, SIGCHLD,
+allowing you to respons to events that you do not control (SIGTERM, SIGCHLD, SIGCONT)

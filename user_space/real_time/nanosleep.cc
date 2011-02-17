@@ -1,7 +1,5 @@
 #include <stdio.h> // for printf(3)
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
+#include <time.h> // for nanosleep(2)
 
 #include "us_helper.hh"
 
@@ -22,7 +20,11 @@
  *
  *      Where does this 100 micro come from ? The answer lies in the accuracy
  *      of the interrupt handler, it's clock and the time to reschedule...
- *      Maybe the real time patch to the kernel can reduce this further...
+ *      The real time patch to the kernel can reduce this further...
+ *
+ *      Take note that nanosleep does not involve signals and so is 'signal
+ *      safe' and on machines with a good rtc will use it. read more in the
+ *      documentation.
  *
  *              Mark Veltzer
  *
@@ -32,17 +34,15 @@
  * - it seems that this example does not work well in Ubuntu since the
  *   cpu_freq function returns 0 as the frequency of the cpu. Find out why
  *   and fix the example.
+ * - use usleep and sleep also and compare the results to those of nanosleep.
  */
 int main(int argc, char **argv, char **envp) {
-	//SC(nanosleep(100000),"nanosleep");
-	//for(int i=1000;i<20000;i+=1000) {
 	const unsigned int repeats = 100;
 
 	for (unsigned int i = 100; i < 2000; i += 100) {
 		unsigned long sum = 0;
 		for (unsigned int j = 0; j < repeats; j++) {
 			ticks_t start = getticks();
-			//usleep(i);
 			timespec t;
 			t.tv_sec = 0;
 			t.tv_nsec = 1000 * i;
