@@ -5,9 +5,8 @@
  * 		Mark Veltzer
  */
 
-#include <link.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <link.h> // for dl_iterate_phdr(3)
+#include <stdio.h> // for printf(3)
 
 static bool verbose=false;
 
