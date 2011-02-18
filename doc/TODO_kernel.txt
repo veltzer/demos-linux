@@ -1,3 +1,8 @@
+urgent:
+=======
+- get the pipe example working.
+- make the big makefile build all the standalone examples.
+
 Kernel demos:
 =============
 - kernel subsystem does not do depenency management. For instance, if I change kernel_helper.h
@@ -10,8 +15,7 @@ Kernel demos:
 - do demo of mempool in demo_kernel.
 - do demo of debugging kmalloc and kfree.
 - do demo of handling interrupts (mouse for instance). take this from the gilad slides.
-
-- add a semaphore demo. include/asm/semaphore.h
+- do demo of semaphore. include/asm/semaphore.h
 
 - check that spin_lock_bh actually works by waiting in the kernel and seeing the DPC not enter...
 	do a demo that shows this.

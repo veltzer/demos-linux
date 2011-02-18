@@ -3,3 +3,7 @@
 - show that the performance of getpid(2) is good (the manpage states that pids
 	are cached). Show that gettid are not cached and therefore the user code
 	needs to cache it itself.
+
+- do 'info CLOCKS_PER_SEC' and show how to use that interface.
+
+- do info libc and then search for SC_PHYS_PAGES and demo its use.
