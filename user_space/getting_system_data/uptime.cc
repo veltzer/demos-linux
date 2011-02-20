@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
 #include <stdlib.h>
-#include <unistd.h>
+#include <unistd.h> // for close(2)
 #include <sys/ioctl.h>
 
 #include "us_helper.hh"
 
 /*
  *      This demo shows how to get the uptime of the machine...
- *
  *      This is not very suitable for very delicate and precise timings but still.
  *
  *              Mark Veltzer
@@ -27,14 +26,14 @@ void uptime(float *time1, float *time2) {
 	const unsigned int size = 256;
 	char buf[size];
 	int d, res;
-	scie(d = open(filename, O_RDONLY), "open");
-	scie(res = read(d, buf, size), "read");
+	sc(d = open(filename, O_RDONLY));
+	sc(res = read(d, buf, size));
 	char *saveptr;
 	char *ptr = strtok_r(buf, " ", &saveptr);
 	*time1 = atof(ptr);
 	ptr = strtok_r(NULL, " ", &saveptr);
 	*time2 = atof(ptr);
-	scie(close(d), "close file");
+	sc(close(d));
 }
 
 

@@ -37,7 +37,7 @@ int main(int argc,char** argv,char** envp) {
 	struct rlimit rlim;
 	rlim.rlim_max=stack_size_to_set;
 	rlim.rlim_cur=stack_size_to_set;
-	scie(setrlimit(RLIMIT_STACK,&rlim),"setrlimit");
+	sc(setrlimit(RLIMIT_STACK,&rlim));
 	const size_t size=1024*1024;
 	for(unsigned int i=0;i<100;i++) {
 		printf("trying to allocate %d\n",i*size);

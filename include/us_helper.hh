@@ -150,6 +150,12 @@ static inline void check_1(int val,const char* msg) {
 		exit(1);
 	}
 }
+template<class T> inline void check_not_val(T t,const char *msg, T errval) {
+	if (t == errval) {
+		perror("error in system call");
+		exit(1);
+	}
+}
 
 #define SCIE(v, msg) std::cout << msg << " " << "started" << std::endl; scie(v, msg); std::cout << msg << " " << "ended" << std::endl;
 #define SCPE(v, msg) std::cout << msg << " " << "started" << std::endl; scpe(v, msg); std::cout << msg << " " << "ended" << std::endl;
@@ -162,6 +168,7 @@ static inline void check_1(int val,const char* msg) {
 #define CHECK_ZERO(v) check_zero(v, __stringify(v));
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v));
 #define CHECK_1(v) check_1(v, __stringify(v));
+#define CHECK_NOT_VAL(v,e) check_not_val(v, __stringify(v),e);
 
 // kernel log handling functions
 static inline void klog_clear(void) {

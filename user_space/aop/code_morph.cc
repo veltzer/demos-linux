@@ -68,14 +68,14 @@ char* find_cell(void* ptr,char val) {
  */
 void segv_handler(int sig) {
 	printf("in segv_handler, changing protection for the page...\n");
-	scie(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC),"mprotect");
+	sc(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC));
 }
 
 int main(int argc, char **argv, char **envp) {
 	// call the function to see what it is doing...
 	function();
 	// lets install our own SIGSEGV signal handler so that we won't crash...
-	scie(signal(SIGSEGV,segv_handler),"signal",SIG_ERR);
+	CHECK_NOT_VAL(signal(SIGSEGV,segv_handler),SIG_ERR);
 	// find the cell where the number 'times' is writen
 	char* p=find_cell((void*)function,times);
 	// change the value of the function, this will generate a SIGSEGV

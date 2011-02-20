@@ -37,10 +37,10 @@ int main(int argc, char **argv, char **envp) {
 		exit(EXIT_FAILURE);
 	}
 	int efd=eventfd(0, 0);
-	scie(efd,"eventfd");
+	sc(efd);
 
 	pid_t pid=fork();
-	scie(pid,"fork");
+	sc(pid);
 
 	if(pid==0) {
 		// child branch
@@ -52,7 +52,7 @@ int main(int argc, char **argv, char **envp) {
 			//sleep(1);
 		}
 		printf("Child completed write loop\n");
-		scie(close(efd),"close");
+		sc(close(efd));
 		printf("Child exiting\n");
 		return(0);
 	} else {
@@ -63,7 +63,7 @@ int main(int argc, char **argv, char **envp) {
 		scassert(old!=SIG_ERR,"signal");
 		// this is neccessary in order to 'break' out of the read(2) system
 		// call when SIGCHLD comes along...
-		scie(siginterrupt(SIGCHLD,1),"siginterrupt");
+		sc(siginterrupt(SIGCHLD,1));
 		printf("Parent about to read\n");
 		while(cont) {
 			uint64_t u;
@@ -73,7 +73,7 @@ int main(int argc, char **argv, char **envp) {
 				printf("Parent read %llu (0x%llx) from efd\n",u,u);
 			}
 		}
-		scie(close(efd),"close");
+		sc(close(efd));
 		printf("Parent exiting\n");
 		return(0);
 	}

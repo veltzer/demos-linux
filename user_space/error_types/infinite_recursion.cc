@@ -25,7 +25,7 @@
 void show_stack_size() {
 	static unsigned int print_num=0;
 	struct rusage usage;
-	scie(getrusage(RUSAGE_SELF,&usage),"getrusage");
+	sc(getrusage(RUSAGE_SELF,&usage));
 	printf("print_num is %d\n",print_num);
 	printf("usage.ru_maxrss=%lu\n",usage.ru_maxrss);
 	//printf("usage.ru_ixrss=%lu\n",usage.ru_ixrss);
