@@ -34,7 +34,7 @@ pid_t make_child(int nice_val) {
 	if(child_pid==0) {
 		// child process
 		// set our own nice level to the required level...
-		scie(nice(nice_val),"nice");
+		sc(nice(nice_val));
 		pid_t mypid = getpid();
 		int i = 0;
 		while (1) {

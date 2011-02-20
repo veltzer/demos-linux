@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp) {
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {
 		// this next line needs permission to lock memory (check ulimit or run as sudo)
-		scie(mlock(p,size),"mlock");
+		sc(mlock(p,size));
 	}
 	if(do_touch) {
 		memset(p, 0, size);
