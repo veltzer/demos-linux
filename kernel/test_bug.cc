@@ -1,11 +1,6 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <iostream>
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
 
 #include "us_helper.hh"
 
@@ -13,6 +8,8 @@
  *      This is a demo of how to use the BUG() macro in the kernel to find bugs...
  *      Notice that this produces a stack trace in dmesg...
  *      Notice also that you can still rmmod your module if you had a bug...
+ *
+ *      		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	// file to be used
@@ -20,8 +17,8 @@ int main(int argc, char **argv, char **envp) {
 	// file descriptor to use
 	int d;
 
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(ioctl(d, 0, NULL), "activate bug");
-	SCIE(close(d), "close file");
+	SC(d = open(filename, O_RDWR));
+	SC(ioctl(d, 0, NULL));
+	SC(close(d));
 	return(0);
 }

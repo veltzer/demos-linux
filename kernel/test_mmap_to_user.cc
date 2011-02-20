@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp) {
 
 	//klog_clear();
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey();
@@ -54,11 +54,11 @@ int main(int argc, char **argv, char **envp) {
 		INFO("trying to write on the buffer");
 		memset(ptr, 'a', size);
 		// get buffer from user space
-		SCIE(ioctl(d, IOCTL_DEMO_READ, 'a'), "read in kernel");
-		SCIE(ioctl(d, IOCTL_DEMO_WRITE, 'a' + 1), "write in kernel");
+		SC(ioctl(d, IOCTL_DEMO_READ, 'a'));
+		SC(ioctl(d, IOCTL_DEMO_WRITE, 'a' + 1));
 		memcheck(ptr, 'a' + 1, size);
 
-		SCIE(ioctl(d, IOCTL_DEMO_UNMAP, NULL), "unmap from user");
+		SC(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
 		//printproc("demo");
 		//klog_show_clear();
 		waitkey();
@@ -73,18 +73,18 @@ int main(int argc, char **argv, char **envp) {
 			// set the buffer to c
 			memset(ptr, c, size);
 			// get buffer from user space
-			scie(ioctl(d, IOCTL_DEMO_READ, c), "read in kernel");
+			sc(ioctl(d, IOCTL_DEMO_READ, c));
 			// ask the kernel to write c+1
-			scie(ioctl(d, IOCTL_DEMO_WRITE, c + 1), "write in kernel");
+			sc(ioctl(d, IOCTL_DEMO_WRITE, c + 1));
 			// check that the buffer has the right data
 			memcheck(ptr, c + 1, size);
 			// get ridd of the in kernel buffer
-			scie(ioctl(d, IOCTL_DEMO_UNMAP, NULL), "unmap from user");
+			sc(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
 		}
 		do_prog_finish();
 	}
 
-	SCIE(close(d), "close");
+	SC(close(d));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey();

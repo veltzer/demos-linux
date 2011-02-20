@@ -14,14 +14,14 @@
  *              - one asking to close the driver (which halts).
  *              - main asking for input and releases the close process...
  *
- * EXTRA_LIBS=-lpthread
- */
-
-/*
  *      What do we learn from this?
  *      - closing a file descriptor only schedules release to be called in the kernel.
  *      - this release will be called once any ioctls on the current file descriptor end.
  *      - any new operations on this file descriptor are not allowed (bad file descriptor).
+ *
+ *      		Mark Veltzer
+ *
+ * EXTRA_LIBS=-lpthread
  */
 
 // file descriptor
@@ -59,14 +59,14 @@ void *function_crazy(void *p) {
 
 
 void *function_long(void *p) {
-	SCIE(ioctl(d, 1, NULL), "long ioctl 1");
-	SCIE(ioctl(d, 1, NULL), "long ioctl 2");
+	SC(ioctl(d, 1, NULL));
+	SC(ioctl(d, 1, NULL));
 	return(NULL);
 }
 
 
 void *function_long2(void *p) {
-	SCIE(ioctl(d2, 2, NULL), "very long ioctl");
+	SC(ioctl(d2, 2, NULL));
 	return(NULL);
 }
 
@@ -75,8 +75,8 @@ void *function_close(void *p) {
 	fprintf(stderr, "close thread started and going to sleep for two seconds\n");
 	sleep(2);
 	fprintf(stderr, "close thread trying to close handle...\n");
-	SCIE(close(d), "close file");
-	//SCIE(ioctl(d,0,NULL),"short ioctl");
+	SC(close(d));
+	//SC(ioctl(d,0,NULL));
 	return(NULL);
 }
 
@@ -85,8 +85,8 @@ int main(int argc, char **argv, char **envp) {
 	// file to be used
 	const char *filename = "/dev/demo";
 
-	SCIE(d = open(filename, O_RDWR), "open first");
-	SCIE(d2 = open(filename, O_RDWR), "open second");
+	SC(d = open(filename, O_RDWR));
+	SC(d2 = open(filename, O_RDWR));
 
 	//pthread_t thread_crazy;
 	//SCIG(pthread_create(&thread_crazy,NULL,function_crazy,NULL),"pthread crazy created");
@@ -98,7 +98,7 @@ int main(int argc, char **argv, char **envp) {
 	SCIG(pthread_create(&thread_close, NULL, function_close, NULL), "pthread close created");
 
 	//waitkey("press any key to wake the close thread up");
-	//SCIE(ioctl(d,5,NULL),"waking the close thread");
+	//SC(ioctl(d,5,NULL));
 
 	//SCIG(pthread_join(thread_crazy,NULL),"join");
 	SCIG(pthread_join(thread_long, NULL), "join");

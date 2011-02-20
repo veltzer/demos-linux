@@ -19,18 +19,18 @@ int main(int argc, char **argv, char **envp) {
 	// file descriptor
 	int d;
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 	int efd;
-	SCIE(efd = eventfd(0, 0), "open");
+	SC(efd = eventfd(0, 0));
 	int pid;
-	SCIE(pid = fork(), "fork");
+	SC(pid = fork());
 	switch (pid) {
-	case 0:
-		printf("Child\n");
+		case 0:
+			printf("Child\n");
 
-	default:
-		printf("Parent\n");
+		default:
+			printf("Parent\n");
 	}
-	SCIE(close(d), "close");
+	SC(close(d));
 	return(0);
 }

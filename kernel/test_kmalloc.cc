@@ -20,13 +20,13 @@ int main(int argc, char **argv, char **envp) {
 	int d;
 
 	//klog_clear();
-	scie(d = open(filename, O_RDWR), "open");
+	sc(d = open(filename, O_RDWR));
 	printf("starting out\n");
 	for (unsigned int i = 1; i < 1000000; i += 100) {
 		// kmalloc does not allocate on a page boundry...
 		//sc(ioctl(d,IOCTL_DEMO_KMALLOC,i),"kmalloc");
 		//printf("kmalloc: i is %d\n",i);
-		scie(ioctl(d, IOCTL_DEMO_GET_FREE_PAGES, i), "__get_free_pages");
+		sc(ioctl(d, IOCTL_DEMO_GET_FREE_PAGES, i));
 		printf("__get_free_pages: i is %d\n", i);
 		// I don't seem to be able to call these unless I have a real
 		// device (like PCI etc...).
@@ -35,6 +35,6 @@ int main(int argc, char **argv, char **envp) {
 		//sc(ioctl(d,IOCTL_DEMO_DMA_ALLOC_COHERENT,i),"dma_alloc_coherent");
 		//printf("dma_alloc_coherent: i is %d",i);
 	}
-	scie(close(d), "close");
+	sc(close(d));
 	return(0);
 }

@@ -1,16 +1,16 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <unistd.h> // for close(2)
 
-#include "us_helper.hh"
+#include "us_helper.hh" // our user helper
 
 /*
  *      A basic test which opens the device, runs one ioctl with 0 or user given
  *      cmd and no data and then closes the device
+ *     	
+ *     			Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	int ioctl_num = 0;
@@ -22,8 +22,8 @@ int main(int argc, char **argv, char **envp) {
 	const char *filename = "/dev/demo";
 	// file descriptor
 	int d;
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(ioctl(d, ioctl_num, NULL), "ioctl");
-	SCIE(close(d), "close");
+	SC(d = open(filename, O_RDWR));
+	SC(ioctl(d, ioctl_num, NULL));
+	SC(close(d));
 	return(0);
 }

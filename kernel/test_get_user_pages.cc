@@ -61,22 +61,22 @@ static void do_test(char *data, unsigned int size, const char *name) {
 	b.size = size;
 	b.pointer = data;
 	//klog_clear();
-	SCIE(ioctl(d, IOCTL_DEMO_MAP, &b), "asking to map memory");
+	SC(ioctl(d, IOCTL_DEMO_MAP, &b));
 	//klog_show();
 	show_data(data, size);
 	//klog_clear();
-	SCIE(ioctl(d, IOCTL_DEMO_READ), "asking to read memory");
+	SC(ioctl(d, IOCTL_DEMO_READ));
 	//klog_show();
 	show_data(data, size);
-	SCIE(ioctl(d, IOCTL_DEMO_WRITE, 'z'), "asking to write memory");
+	SC(ioctl(d, IOCTL_DEMO_WRITE, 'z'));
 	show_data(data, size);
 	printf("writing b into the buffer from userspace\n");
 	memset(data, 'b', size);
 	//klog_clear();
-	SCIE(ioctl(d, IOCTL_DEMO_READ), "asking to read memory");
+	SC(ioctl(d, IOCTL_DEMO_READ));
 	//klog_show();
 	show_data(data, size);
-	SCIE(ioctl(d, IOCTL_DEMO_UNMAP), "asking to unmap memory");
+	SC(ioctl(d, IOCTL_DEMO_UNMAP));
 	show_data(data, size);
 }
 
@@ -87,7 +87,7 @@ int main(int argc, char **argv, char **envp) {
 	// file name of the device
 	const char *filename = "/dev/demo";
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 	if (do_stack_test) {
 		char data[csize + getpagesize() * 10];
 		do_test(data, csize, "stack");
@@ -107,6 +107,6 @@ int main(int argc, char **argv, char **envp) {
 		static char data[csize];
 		do_test(data, csize, "stacks");
 	}
-	SCIE(close(d), "close file");
+	SC(close(d));
 	return(0);
 }

@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp) {
 	// file handle
 	int d;
 
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(close(d), "close file");
+	SC(d = open(filename, O_RDWR));
+	SC(close(d));
 	return(0);
 }
