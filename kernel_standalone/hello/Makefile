@@ -27,3 +27,8 @@ clean:
 .PHONY: help
 help:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) help
+# Indents the kernel source the way linux/Documentation/CodingStyle.txt
+# # wants it to be.
+.PHONY: indent
+indent:
+	indent -kr -i8 *.c
