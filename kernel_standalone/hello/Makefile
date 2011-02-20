@@ -1,10 +1,14 @@
+# the base name of the module
+NAME:=hello
+# the ko file
+KO:=$(NAME).ko
 # fill in the name of the module. I know that it's weird but this should be a .o name
 # and is probably due to backwards compatibility issues.
-obj-m:=hello.o
+obj-m:=$(NAME).o
 # This is not strictly required for a single object module where the name of the module
 # is the name of the single file in it. In my case this is not the case since the module
 # is hello.ko while the single file is main.c.
-hello-objs:=main.o
+$(NAME)-objs:=main.o
 # fill in the version of the kernel for which you want the module compiled to
 # the ?= means that it will only be set if you have not provided this via the command line.
 # You can override using "make KVER=2.6.35".
@@ -27,3 +31,26 @@ clean:
 .PHONY: help
 help:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) help
+
+# a target to debug my own makefile...
+.PHONY: debug
+debug:
+	$(info NAME is $(NAME))
+	$(info KO is $(KO))
+	$(info KVER is $(KVER))
+	$(info KDIR is $(KDIR))
+	$(info V is $(V))
+	$(info CURDIR is $(CURDIR))
+	$(info obj-m is $(obj-m))
+	$(info $(NAME)-objs is $($(NAME)-objs))
+# easy macros to enable kernel development
+.PHONY: insmod
+insmod:
+	-sudo rmmod $(NAME)
+	sudo insmod $(KO)
+.PHONY: rmmod
+rmmod:
+	sudo rmmod $(NAME)
+.PHONY: modinfo
+modinfo:
+	modinfo $(KO)
