@@ -4,7 +4,10 @@
 #include "us_helper.hh"
 
 /*
- *	Print all clocks available on the system...
+ *	Print all clocks available on the system for a user space app...
+ *	Notice that:
+ *	- different clocks show different times.
+ *	- different clocks have different resolutions.
  *
  *		Mark Veltzer
  *
@@ -16,7 +19,8 @@ typedef struct _clock_data {
 	clockid_t id;
 } clock_data;
 
-const int num_clocks = 4;
+const int num_clocks = 7;
+// these clock ids are taken from /usr/include/bits/time.h...
 clock_data clocks[num_clocks] = {
 	{
 		"CLOCK_REALTIME",
@@ -33,15 +37,28 @@ clock_data clocks[num_clocks] = {
 	{
 		"CLOCK_THREAD_CPUTIME_ID",
 		CLOCK_THREAD_CPUTIME_ID
-	}
+	},
+	{
+		"CLOCK_MONOTONIC_RAW",
+		CLOCK_MONOTONIC_RAW
+	},
+	{
+		"CLOCK_REALTIME_COARSE",
+		CLOCK_REALTIME_COARSE
+	},
+	{
+		"CLOCK_MONOTONIC_COARSE",
+		CLOCK_MONOTONIC_COARSE
+	},
 };
 
 int main(int argc, char **argv, char **envp) {
 	for (int i = 0; i < num_clocks; i++) {
 		clockid_t clk_id = clocks[i].id;
-		struct timespec res;
-		CHECK_ZERO(clock_getres(clk_id, &res));
-		printf("clock resolution for clock %s (%d) is %ld (sec) %ld (nsec)\n", clocks[i].name, clocks[i].id, res.tv_sec, res.tv_nsec);
+		struct timespec res,ts;
+		CHECK_NOT_M1(clock_getres(clk_id, &res));
+		CHECK_NOT_M1(clock_gettime(clk_id, &ts));
+		printf("clock resolution for clock %s (%d) is %ld (sec) %ld (nsec), time %ld.%09ld\n", clocks[i].name, clocks[i].id, res.tv_sec, res.tv_nsec,ts.tv_sec,ts.tv_nsec);
 	}
 	return(0);
 }
