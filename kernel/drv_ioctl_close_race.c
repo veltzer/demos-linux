@@ -84,26 +84,26 @@ static struct device   *my_device;
  * getting the image rows and columns
  */
 static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
-	DEBUG("start");
+	INFO("start");
 	switch (cmd) {
 	case 0:
 		// empty ioctl to 'just work';
-		DEBUG("end");
+		INFO("end");
 		return(0);
 
 	case 1:
 		// long ioctl to stall for time
 		ssleep(10);
-		DEBUG("end");
+		INFO("end");
 		return(0);
 
 	case 2:
 		// long ioctl to stall for time
 		ssleep(10000);
-		DEBUG("end");
+		INFO("end");
 		return(0);
 	}
-	DEBUG("end");
+	INFO("end");
 	return(-EINVAL);
 }
 
@@ -112,9 +112,9 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
  * The release implementation. Currently this does nothing
  */
 static int kern_release(struct inode *inode, struct file *filp) {
-	DEBUG("start");
+	INFO("start");
 	ssleep(2);
-	DEBUG("end");
+	INFO("end");
 	return(0);
 }
 
@@ -134,7 +134,7 @@ int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	INFO("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
@@ -143,27 +143,27 @@ int register_dev(void) {
 	memset(pdev, 0, sizeof(struct kern_dev));
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			INFO("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			INFO("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	INFO("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		INFO("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	INFO("added the device");
 	// now register it in /dev
 	my_device = device_create(
 	        my_class,                                                                                                                   /* our class */
@@ -174,10 +174,10 @@ int register_dev(void) {
 	        0
 	        );
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		INFO("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	INFO("did device_create");
 	return(0);
 
 	//goto_all:

@@ -83,7 +83,7 @@ void *function_close(void *p) {
 
 int main(int argc, char **argv, char **envp) {
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename = "/dev/drv_ioctl_close_race";
 
 	SCIE(d = open(filename, O_RDWR), "open first");
 	SCIE(d2 = open(filename, O_RDWR), "open second");

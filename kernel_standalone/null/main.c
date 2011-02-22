@@ -48,12 +48,14 @@ static struct class *my_class;
 
 static int null_init(void) {
 	// this is registering the new device operations
-	if(register_chrdev(NULL_MAJOR,"null",&null_fops))
-		printk("unable to get major %d for %s dev\n",NULL_MAJOR,myname);
+	if(register_chrdev(NULL_MAJOR,THIS_MODULE->name,&null_fops))
+		printk(KERN_ERR "unable to get major %d for %s dev\n",NULL_MAJOR,myname);
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,myname);
-	if(IS_ERR(my_class))
-		printk("failed to create class\n");
+	if(IS_ERR(my_class)) {
+		unregister_chrdev(NULL_MAJOR, myname);
+		printk(KERN_ERR "failed to create class\n");
+	}
 	// and now lets auto-create a /dev/ node
 	device_create(my_class, NULL, MKDEV(NULL_MAJOR, NULL_MINOR),"newnull");
 	return 0;
@@ -62,7 +64,7 @@ static int null_init(void) {
 static void null_exit(void) {
 	device_destroy(my_class, MKDEV(NULL_MAJOR, NULL_MINOR));
 	class_destroy(my_class);
-	unregister_chrdev(NULL_MAJOR, myname);
+	unregister_chrdev(NULL_MAJOR,THIS_MODULE->name);
 }
 
 module_init(null_init);
