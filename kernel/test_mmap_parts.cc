@@ -48,10 +48,10 @@ int main(int argc, char **argv, char **envp) {
 	// file to be used
 	const char *filename = "/dev/demo";
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 
 	//printf("setting the size to %d\n",size);
-	//SCIE(res=ioctl(d,6,size),"setting the size");
+	//SC(res=ioctl(d,6,size));
 
 	if (do_mmap_once) {
 		void *p;
@@ -68,44 +68,50 @@ int main(int argc, char **argv, char **envp) {
 		klog_show();
 		printproc("demo");
 		klog_clear();
-		SCIE(munmap(p, size), "unmap");
+		SC(munmap(p, size));
 		klog_show();
 		printbuddy();
 	}
 	if (do_ioctl_once) {
 		printproc("demo");
 		klog_clear();
-		SCIE(res = ioctl(d, 4, NULL), "trying to map memory");
+		// trying to map memory
+		SC(res = ioctl(d, 4, NULL));
 		void *p = (void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		klog_clear();
-		SCIE(res = ioctl(d, 5, NULL), "trying to unmap memory");
+		// trying to unmap memory
+		SC(res = ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
 	if (do_ioctl_once_write) {
 		printproc("demo");
 		klog_clear();
-		SCIE(res = ioctl(d, 4, NULL), "trying to map memory");
+		// trying to map memory
+		SC(res = ioctl(d, 4, NULL));
 		void *p = (void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		memset(p, 0, size);
 		klog_clear();
-		SCIE(res = ioctl(d, 5, NULL), "trying to unmap memory");
+		// trying to unmap memory
+		SC(res = ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
 	if (do_stress_ioctl) {
 		const int number = 10;
 		for (int i = 0; i < number; i++) {
-			SCIE(res = ioctl(d, 4, NULL), "trying to map memory");
+			// trying to map memory
+			SC(res = ioctl(d, 4, NULL));
 			void *p = (void *)res;
 			printf("the pointer I got is %p\n", p);
-			SCIE(res = ioctl(d, 5, NULL), "trying to unmap memory");
+			// trying to unmap memory
+			SC(res = ioctl(d, 5, NULL));
 		}
 	}
 	if (do_stress_mmap) {
@@ -122,10 +128,10 @@ int main(int argc, char **argv, char **envp) {
 			             ), "mmap");
 			printf("the pointer I got is %p\n", p);
 			memset(p, 0, size);
-			SCIE(munmap(p, size), "unmap");
+			SC(munmap(p, size));
 			printbuddy();
 		}
 	}
-	SCIE(close(d), "close file");
+	SC(close(d));
 	return(0);
 }

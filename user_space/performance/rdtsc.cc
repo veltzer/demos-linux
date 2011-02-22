@@ -49,7 +49,7 @@ void long_task(void) {
 int main(int argc, char **argv, char **envp) {
 	printf("starting up...\n");
 	int c;
-	scie(syscall(__NR_getcpu, &c, NULL, NULL), "getcpu");
+	sc(syscall(__NR_getcpu, &c, NULL, NULL));
 	printf("sched_getcpu() is %d\n", sched_getcpu());
 	printf("getcpu(2) is %d\n", c);
 
@@ -74,17 +74,17 @@ int main(int argc, char **argv, char **envp) {
 	// this one requires parsing
 	const char *cmd = "cat /proc/cpuinfo | grep MH";
 	printf("going to do command [%s]\n", cmd);
-	scie(system(cmd), "system");
+	sc(system(cmd));
 
 	// this one requires root (sudo)
 	const char *cmd2 = "sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq";
 	printf("going to do command [%s]\n", cmd2);
-	scie(system(cmd2), "system");
+	sc(system(cmd2));
 
 	// this one is ok for everyone
 	const char *cmd3 = "cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
 	printf("going to do command [%s]\n", cmd3);
-	scie(system(cmd3), "system");
+	sc(system(cmd3));
 
 	// this is using libcpufreq (it actually does the about reading of the
 	// file in /sys...)

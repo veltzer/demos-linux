@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> // for printf(3)
 #include <string.h>
 #include <sys/utsname.h>
 
@@ -19,7 +19,7 @@
 int main(int argc, char **argv, char **envp) {
 	struct utsname buf;
 
-	scie(uname(&buf), "get uname");
+	sc(uname(&buf));
 	printf("architecture is [%s]\n", buf.machine);
 	PRINT_SIZEOF(bool);
 	PRINT_SIZEOF(char);

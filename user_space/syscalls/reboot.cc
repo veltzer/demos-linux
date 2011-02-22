@@ -2,7 +2,7 @@
 #include <linux/reboot.h> // for reboot(2)
 #include <sys/syscall.h> // for syscall(2), SYS_xxx definitions
 
-#include "us_helper.hh"
+#include "us_helper.hh" // our user space helper
 
 /*
  *      Example of how to reboot the system
@@ -15,6 +15,6 @@
  * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
-	scie(syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2, LINUX_REBOOT_CMD_RESTART, NULL), "trying to reboot the system");
+	sc(syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2, LINUX_REBOOT_CMD_RESTART, NULL));
 	return(0);
 }

@@ -22,7 +22,7 @@ int main(int argc,char** argv,char** envp) {
 	struct rlimit rlim;
 	rlim.rlim_max=max_megs*1024*1024;
 	rlim.rlim_cur=max_megs*1024*1024;
-	scie(setrlimit(RLIMIT_AS,&rlim),"setrlimit");
+	sc(setrlimit(RLIMIT_AS,&rlim));
 	int d=0;
 	while(true) {
 		void* m=malloc(1024*1024);

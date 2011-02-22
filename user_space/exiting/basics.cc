@@ -44,7 +44,7 @@ void my_atexit(void) {
 }
 
 int main(int argc, char **argv, char **envp) {
-	scie(atexit(my_atexit),"atexit");
+	sc(atexit(my_atexit));
 	const unsigned int code=5;
 	A a(5);
 	char * line = NULL;

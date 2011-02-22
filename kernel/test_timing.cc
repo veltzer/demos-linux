@@ -19,11 +19,11 @@ int main(int argc, char **argv, char **envp) {
 	int d;
 
 	printf("Starting\n");
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(ioctl(d, 0, NULL), "ioctl");
+	SC(d = open(filename, O_RDWR));
+	SC(ioctl(d, 0, NULL));
 	// sleep for 1 second to allow us to see the results
 	sleep(1);
-	SCIE(ioctl(d, 1, NULL), "ioctl");
-	SCIE(close(d), "close");
+	SC(ioctl(d, 1, NULL));
+	SC(close(d));
 	return(0);
 }

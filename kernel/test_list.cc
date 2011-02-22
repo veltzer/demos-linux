@@ -50,7 +50,7 @@ int main(int argc, char **argv, char **envp) {
 	int d;
 	int arg;
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 	int choice = show_menu();
 	while (choice != 6) {
 		printf("your choice is %d> \n", choice);
@@ -59,12 +59,12 @@ int main(int argc, char **argv, char **envp) {
 			arg = get_number();
 		}
 		klog_clear();
-		SCIE(ioctl(d, choice, arg), "ioctl");
+		SC(ioctl(d, choice, arg));
 		klog_show();
 		waitkey();
 		choice = show_menu();
 	}
-	SCIE(close(d), "close file");
+	SC(close(d));
 	waitkey();
 	return(0);
 }

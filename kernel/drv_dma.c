@@ -1,4 +1,3 @@
-#include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
@@ -15,7 +14,7 @@
 #include "kernel_helper.h" // our own helper
 
 /*
- *	This example demos how to allocate and deallocate coherent memoery for DMA
+ *	This example demos how to allocate and deallocate coherent memory for DMA
  *	When runnig this on intel/ubuntu 10.04 these are the conclusions:
  *	- dma_alloc_coherent limit is 2Mb.
  *	- kmalloc(GFP_DMA) limit is 2Mb.

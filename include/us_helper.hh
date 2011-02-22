@@ -82,11 +82,10 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 /*
  * A system call handler, will take care of all those pesky error values
  * and will throw an exception if any of them pops up.
+ * I removed "throw new std::exception();" from the following functions.
  */
 static inline void scie(int t, const char *msg, int errval = -1) {
 	if (t == errval) {
-		//throw new std::exception();
-
 		perror("error in system call");
 		exit(1);
 	}
@@ -99,34 +98,29 @@ static inline void scassert(int t,const char* msg) {
 }
 template<class T> inline void scie(T t,const char *msg, T errval) {
 	if (t == errval) {
-		throw new std::exception();
+		perror("error in system call");
+		exit(1);
 	}
 }
 
 static inline void scig(int t, const char *msg, int goodval = 0) {
 	if (t != goodval) {
-		throw new std::exception();
-
-		//perror("error in system call");
-		//exit(1);
+		perror("error in system call");
+		exit(1);
 	}
 }
 
 static inline void scig2(int t, const char *msg, int v1, int v2) {
 	if ((t != v1) && (t != v2)) {
-		throw new std::exception();
-
-		//perror("error in system call");
-		//exit(1);
+		perror("error in system call");
+		exit(1);
 	}
 }
 
 static inline void scpe(void *t, const char *msg, void *errval = (void *)-1) {
 	if (t == errval) {
-		throw new std::exception();
-
-		//perror("error in system call");
-		//exit(1);
+		perror("error in system call");
+		exit(1);
 	}
 }
 static inline void check_zero(int val,const char* msg) {
@@ -144,8 +138,14 @@ static inline void check_not_m1(int val,const char* msg) {
 }
 static inline void check_1(int val,const char* msg) {
 	if (val !=1 ) {
-		fprintf(stderr,"error in syscall with msg [%s]\n",msg);
-		fprintf(stderr,"value is [%d]\n",val);
+		//fprintf(stderr,"error in syscall with msg [%s]\n",msg);
+		//fprintf(stderr,"value is [%d]\n",val);
+		perror("error in system call");
+		exit(1);
+	}
+}
+template<class T> inline void check_not_val(T t,const char *msg, T errval) {
+	if (t == errval) {
 		perror("error in system call");
 		exit(1);
 	}
@@ -162,14 +162,15 @@ static inline void check_1(int val,const char* msg) {
 #define CHECK_ZERO(v) check_zero(v, __stringify(v));
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v));
 #define CHECK_1(v) check_1(v, __stringify(v));
+#define CHECK_NOT_VAL(v,e) check_not_val(v, __stringify(v),e);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
-	SCIE(system("sudo dmesg -c > /dev/null"), "clearing log");
+	sc(system("sudo dmesg -c > /dev/null"));
 }
 
 static inline void klog_show(void) {
-	SCIE(system("sudo dmesg"), "showing log");
+	sc(system("sudo dmesg"));
 }
 
 static inline void klog_show_clear(void) {
@@ -183,17 +184,18 @@ static inline void waitkey(const char *msg = NULL) {
 	} else {
 		fprintf(stdout, "Press any key to continue...\n");
 	}
-	//scie(setvbuf(stdin,NULL,_IONBF,0),"setvbuf");
+	//sc(setvbuf(stdin,NULL,_IONBF,0));
 	fgetc(stdin);
 }
 
 static inline void debug(const char *file, const char *function, int line, const char *fmt, ...) {
 	extern char *program_invocation_short_name;
-	char str[1024];
+	const int BUFSIZE=1024;
+	char str[BUFSIZE];
 	pid_t pid = getpid();
 	pid_t tid = gettid();
 
-	snprintf(str, 1024, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
+	snprintf(str, BUFSIZE, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
 	va_list args;
 	va_start(args, fmt);
 	vfprintf(stderr, str, args);
@@ -217,13 +219,6 @@ static inline int printproc(const char *filter) {
 		snprintf(cmd, cmd_size, "cat /proc/%d/maps | grep %s", pid, filter);
 	}
 	int res = system(cmd);
-	//waitkey();
-	return(res);
-}
-
-static inline int printbuddy(void) {
-	int res = system("cat /proc/buddyinfo");
-
 	//waitkey();
 	return(res);
 }
@@ -277,12 +272,12 @@ static inline void my_system(const char *fmt, ...) {
 	vsnprintf(str, cmd_size,fmt, args);
 	va_end(args);
 	fprintf(stderr,"doing [%s]\n",str);
-	scie(system(str), "system");
+	sc(system(str));
 }
 
 void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 
-static inline void print_process_name() {
+static inline void print_process_name(void) {
 	const unsigned int size=16;
 	char name[size];
 	CHECK_ZERO(prctl(PR_GET_NAME,name));
@@ -303,8 +298,12 @@ static inline void set_process_name(const char* newname) {
 	CHECK_ZERO(prctl(PR_SET_NAME,name));
 }
 
-static inline void print_process_name_from_proc() {
+static inline void print_process_name_from_proc(void) {
 	my_system("cat /proc/%d/comm",getpid());
+}
+
+static inline void printbuddy(void) {
+	my_system("cat /proc/buddyinfo");
 }
 
 #endif // __us_helper_h

@@ -1,26 +1,19 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/device.h>
-#include <linux/types.h>
-#include <linux/proc_fs.h>
-#include <linux/mm.h>
+#include <linux/module.h> // for module_*, MODULE_*
+#include <linux/cdev.h> // for cdev_init, cdev_add, cdev_dell
+#include <linux/fs.h> // for fops definitions
+#include <linux/device.h> // for class_create, class_destroy
+#include <linux/slab.h> // for kmalloc, kfree 
 
 #include "kernel_helper.h" // our own helper
 
-/*
- *      This driver shows how to correctly return error code from kernel code
- *      and what happens in user space
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("Showing how to return error codes from kernel to use space");
+
+/*
+ *      This driver explores how to correctly return error code from kernel code
+ *      and what happens in user space.
+ */
 
 // parameters for this module
 
@@ -68,52 +61,11 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	return(arg);
 }
 
-
-/*
- * The open implementation. Currently this does nothing
- */
-static int kern_open(struct inode *inode, struct file *filp) {
-	DEBUG("start");
-	return(0);
-}
-
-
-/*
- * The release implementation. Currently this does nothing
- */
-static int kern_release(struct inode *inode, struct file *filp) {
-	DEBUG("start");
-	return(0);
-}
-
-
-/*
- * The read implementation. Currently this does nothing.
- */
-static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff_t *pos) {
-	DEBUG("start");
-	return(0);
-}
-
-
-/*
- * The write implementation. Currently this does nothing.
- */
-static ssize_t kern_write(struct file *filp, const char __user *buf, size_t count, loff_t *pos) {
-	DEBUG("start");
-	return(0);
-}
-
-
 /*
  * The file operations structure.
  */
 static struct file_operations my_fops = {
 	.owner   = THIS_MODULE,
-	.open    = kern_open,
-	.release = kern_release,
-	.read    = kern_read,
-	.write   = kern_write,
 	.ioctl   = kern_ioctl,
 };
 
@@ -160,8 +112,8 @@ static int register_dev(void) {
 	        NULL,                                                                                                                       /* device we are subdevices of */
 	        pdev->first_dev,
 	        NULL,
-	        THIS_MODULE->name,
-	        0
+		"%s",
+	        THIS_MODULE->name
 	        );
 	if (my_device == NULL) {
 		DEBUG("cannot create device");
@@ -203,7 +155,6 @@ static int __init mod_init(void) {
 static void __exit mod_exit(void) {
 	unregister_dev();
 }
-
 
 // declaration of init/cleanup functions of this module
 

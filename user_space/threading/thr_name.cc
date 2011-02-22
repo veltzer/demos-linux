@@ -22,7 +22,7 @@
 void get_thread_name(char* buffer,unsigned int bufsize) {
 	const unsigned int size=16;
 	char name[size];
-	scie(prctl(PR_GET_NAME,name),"prctl");
+	sc(prctl(PR_GET_NAME,name));
 	strncpy(buffer,name,bufsize);
 }
 
@@ -30,7 +30,7 @@ void set_thread_name(const char* newname) {
 	const unsigned int size=16;
 	char name[size];
 	strncpy(name,newname,size);
-	scie(prctl(PR_SET_NAME,name),"prctl");
+	sc(prctl(PR_SET_NAME,name));
 }
 
 void print_thread_name_from_proc() {

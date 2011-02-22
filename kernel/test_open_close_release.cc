@@ -50,27 +50,27 @@ const char *filename = "/dev/demo";
 void do_open_close(void) {
 	int d;
 
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(close(d), "close file");
+	SC(d = open(filename, O_RDWR));
+	SC(close(d));
 }
 
 
 void do_close(void) {
-	SCIE(close(d), "close file");
+	SC(close(d));
 }
 
 
 void do_open_and_forget(void) {
 	int d;
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 }
 
 
 void do_open_and_segfault(void) {
 	int d;
 
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 	char *p = (char *)NULL;
 	*p = 0;
 }
@@ -79,7 +79,7 @@ void do_open_and_segfault(void) {
 pid_t run_in_process(void (*f)(void)) {
 	pid_t pid;
 
-	SCIE(pid = fork(), "fork");
+	SC(pid = fork());
 	if (pid == 0) {
 		f();
 		exit(0);
@@ -93,17 +93,17 @@ int main(int argc, char **argv, char **envp) {
 	printf("Scenario 1 - a single process opening and closing...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(close(d), "close file");
+	SC(d = open(filename, O_RDWR));
+	SC(close(d));
 	klog_show();
 	waitkey();
 	printf("Scenario 2 - a single process opening twice and closing twice...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(d2 = open(filename, O_RDWR), "open");
-	SCIE(close(d), "close file");
-	SCIE(close(d2), "close file");
+	SC(d = open(filename, O_RDWR));
+	SC(d2 = open(filename, O_RDWR));
+	SC(close(d));
+	SC(close(d2));
 	klog_show();
 	waitkey();
 	printf("Scenario 3 - two process opening and closing the same file...\n");
@@ -112,42 +112,42 @@ int main(int argc, char **argv, char **envp) {
 	pid_t c1 = run_in_process(do_open_close);
 	pid_t c2 = run_in_process(do_open_close);
 	int status;
-	SCIE(waitpid(c1, &status, 0), "waitpid");
-	SCIE(waitpid(c2, &status, 0), "waitpid");
+	SC(waitpid(c1, &status, 0));
+	SC(waitpid(c2, &status, 0));
 	klog_show();
 	waitkey();
 	printf("Scenario 4 - parent opens, spawns two children who close and closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SCIE(d = open(filename, O_RDWR), "open");
+	SC(d = open(filename, O_RDWR));
 	c1 = run_in_process(do_close);
 	c2 = run_in_process(do_close);
-	SCIE(close(d), "close file");
-	SCIE(waitpid(c1, &status, 0), "waitpid");
-	SCIE(waitpid(c2, &status, 0), "waitpid");
+	SC(close(d));
+	SC(waitpid(c1, &status, 0));
+	SC(waitpid(c2, &status, 0));
 	klog_show();
 	waitkey();
 	printf("Scenario 5 - open, dup and two closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SCIE(d = open(filename, O_RDWR), "open");
-	SCIE(d2 = dup(d), "dup");
-	SCIE(close(d), "close file");
-	SCIE(close(d2), "close file");
+	SC(d = open(filename, O_RDWR));
+	SC(d2 = dup(d));
+	SC(close(d));
+	SC(close(d2));
 	klog_show();
 	waitkey();
 	printf("Scenario 6 - open and forget to close\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_forget);
-	SCIE(waitpid(c1, &status, 0), "waitpid");
+	SC(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey();
 	printf("Scenario 7 - open and segfault\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_segfault);
-	SCIE(waitpid(c1, &status, 0), "waitpid");
+	SC(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey();
 	return(0);

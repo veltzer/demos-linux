@@ -16,10 +16,10 @@
  */
 int main(int argc, char **argv, char **envp) {
 	//struct hsearch_data HTAB;
-	//SCIE(hcreate_r(50,&HTAB),"hcreate_r");
+	//SC(hcreate_r(50,&HTAB));
 	// next function does not return any status...
 	//hdestroy_r(&HTAB);
-	SCIE(hcreate(50), "hcreate");
+	SC(hcreate(50));
 	// next function does not return any status...
 	hdestroy();
 	// TODO

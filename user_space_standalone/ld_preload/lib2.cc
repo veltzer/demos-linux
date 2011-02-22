@@ -35,7 +35,7 @@ void init(void) __attribute__((constructor));
 
 static void fini(void) {
 	TRACE("in here");
-	scie(dlclose(handle),"dlclose");
+	sc(dlclose(handle));
 }
 void fini(void) __attribute__((destructor));
 

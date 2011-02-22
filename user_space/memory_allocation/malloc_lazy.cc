@@ -89,15 +89,15 @@ int main(int argc, char **argv, char **envp) {
 				print_stats();
 				break;
 			case 5:
-				scie(mlockall(MCL_CURRENT),"mlockall");
+				sc(mlockall(MCL_CURRENT));
 				print_stats();
 				break;
 			case 6:
-				scie(mlockall(MCL_FUTURE),"mlockall");
+				sc(mlockall(MCL_FUTURE));
 				print_stats();
 				break;
 			case 7:
-				scie(munlockall(),"munlockall");
+				sc(munlockall());
 				print_stats();
 				break;
 			case 8:

@@ -1,7 +1,4 @@
 #include <linux/module.h>
-#include <linux/moduleparam.h>
-#include <linux/kernel.h>
-#include <linux/init.h>
 #include <linux/stat.h>
 #include <linux/ctype.h>
 #include <linux/fs.h>
@@ -33,6 +30,7 @@ static ssize_t read_null(struct file * file, char __user * buf, size_t count, lo
 }
 
 static ssize_t write_null(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
+	*ppos+=count;
 	return count;
 }
 
@@ -57,7 +55,7 @@ static int null_init(void) {
 		printk(KERN_ERR "failed to create class\n");
 	}
 	// and now lets auto-create a /dev/ node
-	device_create(my_class, NULL, MKDEV(NULL_MAJOR, NULL_MINOR),"newnull");
+	device_create(my_class, NULL, MKDEV(NULL_MAJOR, NULL_MINOR),"%s","newnull");
 	return 0;
 }
 

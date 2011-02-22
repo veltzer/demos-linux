@@ -51,7 +51,7 @@ int main(int argc, char **argv, char **envp) {
 		exit(1);
 	}
 	struct stat stat_buf;
-	scie(stat(fname, &stat_buf),"stat");
+	sc(stat(fname, &stat_buf));
 	fprintf(stderr,"buf.size is %lu\n",stat_buf.st_size);
 	fprintf(stderr,"buf.blocks (512B each) is %lu\n",stat_buf.st_blocks);
 	fprintf(stderr,"real total calculated size is %lu\n",stat_buf.st_blocks*512);
@@ -77,6 +77,6 @@ int main(int argc, char **argv, char **envp) {
 	memcheck(buf,0,buf_size);
 
 	// now lets get ridd of the file...
-	scie(unlink(fname),"unlink");
+	sc(unlink(fname));
 	return(0);
 }
