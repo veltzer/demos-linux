@@ -68,11 +68,11 @@ int clipboard_release(struct inode* inode,struct file* filp) {
 
 /*
  * Read from the clipboard. This does the real work. This method always goes to sleep
- * until woken up by the interrupt handler. When it is woken up it copied the data from the
+ * until woken up by the interrupt handler. When it is woken up it copies the data from the
  * clip board. There is no real locking on the clipboard status which is a problem. Fix this
  * sometime.
  */
-ssize_t clipboard_read(struct file* filp,char* user_buf,size_t count,loff_t* offset) {
+ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff_t* offset) {
 	int remaining_bytes;
 	/* Number of bytes left to read in the open file */
 	remaining_bytes=min(CLIPBOARD_SIZE-(*offset),(loff_t)count);
