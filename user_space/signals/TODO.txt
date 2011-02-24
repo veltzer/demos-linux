@@ -1,3 +1,9 @@
+- improve the sigfd example and show show to do signal handling in conjunction with io.
+
+- demonstrate the blocking of signals via sigprocmask.
+
+- demonstrate the use of real time signals (receiving and sending via sigqueue).
+
 - demonstrate stuff you can do with sigaction(2) as opposed to signal(2).
 
 - demonstrate the use of sigpending(2).

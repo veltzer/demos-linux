@@ -6,14 +6,24 @@
 
 #include "kernel_helper.h" // our own helper
 
-/*
- * TODO:
- * - handle errors better
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
+
+/*
+ * This is an implementation of a kernel module which exposes a /dev/zero like
+ * device to user space. Whenever someone reads from the device the buffer passed
+ * to kernel gets filled with zeros.
+ * If you want to see the real implementation in the kernel see:
+ * $KERNEL_SOURCES/drivers/char/mem.c
+ *
+ * TODO:
+ * - move to dynamic registration of majors and mniors.
+ * - handle errors better
+ * - use clear user as does mem.c to clear the user space buffer.
+ * - use schedule like mem.c to allow for scheduling (explain why that
+ *   is in the notes).
+ */
 
 // notice this hardcoded major number (not good!!!)
 const int ZERO_MAJOR=190;
@@ -30,10 +40,11 @@ static int open_zero(struct inode * inode, struct file * file) {
 }
 
 static ssize_t read_zero(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
-	ssize_t old_count=count;
+	ssize_t old_count;
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
 
+	old_count=count;
 	while(count) {
 		size_t curr;
 		if(count>PAGE_SIZE) {
