@@ -99,7 +99,7 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 			DEBUG("bad file descriptor");
 			return(-EINVAL);
 		}
-		//eventfd_signal(fp,1);
+		eventfd_signal(fp,1);
 		return(0);
 
 		break;
