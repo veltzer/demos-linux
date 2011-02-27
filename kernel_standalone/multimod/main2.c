@@ -1,15 +1,10 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
+#include <linux/module.h> // for MODULE_*, module_*
 
-#include "another_file.h"
+#include "another_file.h" // our own API
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Multi file kernel module example");
-
-// parameters for this module
-
-// constants for this module
 
 // our own functions
 static int __init mod_init(void) {
@@ -21,7 +16,6 @@ static int __init mod_init(void) {
 static void __exit mod_exit(void) {
 	do_something_exit();
 }
-
 
 // declaration of init/cleanup functions of this module
 

@@ -1,5 +1,4 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
+#include <linux/module.h>  // for MODULE_*, module_*
 
 /*
  *	This is a minimal Hello, World! driver doing just init and cleanup

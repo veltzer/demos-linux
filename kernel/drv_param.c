@@ -92,7 +92,8 @@ MODULE_PARM_DESC(myint, "An integer");
 // only root will be able to read this one
 module_param(mylong, long, S_IRUSR);
 MODULE_PARM_DESC(mylong, "A long integer");
-// this will not appear at all since no one has permission to do anything with it...
+// this will not appear at all in /sys but will appear in modinfo.
+// no one has permission to do anything with it...
 module_param(mystring, charp, 0000);
 MODULE_PARM_DESC(mystring, "A character string");
 
