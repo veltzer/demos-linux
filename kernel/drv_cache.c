@@ -1,4 +1,4 @@
-#include <linux/module.h> // for MODULE_ stuff
+#include <linux/module.h> // for MODULE_*, module_*
 #include <linux/slab.h> // for the cache functions
 
 #include "kernel_helper.h" // our own helper

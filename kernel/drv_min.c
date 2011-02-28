@@ -1,5 +1,4 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
+#include <linux/module.h> // for MODULE_*. module_*
 
 #include "kernel_helper.h" // our own helper
 
@@ -11,10 +10,6 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Demo module for testing");
 
-// parameters for this module
-
-// constants for this module
-
 // our own functions
 static int __init mod_init(void) {
 	DEBUG("start");
@@ -25,7 +20,6 @@ static int __init mod_init(void) {
 static void __exit mod_exit(void) {
 	DEBUG("start");
 }
-
 
 // declaration of init/cleanup functions of this module
 

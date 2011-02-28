@@ -1,4 +1,4 @@
-#include <linux/module.h> // for the MODULE_* stuff
+#include <linux/module.h> // for the MODULE_*, module_*
 
 #include "kernel_helper.h" // our own helper
 

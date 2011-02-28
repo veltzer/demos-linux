@@ -1,5 +1,5 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
+#include <linux/module.h> // for MODULE_*, module_*
+#include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -88,7 +88,6 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
 	return(0);
 }
 
-
 /*
  * The file operations structure.
  */
@@ -98,15 +97,18 @@ static struct file_operations my_fops = {
 };
 
 int register_dev(void) {
+	int ret=0;
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
+		ret=PTR_ERR(my_class);
 		goto goto_nothing;
 	}
 	DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
-	if (pdev == NULL) {
+	if (IS_ERR(pdev)) {
+		ret=PTR_ERR(pdev);
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
