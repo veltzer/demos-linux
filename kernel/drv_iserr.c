@@ -1,41 +1,43 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/device.h>
-#include <linux/types.h>
-#include <linux/proc_fs.h>
-#include <linux/mm.h>
-#include <linux/err.h>
+#include <linux/module.h> // for MODULE_*, module_*
+#include <linux/err.h> // for IS_ERR_VALUE
 
-#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
-static int __init mod_init(void) {
-	unsigned long ptr1 = 15;
-	unsigned long ptr2 = -15;
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Showing how IS_ERR_VALUE works");
 
-	DEBUG("IS_ERR_VALUE(%lu) is %ld\n", ptr1, IS_ERR_VALUE(ptr1));
-	DEBUG("IS_ERR_VALUE(%lu) is %ld\n", ptr2, IS_ERR_VALUE(ptr2));
+/*
+ * This module shows that very high values of pointers (as unsigned longs) are
+ * used to pass errors around in the kernel using the IS_ERR_VALUE macro.
+ * This means that if there is a function that is supposed to return only an address
+ * it will return a very high one and you would check whether it encountered an
+ * error using this macro.
+ * Same this goes for IS_ERR and real pointers (not unsigned longs).
+ * You can also extract the exact error from the pointer using the PTR_ERR inline
+ * function.
+ * You can also see from this example how to create a pointer that embeds an error
+ * using the ERR_PTR inline function.
+ *
+ * Have a look at $KERNEL_SOURCES/include/linux/err.h for more details.
+ *
+ * 		Mark Veltzer
+ */
+
+static int __init mod_init(void) {
+	int i;
+	for(i=-10;i<10;i++) {
+		unsigned long ptr=(unsigned long)i;
+		void* p=(void*)i;
+		INFO("IS_ERR_VALUE(%lu) is %ld, and PTR_ERR is %ld\n", ptr, IS_ERR_VALUE(ptr),PTR_ERR((void*)ptr));
+		INFO("IS_ERR(%p) is %ld, and PTR_ERR is %ld\n", p, IS_ERR(p),PTR_ERR(p));
+	}
+	INFO("ERR_PTR(-EIO) is %p",ERR_PTR(-EIO));
 	return(0);
 }
-
 
 static void __exit mod_exit(void) {
 }
 
-
-// declaration of init/cleanup functions of this module
-
 module_init(mod_init);
 module_exit(mod_exit);
-
-// some module meta data
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
