@@ -1,5 +1,5 @@
 # name of this module
-NAME:=null
+NAME:=mynull
 # ko to make
 KO:=$(NAME).ko
 # fill in the name of the module. I know that it's weird but this should be a .o name
@@ -38,6 +38,7 @@ indent:
 	indent -kr -i8 *.c
 .PHONY: insmod
 insmod:
+	-sudo rmmod $(NAME)
 	sudo insmod $(KO)
 .PHONY: rmmod
 rmmod:
