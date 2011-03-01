@@ -3,6 +3,7 @@
 #include <linux/device.h> // for class_create
 #include <linux/slab.h> // for kmalloc
 #include <asm/uaccess.h> // for copy_to_user, access_ok
+#include <linux/gfp.h> // for get_zeroed_page
 
 #include "kernel_helper.h" // our own helper
 
@@ -18,8 +19,7 @@ MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
  * $KERNEL_SOURCES/drivers/char/mem.c
  *
  * TODO:
- * - move to dynamic registration of majors and mniors.
- * - handle errors better
+ * - move to dynamic registration of majors and minors.
  * - use clear user as does mem.c to clear the user space buffer.
  * - use schedule like mem.c to allow for scheduling (explain why that
  *   is in the notes).
@@ -32,8 +32,9 @@ const int ZERO_MINOR=0;
 // these are the actual operations
 
 static int open_zero(struct inode * inode, struct file * file) {
-	char* p=(char*)kmalloc(PAGE_SIZE, GFP_KERNEL);
-	memset(p,0,PAGE_SIZE);
+	//char* p=(char*)kmalloc(PAGE_SIZE, GFP_KERNEL);
+	//memset(p,0,PAGE_SIZE);
+	void* p=(void*)get_zeroed_page(GFP_KERNEL);
 	file->private_data=p;
 	INFO("all is ok and buffer is %p",p);
 	return 0;
@@ -77,20 +78,39 @@ static const struct file_operations zero_fops = {
 
 // this variable will store the class
 static struct class *my_class;
+// this variable will store the device
+static struct device *my_device;
 
 static int zero_init(void) {
+	int err=0;
 	// this is registering the new device operations
-	if(register_chrdev(ZERO_MAJOR,THIS_MODULE->name,&zero_fops))
-		printk(KERN_ERR "unable to get major %d for %s dev\n",ZERO_MAJOR,THIS_MODULE->name);
+	if((err=register_chrdev(ZERO_MAJOR,THIS_MODULE->name,&zero_fops))) {
+		ERROR("unable to get major %d for %s dev",ZERO_MAJOR,THIS_MODULE->name);
+		goto err_final;
+	}
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
-		unregister_chrdev(ZERO_MAJOR, THIS_MODULE->name);
-		printk(KERN_ERR "failed to create class\n");
+		ERROR("failed in class_create");
+		err=PTR_ERR(my_class);
+		goto err_unregister;
 	}
 	// and now lets auto-create a /dev/ node
-	device_create(my_class, NULL, MKDEV(ZERO_MAJOR, ZERO_MINOR),"%s",THIS_MODULE->name);
+	my_device=device_create(my_class, NULL, MKDEV(ZERO_MAJOR, ZERO_MINOR),"%s",THIS_MODULE->name);
+	if(IS_ERR(my_device)) {
+		ERROR("failed in device_create");
+		err=PTR_ERR(my_device);
+		goto err_class;
+	}
 	return 0;
+//err_device:
+//	device_destroy(my_class, MKDEV(ZERO_MAJOR, ZERO_MINOR));
+err_class:
+	class_destroy(my_class);
+err_unregister:
+	unregister_chrdev(ZERO_MAJOR, THIS_MODULE->name);
+err_final:
+	return err;
 }
 
 static void zero_exit(void) {

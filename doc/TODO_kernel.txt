@@ -8,6 +8,8 @@ Kernel demos:
 - add example of using /sys sysfs attributes as another example of exposing stuff to user
 space with hooks (much like /proc).
 
+- demonstrate the use of the might_sleep function.
+
 - kernel subsystem does not do depenency management. For instance, if I change kernel_helper.h
 	then the modules do NOT get recompiled.
 - add a clean kernel target for the makefile.
