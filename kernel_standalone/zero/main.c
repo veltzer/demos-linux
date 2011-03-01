@@ -28,44 +28,41 @@ MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
 // notice this hardcoded major number (not good!!!)
 const int ZERO_MAJOR=190;
 const int ZERO_MINOR=0;
+const int MINOR_COUNT=1;
 
 // these are the actual operations
 
 static int open_zero(struct inode * inode, struct file * file) {
 	//char* p=(char*)kmalloc(PAGE_SIZE, GFP_KERNEL);
 	//memset(p,0,PAGE_SIZE);
-	void* p=(void*)get_zeroed_page(GFP_KERNEL);
-	file->private_data=p;
-	INFO("all is ok and buffer is %p",p);
+	//file->private_data=(void*)p;
+	file->private_data=(void*)get_zeroed_page(GFP_KERNEL);
+	INFO("all is ok and buffer is %p",file->private_data);
 	return 0;
 }
 
 static ssize_t read_zero(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
-	ssize_t old_count;
+	ssize_t remaining;
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
 
-	old_count=count;
-	while(count) {
-		size_t curr;
-		if(count>PAGE_SIZE) {
-			curr=PAGE_SIZE;
-		} else {
-			curr=count;
-		}
+	remaining=count;
+	while(remaining) {
+		ssize_t curr=smin(PAGE_SIZE,remaining);
 		if(copy_to_user(buf,file->private_data,curr)) {
 			return -EFAULT;
 		} else {
 			buf+=curr;
-			count-=curr;
+			remaining-=curr;
 		}
 	}
-	*ppos+=old_count;
-	return old_count;
+	*ppos+=count;
+	return count;
 }
 
 int release_zero(struct inode* inode,struct file* file) {
-	kfree(file->private_data);
+	//kfree(file->private_data);
+	free_zeroed_page(file->private_data);
 	return 0;
 }
 
@@ -80,13 +77,25 @@ static const struct file_operations zero_fops = {
 static struct class *my_class;
 // this variable will store the device
 static struct device *my_device;
+// this variable will hold our cdev struct
+static struct cdev cdev;
+// this is the first dev_t allocated to us...
+static dev_t first_dev;
+// this is our first minor
+static int first_minor=0;
 
 static int zero_init(void) {
 	int err=0;
-	// this is registering the new device operations
-	if((err=register_chrdev(ZERO_MAJOR,THIS_MODULE->name,&zero_fops))) {
-		ERROR("unable to get major %d for %s dev",ZERO_MAJOR,THIS_MODULE->name);
-		goto err_final;
+	// allocate our own range of devices
+	if((err=alloc_chrdev_region(first_dev, first_minor, MINOR_COUNT, THIS_MODULE->name))) {
+		DEBUG("cannot alloc_chrdev_region");
+		goto goto_dealloc;
+	}
+	// add the cdev structure
+	cdev_init(&pdev->cdev, &my_fops);
+	if((err=cdev_add(&pdev->cdev, pdev->first_dev, MINOR_COUNT))) {
+		DEBUG("cannot cdev_add");
+		goto goto_deregister;
 	}
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
@@ -105,10 +114,14 @@ static int zero_init(void) {
 	return 0;
 //err_device:
 //	device_destroy(my_class, MKDEV(ZERO_MAJOR, ZERO_MINOR));
+err_dealloc:
+	unregister_chrdev_region(first_dev, MINOR_COUNT);
 err_class:
 	class_destroy(my_class);
 err_unregister:
 	unregister_chrdev(ZERO_MAJOR, THIS_MODULE->name);
+err_cdev_del:
+	cdev_del(&pdev->cdev);
 err_final:
 	return err;
 }
@@ -116,7 +129,9 @@ err_final:
 static void zero_exit(void) {
 	device_destroy(my_class, MKDEV(ZERO_MAJOR, ZERO_MINOR));
 	class_destroy(my_class);
-	unregister_chrdev(ZERO_MAJOR,THIS_MODULE->name);
+	cdev_del(&pdev->cdev);
+	unregister_chrdev_region(first_dev, MINOR_COUNT);
+	//unregister_chrdev(ZERO_MAJOR,THIS_MODULE->name);
 }
 
 module_init(zero_init);

@@ -29,4 +29,12 @@ static inline int memcheck(void *buf, char val, unsigned int size) {
 	return(0);
 }
 
+static inline ssize_t smin(ssize_t a,ssize_t b) {
+	if(a<b) {
+		return a;
+	} else {
+		return b;
+	}
+}
+
 #endif // __kernel_helper_h
