@@ -14,7 +14,7 @@
  */
 int main(int argc, char **argv, char **envp) {
 	if(argc!=2) {
-		printf("usage: prog [status code]\n");
+		printf("usage: %s [status code]\n",argv[0]);
 		return -1;
 	}
 	int res = atoi(argv[1]);

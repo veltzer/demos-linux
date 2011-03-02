@@ -1,5 +1,5 @@
 #include <unistd.h> // for fork(2), getpid(2), sleep(3), pipe(2)
-#include <stdio.h> // for fgets(3), perror(3)
+#include <stdio.h> // for printf(3)
 #include <sys/types.h> // for waitid(2), getpid(2)
 #include <sys/wait.h> // for waitid(2)
 #include <stdlib.h> // for exit(3)
@@ -111,17 +111,15 @@ int main(int argc, char **argv, char **envp) {
 		print_state(child_pid);
 		// tell the child it is ok to die...
 		CHECK_1(write(pipefd_p2c[1],"d",1)); // d is for die
-		// sleep in order for the child to become a zombie...
-		sleep(1);
+		TRACE("going to sleep so that the child would become a zombie");
+		TRACE("you can now see the child zombie on the command line");
+		TRACE("using tools like top, ps, /proc and more");
+		sleep(100);
 		// print the state of the child (now he should be a zombie...).
 		print_state(child_pid);
 		// now lets take the return code from the child...
 		siginfo_t info;
-		int res = waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED);
-		if (res == -1) {
-			perror("could not waitid(2)");
-			exit(1);
-		}
+		CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
 		print_code(info.si_code);
 		print_status(info.si_status);
 	}
