@@ -1,4 +1,6 @@
 - show a primitive example of pstree.
+- do another zombie example that shows simply how to create a process
+	parent forks and does not collect code nor does it die.
 - extend the make_zombie example.
 	Show that if the parent dies then the child gets
 		adopted by init(1) and is cleared.
