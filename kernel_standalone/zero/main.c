@@ -4,6 +4,8 @@
 #include <linux/slab.h> // for kmalloc
 #include <asm/uaccess.h> // for copy_to_user, access_ok
 #include <linux/gfp.h> // for get_zeroed_page
+#include <linux/cdev.h> // for cdev_*
+#include <linux/sched.h> // for cond_resched
 
 #include "kernel_helper.h" // our own helper
 
@@ -19,15 +21,9 @@ MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
  * $KERNEL_SOURCES/drivers/char/mem.c
  *
  * TODO:
- * - move to dynamic registration of majors and minors.
- * - use clear user as does mem.c to clear the user space buffer.
- * - use schedule like mem.c to allow for scheduling (explain why that
- *   is in the notes).
  */
 
-// notice this hardcoded major number (not good!!!)
-const int ZERO_MAJOR=190;
-const int ZERO_MINOR=0;
+// how many minors do we need ?
 const int MINOR_COUNT=1;
 
 // these are the actual operations
@@ -43,18 +39,28 @@ static int open_zero(struct inode * inode, struct file * file) {
 
 static ssize_t read_zero(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
 	ssize_t remaining;
+	// do the access checking right at the start so that we would not start zeroing
+	// the users pages and only then find out that the buffer is off the edge...
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
 
 	remaining=count;
 	while(remaining) {
 		ssize_t curr=smin(PAGE_SIZE,remaining);
+		/*
 		if(copy_to_user(buf,file->private_data,curr)) {
 			return -EFAULT;
 		} else {
 			buf+=curr;
 			remaining-=curr;
 		}
+		*/
+		// very efficient way of clearing user memory once it has been verified...
+		__clear_user(buf,curr);
+		buf+=curr;
+		remaining-=curr;
+		// allow for voluntary pre-emption
+		cond_resched();
 	}
 	*ppos+=count;
 	return count;
@@ -62,7 +68,7 @@ static ssize_t read_zero(struct file * file, char __user * buf, size_t count, lo
 
 int release_zero(struct inode* inode,struct file* file) {
 	//kfree(file->private_data);
-	free_zeroed_page(file->private_data);
+	free_page((unsigned long)file->private_data);
 	return 0;
 }
 
@@ -87,51 +93,54 @@ static int first_minor=0;
 static int zero_init(void) {
 	int err=0;
 	// allocate our own range of devices
-	if((err=alloc_chrdev_region(first_dev, first_minor, MINOR_COUNT, THIS_MODULE->name))) {
-		DEBUG("cannot alloc_chrdev_region");
-		goto goto_dealloc;
+	if((err=alloc_chrdev_region(&first_dev, first_minor, MINOR_COUNT, THIS_MODULE->name))) {
+		ERROR("cannot alloc_chrdev_region");
+		goto err_final;
 	}
+	INFO("allocated the region");
 	// add the cdev structure
-	cdev_init(&pdev->cdev, &my_fops);
-	if((err=cdev_add(&pdev->cdev, pdev->first_dev, MINOR_COUNT))) {
-		DEBUG("cannot cdev_add");
-		goto goto_deregister;
+	cdev_init(&cdev, &zero_fops);
+	if((err=cdev_add(&cdev, first_dev, MINOR_COUNT))) {
+		ERROR("cannot cdev_add");
+		goto err_dealloc;
 	}
+	INFO("added the cdev");
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
 		ERROR("failed in class_create");
 		err=PTR_ERR(my_class);
-		goto err_unregister;
+		goto err_cdev_del;
 	}
+	INFO("created the class");
 	// and now lets auto-create a /dev/ node
-	my_device=device_create(my_class, NULL, MKDEV(ZERO_MAJOR, ZERO_MINOR),"%s",THIS_MODULE->name);
+	my_device=device_create(my_class, NULL, first_dev,"%s",THIS_MODULE->name);
 	if(IS_ERR(my_device)) {
 		ERROR("failed in device_create");
 		err=PTR_ERR(my_device);
 		goto err_class;
 	}
+	INFO("created the device");
+	INFO("loaded ok");
 	return 0;
 //err_device:
-//	device_destroy(my_class, MKDEV(ZERO_MAJOR, ZERO_MINOR));
-err_dealloc:
-	unregister_chrdev_region(first_dev, MINOR_COUNT);
+	device_destroy(my_class, first_dev);
 err_class:
 	class_destroy(my_class);
-err_unregister:
-	unregister_chrdev(ZERO_MAJOR, THIS_MODULE->name);
 err_cdev_del:
-	cdev_del(&pdev->cdev);
+	cdev_del(&cdev);
+err_dealloc:
+	unregister_chrdev_region(first_dev, MINOR_COUNT);
 err_final:
 	return err;
 }
 
 static void zero_exit(void) {
-	device_destroy(my_class, MKDEV(ZERO_MAJOR, ZERO_MINOR));
+	device_destroy(my_class, first_dev);
 	class_destroy(my_class);
-	cdev_del(&pdev->cdev);
+	cdev_del(&cdev);
 	unregister_chrdev_region(first_dev, MINOR_COUNT);
-	//unregister_chrdev(ZERO_MAJOR,THIS_MODULE->name);
+	INFO("unloaded ok");
 }
 
 module_init(zero_init);

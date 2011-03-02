@@ -40,7 +40,7 @@ indent:
 	indent -kr -i8 *.c
 .PHONY: insmod
 insmod:
-	sudo rmmod $(NAME)
+	-sudo rmmod $(NAME)
 	sudo insmod $(KO)
 	sudo chmod 666 $(DEV)
 .PHONY: rmmod
