@@ -31,6 +31,7 @@ MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 // struct for each pipe
 struct my_pipe {
 	char* data;
+	int size;
 	int read_pos;
 	int write_pos;
 	wait_queue_head_t read_queue;
@@ -43,6 +44,7 @@ static struct my_pipe* pipes;
 
 static inline void init_pipe(struct my_pipe* pipe) {
 	pipe->data=kzalloc(pipe_size,GFP_KERNEL);
+	pipe->size=pipe_size;
 	pipe->read_pos=0;
 	pipe->write_pos=0;
 	spin_lock_init(&pipe->lock);
@@ -55,20 +57,72 @@ static inline void del_pipe(struct my_pipe* pipe) {
 	kfree(pipe->data);
 }
 
+static inline bool have_data(struct my_pipe* pipe) {
+	return pipe->read_pos!=pipe->write_pos;
+}
+
+static inline int pipe_room(struct my_pipe* pipe) {
+	if(pipe->read_pos<pipe->write_pos) {
+		return pipe->write_pos-pipe->read_pos;
+	} else {
+		return pipe->size-pipe->read_pos+pipe->write_pos;
+	}
+}
+
+static inline void pipe_lock(struct my_pipe* pipe) {
+	spinlock_lock(&pipe->lock);
+}
+static inline void pipe_unlock(struct my_pipe* pipe) {
+	spinlock_unlock(&pipe->lock);
+}
 
 // these are the actual operations
 
-/*
 static ssize_t read_pipe(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
+	struct my_pipe*;
+	INFO("start");
+	pipe=pipes+file->minor;
+	pipe_lock(pipe);
+	if(pipe_room(pipe)) {
+		pipe_unlock(pipe);
+	} else {
+		pipe_unlock(pipe);
+		pipe_wait_read(pipe);
+	}
 	*ppos+=count;
 	return count;
 }
-*/
+
+static ssize_t write_null(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
+	struct my_pipe*;
+	INFO("start");
+	pipe=pipes+file->minor;
+	pipe_lock(pipe);
+	// lets check if we have room in the pipe
+	int room=pipe_room(pipe);
+	if(room>0) {
+		int size_to_write=min(room,count);
+		if(pipe->read_pos<pipe->write_pos) {
+		}
+		// we have room in the pipe
+		// copy user data into the pipe
+		pipe_unlock(pipe);
+		return size_to_write;
+	} else {
+		// we have no room in the pipe
+		// put the process to sleep
+		pipe_unlock(pipe);
+		pipe_wait_write(pipe);
+		pipe_lock(pipe);
+	}
+	*ppos+=count;
+	return count;
+}
 
 // this is the operations table
 static const struct file_operations pipe_fops = {
-//	.read=read_pipe,
-//	.write=write_pipe,
+	.read=read_pipe,
+	.write=write_pipe,
 };
 
 // this variable will store the class
@@ -112,7 +166,7 @@ static int pipe_init(void) {
 	INFO("created the class");
 	for(i=0;i<pipes_count;i++) {
 	// and now lets auto-create a /dev/ node
-		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),first_minor+i),"%s%d",THIS_MODULE->name,i);
+		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),first_minor+i),NULL,"%s%d",THIS_MODULE->name,i);
 		if(IS_ERR(pipes[i].pipe_device)) {
 			ERROR("failed in device_create");
 			err=PTR_ERR(pipes[i].pipe_device);

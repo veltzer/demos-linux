@@ -3,16 +3,6 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/stat.h>
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("A simple block device driver for pre 2.6.31 versions");4
-MODULE_VERSION("1.3");
-
-/*
- *  A sample, extra-simple block driver.
- */
-
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 #include <linux/init.h>
@@ -25,6 +15,15 @@ MODULE_VERSION("1.3");
 #include <linux/genhd.h>
 #include <linux/blkdev.h>
 #include <linux/hdreg.h>
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("A simple block device driver for pre 2.6.31 versions");
+MODULE_VERSION("1.3");
+
+/*
+ *  A sample, extra-simple block driver.
+ */
 
 static int major_num = 0;
 module_param(major_num, int, 0);
@@ -83,7 +82,7 @@ static void sbd_request(request_queue_t *q)
 			continue;
 		}
 		sbd_transfer(&Device, req->sector, req->current_nr_sectors,
-		req->buffer, rq_data_dir(req));
+			req->buffer, rq_data_dir(req));
 		end_request(req, 1);
 	}
 }
