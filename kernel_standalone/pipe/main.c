@@ -61,7 +61,16 @@ static inline bool have_data(struct my_pipe* pipe) {
 	return pipe->read_pos!=pipe->write_pos;
 }
 
+// return the empty room of a pipe
 static inline int pipe_room(struct my_pipe* pipe) {
+	if(pipe->read_pos<pipe->write_pos) {
+		return pipe->size-pipe->write_pos+pipe->read_pos;
+	} else {
+		return pipe->read_pos-pipe->write_pos;
+	}
+}
+// return the occupied room of a pipe
+static inline int pipe_data(struct my_pipe* pipe) {
 	if(pipe->read_pos<pipe->write_pos) {
 		return pipe->write_pos-pipe->read_pos;
 	} else {
@@ -70,40 +79,61 @@ static inline int pipe_room(struct my_pipe* pipe) {
 }
 
 static inline void pipe_lock(struct my_pipe* pipe) {
-	spinlock_lock(&pipe->lock);
+	spin_lock(&pipe->lock);
 }
 static inline void pipe_unlock(struct my_pipe* pipe) {
-	spinlock_unlock(&pipe->lock);
+	spin_unlock(&pipe->lock);
+}
+static inline int pipe_wait_read(struct my_pipe* pipe) {
+	return wait_event_interruptible(pipe->read_queue,1);
+}
+static inline int pipe_wait_write(struct my_pipe* pipe) {
+	return wait_event_interruptible(pipe->write_queue,1);
 }
 
 // these are the actual operations
 
 static ssize_t read_pipe(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
-	struct my_pipe*;
+	struct my_pipe* pipe;
+	int data;
 	INFO("start");
-	pipe=pipes+file->minor;
+	pipe=pipes+(int)file->private_data;
+	// lets sleep while there is no data in the pipe 
 	pipe_lock(pipe);
-	if(pipe_room(pipe)) {
+	data=pipe_data(pipe);
+	while(data==0) {
+		pipe_unlock(pipe);
+		if(pipe_wait_read(pipe)) {
+			return -EINTR;
+		}
+		pipe_lock(pipe);
+		data=pipe_data(pipe);
+	}
+	// now data > 0
+
+	if(data>0) {
+		int size_to_read=smin(data,count);
+		// copy_to_user data from the pipe
 		pipe_unlock(pipe);
 	} else {
 		pipe_unlock(pipe);
 		pipe_wait_read(pipe);
+		pipe_lock(pipe);
 	}
 	*ppos+=count;
 	return count;
 }
 
-static ssize_t write_null(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
-	struct my_pipe*;
+static ssize_t write_pipe(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
+	struct my_pipe* pipe;
+	int room;
 	INFO("start");
-	pipe=pipes+file->minor;
+	pipe=pipes+(int)file->private_data;
 	pipe_lock(pipe);
 	// lets check if we have room in the pipe
-	int room=pipe_room(pipe);
+	room=pipe_room(pipe);
 	if(room>0) {
-		int size_to_write=min(room,count);
-		if(pipe->read_pos<pipe->write_pos) {
-		}
+		int size_to_write=smin(room,count);
 		// we have room in the pipe
 		// copy user data into the pipe
 		pipe_unlock(pipe);
