@@ -93,9 +93,15 @@ static inline int pipe_wait_write(struct my_pipe* pipe) {
 
 // these are the actual operations
 
+static int open_pipe(struct inode * inode, struct file * file) {
+	// hide the minor number in the private_data of the file_struct
+	file->private_data=(void*)iminor(inode);
+	return 0;
+}
+
 static ssize_t read_pipe(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
 	struct my_pipe* pipe;
-	int data;
+	int data,size_to_read,first_chunk,second_chunk;
 	INFO("start");
 	pipe=pipes+(int)file->private_data;
 	// lets sleep while there is no data in the pipe 
@@ -103,54 +109,77 @@ static ssize_t read_pipe(struct file * file, char __user * buf, size_t count, lo
 	data=pipe_data(pipe);
 	while(data==0) {
 		pipe_unlock(pipe);
-		if(pipe_wait_read(pipe)) {
-			return -EINTR;
+		if((ret=pipe_wait_read(pipe))) {
+			return ret;
 		}
 		pipe_lock(pipe);
 		data=pipe_data(pipe);
 	}
 	// now data > 0
-
-	if(data>0) {
-		int size_to_read=smin(data,count);
-		// copy_to_user data from the pipe
-		pipe_unlock(pipe);
+	size_to_read=smin(data,count);
+	// copy_to_user data from the pipe
+	if(pipe->read_pos<pipe->write_pos) {
+		copy_to_user(buf,pipe->data+pipe->read_pos,size_to_read);
+		pipe->read_pos+=size_to_read;
 	} else {
-		pipe_unlock(pipe);
-		pipe_wait_read(pipe);
-		pipe_lock(pipe);
+		first_chunk=smin(size_to_read,pipe->size-pipe->read_pos);
+		copy_to_user(buf,pipe->data+pipe->read_pos,first_chunk);
+		pipe->read_pos+=first_chunk;
+		if(first_chunk<size_to_read) {
+			second_chunk=size_to_read-first_chunk;
+			copy_to_user(buf+first_chunk,pipe->data,second_chunk);
+			pipe->read_pos=second_chunk;
+		}
 	}
-	*ppos+=count;
-	return count;
+	pipe_unlock(pipe);
+	*ppos+=size_to_read;
+	// wake up the writers
+	wake_up_all(&pipe->write_queue);
+	return size_to_read;
 }
 
 static ssize_t write_pipe(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
 	struct my_pipe* pipe;
-	int room;
+	int room, size_to_write,first_chunk,second_chunk,ret;
 	INFO("start");
 	pipe=pipes+(int)file->private_data;
 	pipe_lock(pipe);
 	// lets check if we have room in the pipe
 	room=pipe_room(pipe);
-	if(room>0) {
-		int size_to_write=smin(room,count);
-		// we have room in the pipe
-		// copy user data into the pipe
+	while(room==0) {
 		pipe_unlock(pipe);
-		return size_to_write;
-	} else {
-		// we have no room in the pipe
-		// put the process to sleep
-		pipe_unlock(pipe);
-		pipe_wait_write(pipe);
+		if((ret=pipe_wait_write(pipe))) {
+			return ret;
+		}
 		pipe_lock(pipe);
+		room=pipe_room(pipe);
 	}
-	*ppos+=count;
-	return count;
+	// now room > 0
+	size_to_write=smin(room,count);
+	// copy_from_user data from the pipe
+	if(pipe->read_pos<pipe->write_pos) {
+		first_chunk=smin(size_to_write,pipe->size-pipe->write_pos);
+		copy_from_user(pipe->data+pipe->write_pos,buf,first_chunk);
+		pipe->write_pos+=first_chunk;
+		if(first_chunk<size_to_write) {
+			second_chunk=size_to_write-first_chunk;
+			copy_from_user(pipe->data,buf,second_chunk);
+			pipe->write_pos=second_chunk;
+		}
+	} else {
+		copy_from_user(pipe->data+pipe->write_pos,buf,size_to_write);
+		pipe->write_pos+=size_to_write;
+	}
+	pipe_unlock(pipe);
+	*ppos+=size_to_write;
+	// wake up the readers
+	wake_up_all(&pipe->read_queue);
+	return size_to_write;
 }
 
 // this is the operations table
 static const struct file_operations pipe_fops = {
+	.open=open_pipe,
 	.read=read_pipe,
 	.write=write_pipe,
 };
