@@ -41,8 +41,10 @@ indent:
 .PHONY: insmod
 insmod:
 	-sudo rmmod $(NAME)
+	sudo dmesg -c > /dev/null
 	sudo insmod $(KO)
-	sudo chmod 666 $(DEV)
+	sleep 1 # wait for the /dev files to appear
+	sudo chmod 666 $(DEV)*
 .PHONY: rmmod
 rmmod:
 	sudo rmmod $(NAME)
