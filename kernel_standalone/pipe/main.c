@@ -17,11 +17,14 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A named pipe exercise");
 
 //#define DO_COPY
+//#define DO_LOCK
+//#define DO_WAIT
 
 /*
  * See the README.txt for the explanation of this exercise.
  *
  * TODO:
+ * - verify access on the user space buffers BEFORE any real work in read or write.
  */
 
 static int pipes_count=8;
@@ -32,7 +35,7 @@ module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
 // struct for each pipe
-struct my_pipe {
+typedef struct _my_pipe_t {
 	char* data;
 	int size;
 	int read_pos;
@@ -41,12 +44,12 @@ struct my_pipe {
 	wait_queue_head_t write_queue;
 	spinlock_t lock;
 	struct device* pipe_device;
-};
+} my_pipe_t;
 
-static struct my_pipe* pipes=NULL;
+static my_pipe_t* pipes=NULL;
 
 // pipe constructur
-static inline void pipe_ctor(struct my_pipe* pipe) {
+static inline void pipe_ctor(my_pipe_t* pipe) {
 	pipe->data=kzalloc(pipe_size,GFP_KERNEL);
 	pipe->size=pipe_size;
 	pipe->read_pos=0;
@@ -58,17 +61,17 @@ static inline void pipe_ctor(struct my_pipe* pipe) {
 }
 
 // pipe destructor
-static inline void pipe_dtor(struct my_pipe* pipe) {
+static inline void pipe_dtor(my_pipe_t* pipe) {
 	kfree(pipe->data);
 }
 
 // do we have data in the pipe ?
-static inline bool pipe_have_data(const struct my_pipe* pipe) {
+static inline bool pipe_have_data(const my_pipe_t* pipe) {
 	return pipe->read_pos!=pipe->write_pos;
 }
 
 // return the empty room of a pipe
-static inline int pipe_room(const struct my_pipe* pipe) {
+static inline int pipe_room(const my_pipe_t* pipe) {
 	if(pipe->read_pos<pipe->write_pos) {
 		return pipe->size-pipe->write_pos+pipe->read_pos-1;
 	} else {
@@ -80,7 +83,7 @@ static inline int pipe_room(const struct my_pipe* pipe) {
 	}
 }
 // return the occupied room of a pipe
-static inline int pipe_data(const struct my_pipe* pipe) {
+static inline int pipe_data(const my_pipe_t* pipe) {
 	if(pipe->read_pos<pipe->write_pos) {
 		return pipe->write_pos-pipe->read_pos;
 	} else {
@@ -93,46 +96,63 @@ static inline int pipe_data(const struct my_pipe* pipe) {
 }
 
 // lock the pipe spinlock
-static inline void pipe_lock(struct my_pipe* pipe) {
+static inline void pipe_lock(my_pipe_t* pipe) {
+	#ifdef DO_LOCK
 	spin_lock(&pipe->lock);
+	#endif // DO_LOCK
 }
 
 // unlock the pipe spinlock
-static inline void pipe_unlock(struct my_pipe* pipe) {
+static inline void pipe_unlock(my_pipe_t* pipe) {
+	#ifdef DO_LOCK
 	spin_unlock(&pipe->lock);
+	#endif // DO_LOCK
 }
 
 // wait on the pipes readers queue
-static inline int pipe_wait_read(struct my_pipe* pipe) {
+static inline int pipe_wait_read(my_pipe_t* pipe) {
+	#ifdef DO_WAIT
 	return wait_event_interruptible(pipe->read_queue,1);
+	#else // DO_WAIT
+	return 0;
+	#endif // DO_WAIT
 }
 
 // wait on the pipes writers queue
-static inline int pipe_wait_write(struct my_pipe* pipe) {
+static inline int pipe_wait_write(my_pipe_t* pipe) {
+	#ifdef DO_WAIT
 	return wait_event_interruptible(pipe->write_queue,1);
+	#else // DO_WAIT
+	return 0;
+	#endif // DO_WAIT
 }
 
 // wake up the readers
-static inline void pipe_wake_readers(struct my_pipe* pipe) {
+static inline void pipe_wake_readers(my_pipe_t* pipe) {
+	#ifdef DO_WAIT
 	wake_up_all(&pipe->read_queue);
+	#endif // DO_WAIT
 }
 
 // wake up the writers
-static inline void pipe_wake_writers(struct my_pipe* pipe) {
+static inline void pipe_wake_writers(my_pipe_t* pipe) {
+	#ifdef DO_WAIT
 	wake_up_all(&pipe->write_queue);
+	#endif // DO_WAIT
 }
 
 // read into the pipe
-static inline int pipe_copy_from_user(struct my_pipe* pipe,int size,const char** __user ubuf) {
+static inline int pipe_copy_from_user(my_pipe_t* pipe,int count,const char** __user ubuf) {
+	int ret;
+	DEBUG("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
-	int ret=copy_from_user(pipe->data+pipe->read_pos,*ubuf,size);
+	ret=copy_from_user(pipe->data+pipe->read_pos,*ubuf,count);
 	#else // DO_COPY
-	int ret=0;
-	INFO("size is %d, read_pos is %d, write_pos is %d",size,pipe->read_pos,pipe->write_pos);
+	ret=0;
 	#endif // DO_COPY
 	if(ret==0) {
-		pipe->read_pos+=size;
-		*ubuf+=size;
+		pipe->read_pos+=count;
+		*ubuf+=count;
 		if(pipe->read_pos==pipe->size) {
 			pipe->read_pos=0;
 		}
@@ -141,16 +161,17 @@ static inline int pipe_copy_from_user(struct my_pipe* pipe,int size,const char**
 }
 
 // read from the pipe
-static inline int pipe_copy_to_user(struct my_pipe* pipe,int size,char** __user ubuf) {
+static inline int pipe_copy_to_user(my_pipe_t* pipe,int count,char** __user ubuf) {
+	int ret;
+	DEBUG("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
-	int ret=copy_to_user(ubuf,pipe->data+pipe->write_pos,size);
+	ret=copy_to_user(ubuf,pipe->data+pipe->write_pos,count);
 	#else // DO_COPY
-	int ret=0;
-	INFO("size is %d, read_pos is %d, write_pos is %d",size,pipe->read_pos,pipe->write_pos);
+	ret=0;
 	#endif // DO_COPY
 	if(ret==0) {
-		pipe->write_pos+=size;
-		*ubuf+=size;
+		pipe->write_pos+=count;
+		*ubuf+=count;
 		if(pipe->write_pos==pipe->size) {
 			pipe->write_pos=0;
 		}
@@ -160,14 +181,14 @@ static inline int pipe_copy_to_user(struct my_pipe* pipe,int size,char** __user 
 
 // these are the actual operations
 
-static int open_pipe(struct inode * inode, struct file * file) {
+static int pipe_open(struct inode * inode, struct file * file) {
 	// hide the minor number in the private_data of the file_struct
 	file->private_data=(void*)iminor(inode);
 	return 0;
 }
 
-static ssize_t read_pipe(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
-	struct my_pipe* pipe;
+static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
+	my_pipe_t* pipe;
 	int data,work_size,first_chunk,second_chunk,minor,ret;
 	DEBUG("start");
 	minor=(int)(file->private_data);
@@ -214,8 +235,8 @@ static ssize_t read_pipe(struct file * file, char __user * buf, size_t count, lo
 	return work_size;
 }
 
-static ssize_t write_pipe(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
-	struct my_pipe* pipe;
+static ssize_t pipe_write(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
+	my_pipe_t* pipe;
 	int room,work_size,first_chunk,second_chunk,minor,ret;
 	DEBUG("start");
 	minor=(int)(file->private_data);
@@ -264,9 +285,9 @@ static ssize_t write_pipe(struct file * file, const char __user * buf, size_t co
 
 // this is the operations table
 static const struct file_operations pipe_fops = {
-	.open=open_pipe,
-	.read=read_pipe,
-	.write=write_pipe,
+	.open=pipe_open,
+	.read=pipe_read,
+	.write=pipe_write,
 };
 
 // this variable will store the class
@@ -281,9 +302,9 @@ static int first_minor=0;
 static int __init pipe_init(void) {
 	int err=0;
 	int i;
-	INFO("started loading...");
+	INFO("start");
 	// allocate all pipes
-	pipes=(struct my_pipe*)kmalloc(sizeof(struct my_pipe)*pipes_count,GFP_KERNEL);
+	pipes=(my_pipe_t*)kmalloc(sizeof(my_pipe_t)*pipes_count,GFP_KERNEL);
 	// initialize all pipes
 	for(i=0;i<pipes_count;i++) {
 		pipe_ctor(pipes+i);
@@ -319,7 +340,7 @@ static int __init pipe_init(void) {
 		}
 	}
 	DEBUG("created the device");
-	INFO("loaded ok");
+	INFO("end");
 	return 0;
 //err_device:
 	device_destroy(my_class, first_dev);
@@ -339,7 +360,7 @@ err_final:
 
 static void __exit pipe_exit(void) {
 	int i;
-	INFO("started unloading...");
+	INFO("start");
 	for(i=0;i<pipes_count;i++) {
 		device_destroy(my_class,MKDEV(MAJOR(first_dev),i));
 	}
@@ -350,7 +371,7 @@ static void __exit pipe_exit(void) {
 		pipe_dtor(pipes+i);
 	}
 	kfree(pipes);
-	INFO("unloaded ok");
+	INFO("end");
 }
 
 module_init(pipe_init);

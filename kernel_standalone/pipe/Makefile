@@ -48,3 +48,6 @@ insmod:
 .PHONY: rmmod
 rmmod:
 	sudo rmmod $(NAME)
+.PHONY: modinfo
+modinfo:
+	modinfo $(KO)
