@@ -5,7 +5,7 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("This demo is to show how to create caches and use them.");
+MODULE_DESCRIPTION("This demo is to show how to create kmem caches and use them");
 
 /*
  * Why would you need your own cache? Or, to put it another way, is kmalloc/kfree not enough ?!?
@@ -24,12 +24,12 @@ MODULE_DESCRIPTION("This demo is to show how to create caches and use them.");
  */
 
 // statics for this module
-static struct kmem_cache* cache_p;
-static void* p;
+static struct kmem_cache* cache_p=NULL;
+static void* p=NULL;
 
 // our own functions
-static int __init mod_init(void) {
-	DEBUG("start");
+static int __init kmem_init(void) {
+	INFO("start");
 	cache_p = kmem_cache_create(
 		"mark.veltzer",// name of cache (will appear in slabtop(1), /proc/slabinfo and more.
 		10,// size to allocate in advance
@@ -47,16 +47,17 @@ static int __init mod_init(void) {
 		kmem_cache_destroy(cache_p);
 		return(-ENOMEM);
 	}
-	DEBUG("Allocated all");
+	INFO("end");
 	return(0);
 }
 
-static void __exit mod_exit(void) {
+static void __exit kmem_exit(void) {
+	INFO("start");
 	kmem_cache_free(cache_p, p);
 	kmem_cache_destroy(cache_p);
-	DEBUG("start");
+	INFO("end");
 }
 
 // declaration of init/cleanup functions of this module
-module_init(mod_init);
-module_exit(mod_exit);
+module_init(kmem_init);
+module_exit(kmem_exit);

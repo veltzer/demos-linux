@@ -8,25 +8,18 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Hello World module");
 
-// parameters for this module
-
-// constants for this module
-
 // our own functions
-static int __init mod_init(void)
+static int __init hello_init(void)
 {
-	printk(KERN_ALERT "in init");
+	printk(KERN_ALERT "in init\n");
 	return (0);
 }
 
 
-static void __exit mod_exit(void)
+static void __exit hello_exit(void)
 {
-	printk(KERN_ALERT "in exit");
+	printk(KERN_ALERT "in exit\n");
 }
 
-
-// declaration of init/cleanup functions of this module
-
-module_init(mod_init);
-module_exit(mod_exit);
+module_init(hello_init);
+module_exit(hello_exit);

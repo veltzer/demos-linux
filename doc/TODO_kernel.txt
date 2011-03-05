@@ -5,6 +5,9 @@ urgent:
 
 Kernel demos:
 =============
+- improve the kmem_cache demo with the user space program.
+- add an example of a mempool.
+
 - add example of using /sys sysfs attributes as another example of exposing stuff to user
 space with hooks (much like /proc).
 
