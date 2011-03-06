@@ -9,22 +9,21 @@
 #include <linux/spinlock.h> // for spinlock_t and ops on it
 #include <linux/wait.h> // for wait_queue_head_t and ops on it
 
-#define DO_DEBUG
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A named pipe exercise");
 
-//#define DO_COPY
-//#define DO_LOCK
-//#define DO_WAIT
+#define DO_COPY
+#define DO_LOCK
+#define DO_WAIT
 
 /*
  * See the README.txt for the explanation of this exercise.
  *
  * TODO:
- * - verify access on the user space buffers BEFORE any real work in read or write.
  */
 
 static int pipes_count=8;
@@ -72,26 +71,18 @@ static inline bool pipe_have_data(const my_pipe_t* pipe) {
 
 // return the empty room of a pipe
 static inline int pipe_room(const my_pipe_t* pipe) {
-	if(pipe->read_pos<pipe->write_pos) {
+	if(pipe->read_pos<=pipe->write_pos) {
 		return pipe->size-pipe->write_pos+pipe->read_pos-1;
 	} else {
-		if(pipe->read_pos==pipe->write_pos) {
-			return pipe->size-1;
-		} else {
-			return pipe->read_pos-pipe->write_pos-1;
-		}
+		return pipe->read_pos-pipe->write_pos-1;
 	}
 }
 // return the occupied room of a pipe
 static inline int pipe_data(const my_pipe_t* pipe) {
-	if(pipe->read_pos<pipe->write_pos) {
+	if(pipe->read_pos<=pipe->write_pos) {
 		return pipe->write_pos-pipe->read_pos;
 	} else {
-		if(pipe->read_pos==pipe->write_pos) {
-			return 0;
-		} else {
-			return pipe->size-pipe->read_pos+pipe->write_pos-1;
-		}
+		return pipe->size-pipe->read_pos+pipe->write_pos;
 	}
 }
 
@@ -112,7 +103,7 @@ static inline void pipe_unlock(my_pipe_t* pipe) {
 // wait on the pipes readers queue
 static inline int pipe_wait_read(my_pipe_t* pipe) {
 	#ifdef DO_WAIT
-	return wait_event_interruptible(pipe->read_queue,1);
+	return wait_event_interruptible(pipe->read_queue,pipe_data(pipe)>0);
 	#else // DO_WAIT
 	return 0;
 	#endif // DO_WAIT
@@ -121,7 +112,7 @@ static inline int pipe_wait_read(my_pipe_t* pipe) {
 // wait on the pipes writers queue
 static inline int pipe_wait_write(my_pipe_t* pipe) {
 	#ifdef DO_WAIT
-	return wait_event_interruptible(pipe->write_queue,1);
+	return wait_event_interruptible(pipe->write_queue,pipe_room(pipe)>0);
 	#else // DO_WAIT
 	return 0;
 	#endif // DO_WAIT
@@ -146,15 +137,15 @@ static inline int pipe_copy_from_user(my_pipe_t* pipe,int count,const char** __u
 	int ret;
 	DEBUG("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
-	ret=copy_from_user(pipe->data+pipe->read_pos,*ubuf,count);
+	ret=copy_from_user(pipe->data+pipe->write_pos,*ubuf,count);
 	#else // DO_COPY
 	ret=0;
 	#endif // DO_COPY
 	if(ret==0) {
-		pipe->read_pos+=count;
 		*ubuf+=count;
-		if(pipe->read_pos==pipe->size) {
-			pipe->read_pos=0;
+		pipe->write_pos+=count;
+		if(pipe->write_pos==pipe->size) {
+			pipe->write_pos=0;
 		}
 	}
 	return ret;
@@ -165,15 +156,15 @@ static inline int pipe_copy_to_user(my_pipe_t* pipe,int count,char** __user ubuf
 	int ret;
 	DEBUG("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
-	ret=copy_to_user(ubuf,pipe->data+pipe->write_pos,count);
+	ret=copy_to_user(*ubuf,pipe->data+pipe->read_pos,count);
 	#else // DO_COPY
 	ret=0;
 	#endif // DO_COPY
 	if(ret==0) {
-		pipe->write_pos+=count;
 		*ubuf+=count;
-		if(pipe->write_pos==pipe->size) {
-			pipe->write_pos=0;
+		pipe->read_pos+=count;
+		if(pipe->read_pos==pipe->size) {
+			pipe->read_pos=0;
 		}
 	}
 	return ret;
@@ -191,6 +182,8 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 	my_pipe_t* pipe;
 	int data,work_size,first_chunk,second_chunk,minor,ret;
 	DEBUG("start");
+	if (!access_ok(VERIFY_WRITE, buf, count))
+		return -EFAULT;
 	minor=(int)(file->private_data);
 	pipe=pipes+minor;
 	// lets sleep while there is no data in the pipe 
@@ -239,6 +232,8 @@ static ssize_t pipe_write(struct file * file, const char __user * buf, size_t co
 	my_pipe_t* pipe;
 	int room,work_size,first_chunk,second_chunk,minor,ret;
 	DEBUG("start");
+	if (!access_ok(VERIFY_READ, buf, count))
+		return -EFAULT;
 	minor=(int)(file->private_data);
 	pipe=pipes+minor;
 	pipe_lock(pipe);
