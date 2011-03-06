@@ -7,6 +7,12 @@ Kernel demos:
 =============
 - improve the kmem_cache demo with the user space program.
 - add an example of a mempool.
+- add an example of waitqueues (waking up different processes).
+- add an example of waitqueues
+	(different between wake_up_interruptible and 
+- add an example of a rw spin lock (see spinlock.h).
+- do a slide about kernel mutexes according to ingos remarks in mutex.h.
+- do an example of kernel semaphores (semaphore.h).
 
 - add example of using /sys sysfs attributes as another example of exposing stuff to user
 space with hooks (much like /proc).
