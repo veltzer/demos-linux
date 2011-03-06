@@ -20,3 +20,26 @@ lsmod | grep pipe
 
 The major number assigned to the module:
 cat /proc/devices | grep pipe
+
+What type of 'wake_up' to use ?
+statistics in the kernel:
+veltzer@fermat:~/install/linux-source-2.6.32/drivers$ fgrep "wake_up(" `find . -type f -name "*.c"` | wc -l
+710
+veltzer@fermat:~/install/linux-source-2.6.32/drivers$ fgrep "wake_up_interruptible(" `find . -type f -name "*.c"` | wc -l
+618
+veltzer@fermat:~/install/linux-source-2.6.32/drivers$ fgrep "wake_up_all(" `find . -type f -name "*.c"` | wc -l
+63
+veltzer@fermat:~/install/linux-source-2.6.32/drivers$ fgrep "wake_up_interruptible_all(" `find . -type f -name "*.c"` | wc -l
+15
+Which means that you should usually call 'wake_up' or 'wake_up_interruptible' rather than wak_up_all...
+
+- If you want to find the kernel headers that you are using they are under:
+	/usr/src/linux-headers-`uname -r`/include/linux on ubuntu systems.
+
+- On an ubuntu/debian system you can install a package called:
+	linux-source-[version]
+	which will give you the official source code (including patches)
+	for that kernel version.
+	The source comes in the form of a tar ball in /usr/src.
+	If you open it in place then the official source is usually at:
+	/usr/src/linux-source-[version].
