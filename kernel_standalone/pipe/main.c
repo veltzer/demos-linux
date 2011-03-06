@@ -144,6 +144,7 @@ static inline int pipe_copy_from_user(my_pipe_t* pipe,int count,const char** __u
 	if(ret==0) {
 		*ubuf+=count;
 		pipe->write_pos+=count;
+		//BUG_ON(pipe->write_pos>pipe->size);
 		if(pipe->write_pos==pipe->size) {
 			pipe->write_pos=0;
 		}
@@ -163,6 +164,7 @@ static inline int pipe_copy_to_user(my_pipe_t* pipe,int count,char** __user ubuf
 	if(ret==0) {
 		*ubuf+=count;
 		pipe->read_pos+=count;
+		//BUG_ON(pipe->read_pos>pipe->size);
 		if(pipe->read_pos==pipe->size) {
 			pipe->read_pos=0;
 		}
@@ -202,7 +204,7 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 	work_size=smin(data,count);
 	DEBUG("work_size is %d",work_size);
 	// copy_to_user data from the pipe
-	if(pipe->read_pos<pipe->write_pos) {
+	if(pipe->read_pos<=pipe->write_pos) {
 		if((ret=pipe_copy_to_user(pipe,work_size,&buf))) {
 			pipe_unlock(pipe);
 			return ret;
@@ -252,7 +254,7 @@ static ssize_t pipe_write(struct file * file, const char __user * buf, size_t co
 	work_size=smin(room,count);
 	DEBUG("work_size is %d",work_size);
 	// copy_from_user data from the pipe
-	if(pipe->read_pos<pipe->write_pos) {
+	if(pipe->read_pos<=pipe->write_pos) {
 		first_chunk=smin(work_size,pipe->size-pipe->write_pos);
 		if((ret=pipe_copy_from_user(pipe,first_chunk,&buf))) {
 			pipe_unlock(pipe);
