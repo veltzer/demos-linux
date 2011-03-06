@@ -12,9 +12,14 @@ MODULE_DESCRIPTION("Module showing how to use BUG()");
  *	- BUG() generates a snipplet in the kernel log that can be used to report
  *		bugs to kernel maintainers.
  *	- BUG() generates a stack trace that you can use for debugging.
+ *
+ *	TODO:
+ *	- examin the behaviour in each of these and describe it.
  */
 static int __init mod_init(void) {
 	BUG();
+	BUG_ON(1!=2);
+	panic("there is nothing I can do");
 	return(0);
 }
 
