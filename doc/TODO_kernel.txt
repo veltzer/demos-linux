@@ -75,3 +75,7 @@ The idea is to see how long it took both of them. If it is close to one time per
 both of them happened together. If it is two time periods then the kernel was locked.
 
 Question: is going to sleep in the kernel actually release the BLK ? probably so. This is what everyone says. This means that we should busy wait in the kernel instead... Do both.
+
+- do example that explains wait queues.
+- do example that takes hold of an interrupt (does not handle it) but rather exposes number
+of calls to it to user space (via /proc).
