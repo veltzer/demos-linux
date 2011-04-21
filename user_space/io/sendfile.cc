@@ -10,7 +10,7 @@
 #include "us_helper.hh"
 
 /*
- * This demos shows how to use sendfile(2) to avoid copy to from user space.
+ * This demos shows how to use sendfile(2) to avoid copy to/from user space.
  *
  * The demo itself is just a simple version of cp(1)
  *
