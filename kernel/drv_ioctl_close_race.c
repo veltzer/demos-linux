@@ -80,10 +80,9 @@ static struct device   *my_device;
 // now the functions
 
 /*
- * This is the ioctl implementation. Currently this function supports
- * getting the image rows and columns
+ * This is the ioctl implementation.
  */
-static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	INFO("start");
 	switch (cmd) {
 	case 0:
@@ -125,7 +124,7 @@ static int kern_release(struct inode *inode, struct file *filp) {
 static struct file_operations my_fops = {
 	.owner   = THIS_MODULE,
 	.release = kern_release,
-	.ioctl   = kern_ioctl,
+	.unlocked_ioctl   = kern_ioctl,
 };
 
 int register_dev(void) {

@@ -51,10 +51,9 @@ static struct class    *my_class;
 static struct device   *my_device;
 
 /*
- * This is the ioctl implementation. Currently this function supports
- * getting the image rows and columns
+ * This is the ioctl implementation.
  */
-static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	void          *ptr = NULL;
 	unsigned long addr = -1;
 	dma_addr_t dma_handle;
@@ -161,7 +160,7 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_ioctl,
 };
 
 static int register_dev(void) {

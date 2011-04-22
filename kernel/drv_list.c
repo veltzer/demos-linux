@@ -94,11 +94,10 @@ static struct device   *my_device;
 // now the functions
 
 /*
- * This is the ioctl implementation. Currently this function supports
- * getting the image rows and columns
+ * This is the ioctl implementation.
  */
 void *lptr;
-static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	int res;
 	void *p;
 
@@ -192,7 +191,7 @@ static struct file_operations my_fops = {
 	.release = kern_release,
 	.read    = kern_read,
 	.write   = kern_write,
-	.ioctl   = kern_ioctl,
+	.unlocked_ioctl   = kern_ioctl,
 };
 
 int register_dev(void) {

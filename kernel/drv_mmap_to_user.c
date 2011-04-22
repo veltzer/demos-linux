@@ -147,8 +147,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 // now the functions
 
 /*
- * This is the ioctl implementation. Currently this function supports
- * getting the image rows and columns
+ * This is the ioctl implementation.
  */
 // This is the kernel space pointer, this is all the kernel needs to know
 void *kptr = NULL;
@@ -156,7 +155,7 @@ void *kptr = NULL;
 unsigned int size = -1;
 // for the pointer we return to user space
 unsigned long uptr = -1;
-static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for results from functions
 	int res;
 
@@ -353,7 +352,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
  */
 static struct file_operations my_fops = {
 	.owner=THIS_MODULE,
-	.ioctl=kern_ioctl,
+	.unlocked_ioctl=kern_ioctl,
 	.mmap=kern_mmap,
 };
 

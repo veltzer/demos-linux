@@ -45,7 +45,8 @@ static void capi_print_addressinfo(void *logical_adr) {
 	INFO("PG_lru is %lu", page->flags & (1 << PG_lru));
 	INFO("PG_private is %lu", page->flags & (1 << PG_private));
 	INFO("PG_locked is %lu", page->flags & (1 << PG_locked));
-	INFO("PG_buddy is %lu", page->flags & (1 << PG_buddy));
+	// Missing in newer kernels and so is remarked...
+	//INFO("PG_buddy is %lu", page->flags & (1 << PG_buddy));
 	INFO("PG_writeback is %lu", page->flags & (1 << PG_writeback));
 	INFO("PG_slab is %lu", page->flags & (1 << PG_slab));
 	INFO("PG_swapcache is %lu", page->flags & (1 << PG_swapcache));

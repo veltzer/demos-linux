@@ -11,6 +11,7 @@
 #include <linux/delay.h>
 #include <linux/kthread.h>
 #include <linux/pagemap.h>
+#include <linux/io.h>
 
 #define DO_DEBUG
 #include "kernel_helper.h" // our own helper

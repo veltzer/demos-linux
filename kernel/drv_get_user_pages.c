@@ -56,8 +56,7 @@ static struct device* my_device;
 // now the functions
 
 /*
- * This is the ioctl implementation. Currently this function supports
- * getting the image rows and columns
+ * This is the ioctl implementation.
  */
 
 // this is the size of the buffer
@@ -125,7 +124,7 @@ static inline void pages_reserve(void) {
 }
 
 
-static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// this is the buffer which will hold the data of the buffer from user space...
 	BufferStruct b;
 	// for results from calls
@@ -276,7 +275,7 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_ioctl,
 };
 
 static int register_dev(void) {

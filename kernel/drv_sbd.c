@@ -81,6 +81,10 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
  * We pump the request queue here asking for requests. Each request is a structure with
  * all the data of the request (is it read or write, where from, how much,...).
  */
+
+// this is needed for newer kernels (2.6.38) that don't have 'blk_fs_request'...
+#define blk_fs_request(rq) ((rq)->cmd_type == REQ_TYPE_FS)
+
 static void sbd_request(struct request_queue *q) {
 	struct request *req;
 

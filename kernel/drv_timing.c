@@ -78,11 +78,10 @@ static void long_code(unsigned long mic) {
 
 
 /*
- * This is the ioctl implementation. Currently this function supports
- * getting the image rows and columns
+ * This is the ioctl implementation.
  */
 // cycles_t is actually unsigned long long (look at arch/x86/include/asm/tsc.h).
-static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for register measurements...
 	cycles_t curreg, cnt1, cnt2;
 	unsigned long cdiff, crmil, crmic, crmic2;
@@ -167,7 +166,7 @@ static int kern_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, 
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_ioctl,
 };
 
 int register_dev(void) {
