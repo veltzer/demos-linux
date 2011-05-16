@@ -1,18 +1,14 @@
-all: bar.o zoo.o ins.o
-
-bar.o: bar.cc
-	g++ -Wall -Werror -c -o bar.o bar.cc
-zoo.o: zoo.cc
-	g++ -fno-implicit-inline-templates -fno-implicit-templates -Wall -Werror -c -o zoo.o zoo.cc
-ins.o: ins.cc
-	g++ -fno-implicit-inline-templates -fno-implicit-templates -Wall -Werror -c -o ins.o ins.cc
-
-.PHONY: nm
-nm:
-	nm -C bar.o
-	nm -C zoo.o
-	nm -C ins.o
+out.exe: A.o use_a.o
+	g++ -o $@ A.o use_a.o
+A.o: A.cc
+	g++ -c -g3 -o $@ $<
+use_a.o: use_a.cc
+	g++ -c -g3 -o $@ $<
 
 .PHONY: clean
 clean:
-	-rm *.o
+	-rm -f A.o use_a.o out.exe
+
+.PHONY: dump
+dump:
+	objdump --syms -C use_a.o
