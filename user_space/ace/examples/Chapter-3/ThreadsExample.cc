@@ -25,12 +25,13 @@ int main(int argc, char *argv[]) {
 		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n", argv[0]));
 		ACE_OS::exit(1);
 	}
-	ACE_OS::srand(::seed);
 //setup the random number generator
-	unsigned int n_threads = ACE_OS::atoi(argv[1]);
+	ACE_OS::srand(::seed);
 //number of threads to spawn
+	unsigned int n_threads = ACE_OS::atoi(argv[1]);
 	ACE_thread_t  *threadID = new ACE_thread_t[n_threads + 1];
 	ACE_hthread_t *threadHandles = new ACE_hthread_t[n_threads + 1];
+//spawn n_threads
 	if (ACE_Thread::spawn_n(
 	            threadID,                                                                                                                                                                                                                                                                                                                                              //id's for each of the threads
 	            n_threads,                                                                                                                                                                                                                                                                                                                                             //number of threads to spawn
@@ -43,11 +44,10 @@ int main(int argc, char *argv[]) {
 	            threadHandles) != n_threads) {
 		ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 	}
-//spawn n_threads
+//Wait for all the threads to exit before you let the main fall through
+//and have the process exit.
 	for (unsigned int i = 0; i < n_threads; i++) {
 		ACE_Thread::join(threadHandles[i]);
 	}
-//Wait for all the threads to exit before you let the main fall through
-//and have the process exit.
 	return(0);
 }

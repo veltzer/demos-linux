@@ -38,28 +38,38 @@ static void *worker(void *arg) {
 
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
-		ACE_DEBUG((LM_DEBUG, "Usage: <program_name> <number of threads>\n"));
+		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n",argv[0]));
 	}
 
 	int n_threads = ACE_OS::atoi(argv[1]);
-//Setup the random number generator
+	//Setup the random number generator
 	ACE_OS::srand(::seed);
+	
+	// create the data structures needed
+	ACE_thread_t* threads=new ACE_thread_t[n_threads];
+	//ACE_hthread_t *threadHandles = new ACE_hthread_t[n_threads];
 
-//Spawn off n_threads number of threads
+	//Spawn off n_threads number of threads
 	for (int i = 0; i < n_threads; i++) {
-		if (ACE_Thread::spawn((ACE_THR_FUNC)worker) == -1) {
+		if (ACE_Thread::spawn(
+			worker,//thread worker function
+			NULL,//argument to worker
+			THR_NEW_LWP | THR_JOINABLE,//flags
+			threads+i//thread id
+		) == -1) {
 			ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 		}
 	}
 
-// Wait for all the threads to exit before you let the main fall through
-// and have the process exit. This way of using join is non-portable
-// and may not work on a system using pthreads.
+	// Wait for all the threads to exit before you let the main fall through
+	// and have the process exit. This way of using join is non-portable
+	// and may not work on a system using pthreads.
 	int check_count = 0;
-//  sleep(30);
-	while (ACE_Thread::join(NULL, NULL, NULL) == 0) {
+	//  sleep(30);
+	while (ACE_Thread::join(threads[check_count],NULL,NULL) == 0) {
 		check_count++;
 	}
-	ACE_DEBUG((LM_DEBUG, "Eytan Was here\n"));
+	ACE_DEBUG((LM_DEBUG, "It's all over\n"));
 	ACE_ASSERT(check_count == n_threads);
+	return 0;
 }
