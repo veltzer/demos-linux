@@ -1,0 +1,40 @@
+- user level API for networking.
+	socket, connect etc.
+- use level tools.
+	/proc/[pid]/fd to see sockets
+	netstat
+	jnettop
+	netperf
+	lnstat rtmon rtstat nstat rtacct routef routel ctstat
+	TODO: list other tools here
+	nc, netcat
+- interfaces
+	- ifconfig
+	- ifup/ifdown
+	- persistance interface configuration.
+	- bonding
+	- load balancing.
+	- bridging.
+	- ethtool
+- routing
+	- how to see the current routing table.
+	route
+	cat /proc/net/route
+- protocols supported in the kernel.
+	How to see which protocols are supported?
+	How to add a protocol?
+	Protocols in the kernel are independant modules of the transport.
+- kernel handling of packets
+	- where are network packets cought? how are they handled?
+	- load balancing of packet handling.
+	- affinity between kernel code that handles the packets and the process
+		that consumes them.
+- the network device driver.
+	- how are device drivers in the kernel written?
+	- how are they named?
+	- giving persistent names to certain devices.
+- libipq and handling of packets in user space.
+
+links:
+http://vilimpoc.org/research/ku-latency/
+http://vger.kernel.org/~davem/cgi-bin/blog.cgi/2006/01/27#vj_channels

@@ -1,19 +1,43 @@
-mpatrol
-valgrind
-yamd
-ccmalloc
-dmalloc
-njamd
-insure++
-electric-fence
+malloc debugging:
+	mpatrol
+	valgrind
+	yamd
+	ccmalloc
+	dmalloc
+	njamd
+	insure++
+	electric-fence
 
 scalable malloc:
-hoard
-google-perftools
-tcmalloc-minimal
-libtalloc
+	hoard
+		author(s): Emery David Berger
+		url: http://www.hoard.org/
+		license: GPL or commercial
+		ubuntu packages: NONE
+		notes: used by some very heavy weight companies
+	tcmalloc:
+		author(s): Sanjay Ghemawat, Paul Menage
+		url: http://google-perftools.googlecode.com/svn/trunk/doc/tcmalloc.html
+		license: BSD
+		ubuntu packages:
+			libtcmalloc-minimal0
+			libtcmalloc-minimal0-dbg
+		notes: includes heap-checker, heap-profiler, cpu-profiler
 
-coprocess mallocs:
-libmm
+reference counted mallocs:
+	libtalloc (from samba)
+		author(s): Andrew Trigdell
+		url: http://talloc.samba.org/talloc/doc/html/index.html
+		license: LGPL
+		ubuntu packages:
+			libtalloc-dev
+			libtalloc2
 
-libdmalloc
+co-process mallocs:
+	libmm
+		author(s): Ralf S. Engelschall <rse@engelschall.com>
+		url: http://www.engelschall.com/sw/mm/
+		license: GPL
+		ubuntu packages:
+			libmm14
+			libmm-dev
