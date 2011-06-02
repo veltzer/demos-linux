@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **envp) {
 	cpu_set_t cpu_sets[num];
 	void           *rets[num];
 
-	SCIG(pthread_barrier_init(&bar, NULL, 10), "pthread_barrier_init");
+	SCIG(pthread_barrier_init(&bar, NULL, num), "pthread_barrier_init");
 	fprintf(pfile, "main starting\n");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;

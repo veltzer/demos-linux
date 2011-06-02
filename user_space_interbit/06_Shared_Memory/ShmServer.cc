@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const int MAXCLINTS=10;
+const int MAXCLIENTS=10;
 const int CLIENTMESSAGESIZE=4096;
 
 int main(int argc,char** argv,char** envp)
@@ -31,12 +31,12 @@ int main(int argc,char** argv,char** envp)
 		perror("ftok failed");
 		exit(errno);
 	}
-	if ((semid = semget(key, MAXCLINTS, IPC_CREAT | 0666)) < 0 )
+	if ((semid = semget(key, MAXCLIENTS, IPC_CREAT | 0666)) < 0 )
 	{
 		perror("semget");
 		exit(1);
 	}
-	for(i=0; i<MAXCLINTS; i++)
+	for(i=0; i<MAXCLIENTS; i++)
 	{
 		if (semctl(semid, i, SETVAL, 0) < 0)
 		{
@@ -44,8 +44,8 @@ int main(int argc,char** argv,char** envp)
 			exit(errno);
 		}
 	}
-	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLINTS);
-	if((shmid = shmget(key, sizeof(struct data) * MAXCLINTS, 
+	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLIENTS);
+	if((shmid = shmget(key, sizeof(struct data) * MAXCLIENTS, 
 		IPC_CREAT | 0666)) < 0) 
 	{
 		perror("shmget failed");
@@ -56,7 +56,7 @@ int main(int argc,char** argv,char** envp)
 		perror("shmat failed");
 		exit(errno);
 	}
-	for (i=0; i<MAXCLINTS; i++)
+	for (i=0; i<MAXCLIENTS; i++)
 	{
 		smdata[i].readOffset = 0;
 		smdata[i].writeOffset = 0;

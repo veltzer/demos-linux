@@ -26,7 +26,10 @@ const int times=10;
 /*
  * This is the function we want to morph...
  */
-void function(void) {
+static void function(void) __attribute__ ((noinline));
+static void function(void) {
+	asm("");
+	//printf("times is %d\n",times);
 	for(int i=0;i<times;i++) {
 		printf("i is %d\n",i);
 	}
@@ -67,7 +70,7 @@ char* find_cell(void* ptr,char val) {
  * This is a signal handler to handle the segmentation faults we will generate...
  */
 void segv_handler(int sig) {
-	printf("in segv_handler, changing protection for the page...\n");
+	fprintf(stderr,"in segv_handler, changing protection for the page...\n");
 	sc(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC));
 }
 
@@ -77,7 +80,14 @@ int main(int argc, char **argv, char **envp) {
 	// lets install our own SIGSEGV signal handler so that we won't crash...
 	CHECK_NOT_VAL(signal(SIGSEGV,segv_handler),SIG_ERR);
 	// find the cell where the number 'times' is writen
-	char* p=find_cell((void*)function,times);
+	// if you are in gcc 4.5 then search for times-1
+	// if you are in gcc 4.4 then search for times
+	char* p=find_cell((void*)function,times-1);
+	fprintf(stderr,"address of function is %p\n",function);
+	fprintf(stderr,"address of p is %p\n",p);
+	//fprintf(stderr,"*function is %c\n",*(char*)function);
+	//*(char*)(function)=5;
+	//fprintf(stderr,"*function is %c\n",*(char*)function);
 	// change the value of the function, this will generate a SIGSEGV
 	// but we will use mprotect to get around that...
 	// we could have used mprotect from the begining...

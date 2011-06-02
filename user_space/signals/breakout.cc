@@ -1,9 +1,10 @@
 #include <iostream>
 #include <signal.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h> // for getpid(2)
+#include <unistd.h> // for getpid(2)
 
 /*
  * This demo demostrates how to cause a thread that is stuck in a long system call to
@@ -45,7 +46,6 @@ static void SignalHandlerUSR2(int sig) {
 	}
 }
 
-
 int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
 	if (signal(SIGUSR1, SignalHandlerUSR1) == SIG_ERR) {
@@ -57,13 +57,15 @@ int main(int argc, char **argv, char **envp) {
 		exit(1);
 	}
 	std::cerr << "main: set up the sig handler, lets start" << std::endl;
+	std::cerr << "send signals to me using:" << std::endl;
+	std::cerr << "kill -s SIGUSR1 " << getpid() << std::endl;
 	// This is a non busy wait loop which only wakes up when there
 	// are signals
 	const int size = 256;
 	char buf[size];
-	while (1) {
+	while (true) {
 		std::cerr << "main: before read" << std::endl;
-		if (read(0, buf, size) == -1) {
+		if (read(fileno(stdin), buf, size) == -1) {
 			perror("main: error in read(2)");
 		}
 		std::cerr << "main: after read" << std::endl;

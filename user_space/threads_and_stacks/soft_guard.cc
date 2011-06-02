@@ -17,10 +17,6 @@
  * EXTRA_LIBS=-lpthread
 */
 
-typedef struct big_struct {
-	char data[7000000];
-} my_big_struct;
-
 void check_stack() {
 	pthread_attr_t at;
 	CHECK_ZERO(pthread_getattr_np(pthread_self(),&at));
@@ -45,6 +41,10 @@ void check_stack() {
 	}
 	CHECK_ZERO(pthread_attr_destroy(&at));
 }
+
+typedef struct big_struct {
+	char data[7000000];
+} my_big_struct;
 
 void call_big() {
 	my_big_struct biggie;
