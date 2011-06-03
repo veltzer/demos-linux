@@ -29,13 +29,6 @@ pthread_barrier_t mybarrier;
 int min_priority = 0;
 
 
-void print_scheduling_info() {
-	//pthread_t thread_id = pthread_self();
-	pid_t tid = gettid();
-	int pri = getpriority(PRIO_PROCESS, tid);
-
-	printf("thread %d is here with priority %d\n", tid, pri);
-}
 
 
 void *thread_body(void *arg) {

@@ -36,9 +36,6 @@
  * Notice the use of setlogmask in order to control which logs actually go to the log.
  *
  * 					Mark Veltzer
- *
- * TODO:
- * - measure the performance of syslog(3). This is tricky.
  */
 
 /*

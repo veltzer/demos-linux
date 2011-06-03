@@ -3,6 +3,8 @@
 #include <sys/syscall.h> // for syscall(2)
 #include <sys/time.h> // for gettimeofday(2)
 
+#include "us_helper.hh" // for micro_diff
+
 /*
  * This demo times how long it takes to call a syscall.
  * It is a simple loop surrounded by gettimeofday.
@@ -17,8 +19,8 @@
 
 int main(int argc, char **argv, char** envp) {
 	struct timeval t1, t2;
-	unsigned long long u1, u2;
 	const unsigned int loop=1000000;
+	printf("doing %d syscalls\n",loop);
 	gettimeofday(&t1, NULL);
 	for (unsigned int i = 0;i < loop;i++) {
 		struct timeval t3;
@@ -26,9 +28,6 @@ int main(int argc, char **argv, char** envp) {
 		//syscall(__NR_getpid);
 	}
 	gettimeofday(&t2, NULL);
-	u1=((unsigned long long)t1.tv_sec*1000000)+t1.tv_usec;
-	u2=((unsigned long long)t2.tv_sec*1000000)+t2.tv_usec;
-	double diff=u2-u1;
-	printf("time in micro of one syscall: %lf\n", diff/(double)loop);
+	printf("time in micro of one syscall: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 	return 0;
 }

@@ -14,6 +14,8 @@
 #include <proc/readproc.h> // for look_up_our_self(3)
 #include <sys/prctl.h> // for prctl(2)
 #include <string.h> // for strncpy(3)
+#include <sys/time.h> // for getpriority(2)
+#include <sys/resource.h> // for getpriority(2)
 
 /*
  * Stringify macros - helps you turn anything into a string
@@ -304,6 +306,44 @@ static inline void print_process_name_from_proc(void) {
 
 static inline void printbuddy(void) {
 	my_system("cat /proc/buddyinfo");
+}
+
+static inline double micro_diff(struct timeval* t1,struct timeval* t2) {
+	unsigned long long u1,u2;
+	u1=((unsigned long long)t1->tv_sec*1000000)+t1->tv_usec;
+	u2=((unsigned long long)t2->tv_sec*1000000)+t2->tv_usec;
+	double diff=u2-u1;
+	return diff;
+}
+static const char* schedulers[]={
+	"SCHED_OTHER",
+	"SCHED_FIFO",
+	"SCHED_RR",
+	"SCHED_BATCH",
+	"SCHED_IDLE",
+};
+static inline void print_scheduling_info() {
+	// 0 means the calling thread, process or process group
+	//int pri = getpriority(PRIO_PROCESS, 0);
+	//printf("getpriority %d\n", tid, pri);
+	struct sched_param myparam;
+	// 0 means current process
+	sc(sched_getparam(0,&myparam));
+	int scheduler;
+	sc(scheduler=sched_getscheduler(0));
+	printf("==================================\n");
+	printf("scheduling data for the current thread...\n");
+	printf("sched_getparam returned %d\n", myparam.sched_priority);
+	printf("sched_getscheduler returned %s\n", schedulers[scheduler]);
+	printf("==================================\n");
+}
+
+static inline void print_scheduling_consts() {
+	printf("SCHED_OTHER is %d\n",SCHED_OTHER);
+	printf("SCHED_FIFO is %d\n",SCHED_FIFO);
+	printf("SCHED_RR is %d\n",SCHED_RR);
+	printf("SCHED_BATCH is %d\n",SCHED_BATCH);
+	printf("SCHED_IDLE is %d\n",SCHED_IDLE);
 }
 
 #endif // __us_helper_h
