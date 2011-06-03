@@ -41,6 +41,8 @@
  * - explain the results in the text above.
  * - do better stats (min, max, variance and more).
  * - add some atomic operations to the fastlog checking (to emulate what will really be going on there).
+ * - move the run_high_priority to my utils and do error checking in it. Print nice message to user
+ *   about how to set right permissions if I cannot run in a high priority.
  *
  * 					Mark Veltzer
  * EXTRA_LIBS=-lpthread
