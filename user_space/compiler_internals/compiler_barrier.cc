@@ -2,30 +2,30 @@
 #include <stdlib.h> // for srandom(3)
 
 /*
- *	This is an example of a memory barrier
+ *	This is an example of a compiler barrier
  *	This example needs to be compiled with optimizations to see it in action.
  *	View the resulting assembly code with:
  *	objdump --disassemble --line-numbers --source --demangle barrier
  *
  *	The gcc compiler barrier
- *	is __sync_synchronize(). It states it is a *FULL* barrier which means
- *	that it is also a machine barrier. The aseembly code should tell us
- *	that quite clearly.
+ *	is the asm(memory) one. It is not a CPU reordering barrier - just a compiler
+ *	one.
  *	It seems that gcc does not have the notion of a *read* vs *write*
  *	barrier which could come in handly instead of this dominating
- *	*FULL* barrier...
+ *	*FULL* barrier.
  *
  *	Machine memory barriers
- *	There does not seem to be a user space equivalent wrapper of gcc to the
- *	kernel rmb(), wmb(), mb() and the smp equivalents for machine memory
- *	barriers.. I still haven't figured out if this is due to the machine
- *	instructions themselves being prohibited in user space or just a lack
- *	of gcc wrappers for them and therefore the need to code them in inline
- *	assembly.
+ *	is the _sync_synchronize() one. There doesn't seem to be a read vs write
+ *	one.
  *
  *	TODO:
- *	make this program show the instructions that are emitted for main so
+ *	- make this program show the instructions that are emitted for main so
  *	that people could see the assembly code generated.
+ *	- do another example that shows, for example, that two consecutive reads
+ *	from the same address are optimized away by the compiler (the second read
+ *	that is).
+ *	- add another example that shows why volatile is bad (base it on the kernel
+ *	article about volatiles being harmful).
  *
  *		Mark Veltzer
  *
@@ -104,7 +104,7 @@ int main(int argc, char **argv, char **envp) {
 	val_after[loc]=a;
 	loc++;
 	
-	// FOURTH EXAMPLE (inline assembly)
+	// FOURTH EXAMPLE (assembly memory barrier)
 	// ================================
 	a=1000;
 	while (a < 3000) {
@@ -119,10 +119,42 @@ int main(int argc, char **argv, char **envp) {
 	val_after[loc]=a;
 	loc++;
 
+	// FIFTH EXAMPLE (empty assembly block)
+	// ================================
+	a=1000;
+	while (a < 3000) {
+		a+=a;
+	}
+	*p = 2000;
+	// if you remove the following __sync_synchronize then the results
+	// will change...
+	val_before[loc]=a;
+	// a statement telling the GNU assembler not to reorder around it
+	asm volatile("");
+	val_after[loc]=a;
+	loc++;
+
+	const char* test_names[]={
+		"no barrier",
+		"sync_synchronize",
+		"function call",
+		"assembly memory barrier",
+		"assembly empty block"
+	};
 	// print the results
 	for(int i=0;i<loc;i++) {
-		printf("val_before is %d\n",val_before[i]);
-		printf("val_after is %d\n",val_after[i]);
+		printf("results for [%s]\n",test_names[i]);
+		printf("val_before is %d, val_after is %d\n",val_before[i],val_after[i]);
+		if(val_before[i]==4000) {
+			printf("compiler used register for value\n");
+		} else {
+			printf("compiler did not use register for value, you are probably running without optimization\n");
+		}
+		if(val_after[i]==2000) {
+			printf("barrier worked\n");
+		} else {
+			printf("barrier did not work\n");
+		}
 	}
 	return(0);
 }
