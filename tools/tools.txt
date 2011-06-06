@@ -76,3 +76,6 @@ power managements:
 big tools:
 	systemtap
 	perf
+
+pipe performance:
+	pipemeter: cat /dev/zero | pipemeter | wc -c
