@@ -1,0 +1,18 @@
+Reasons for the kernel not giving out tokens:
+- Kernel programming difficulties and system complications:
+	The kernel would have to remmember which tokens were given to whom.
+	There would have to be a limit to number of token an application
+	could get.
+	That limit would have to be configurable via 'ulimit'.
+	This is yet another resource that the kernel has to manage.
+	This is essential for the kernel to prevent denial of service
+	attacks by a process which consumes lots of tokens.
+	This wastes more kernel memory (which is not swappable).
+- This could be implemented in user space via sockets and other means.
+	We could write a "token server" in user space that gives out tokens.
+	Much easier to write this in user space than in kernel space.
+- In any case, if the kernel gave out keys, how would two distinct processes
+	know get to know the same key? A solution to synchronize a key between
+	processes should still have to be implemented in user space and that
+	process could, optionally, be designed to also give out the keys in
+	question and to avoid giving out the same key twice.

@@ -1,4 +1,3 @@
-#include <iostream> // for std:cerr
 #include <sys/types.h> // for waitpid(2)
 #include <sys/wait.h> // for waitpid(2)
 #include <unistd.h> // for close(2), dup(2), execl(3), fork(2)
@@ -48,14 +47,15 @@ void doChildTwo(int* fd) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	// here is an example of using this construct
 	int fd[2];
 	sc(pipe(fd));
+	// child one
 	int pid1;
 	sc(pid1=fork());
 	if(pid1==0) {
 		doChildOne(fd);
 	}
+	// child two
 	int pid2;
 	sc(pid2=fork());
 	if(pid2==0) {
@@ -66,9 +66,9 @@ int main(int argc,char** argv,char** envp) {
 	// pipe...
 	sc(close(fd[0]));
 	sc(close(fd[1]));
+	// wait for both children to die...
 	int status;
 	sc(waitpid(pid1,&status,0));
 	sc(waitpid(pid2,&status,0));
-	//std::cerr << "both children died" << std::endl;
 	return 0;
 }
