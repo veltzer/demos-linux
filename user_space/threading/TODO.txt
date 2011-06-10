@@ -13,7 +13,8 @@
 
 - show an example of doing pthread_once (this is a sort of a singleton pattern).
 
-- do an example of yield.
+- do an example of sched_yield(2) (I already have an example of pthread_yield(3)).
+	show the voluntary context switches number going up in /proc.
 
 - do an example of pthread_atfork
 

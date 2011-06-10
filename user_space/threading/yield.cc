@@ -20,7 +20,7 @@
  *      the output that you get from the two threads is interwoven which means
  *      that they yield one to the other.
  *      Ofcourse, this is not strictly a proof that this works since even on a single
- *      CPU machine with heavly load it could be that not even the single TRACE executing
+ *      CPU machine with heavy load it could be that not even the single TRACE executing
  *      could fit in a time slot. But you get the idea.
  *      If you look at the first runs you would see that one of these threads gets a lot
  *      of the CPU. This is because it takes time to create the other thread in the

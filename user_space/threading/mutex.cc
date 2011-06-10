@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <unistd.h> // for sleep(3)
+#include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_create(3), pthread_join(3), pthread_mutex_init(3)
 
 #include "us_helper.hh"
 
