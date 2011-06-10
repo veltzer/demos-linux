@@ -1,6 +1,7 @@
 #include <sys/types.h> // for open(2)
 #include <sys/stat.h> // for open(2)
 #include <fcntl.h> // for open(2)
+#include <sys/ioctl.h> // for ioctl(2)
 
 #include "us_helper.hh"
 

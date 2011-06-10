@@ -4,6 +4,7 @@
 #include <fcntl.h> // for open(2)
 #include <unistd.h> // for close(2)
 #include <sys/ioctl.h> // for ioctl(2)
+#include <errno.h> // for errno(3)
 
 #include "us_helper.hh" // our own helper for user space
 

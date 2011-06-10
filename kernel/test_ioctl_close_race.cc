@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <stdio.h> // for fprintf(3), fflush(3)
+#include <unistd.h> // for sleep(3), close(2)
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <sys/ioctl.h> // for ioctl(2)
 
 #include "us_helper.hh"
 

@@ -1,10 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <stdio.h> // for fprintf(3)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
 
 #include "us_helper.hh"
 
@@ -19,12 +18,12 @@
 int d;
 
 void *wait_function(void *p) {
-	std::cerr << "wait thread started" << std::endl;
+	fprintf(stderr,"wait thread started\n");
 	ticks_t t1 = getticks();
 	// wait thread going to sleep
 	SC(ioctl(d, 3, 1000));
 	ticks_t t2 = getticks();
-	std::cerr << "took " << get_mic_diff(t1, t2) << " micros" << std::endl;
+	fprintf(stderr,"took %d micros\n",get_mic_diff(t1, t2));
 	return(NULL);
 }
 

@@ -1,9 +1,6 @@
 #ifndef __us_helper_h
 #define __us_helper_h
 
-//#include <errno.h>
-//#include <sys/ioctl.h>
-
 #include <cpufreq.h> // for cpufreq_get_freq_kernel(2)
 #include <sys/prctl.h> // for prctl(2)
 #include <stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
