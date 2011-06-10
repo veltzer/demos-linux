@@ -36,7 +36,11 @@
  *   like that.
  * 
  * TODO:
- * - add two more test cases: asynchroneous and synchroneous writes using open(2), write(2), close(2).
+ * - add three more test cases: open(2), write(2), close(2) with
+ *   	- standard flags.
+ *   	- O_ASYNC
+ *   	- O_SYNC
+ * - add another test with syslog which writes to a sysfs file instead.
  * - add another test case of asynchroneous syslog (damn it! how do I configure that?!?).
  * - explain the results in the text above.
  * - do better stats (min, max, variance and more).
@@ -87,8 +91,10 @@ void* func(void*) {
 	const unsigned int number=10000;
 	// timevals to store before and after time...
 	struct timeval t1, t2;
+	// name of the test currently running
+	const char* test;
 
-	// first lets measure syslog...
+	test="standard syslog";
 	openlog(myname, LOG_PID, LOG_USER);
 	printf("doing %d syslogs\n",number);
 	// start timing...
@@ -100,11 +106,11 @@ void* func(void*) {
 	gettimeofday(&t2, NULL);
 	closelog();
 	// print timing...
-	printf("time in micro of one syslog (synchroneous): %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("%s: %lf\n",test,micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
 
-	// now lets measure regular file operations (flushed, synchroneous)...
+	test="regular file operations (nonbuffreed, flushed, synchroneous)";
 	FILE* f=fopen("/tmp/syslog_test","w+");
 	assert(f!=NULL);
 	printf("doing %d writes\n",number);
@@ -118,11 +124,11 @@ void* func(void*) {
 	gettimeofday(&t2, NULL);
 	fclose(f);
 	// print timing...
-	printf("time in micro of one write (synchroneous): %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("%s: %lf\n",test,micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
-	
-	// now lets measure regular file operations...
+
+	test="regular file operations (buffred, non flushed, non synchronized)";
 	f=fopen("/tmp/syslog_test","w+");
 	assert(f!=NULL);
 	printf("doing %d writes\n",number);
@@ -135,7 +141,7 @@ void* func(void*) {
 	gettimeofday(&t2, NULL);
 	fclose(f);
 	// print timing...
-	printf("time in micro of one write (buffered): %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("%s: %lf\n",test,micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
 
