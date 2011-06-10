@@ -1,21 +1,22 @@
 #ifndef __us_helper_h
 #define __us_helper_h
 
-#include <iostream>
-#include <errno.h>
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for system(3)
-#include <stdarg.h>
-#include <sys/ioctl.h>
-#include <sys/types.h> // for getpid, gettid
-#include <sys/syscall.h> // for syscall
-#include <unistd.h> // for getpid, syscall, sysconf
-#include <cpufreq.h>
-#include <proc/readproc.h> // for look_up_our_self(3)
+//#include <errno.h>
+//#include <sys/ioctl.h>
+
+#include <cpufreq.h> // for cpufreq_get_freq_kernel(2)
 #include <sys/prctl.h> // for prctl(2)
+#include <stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
+#include <stdlib.h> // for system(3), exit(3)
+#include <stdarg.h> // for vsnprintf(3), va_start(3), va_list(3), va_end(3)
+#include <sys/types.h> // for getpid(2), gettid(2)
+#include <sys/syscall.h> // for syscall(2)
+#include <unistd.h> // for getpid(2), syscall(2), sysconf(2)
+#include <proc/readproc.h> // for get_proc_stats(3)
 #include <string.h> // for strncpy(3)
 #include <sys/time.h> // for getpriority(2)
 #include <sys/resource.h> // for getpriority(2)
+#include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
 
 /*
  * Stringify macros - helps you turn anything into a string
@@ -153,10 +154,10 @@ template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 	}
 }
 
-#define SCIE(v, msg) std::cout << msg << " " << "started" << std::endl; scie(v, msg); std::cout << msg << " " << "ended" << std::endl;
-#define SCPE(v, msg) std::cout << msg << " " << "started" << std::endl; scpe(v, msg); std::cout << msg << " " << "ended" << std::endl;
-#define SCIG(v, msg) std::cout << msg << " " << "started" << std::endl; scig(v, msg); std::cout << msg << " " << "ended" << std::endl;
-#define SCIG2(v, msg, v1, v2) std::cout << msg << " " << "started" << std::endl; scig2(v, msg, v1, v2); std::cout << msg << " " << "ended" << std::endl;
+#define SCIE(v, msg) printf("%s startecd\n",msg); scie(v, msg); printf("%s ended\n",msg);
+#define SCPE(v, msg) printf("%s startecd\n",msg); scpe(v, msg); printf("%s ended\n",msg);
+#define SCIG(v, msg) printf("%s startecd\n",msg); scig(v, msg); printf("%s ended\n",msg);
+#define SCIG2(v, msg, v1, v2) printf("%s startecd\n",msg); scig2(v, msg, v1, v2); printf("%s ended\n",msg); 
 
 #define SC(v) SCIE(v, __stringify(v));
 #define sc(v) scie(v, __stringify(v));

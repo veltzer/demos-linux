@@ -1,6 +1,7 @@
-#include <cxxabi.h>
-#include <string.h>
-#include <stdio.h>
+#include <cxxabi.h> // for abi::__cxa_demangle(3)
+#include <string.h> // for strncpy(3)
+#include <stdio.h> // for fprintf(3), snprintf(3)
+#include <stdlib.h> // for malloc(3), abort(3)
 
 /*
  * function to demangle name using the C++ API for doing so
@@ -55,5 +56,6 @@ inline void error_demangle(
 	} else {
 		// couldn't parse the line? print the whole line.
 		fprintf(stderr, "error parsing: %s\n", symbol);
+		abort();
 	}
 }
