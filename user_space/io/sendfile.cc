@@ -15,21 +15,22 @@
  * The demo itself is just a simple version of cp(1)
  *
  * It seems that this demo doesn't run properly on 2.6.32 and should run
- * on 2.6.33.
+ * on 2.6.33 or later.
+ * On 2.6.38 it works well.
+ *
+ * Notes:
+ * - we send the data page by page and call sendfile(2) many times. This could
+ *   be avoided using fstat(2) after the open of the input file and sending the
+ *   entire content at once.
  *
  *              Mark Veltzer
  *
  * EXTRA_LIBS=
  */
-int main(int argc, char **argv, char **envp) {
-	if(argc!=3) {
-		printf("usage: %s [infile] [outfile]\n",argv[0]);
-		exit(1);
-	}
+
+int copy_file(const char* filein, const char* fileout) {
 	size_t sendfile_bufsize=getpagesize();
 	int err_code=0;
-	const char* filein=argv[1];
-	const char* fileout=argv[2];
 	int fdin,fdout;
 	sc(fdin=open(filein, O_RDONLY, 0666));
 	sc(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
@@ -44,5 +45,15 @@ int main(int argc, char **argv, char **envp) {
 	}
 	sc(close(fdin));
 	sc(close(fdout));
-	return(err_code);
+	return err_code;
+}
+
+int main(int argc, char **argv, char **envp) {
+	if(argc!=3) {
+		printf("usage: %s [infile] [outfile]\n",argv[0]);
+		exit(1);
+	}
+	const char* filein=argv[1];
+	const char* fileout=argv[2];
+	return copy_file(filein,fileout);
 }
