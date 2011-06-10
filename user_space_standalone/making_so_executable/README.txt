@@ -20,3 +20,5 @@ For bug reporting instructions, please see:
 <http://www.debian.org/Bugs/>.
 fermat$
 ======================================
+
+This example still DOES NOT WORK. Running the shared object crashes. Need to find out why.

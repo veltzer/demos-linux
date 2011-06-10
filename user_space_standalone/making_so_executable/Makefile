@@ -25,16 +25,16 @@ $(SO_NAME): $(SO_OBJECTS)  $(ALL_DEPS)
 
 .PHONY: clean
 clean: $(ALL_DEPS)
-	-rm *.o $(EXE_NAME) $(SO_NAME)
+	-rm $(SO_OBJECTS) $(EXE_OBJECTS) $(EXE_NAME) $(SO_NAME)
 
 .PHONY: run
 run: $(ALL_DEPS)
 	LD_LIBRARY_PATH=. ./$(EXE_NAME)
 
-show_results: $(ALL_DEPS)
+show_results: all $(ALL_DEPS)
 	ldd $(SO_NAME) 
 	ldd $(EXE_NAME)
 
-show_results_verbose: $(ALL_DEPS)
+show_results_verbose: all $(ALL_DEPS)
 	ldd -v $(SO_NAME)
 	ldd -u $(SO_NAME)

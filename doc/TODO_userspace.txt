@@ -92,3 +92,9 @@ do they conflict and where do they match.
         show how to do this using a timer thus turning each sys call to timed.
         show that the wakeup is pretty near the expected time (rdtsc).
 - do example of fifo and priorities in pthreads.
+
+creating temp files correctly:
+==============================
+mkdtemp(3), mktemp(3), tempnam(3), tmpfile(3), tmpnam(3)
+talk about the security issues involved in these.
+- there is already one example of mine which works with temp files.
