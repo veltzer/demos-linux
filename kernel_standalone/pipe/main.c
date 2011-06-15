@@ -21,9 +21,25 @@ MODULE_DESCRIPTION("A named pipe exercise");
 #define DO_WAIT
 
 /*
- * See the README.txt for the explanation of this exercise.
+ * See exercise.txt for the description of this exercise.
+ *
+ * Notes:
+ * - we protect the pipe here using a spinlock. Maybe a mutex would give better results
+ *   on a single CPU. Test it out.
+ * - Even though the pipe size is PAGE_SIZE (4096 on a i386) we can only store PAGE_SIZE-1
+ *   bytes in the pipe. This is because if we stored 4096 bytes in the pipe we would not
+ *   be able to distinguish between a full pipe and an empty one. This is the reason for the
+ *   weird -1 in the 'pipe_room' function.
+ * - the performace of this pipe as can be ascertained using the 'pipemeter' is much
+ *   lower than the kernels own pipe as can be checked
+ *   via 'cat /dev/zero | pipemeter > /dev/null' (I prepared a script for this).
  *
  * TODO:
+ * - explain the difference in performance mentioned above and improve this example to
+ *   give similar performance.
+ *
+ *
+ * TOOLS: pipemeter
  */
 
 static int pipes_count=8;
