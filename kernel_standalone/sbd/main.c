@@ -29,7 +29,8 @@ static int major_num = 0;
 module_param(major_num, int, 0);
 static int hardsect_size = 512;
 module_param(hardsect_size, int, 0);
-static int nsectors = 4096;  /* How big the drive is */
+// even 10000 here is not enough to format the drive to support btrfs...
+static int nsectors = 20000;  /* How big the drive is */
 module_param(nsectors, int, 0);
 
 /*
