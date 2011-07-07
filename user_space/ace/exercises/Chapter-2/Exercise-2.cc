@@ -1,8 +1,7 @@
-#include <ace/OS_NS_stdio.h>
-#include <ace/Message_Queue.h>
-#include <ace/Read_Buffer.h>
-#include <ace/Thread_Manager.h>
-#include <ace/Service_Config.h>
+#include <ace/OS_NS_stdio.h> // for ACE_STDIN
+#include <ace/Message_Queue.h> // for the two message queues
+#include <ace/Read_Buffer.h> // for the read buffer
+#include <ace/Thread_Manager.h> // for the thread manager to manage everything
 
 /*
 EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -10,31 +9,18 @@ EXTRA_CMDS=pkg-config --cflags --libs ACE
 
 /*
  * TODO:
- * - Stop using the global variables.
- * - Stop using the length and start using ACE_Message_Block::HANGUP as msg_type
- *   for end of software.
  */
 
-// Global thread manager.
-static ACE_Thread_Manager thr_mgr;
-// Make the queue be capable of being *very* large.
-static const long max_queue = LONG_MAX;
-
-typedef struct {
-	ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue1;
-	ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue2;
-} ProducerData;
+// The consumer dequeues a message from the ACE_Message_Queue, writes
+// the message to the stderr stream, and deletes the message. The
+// producer sends a 0-sized message to inform the consumer to stop
+// reading and exit.
 
 typedef struct {
 	int id;
 	ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue;
 } ConsumerData;
 
-
-// The consumer dequeues a message from the ACE_Message_Queue, writes
-// the message to the stderr stream, and deletes the message. The
-// producer sends a 0-sized message to inform the consumer to stop
-// reading and exit.
 static void *consumer(ConsumerData* pdata) {
 	// Keep looping, reading a message out of the queue, until we
 	// timeout or get a message with a length == 0, which signals us to quit.
@@ -65,6 +51,12 @@ static void *consumer(ConsumerData* pdata) {
 // removed by the consumer thread. A 0-sized message is enqueued when
 // there is no more data to read. The consumer uses this as a flag to
 // know when to exit.
+
+typedef struct {
+	ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue1;
+	ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue2;
+} ProducerData;
+
 static void *producer(ProducerData* pdata) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) producer starting\n")));
 	ACE_Read_Buffer rb(ACE_STDIN);
@@ -143,9 +135,12 @@ static void *producer(ProducerData* pdata) {
 
 // Spawn off one thread that copies stdin to stdout in order of the size of each line.
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
+	// Global thread manager.
+	ACE_Thread_Manager thr_mgr;
+
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) main starting\n")));
-	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue1(max_queue);
-	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue2(max_queue);
+	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue1;
+	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue2;
 
 	ProducerData pdata;
 	pdata.msg_queue1=&msg_queue1;
@@ -160,7 +155,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	if (thr_mgr.spawn(ACE_THR_FUNC(consumer), &c1data, THR_NEW_LWP | THR_DETACHED) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%t\n", "spawn consumer1"), 1);
 	}
-	
+
 	ConsumerData c2data;
 	c2data.msg_queue=&msg_queue2;
 	c2data.id=2;
