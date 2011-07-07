@@ -109,6 +109,14 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb->rd_ptr()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb2->rd_ptr()));
+
+	//lets advance one of the read pointers
+	mb->rd_ptr(3);
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb2->rd_ptr()));
+
 	mb->release();
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("reference_count is --> %d\n"), mb2->reference_count()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));

@@ -7,7 +7,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 int HA_CommandHandler::svc(void) {
-	while (1) {
+	while (true) {
 		ACE_Message_Block *mb;
 		if (this->getq(mb) == -1) {
 			break;
@@ -17,6 +17,7 @@ int HA_CommandHandler::svc(void) {
 			break;
 		} else {
 			// Get header pointer, then move past header to payload.
+			/*
 			DeviceCommandHeader *dch = (DeviceCommandHeader *)mb->rd_ptr();
 			mb->rd_ptr(sizeof(DeviceCommandHeader));
 			ACE_DEBUG((LM_DEBUG,
@@ -25,6 +26,8 @@ int HA_CommandHandler::svc(void) {
 			           dch->deviceId_, mb->rd_ptr()));
 			this->rep_.update_device(dch->deviceId_,
 			                         mb->rd_ptr());
+			*/
+			ACE_DEBUG((LM_DEBUG,ACE_TEXT("message is %s\n"),mb->rd_ptr()));
 			mb->release();
 		}
 	}
@@ -97,7 +100,7 @@ int Message_Receiver::handle_input(ACE_HANDLE) {
 
 static void report_usage(int argc, ACE_TCHAR *argv[]) {
 	if (argc < 2) {
-		ACE_DEBUG((LM_ERROR, ACE_TEXT("%s port\n"), argv[1]));
+		ACE_DEBUG((LM_ERROR, ACE_TEXT("%s: please use me with port\n"), argv[1]));
 		ACE_OS::exit(-1);
 	}
 }
@@ -127,8 +130,8 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	HA_Device_Repository rep;
 	HA_CommandHandler handler(rep);
 
-	ACE_ASSERT(handler.activate() == 0);
 	//start up the handler.
+	ACE_ASSERT(handler.activate() == 0);
 
 	Acceptor acceptor(& handler);
 	ACE_INET_Addr addr(port);
