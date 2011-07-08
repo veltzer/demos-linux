@@ -1,14 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <unistd.h> // for sysconf
-
-#include "us_helper.hh"
+#include <stdio.h> // for printf(3)
 
 /*
  * This is a demo to show how sync_synchronize() is implemented...
+ * Actually - you shouldn't see any assembly emitted here since this
+ * is a compiler barrier and not a memory barrier.
  *
  *              Mark Veltzer
  *
