@@ -107,6 +107,13 @@ class Stat {
 			printf("ex is %lf\n",ex);
 			printf("ex2 is %lf\n",ex2);
 		}
+		void print_gnuplot(void) {
+			double runner=minbin+binsize/2;
+			for(unsigned int i=0;i<binnum;i++) {
+				printf("%lf, %u\n",runner,bins[i]);
+				runner+=binsize;
+			}
+		}
 		double getMaxAbs(void) {
 			return maxabs;
 		}
