@@ -1,7 +1,7 @@
 // This example will create 10 timers. As soon that all of them are created
 // the 5th timer is cancelled.
 // We will see that all of them (except the 5th) are activated.
-// ACE will look at handle_timeout method when timer timeout is set.
+// ACE will activate at handle_timeout method when timer timeout is set.
 //
 #include <ace/Timer_Queue.h>
 #include <ace/Reactor.h>
@@ -43,8 +43,8 @@ int ACE_TMAIN(int, char **) {
 	for (int i = 0; i < NUMBER_TIMERS; i++) {
 		timer_id[i] = reactor.schedule_timer(
 		        th,
-		        (const void *)i,                                                                                                                                                                                                                                                                                                                                                           // argument sent to handle_timeout()
-		        ACE_Time_Value(2 * i + 1)                                                                                                                                                                                                                                                                                                                                                  // set timer to go off with delay
+		        (const void *)i,// argument sent to handle_timeout()
+		        ACE_Time_Value(2 * i + 1)// set timer to go off with delay
 		        );
 	}
 	// Cancel the fifth timer before it goes off
@@ -54,6 +54,7 @@ int ACE_TMAIN(int, char **) {
 	// this is done when the last one is activated.
 	// This termination trick is only one option for termination out of many other possibilities.
 	// and is not a good one at that because it makes us write the logic for the termination.
+	// this is a busy free wait loop
 	while (!done) {
 		reactor.handle_events();
 	}
