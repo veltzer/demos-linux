@@ -1,6 +1,5 @@
 #include<stdio.h> // for printf(3), snprintf(3)
 #include<stdlib.h> // for atof(3), atoi(3)
-#include<values.h> // for MAXINT, MININT, MAXFLOAT, MINFLOAT
 #include<math.h> // for pow(3)
 
 #include<Stat.h> // our own statistics gathering object
@@ -30,15 +29,6 @@
 //#define DO_PRINT
 
 int main(int argc,char** argv,char** envp) {
-	#ifdef DO_PRINT
-	// first lets print the limits
-	printf("MAXINT is %d\n",MAXINT);
-	printf("MININT is %d\n",MININT);
-	printf("MAXFLOAT is %f\n",MAXFLOAT);
-	printf("MINFLOAT is %f\n",MINFLOAT);
-	printf("MAXDOUBLE is %lf\n",MAXDOUBLE);
-	printf("MINDOUBLE is %lf\n",MINDOUBLE);
-	#endif // DO_PRINT
 	unsigned int num_bins=1000;
 	//unsigned long min_range=(unsigned long)MININT;
 	//unsigned long max_range=(unsigned long)MAXINT;
