@@ -63,18 +63,18 @@ Q:=@
 endif # DO_MKDBG
 
 # sources from the git perspective
-GIT_SOURCES:=$(shell scripts/git_wrapper.sh ls-files)
+GIT_SOURCES:=$(shell ../scripts/git_wrapper.sh ls-files)
 ALL:=
 CLEAN:=
 CLEAN_DIRS:=
 
 # user space applications (c and c++)
-CC_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
-C_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "drv_*.c")
-ALL_C:=$(shell scripts/find_wrapper.sh . -name "*.c")
-ALL_CC:=$(shell scripts/find_wrapper.sh . -name "*.cc")
-ALL_H:=$(shell scripts/find_wrapper.sh . -name "*.h")
-ALL_HH:=$(shell scripts/find_wrapper.sh . -name "*.hh")
+CC_SRC:=$(shell ../scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
+C_SRC:=$(shell ../scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "drv_*.c")
+ALL_C:=$(shell ../scripts/find_wrapper.sh . -name "*.c")
+ALL_CC:=$(shell ../scripts/find_wrapper.sh . -name "*.cc")
+ALL_H:=$(shell ../scripts/find_wrapper.sh . -name "*.h")
+ALL_HH:=$(shell ../scripts/find_wrapper.sh . -name "*.hh")
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
 C_ASX:=$(addsuffix .s,$(basename $(C_SRC)))
 CC_DIS:=$(addsuffix .dis,$(basename $(CC_SRC)))
