@@ -85,7 +85,7 @@ ALL:=$(ALL) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(CC_DIS) $(CC_ASX)
 
 # kernel modules
-MOD_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_DIR) -name "drv_*.c" -and -not -name "drv_*.mod.c")
+MOD_SRC:=$(shell ../scripts/find_wrapper.sh $(KERNEL_DIR) -name "drv_*.c" -and -not -name "drv_*.mod.c")
 MOD_BAS:=$(basename $(MOD_SRC))
 MOD_OBJ:=$(addsuffix .o,$(MOD_BAS))
 MOD_SR2:=$(addsuffix .mod.c,$(MOD_BAS))
