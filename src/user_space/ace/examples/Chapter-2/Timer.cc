@@ -1,7 +1,7 @@
 // This example will create 10 timers. As soon that all of them are created
 // the 5th timer is cancelled.
 // We will see that all of them (except the 5th) are activated.
-// ACE will activate at handle_timeout method when timer timeout is set.
+// ACE will activate the handle_timeout method when timer timeout arrives. 
 //
 #include <ace/Timer_Queue.h>
 #include <ace/Reactor.h>
@@ -10,7 +10,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 const int NUMBER_TIMERS = 10;
-static bool done = false;
+volatile static bool done = false;
 static int count = 0;
 static int last_arrived = -1;
 class MyTime_Handler : public ACE_Event_Handler {
@@ -27,6 +27,7 @@ public:
 		ACE_DEBUG((LM_DEBUG, "%t %d: Timer #%d timed out at %d!\n", count, current_count, tv.sec()));
 		// If all timers done then set done flag
 		count++;
+		sleep(3);
 		if (count == NUMBER_TIMERS - 1) {
 			done = true;
 		}
@@ -57,6 +58,7 @@ int ACE_TMAIN(int, char **) {
 	// this is a busy free wait loop
 	while (!done) {
 		reactor.handle_events();
+		ACE_DEBUG((LM_DEBUG, "%t in main thread\n"));
 	}
 	return(0);
 }

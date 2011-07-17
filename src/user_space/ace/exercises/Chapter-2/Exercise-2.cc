@@ -65,7 +65,7 @@ static void *producer(ProducerData* pdata) {
 	while (true) {
 		// Allocate a new buffer.
 		char* buffer = rb.read('\n');
-		if (buffer == 0) {
+		if (buffer == NULL) {
 			// create a special hangup kmessage
 			ACE_DEBUG((LM_ERROR, "(%t) producer sending hangup message\n"));
 			ACE_Message_Block *mb1,*mb2;
