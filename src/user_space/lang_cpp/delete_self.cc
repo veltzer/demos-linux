@@ -39,6 +39,14 @@ class A {
 		}
 };
 
+// here is an object that causes infinite recursion in it's destructor...
+class B {
+	public:
+		~B(void) {
+			delete this;
+		}
+};
+
 int main(int argc, char **argv, char **envp) {
 	A* a=new A();
 	a->doit();
@@ -46,5 +54,8 @@ int main(int argc, char **argv, char **envp) {
 	// on the heap...
 	//A aa;
 	//aa.doit();
+	// the next code will cause infinite recursion and error...
+	//B* b=new B();
+	//delete b;
 	return(0);
 }
