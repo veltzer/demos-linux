@@ -17,9 +17,13 @@
  *
  *	Function call barriers
  *	======================
- *	You cannot really rely on them since you are not sure which functions are macros,
+ *	On some platforms/compilers these are also memory barriers but no so in gcc
+ *	that assumes that functions that are called do not change the content of registers
+ *	(and if they do, they put back everything the way they found it...). In any case
+ *	you cannot really rely on them since you are not sure which functions are macros,
  *	inlines etc. Better to use an official compiler barrier. I picked a function that
- *	is definately not an inlined one and still this did not work (srandom on gcc 4.5.2).
+ *	is definately not an inlined one and still this it does not perform well as
+ *	a compiler barrier (srandom on gcc 4.5.2).
  *
  *	Machine memory barriers
  *	=======================
@@ -123,7 +127,8 @@ int main(int argc, char **argv, char **envp) {
 	}
 	*p = CORRECT_VAL;
 	val_before[loc]=a;
-	// a function call is actually a natural compiler barrier...
+	// a function call is a natural compiler barrier, but not so in gcc
+	// which is very aggressive on optimization...
 	srandom(100);
 	val_after[loc]=a;
 	loc++;
