@@ -63,7 +63,7 @@ int Producer::svc(void) {
 		if (n <= 0) {
 			// Send shutdown message to other thread and exit.
 			mb->length(0);
-			this->put_next(mb);
+			put_next(mb);
 			break;
 		} else {
 			// Adjust write pointer.

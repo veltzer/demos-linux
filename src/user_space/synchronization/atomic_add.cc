@@ -47,9 +47,10 @@ void *worker(void *p) {
 	for (int i = 0; i < 10; i++) {
 		int ret;
 		SCIG2(ret = pthread_barrier_wait(&bar), "pthread_barrier_wait", 0, PTHREAD_BARRIER_SERIAL_THREAD);
-		fprintf(pfile, "thread %d got %d from pthread_barrier_wait\n", num, ret);
-		int b = __sync_add_and_fetch(&counter, 1);
-		fprintf(pfile, "thread %d got %d from counter\n", num, b);
+		//fprintf(pfile, "thread %d got %d from pthread_barrier_wait\n", num, ret);
+		//int b = __sync_add_and_fetch(&counter, 1);
+		__sync_add_and_fetch(&counter, 1);
+		//fprintf(pfile, "thread %d got %d from counter\n", num, b);
 		usleep(wait_usecs);
 		fprintf(pfile, "thread %d finished work\n", num);
 	}

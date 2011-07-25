@@ -10,8 +10,8 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
+// Proxy to the HA_Controller that is on the network.
 class HA_ControllerAgent {
-	// Proxy to the HA_Controller that is on the network.
 public:
 	HA_ControllerAgent() {
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgent::HA_ControllerAgent"));
@@ -90,24 +90,24 @@ public:
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
 
-		while (1) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       // Dequeue the next method object
+		while (1) {
+			// Dequeue the next method object
 			ACE_DEBUG((LM_DEBUG,
-			           ACE_TEXT("In Scheduler::svc waiting for queue data dequeue\n")));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          // -- 3
+			ACE_TEXT("In Scheduler::svc waiting for queue data dequeue\n")));
+		       	// -- 3
 			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
-
 			// Invoke the method request.
 			if (request->call() == -1) {
 				break;
 			}
 		}
-
 		return(0);
 	}
 
 
 	int enqueue(ACE_Method_Request *request) {
 		ACE_TRACE(ACE_TEXT("Scheduler::enqueue"));
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("In Scheduler::enqueue\n")));                                                                                                                                                                                                         // -- 9
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("In Scheduler::enqueue\n")));
 		return(this->activation_queue_.enqueue(request));
 	}
 
@@ -151,10 +151,11 @@ private:
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Constructing HA_ControllerAgentProxy controller\n")));                                                                                                          // -- 1
 	HA_ControllerAgentProxy controller;
-	ACE_Future<int>         results[10];
+	const int numResults=10;
+	ACE_Future<int>         results[numResults];
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Activating the controller.status_update\n")));                                                                                                      // -- 6
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < numResults; i++) {
 		results[i] = controller.status_update();
 	}
 
@@ -165,7 +166,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("After the sleep we are going to get the results\n")));                                                                                                       // -- 15
 
 	// Get results...
-	for (int j = 0; j < 1; j++) {
+	for (int j = 0; j < numResults; j++) {
 		int result = 0;
 		results[j].get(result);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("New status_update %d\n"), result));                                                                                                                                                                                                            // -- 16
