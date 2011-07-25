@@ -1,6 +1,7 @@
-
- *	- do another example that shows, for example, that two consecutive reads
- *	from the same address are optimized away by the compiler (the second read
- *	that is).
- *	- add another example that shows why volatile is bad (base it on the kernel
- *	article about volatiles being harmful).
+- do another example that shows, for example, that two consecutive reads
+	from the same address are optimized away by the compiler (the second read
+	that is).
+- add another example that shows why volatile is bad (base it on the kernel
+	article about volatiles being harmful).
+- do the example in the reference:
+	http://ridiculousfish.com/blog/archives/2007/02/17/barrier/

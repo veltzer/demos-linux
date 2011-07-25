@@ -27,12 +27,16 @@
  *
  *	Machine memory barriers
  *	=======================
- *	is the _sync_synchronize() one. There doesn't seem to be a read vs write
- *	one.
+ *	is the __sync_synchronize() one. There doesn't seem to be a read vs write
+ *	one. This does not serve as a compiler barrier as is evident as a result
+ *	of this program.
  *
  *	Empty assembly block
  *	====================
  *	Used to work in some versions of gcc but stopped working. Better not to use.
+ *
+ *	References:
+ *	http://ridiculousfish.com/blog/archives/2007/02/17/barrier/
  *
  *	TODO:
  *	- make this program show the instructions that are emitted for main so
