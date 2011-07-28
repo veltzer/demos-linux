@@ -50,9 +50,9 @@ public:
 			LockedCounter++;
 			result = true;
 		}
-		ACE_OS::thr_yield();
 		mutex.release();
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) released lock\n")));
+		ACE_OS::thr_yield();
 		return(result);
 	}
 
@@ -107,6 +107,6 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	handler2.wait();
 	handler3.wait();
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) LockedCounter=%d\n"), sharedResource.getLockedCounter()));
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) GeneralCounter=%d\n"), sharedResource.getAttemptCounter()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) AttemptCounter=%d\n"), sharedResource.getAttemptCounter()));
 	return(0);
 }
