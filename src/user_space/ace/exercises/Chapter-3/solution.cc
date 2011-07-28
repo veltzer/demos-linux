@@ -40,18 +40,17 @@ public:
 		bool result = false;
 
 		// wait until mutex is acquired
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) waiting for lock\n")));
+		//ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) waiting for lock\n")));
 		mutex.acquire();
 		AttemptCounter++;
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"),
-		           LockedCounter % 3, value));
+		//ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"), LockedCounter % 3, value));
 		if (LockedCounter % 3 == value) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
+			//ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
 			LockedCounter++;
 			result = true;
 		}
 		mutex.release();
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) released lock\n")));
+		//ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) released lock\n")));
 		ACE_OS::thr_yield();
 		return(result);
 	}
