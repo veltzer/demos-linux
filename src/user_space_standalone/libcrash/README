@@ -1,0 +1,63 @@
+
+libcrash
+
+Building
+~~~~~~~~
+
+# make
+
+or
+
+# CROSS_COMPILE=/path/to/toolchain/toolchain_refix- make
+
+Testing
+~~~~~~~
+
+Two tests and one utility program for testing are provided.
+
+test: normal applciation test (application calls 
+		registration function).
+
+auto_test: automagic usage test (library loads magically 
+		with unaltered program)
+
+To run the tests -
+
+for normal usage:
+
+# ./test
+
+for automagicall usage:
+
+# ldconfig -n .
+# LD_PRELOAD=libauto_crash.so.1 ./auto_test
+
+Usage
+~~~~~
+
+Have your program link with libcrash.so.1  and call register_crash_handler() once 
+for each process (not thread):  
+ 
+int register_crash_handler(
+		const char * process_name, 		/* Name of Process, such as argv[0] */
+		unsigned char * assert_buf_ptr	/* Pointer to program assert buffer */ 
+);
+
+Re-call after fork().
+
+The registrtation functrion return 0 if all is well, and a negative number
+with the value of the errno function that cause it to fail otherwise.
+
+See test.c for usage example.
+
+Normally running the program should then use the library and we'll send crash info to
+tdout
+
+Alternatibly, you can use 
+# LD_PRELOAD=libauto_crash.so.1 ./program
+
+To run the library with an unchanged (but non SUID) binary program with no source alterations.
+
+Happy hacking,
+gby
+
