@@ -11,5 +11,18 @@ We will use 3 threads.
 6. At the end print the value of LockedCounter as well as the total number of
    attempts for changing the counter.
 7. What do you deduce from the results of this exercise? (the difference in values between
-	the LockedCounter and the attempts...). Could you suggest a way to improve on the
-	situation?
+	the LockedCounter and the attempts...).
+	Are the results good?
+	- Nope. We attempt many times per each time slice.
+	What is the influence of printing inside the loop?
+	- Improves the results because print is read which yields the CPU.
+	Would yielding help?
+	- Yes, if the two threads in question are on the same CPU.
+	How would you improve it further?
+	- A condition could help by waking the right thread each time.
+	How would the thread number influence the result?
+	- Increasing the thread number would cause more problems since the yield would usually
+	be wrong. Reducing the thread number would cause less problems.
+	- What will happen if you increase number of cores?
+	Usually will cause more problems because more attempts will be made in parallel and will fail.
+	(decreasing the number of cores will be better...).
