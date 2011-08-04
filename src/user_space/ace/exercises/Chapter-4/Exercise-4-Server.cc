@@ -41,7 +41,6 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 		                 100);
 	}
 	ACE_SOCK_Stream peer;
-	ACE_INET_Addr peer_addr;
 
 	/*
 	 * Basic acceptor usage - No timeout
@@ -53,6 +52,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	}
 #else
 	ACE_Time_Value timeout(10, 0);
+	ACE_INET_Addr peer_addr;
 
 	if (acceptor.accept(peer, &peer_addr, &timeout, 0) == -1) {
 		if (ACE_OS::last_error() == EINTR) {
