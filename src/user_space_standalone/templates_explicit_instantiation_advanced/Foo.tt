@@ -1,0 +1,6 @@
+#include<foo.hh>
+
+// here come the implementation of Foo<T>...
+template<class T> void Foo<T>::setT(T it) {
+	t = it;
+}
