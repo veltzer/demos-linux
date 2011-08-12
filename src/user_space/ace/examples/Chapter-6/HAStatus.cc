@@ -156,6 +156,7 @@ ClientService::handle_input(ACE_HANDLE) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection closed\n")));
 		return(-1);
 	}
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) got %.*C from client\n"),static_cast<int>(recv_cnt), buffer));
 
 	send_cnt = this->sock_.send(buffer, static_cast<size_t>(recv_cnt));
 	if (send_cnt == recv_cnt) {
@@ -234,7 +235,7 @@ ClientService::handle_close(ACE_HANDLE, ACE_Reactor_Mask mask) {
 // Listing 12 code/ch07
 class LoopStopper : public ACE_Event_Handler {
 public:
-	LoopStopper(int signum = SIGINT);
+	LoopStopper(int signum);
 
 	// Called when object is signaled by OS.
 	virtual int handle_signal(int signum, siginfo_t * = 0, ucontext_t * = 0);
@@ -317,9 +318,14 @@ LogSwitcher::handle_exception(ACE_HANDLE) {
 
 // Listing 11 code/ch07
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
-	ACE_INET_Addr port_to_listen("HAStatus");
+	//ACE_INET_Addr port_to_listen("HAStatus");
+	const unsigned int port=8080;
+	ACE_INET_Addr port_to_listen(port);
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connect to me using localhost:%d\n"), port));
 
 	ClientAcceptor acceptor;
+	LogSwitcher logswitcher(SIGUSR1,SIGUSR2);
+	LoopStopper loopstopper(SIGINT);
 
 	acceptor.reactor(ACE_Reactor::instance());
 	if (acceptor.open(port_to_listen) == -1) {

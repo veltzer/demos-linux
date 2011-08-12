@@ -103,21 +103,21 @@ static inline int pipe_data(const my_pipe_t* pipe) {
 }
 
 // lock the pipe spinlock
-static inline void pipe_lock(my_pipe_t* pipe) {
+static inline void pipe_lock(my_pipe_t* const pipe) {
 	#ifdef DO_LOCK
 	spin_lock(&pipe->lock);
 	#endif // DO_LOCK
 }
 
 // unlock the pipe spinlock
-static inline void pipe_unlock(my_pipe_t* pipe) {
+static inline void pipe_unlock(my_pipe_t* const pipe) {
 	#ifdef DO_LOCK
 	spin_unlock(&pipe->lock);
 	#endif // DO_LOCK
 }
 
 // wait on the pipes readers queue
-static inline int pipe_wait_read(my_pipe_t* pipe) {
+static inline int pipe_wait_read(my_pipe_t* const pipe) {
 	#ifdef DO_WAIT
 	return wait_event_interruptible(pipe->read_queue,pipe_data(pipe)>0);
 	#else // DO_WAIT
@@ -126,7 +126,7 @@ static inline int pipe_wait_read(my_pipe_t* pipe) {
 }
 
 // wait on the pipes writers queue
-static inline int pipe_wait_write(my_pipe_t* pipe) {
+static inline int pipe_wait_write(my_pipe_t* const pipe) {
 	#ifdef DO_WAIT
 	return wait_event_interruptible(pipe->write_queue,pipe_room(pipe)>0);
 	#else // DO_WAIT
@@ -135,21 +135,21 @@ static inline int pipe_wait_write(my_pipe_t* pipe) {
 }
 
 // wake up the readers
-static inline void pipe_wake_readers(my_pipe_t* pipe) {
+static inline void pipe_wake_readers(my_pipe_t* const pipe) {
 	#ifdef DO_WAIT
 	wake_up_all(&pipe->read_queue);
 	#endif // DO_WAIT
 }
 
 // wake up the writers
-static inline void pipe_wake_writers(my_pipe_t* pipe) {
+static inline void pipe_wake_writers(my_pipe_t* const pipe) {
 	#ifdef DO_WAIT
 	wake_up_all(&pipe->write_queue);
 	#endif // DO_WAIT
 }
 
 // read into the pipe
-static inline int pipe_copy_from_user(my_pipe_t* pipe,int count,const char** __user ubuf) {
+static inline int pipe_copy_from_user(my_pipe_t* const pipe,int count,const char** __user ubuf) {
 	int ret;
 	DEBUG("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
@@ -169,7 +169,7 @@ static inline int pipe_copy_from_user(my_pipe_t* pipe,int count,const char** __u
 }
 
 // read from the pipe
-static inline int pipe_copy_to_user(my_pipe_t* pipe,int count,char** __user ubuf) {
+static inline int pipe_copy_to_user(my_pipe_t* const pipe,int count,char** __user ubuf) {
 	int ret;
 	DEBUG("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY

@@ -28,6 +28,7 @@ int Client::handle_input(ACE_HANDLE) {
 	ssize_t recv_cnt = this->peer().recv(buf, sizeof(buf) - 1);
 
 	if (recv_cnt > 0) {
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("YES! GOT DATA!!!")));
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%.*C"), static_cast<int>(recv_cnt), buf));
 		return(0);
 	}
@@ -90,7 +91,8 @@ int Client::handle_output(ACE_HANDLE) {
 
 
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
-	ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
+	//ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
+	ACE_INET_Addr port_to_connect(8080, ACE_LOCALHOST);
 
 	// Notice using the Connector without
 	ACE_Connector<Client, ACE_SOCK_CONNECTOR> connector;
