@@ -86,3 +86,6 @@ watchdogs/fault helpers:
 	catchsegv: part of libc.
 		run like this: catchsegv [progname] [args...]
 		if your program faults then it will print a stack trace + registers + position + program map.
+
+mysql:
+	mytop
