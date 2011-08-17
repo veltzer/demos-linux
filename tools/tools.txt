@@ -51,6 +51,7 @@ networking:
 	traceroute
 	jnettop
 	iftop
+	iptraf
 	ngrep
 	tcpdump
 	wireshark
