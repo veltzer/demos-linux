@@ -4,7 +4,7 @@ process statistics:
 	pidstat
 	sar, sadc(8), sa1(8), sa2(8), sadf(1), isag(1)
 	free, uptime
-	top
+	top, htop
 	/proc, /sys, /debugfs filesystems
 	ps pstree pgrep
 	skill, pkill, kill, killall, killall5
@@ -51,6 +51,7 @@ networking:
 	traceroute
 	jnettop
 	iftop
+	iptraf
 	ngrep
 	tcpdump
 	wireshark
@@ -85,3 +86,6 @@ watchdogs/fault helpers:
 	catchsegv: part of libc.
 		run like this: catchsegv [progname] [args...]
 		if your program faults then it will print a stack trace + registers + position + program map.
+
+mysql:
+	mytop
