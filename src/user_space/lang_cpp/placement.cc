@@ -4,20 +4,20 @@
 #include "us_helper.hh"
 
 /*
- *      This example shows how to use the C++ operator new placement
- *      operator.
+ *	This example shows how to use the C++ operator new placement
+ *	operator.
  *
- *      Things we learn:
- *      1. How to write your own placement function.
- *      2. Regular constructor gets called after the placement.
- *      3. Releasing of space could be overridden too.
- *      4. This could be used for caching and real time considerations for instance.
- *      5. Even if you allocate an array the delete[] is NOT called so
- *              your regular delete operator needs to know how to do the job
- *              both for arrays and for single elements (if you want arrays
- *              at all that is...).
+ *	Things we learn:
+ *	1. How to write your own placement function.
+ *	2. Regular constructor gets called after the placement.
+ *	3. Releasing of space could be overridden too.
+ *	4. This could be used for caching and real time considerations for instance.
+ *	5. Even if you allocate an array the delete[] is NOT called so
+ *		your regular delete operator needs to know how to do the job
+ *		both for arrays and for single elements (if you want arrays
+ *		at all that is...).
  *
- *                              Mark Veltzer
+ *			Mark Veltzer
  * EXTRA_LIBS=
  */
 
@@ -82,19 +82,19 @@ public:
 
 int main(int argc, char **argv, char **envp) {
 	DEBUG("heap no arguments example");
-	A *a = new A();
+	A* a=new A();
 
 	std::cerr << "a->val is " << a->val << std::endl;
 	delete a;
 
 	DEBUG("heap arguments example");
-	A *b = new(5.5) A();
+	A* b=new(5.5) A();
 	std::cerr << "b->val is " << b->val << std::endl;
 	delete b;
 
 	DEBUG("many heap no arguments example");
 	const unsigned int num_objs = 5;
-	A                  *e = new A[num_objs];
+	A* e=new A[num_objs];
 	for (unsigned int i = 0; i < num_objs; i++) {
 		std::cerr << i << " " << "e->val is " << e[i].val << std::endl;
 	}

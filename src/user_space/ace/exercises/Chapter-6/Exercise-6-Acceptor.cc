@@ -12,19 +12,22 @@
 const int BUFFER_SIZE = 1024;
 
 class Server {
+private:
+	ACE_INET_Addr server_addr_;
+	ACE_INET_Addr client_addr_;
+	ACE_SOCK_Acceptor peer_acceptor_;
+	ACE_SOCK_Stream new_stream_;
 public:
-	Server(int port) :
-		server_addr_(port), peer_acceptor_(server_addr_) {                                                                                                             //
+	Server(int port) : server_addr_(port), peer_acceptor_(server_addr_) {
 	}
-
-
-//Handle the connection once it has been established. Here the
-//connection is handled by reading BUFFER_SIZE amount of data from the
-//remote and then closing the connection stream down.
-	int handle_connection() {                                                                                                                                                                                                                  // Read data from client
-		static char message[BUFFER_SIZE + 10];                                                                                                                                                                                                         // Save some more space than being read
-
-		while (1) {
+	//Handle the connection once it has been established. Here the
+	//connection is handled by reading BUFFER_SIZE amount of data from the
+	//remote and then closing the connection stream down.
+	int handle_connection() {  
+		// Read data from client
+		static char message[BUFFER_SIZE + 1];
+		// Save some more space than being read
+		while (true) {
 			int byte_count = 0;
 			if ((byte_count = new_stream_.recv(message, BUFFER_SIZE)) == -1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "Error in recv"));
@@ -53,7 +56,7 @@ public:
 		}
 		ACE_DEBUG((LM_DEBUG, "Starting server at port %d\n", server_addr_.get_port_number()));
 // Performs the iterative server activities.
-		while (1) {
+		while (true) {
 #define TIMEOUT
 #ifdef TIMEOUT
 			ACE_Time_Value timeout(ACE_DEFAULT_TIMEOUT);
@@ -72,12 +75,6 @@ public:
 	}
 
 
-private:
-//  char *data_buf_;
-	ACE_INET_Addr server_addr_;
-	ACE_INET_Addr client_addr_;
-	ACE_SOCK_Acceptor peer_acceptor_;
-	ACE_SOCK_Stream new_stream_;
 };
 
 int main(int argc, char *argv[]) {
@@ -86,6 +83,5 @@ int main(int argc, char *argv[]) {
 		ACE_OS::exit(1);
 	}
 	Server server(ACE_OS::atoi(argv[1]));
-
 	server.accept_connections();
 }

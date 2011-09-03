@@ -23,6 +23,6 @@ Exercise 5a
 	gracefully as was done in the previous exercise.
 
 Exercise 5b
-1. Use the program 5a and add signal -1 that will close the program gracefully.
+1. Use the program 5 (not 5a) and add signal -1 that will close the program gracefully.
 	Hint: Print pid and use 'kill -1 pid' command. Also, use OS::sleep(xx) to slow the input. This
 	will help you while trying to enter the command using another terminal.
