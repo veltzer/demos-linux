@@ -344,4 +344,22 @@ static inline void print_scheduling_consts() {
 	printf("SCHED_IDLE is %d\n",SCHED_IDLE);
 }
 
+// a function to run another function in a high priority thread and wait for it to finish...
+// TODO: error checking in this function is bad.
+static inline void* run_high_priority(void* (*func)(void*),void* val) {
+	struct sched_param myparam;
+	pthread_attr_t myattr;
+	pthread_t mythread;
+	myparam.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	pthread_attr_init(&myattr);
+	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
+	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
+	pthread_attr_setschedparam(&myattr, &myparam);
+	pthread_create(&mythread, &myattr, func, val);
+	void* retval;
+	pthread_join(mythread, &retval);
+	return retval;
+	//printf("thread joined and return val was %p\n",retval);
+}
+
 #endif // __us_helper_h

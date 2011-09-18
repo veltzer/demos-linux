@@ -15,7 +15,6 @@
  * The idea is a single thread application that just measures a million lock/unlock
  * operations on each type of lock. Simple and effective.
  *
- *
  * We measure ALL kinds of semaphores and mutexes here.
  *
  * Results:
@@ -27,6 +26,9 @@
  *			Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
+ *
+ * TODO:
+ * - run all the code here in high priority.
  */
 
 void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {
@@ -59,16 +61,27 @@ void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {
 	printf("time in micro of one lock/unlock pair: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 }
 
+static pthread_mutex_t mutex_fast;
+static pthread_mutex_t mutex_recursive;
+static pthread_mutex_t mutex_errorcheck;
+static sem_t sem_nonshared;
+static sem_t sem_shared;
+static int semid;
+
+void* work(void* param) {
+	measure(&mutex_fast,NULL,-1,"fast mutexes");
+	measure(&mutex_recursive,NULL,-1,"recursive mutexes");
+	measure(&mutex_errorcheck,NULL,-1,"error checking mutexes");
+	measure(NULL,&sem_nonshared,-1,"non shared semaphores");
+	measure(NULL,&sem_shared,-1,"shared semaphores");
+	measure(NULL,NULL,semid,"SYSV IPC semaphores");
+	return NULL;
+}
+
 int main(int argc, char **argv, char **envp) {
 	printf("main started\n");
-	pthread_mutex_t mutex_fast;
-	pthread_mutex_t mutex_recursive;
-	pthread_mutex_t mutex_errorcheck;
 	pthread_mutexattr_t attr;
-	sem_t sem_nonshared;
-	sem_t sem_shared;
 	key_t key;
-	int semid;
 	CHECK_NOT_M1(key = ftok("/etc/passwd", 'x'));
 	CHECK_NOT_M1(semid = semget(key, 1, IPC_CREAT | 0666));
 	CHECK_NOT_M1(semctl(semid,0,SETVAL,1));
@@ -82,11 +95,6 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_ZERO(pthread_mutex_init(&mutex_recursive,&attr));
 	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_ERRORCHECK_NP));
 	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck,&attr));
-	measure(&mutex_fast,NULL,-1,"fast mutexes");
-	measure(&mutex_recursive,NULL,-1,"recursive mutexes");
-	measure(&mutex_errorcheck,NULL,-1,"error checking mutexes");
-	measure(NULL,&sem_nonshared,-1,"non shared semaphores");
-	measure(NULL,&sem_shared,-1,"shared semaphores");
-	measure(NULL,NULL,semid,"SYSV IPC semaphores");
+	run_high_priority(work,NULL);
 	return(0);
 }
