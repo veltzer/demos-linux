@@ -39,6 +39,18 @@ Mechanisms of synchronization in general and in Linux:
 	This is the best synchronization mechanism if you have to have synchronization at all.
 
 - lockless data structures and RCU mechanisms.
+	This you have to do on your own.
+
+- specialized locks like reader writer locks
+	pthread_rwlock_destroy (3posix) - destroy and initialize a read-write lock object
+	pthread_rwlock_init (3posix) - destroy and initialize a read-write lock object
+	pthread_rwlock_rdlock (3posix) - lock a read-write lock object for reading
+	pthread_rwlock_timedrdlock (3posix) - lock a read-write lock for reading
+	pthread_rwlock_timedwrlock (3posix) - lock a read-write lock for writing
+	pthread_rwlock_tryrdlock (3posix) - lock a read-write lock object for reading
+	pthread_rwlock_trywrlock (3posix) - lock a read-write lock object for writing
+	pthread_rwlock_unlock (3posix) - unlock a read-write lock object
+	pthread_rwlock_wrlock (3posix) - lock a read-write lock object for writing
 
 - spinlock.
 	These are implemented using atomic variables and yielding.
@@ -48,13 +60,39 @@ Mechanisms of synchronization in general and in Linux:
 	pthread_spin_trylock (3posix) - lock a spin lock object (ADVANCED REALTIME THREADS)
 	pthread_spin_unlock (3posix) - unlock a spin lock object (ADVANCED REALTIME THREADS)
 
-- futexes.
-
-- mutexes.
+- futexes/mutexes (in Linux they are the same).
+	futex (2) - Fast Userspace Locking system call
+	pthread_mutex_destroy (3posix) - destroy and initialize a mutex
+	pthread_mutex_getprioceiling (3posix) - get and set the priority ceiling of a mutex (REALTIME THREADS)
+	pthread_mutex_init (3posix) - destroy and initialize a mutex
+	pthread_mutex_lock (3posix) - lock and unlock a mutex
+	pthread_mutex_setprioceiling (3posix) - get and set the priority ceiling of a mutex (REALTIME THREADS)
+	pthread_mutex_timedlock (3posix) - lock a mutex (ADVANCED REALTIME)
+	pthread_mutex_trylock (3posix) - lock and unlock a mutex
+	pthread_mutex_unlock (3posix) - lock and unlock a mutex
 
 - posix semaphores (unnamed or named).
+	sem_close (3posix)   - close a named semaphore (REALTIME)
+	sem_destroy (3posix) - destroy an unnamed semaphore (REALTIME)
+	sem_getvalue (3posix) - get the value of a semaphore (REALTIME)
+	sem_init (3posix)    - initialize an unnamed semaphore (REALTIME)
+	sem_open (3posix)    - initialize and open a named semaphore (REALTIME)
+	sem_overview (7)     - Overview of POSIX semaphores
+	sem_post (3posix)    - unlock a semaphore (REALTIME)
+	sem_timedwait (3posix) - lock a semaphore (ADVANCED REALTIME)
+	sem_trywait (3posix) - lock a semaphore (REALTIME)
+	sem_unlink (3posix)  - remove a named semaphore (REALTIME)
+	sem_wait (3posix)    - lock a semaphore (REALTIME)
 
-- sys V semaphores.
+- Sys V semaphores.
+	The performance of these is worse than futexes (in Linux this means regular mutexes)
+	in shared memory.
+	ipcrm (1posix)       - remove an XSI message queue, semaphore set, or shared memory segment identifier
+	sem.h (7posix)       - XSI semaphore facility
+	semctl (3posix)      - XSI semaphore control operations
+	semget (3posix)      - get set of XSI semaphores
+	semop (3posix)       - XSI semaphore operations
+	sys_sem.h (7posix)   - XSI semaphore facility
 
 What about synchronization between processes ?
-Almost everything stated above can be done between processes as well using shared memory.
+Almost everything stated above can also be done between processes by using shared memory.
