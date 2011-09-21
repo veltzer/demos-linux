@@ -7,7 +7,7 @@
 #include "us_helper.hh"
 
 /*
- *      This is a demo for the sched_yield(2) or for pthread_yield(3) which is
+ *      This is a demo for the sched_yield(2) or for pthread_yield(3) which are
  *      in effect the same. The difference between these two functions is that
  *      sched_yield could be used and should be used in a multi process context
  *      while pthread_yield is more appropriate in a multi threaded context.
