@@ -1,0 +1,2 @@
+- a demo of how long it is to call a syscall can be found in:
+	../syscalls/syscalltime.cc

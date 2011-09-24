@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <pthread.h> // for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
+#include <unistd.h> // for sleep(3)
 
-#include "us_helper.hh"
+#include "us_helper.hh" // our own helper
 
 /*
  *      This is a standard pthread demo
@@ -14,9 +12,12 @@
  */
 void *worker(void *p) {
 	int num = *(int *)p;
-
-	fprintf(stderr, "starting thread %d\n", num);
-	fprintf(stderr, "ending thread %d\n", num);
+	TRACE("starting thread %d", num);
+	pthread_t t=pthread_self();
+	int* pointer=(int*)&t;
+	TRACE("pthread_self is %d",*pointer);
+	sleep(60);
+	TRACE("ending thread %d", num);
 	return(NULL);
 }
 
@@ -27,15 +28,15 @@ int main(int argc, char **argv, char **envp) {
 	int ids[num];
 	void      *rets[num];
 
-	fprintf(stderr, "main starting\n");
+	TRACE("main starting");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
-		SCIG(pthread_create(threads + i, NULL, worker, ids + i), "pthread_create");
+		scig(pthread_create(threads + i, NULL, worker, ids + i), "pthread_create");
 	}
-	fprintf(stderr, "main ended creating threads\n");
+	TRACE("main ended creating threads");
 	for (int i = 0; i < num; i++) {
-		SCIG(pthread_join(threads[i], rets + i), "pthread_join");
+		scig(pthread_join(threads[i], rets + i), "pthread_join");
 	}
-	fprintf(stderr, "main ended\n");
+	TRACE("main ended");
 	return(0);
 }
