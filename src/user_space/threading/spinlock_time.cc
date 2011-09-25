@@ -1,15 +1,18 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <pthread.h> // for pthread_spin_init/lock/unlock/destroy(3)
 
-#include "us_helper.hh"
+#include "us_helper.hh" // for TRACE()
 
 /*
- *      This is a demo for thread spin locks.
- *      Run on any machine and you will see a problem in that they will block
- *      each other. This blockage does not turn into a dead lock since the OS
- *      will preempt them and eventually each will get it's turn.
+ * This example examines the time it takes to lock and unlock a spin lock.
+ * Since in this example the spin lock is never locked and since the thread
+ * which examines this runs at a high priority then this should be a short
+ * time indeed.
+ *
+ * Results:
+ *
+ *
+ * TODO:
+ * - remove the run high priority function from this code.
  *
  *                      Mark Veltzer
  *
@@ -18,7 +21,7 @@
 
 static pthread_spinlock_t mylock;
 
-static void *worker(void *p) {
+static void *worker(void *not_used) {
 	while (true) {
 		TRACE("before lock");
 		scig(pthread_spin_lock(&mylock), "pthread_spin_lock");
@@ -39,7 +42,6 @@ int main(int argc, char **argv, char **envp) {
 	const int num = 2;
 	pthread_t threads[num];
 	int ids[num];
-	void      *rets[num];
 	TRACE("starting threads...");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
@@ -47,7 +49,7 @@ int main(int argc, char **argv, char **envp) {
 	}
 	TRACE("finished creating threads, joining them...");
 	for (int i = 0; i < num; i++) {
-		scig(pthread_join(threads[i], rets + i), "pthread_join");
+		scig(pthread_join(threads[i], NULL), "pthread_join");
 	}
 	TRACE("joined all threads, destroying the lock...");
 	scig(pthread_spin_destroy(&mylock), "pthread_spin_destroy");
