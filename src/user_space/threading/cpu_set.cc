@@ -1,5 +1,6 @@
 #include <sched.h> // for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h> // for sysconf(3)
+#include <pthread.h>
 
 #include "us_helper.hh" // for TRACE(), scig()
 

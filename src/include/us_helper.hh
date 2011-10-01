@@ -14,6 +14,7 @@
 #include <sys/time.h> // for getpriority(2)
 #include <sys/resource.h> // for getpriority(2)
 #include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
+#include <pthread.h>
 
 /*
  * Stringify macros - helps you turn anything into a string
