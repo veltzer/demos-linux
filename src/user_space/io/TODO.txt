@@ -2,14 +2,11 @@
 	iotop
 	iostat
 	ionice
-
 - show demos of splice, vmsplice and tee.
-
 - add multiplexing examples:
 	select
 	poll
 	epoll
-
 - do demos of the following:
 	1 fallocate
 	2 fallocate
@@ -18,3 +15,5 @@
 	3 posix_fallocate
 	3 posix_fadvise
 	2 truncate, ftruncate
+	2 msync
+- do a demo of asynchroneous IO.
