@@ -1,7 +1,8 @@
 #include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <stdio.h> // for printf(3)
+#include <sys/types.h> // for gettid(2), getpid(2)
+#include <unistd.h> // for getpid(2)
 
-#include "us_helper.hh"
+#include "us_helper.hh" // for TRACE()
 
 /*
 	This demo explored gettid() and getpid() issues on linux
@@ -18,17 +19,19 @@
 EXTRA_LIBS=-lpthread
 */
 
+void report(void) {
+	TRACE("gettid() returned %d",gettid());
+	TRACE("getpid() returned %d",getpid());
+	TRACE("pthread_self() returned %u",(unsigned int)pthread_self());
+}
+
 void* doit(void*) {
-	printf("gettid() is %d\n",gettid());
-	printf("getpid() is %d\n",getpid());
-	printf("pthread_self() is %u\n",(unsigned int)pthread_self());
+	report();
 	return NULL;
 }
 
 int main(int argc,char** argv,char** envp) {
-	printf("gettid() is %d\n",gettid());
-	printf("getpid() is %d\n",getpid());
-	printf("pthread_self() is %u\n",(unsigned int)pthread_self());
+	report();
 	pthread_t t1,t2;
 	CHECK_ZERO(pthread_create(&t1,NULL,doit,NULL));
 	CHECK_ZERO(pthread_create(&t2,NULL,doit,NULL));
