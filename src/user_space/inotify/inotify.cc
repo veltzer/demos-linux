@@ -15,6 +15,11 @@
  * We use a signal to break out of the inotify loop. We could have used poll or an event
  * fd from other threads which would work out just fine.
  *
+ * One of the weird things in terms of the inotify API is that it returns records of uneven
+ * length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to save on short
+ * file name lengths. And a single read can return more than one record but will always return
+ * an even amount of records.
+ *
  *              Mark Veltzer
  *
  * EXTRA_LIBS=
@@ -56,6 +61,9 @@ static void print_mask(uint32_t mask) {
 		}
 	}
 }
+// to count the maximum number of records that inotify read returns...
+static int max_rec=0;
+static int max_len=0;
 
 int main(int argc, char **argv, char **envp) {
 	int fd;
@@ -71,6 +79,8 @@ int main(int argc, char **argv, char **envp) {
 	printf("watching [%s] - change files to see me respond...\n",path);
 	while(!stop) {
 		const int size=sizeof(inotify_event)+PATH_MAX+1;
+		// large buffer for testing purposes...
+		//const int size=100000;
 		char* buf[size];
 		int res=read(fd,buf,size);
 		if(res==-1) {
@@ -81,14 +91,27 @@ int main(int argc, char **argv, char **envp) {
 				continue;
 			}
 		}
-		// return size must be AT LEAST sizeof(inotify_event)
-		assert(res>=(int)sizeof(inotify_event));
-		struct inotify_event* ie=(struct inotify_event*)buf;
-		// print the event
-		printf("event-> file %s, mask ",ie->name);
-		print_mask(ie->mask);
-		printf("\n");
+		int i=0;
+		int rec_num=0;
+		while(i<res) {
+			struct inotify_event* ie=(struct inotify_event*)(buf+i);
+			// print the event
+			printf("event-> file %s, mask ",ie->name);
+			print_mask(ie->mask);
+			printf("\n");
+			int rec_len=sizeof(inotify_event)+ie->len;
+			if(rec_len>max_len)
+				max_len=rec_len;
+			i+=rec_len;
+			rec_num++;
+		}
+		if(rec_num>max_rec)
+			max_rec=rec_num;
+		// each read should return an exact number of records
+		assert(i==res);
 	}
 	sc(close(fd));
+	printf("max_rec is %d\n",max_rec);
+	printf("max_len is %d\n",max_len);
 	return(0);
 }
