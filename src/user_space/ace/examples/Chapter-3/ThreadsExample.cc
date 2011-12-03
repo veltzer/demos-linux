@@ -1,5 +1,6 @@
 #include <ace/Thread.h>
 #include <ace/Synch.h>
+#include <ace/Log_Msg.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

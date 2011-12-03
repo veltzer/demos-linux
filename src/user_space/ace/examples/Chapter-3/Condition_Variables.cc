@@ -48,7 +48,7 @@ public:
 	};
 
 	HA_CommandHandler(HA_Device_Repository & rep,
-	                  ACE_Condition<ACE_Thread_Mutex> &wait,
+	                  ACE_Condition_Thread_Mutex& wait,
 	                  ACE_Thread_Mutex & mutex)
 		: rep_(rep), waitCond_(wait), mutex_(mutex) {
 	}
@@ -57,7 +57,7 @@ public:
 
 private:
 	HA_Device_Repository&            rep_;
-	ACE_Condition<ACE_Thread_Mutex>& waitCond_;
+	ACE_Condition_Thread_Mutex& waitCond_;
 	ACE_Thread_Mutex&                mutex_;
 };
 // Listing 2 code/ch12
@@ -103,7 +103,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_Thread_Mutex rep_mutex;
 
 	//FUZZ: disable check_for_lack_ACE_OS
-	ACE_Condition<ACE_Thread_Mutex> wait(rep_mutex);
+	ACE_Condition_Thread_Mutex wait(rep_mutex);
 
 	//FUZZ: enable check_for_lack_ACE_OS
 

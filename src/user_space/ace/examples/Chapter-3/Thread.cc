@@ -9,8 +9,9 @@
 
 //Example 1
 #include <ace/Thread.h>
+#include <ace/Log_Msg.h>
 //#include <ace/OS.h>
-#include <ace/Synch_T.h>
+//#include <ace/Synch_T.h>
 #include <ace/Synch.h>
 
 /*
