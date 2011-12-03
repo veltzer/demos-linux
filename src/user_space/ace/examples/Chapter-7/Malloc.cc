@@ -29,7 +29,7 @@ public:
 		: id1_(id1), id2_(id2), name_(0) {
 		size_t len = ACE_OS::strlen(name) + 1;
 
-		this->name_ = ACE_reinterpret_cast(char *, g_allocator->malloc(len));
+		this->name_ = reinterpret_cast<char*>(g_allocator->malloc(len));
 		ACE_OS::strcpy(this->name_, name);
 	}
 
@@ -87,7 +87,7 @@ void showRecords(void) {
 		MALLOC_LIFO_ITERATOR iter(*g_allocator);
 
 		for (void *temp = 0; iter.next(temp) != 0; iter.advance()) {
-			Record *record = ACE_reinterpret_cast(Record *, temp);
+			Record *record = reinterpret_cast<Record*>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"),
 			           record->name(), record->id1(), record->id2()));
 		}
