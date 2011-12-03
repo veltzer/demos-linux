@@ -352,8 +352,8 @@ static inline void print_scheduling_consts() {
 	printf("SCHED_OTHER is %d\n",SCHED_OTHER);
 	printf("SCHED_FIFO is %d\n",SCHED_FIFO);
 	printf("SCHED_RR is %d\n",SCHED_RR);
-	printf("SCHED_BATCH is %d\n",SCHED_BATCH);
-	printf("SCHED_IDLE is %d\n",SCHED_IDLE);
+	//printf("SCHED_BATCH is %d\n",SCHED_BATCH);
+	//printf("SCHED_IDLE is %d\n",SCHED_IDLE);
 }
 
 // a function to run another function in a high priority thread and wait for it to finish...
