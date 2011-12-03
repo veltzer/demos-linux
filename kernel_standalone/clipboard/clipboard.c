@@ -26,9 +26,11 @@ MODULE_DESCRIPTION("A proc/interrupt/clipboard example");
  * We also have just one in-kernel buffer which is shared by all clipboard /dev/ devices.
  * store the clipboard itself in the device itself.
  * work with an ioctl that can trigger an interrupt.
- * write user space demos of how to work with this (do I need this ? won't cat do ?).
+ * write user space demos of how to work with this (do I need this ? won't cat and echo do ?).
  * add makefile targets for insmod/rmmod etc.
  * improve the write method to write as much as it can and return what is written.
+ * if two or more readers or writers are involved we will have race conditions. protect the clipboard
+ * 	or allow just one reader/writer (but even then some protection would be required).
  */
 
 static dev_t clipboard_dev;
