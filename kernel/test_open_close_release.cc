@@ -96,7 +96,7 @@ int main(int argc, char **argv, char **envp) {
 	SC(d = open(filename, O_RDWR));
 	SC(close(d));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	printf("Scenario 2 - a single process opening twice and closing twice...\n");
 	printf("=============================================================\n");
 	klog_clear();
@@ -105,7 +105,7 @@ int main(int argc, char **argv, char **envp) {
 	SC(close(d));
 	SC(close(d2));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	printf("Scenario 3 - two process opening and closing the same file...\n");
 	printf("=============================================================\n");
 	klog_clear();
@@ -115,7 +115,7 @@ int main(int argc, char **argv, char **envp) {
 	SC(waitpid(c1, &status, 0));
 	SC(waitpid(c2, &status, 0));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	printf("Scenario 4 - parent opens, spawns two children who close and closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
@@ -126,7 +126,7 @@ int main(int argc, char **argv, char **envp) {
 	SC(waitpid(c1, &status, 0));
 	SC(waitpid(c2, &status, 0));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	printf("Scenario 5 - open, dup and two closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
@@ -135,20 +135,20 @@ int main(int argc, char **argv, char **envp) {
 	SC(close(d));
 	SC(close(d2));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	printf("Scenario 6 - open and forget to close\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_forget);
 	SC(waitpid(c1, &status, 0));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	printf("Scenario 7 - open and segfault\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_segfault);
 	SC(waitpid(c1, &status, 0));
 	klog_show();
-	waitkey();
+	waitkey(NULL);
 	return(0);
 }

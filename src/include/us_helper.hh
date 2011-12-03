@@ -160,8 +160,8 @@ template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 }
 #endif // __cplusplus
 
-#define SCIE(v, msg) printf("%s startecd\n",msg); scie(v, msg); printf("%s ended\n",msg);
-#define SCPE(v, msg) printf("%s startecd\n",msg); scpe(v, msg); printf("%s ended\n",msg);
+#define SCIE(v, msg) printf("%s startecd\n",msg); scie(v, msg,-1); printf("%s ended\n",msg);
+#define SCPE(v, msg) printf("%s startecd\n",msg); scpe(v, msg,NULL); printf("%s ended\n",msg);
 #define SCIG(v, msg) printf("%s startecd\n",msg); scig(v, msg,0); printf("%s ended\n",msg);
 #define SCIG2(v, msg, v1, v2) printf("%s startecd\n",msg); scig2(v, msg, v1, v2); printf("%s ended\n",msg); 
 

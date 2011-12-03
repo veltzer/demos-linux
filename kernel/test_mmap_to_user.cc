@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp) {
 	SC(d = open(filename, O_RDWR));
 	//printproc("demo");
 	//klog_show_clear();
-	waitkey();
+	waitkey(NULL);
 
 	if (do_single) {
 		// the size of data that we need
@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **envp) {
 		SCPE(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), "map to user");
 		//printproc("demo");
 		//klog_show_clear();
-		waitkey();
+		waitkey(NULL);
 
 		INFO("trying to write on the buffer");
 		memset(ptr, 'a', size);
@@ -61,7 +61,7 @@ int main(int argc, char **argv, char **envp) {
 		SC(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
 		//printproc("demo");
 		//klog_show_clear();
-		waitkey();
+		waitkey(NULL);
 	}
 	if (do_stress) {
 		do_prog_init();
@@ -69,7 +69,7 @@ int main(int argc, char **argv, char **envp) {
 			do_prog(i, 10, count);
 			unsigned int size = (i % 1000 + 1) * 4096;
 			char c = i % 20 + 'a';
-			scpe(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), "map to user");
+			scp(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size));
 			// set the buffer to c
 			memset(ptr, c, size);
 			// get buffer from user space
@@ -87,7 +87,7 @@ int main(int argc, char **argv, char **envp) {
 	SC(close(d));
 	//printproc("demo");
 	//klog_show_clear();
-	waitkey();
+	waitkey(NULL);
 
 	return(0);
 }

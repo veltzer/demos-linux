@@ -94,7 +94,7 @@ int main(int argc, char **argv, char **envp) {
 			print_data(data, size);
 			SC(ioctl(d, 1, NULL));
 			print_data(data, size);
-			waitkey();
+			waitkey(NULL);
 
 			SC(ioctl(d, 2, i + 1));
 			print_data(data, size);
@@ -102,7 +102,7 @@ int main(int argc, char **argv, char **envp) {
 			fprintf(stderr, "Asking kernel to read memory...\n");
 			SC(ioctl(d, 1, NULL));
 			print_data(data, size);
-			waitkey();
+			waitkey(NULL);
 		}
 	}
 	if (do_stress) {
@@ -117,7 +117,7 @@ int main(int argc, char **argv, char **envp) {
 		SC(ioctl(d, 0, data));
 		void *p = (void *)((char *)data + size / 2);
 		SC(ioctl(d, 0, p));
-		waitkey();
+		waitkey(NULL);
 	}
 
 	SC(munmap(data, size));

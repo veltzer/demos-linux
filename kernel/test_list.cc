@@ -61,10 +61,10 @@ int main(int argc, char **argv, char **envp) {
 		klog_clear();
 		SC(ioctl(d, choice, arg));
 		klog_show();
-		waitkey();
+		waitkey(NULL);
 		choice = show_menu();
 	}
 	SC(close(d));
-	waitkey();
+	waitkey(NULL);
 	return(0);
 }
