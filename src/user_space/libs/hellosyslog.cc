@@ -1,4 +1,8 @@
-/* This is a test for syslog(3) calls */
+/* This is a test for syslog(3) calls
+ *
+ *	Mark Veltzer
+ *
+ */
 
 #include <syslog.h>
 

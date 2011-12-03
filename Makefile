@@ -8,13 +8,27 @@ KERNEL_DIR:=kernel
 US_INCLUDE:=src/include
 
 # kernel variables
-KDIR:=/lib/modules/$(shell uname -r)/build
+# version of kernel to build against
+KVER?=$(shell uname -r)
+# folder of the build folder for the kernel you build against
+KDIR?=/lib/modules/$(KVER)/build
+# fill in the vervosity level you want for the kernel module compilation process
+# V:=1 will give you the command lines used...
+# Since we are using ?= for assignment it means that you can just
+# set this from the command line and avoid changing the makefile...
+V?=0
+# extra flags to pass to the kernel module creation process...
+# regular kernels do not have -Werror and we want it!
+# The problem is that this makes the kernel build system scream at me (it fears I am changing
+# the flags in some profound ways). This is what we have wrapper scripts for...
+KCFLAGS:=-Werror
+
 
 # do you want dependency on the makefile itself ?!?
 DO_ALL_DEPS:=1
 
 # optimization with debug info (for disassembly)
-DEBUG:=1
+DEBUG?=1
 OPT?=1
 
 # do you want to show the commands executed ?
@@ -147,19 +161,6 @@ git_maintain:
 	$(info doing [$@])
 	$(Q)git gc
 
-# kernel directory to build against
-KDIR:=/lib/modules/$(shell uname -r)/build
-# fill in the vervosity level you want for the kernel module compilation process
-# V:=1 will give you the command lines used...
-# Since we are using ?= for assignment it means that you can just
-# set this from the command line and avoid changing the makefile...
-V?=0
-# extra flags to pass to the kernel module creation process...
-# regular kernels do not have -Werror and we want it!
-# The problem is that this makes the kernel build system scream at me (it fears I am changing
-# the flags in some profound ways). This is what we have wrapper scripts for...
-KCFLAGS:=-Werror
-
 # general rules...
 
 # how to create regular executables...
@@ -230,9 +231,10 @@ check_tests_for_drivers:
 	cd $(KERNEL_DIR);for x in drv_*.c; do y=`echo $$x | cut -f 2- -d _`;z=test_`basename $$y .c`.cc; if [ ! -f $$z ]; then echo "missing $$z"; fi ; done
 .PHONY: check_my_name
 check_my_name:
-	grep -L "Mark Veltzer" `find src/user_space -name "*.cc"` | grep -v "/ace/"
+	grep -L "Mark Veltzer" `find src -name "*.cc"` | grep -v "/ace/"
 
 # various file finds...
+
 PROJECTS_EXPR:=-name ".project" -or -name ".cproject" -or -wholename "./nbproject/*"
 SOURCE_EXPR:=-name "*.cc" -or -name "*.hh" -or -name "*.h" -or -name "*.c" -or -name "Makefile" -or -name "*.txt" -or -name "*.sed" -or -name "*.patch" -or -name "*.mk" -or -name "*.cfg" -or -name "*.sh" -or -name "*.cfg" -or -name "*.html" -or -name "*.css" -or -name "*.js" -or -name "*.ajax" -or -name "*.php" -or -name "*.gdb" -or -name ".gitignore" -or -name "*.pl" -or $(PROJECTS_EXPR) -or -name "*.gif" -or -name "*.png" -or -name "*.xml" -or -name "*.sxw" -or -name "*.sxg" -or -wholename "*/.settings/*" -or -name "*.doc" -or -name "*.pdf" -or -name "*.jar" -or -name ".classpath" -or -name "*.sqlite" -or -name "*.py"
 TARGET_EXPR:=-name "*.exe" -or -name "*.d" -or -name "*.o" -or -name "*.so" -or -name "*.o.cmd" -or -name "*.ko" -or -name "*.ko.cmd" -or -wholename "*/.tmp_versions/*" -or -name "Module.symvers" -or -name "modules.order" -or -name "*.class" -or -name "*.stamp" -or -name "*.dis"
@@ -285,28 +287,23 @@ kern_halt:
 .PHONY: kern_reboot
 kern_reboot:
 	sudo reboot
-.PHONY: kern_tips
-kern_tips:
-	@echo "do make V=1 [target] to see more of what is going on"
-	@echo
-	@echo "in order for the operational targets to work you need to"
-	@echo "make sure that can do 'sudo', preferably with no password."
-	@echo "one way to do that is to add yourself to the 'sudo' group"
-	@echo "and add to the /etc/sudoers file, using visudo, the line:"
-	@echo "%sudo ALL=NOPASSWD: ALL"
-	@echo
-	@echo "you can compile your module to a different kernel version"
-	@echo "like this: make KVER=2.6.13 [target]"
-	@echo "or edit the file and permanently change the version"
+.PHONY: kern_makeeasy
+kern_makeeasy:
+	sudo echo "%sudo ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # code beautifucation
+
 .PHONY: do_astyle
 do_astyle: $(ALL_DEPS)
-	astyle --verbose --suffix=none --formatted --preserve-date --options=scripts/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(info doing [$@])
+	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=scripts/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 # I do not use uncrustify because it changes code that it already beautified...
 .PHONY: do_uncrustify
 do_uncrustify:
-	uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(info doing [$@])
+	$(Q)uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+
+# code measurements
 
 .PHONY: sloccount
 sloccount:

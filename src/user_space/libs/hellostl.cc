@@ -3,6 +3,9 @@
 
 /*
  *      This program demonstrates the use of STL (Standard Template Library).
+ *
+ *	Mark Veltzer
+ *
  */
 int main(void) {
 	std::vector<int> v(3);

@@ -13,6 +13,9 @@
 
 /*
  * EXTRA_LIBS=-llog4cpp
+ *
+ *			Mark Veltzer
+ *
  */
 int main(int argc, char **argv) {
 	log4cpp::SyslogAppender *syslogAppender = new log4cpp::SyslogAppender("syslog", "hellolog4cpp", LOG_USER);

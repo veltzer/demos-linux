@@ -2,12 +2,14 @@
 //#include <stdlib.h>
 #include <iostream>
 
-/* This is a demo program for regular C mysql access */
-
-/* TODO:
+/* This is a demo program for regular C mysql access
+ *
+ * TODO:
  * In this file the three parameters: database name,
  * database user and the password are hardcoded. Get
  * them out of here to some outside xml options file
+ *
+ *			Mark Veltzer
  *
  * EXTRA_LIBS=-lmysqlclient
  */

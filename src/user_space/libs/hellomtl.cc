@@ -2,6 +2,9 @@
 
 /*
  *      This program demonstrates the use of the MTL (Matrix Template Library)
+ *
+ *			Mark Veltzer
+ *
  */
 
 /*

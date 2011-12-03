@@ -3,6 +3,8 @@
 /*
  *      This is a demo program for using Gnome--
  *
+ *			Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --libs --cflags libgnomeuimm-2.6
  */
 int main(int argc, char **argv, char **envp) {

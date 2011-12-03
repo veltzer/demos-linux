@@ -5,6 +5,9 @@
  * This is a simple Qt hello world program
  *
  * EXTRA_CMDS=pkg-config --cflags --libs QtGui
+ *
+ *	Mark Veltzer
+ *
  */
 int main(int argc, char **argv) {
 	QApplication app(argc, argv);

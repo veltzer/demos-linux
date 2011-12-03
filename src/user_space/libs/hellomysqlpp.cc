@@ -5,6 +5,9 @@
  * You need all of these folders added with -I because of how the h files
  * for mysql++ are written.
  * EXTRA_LIBS=-I/usr/include/mysql++ -I/usr/include/mysql -lmysqlpp
+ *
+ *			Mark Veltzer
+ *
  */
 
 /* This is a mysql++ demo program */

@@ -9,52 +9,44 @@
 #include <stdlib.h>
 #include <string.h>
 
-void scanthedir(char * dirname) {
-	DIR * sdir = NULL;
-	DIR * fddir = NULL;
-	struct dirent * dircontent;
-	struct dirent * fddircontent;
+void scanthedir(char* dirname) {
+	DIR* sdir=NULL;
+	DIR* fddir=NULL;
+	struct dirent* dircontent;
+	struct dirent* fddircontent;
 	struct stat statbuf;
 	char tmpdir[MAXPATHLEN];
 	char fddirname[MAXPATHLEN];
 	char linkname[MAXPATHLEN];
 	char linktarget[MAXPATHLEN];
 	int linktargetsize;
-	if (!(sdir = opendir(dirname)))
-	{
+	if(!(sdir = opendir(dirname))) {
 		perror(dirname);
 		exit(errno);
 	}
-	while ((dircontent = readdir(sdir)))
-	{
+	while ((dircontent = readdir(sdir))) {
 		if ((strcmp(dircontent->d_name, "." ) == 0) 
 			|| strcmp(dircontent->d_name, "..") == 0)
 			continue;
 		sprintf(tmpdir, "%s/%s", dirname, dircontent->d_name);
-		if (lstat(tmpdir, & statbuf) == -1)
-		{
+		if (lstat(tmpdir, & statbuf) == -1) {
 			perror(tmpdir);
 			exit(errno);
 		}
-		if (S_ISDIR(statbuf.st_mode))
-		{
-			if (statbuf.st_uid == getuid())
-			{
+		if (S_ISDIR(statbuf.st_mode)) {
+			if (statbuf.st_uid == getuid()) {
 				sprintf(fddirname, "%s/fd", tmpdir);
 				printf("%s\n", dircontent->d_name);
-				if (!(fddir = opendir(fddirname)))
-				{
+				if (!(fddir = opendir(fddirname))) {
 					perror(fddirname);
 					exit(errno);
 				}
-				while ((fddircontent = readdir(fddir)))
-				{
+				while ((fddircontent = readdir(fddir))) {
 					if ((strcmp(fddircontent->d_name, "." ) == 0) 
 						|| strcmp(fddircontent->d_name, "..") == 0)
 						continue;
 					sprintf(linkname, "%s/%s", fddirname, fddircontent->d_name);
-					if ((linktargetsize = readlink(linkname, linktarget, sizeof(linktarget))) == -1)
-					{
+					if ((linktargetsize = readlink(linkname, linktarget, sizeof(linktarget))) == -1) {
 						perror("readlink failed");
 						exit(errno);
 					}
@@ -69,7 +61,7 @@ void scanthedir(char * dirname) {
 
 int main(int argc,char** argv,char** envp) {
 	char dirname[MAXPATHLEN];
-	strcpy(dirname, "/proc");
+	strcpy(dirname,"/proc");
 	scanthedir(dirname);
 	return 0;
 }
