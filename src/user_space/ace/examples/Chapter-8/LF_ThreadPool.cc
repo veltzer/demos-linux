@@ -1,5 +1,7 @@
 #include <ace/Task.h>
 #include <ace/Synch.h>
+#include <ace/Thread_Mutex.h>
+#include <ace/Condition_Thread_Mutex.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -28,7 +30,7 @@ public:
 
 
 private:
-	ACE_Condition<ACE_Thread_Mutex> cond_;
+	ACE_Condition_Thread_Mutex cond_;
 	ACE_thread_t owner_;
 };
 
