@@ -1,6 +1,7 @@
 #ifndef __us_helper_h
 #define __us_helper_h
 
+#define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
 #include <cpufreq.h> // for cpufreq_get_freq_kernel(2)
 #include <sys/prctl.h> // for prctl(2)
 #include <stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
@@ -15,6 +16,7 @@
 #include <sys/resource.h> // for getpriority(2)
 #include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
 #include <pthread.h>
+#include <errno.h> // for errno
 
 /*
  * Stringify macros - helps you turn anything into a string
@@ -85,7 +87,7 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
  * and will throw an exception if any of them pops up.
  * I removed "throw new std::exception();" from the following functions.
  */
-static inline void scie(int t, const char *msg, int errval = -1) {
+static inline void scie(int t, const char *msg, int errval) {
 	if (t == errval) {
 		perror("error in system call");
 		exit(1);
@@ -97,14 +99,16 @@ static inline void scassert(int t,const char* msg) {
 		exit(1);
 	}
 }
+#ifdef __cplusplus 
 template<class T> inline void scie(T t,const char *msg, T errval) {
 	if (t == errval) {
 		perror("error in system call");
 		exit(1);
 	}
 }
+#endif // __cplusplus
 
-static inline void scig(int t, const char *msg, int goodval = 0) {
+static inline void scig(int t, const char *msg, int goodval) {
 	if (t != goodval) {
 		perror("error in system call");
 		exit(1);
@@ -118,7 +122,7 @@ static inline void scig2(int t, const char *msg, int v1, int v2) {
 	}
 }
 
-static inline void scpe(void *t, const char *msg, void *errval = (void *)-1) {
+static inline void scpe(void *t, const char *msg, void *errval) {
 	if (t == errval) {
 		perror("error in system call");
 		exit(1);
@@ -145,12 +149,14 @@ static inline void check_1(int val,const char* msg) {
 		exit(1);
 	}
 }
+#ifdef __cplusplus 
 template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 	if (t == errval) {
 		perror("error in system call");
 		exit(1);
 	}
 }
+#endif // __cplusplus
 
 #define SCIE(v, msg) printf("%s startecd\n",msg); scie(v, msg); printf("%s ended\n",msg);
 #define SCPE(v, msg) printf("%s startecd\n",msg); scpe(v, msg); printf("%s ended\n",msg);
@@ -158,7 +164,7 @@ template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 #define SCIG2(v, msg, v1, v2) printf("%s startecd\n",msg); scig2(v, msg, v1, v2); printf("%s ended\n",msg); 
 
 #define SC(v) SCIE(v, __stringify(v));
-#define sc(v) scie(v, __stringify(v));
+#define sc(v) scie(v, __stringify(v),-1);
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v));
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v));
@@ -179,7 +185,7 @@ static inline void klog_show_clear(void) {
 	klog_clear();
 }
 
-static inline void waitkey(const char *msg = NULL) {
+static inline void waitkey(const char *msg) {
 	if (msg) {
 		fprintf(stdout, "%s...\n", msg);
 	} else {
@@ -226,8 +232,9 @@ static inline int printproc(const char *filter) {
 
 static inline void memcheck(void *buf, char val, unsigned int size) {
 	char *cbuf = (char *)buf;
+	unsigned int i;
 
-	for (unsigned int i = 0; i < size; i++) {
+	for (i = 0; i < size; i++) {
 		if (cbuf[i] != val) {
 			fprintf(stderr, "ERROR: value at %u is %c and not %c\n", i, cbuf[i], val);
 			exit(1);
@@ -347,16 +354,23 @@ static inline void print_scheduling_consts() {
 
 // a function to run another function in a high priority thread and wait for it to finish...
 // TODO: error checking in this function is bad.
-static inline void* run_high_priority(void* (*func)(void*),void* val) {
+static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
 	struct sched_param myparam;
 	pthread_attr_t myattr;
 	pthread_t mythread;
-	myparam.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	//myparam.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	myparam.sched_priority = prio;
 	pthread_attr_init(&myattr);
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
 	pthread_attr_setschedparam(&myattr, &myparam);
-	pthread_create(&mythread, &myattr, func, val);
+	int res=pthread_create(&mythread, &myattr, func, val);
+	if(res) {
+		errno=res;
+		perror("pthread_create");
+		printf("trying to create thread with prio %d failed, check ulimit -a...\n",myparam.sched_priority);
+		exit(1);
+	}
 	void* retval;
 	pthread_join(mythread, &retval);
 	return retval;

@@ -43,27 +43,24 @@
  * - add another test with syslog which writes to a sysfs file instead.
  * - add another test case of asynchroneous syslog (damn it! how do I configure that?!?).
  * - explain the results in the text above.
- * - do better stats (min, max, variance and more).
- * - add some atomic operations to the fastlog checking (to emulate what will really be going on there).
- * - move the run_high_priority to my utils and do error checking in it. Print nice message to user
- *   about how to set right permissions if I cannot run in a high priority.
+ * - do better stats (min, max, variance and more - max is the most important).
  *
  * 					Mark Veltzer
  * EXTRA_LIBS=-lpthread
  */
 
 // this emulates an async implementation
-pthread_mutex_t fastmutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t fastmutex = PTHREAD_MUTEX_INITIALIZER;
 const unsigned int buffer_size=1024;
 char buffer[buffer_size];
 inline void my_syslog(const char* fmt,...) {
-	pthread_mutex_lock(&fastmutex);
+	//pthread_mutex_lock(&fastmutex);
 	va_list args;
 	va_start(args, fmt);
-	vsnprintf(buffer, buffer_size, fmt, args);
+	int ret=vsnprintf(buffer, buffer_size, fmt, args);
 	va_end(args);
-	//memcpy(buffer,fmt,buffer_size);
-	pthread_mutex_unlock(&fastmutex);
+	memcpy(buffer,fmt,ret);
+	//pthread_mutex_unlock(&fastmutex);
 }
 inline void my_syslog(const char* fmt,...) __attribute__((format(printf, 1, 2)));
 
@@ -112,7 +109,7 @@ void* func(void*) {
 	// let io buffers be flushed...
 	sleep(1);
 
-	test="regular file operations (buffred, non flushed, non synchronized)";
+	test="regular file operations (buffered, non flushed, non synchronized)";
 	f=fopen("/tmp/syslog_test","w+");
 	assert(f!=NULL);
 	printf("doing %d writes\n",number);
@@ -131,6 +128,7 @@ void* func(void*) {
 
 
 	// now lets measure how long it would take to memcpy...
+	test="fastlog";
 	printf("doing %d fastlogs\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
@@ -140,7 +138,7 @@ void* func(void*) {
 	// end timing...
 	gettimeofday(&t2, NULL);
 	// print timing...
-	printf("time in micro of one fastlog (async): %lf\n", micro_diff(&t1,&t2)/(double)number);
+	printf("%s: %lf\n",test,micro_diff(&t1,&t2)/(double)number);
 	// let io buffers be flushed...
 	sleep(1);
 
@@ -148,7 +146,7 @@ void* func(void*) {
 }
 
 int main(int argc, char **argv, char **envp) {
-	//print_scheduling_consts();
-	run_high_priority(func,NULL);
+	print_scheduling_consts();
+	run_high_priority(func,NULL,90);
 	return 0;
 }
