@@ -43,13 +43,13 @@ int main(int argc, char **argv, char **envp) {
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
 		print_cpu_set(cpu_sets + i);
-		scig(pthread_attr_init(attrs + i), "pthread_attr_init");
-		scig(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i), "pthread_attr_setaffinity_np");
-		scig(pthread_create(threads + i, attrs + i, worker, ids + i), "pthread_create");
+		scg(pthread_attr_init(attrs + i));
+		scg(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
+		scg(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	fprintf(stderr, "main ended creating threads\n");
 	for (int i = 0; i < num; i++) {
-		scig(pthread_join(threads[i], NULL), "pthread_join");
+		scg(pthread_join(threads[i], NULL));
 	}
 	TRACE("main ended");
 	return(0);

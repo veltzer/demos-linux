@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **envp) {
 	//SC(hcreate_r(50,&HTAB));
 	// next function does not return any status...
 	//hdestroy_r(&HTAB);
-	SC(hcreate(50));
+	sc(hcreate(50));
 	// next function does not return any status...
 	hdestroy();
 	// TODO

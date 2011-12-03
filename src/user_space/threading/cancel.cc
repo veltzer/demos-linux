@@ -20,11 +20,11 @@
 static void * thread_func(void *ignored_argument) {
 	/* Disable cancellation for a while, so that we don't
 	*               immediately react to a cancellation request */
-	scig(pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL),"pthread_setcancelstate");
+	scg(pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL));
 	TRACE("started; cancellation disabled");
 	sleep(5);
 	TRACE("about to enable cancellation");
-	scig(pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL),"pthread_setcancelstate");
+	scg(pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL));
 	/* sleep() is a cancellation point */
 	sleep(1000);        /* Should get canceled while we sleep */
 	/* Should never get here */
@@ -38,12 +38,12 @@ int main(void) {
 
 	/* Start a thread and then send it a cancellation request */
 
-	scig(pthread_create(&thr, NULL, &thread_func, NULL),"pthread_create");
+	scg(pthread_create(&thr, NULL, &thread_func, NULL));
 	sleep(2); /* Give thread a chance to get started */
 	TRACE("sending cancellation request");
-	scig(pthread_cancel(thr),"pthread_cancel");
+	scg(pthread_cancel(thr));
 	/* Join with thread to see what its exit status was */
-	scig(pthread_join(thr, &res),"pthread_join");
+	scg(pthread_join(thr, &res));
 	if (res == PTHREAD_CANCELED)
 		TRACE("thread was canceled");
 	else

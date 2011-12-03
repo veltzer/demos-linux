@@ -95,6 +95,6 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_ZERO(pthread_mutex_init(&mutex_recursive,&attr));
 	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_ERRORCHECK_NP));
 	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck,&attr));
-	run_high_priority(work,NULL);
+	run_high_priority(work,NULL,90);
 	return(0);
 }

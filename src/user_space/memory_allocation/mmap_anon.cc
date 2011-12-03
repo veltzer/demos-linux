@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **envp) {
 
 	printproc(NULL);
 	print_stats();
-	scpe(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), "doing anonymous mmap");
+	scp(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0));
 	printproc(NULL);
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {

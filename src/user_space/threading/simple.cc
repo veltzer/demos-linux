@@ -31,11 +31,11 @@ int main(int argc, char **argv, char **envp) {
 	TRACE("main starting");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
-		scig(pthread_create(threads + i, NULL, worker, ids + i), "pthread_create");
+		scg(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("main ended creating threads");
 	for (int i = 0; i < num; i++) {
-		scig(pthread_join(threads[i], rets + i), "pthread_join");
+		scg(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");
 	return(0);

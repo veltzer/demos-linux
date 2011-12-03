@@ -57,7 +57,7 @@ int main(int argc, char **argv, char **envp) {
 	printf("date is %s\n", __DATE__);
 	printf("time is %s\n", __TIME__);
 	struct tm tm;
-	scpe(strptime(__DATE__ " " __TIME__, "%b %d %Y %H:%M:%S", &tm), NULL);
+	scp(strptime(__DATE__ " " __TIME__, "%b %d %Y %H:%M:%S", &tm));
 	time_t t = mktime(&tm);
 	printf("t is %lu\n", t);
 
