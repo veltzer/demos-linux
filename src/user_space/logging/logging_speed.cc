@@ -1,12 +1,10 @@
+#include "us_helper.hh" // for micro_diff
 #include <syslog.h> // for openlog(3), syslog(3), closelog(3)
 #include <stdio.h> // for printf(3), fopen(3), fclose(3), fflush(3)
 #include <sys/time.h> // for gettimeofday(2)
 #include <assert.h> // for assert(3)
 #include <pthread.h> // for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h> // for va_list, va_start, va_end
-
-
-#include "us_helper.hh" // for micro_diff
 
 /*
  * This example explores syslog speed as compared to writing to a simple file.
