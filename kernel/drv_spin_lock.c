@@ -55,7 +55,7 @@ static struct device* my_device;
 /*
  * This is the ioctl implementation.
  */
-spinlock_t mr_lock = SPIN_LOCK_UNLOCKED;
+DEFINE_SPINLOCK(mr_lock); // unlocked by default...
 spinlock_t *lock_t;
 static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	unsigned long flags;

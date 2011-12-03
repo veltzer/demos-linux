@@ -10,6 +10,7 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
+#include <linux/delay.h> // for ssleep()
 
 #include "kernel_helper.h" // our own helper
 

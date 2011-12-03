@@ -13,6 +13,7 @@
 #include <linux/timex.h>
 #include <linux/cpufreq.h>
 #include <asm/div64.h>
+#include <linux/delay.h> // for udelay
 
 #include "kernel_helper.h" // our own helper
 
