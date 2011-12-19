@@ -10,7 +10,11 @@ int main() {
 		int guess=-1;
 		while(guess!=rand_number) {
 			printf("what is your guess ? ");
-			scanf("%d",&guess);
+			int ret=scanf("%d",&guess);
+			if(ret!=1) {
+				perror("scanf");
+				return -1;
+			}
 			if(guess<rand_number) {
 				printf("guess higher...\n");
 			}
@@ -22,7 +26,11 @@ int main() {
 			}
 		}
 		printf("want to play more ? ");
-		scanf("%d",&cont);
+		int ret=scanf("%d",&cont);
+		if(ret!=1) {
+			perror("scanf");
+			return -1;
+		}
 	}
 	return 0;
 }

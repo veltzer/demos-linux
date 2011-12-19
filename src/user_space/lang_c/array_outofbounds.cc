@@ -21,7 +21,9 @@ int main() {
 		printf("a[%d]=%d\n",i,a[i]);
 	}
 	printf("num is %d\n",num);
-	a[10]=2011;
+	// next line will not compile if warnings in gcc
+	// are turned on since gcc is smart
+	//a[10]=2011;
 	for(int i=0;i<10;i++) {
 		printf("a[%d]=%d\n",i,a[i]);
 	}

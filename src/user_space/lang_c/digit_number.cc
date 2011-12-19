@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3), scanf(3)
+#include <stdio.h> // for printf(3), scanf(3), perror(3)
+#include <stdlib.h> // for exit(3)
 
 int digit_num(long int l) {
 	int digits;
@@ -15,12 +16,21 @@ int digit_num(long int l) {
 	return digits;
 }
 
+long int get_number() {
+	long int ret;
+	int err_code=scanf("%ld",&ret);
+	if(err_code!=1) {
+		perror("scanf");
+		exit(-1);
+	}
+	return ret;
+}
+
 int main() {
-	long int num1,num2;
 	printf("enter the first number: ");
-	scanf("%ld",&num1);
+	long int num1=get_number();
 	printf("enter the second number: ");
-	scanf("%ld",&num2);
+	long int num2=get_number();
 	long int mul=num1*num2;
 	printf("num1 is %ld, %d\n",num1,digit_num(num1));
 	printf("num2 is %ld, %d\n",num2,digit_num(num2));

@@ -1,8 +1,12 @@
-#include <stdio.h> // for scanf(3)
+#include <stdio.h> // for scanf(3), perror(3)
 
 int main() {
 	int num;
-	scanf("%d",&num);
+	int ret=scanf("%d",&num);
+	if(ret!=1) {
+		perror("scanf");
+		return -1;
+	}
 	int i=0;
 	while(num/2>0) {
 		i++;

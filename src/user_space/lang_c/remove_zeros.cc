@@ -1,4 +1,4 @@
-#include <stdio.h> // for scanf(3), printf(3)
+#include <stdio.h> // for scanf(3), printf(3), perror(3)
 
 void print_array(int* ar,int size) {
 	for(int i=0;i<size;i++)
@@ -18,14 +18,22 @@ int main() {
 	// read the size of the array from the user...
 	int size;
 	printf("give me the size of the array: ");
-	scanf("%d",&size);
+	int ret=scanf("%d",&size);
+	if(ret!=1) {
+		perror("scanf");
+		return -1;
+	}
 
 	// read the array from the user...
 	int ar[size];
 	for(int i=0;i<size;i++) {
 		printf("give me the %d element: ",i);
 		//scanf("%d",ar+i);
-		scanf("%d",&ar[i]);
+		int ret=scanf("%d",&ar[i]);
+		if(ret!=1) {
+			perror("scanf");
+			return -1;
+		}
 	}
 
 	// print the array before...

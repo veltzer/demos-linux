@@ -5,7 +5,11 @@ int main() {
 	int seed;
 	int i;
 	printf("give me a seed :");
-	scanf("%d",&seed);
+	int ret=scanf("%d",&seed);
+	if(ret!=1) {
+		perror("scanf");
+		return -1;
+	}
 	srand(seed);
 	for(i=0;i<10;i++) {
 		printf("rand gave me %d\n",rand());

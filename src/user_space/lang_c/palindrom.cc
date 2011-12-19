@@ -6,7 +6,11 @@ int main() {
 	char mystring[STRINGSIZE];
 	printf("Give me a string to check: ");
 	//scanf("%s",mystring);
-	fgets(mystring,STRINGSIZE,stdin);
+	char* ret=fgets(mystring,STRINGSIZE,stdin);
+	if(ret==NULL) {
+		perror("error in fgets");
+		return -1;
+	}
 	int len=strlen(mystring);
 	printf("len is %d\n",len);
 	int palindrom=1;
