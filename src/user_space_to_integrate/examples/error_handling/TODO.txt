@@ -1,0 +1,9 @@
+1. Add a demo about how to catch this exception from regular C code using signal and
+	sigaction and show what can be done about it (c level).
+3. Example of how to raise exceptions on all system calls.
+	C++ wrapper for all system calls.
+4. Examples of debugging malloc stuff:
+	showing statistics of malloc,
+	hooking into the malloc free hooks
+	replacing the malloc library.
+5. Expand the example BreakOut.cc to show that you can break out of other system calls too (for example shmget).

@@ -1,0 +1,33 @@
+1. Write an example using futexes.
+2. Write an example that demostrates priorities.
+	a. Show an example showing different nice levels.
+	b. Show an example showing priority in the same nice level.
+	c. Show running a real time process.
+	d. Show inversion of priority.
+3. Write an example using NTPL and not posix threads.
+1. examples using NTPL.
+2. Starting a thread in suspended mode (pthread or NTPL).
+3. Show code of mutexes in pthread with timeout.
+
+This is a list of examples I need to write to demo expert
+use of signals in a C/C++ linux application.
+
+1. Application which receives a SIGTERM and in the sig handler
+marks a boolean value for the main application to check.
+The main application runs in a loop and checks the boolean
+variable regularly and stops it's work once the signal arrives.
+
+2. Application which generates a SIGSEGV by doing some illegal
+memory access. The application handles this signal in it's
+own code and then calls the default handler (which creates
+a core dump).
+
+3. Application which shows how to pass extra information using
+a signal handler.
+
+4. Application which generates an FPE, then does not core dump
+but rather continues processing. Show how to know where the FPE
+came from (extra information?).
+
+5. Show combinations of signal handlers and C++ exceptions. Where
+do they conflict and where do they match.
