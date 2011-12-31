@@ -68,7 +68,7 @@ void HelloWorld::on_button_clicked() {
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv, char** envp) {
 	Gtk::Main kit(argc, argv);
 
 	HelloWorld helloworld;

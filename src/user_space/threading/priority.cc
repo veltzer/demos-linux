@@ -51,7 +51,7 @@ void *thread_body(void *arg) {
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv, char** envp) {
 	struct sched_param my_param;
 	pthread_attr_t hp_attr;
 	pthread_attr_t mp_attr;

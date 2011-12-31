@@ -45,7 +45,7 @@ void DrawAQuad() {
   glColor3f(1., 1., 0.); glVertex3f(-.75,  .75, 0.);
  glEnd(); } 
  
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv, char** envp) {
 
  dpy = XOpenDisplay(NULL);
  
