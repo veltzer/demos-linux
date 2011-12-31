@@ -16,14 +16,12 @@ void print(const std::string& str) {
 	std::cout << str;
 }
 
-
-int main(int args, char **argv) {
+int main(int argc, char** argv, char** envp) {
 	Signal1<void, const std::string&> printer;
 	printer.connect(slot(print));
 	printer("Hello, World!\n");
 	return(0);
 }
-
 
 //template void SigC::Signal1<void, basic_string<char, string_char_traits<char>, __default_alloc_template<true, 0> > const &, SigC::Marshal<void> >::emit(basic_string<char, string_char_traits<char>, __default_alloc_template<true, 0> > const &);
 template void SigC::Signal1<void, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, SigC::Marshal<void> >::emit(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&);

@@ -19,7 +19,7 @@
  * 			Mark Veltzer
  */
 
-int main(int argc, char **argv) {
+int main(int argc,char** argv, char** envp) {
 	int brsock, sendsock;
 	ssize_t datalen;
 	socklen_t fromaddrlen;

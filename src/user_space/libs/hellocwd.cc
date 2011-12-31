@@ -22,7 +22,7 @@ namespace libcwd {
 
 //using namespace libcwd::channels::dc;
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv, char** envp) {
 	Debug(check_configuration());
 	Debug(libcw_do.on());
 	// List all debug channels (nor very usefull unless you allow to turn

@@ -9,7 +9,7 @@
  *	Mark Veltzer
  *
  */
-int main(int argc, char **argv) {
+int main(int argc, char** argv, char** envp) {
 	QApplication app(argc, argv);
 	QPushButton hello("Hello, world!", 0);
 

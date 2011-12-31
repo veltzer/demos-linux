@@ -8,7 +8,7 @@
  *              Mark Veltzer
  *
  */
-int main(int argc, char **argv) {
+int main(int argc, char** argv, char** envp) {
 	const char    *source = "Merry had a little lamb";
 	unsigned long sourcelen = strlen((char *)source);
 	unsigned long destlen = 100;
