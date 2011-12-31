@@ -11,14 +11,15 @@
 int main() {
 	/* without break */
 	int early_break=0;
-	for(int i=0;i<100 && !early_break;i++) {
+	int i;
+	for(i=0;i<100 && !early_break;i++) {
 		if(i==5)
 			early_break=1;
 		else
 			printf("i is %d\n",i);
 	}
 	/* with break */
-	for(int i=0;i<100;i++) {
+	for(i=0;i<100;i++) {
 		if(i==5) break;
 		printf("i is %d\n",i);
 	}

@@ -1,13 +1,15 @@
 #include <stdio.h> // for scanf(3), printf(3), perror(3)
 
 void print_array(int* ar,int size) {
-	for(int i=0;i<size;i++)
+	int i;
+	for(i=0;i<size;i++)
 		printf("ar[%d]=%d\n",i,ar[i]);
 }
 
 int remove_zeros(int* ar,int size) {
 	int pos=0;
-	for(int i=0;i<size;i++) {
+	int i;
+	for(i=0;i<size;i++) {
 		if(ar[i]!=0)
 			ar[pos++]=ar[i];
 	}
@@ -26,7 +28,8 @@ int main() {
 
 	// read the array from the user...
 	int ar[size];
-	for(int i=0;i<size;i++) {
+	int i;
+	for(i=0;i<size;i++) {
 		printf("give me the %d element: ",i);
 		//scanf("%d",ar+i);
 		int ret=scanf("%d",&ar[i]);

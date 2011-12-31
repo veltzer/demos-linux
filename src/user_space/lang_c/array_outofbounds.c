@@ -14,17 +14,18 @@ int main() {
 	int a[10];
 	int num=1995;
 	printf("%p %p\n",a,&num);
-	for(int i=0;i<10;i++) {
+	int i;
+	for(i=0;i<10;i++) {
 		a[i]=i;
 	}
-	for(int i=0;i<10;i++) {
+	for(i=0;i<10;i++) {
 		printf("a[%d]=%d\n",i,a[i]);
 	}
 	printf("num is %d\n",num);
 	// next line will not compile if warnings in gcc
 	// are turned on since gcc is smart
 	//a[10]=2011;
-	for(int i=0;i<10;i++) {
+	for(i=0;i<10;i++) {
 		printf("a[%d]=%d\n",i,a[i]);
 	}
 	printf("num is %d\n",num);

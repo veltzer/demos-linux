@@ -1,6 +1,7 @@
 #include <stdio.h> // for printf(3)
 #include <string.h>
 #include <sys/utsname.h>
+#include <stdbool.h>
 
 #include "us_helper.hh"
 

@@ -12,7 +12,8 @@
 int main() {	
 	/* without continue... */
 	printf("first round...\n");
-	for(int i=0;i<100;i++) {
+	int i;
+	for(i=0;i<100;i++) {
 		if(i%5!=0) {
 			if((i+1)%3==0) {
 				printf("i is %d\n",i);
@@ -21,7 +22,7 @@ int main() {
 	}
 	/* with continue... */
 	printf("second round...\n");
-	for(int i=0;i<100;i++) {
+	for(i=0;i<100;i++) {
 		if(i%5==0) continue; 
 		if((i+1)%3!=0) continue;
 		printf("i is %d\n",i);

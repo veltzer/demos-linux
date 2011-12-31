@@ -14,7 +14,8 @@ int main() {
 	int len=strlen(mystring);
 	printf("len is %d\n",len);
 	int palindrom=1;
-	for(int i=0;i<len;i++) {
+	int i;
+	for(i=0;i<len;i++) {
 		if(mystring[i]!=mystring[len-i-1]) {
 			palindrom=0;
 			break;

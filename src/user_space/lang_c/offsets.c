@@ -17,24 +17,24 @@
 #define myoffsetof(structname,fieldname) ((char *)(&(((structname *)1)->fieldname)) - (char *)1)
 
 // our own struct for the demo...
-struct mystruct {
+typedef struct _mystruct {
 	int field_a;
 	int field_b;
 	int field_c;
-};
+} mystruct;
 
 int main(int argc,char** argv,char** envp) {
 	// using our own macro
 	printf("field_a is in offset %d\n",myoffsetof(mystruct,field_a));
-	printf("field_b is in offset %d\n",myoffsetof(struct mystruct,field_b));
+	printf("field_b is in offset %d\n",myoffsetof(mystruct,field_b));
 	printf("field_c is in offset %d\n",myoffsetof(mystruct,field_c));
 	// using a libc macro
 	printf("field_a is in offset %d\n",offsetof(mystruct,field_a));
-	printf("field_b is in offset %d\n",offsetof(struct mystruct,field_b));
+	printf("field_b is in offset %d\n",offsetof(mystruct,field_b));
 	printf("field_c is in offset %d\n",offsetof(mystruct,field_c));
 	// using a gcc builtin
 	printf("field_a is in offset %d\n",__builtin_offsetof(mystruct,field_a));
-	printf("field_b is in offset %d\n",__builtin_offsetof(struct mystruct,field_b));
+	printf("field_b is in offset %d\n",__builtin_offsetof(mystruct,field_b));
 	printf("field_c is in offset %d\n",__builtin_offsetof(mystruct,field_c));
 	return(0);
 }

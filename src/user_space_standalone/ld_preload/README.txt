@@ -5,7 +5,7 @@ lets say that for some reason you don't want to change the original library:
 - the library is supplied by a third party - you don't want to touch it.
 - the library may have different versions on different platforms - you don't want to touch it.
 - you have the source code but it's too complicated and big.
-- ...
+- many other reasons I can't think about now...
 
 There are 3 ways to achieve this:
 - create a library of your own with the same interface and link it instead of the original or in addition to the original but before it. Your symbols will take precedence. In this case you interfere with the linking procedure of the application. You run the application as usual. In this case you cannot call the original libraries version.
