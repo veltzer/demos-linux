@@ -1,4 +1,13 @@
+/**
+ * A demo calculating the sin table with openmp.
+ *
+ * 			Mark Veltzer
+ *
+ * EXTRA_COMPILE_FLAGS=-fopenmp
+ */
+
 #include <cmath>
+
 int main(int argc,char** argv,char** envp) {
 	const int size = 256;
 	double sinTable[size];

@@ -1,7 +1,3 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<omp.h>
-
 /**
  * This is a minimal openmp program.
  *
@@ -10,8 +6,11 @@
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
 
-int main ( int argc, char *argv[] )
-{
+#include<stdlib.h>
+#include<stdio.h>
+#include<omp.h>
+
+int main(int argc,char** argv,char** envp) {
 	int id;
 	double wtime;
 	printf ( "\n" );

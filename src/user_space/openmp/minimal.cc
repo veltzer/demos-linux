@@ -1,6 +1,3 @@
-#include <omp.h>
-#include <stdio.h>
-
 /**
  * This is a minimal openmp program.
  *
@@ -9,7 +6,11 @@
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
 
-int main() {
+#include <omp.h>
+#include <stdio.h>
+
+int main(int argc,char** argv,char** envp) {
 #pragma omp parallel
 	printf("Hello from thread %d, nthreads %d\n", omp_get_thread_num(), omp_get_num_threads());
+	return 0;
 }
