@@ -52,6 +52,16 @@ for line in open(source):
 		out=system_check_output(cmd)
 		out=out.split()
 		args.extend(out)
+	f=line.find('EXTRA_COMPILE_FLAGS=')
+	if f!=-1:
+		line.strip()
+		f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
+		cmd=line[f:]
+		cmd=cmd.replace('SOURCE',source)
+		cmd=cmd.replace('TARGET',target)
+		cmd=cmd.split()
+		for c in cmd:
+			args.insert(1,c)
 if debug:
 	print 'running',args
 subprocess.check_call(args)

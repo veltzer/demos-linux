@@ -21,7 +21,7 @@ int main(int argc,char** argv,char** envp) {
 	printf ( " Number of threads = %d\n", omp_get_max_threads ( ) );
 	wtime = omp_get_wtime ( );
 
-#pragma omp num_threads(2);
+	omp_set_num_threads(2);
 #pragma omp parallel default(shared) private(id)
 	{
 		id = omp_get_thread_num ( );

@@ -1,0 +1,22 @@
+This is a list of hints for openmp on linux
+
+get info about gcc support for openmp via:
+	info libgomp-4.6
+
+the gcc openmp site is at:
+	http://gcc.gnu.org/wiki/openmp
+
+the gcc internal list of pragmas is at:
+	http://gcc.gnu.org/onlinedocs/gccint/OpenMP.html
+
+the openmp site is at:
+	http://openmp.org/wp/
+
+wikipedia openmp definition:
+	http://en.wikipedia.org/wiki/OpenMP
+
+online documentation for libgomp:
+	http://gcc.gnu.org/onlinedocs/libgomp/
+
+the gomp website:
+	http://gcc.gnu.org/projects/gomp/
