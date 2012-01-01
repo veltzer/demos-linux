@@ -4,7 +4,6 @@ import sys
 import subprocess
 
 debug=False
-debug=True
 script=sys.argv.pop(0)
 source=sys.argv.pop(0)
 target=sys.argv.pop(0)
@@ -24,6 +23,13 @@ for line in open(source):
 		out=subprocess.check_output(cmd)
 		out=out.split()
 		args.extend(out)
+	f=line.find('EXTRA_LIBS=')
+	if f!=-1:
+		line.strip()
+		f=line.find('EXTRA_LIBS=')+len('EXTRA_LIBS=')
+		cmd=line[f:]
+		cmd=cmd.split()
+		args.extend(cmd)
 if debug:
 	print 'running',args
 subprocess.check_call(args)
