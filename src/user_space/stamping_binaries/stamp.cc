@@ -16,7 +16,7 @@
  *
  *		Mark Veltzer
  *
- * EXTRA_CMDS=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
+ * EXTRA_SYSTEM=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
  */
 
 #include <stdio.h> // for snprintf(3), printf(3)
