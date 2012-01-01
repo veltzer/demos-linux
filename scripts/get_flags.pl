@@ -43,6 +43,13 @@ while($line=<FILE>) {
 		$extra=trim($extra);
 		push(@flags,$extra);
 	}
+	if($line=~/EXTRA_COMPILE_FLAGS=(.*)/) {
+		my($extra)=$line=~/EXTRA_COMPILE_FLAGS=(.*)/;
+		$extra=~s/SOURCE/$source/g;
+		$extra=~s/TARGET/$target/g;
+		$extra=trim($extra);
+		push(@flags,$extra);
+	}
 }
 close(FILE) || die('unable to close file ['.$source.']');
 

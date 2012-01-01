@@ -1,12 +1,10 @@
 ##############
 # parameters #
 ##############
-
 # directories
 US_DIRS:=src/user_space src/user_space_interbit
 KERNEL_DIR:=kernel
 US_INCLUDE:=src/include
-
 # kernel variables
 # version of kernel to build against
 KVER?=$(shell uname -r)
@@ -22,20 +20,15 @@ V?=0
 # The problem is that this makes the kernel build system scream at me (it fears I am changing
 # the flags in some profound ways). This is what we have wrapper scripts for...
 KCFLAGS:=-Werror
-
-
 # do you want dependency on the makefile itself ?!?
 DO_ALL_DEPS:=1
-
 # optimization with debug info (for disassembly)
 DEBUG?=1
 OPT?=1
-
 # do you want to show the commands executed ?
 # Since we are using ?= for assignment it means that you can just
 # set this from the command line and avoid changing the makefile...
 DO_MKDBG?=0
-
 # the c++ compiler to be used
 CXX:=g++
 CC:=gcc
@@ -166,20 +159,16 @@ git_maintain:
 # how to create regular executables...
 $(CC_EXE): %.exe: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)EXTRA_FLAGS=`./scripts/get_flags.pl $< $@`;\
-	$(CXX) $(CXXFLAGS) -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py $< $@ $(CXX) $(CXXFLAGS) -o $@ $< $$EXTRA_FLAGS
 $(C_EXE): %.exe: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)EXTRA_FLAGS=`./scripts/get_flags.pl $< $@`;\
-	$(CC) $(CFLAGS) -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -o $@ $< $$EXTRA_FLAGS
 $(CC_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)EXTRA_FLAGS=`./scripts/get_flags.pl $< $@`;\
-	$(CXX) $(CXXFLAGS) -S -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $< $$EXTRA_FLAGS
 $(C_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)EXTRA_FLAGS=`./scripts/get_flags.pl $< $@`;\
-	$(CC) $(CFLAGS) -S -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -S -o $@ $< $$EXTRA_FLAGS
 $(CC_DIS) $(C_DIS): %.dis: %.exe $(ALL_DEPS)
 	objdump --source --disassemble $< > $@
 
