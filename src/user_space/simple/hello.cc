@@ -1,7 +1,7 @@
 #include <stdio.h> // for printf(3)
 
 /*
- *      This is an empty testing application
+ * This is a simple "Hello, World!" application.
  *
  *              Mark Veltzer
  *
