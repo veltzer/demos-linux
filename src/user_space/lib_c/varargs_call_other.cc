@@ -2,7 +2,8 @@
 #include <stdarg.h> // for va_start(3), va_arg(3), va_end(3)
 
 /*
- *      This example shows how to use the glibc varargs support.
+ *      This example shows how to use the glibc varargs support to write a var
+ *      args function that calls another varargs function.
  *
  *      Notes:
  *      - we use the program_invocation_short_name which is an external name of

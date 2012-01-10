@@ -4,6 +4,8 @@
  *      This example shows how to use the __builtin_ varargs
  *      of gcc...
  *
+ *      More info could be gotten about these builtins using 'info gcc'.
+ *
  *      Notes:
  *      - this is not portable because other compilers do not have these
  *      '__builtin_*' macros. If you want something portable use the 'stdarg'
@@ -37,6 +39,7 @@ int trace(const char *fmt, ...) {
 int trace(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 
 int main(int argc, char **argv, char **envp) {
+	printf("sizeof(__builtin_va_list) is [%d]\n",sizeof(__builtin_va_list));
 	trace("%s %d %f\n", "Hello", 5, 3.14);
 	// the next line will produce a compile time error (passing int as string...)
 	//trace("%s %s %f\n","Hello",5,3.14);

@@ -2,15 +2,7 @@
 #include <stdarg.h> // for va_start(3), va_arg(3), va_end(3)
 
 /*
- * This example shows how to code a function that receives a variable
- * number of arguments and iterates them.
- *
- * This example was stolen shamelessly from the stdarg man page.
- *
- * Notes:
- * - va_arg only returns promoted types (these are the widest possible types).
- *   This means that if you want a char, get an int and cast it.
- *   Same for float <-> double and the like.
+ * This example shows how to use the 'va_copy' function.
  *
  *		Mark Veltzer
  *
@@ -50,6 +42,7 @@ void trace(const char *fmt, ...) {
 void trace(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 
 int main(int argc, char **argv, char **envp) {
-	trace("%s %d %f\n", "Hello", 5, 3.14);
+	printf("sizeof(va_list) is [%d]\n",sizeof(va_list));
+	//trace("%s %d %f\n", "Hello", 5, 3.14);
 	return(0);
 }
