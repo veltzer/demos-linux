@@ -98,3 +98,6 @@ creating temp files correctly:
 mkdtemp(3), mktemp(3), tempnam(3), tmpfile(3), tmpnam(3)
 talk about the security issues involved in these.
 - there is already one example of mine which works with temp files.
+
+- do a demo of two processes syncing via futex in shared memory (c++ stuff).
+- do a demo of using compare and set to sync two processes (c++ stuff).
