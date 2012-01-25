@@ -12,13 +12,13 @@ MODULE_DESCRIPTION("Demo module for testing");
 
 // our own functions
 static int __init mod_init(void) {
-	DEBUG("start");
+	INFO("start");
 	return(0);
 }
 
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
+	INFO("start");
 }
 
 // declaration of init/cleanup functions of this module
