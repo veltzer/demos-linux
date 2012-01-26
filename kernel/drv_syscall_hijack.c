@@ -54,10 +54,10 @@ inline unsigned long align_address(unsigned long addr) {
 
 /*
 static void print_sys_call_nums(void) {
-	DEBUG("__NR_open is %d",__NR_open);
-	DEBUG("__NR_close is %d",__NR_close);
-	DEBUG("__NR_pipe %d",__NR_pipe);
-	DEBUG("__NR_write %d",__NR_write);
+	PR_DEBUG("__NR_open is %d",__NR_open);
+	PR_DEBUG("__NR_close is %d",__NR_close);
+	PR_DEBUG("__NR_pipe %d",__NR_pipe);
+	PR_DEBUG("__NR_write %d",__NR_write);
 }
 */
 
@@ -84,7 +84,7 @@ static void set_perms(void* pointer,int prot_val) {
 static void read_sys_call_table(void) {
 	// this does not work because the symbol "sys_call_table" is not exported...
 	extern void* sys_call_table;
-	printk("The address of the system call table is: 0x%p\n",sys_call_table);
+	INFO("The address of the system call table is: 0x%p\n",sys_call_table);
 }
 */
 
@@ -110,7 +110,7 @@ static void my_func(void) {
 		if((p[__NR_open]==ptr_sys_open) &&
 			(p[__NR_close]==ptr_sys_close)) {
 			sctable = (unsigned long **)p;
-			printk("The address of the system call table is: 0x%p\n",&sctable[0]);
+			INFO("The address of the system call table is: 0x%p\n",&sctable[0]);
 			break;
 		}
 	}
@@ -120,7 +120,7 @@ static void my_func(void) {
 /*
 static void print_text(void) {
 	// this does not work since _text is not exported to the symbol table...
-	//printk("_text is %p",_text);
+	//INFO("_text is %p",_text);
 }
 */
 
@@ -131,12 +131,12 @@ static void func(void) {
 	unsigned long* sys_call_table;
 	int i;
 	unsigned long arr[5];
-	printk (KERN_INFO "Searching for sys_call_table address...\n");
+	INFO("Searching for sys_call_table address...");
 	// Lookup for the table in the data section
 	while((unsigned long )ptr < (unsigned long)init_mm.end_data) {
 		if (*ptr == (unsigned long)sys_close) { // The hit has happend!
 
-			printk (KERN_INFO " -> matching detected at %p\n", ptr);
+			INFO(" -> matching detected at %p", ptr);
 			// The pointers must point to kernel code section...
 			for(i = 0; i < 4 ;i++)
 			{
@@ -148,7 +148,7 @@ static void func(void) {
 			if(arr[0] != arr[2] || arr[1] != arr[3])
 			{
 				sys_call_table=(ptr-__NR_close);
-				printk (KERN_INFO"sys_call_table base found at: %p\n",sys_call_table);
+				INOF("sys_call_table base found at: %p",sys_call_table);
 				break;
 			}
 
@@ -161,7 +161,7 @@ static void func(void) {
 	//original_sys_open	= sys_call_table[__NR_open];
 	//original_sys_close	= sys_call_table[__NR_close];
 
-	printk (KERN_INFO"Starting patching!\n");
+	INOF("Starting patching!");
 
 	// Remapping write, open and close syscall entries syscall table with to our
 	// functions.
@@ -178,14 +178,14 @@ static void func2(void) {
 	int z;
 	unsigned long start_ptr=(unsigned long)&loops_per_jiffy;
 	unsigned long end_ptr=(unsigned long)&boot_cpu_data;
-	printk("Module is loaded!\n");
+	INFO("Module is loaded!\n");
 	for(ptr=start_ptr;ptr<end_ptr;ptr+=sizeof(void*)) {
 		unsigned long *p=(unsigned long*)ptr;
 		if (p[__NR_close] == (unsigned long) sys_close){
 			sctable = (unsigned long **)p;
-			printk("The address of the system call table is: 0x%p\n",&sctable[0]);
+			INFO("The address of the system call table is: 0x%p",&sctable[0]);
 			for(z=0;z<256;z++) //this max number of the system calls should be set
-			printk("The address of %d system call is 0x%p\n",z, sctable[z]);
+			INFO("The address of %d system call is 0x%p\n",z, sctable[z]);
 			break;
 		}
 	}
@@ -211,11 +211,11 @@ static int map_sys_call_table(void) {
 	//const unsigned int num_pages=1;
 	sys_call_adr=ioremap(start, len);
 	if(sys_call_adr==NULL) {
-		ERROR("unable to ioremap");
+		PR_ERROR("unable to ioremap");
 		return -1;
 	} else {
 		sys_call_adr_precise=sys_call_adr+offset;
-		DEBUG("got precise %p",sys_call_adr_precise);
+		PR_DEBUG("got precise %p",sys_call_adr_precise);
 		return 0;
 	}
 }
@@ -233,7 +233,7 @@ static void set_sys_call_entry(int nr,unsigned long val) {
 
 static void test_sys_call_table(int nr) {
 	unsigned long val=get_sys_call_entry(nr);
-	DEBUG("val is %lx",val);
+	PR_DEBUG("val is %lx",val);
 	set_sys_call_entry(nr,val);
 }
 
@@ -246,14 +246,14 @@ static int syscall_replace(int nr,unsigned long f1,unsigned long* f2) {
 	int ret;
 	ret=set_memory_rw(start,num_pages);
 	if(ret) {
-		ERROR("unable to set_memory_rw");
+		PR_ERROR("unable to set_memory_rw");
 		return ret;
 	}
 	*f2=syscalltab[nr];
 	syscalltab[nr]=f1;
 	ret=set_memory_ro(start,num_pages);
 	if(ret) {
-		ERROR("unable to set_memory_ro");
+		PR_ERROR("unable to set_memory_ro");
 		return ret;
 	}
 	return 0;
@@ -264,13 +264,13 @@ static int syscall_return(int nr,unsigned long f1,unsigned long* f2) {
 	int ret;
 	ret=set_memory_rw(align_address((unsigned long)syscalltab),1);
 	if(ret) {
-		ERROR("unable to set_memory_rw");
+		PR_ERROR("unable to set_memory_rw");
 		return ret;
 	}
 	syscalltab[nr]=*f2;
 	ret=set_memory_ro(align_address((unsigned long)syscalltab),1);
 	if(ret) {
-		ERROR("unable to set_memory_ro");
+		PR_ERROR("unable to set_memory_ro");
 		return ret;
 	}
 	return 0;
@@ -278,41 +278,41 @@ static int syscall_return(int nr,unsigned long f1,unsigned long* f2) {
 
 static int (*old_pipe)(int*);
 static int new_pipe(int* des) {
-	printk("pipe was called...\n");
+	INFO("pipe was called...");
 	return old_pipe(des);
 }
 */
 /*
 static int (*old_pipe2)(int*,int);
 asmlinkage static int new_pipe2(int* des,int flags) {
-	DEBUG("here");
+	PR_DEBUG("here");
 	return old_pipe2(des,flags);
 }
 */
 static int called=0;
 static asmlinkage long (*old_close)(unsigned int);
 asmlinkage static long new_close(unsigned int val) {
-	DEBUG("here");
+	PR_DEBUG("here");
 	called++;
 	return old_close(val);
 }
 
 static int __init mod_init(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	map_sys_call_table();
 	test_sys_call_table(__NR_close);
 	old_close=(asmlinkage long (*)(unsigned int))get_sys_call_entry(__NR_close);
 	set_sys_call_entry(__NR_close,(unsigned long)new_close);
-	DEBUG("end");
+	PR_DEBUG("end");
 	return 0;
 }
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	set_sys_call_entry(__NR_close,(unsigned long)old_close);
 	unmap_sys_call_table();
-	DEBUG("called is %d",called);
-	DEBUG("end");
+	PR_DEBUG("called is %d",called);
+	PR_DEBUG("end");
 }
 module_init(mod_init);
 module_exit(mod_exit);

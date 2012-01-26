@@ -90,23 +90,21 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	unsigned long j1, j2, jdiff, jmil, jmic;
 	unsigned int freq;
 
-	DEBUG("start");
+	PR_DEBUG("start");
 	//char str[256];
-	//MYDEBUG(str,"start");
-	//printk(KERN_LEVEL "%s",str);
-	//printk(KERN_LEVEL "start");
+	//PR_DEBUG(str,"start");
 	switch (cmd) {
 	case 0:
 		/* this shows how to work with the x86 counters */
 		curreg = get_cycles();
-		DEBUG("get_cycles: %llu\n", curreg);
+		PR_DEBUG("get_cycles: %llu\n", curreg);
 		// getting the cpufreq for cpu0
 		// I used the quick version under the assumption that the
 		// frequency doesn't change. If this assumption is not
 		// correct and the cpu scales for some reason you need
 		// to use 'cpufreq_get'.
 		freq = cpufreq_quick_get(0);
-		DEBUG("cpufreq_quick_get: %i\n", freq);
+		PR_DEBUG("cpufreq_quick_get: %i\n", freq);
 		break;
 
 	case 1:
@@ -119,12 +117,12 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		crmil = cdiff / freq;
 		crmic = crmil * 1000;
 		crmic2 = (cdiff * 1000) / freq;
-		DEBUG("cnt1: %llu\n", cnt1);
-		DEBUG("cnt2: %llu\n", cnt2);
-		DEBUG("cdiff: %lu\n", cdiff);
-		DEBUG("crmil: %lu\n", crmil);
-		DEBUG("crmic: %lu\n", crmic);
-		DEBUG("crmic2: %lu\n", crmic2);
+		PR_DEBUG("cnt1: %llu\n", cnt1);
+		PR_DEBUG("cnt2: %llu\n", cnt2);
+		PR_DEBUG("cdiff: %lu\n", cdiff);
+		PR_DEBUG("crmil: %lu\n", crmil);
+		PR_DEBUG("crmic: %lu\n", crmic);
+		PR_DEBUG("crmic2: %lu\n", crmic2);
 		break;
 
 	case 2:
@@ -141,12 +139,12 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		//jmic=do_div(jdiff,HZ);
 		jmil = jdiff / HZ;
 		jmic = jmil * 1000;
-		DEBUG("j1 is %lu", j1);
-		DEBUG("j2 is %lu", j2);
-		DEBUG("jdiff is %lu", jdiff);
-		DEBUG("HZ is %d", HZ);
-		DEBUG("jmil is %lu", jmil);
-		DEBUG("jmic is %lu", jmic);
+		PR_DEBUG("j1 is %lu", j1);
+		PR_DEBUG("j2 is %lu", j2);
+		PR_DEBUG("jdiff is %lu", jdiff);
+		PR_DEBUG("HZ is %d", HZ);
+		PR_DEBUG("jmil is %lu", jmil);
+		PR_DEBUG("jmic is %lu", jmic);
 		break;
 
 	case 3:
@@ -176,37 +174,37 @@ int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
-	DEBUG("set up the structure");
+	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			PR_DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			PR_DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	PR_DEBUG("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		PR_DEBUG("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
 		my_class,/* our class */
@@ -217,10 +215,10 @@ int register_dev(void) {
 		0
 	);
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		PR_DEBUG("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	PR_DEBUG("did device_create");
 	return(0);
 
 	//goto_all:

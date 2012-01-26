@@ -14,6 +14,8 @@
 #include<linux/sched.h>			/* TASK_* definitions */
 #include<asm/uaccess.h>			/* User space access */
 
+#include "kernel_helper.h"
+
 MODULE_AUTHOR("Mark Veltzer<mark.veltzer@gmail.com>");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("A named pipe example");
@@ -66,7 +68,7 @@ module_param(pipe_count_param,uint,S_IRUSR | S_IRGRP | S_IROTH);
  * Open the device. Optional.
  */
 int pipe_open(struct inode* inode,struct file* filp) {
-	printk(KERN_DEBUG "device is open\n");
+	PR_DEBUG("device is open");
 	return 0;
 }
 
@@ -74,7 +76,7 @@ int pipe_open(struct inode* inode,struct file* filp) {
  * Release the device. Optional as well.
  */
 int pipe_release(struct inode* inode,struct file* filp) {
-	printk(KERN_DEBUG "device is released\n");
+	PR_DEBUG("device is released");
 	return 0;
 }
 
@@ -85,7 +87,7 @@ int pipe_release(struct inode* inode,struct file* filp) {
  * sometime.
  */
 ssize_t pipe_read(struct file* filp,char* user_buf,size_t count,loff_t* offset) {
-	printk(KERN_DEBUG "read\n");
+	PR_DEBUG("read");
 	return(-EFAULT);
 }
 
@@ -105,7 +107,7 @@ ssize_t pipe_read(struct file* filp,char* user_buf,size_t count,loff_t* offset) 
  * lots of prefectly legal user space programs.
  */
 ssize_t pipe_write(struct file* filp,const char* user_buf,size_t count,loff_t* offset) {
-	printk(KERN_DEBUG "read\n");
+	PR_DEBUG("read");
 	return(-EFAULT);
 }
 
@@ -173,7 +175,7 @@ static int pipe_init(void) {
 		goto error_after_alloc_chrdev;
 	}
 
-	printk(KERN_INFO "pipe loaded sucessfuly.\n");
+	PR_INFO("pipe loaded sucessfuly.");
 	return 0;
 
 //error_after_cdev_add:
@@ -190,7 +192,7 @@ static void pipe_cleanup(void) {
 	cdev_del(pipe_cdev);
 	unregister_chrdev_region(pipe_dev,pipe_count_param);
 	remove_proc_entry(proc_filename,NULL);
-	printk(KERN_INFO "pipe unloaded succefully.\n");
+	PR_INFO("pipe unloaded succefully.");
 }
 
 module_init(pipe_init);
