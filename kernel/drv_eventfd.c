@@ -90,13 +90,13 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// struct file to use
 	struct file *fp;
 
-	DEBUG("start");
+	PR_DEBUG("start");
 	switch (cmd) {
 	case 0:
 		fd = (int)arg;
 		fp = eventfd_fget(fd);
 		if (fp == NULL) {
-			DEBUG("bad file descriptor");
+			PR_DEBUG("bad file descriptor");
 			return(-EINVAL);
 		}
 		//eventfd_signal(fp,1);
@@ -122,37 +122,37 @@ int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
-	DEBUG("set up the structure");
+	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			PR_DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			PR_DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	PR_DEBUG("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		PR_DEBUG("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
 	        my_class,                                                                                                                   /* our class */
@@ -163,10 +163,10 @@ int register_dev(void) {
 		THIS_MODULE->name
 	        );
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		PR_DEBUG("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	PR_DEBUG("did device_create");
 	return(0);
 
 	//goto_all:

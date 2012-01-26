@@ -28,24 +28,24 @@ MODULE_VERSION("1.2.3");
 
 // our own functions
 static int __init mod_init(void) {
-	INFO("start");
-	INFO("name is %s", KBUILD_MODNAME);
-	INFO("name is %s", THIS_MODULE->name);
-	INFO("srcversion is %s", THIS_MODULE->srcversion);
-	INFO("version is %s", THIS_MODULE->version);
-	INFO("init_size is %d", THIS_MODULE->init_size);
-	INFO("core_size is %d", THIS_MODULE->core_size);
-	INFO("init_text_size is %d", THIS_MODULE->init_text_size);
-	INFO("core_text_size is %d", THIS_MODULE->core_text_size);
-	INFO("printk is %p",printk);
+	PR_INFO("start");
+	PR_INFO("name is %s", KBUILD_MODNAME);
+	PR_INFO("name is %s", THIS_MODULE->name);
+	PR_INFO("srcversion is %s", THIS_MODULE->srcversion);
+	PR_INFO("version is %s", THIS_MODULE->version);
+	PR_INFO("init_size is %d", THIS_MODULE->init_size);
+	PR_INFO("core_size is %d", THIS_MODULE->core_size);
+	PR_INFO("init_text_size is %d", THIS_MODULE->init_text_size);
+	PR_INFO("core_text_size is %d", THIS_MODULE->core_text_size);
+	PR_INFO("printk is %p",printk);
 	// using this symbol_get function you can also get kernel symbols, other modules symbols or your
 	// own exported symbols.
-	INFO("printk (via get) is %p",symbol_get("printk"));
+	PR_INFO("printk (via get) is %p",symbol_get("printk"));
 	return(0);
 }
 
 static void __exit mod_exit(void) {
-	INFO("start");
+	PR_INFO("exit");
 }
 
 // declaration of init/cleanup functions of this module

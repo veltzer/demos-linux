@@ -99,22 +99,22 @@ module_param(mystring, charp, 0000);
 MODULE_PARM_DESC(mystring, "A character string");
 
 static int param_init(void) {
-	INFO("start");
-	INFO("myshort is a short integer: %hd", myshort);
-	INFO("myint is an integer: %d", myint);
-	INFO("mylong is a long integer: %ld", mylong);
-	INFO("mystring is a string: %s", mystring);
-	INFO("You may change some of the values now via /sys and see the values changed");
-	INFO("either by catting /sys or unloading the module and looking at the unload printout...");
+	PR_INFO("start");
+	PR_INFO("myshort is a short integer: %hd", myshort);
+	PR_INFO("myint is an integer: %d", myint);
+	PR_INFO("mylong is a long integer: %ld", mylong);
+	PR_INFO("mystring is a string: %s", mystring);
+	PR_INFO("You may change some of the values now via /sys and see the values changed");
+	PR_INFO("either by catting /sys or unloading the module and looking at the unload printout...");
 	return 0;
 }
 
 static void param_exit(void) {
-	INFO("start");
-	INFO("myshort is a short integer: %hd", myshort);
-	INFO("myint is an integer: %d", myint);
-	INFO("mylong is a long integer: %ld", mylong);
-	INFO("mystring is a string: %s", mystring);
+	PR_INFO("start");
+	PR_INFO("myshort is a short integer: %hd", myshort);
+	PR_INFO("myint is an integer: %d", myint);
+	PR_INFO("mylong is a long integer: %ld", mylong);
+	PR_INFO("mystring is a string: %s", mystring);
 }
 
 module_init(param_init);

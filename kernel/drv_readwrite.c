@@ -31,7 +31,7 @@ static int __init read_file(char *filename) {
 
 	filp = filp_open(filename, O_RDONLY, 0);
 	if (IS_ERR(filp)) {
-		ERROR("could not read file %s", filename);
+		PR_ERROR("could not read file %s", filename);
 		return(-EFAULT);
 	}
 	//PR_DEBUG("debug message");
@@ -41,7 +41,7 @@ static int __init read_file(char *filename) {
 	}
 	printk("\n");
 	if (filp_close(filp, current->files)) {
-		ERROR("could not close file %s", filename);
+		PR_ERROR("could not close file %s", filename);
 		return(-EFAULT);
 	}
 	set_fs(old_fs);
@@ -60,16 +60,16 @@ static int __init write_file(char *filename, char *data) {
 
 	filp = filp_open(filename, O_WRONLY | O_CREAT, 0644);
 	if (IS_ERR(filp)) {
-		ERROR("cannot open file %s for writing", filename);
+		PR_ERROR("cannot open file %s for writing", filename);
 		return(-EFAULT);
 	}
 	len = strlen(data);
 	if (vfs_write(filp, data, len, &pos) != len) {
-		ERROR("could not write");
+		PR_ERROR("could not write");
 		return(-EFAULT);
 	}
 	if (filp_close(filp, current->files)) {
-		ERROR("cannot close file %s after writing", filename);
+		PR_ERROR("cannot close file %s after writing", filename);
 		return(-EFAULT);
 	}
 	set_fs(old_fs);
@@ -79,11 +79,11 @@ static int __init write_file(char *filename, char *data) {
 
 static int __init mod_init(void) {
 	if (read_file("/etc/shadow")) {
-		ERROR("unable to read file");
+		PR_ERROR("unable to read file");
 		return(-EFAULT);
 	}
 	if (write_file("/tmp/test", "This is a line.\n")) {
-		ERROR("unable to read file");
+		PR_ERROR("unable to read file");
 		return(-EFAULT);
 	}
 	return(0);

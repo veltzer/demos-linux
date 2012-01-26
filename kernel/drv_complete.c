@@ -99,7 +99,7 @@ struct completion comp;
 static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	int i;
 
-	DEBUG("start");
+	PR_DEBUG("start");
 	switch (cmd) {
 	case 0:
 		init_completion(&comp);
@@ -115,7 +115,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 
 	case 3:
 		i = wait_for_completion_interruptible_timeout(&comp, msecs_to_jiffies(arg));
-		DEBUG("i is %d", i);
+		PR_DEBUG("i is %d", i);
 		break;
 
 	case 4:
@@ -138,7 +138,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  * The open implementation. Currently this does nothing
  */
 static int kern_open(struct inode *inode, struct file *filp) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -147,7 +147,7 @@ static int kern_open(struct inode *inode, struct file *filp) {
  * The release implementation. Currently this does nothing
  */
 static int kern_release(struct inode *inode, struct file *filp) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -156,7 +156,7 @@ static int kern_release(struct inode *inode, struct file *filp) {
  * The read implementation. Currently this does nothing.
  */
 static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff_t *pos) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -165,7 +165,7 @@ static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff
  * The write implementation. Currently this does nothing.
  */
 static ssize_t kern_write(struct file *filp, const char __user *buf, size_t count, loff_t *pos) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -188,7 +188,7 @@ int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
@@ -197,27 +197,27 @@ int register_dev(void) {
 	memset(pdev, 0, sizeof(struct kern_dev));
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			PR_DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			PR_DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	PR_DEBUG("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		PR_DEBUG("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
 	        my_class,                                                                                                                   /* our class */
@@ -228,10 +228,10 @@ int register_dev(void) {
 	        THIS_MODULE->name
 	        );
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		PR_DEBUG("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	PR_DEBUG("did device_create");
 	return(0);
 
 //goto_all:

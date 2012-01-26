@@ -30,10 +30,10 @@ static int __init mod_init(void) {
 	for(i=-10;i<10;i++) {
 		unsigned long ptr=(unsigned long)i;
 		void* p=(void*)i;
-		INFO("IS_ERR_VALUE(%lu) is %ld, and PTR_ERR is %ld\n", ptr, IS_ERR_VALUE(ptr),PTR_ERR((void*)ptr));
-		INFO("IS_ERR(%p) is %ld, and PTR_ERR is %ld\n", p, IS_ERR(p),PTR_ERR(p));
+		PR_INFO("IS_ERR_VALUE(%lu) is %ld, and PTR_ERR is %ld\n", ptr, IS_ERR_VALUE(ptr),PTR_ERR((void*)ptr));
+		PR_INFO("IS_ERR(%p) is %ld, and PTR_ERR is %ld\n", p, IS_ERR(p),PTR_ERR(p));
 	}
-	INFO("ERR_PTR(-EIO) is %p",ERR_PTR(-EIO));
+	PR_INFO("ERR_PTR(-EIO) is %p",ERR_PTR(-EIO));
 	return(0);
 }
 

@@ -30,7 +30,7 @@ static void* p=NULL;
 
 // our own functions
 static int __init kmem_init(void) {
-	INFO("start");
+	PR_INFO("start");
 	cache_p = kmem_cache_create(
 		"mark.veltzer",// name of cache (will appear in slabtop(1), /proc/slabinfo and more.
 		10,// size to allocate in advance
@@ -44,19 +44,19 @@ static int __init kmem_init(void) {
 	p = kmem_cache_alloc(cache_p, GFP_KERNEL);
 	if (p == NULL) {
 		// there is not too much that we can do here
-		ERROR("Cannot allocate memory");
+		PR_ERROR("Cannot allocate memory");
 		kmem_cache_destroy(cache_p);
 		return(-ENOMEM);
 	}
-	INFO("end");
+	PR_INFO("end");
 	return(0);
 }
 
 static void __exit kmem_exit(void) {
-	INFO("start");
+	PR_INFO("start");
 	kmem_cache_free(cache_p, p);
 	kmem_cache_destroy(cache_p);
-	INFO("end");
+	PR_INFO("end");
 }
 
 // declaration of init/cleanup functions of this module
