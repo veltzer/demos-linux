@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/module.h> // for the MODULE_* stuff
 
 #include "kernel_helper.h" // our own helper
@@ -13,14 +14,14 @@ MODULE_DESCRIPTION("Showing how the kernel prints NULL pointers");
 
 // our own functions
 static int __init mod_init(void) {
-	DEBUG("start");
-	DEBUG("NULL is %p", NULL);
+	PR_DEBUG("start");
+	PR_DEBUG("NULL is %p", NULL);
 	return(0);
 }
 
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 }
 
 // declaration of init/cleanup functions of this module

@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/pci.h>
@@ -27,7 +28,7 @@ MODULE_DESCRIPTION("Demo module for testing");
 
 // our own functions
 static int __init mod_init(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	if (request_module("crc7") > 0) {
 		printk("looks bad\n");
 	} else {
@@ -38,7 +39,7 @@ static int __init mod_init(void) {
 
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 }
 
 
