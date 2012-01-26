@@ -49,19 +49,19 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// the buffer which will be used for the transaction
 	buffer b;
 
-	DEBUG("start");
+	PR_DEBUG("start");
 	switch (cmd) {
 	case 0:
 		// get the data from the user
 		if (copy_from_user(&b, (void *)arg, sizeof(b))) {
-			ERROR("problem with copy_from_user");
+			PR_ERROR("problem with copy_from_user");
 			return(-EFAULT);
 		}
-		DEBUG("after copy");
-		INFO("b.u1 is %llu", b.u1);
-		INFO("b.u2 is %llu", b.u2);
-		INFO("b.d1 is %lld", b.d1);
-		INFO("b.d2 is %lld", b.d2);
+		PR_DEBUG("after copy");
+		PR_INFO("b.u1 is %llu", b.u1);
+		PR_INFO("b.u2 is %llu", b.u2);
+		PR_INFO("b.d1 is %lld", b.d1);
+		PR_INFO("b.d2 is %lld", b.d2);
 		b.udiv = b.u1 / b.u2;
 		b.umul = b.u1 * b.u2;
 		b.uadd = b.u1 + b.u2;
@@ -72,7 +72,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		b.dsub = b.d1 - b.d2;
 		// copy the data back to the user
 		if (copy_to_user((void *)arg, &b, sizeof(b))) {
-			ERROR("problem with copy_to_user");
+			PR_ERROR("problem with copy_to_user");
 			return(-EFAULT);
 		}
 		// everything is ok
@@ -97,37 +97,37 @@ static int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
-	DEBUG("set up the structure");
+	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			PR_DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			PR_DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	PR_DEBUG("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		PR_DEBUG("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
 	        my_class,                                                                                                                   /* our class */
@@ -138,10 +138,10 @@ static int register_dev(void) {
 		THIS_MODULE->name
 	        );
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		PR_DEBUG("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	PR_DEBUG("did device_create");
 	return(0);
 
 	//goto_all:
@@ -196,8 +196,8 @@ module_exit(mod_exit);
 unsigned long long __udivdi3(unsigned long long divided, unsigned long long divisor) {
 	unsigned int reminder;
 
-	DEBUG("divided is %llu", divided);
-	DEBUG("divisor is %llu", divisor);
+	PR_DEBUG("divided is %llu", divided);
+	PR_DEBUG("divisor is %llu", divisor);
 	return(div_u64_rem(divided, divisor, &reminder));
 }
 
@@ -205,8 +205,8 @@ unsigned long long __udivdi3(unsigned long long divided, unsigned long long divi
 long long __divdi3(long long divided, long long divisor) {
 	unsigned int reminder;
 
-	DEBUG("divided is %lld", divided);
-	DEBUG("divisor is %lld", divisor);
+	PR_DEBUG("divided is %lld", divided);
+	PR_DEBUG("divisor is %lld", divisor);
 	return(div_u64_rem(divided, divisor, &reminder));
 }
 

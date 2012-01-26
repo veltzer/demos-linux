@@ -11,7 +11,7 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#define DO_DEBUG
+#define DO_PR_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*
@@ -56,7 +56,7 @@ static int __init mod_init(void) {
 #ifdef DO_ONE
 	const unsigned int size = 1024 * 1024 * 24;
 #endif // DO_ONE
-	DEBUG("start");
+	PR_DEBUG("start");
 #ifdef DO_LOOP
 	for (i = 0; i < 1000; i++) {
 		vptr = dma_alloc_coherent(NULL, size, &device_addr, GFP_KERNEL | GFP_DMA);
@@ -99,13 +99,13 @@ static int __init mod_init(void) {
 		size+=inc;
 	}
 #endif // DO_INC
-	DEBUG("end");
+	PR_DEBUG("end");
 	return(0);
 }
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
-	DEBUG("end");
+	PR_DEBUG("start");
+	PR_DEBUG("end");
 }
 
 // declaration of init/cleanup functions of this module

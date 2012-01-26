@@ -141,7 +141,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// the newly created vma
 	struct vm_area_struct *vma;
 
-	DEBUG("start with ioctl %u", cmd);
+	PR_DEBUG("start with ioctl %u", cmd);
 	switch (cmd) {
 	/*
 	 *	This is asking the kernel to map the memory to kernel space.
@@ -149,36 +149,36 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	case IOCTL_DEMO_MAP:
 		// get the data from the user
 		if (copy_from_user(&b, (void *)arg, sizeof(b))) {
-			ERROR("ERROR: problem with copy_from_user");
+			PR_ERROR("problem with copy_from_user");
 			return(-EFAULT);
 		}
-		DEBUG("after copy");
+		PR_DEBUG("after copy");
 		bpointer = (unsigned int)b.pointer;
 		offset = bpointer % PAGE_SIZE;
 		aligned = bpointer - offset;
 		newsize = b.size + offset;
-		DEBUG("bpointer is %x", bpointer);
-		DEBUG("offset is %u", offset);
-		DEBUG("aligned is %x", aligned);
-		DEBUG("newsize is %u", newsize);
+		PR_DEBUG("bpointer is %x", bpointer);
+		PR_DEBUG("offset is %u", offset);
+		PR_DEBUG("aligned is %x", aligned);
+		PR_DEBUG("newsize is %u", newsize);
 
 		/*
 		 * // make sure that the user data is page aligned...
 		 * if(((unsigned int)b.pointer)%PAGE_SIZE!=0) {
-		 *	ERROR("ERROR: pointer is not page aligned");
+		 *	PR_ERROR("pointer is not page aligned");
 		 *	return -EFAULT;
 		 * }
-		 * DEBUG("after modulu check");
+		 * PR_DEBUG("after modulu check");
 		 */
 		// find the number of pages
 		nr_pages = (newsize - 1) / PAGE_SIZE + 1;
-		DEBUG("nr_pages is %d", nr_pages);
+		PR_DEBUG("nr_pages is %d", nr_pages);
 		// alocate page structures...
 		if ((pages = kmalloc(nr_pages * sizeof(struct page *), GFP_KERNEL)) == NULL) {
-			ERROR("ERROR: could not allocate page structs");
+			PR_ERROR("could not allocate page structs");
 			return(-ENOMEM);
 		}
-		DEBUG("after pages allocation");
+		PR_DEBUG("after pages allocation");
 		// get user pages and fault them in
 		down_write(&current->mm->mmap_sem);
 		// rw==READ means read from drive, write into memory area
@@ -195,10 +195,10 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		vma = find_vma(current->mm, bpointer);
 		vma->vm_flags |= VM_DONTCOPY;
 		up_write(&current->mm->mmap_sem);
-		DEBUG("after get_user_pages res is %d", res);
+		PR_DEBUG("after get_user_pages res is %d", res);
 		// Errors and no page mapped should return here
 		if (res != nr_pages) {
-			ERROR("ERROR: could not get_user_pages. res was %d", res);
+			PR_ERROR("could not get_user_pages. res was %d", res);
 			kfree(pages);
 			return(-EFAULT);
 		}
@@ -208,19 +208,19 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		// map the pages to kernel space...
 		vptr = vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
 		if (vptr == NULL) {
-			ERROR("ERROR: could not get_user_pages. res was %d", res);
+			PR_ERROR("could not get_user_pages. res was %d", res);
 			kfree(pages);
 			return(-EFAULT);
 		}
 		ptr = vptr + offset;
 		size = b.size;
-		DEBUG("after vmap - vptr is %p", vptr);
+		PR_DEBUG("after vmap - vptr is %p", vptr);
 		// free the pages
 		kfree(pages);
 		pages = NULL;
-		DEBUG("after freeing the pages");
+		PR_DEBUG("after freeing the pages");
 		// were dont! return with success
-		DEBUG("success - on the way out");
+		PR_DEBUG("success - on the way out");
 		return(0);
 
 		break;
@@ -248,9 +248,9 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	case IOCTL_DEMO_READ:
 		cptr = (char *)ptr;
 		sloop = min(size, (unsigned int)10);
-		DEBUG("sloop is %d", sloop);
+		PR_DEBUG("sloop is %d", sloop);
 		for (i = 0; i < sloop; i++) {
-			DEBUG("value of %d is %c", i, cptr[i]);
+			PR_DEBUG("value of %d is %c", i, cptr[i]);
 		}
 		return(0);
 
@@ -285,37 +285,37 @@ static int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
-	DEBUG("set up the structure");
+	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			PR_DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			PR_DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	PR_DEBUG("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		PR_DEBUG("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
 		my_class,/* our class */
@@ -326,10 +326,10 @@ static int register_dev(void) {
 		0
 	);
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		PR_DEBUG("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	PR_DEBUG("did device_create");
 	return(0);
 
 	//goto_all:
@@ -358,13 +358,13 @@ static void unregister_dev(void) {
 
 // our own functions
 static int __init mod_init(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(register_dev());
 }
 
 
 static void __exit mod_exit(void) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	unregister_dev();
 }
 
