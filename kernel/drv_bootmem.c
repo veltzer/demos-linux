@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/module.h> // for MODULE_* stuff
 #include <linux/bootmem.h> // for the bootmem function
 

@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/module.h> // for the MODULE_* stuff
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */
@@ -99,7 +100,7 @@ static void sbd_request(struct request_queue *q) {
 		}
 		// from now on we know that we have a read or write request
 		if(debug) {
-			printk(KERN_DEBUG "sectors is %u, pos is %llu, buffer is %p, rq_data_dir is %d",
+			PR_DEBUG("sectors is %u, pos is %llu, buffer is %p, rq_data_dir is %d",
 				blk_rq_sectors(req),
 				blk_rq_pos(req),
 				req->buffer,

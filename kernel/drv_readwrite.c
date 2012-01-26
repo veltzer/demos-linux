@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>
@@ -33,7 +34,7 @@ static int __init read_file(char *filename) {
 		ERROR("could not read file %s", filename);
 		return(-EFAULT);
 	}
-	printk(KERN_DEBUG);
+	//PR_DEBUG("debug message");
 	pos = 0;
 	while (vfs_read(filp, buf, 1, &pos) == 1) {
 		printk("%c", buf[0]);

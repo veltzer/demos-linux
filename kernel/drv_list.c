@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/pci.h>
@@ -101,7 +102,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	int res;
 	void *p;
 
-	DEBUG("start");
+	PR_DEBUG("start");
 	switch (cmd) {
 	/* Create the list */
 	case 0:
@@ -118,14 +119,14 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 
 	case 2:
 		res = capi_list_isempty(lptr);
-		DEBUG("res is %d", res);
+		PR_DEBUG("res is %d", res);
 		return(0);
 
 		break;
 
 	case 3:
 		p = capi_list_pop(lptr);
-		DEBUG("p is %d", (int)p);
+		PR_DEBUG("p is %d", (int)p);
 		return(0);
 
 		break;
@@ -150,7 +151,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  * The open implementation. Currently this does nothing
  */
 static int kern_open(struct inode *inode, struct file *filp) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -159,7 +160,7 @@ static int kern_open(struct inode *inode, struct file *filp) {
  * The release implementation. Currently this does nothing
  */
 static int kern_release(struct inode *inode, struct file *filp) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -168,7 +169,7 @@ static int kern_release(struct inode *inode, struct file *filp) {
  * The read implementation. Currently this does nothing.
  */
 static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff_t *pos) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -177,7 +178,7 @@ static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff
  * The write implementation. Currently this does nothing.
  */
 static ssize_t kern_write(struct file *filp, const char __user *buf, size_t count, loff_t *pos) {
-	DEBUG("start");
+	PR_DEBUG("start");
 	return(0);
 }
 
@@ -200,37 +201,37 @@ int register_dev(void) {
 	if (IS_ERR(my_class)) {
 		goto goto_nothing;
 	}
-	DEBUG("created the class");
+	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
 	if (pdev == NULL) {
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
-	DEBUG("set up the structure");
+	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot alloc_chrdev_region");
+			PR_DEBUG("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
 		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			DEBUG("cannot register_chrdev_region");
+			PR_DEBUG("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
-	DEBUG("allocated the device");
+	PR_DEBUG("allocated the device");
 	// create the add the sync device
 	cdev_init(&pdev->cdev, &my_fops);
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
 	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		DEBUG("cannot cdev_add");
+		PR_DEBUG("cannot cdev_add");
 		goto goto_deregister;
 	}
-	DEBUG("added the device");
+	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
 	        my_class,                                                                                                                   /* our class */
@@ -241,10 +242,10 @@ int register_dev(void) {
 	        0
 	        );
 	if (my_device == NULL) {
-		DEBUG("cannot create device");
+		PR_DEBUG("cannot create device");
 		goto goto_create_device;
 	}
-	DEBUG("did device_create");
+	PR_DEBUG("did device_create");
 	return(0);
 
 //goto_all:
@@ -381,7 +382,7 @@ void *capi_list_pop(void *lptr) {
 	void             *ret;
 
 	if (list_empty(lp)) {
-		DEBUG("ERROR - pop should not be called on an empty list");
+		PR_DEBUG("ERROR - pop should not be called on an empty list");
 		return(NULL);
 	} else {
 		entry = list_entry(prev, struct _list_struct, list);
@@ -415,7 +416,7 @@ void capi_list_print(void *lptr) {
 
 	while (!capi_list_iter_isover(lp, iter)) {
 		item = capi_list_iter_getval(lp, iter);
-		DEBUG("item is %d", (int)item);
+		PR_DEBUG("item is %d", (int)item);
 		iter = capi_list_iter_next(lp, iter);
 	}
 }

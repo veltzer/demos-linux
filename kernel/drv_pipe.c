@@ -1,7 +1,4 @@
-/*
- * pipe.c
- * An exercise in making a pipe.
- */
+#define DEBUG
 #include<linux/module.h>		/* Module API */
 #include<linux/moduleparam.h>		/* Module parameters API */
 #include<linux/kernel.h>		/* printk() */
@@ -15,6 +12,11 @@
 #include<asm/uaccess.h>			/* User space access */
 
 #include "kernel_helper.h"
+
+/*
+ * pipe.c
+ * An exercise in making a pipe.
+ */
 
 MODULE_AUTHOR("Mark Veltzer<mark.veltzer@gmail.com>");
 MODULE_LICENSE("GPL");

@@ -1,3 +1,4 @@
+#define DEBUG
 #include <linux/module.h> // for MODULE_* stuff
 #include <linux/cdev.h> // for a character device
 #include <linux/device.h> // to register our device

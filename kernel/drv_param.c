@@ -1,3 +1,4 @@
+#define DEBUG
 #include<linux/module.h> // for MODULE_* stuff
 #include<linux/moduleparam.h> // for module_param
 #include<linux/stat.h> // for the various security constants
