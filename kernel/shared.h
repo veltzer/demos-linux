@@ -20,6 +20,12 @@ typedef struct _BufferStruct {
 #define IOCTL_DEMO_PCI_ALLOC_CONSISTENT _IO(DEMO_MAGIC, 8)
 #define IOCTL_DEMO_DMA_ALLOC_COHERENT   _IO(DEMO_MAGIC, 9)
 
+// timing ioctls
+#define IOCTL_TIMING_CLOCK		_IO(DEMO_MAGIC, 10)
+#define IOCTL_TIMING_TSC		_IO(DEMO_MAGIC, 11)
+#define IOCTL_TIMING_JIFFIES		_IO(DEMO_MAGIC, 12)
+#define IOCTL_TIMING_EMPTY		_IO(DEMO_MAGIC, 13)
+
 typedef struct _buffer
 {
 	unsigned long long u1;
