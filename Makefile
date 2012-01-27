@@ -246,8 +246,8 @@ find_exercises:
 .PHOMY: kern_clean
 kern_clean:
 	$(info doing [$@])
-	$(Q)-rm -f $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??*
 	$(Q)-rm -rf $(KERNEL_DIR)/.tmp_versions
+	$(Q)-rm -f $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??*
 .PHONY: kern_build
 kern_build: $(MOD_MOD)
 .PHONY: kern_help
