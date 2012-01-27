@@ -10,7 +10,7 @@ obj-m:=$(NAME).o
 # This is not strictly required for a single object module where the name of the module
 # is the name of the single file in it. In my case this is not the case since the module
 # is hello.ko while the single file is main.c.
-$(NAME)-objs:=main.o
+#$(NAME)-objs:=$(NAME).o
 # fill in the version of the kernel for which you want the module compiled to
 # the ?= means that it will only be set if you have not provided this via the command line.
 # You can override using "make KVER=2.6.35".

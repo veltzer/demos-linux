@@ -7,7 +7,7 @@
 #include <sys/ioctl.h>
 
 #include "us_helper.hh"
-#include "ioctls.h"
+#include "shared.h"
 
 /*
  *      This test explores how kmalloc behaves when given various

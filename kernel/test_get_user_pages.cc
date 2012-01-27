@@ -9,7 +9,6 @@
 
 #include "us_helper.hh"
 #include "shared.h"
-#include "ioctls.h"
 
 /*
  *      This test checks memory mapping where the memory is dictated from
