@@ -8,7 +8,7 @@
 
 #include "us_helper.hh"
 
-#include "div_buffer.h"
+#include "shared.h"
 
 /*
  *      A basic test which opens the device, runs one ioctl with 0 or user given
