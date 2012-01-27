@@ -12,7 +12,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Driver that adds 64 bit integer arithmetic operations to the kernel");
 
-#include "div_buffer.h"
+#include "shared.h"
 
 /*
  * Why do you need this module?
