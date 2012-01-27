@@ -17,6 +17,11 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Minimal driver that supports ioctl");
 
+// static data
+static struct device* my_device;
+
+// fops
+
 /*
  * This is the ioctl implementation.
  */
