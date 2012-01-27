@@ -142,31 +142,35 @@ struct file_operations pipe_fops={
  * Module initialisation. 
  */
 static int pipe_init(void) {
-	int ret=0;
+	int ret;
 	struct proc_dir_entry* pipe_proc_file;
 
 	pipe_proc_file=create_proc_entry(proc_filename,0,NULL);
-	if(!pipe_proc_file) {
-		ret=-ENOMEM;
+	if(IS_ERR(pipe_proc_file)) {
+		PR_ERROR("create_proc_entry");
+		ret=PTR_ERR(pipe_proc_file);
 		goto error_any;
 	}
 	pipe_proc_file->read_proc=pipe_proc_reader;
 
-	if(alloc_chrdev_region(&pipe_dev,0,pipe_count_param,"pipe")) {
-		ret=-ENODEV;
+	ret=alloc_chrdev_region(&pipe_dev,0,pipe_count_param,"pipe");
+	if(ret) {
+		PR_ERROR("alloc_chrdev_region");
 		goto error_after_proc;
 	}
 
 	pipe_cdev=cdev_alloc();
-	if(!pipe_cdev) {
-		ret=-ENOMEM;
+	if(IS_ERR(pipe_cdev)) {
+		PR_ERROR("cdev_alloc");
+		ret=PTR_ERR(pipe_cdev);
 		goto error_after_alloc_chrdev;
 	}
 	pipe_cdev->ops=&pipe_fops;
 	pipe_cdev->owner=THIS_MODULE;
 
-	if(cdev_add(pipe_cdev,pipe_dev,pipe_count_param)) {
-		ret=-ENODEV;
+	ret=cdev_add(pipe_cdev,pipe_dev,pipe_count_param);
+	if(ret) {
+		PR_ERROR("cdev_add");
 		/*
 		 * We put the kfree here since other error paths will only need to do
 		 * cdev_del. The problem is that cdev_del IS NOT the exact anti function
