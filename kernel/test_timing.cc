@@ -27,7 +27,7 @@ int main(int argc, char **argv, char **envp) {
 	printf("Starting\n");
 	sc(d = open(filename, O_RDWR));
 
-	printf("showing 
+	printf("showing cpus and their frequencies\n");
 	klog_clear();
 	sc(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
 	klog_show_clear();
