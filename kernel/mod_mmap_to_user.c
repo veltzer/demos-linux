@@ -17,7 +17,7 @@
 
 #include "kernel_helper.h" // our own helper
 
-#include "ioctls.h"
+#include "shared.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
