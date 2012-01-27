@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
+#include "shared.h"
+
 #include "us_helper.hh"
 
 /*
@@ -14,16 +16,30 @@
  */
 int main(int argc, char **argv, char **envp) {
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename = "/dev/mod_timing";
+	printf("Inserting the driver...\n");
+	my_system("sudo rmmod mod_timing");
+	my_system("sudo insmod ./mod_timing.ko");
+	my_system("sudo chmod 666 %s",filename);
 	// file descriptor
 	int d;
 
 	printf("Starting\n");
-	SC(d = open(filename, O_RDWR));
-	SC(ioctl(d, 0, NULL));
+	sc(d = open(filename, O_RDWR));
+	sc(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
 	// sleep for 1 second to allow us to see the results
-	sleep(1);
-	SC(ioctl(d, 1, NULL));
-	SC(close(d));
+	//sleep(1);
+	sc(ioctl(d, IOCTL_TIMING_TSC, NULL));
+	
+	struct timeval t1, t2;
+	const unsigned int loop=1000000;
+	printf("doing %d syscalls\n",loop);
+	gettimeofday(&t1, NULL);
+	for (unsigned int i = 0;i < loop;i++) {
+		sc(ioctl(d, IOCTL_TIMING_EMPTY, NULL));
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one syscall: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+	sc(close(d));
 	return(0);
 }
