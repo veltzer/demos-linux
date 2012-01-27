@@ -26,11 +26,17 @@ int main(int argc, char **argv, char **envp) {
 
 	printf("Starting\n");
 	sc(d = open(filename, O_RDWR));
+
 	sc(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
+	klog_show();
+	klog_clear();
 	// sleep for 1 second to allow us to see the results
 	//sleep(1);
-	sc(ioctl(d, IOCTL_TIMING_TSC, NULL));
-	
+
+	sc(ioctl(d, IOCTL_TIMING_TSC, 1000));
+	klog_show();
+	klog_clear();
+
 	struct timeval t1, t2;
 	const unsigned int loop=1000000;
 	printf("doing %d syscalls\n",loop);

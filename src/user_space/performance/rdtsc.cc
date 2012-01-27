@@ -53,9 +53,9 @@ int main(int argc, char **argv, char **envp) {
 	printf("sched_getcpu() is %d\n", sched_getcpu());
 	printf("getcpu(2) is %d\n", c);
 
-	printf("starting long_task...\n");
+	printf("starting a sleep of 1 second...\n");
 	ticks_t start = getticks();
-	long_task();
+	sleep(1);
 	ticks_t end = getticks();
 	printf("finished...\n");
 	ticks_t diff = end - start;
