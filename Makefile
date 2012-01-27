@@ -84,12 +84,14 @@ ALL_H:=$(shell ../scripts/find_wrapper.sh . -name "*.h")
 ALL_HH:=$(shell ../scripts/find_wrapper.sh . -name "*.hh")
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
 C_ASX:=$(addsuffix .s,$(basename $(C_SRC)))
+CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
+C_PRE:=$(addsuffix .p,$(basename $(C_SRC)))
 CC_DIS:=$(addsuffix .dis,$(basename $(CC_SRC)))
 C_DIS:=$(addsuffix .dis,$(basename $(C_SRC)))
 CC_EXE:=$(addsuffix .exe,$(basename $(CC_SRC)))
 C_EXE:=$(addsuffix .exe,$(basename $(C_SRC)))
 ALL:=$(ALL) $(CC_EXE) $(C_EXE)
-CLEAN:=$(CLEAN) $(CC_EXE) $(CC_DIS) $(CC_ASX)
+CLEAN:=$(CLEAN) $(CC_EXE) $(CC_DIS) $(CC_ASX) $(CC_PRE)
 
 # kernel modules
 MOD_SRC:=$(shell ../scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
@@ -163,6 +165,12 @@ $(CC_ASX): %.s: %.cc $(ALL_DEPS)
 $(C_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -S -o $@ $< $$EXTRA_FLAGS
+$(CC_PRE): %.p: %.cc $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)./scripts/compile_wrapper.py $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $< $$EXTRA_FLAGS
+$(C_PRE): %.p: %.cc $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -E -o $@ $< $$EXTRA_FLAGS
 $(CC_DIS) $(C_DIS): %.dis: %.exe $(ALL_DEPS)
 	objdump --source --disassemble $< > $@
 

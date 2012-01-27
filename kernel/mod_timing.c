@@ -3,6 +3,7 @@
 #include <linux/fs.h> // for fops
 #include <linux/delay.h> // for udelay
 #include <linux/cpufreq.h> // for cpufreq_*
+#include <linux/cpu.h> // for getting the number of cpus 
 
 #include "shared.h"
 
@@ -19,21 +20,6 @@ MODULE_DESCRIPTION("Modules for testing timing");
 
 // static data
 static struct device* my_device;
-
-// now the functions
-static void long_code(unsigned long mic) {
-	/*
-	 * int i;
-	 * for(i=0;i<10000000;i++) {
-	 *	void* ptr=kmalloc(1000,GFP_KERNEL);
-	 *	kfree(ptr);
-	 * }
-	 */
-	//msleep(mic/1000);
-	//ssleep(mic/1000000);
-	udelay(mic);
-}
-
 
 /*
  * This is the ioctl implementation.
@@ -52,6 +38,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	//PR_DEBUG(str,"start");
 	switch (cmd) {
 	case IOCTL_TIMING_CLOCK:
+		/* first lets get the number of cpus */
+		cpus=get_online_cpus();
 		/* this shows how to work with the x86 counters */
 		curreg = get_cycles();
 		pr_info("get_cycles: %llu\n", curreg);
@@ -62,13 +50,17 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		// to use 'cpufreq_get'.
 		freq = cpufreq_quick_get(0);
 		pr_info("cpufreq_quick_get: %i\n", freq);
+		freq = cpufreq_get(0);
+		pr_info("cpufreq_get: %i\n", freq);
 		break;
 
 	case IOCTL_TIMING_TSC:
 		/* this is how to measure the speed of some code using counters */
 		freq = cpufreq_quick_get(0);
 		cnt1 = get_cycles();
-		long_code(arg);
+		udelay(arg);
+		//msleep(mic/1000);
+		//ssleep(mic/1000000);
 		cnt2 = get_cycles();
 		cdiff = cnt2 - cnt1;
 		crmic = (cdiff * 1000) / freq;
@@ -87,7 +79,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		 *	is that jiffies DO NOT change
 		 */
 		j1 = jiffies;
-		long_code(arg);
+		udelay(arg);
+		//msleep(mic/1000);
+		//ssleep(mic/1000000);
 		j2 = jiffies;
 		jdiff = (j2 - j1) * 1000;
 		//jmic=do_div(jdiff,HZ);
@@ -106,7 +100,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		 *	This syscall does nothing on purpose to enable timing
 		 *	from user space
 		 */
-		//udelay(24);
 		break;
 	}
 	return(0);
