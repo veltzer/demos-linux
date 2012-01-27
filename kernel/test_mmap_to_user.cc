@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 #include "us_helper.hh"
-#include "ioctls.h"
+#include "shared.h"
 
 /*
  *      This is a test for kernel driven mmap.

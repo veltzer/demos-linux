@@ -45,32 +45,32 @@
 // file descriptor
 int d, d2;
 // file to be used
-const char *filename = "/dev/demo";
+const char *filename = "/dev/mod_open_close_release";
 
 void do_open_close(void) {
 	int d;
 
-	SC(d = open(filename, O_RDWR));
-	SC(close(d));
+	sc(d = open(filename, O_RDWR));
+	sc(close(d));
 }
 
 
 void do_close(void) {
-	SC(close(d));
+	sc(close(d));
 }
 
 
 void do_open_and_forget(void) {
 	int d;
 
-	SC(d = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
 }
 
 
 void do_open_and_segfault(void) {
 	int d;
 
-	SC(d = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
 	char *p = (char *)NULL;
 	*p = 0;
 }
@@ -79,7 +79,7 @@ void do_open_and_segfault(void) {
 pid_t run_in_process(void (*f)(void)) {
 	pid_t pid;
 
-	SC(pid = fork());
+	sc(pid = fork());
 	if (pid == 0) {
 		f();
 		exit(0);
@@ -90,20 +90,24 @@ pid_t run_in_process(void (*f)(void)) {
 
 
 int main(int argc, char **argv, char **envp) {
+	printf("Inserting the driver...\n");
+	my_system("sudo rmmod mod_open_close_release");
+	my_system("sudo insmod ./mod_open_close_release.ko");
+	my_system("sudo chmod 666 %s",filename);
 	printf("Scenario 1 - a single process opening and closing...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SC(d = open(filename, O_RDWR));
-	SC(close(d));
+	sc(d = open(filename, O_RDWR));
+	sc(close(d));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 2 - a single process opening twice and closing twice...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SC(d = open(filename, O_RDWR));
-	SC(d2 = open(filename, O_RDWR));
-	SC(close(d));
-	SC(close(d2));
+	sc(d = open(filename, O_RDWR));
+	sc(d2 = open(filename, O_RDWR));
+	sc(close(d));
+	sc(close(d2));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 3 - two process opening and closing the same file...\n");
@@ -112,42 +116,42 @@ int main(int argc, char **argv, char **envp) {
 	pid_t c1 = run_in_process(do_open_close);
 	pid_t c2 = run_in_process(do_open_close);
 	int status;
-	SC(waitpid(c1, &status, 0));
-	SC(waitpid(c2, &status, 0));
+	sc(waitpid(c1, &status, 0));
+	sc(waitpid(c2, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 4 - parent opens, spawns two children who close and closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SC(d = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
 	c1 = run_in_process(do_close);
 	c2 = run_in_process(do_close);
-	SC(close(d));
-	SC(waitpid(c1, &status, 0));
-	SC(waitpid(c2, &status, 0));
+	sc(close(d));
+	sc(waitpid(c1, &status, 0));
+	sc(waitpid(c2, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 5 - open, dup and two closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	SC(d = open(filename, O_RDWR));
-	SC(d2 = dup(d));
-	SC(close(d));
-	SC(close(d2));
+	sc(d = open(filename, O_RDWR));
+	sc(d2 = dup(d));
+	sc(close(d));
+	sc(close(d2));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 6 - open and forget to close\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_forget);
-	SC(waitpid(c1, &status, 0));
+	sc(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 7 - open and segfault\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_segfault);
-	SC(waitpid(c1, &status, 0));
+	sc(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	return(0);
