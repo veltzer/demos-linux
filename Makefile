@@ -249,6 +249,8 @@ find_exercises:
 	-@find -type f -name "*_exercise.txt"
 
 # kernel section
+.PHONY: kern_build
+kern_build: $(MOD_MOD)
 .PHONY: kern_help
 kern_help:
 	$(MAKE) -C $(KDIR) help
