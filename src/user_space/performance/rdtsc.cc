@@ -48,10 +48,14 @@ void long_task(void) {
 
 int main(int argc, char **argv, char **envp) {
 	printf("starting up...\n");
-	int c;
-	sc(syscall(__NR_getcpu, &c, NULL, NULL));
+	
+	printf("lets get the cpu and numa node via getcpu(2)...\n");
+	int c,n;
+	sc(syscall(__NR_getcpu, &c, &n, NULL));
+	printf("getcpu(2) says cpu is [%d] and numa node is [%d]...\n", c, n);
+
+	printf("lets get the cpu via sched_getcpu(3)...\n");
 	printf("sched_getcpu() is %d\n", sched_getcpu());
-	printf("getcpu(2) is %d\n", c);
 
 	printf("starting a sleep of 1 second...\n");
 	ticks_t start = getticks();
