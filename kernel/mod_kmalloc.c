@@ -15,7 +15,7 @@
 #include <linux/gfp.h>
 #include <linux/pagemap.h>
 
-#include "ioctls.h"
+#include "shared.h"
 
 #define DO_PR_DEBUG
 #include "kernel_helper.h" // our own helper

@@ -25,7 +25,6 @@ MODULE_DESCRIPTION("get_user_pages demo");
  *	use the MMU to map it to a single kernel side linear address...
  */
 
-#include "ioctls.h"
 #include "shared.h"
 
 // parameters for this module
