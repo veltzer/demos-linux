@@ -92,17 +92,17 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 	PR_DEBUG("start");
 	switch (cmd) {
-	case 0:
-		fd = (int)arg;
-		fp = eventfd_fget(fd);
-		if (fp == NULL) {
-			PR_DEBUG("bad file descriptor");
-			return(-EINVAL);
-		}
-		//eventfd_signal(fp,1);
-		return(0);
+		case 0:
+			fd = (int)arg;
+			fp = eventfd_fget(fd);
+			if (fp == NULL) {
+				PR_DEBUG("bad file descriptor");
+				return(-EINVAL);
+			}
+			//eventfd_signal(fp,1);
+			return(0);
 
-		break;
+			break;
 	}
 	return(-EINVAL);
 }
@@ -117,28 +117,35 @@ static struct file_operations my_fops = {
 };
 
 int register_dev(void) {
+	int ret;
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
+		PR_ERROR("class_create");
+		ret=PTR_ERR(my_class);
 		goto goto_nothing;
 	}
 	PR_DEBUG("created the class");
 	// alloc and zero
 	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
-	if (pdev == NULL) {
+	if (IS_ERR(pdev)) {
+		PR_ERROR("kmalloc");
+		ret=PTR_ERR(pdev);
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
 	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
-		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			PR_DEBUG("cannot alloc_chrdev_region");
+		ret=alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name);
+		if(ret) {
+			PR_ERROR("cannot alloc_chrdev_region");
 			goto goto_dealloc;
 		}
 	} else {
 		pdev->first_dev = MKDEV(kern_major, kern_minor);
-		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			PR_DEBUG("cannot register_chrdev_region");
+		ret=register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name);
+		if(ret) {
+			PR_ERROR("cannot register_chrdev_region");
 			goto goto_dealloc;
 		}
 	}
@@ -148,8 +155,9 @@ int register_dev(void) {
 	pdev->cdev.owner = THIS_MODULE;
 	pdev->cdev.ops = &my_fops;
 	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
-	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		PR_DEBUG("cannot cdev_add");
+	ret=cdev_add(&pdev->cdev, pdev->first_dev, 1);
+	if(ret) {
+		PR_ERROR("cannot cdev_add");
 		goto goto_deregister;
 	}
 	PR_DEBUG("added the device");
@@ -162,8 +170,9 @@ int register_dev(void) {
 	        "%s",
 		THIS_MODULE->name
 	        );
-	if (my_device == NULL) {
+	if(IS_ERR(my_device)) {
 		PR_DEBUG("cannot create device");
+		ret=PTR_ERR(my_device);
 		goto goto_create_device;
 	}
 	PR_DEBUG("did device_create");
@@ -180,7 +189,7 @@ goto_dealloc:
 goto_destroy:
 	class_destroy(my_class);
 goto_nothing:
-	return(-1);
+	return ret;
 }
 
 void unregister_dev(void) {

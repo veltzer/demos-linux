@@ -91,7 +91,7 @@ static struct file_operations my_fops = {
 };
 
 int register_dev(void) {
-	int ret=0;
+	int ret;
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
