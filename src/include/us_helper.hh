@@ -67,7 +67,9 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	unsigned long long diff = (t2 - t1) / 1000;
 	unsigned long freq = cpufreq_get_freq_kernel(0);
 	if(freq==0) {
-		fprintf(stderr, "ERROR: freq is 0\n");
+		fprintf(stderr, "ERROR: cpufreq_get_freq_kernel returned 0\n");
+		fprintf(stderr, "ERROR: this is probably a problem with your cpu governor setup\n");
+		fprintf(stderr, "ERROR: this happens on certain ubuntu systems\n");
 		exit(1);
 	}
 	unsigned long mpart = freq / 1000;
