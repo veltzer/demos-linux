@@ -30,16 +30,16 @@ MODULE_DESCRIPTION("This is a driver that demos the alloc_bootmem function");
 
 // our own functions
 static int __init mod_init(void) {
-	void *p;
-
+	void* p;
 	PR_DEBUG("start");
 	// this will NOT work if your module is dynamic (you must be linked into the kernel)
 	//alloc_bootmem(10000000);
-	p = alloc_bootmem(PAGE_SIZE);
-	if (p == NULL) {
-		PR_INFO("unable to allocate bootmem");
-		return(-1);
+	p=alloc_bootmem(PAGE_SIZE);
+	if (IS_ERR(p)) {
+		PR_ERROR("unable to allocate bootmem");
+		return(PTR_ERR(p));
 	}
+	PR_DEBUG("ok");
 	return(0);
 }
 

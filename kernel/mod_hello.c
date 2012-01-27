@@ -14,15 +14,15 @@ MODULE_DESCRIPTION("Demo module for testing");
 
 // our own functions
 static int __init mod_init(void) {
-	pr_debug("init");
-	PR_INFO("init");
+	pr_debug("start");
+	PR_INFO("start");
 	return(0);
 }
 
 
 static void __exit mod_exit(void) {
-	PR_INFO("exit");
-	pr_debug("exit");
+	PR_INFO("start");
+	pr_debug("start");
 }
 
 // declaration of init/cleanup functions of this module
