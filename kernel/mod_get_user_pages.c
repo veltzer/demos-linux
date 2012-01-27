@@ -125,7 +125,7 @@ static inline void pages_reserve(void) {
 }
 
 
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// this is the buffer which will hold the data of the buffer from user space...
 	BufferStruct b;
 	// for results from calls
@@ -276,7 +276,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
 static int register_dev(void) {

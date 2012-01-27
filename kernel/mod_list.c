@@ -98,7 +98,7 @@ static struct device   *my_device;
  * This is the ioctl implementation.
  */
 void *lptr;
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	int res;
 	void *p;
 
@@ -192,7 +192,7 @@ static struct file_operations my_fops = {
 	.release = kern_release,
 	.read    = kern_read,
 	.write   = kern_write,
-	.unlocked_ioctl   = kern_ioctl,
+	.unlocked_ioctl   = kern_unlocked_ioctll,
 };
 
 int register_dev(void) {

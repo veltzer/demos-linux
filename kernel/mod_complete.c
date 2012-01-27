@@ -11,17 +11,27 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
-#include <linux/eventfd.h>
 
 #include "kernel_helper.h" // our own helper
 
-/*
- *      Driver that demos how ioctl can trigger eventfd
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("Show the completion API for completing requests from the kernel");
+
+/*
+ * The completion API is a fairly recent API within the kernel that is lighter than
+ * the wait_queue API in that on each completion event you can have just one process running.
+ * Meaning that the completion structure is NOT a linked list but rather just one process(thread)
+ * waiting. This is good for writing various designs where we lower the request into the kernel and
+ * are not sure who exactly is going to handle it at lower levels and therefore we would not like to
+ * commit to specific wait queue at this time (think packet handling etc...).
+ *
+ * TODO:
+ * - do dynamic allocation of chrdev and remove the stupid paramters for this module.
+ * - remove unneeded includes.
+ * - find the right h file to include for the completion API (I am including way too much).
+ * - do better ioctl names instead of numbers.
+ */
 
 // parameters for this module
 
@@ -84,27 +94,79 @@ static struct device   *my_device;
 /*
  * This is the ioctl implementation.
  */
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
-	// file desriptor to use
-	int fd;
-	// struct file to use
-	struct file *fp;
+// a completion structure
+struct completion comp;
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
+	int i;
 
 	PR_DEBUG("start");
 	switch (cmd) {
 	case 0:
-		fd = (int)arg;
-		fp = eventfd_fget(fd);
-		if (fp == NULL) {
-			PR_DEBUG("bad file descriptor");
-			return(-EINVAL);
-		}
-		//eventfd_signal(fp,1);
-		return(0);
+		init_completion(&comp);
+		break;
 
+	case 1:
+		wait_for_completion(&comp);
+		break;
+
+	case 2:
+		wait_for_completion_interruptible(&comp);
+		break;
+
+	case 3:
+		i = wait_for_completion_interruptible_timeout(&comp, msecs_to_jiffies(arg));
+		PR_DEBUG("i is %d", i);
+		break;
+
+	case 4:
+		complete(&comp);
+		break;
+
+	case 5:
+		complete_all(&comp);
+		break;
+
+	case 6:
+		INIT_COMPLETION(comp);
 		break;
 	}
-	return(-EINVAL);
+	return(0);
+}
+
+
+/*
+ * The open implementation. Currently this does nothing
+ */
+static int kern_open(struct inode *inode, struct file *filp) {
+	PR_DEBUG("start");
+	return(0);
+}
+
+
+/*
+ * The release implementation. Currently this does nothing
+ */
+static int kern_release(struct inode *inode, struct file *filp) {
+	PR_DEBUG("start");
+	return(0);
+}
+
+
+/*
+ * The read implementation. Currently this does nothing.
+ */
+static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff_t *pos) {
+	PR_DEBUG("start");
+	return(0);
+}
+
+
+/*
+ * The write implementation. Currently this does nothing.
+ */
+static ssize_t kern_write(struct file *filp, const char __user *buf, size_t count, loff_t *pos) {
+	PR_DEBUG("start");
+	return(0);
 }
 
 
@@ -112,8 +174,12 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  * The file operations structure.
  */
 static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.owner   = THIS_MODULE,
+	.open    = kern_open,
+	.release = kern_release,
+	.read    = kern_read,
+	.write   = kern_write,
+	.unlocked_ioctl   = kern_unlocked_ioctll,
 };
 
 int register_dev(void) {
@@ -129,7 +195,6 @@ int register_dev(void) {
 		goto goto_destroy;
 	}
 	memset(pdev, 0, sizeof(struct kern_dev));
-	PR_DEBUG("set up the structure");
 	if (chrdev_alloc_dynamic) {
 		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
 			PR_DEBUG("cannot alloc_chrdev_region");
@@ -159,8 +224,8 @@ int register_dev(void) {
 	        NULL,                                                                                                                       /* device we are subdevices of */
 	        pdev->first_dev,
 	        NULL,
-	        "%s",
-		THIS_MODULE->name
+		"%s",
+	        THIS_MODULE->name
 	        );
 	if (my_device == NULL) {
 		PR_DEBUG("cannot create device");
@@ -169,8 +234,8 @@ int register_dev(void) {
 	PR_DEBUG("did device_create");
 	return(0);
 
-	//goto_all:
-	//	device_destroy(my_class,pdev->first_dev);
+//goto_all:
+//	device_destroy(my_class,pdev->first_dev);
 goto_create_device:
 	cdev_del(&pdev->cdev);
 goto_deregister:

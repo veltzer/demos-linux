@@ -156,7 +156,7 @@ void *kptr = NULL;
 unsigned int size = -1;
 // for the pointer we return to user space
 unsigned long uptr = -1;
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for results from functions
 	int res;
 
@@ -353,7 +353,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
  */
 static struct file_operations my_fops = {
 	.owner=THIS_MODULE,
-	.unlocked_ioctl=kern_ioctl,
+	.unlocked_ioctl=kern_unlocked_ioctll,
 	.mmap=kern_mmap,
 };
 

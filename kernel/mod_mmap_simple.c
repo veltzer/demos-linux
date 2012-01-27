@@ -16,19 +16,17 @@
 
 #include "kernel_helper.h" // our own helper
 
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Showing how to implement mmap");
+
 /*
- *      This is a driver that maps memory allocated by the kernel into user space.
- *      The method is the regular mmap system call.
- *
- *      This driver also shows you how to implement mmap via a regular ioctl call.
- *
- *      TODO:
- *              - show how to kfree my pointer when munmap is made
- *              - separate the part of the driver that does the mmap via the ioctl call.
+ * Mmap is way by which your module may map memory into the address space of the process
+ * that is using it. This is an example of how to do it.
  */
 unsigned long addr;
-void          *vaddr;
-char          *caddr;
+void* vaddr;
+char* caddr;
 unsigned int size;
 //unsigned int size_rounded;
 unsigned int pg_num;
@@ -36,13 +34,9 @@ unsigned long phys;
 unsigned int pages;
 //struct page* pp;
 //void* start_addr;
-bool do_kmalloc = true;
-#define DO_FREE
-#define DO_RESERVE
+bool do_kmalloc = false;
+bool alloc = false;
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
 
 // parameters for this module
 
@@ -97,8 +91,8 @@ struct kern_dev {
 
 // static data
 static struct kern_dev *pdev;
-static struct class    *my_class;
-static struct device   *my_device;
+static struct class* my_class;
+static struct device* my_device;
 
 // now the functions
 
@@ -107,11 +101,11 @@ static struct device   *my_device;
  */
 unsigned long addr;
 int ioctl_size;
-void          *kaddr;
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+void* kaddr;
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	//int i;
 	char str[256];
-	void         *ptr;
+	void* ptr;
 	unsigned int order;
 
 	unsigned long private;
@@ -119,13 +113,13 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	unsigned int diff;
 	int ret;
 	struct vm_area_struct *vma;
-	struct mm_struct      *mm;
-	void                  *kernel_addr;
+	struct mm_struct* mm;
+	void* kernel_addr;
 	unsigned long flags;
 	PR_DEBUG("start");
 	switch (cmd) {
 	/*
-	 *      Exploring VMA issues
+	 *	Exploring VMA issues
 	 */
 	case 0:
 		ptr = (void *)arg;
@@ -143,7 +137,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		break;
 
 	/*
-	 *      This is asking the kernel to read the memory
+	 *	This is asking the kernel to read the memory
 	 */
 	case 1:
 		PR_DEBUG("starting to read");
@@ -153,7 +147,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		break;
 
 	/*
-	 *      This is asking the kernel to write the memory
+	 *	This is asking the kernel to write the memory
 	 */
 	case 2:
 		PR_DEBUG("starting to write");
@@ -161,8 +155,8 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		break;
 
 	/*
-	 *      This demos how to take the user space pointer and turn it
-	 *      into a kernel space pointer
+	 *	This demos how to take the user space pointer and turn it
+	 *	into a kernel space pointer
 	 */
 	case 3:
 		PR_DEBUG("starting to write using us pointer");
@@ -171,38 +165,45 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		break;
 
 	/*
-	 *      mmap a region
+	 *	mmap a region from an ioctl
 	 */
 	case 4:
 		PR_DEBUG("trying to mmap");
-		if (do_kmalloc) {
-			kaddr = kmalloc(ioctl_size, GFP_KERNEL);
-		} else {
-			order = get_order(ioctl_size);
-			kaddr = (void *)__get_free_pages(GFP_KERNEL, order);
-		}
+
+		/*
+		 * if(do_kmalloc) {
+		 *	kaddr=kmalloc(ioctl_size,GFP_KERNEL);
+		 * } else {
+		 *	order=get_order(ioctl_size);
+		 *	kaddr=(void*)__get_free_pages(GFP_KERNEL,order);
+		 * }
+		 */
 		mm = current->mm;
-		flags = MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
+		flags = MAP_POPULATE | MAP_SHARED;
 		flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
+		// must hold process memory map semaphore because next function will change memory
+		// layout for the process. This also means that this code must be in a path that can
+		// sleep.
 		down_write(&mm->mmap_sem);
 		addr = do_mmap_pgoff(
-		        filp,                                                                                                                                                                           /* file pointer */
-		        (unsigned long)kaddr,                                                                                                                                                           /* address - this is the buffer we kmalloc'ed */
-		        ioctl_size,                                                                                                                                                                     /* size */
-		        PROT_READ | PROT_WRITE,                                                                                                                                                         /* protection */
-		        flags,                                                                                                                                                                          /* flags */
-		        0                                                                                                                                                                               /* pg offset */
-		        );
+			filp,/* file pointer */
+			0,/* recommended use space address */
+			ioctl_size,/* size */
+			PROT_READ | PROT_WRITE,/* protection */
+			flags,/* flags */
+			0/* pg offset */
+		);
+		// remmember to release the semaphore!
 		up_write(&mm->mmap_sem);
-		PR_DEBUG("kaddr is (p) %p", kaddr);
-		PR_DEBUG("real size is (d) %d", ioctl_size);
+		//PR_DEBUG("kaddr is (p) %p",kaddr);
+		//PR_DEBUG("real size is (d) %d",ioctl_size);
 		PR_DEBUG("addr for user space is (lu) %lu / (p) %p", addr, (void *)addr);
 		return(addr);
 
 		break;
 
 	/*
-	 *      unmap a region
+	 *	unmap a region
 	 */
 	case 5:
 		PR_DEBUG("trying to unmap");
@@ -225,7 +226,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 		break;
 
 	/*
-	 *      The the size of the region
+	 *	The the size of the region
 	 */
 	case 6:
 		PR_DEBUG("setting the size");
@@ -274,7 +275,7 @@ static ssize_t kern_write(struct file *filp, const char __user *buf, size_t coun
 
 
 /*
- *      VMA ops
+ *	VMA ops
  */
 void kern_vma_open(struct vm_area_struct *vma) {
 	PR_DEBUG("start");
@@ -282,126 +283,58 @@ void kern_vma_open(struct vm_area_struct *vma) {
 
 
 void kern_vma_close(struct vm_area_struct *vma) {
-#ifdef DO_FREE
-	unsigned int order;
-#endif // DO_FREE
 	unsigned int size = vma->vm_end - vma->vm_start;
-	void         *addr = vma->vm_private_data;
+	unsigned int order;
+	void* addr = vma->vm_private_data;
+
 	PR_DEBUG("start");
 	PR_DEBUG("pointer as long is %lu", vma->vm_start);
 	PR_DEBUG("pointer as pointer is %p", (void *)(vma->vm_start));
 	PR_DEBUG("addr is %p", addr);
 	PR_DEBUG("size is %d", size);
-#ifdef DO_FREE
 	if (do_kmalloc) {
 		kfree(addr);
 	} else {
 		order = get_order(size);
-		free_pages((unsigned long)addr, order);
+		free_pages((unsigned int)addr, order);
 	}
-#endif // DO_FREE
 }
 
 
 static struct vm_operations_struct kern_remap_vm_ops = {
-	.open  = kern_vma_open,
+	.open=kern_vma_open,
 	.close = kern_vma_close,
 };
 
 /*
- *      This is the most basic mmap implementation. It does NOT work because
- *      you don't really state WHAT memory kernel side you are mapping to user
- *      space...
- */
-
-/*
- * static int kern_mmap_simple(struct file *filp, struct vm_area_struct *vma) {
- *      return remap_pfn_range(
- *              vma, // vma
- *              vma->vm_start, // start
- *              vma->vm_pgoff, // page number
- *              vma->vm_end-vma->vm_start, // size
- *              vma->vm_page_prot // protection
- *      );
- * }
- */
-
-/*
- * The mmap implementation.
+ *	This is the most basic mmap implementation. It does NOT work because
+ *	you don't really state WHAT memory kernel side you are mapping to user
+ *	space...
  */
 static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
-#ifdef DO_RESERVE
-	// for the reserve loop
-	int i;
-#endif // DO_RESERVE
-	// for return values
-	int ret;
-	// for __get_user_pages
-	int order = 0;
+	unsigned int size, order, pg_num;
+	unsigned long addr, phys;
+	void* kaddr;
+
 	PR_DEBUG("start");
 	size = vma->vm_end - vma->vm_start;
-	PR_DEBUG("size is %d", size);
-
-	/*
-	 *      This code uses kmalloc
-	 */
-	if (do_kmalloc) {
-		// calculate number of pages needed
-		pages = size / PAGE_SIZE;
-		//size_rounded=pages*PAGE_SIZE;
-		if (size % PAGE_SIZE > 0) {
-			pages++;
-		}
-		vaddr = kmalloc(size, GFP_KERNEL);
-#ifdef DO_RESERVE
-		// reserve the pages
-		for (i = 0; i < pages * PAGE_SIZE; i += PAGE_SIZE) {
-			SetPageReserved(virt_to_page(((unsigned long)vaddr) + i));
-		}
-#endif // DO_RESERVE
-	} else {
-		/*
-		 *      This code used __get_free_pages
-		 */
-		order = get_order(size);
-		addr = __get_free_pages(
-		        GFP_KERNEL,
-		        order
-		        );
-		vaddr = (void *)addr;
-		PR_DEBUG("addr is %lx", addr);
-		PR_DEBUG("order is %d", order);
-	}
-	PR_DEBUG("vaddr is %p", vaddr);
-	//memset(vaddr,'a',size);
+	order = get_order(size);
+	addr = __get_free_pages(GFP_KERNEL, order);
+	kaddr = (void *)addr;
 	phys = virt_to_phys(vaddr);
 	pg_num = phys >> PAGE_SHIFT;
-	PR_DEBUG("phys is %lx", phys);
-	PR_DEBUG("pg_num is %d", pg_num);
-	//PR_DEBUG("pp is %p",pp);
-	//PR_DEBUG("start_addr is %p",start_addr);
-	PR_DEBUG("vm_start is %lx", vma->vm_start);
-	PR_DEBUG("vm_end is %lx", vma->vm_end);
-	PR_DEBUG("vm_pgoff is %lx", vma->vm_pgoff);
-	ret = remap_pfn_range(
-	        vma,
-	        vma->vm_start,
-	        pg_num,
-	        size,
-	        vma->vm_page_prot
-	        );
-	if (ret) {
-		PR_DEBUG("in error path");
-		if (do_kmalloc) {
-			kfree(vaddr);
-		} else {
-			free_pages((unsigned long)addr, order);
-		}
-		return(ret);
+	if(remap_pfn_range(
+		vma,// vma
+		vma->vm_start,// start
+		pg_num,// how many pages
+		size,// size (derived from the vma)
+		vma->vm_page_prot// protection
+	)) {
+		PR_DEBUG("error path");
+		return(-EAGAIN);
 	}
-	//memset(vaddr,'b',size);
-	vma->vm_private_data = vaddr;
 	vma->vm_ops = &kern_remap_vm_ops;
+	vma->vm_private_data = kaddr;
 	kern_vma_open(vma);
 	return(0);
 }
@@ -411,14 +344,13 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
  * The file operations structure.
  */
 static struct file_operations my_fops = {
-	.owner   = THIS_MODULE,
-	.open    = kern_open,
+	.owner=THIS_MODULE,
+	.open=kern_open,
 	.release = kern_release,
-	.read    = kern_read,
-	.write   = kern_write,
-	.unlocked_ioctl   = kern_ioctl,
-	.mmap    = kern_mmap,
-//	.mmap=kern_mmap_simple,
+	.mmap=kern_mmap,
+	.unlocked_ioctl=kern_unlocked_ioctll,
+	.read=kern_read,
+	.write=kern_write,
 };
 
 int register_dev(void) {
@@ -460,13 +392,13 @@ int register_dev(void) {
 	PR_DEBUG("added the device");
 	// now register it in /dev
 	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        THIS_MODULE->name,
-	        0
-	        );
+		my_class,/* our class */
+		NULL,/* device we are subdevices of */
+		pdev->first_dev,
+		NULL,
+		THIS_MODULE->name,
+		0
+	);
 	if (my_device == NULL) {
 		PR_DEBUG("cannot create device");
 		goto goto_create_device;

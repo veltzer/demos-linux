@@ -83,7 +83,7 @@ static void long_code(unsigned long mic) {
  * This is the ioctl implementation.
  */
 // cycles_t is actually unsigned long long (look at arch/x86/include/asm/tsc.h).
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for register measurements...
 	cycles_t curreg, cnt1, cnt2;
 	unsigned long cdiff, crmil, crmic, crmic2;
@@ -166,7 +166,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
 int register_dev(void) {
