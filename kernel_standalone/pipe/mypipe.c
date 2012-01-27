@@ -45,14 +45,14 @@ MODULE_DESCRIPTION("A named pipe exercise");
 static int pipes_count=8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
-static int pipe_size=PAGE_SIZE;
+static int pipe_size=PAGE_SIZE*100;
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
 // struct for each pipe
 typedef struct _my_pipe_t {
 	char* data;
-	int size;
+	size_t size;
 	size_t read_pos;
 	size_t write_pos;
 	wait_queue_head_t read_queue;
@@ -248,12 +248,11 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 
 static ssize_t pipe_write(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
 	my_pipe_t* pipe;
-	size_t work_size,room;
-	int first_chunk,second_chunk,minor,ret;
+	size_t work_size,room,first_chunk,second_chunk,minor,ret;
 	PR_DEBUG("start");
 	if (!access_ok(VERIFY_READ, buf, count))
 		return -EFAULT;
-	minor=(int)(file->private_data);
+	minor=(size_t)(file->private_data);
 	pipe=pipes+minor;
 	pipe_lock(pipe);
 	// lets check if we have room in the pipe
