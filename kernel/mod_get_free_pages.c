@@ -13,6 +13,7 @@
 #include <linux/mm.h>
 #include <linux/slab.h>
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");

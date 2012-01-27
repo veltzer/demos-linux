@@ -1,5 +1,24 @@
-// parameters for this module
+// includes
+#include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
+#include <linux/slab.h> // for kmalloc
+#include <linux/cdev.h> // for char device
+#include <linux/fs.h> // for fops
+#include <linux/device.h> // for device support
 
+// first the structures
+struct kern_dev {
+	// pointer to the first device number allocated to us
+	dev_t first_dev;
+	// cdev structures for the char devices we expose to user space
+	struct cdev cdev;
+};
+
+// static data
+static struct kern_dev* pdev;
+static struct class* my_class;
+static struct device* my_device;
+
+// parameters for this module
 static int chrdev_alloc_dynamic = 1;
 module_param(chrdev_alloc_dynamic, bool, 0444);
 MODULE_PARM_DESC(chrdev_alloc_dynamic, "Allocate the device number dynamically?");

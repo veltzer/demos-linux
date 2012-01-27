@@ -13,6 +13,7 @@
 #include <linux/mm.h>
 #include <linux/list.h> // for list handling functions
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

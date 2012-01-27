@@ -1,6 +1,7 @@
 #define DEBUG
 #include <linux/module.h> // for MODULE_* stuff
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

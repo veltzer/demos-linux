@@ -11,6 +11,7 @@
 #include<linux/sched.h>			/* TASK_* definitions */
 #include<asm/uaccess.h>			/* User space access */
 
+//#define DO_DEBUG
 #include "kernel_helper.h"
 
 /*

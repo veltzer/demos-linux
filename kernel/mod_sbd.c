@@ -3,6 +3,7 @@
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");

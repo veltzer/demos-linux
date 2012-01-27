@@ -13,6 +13,7 @@
 #include <linux/mm.h>
 #include <linux/delay.h> // for ssleep()
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

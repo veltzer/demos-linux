@@ -2,6 +2,7 @@
 #include <linux/module.h> // for MODULE_*. module_*
 #include <linux/printk.h> // for pr_*
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

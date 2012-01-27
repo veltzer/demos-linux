@@ -6,6 +6,7 @@
 #include <linux/slab.h> // kmalloc, kfree
 #include <linux/fs.h> // for alloc_chrdev_region, register_chrdev_region, unregister_chrdev_region, struct file_operations
 
+//define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");

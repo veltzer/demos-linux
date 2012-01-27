@@ -17,7 +17,7 @@
 
 #include "shared.h"
 
-#define DO_PR_DEBUG
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*
