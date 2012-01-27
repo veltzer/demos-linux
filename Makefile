@@ -115,12 +115,6 @@ clean_manual:
 	$(Q)-rm -f $(CLEAN)
 	$(Q)-rm -rf $(CLEAN_DIRS)
 
-.PHOMY: clean_kernel
-clean_kernel:
-	$(info doing [$@])
-	$(Q)-rm -rf $(KERNEL_DIR)/.tmp_versions
-	$(Q)-rm -f $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??*
-
 # -x: remove everything not known to git (not only ignore rules).
 # -d: remove directories also.
 # -f: force.
@@ -249,6 +243,11 @@ find_exercises:
 	-@find -type f -name "*_exercise.txt"
 
 # kernel section
+.PHOMY: kern_clean
+kern_clean:
+	$(info doing [$@])
+	$(Q)-rm -f $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??*
+	$(Q)-rm -rf $(KERNEL_DIR)/.tmp_versions
 .PHONY: kern_build
 kern_build: $(MOD_MOD)
 .PHONY: kern_help
