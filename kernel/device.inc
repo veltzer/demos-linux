@@ -16,7 +16,6 @@ struct kern_dev {
 // static data
 static struct kern_dev* pdev;
 static struct class* my_class;
-static struct device* my_device;
 
 // parameters for this module
 static int chrdev_alloc_dynamic = 1;
