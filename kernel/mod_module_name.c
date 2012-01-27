@@ -45,7 +45,8 @@ static int __init mod_init(void) {
 }
 
 static void __exit mod_exit(void) {
-	PR_INFO("exit");
+	PR_INFO("start");
+	PR_INFO("end");
 }
 
 // declaration of init/cleanup functions of this module
