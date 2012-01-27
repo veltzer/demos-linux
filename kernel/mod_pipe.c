@@ -18,7 +18,7 @@
  * An exercise in making a pipe.
  */
 
-MODULE_AUTHOR("Mark Veltzer<mark.veltzer@gmail.com>");
+MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("A named pipe example");
 
