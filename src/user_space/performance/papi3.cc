@@ -4,8 +4,12 @@
 #include<stdlib.h> // for exit(3), atoi(3)
 #include<errno.h> // for perror(3)
 
+#include"us_helper.hh"
+
 /*
- * Demo for using the PAPI performance counters library.
+ * Demo for using the PAPI library for RDTSC.
+ * This example also proves that RDTSC is exactly what the PAPI library
+ * is using under the hood.
  * 
  * References:
  * http://icl.cs.utk.edu/papi/index.html
@@ -42,11 +46,18 @@ int main(int argc,char** argv,char** envp) {
 		handle_error(retval);
 
 	// lets start measuring...
-	long long s = PAPI_get_real_cyc();
+	long long c1=PAPI_get_real_cyc();
+	ticks_t t1=getticks();
 	//dummy_work(atoi(argv[1]));
 	//sleep(1);
 	//sleep(1);
-	long long e = PAPI_get_real_cyc();
-	printf("Wallclock cycles: %lld\n",e-s);
+	long long c2=PAPI_get_real_cyc();
+	ticks_t t2=getticks();
+	printf("Wallclock cycles: %lld\n",c2-c1);
+	printf("Wallclock cycles: %lld\n",t2-t1);
+	printf("c1 is %lld\n",c1);
+	printf("c2 is %lld\n",c2);
+	printf("t1 is %lld\n",t1);
+	printf("t2 is %lld\n",t2);
 	return 0;
 }
