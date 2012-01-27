@@ -45,7 +45,7 @@ static struct device   *my_device;
 /*
  * This is the ioctl implementation.
  */
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// the buffer which will be used for the transaction
 	buffer b;
 
@@ -88,7 +88,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
 static int register_dev(void) {

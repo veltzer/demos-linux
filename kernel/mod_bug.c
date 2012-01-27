@@ -16,6 +16,7 @@ MODULE_DESCRIPTION("Module showing how to use BUG()");
  *
  *	TODO:
  *	- examin the behaviour in each of these and describe it.
+ *	- add open and ioctl support.
  */
 static int __init mod_init(void) {
 	BUG();

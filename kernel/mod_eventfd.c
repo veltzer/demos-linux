@@ -11,31 +11,59 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
-#include <linux/mman.h>
-#include <linux/gfp.h>
-#include <linux/pagemap.h>
+#include <linux/eventfd.h>
 
-#include "ioctls.h"
-
-#define DO_PR_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*
- *      A driver which allocates memory. This is intended to explore kmalloc
- *      behaviour...
+ *      Driver that demos how ioctl can trigger eventfd
  */
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Demo module for testing");
 
 // parameters for this module
 
 static int chrdev_alloc_dynamic = 1;
+module_param(chrdev_alloc_dynamic, bool, 0444);
+MODULE_PARM_DESC(chrdev_alloc_dynamic, "Allocate the device number dynamically?");
+
 static int first_minor = 0;
+module_param(first_minor, int, 0444);
+MODULE_PARM_DESC(first_minor, "first minor to allocate in dynamic mode (usually best to keep at 0)");
+
 static int kern_major = 253;
+module_param(kern_major, int, 0444);
+MODULE_PARM_DESC(kern_major, "major to allocate in static mode");
+
 static int kern_minor = 0;
+module_param(kern_minor, int, 0444);
+MODULE_PARM_DESC(kern_minor, "minor to allocate in static mode");
 
 // constants for this module
 
 // number of files we expose via the chr dev
 static const int MINORS_COUNT = 1;
+
+int register_dev(void);
+void unregister_dev(void);
+
+// our own functions
+static int __init mod_init(void) {
+	return(register_dev());
+}
+
+
+static void __exit mod_exit(void) {
+	unregister_dev();
+}
+
+
+// declaration of init/cleanup functions of this module
+
+module_init(mod_init);
+module_exit(mod_exit);
 
 // first the structures
 
@@ -51,108 +79,32 @@ static struct kern_dev *pdev;
 static struct class    *my_class;
 static struct device   *my_device;
 
+// now the functions
+
 /*
  * This is the ioctl implementation.
  */
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
-	void          *ptr = NULL;
-	unsigned long addr = -1;
-	dma_addr_t dma_handle;
-	unsigned long size;
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
+	// file desriptor to use
+	int fd;
+	// struct file to use
+	struct file *fp;
 
-	//int res;
 	PR_DEBUG("start");
 	switch (cmd) {
-	/*
-	 *      kmalloc function.
-	 *
-	 *      One argument which is the size to allocate
-	 */
-	case IOCTL_DEMO_KMALLOC:
-		size = arg * PAGE_SIZE;
-		ptr = kmalloc(GFP_KERNEL, size);
-		if (ptr == NULL) {
-			PR_ERROR("unable to allocate %lu", size);
-			return(-EFAULT);
+	case 0:
+		fd = (int)arg;
+		fp = eventfd_fget(fd);
+		if (fp == NULL) {
+			PR_DEBUG("bad file descriptor");
+			return(-EINVAL);
 		}
-		addr = (unsigned int)ptr;
-		if (addr % PAGE_SIZE != 0) {
-			PR_ERROR("page size issue with addr=%lu", addr);
-			return(-EFAULT);
-		}
-		addr = -1;
-		kfree(ptr);
-		ptr = NULL;
-		return(0);
-
-		break;
-
-	/*
-	 *      __get_free_pages function.
-	 *
-	 *      One argument which is the size to allocate
-	 */
-	case IOCTL_DEMO_GET_FREE_PAGES:
-		size = arg * PAGE_SIZE;
-		addr = __get_free_pages(GFP_KERNEL, get_order(size));
-		if (addr == 0) {
-			//if(IS_ERR_VALUE(addr)) {
-			PR_ERROR("unable to allocate %lu", size);
-			return(-EFAULT);
-		}
-		if (addr % PAGE_SIZE != 0) {
-			PR_ERROR("page size issue with addr=%lu", addr);
-			return(-EFAULT);
-		}
-		free_pages(addr, get_order(size));
-		PR_DEBUG("addr is %lx, mod is %ld", addr, addr % PAGE_SIZE);
-		addr = -1;
-		return(0);
-
-		break;
-
-	/*
-	 *      PCI allocation function
-	 */
-	case IOCTL_DEMO_PCI_ALLOC_CONSISTENT:
-		size = arg * PAGE_SIZE;
-		ptr = pci_alloc_consistent(NULL, size, &dma_handle);
-		if (ptr == NULL) {
-			PR_ERROR("unable to allocate %lu", size);
-			return(-EFAULT);
-		}
-		addr = (unsigned int)ptr;
-		if (addr % PAGE_SIZE != 0) {
-			PR_ERROR("page size issue with addr=%lu", addr);
-			return(-EFAULT);
-		}
-		addr = -1;
-		pci_free_consistent(NULL, size, ptr, dma_handle);
-		ptr = NULL;
-		return(0);
-
-		break;
-
-	case IOCTL_DEMO_DMA_ALLOC_COHERENT:
-		size = arg * PAGE_SIZE;
-		ptr = dma_alloc_coherent(my_device, size, &dma_handle, GFP_KERNEL);
-		if (ptr == NULL) {
-			PR_ERROR("unable to allocate %lu", size);
-			return(-EFAULT);
-		}
-		addr = (unsigned int)ptr;
-		if (addr % PAGE_SIZE != 0) {
-			PR_ERROR("page size issue with addr=%lu", addr);
-			return(-EFAULT);
-		}
-		addr = -1;
-		dma_free_coherent(my_device, size, ptr, dma_handle);
-		ptr = NULL;
+		//eventfd_signal(fp,1);
 		return(0);
 
 		break;
 	}
-	return(-EFAULT);
+	return(-EINVAL);
 }
 
 
@@ -161,10 +113,10 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
-static int register_dev(void) {
+int register_dev(void) {
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
 	if (IS_ERR(my_class)) {
@@ -231,31 +183,10 @@ goto_nothing:
 	return(-1);
 }
 
-
-static void unregister_dev(void) {
+void unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
 	unregister_chrdev_region(pdev->first_dev, MINORS_COUNT);
 	kfree(pdev);
 	class_destroy(my_class);
 }
-
-
-static int __init mod_init(void) {
-	return(register_dev());
-}
-
-
-static void __exit mod_exit(void) {
-	unregister_dev();
-}
-
-
-// declaration of init/cleanup functions of this module
-
-module_init(mod_init);
-module_exit(mod_exit);
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");

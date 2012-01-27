@@ -1,16 +1,10 @@
 #define DEBUG
 #include <linux/module.h> // for MODULE_*, module_*
 #include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/device.h>
-#include <linux/types.h>
-#include <linux/proc_fs.h>
-#include <linux/mm.h>
+#include <linux/slab.h> // for kmalloc
+#include <linux/cdev.h> // for char device
+#include <linux/fs.h> // for fops
+#include <linux/device.h> // for device support
 
 #include "kernel_helper.h" // our own helper
 
@@ -83,7 +77,7 @@ static struct device* my_device;
 /*
  * This is the ioctl implementation.
  */
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	PR_DEBUG("start");
 	return(0);
 }
@@ -93,7 +87,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
 int register_dev(void) {

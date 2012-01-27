@@ -58,7 +58,7 @@ static struct device* my_device;
  */
 DEFINE_SPINLOCK(mr_lock); // unlocked by default...
 spinlock_t *lock_t;
-static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	unsigned long flags;
 
 	PR_DEBUG("start");
@@ -91,7 +91,7 @@ static long kern_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
  */
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_ioctl,
+	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
 int register_dev(void) {
