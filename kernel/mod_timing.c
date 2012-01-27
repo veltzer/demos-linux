@@ -16,6 +16,7 @@
 #include <asm/div64.h>
 #include <linux/delay.h> // for udelay
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

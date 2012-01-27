@@ -10,6 +10,7 @@
 #include <linux/sched.h>
 #include <asm/uaccess.h>
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

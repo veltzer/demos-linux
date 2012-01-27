@@ -3,6 +3,7 @@
 #include<linux/moduleparam.h> // for module_param
 #include<linux/stat.h> // for the various security constants
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");

@@ -14,6 +14,7 @@
 
 #include <asm/e820.h>
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

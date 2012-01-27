@@ -15,6 +15,7 @@
 #include <linux/pagemap.h>
 #include <linux/version.h>
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 #include "shared.h"

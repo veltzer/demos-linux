@@ -11,7 +11,7 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 
-#define DO_PR_DEBUG
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 /*

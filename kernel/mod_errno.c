@@ -5,6 +5,7 @@
 #include <linux/device.h> // for class_create, class_destroy
 #include <linux/slab.h> // for kmalloc, kfree 
 
+//#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
