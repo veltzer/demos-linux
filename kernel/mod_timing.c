@@ -39,7 +39,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	switch (cmd) {
 	case IOCTL_TIMING_CLOCK:
 		/* first lets get the number of cpus */
-		cpus=get_online_cpus();
+		//cpus=get_online_cpus();
 		/* this shows how to work with the x86 counters */
 		curreg = get_cycles();
 		pr_info("get_cycles: %llu\n", curreg);

@@ -13,7 +13,7 @@
  */
 int main(int argc, char **argv, char **envp) {
 	int ncpus;
-	sc((ncpus=sysconf(_SC_NPROCESSORS_ONLN)));
+	sc(ncpus=sysconf(_SC_NPROCESSORS_ONLN));
 	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",ncpus);
 	return(0);
 }
