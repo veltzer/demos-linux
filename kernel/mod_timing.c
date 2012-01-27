@@ -29,9 +29,8 @@ static void long_code(unsigned long mic) {
 	 *	kfree(ptr);
 	 * }
 	 */
-	// sleep for 1 second
-	//msleep(mil);
-	//ssleep(1);
+	//msleep(mic/1000);
+	//ssleep(mic/1000000);
 	udelay(mic);
 }
 
@@ -43,7 +42,7 @@ static void long_code(unsigned long mic) {
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for register measurements...
 	cycles_t curreg, cnt1, cnt2;
-	unsigned long cdiff, crmil, crmic, crmic2;
+	unsigned long cdiff, crmic;
 	// for jiffies measurements...
 	unsigned long j1, j2, jdiff, jmil, jmic;
 	unsigned int freq;
@@ -55,14 +54,14 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_TIMING_CLOCK:
 		/* this shows how to work with the x86 counters */
 		curreg = get_cycles();
-		PR_INFO("get_cycles: %llu\n", curreg);
+		pr_info("get_cycles: %llu\n", curreg);
 		// getting the cpufreq for cpu0
 		// I used the quick version under the assumption that the
 		// frequency doesn't change. If this assumption is not
 		// correct and the cpu scales for some reason you need
 		// to use 'cpufreq_get'.
 		freq = cpufreq_quick_get(0);
-		PR_INFO("cpufreq_quick_get: %i\n", freq);
+		pr_info("cpufreq_quick_get: %i\n", freq);
 		break;
 
 	case IOCTL_TIMING_TSC:
@@ -72,15 +71,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		long_code(arg);
 		cnt2 = get_cycles();
 		cdiff = cnt2 - cnt1;
-		crmil = cdiff / freq;
-		crmic = crmil * 1000;
-		crmic2 = (cdiff * 1000) / freq;
-		PR_INFO("cnt1: %llu\n", cnt1);
-		PR_INFO("cnt2: %llu\n", cnt2);
-		PR_INFO("cdiff: %lu\n", cdiff);
-		PR_INFO("crmil: %lu\n", crmil);
-		PR_INFO("crmic: %lu\n", crmic);
-		PR_INFO("crmic2: %lu\n", crmic2);
+		crmic = (cdiff * 1000) / freq;
+		pr_info("freq: %i\n", freq);
+		pr_info("cnt1: %llu\n", cnt1);
+		pr_info("cnt2: %llu\n", cnt2);
+		pr_info("cdiff: %lu\n", cdiff);
+		pr_info("micros: %lu\n", crmic);
 		break;
 
 	case IOCTL_TIMING_JIFFIES:
@@ -97,12 +93,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		//jmic=do_div(jdiff,HZ);
 		jmil = jdiff / HZ;
 		jmic = jmil * 1000;
-		PR_INFO("j1 is %lu", j1);
-		PR_INFO("j2 is %lu", j2);
-		PR_INFO("jdiff is %lu", jdiff);
-		PR_INFO("HZ is %d", HZ);
-		PR_INFO("jmil is %lu", jmil);
-		PR_INFO("jmic is %lu", jmic);
+		pr_info("j1 is %lu", j1);
+		pr_info("j2 is %lu", j2);
+		pr_info("jdiff is %lu", jdiff);
+		pr_info("HZ is %d", HZ);
+		pr_info("jmil is %lu", jmil);
+		pr_info("jmic is %lu", jmic);
 		break;
 
 	case IOCTL_TIMING_EMPTY:
