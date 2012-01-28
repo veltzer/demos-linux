@@ -5,6 +5,7 @@
 #include <iostream>
 
 const int max=100;
+
 class MyThread {
 	private:
 		pthread_mutex_t** mutexes;
