@@ -4,16 +4,14 @@
 #include <linux/device.h> // for struct device
 #include <linux/eventfd.h> // for the eventfd API
 
+#include "shared.h" // for ioctl numbers
+
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
-/*
- *      Driver that demos how ioctl can trigger eventfd
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("module that demos the use of an eventfd");
 
 // static data
 static struct device* my_device;
@@ -31,7 +29,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 	PR_DEBUG("start");
 	switch (cmd) {
-		case 0:
+		case IOCTL_EVENTFD_SIGNAL:
 			fd = (int)arg;
 			fp = eventfd_fget(fd);
 			if (fp == NULL) {
