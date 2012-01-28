@@ -7,21 +7,25 @@
 
 #include "us_helper.hh"
 
+#include "shared.h" // for the ioctl codes
+
 /*
  *      This is a demo of how to put a thread to sleep and wake it up
- *      from another thread...
+ *      from another thread... This is done via the complete function
  *
  * EXTRA_LIBS=-lpthread -lcpufreq
  */
 
-// file descriptor
-int d;
+// file descriptor to be used all over
+int fd;
+// timeout for threads going to sleep
+const int timeout=10000;
 
 void *wait_function(void *p) {
 	fprintf(stderr,"wait thread started\n");
 	ticks_t t1 = getticks();
 	// wait thread going to sleep
-	SC(ioctl(d, 3, 1000));
+	SC(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
 	ticks_t t2 = getticks();
 	fprintf(stderr,"took %d micros\n",get_mic_diff(t1, t2));
 	return(NULL);
@@ -30,20 +34,25 @@ void *wait_function(void *p) {
 
 int main(int argc, char **argv, char **envp) {
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename = "/dev/mod_complete";
+	printf("Inserting the driver...\n");
+	my_system("sudo rmmod mod_complete");
+	my_system("sudo insmod ./mod_complete.ko");
+	my_system("sudo chmod 666 %s",filename);
 
-	SC(d = open(filename, O_RDWR));
-	if (argc == 1) {
-		SC(ioctl(d, 0, NULL));
-	}
+	// we are the in the parent of the threads - connect to the device
+	sc(fd = open(filename, O_RDWR));
+	// initialize the completion
+	sc(ioctl(fd, IOCTL_COMPLETE_INIT, NULL));
+
 	pthread_t thread_wait1, thread_wait2;
-	SCIG(pthread_create(&thread_wait1, NULL, wait_function, NULL), "pthread_created");
-	SCIG(pthread_create(&thread_wait2, NULL, wait_function, NULL), "pthread_created");
+	sc0(pthread_create(&thread_wait1, NULL, wait_function, NULL));
+	sc0(pthread_create(&thread_wait2, NULL, wait_function, NULL));
 	waitkey("press any key to wake the thread up");
 	// waking the thread
-	SC(ioctl(d, 5, NULL));
-	SCIG(pthread_join(thread_wait1, NULL), "join");
-	SCIG(pthread_join(thread_wait2, NULL), "join");
-	SC(close(d));
+	sc(ioctl(fd, IOCTL_COMPLETE_COMPLETE_ALL, NULL));
+	sc0(pthread_join(thread_wait1, NULL));
+	sc0(pthread_join(thread_wait2, NULL));
+	sc(close(fd));
 	return(0);
 }
