@@ -1,6 +1,7 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
+/*
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -12,6 +13,7 @@
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
 #include <linux/slab.h>
+*/
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
@@ -19,12 +21,6 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("This driver shows how to use get_free_pages");
-
-// parameters for this module
-
-// constants for this module
-
-// our own functions
 
 // This demo is to show how to get a big size buffer with __get_free_pages
 // and release them...

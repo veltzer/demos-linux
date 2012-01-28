@@ -1,6 +1,8 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
+#include <linux/printk.h> // for the printk API
+/*
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -11,21 +13,14 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
+*/
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
-/*
- *	This module demos how to insmod one module from another...
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
-
-// parameters for this module
-
-// constants for this module
+MODULE_DESCRIPTION("module demos how to insmod one module from another");
 
 // our own functions
 static int __init mod_init(void) {
@@ -37,7 +32,6 @@ static int __init mod_init(void) {
 	}
 	return(0);
 }
-
 
 static void __exit mod_exit(void) {
 	PR_DEBUG("start");

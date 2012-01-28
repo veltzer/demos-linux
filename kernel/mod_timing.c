@@ -1,6 +1,8 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_*
 #include <linux/fs.h> // for fops
+#include <linux/device.h> // for struct device
+
 #include <linux/delay.h> // for udelay
 #include <linux/cpufreq.h> // for cpufreq_*
 #include <linux/cpu.h> // for getting the number of cpus 

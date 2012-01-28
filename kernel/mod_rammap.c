@@ -1,6 +1,7 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
+/*
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -11,23 +12,20 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
-
 #include <asm/e820.h>
+*/
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
-/*
- *	This is a driver which prints out the ram map
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("module which prints out the ram map");
 
-// parameters for this module
-
-// constants for this module
+// static data
+static unsigned int physaddr = 0x32000000;
+static unsigned int size = 170 * 1024 * 1024;
+static void* logical;
 
 // our own functions
 static void capi_print_addressinfo(void *logical_adr) {
@@ -56,7 +54,6 @@ static void capi_print_addressinfo(void *logical_adr) {
 	PR_INFO("PG_reserved is %lu", page->flags & (1 << PG_reserved));
 }
 
-
 static void capi_debug_address(unsigned int phys) {
 	void* logical = __va(phys);
 	void* logical2 = phys_to_virt(phys);
@@ -68,11 +65,6 @@ static void capi_debug_address(unsigned int phys) {
 	PR_INFO("logical2 is %p", logical2);
 	capi_print_addressinfo(logical);
 }
-
-
-static unsigned int physaddr = 0x32000000;
-static unsigned int size = 170 * 1024 * 1024;
-static void* logical;
 
 static int __init mod_init(void) {
 	PR_DEBUG("start");
@@ -104,13 +96,11 @@ static int __init mod_init(void) {
 	return(0);
 }
 
-
 static void __exit mod_exit(void) {
 	PR_DEBUG("start");
 	iounmap(logical);
 	release_mem_region(physaddr, size);
 }
-
 
 // declaration of init/cleanup functions of this module
 

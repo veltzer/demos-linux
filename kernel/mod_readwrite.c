@@ -1,7 +1,8 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
+/*
 #include <linux/kernel.h>
 #include <linux/init.h>
-#include <linux/module.h>
 #include <linux/syscalls.h>
 #include <linux/fcntl.h>
 #include <linux/fs.h>
@@ -9,17 +10,14 @@
 #include <linux/slab.h>
 #include <linux/sched.h>
 #include <asm/uaccess.h>
+*/
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
-/*
- * This is a module that demos how to read and write files inside the kernel
- */
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("module that demos how to read and write files inside the kernel");
 
 static int __init read_file(char *filename) {
 	struct file *filp;
@@ -48,7 +46,6 @@ static int __init read_file(char *filename) {
 	set_fs(old_fs);
 	return(0);
 }
-
 
 static int __init write_file(char *filename, char *data) {
 	struct file* filp;
@@ -90,10 +87,8 @@ static int __init mod_init(void) {
 	return(0);
 }
 
-
 static void __exit mod_exit(void) {
 }
-
 
 module_init(mod_init);
 module_exit(mod_exit);
