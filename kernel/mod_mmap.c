@@ -1,21 +1,24 @@
-#define DEBUG
+//#define DEBUG
+#include <linux/module.h> // for MODULE_*
+#include <linux/fs.h> // for fops
+#include <linux/device.h> // for struct device
+
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
 #include <linux/interrupt.h>
 #include <linux/cdev.h>
 #include <linux/uaccess.h>
-#include <linux/device.h>
 #include <linux/types.h>
-#include <linux/proc_fs.h>
 #include <linux/mm.h>
 #include <linux/mman.h>
 #include <linux/pagemap.h>
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
+
+#include "shared.h"
 
 /*
  *      This is a driver that maps memory allocated by the kernel into user space.
@@ -27,88 +30,31 @@
  *              - show how to kfree my pointer when munmap is made
  *              - separate the part of the driver that does the mmap via the ioctl call.
  */
-unsigned long addr;
-void          *vaddr;
-char          *caddr;
-unsigned int size;
-//unsigned int size_rounded;
-unsigned int pg_num;
-unsigned long phys;
-unsigned int pages;
-//struct page* pp;
-//void* start_addr;
-bool do_kmalloc = true;
-#define DO_FREE
-#define DO_RESERVE
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Demo module for testing");
 
-// parameters for this module
-
-static int chrdev_alloc_dynamic = 1;
-module_param(chrdev_alloc_dynamic, bool, 0444);
-MODULE_PARM_DESC(chrdev_alloc_dynamic, "Allocate the device number dynamically?");
-
-static int first_minor = 0;
-module_param(first_minor, int, 0444);
-MODULE_PARM_DESC(first_minor, "first minor to allocate in dynamic mode (usually best to keep at 0)");
-
-static int kern_major = 253;
-module_param(kern_major, int, 0444);
-MODULE_PARM_DESC(kern_major, "major to allocate in static mode");
-
-static int kern_minor = 0;
-module_param(kern_minor, int, 0444);
-MODULE_PARM_DESC(kern_minor, "minor to allocate in static mode");
-
-// constants for this module
-
-// number of files we expose via the chr dev
-static const int MINORS_COUNT = 1;
-
-int register_dev(void);
-void unregister_dev(void);
-
-// our own functions
-static int __init mod_init(void) {
-	return(register_dev());
-}
-
-
-static void __exit mod_exit(void) {
-	unregister_dev();
-}
-
-
-// declaration of init/cleanup functions of this module
-
-module_init(mod_init);
-module_exit(mod_exit);
-
-// first the structures
-
-struct kern_dev {
-	// pointer to the first device number allocated to us
-	dev_t first_dev;
-	// cdev structures for the char devices we expose to user space
-	struct cdev cdev;
-};
+#define DO_FREE
+#define DO_RESERVE
 
 // static data
-static struct kern_dev *pdev;
-static struct class    *my_class;
-static struct device   *my_device;
+static void          *vaddr;
+static unsigned int size;
+static unsigned int pg_num;
+static unsigned long phys;
+static unsigned int pages;
+static bool do_kmalloc = true;
+static struct device* my_device;
+static unsigned long addr;
+static int ioctl_size;
+static void* kaddr;
 
-// now the functions
+// fops
 
 /*
  * This is the ioctl implementation.
  */
-unsigned long addr;
-int ioctl_size;
-void          *kaddr;
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	//int i;
 	char str[256];
@@ -233,43 +179,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	return(-EINVAL);
 }
 
-
-/*
- * The open implementation. Currently this does nothing
- */
-static int kern_open(struct inode *inode, struct file *filp) {
-	PR_DEBUG("start");
-	return(0);
-}
-
-
-/*
- * The release implementation. Currently this does nothing
- */
-static int kern_release(struct inode *inode, struct file *filp) {
-	PR_DEBUG("start");
-	return(0);
-}
-
-
-/*
- * The read implementation. Currently this does nothing.
- */
-static ssize_t kern_read(struct file *filp, char __user *buf, size_t count, loff_t *pos) {
-	PR_DEBUG("start");
-	return(0);
-}
-
-
-/*
- * The write implementation. Currently this does nothing.
- */
-static ssize_t kern_write(struct file *filp, const char __user *buf, size_t count, loff_t *pos) {
-	PR_DEBUG("start");
-	return(0);
-}
-
-
 /*
  *      VMA ops
  */
@@ -298,7 +207,6 @@ void kern_vma_close(struct vm_area_struct *vma) {
 	}
 #endif // DO_FREE
 }
-
 
 static struct vm_operations_struct kern_remap_vm_ops = {
 	.open  = kern_vma_open,
@@ -345,7 +253,6 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	if (do_kmalloc) {
 		// calculate number of pages needed
 		pages = size / PAGE_SIZE;
-		//size_rounded=pages*PAGE_SIZE;
 		if (size % PAGE_SIZE > 0) {
 			pages++;
 		}
@@ -409,86 +316,9 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
  */
 static struct file_operations my_fops = {
 	.owner   = THIS_MODULE,
-	.open    = kern_open,
-	.release = kern_release,
-	.read    = kern_read,
-	.write   = kern_write,
 	.unlocked_ioctl   = kern_unlocked_ioctll,
 	.mmap    = kern_mmap,
 //	.mmap=kern_mmap_simple,
 };
 
-int register_dev(void) {
-	// create a class
-	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
-	if (IS_ERR(my_class)) {
-		goto goto_nothing;
-	}
-	PR_DEBUG("created the class");
-	// alloc and zero
-	pdev = kmalloc(sizeof(struct kern_dev), GFP_KERNEL);
-	if (pdev == NULL) {
-		goto goto_destroy;
-	}
-	memset(pdev, 0, sizeof(struct kern_dev));
-	PR_DEBUG("set up the structure");
-	if (chrdev_alloc_dynamic) {
-		if (alloc_chrdev_region(&pdev->first_dev, first_minor, MINORS_COUNT, THIS_MODULE->name)) {
-			PR_DEBUG("cannot alloc_chrdev_region");
-			goto goto_dealloc;
-		}
-	} else {
-		pdev->first_dev = MKDEV(kern_major, kern_minor);
-		if (register_chrdev_region(pdev->first_dev, MINORS_COUNT, THIS_MODULE->name)) {
-			PR_DEBUG("cannot register_chrdev_region");
-			goto goto_dealloc;
-		}
-	}
-	PR_DEBUG("allocated the device");
-	// create the add the sync device
-	cdev_init(&pdev->cdev, &my_fops);
-	pdev->cdev.owner = THIS_MODULE;
-	pdev->cdev.ops = &my_fops;
-	kobject_set_name(&pdev->cdev.kobj, THIS_MODULE->name);
-	if (cdev_add(&pdev->cdev, pdev->first_dev, 1)) {
-		PR_DEBUG("cannot cdev_add");
-		goto goto_deregister;
-	}
-	PR_DEBUG("added the device");
-	// now register it in /dev
-	my_device = device_create(
-	        my_class,                                                                                                                   /* our class */
-	        NULL,                                                                                                                       /* device we are subdevices of */
-	        pdev->first_dev,
-	        NULL,
-	        THIS_MODULE->name,
-	        0
-	        );
-	if (my_device == NULL) {
-		PR_DEBUG("cannot create device");
-		goto goto_create_device;
-	}
-	PR_DEBUG("did device_create");
-	return(0);
-
-	//goto_all:
-	//	device_destroy(my_class,pdev->first_dev);
-goto_create_device:
-	cdev_del(&pdev->cdev);
-goto_deregister:
-	unregister_chrdev_region(pdev->first_dev, MINORS_COUNT);
-goto_dealloc:
-	kfree(pdev);
-goto_destroy:
-	class_destroy(my_class);
-goto_nothing:
-	return(-1);
-}
-
-void unregister_dev(void) {
-	device_destroy(my_class, pdev->first_dev);
-	cdev_del(&pdev->cdev);
-	unregister_chrdev_region(pdev->first_dev, MINORS_COUNT);
-	kfree(pdev);
-	class_destroy(my_class);
-}
+#include "device.inc"
