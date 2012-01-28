@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #include<linux/module.h>		/* Module API */
 #include<linux/moduleparam.h>		/* Module parameters API */
 #include<linux/kernel.h>		/* printk() */

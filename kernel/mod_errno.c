@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #include <linux/module.h> // for module_*, MODULE_*
 #include <linux/cdev.h> // for cdev_init, cdev_add, cdev_dell
 #include <linux/fs.h> // for fops definitions

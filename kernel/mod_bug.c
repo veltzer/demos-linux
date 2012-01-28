@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #include <linux/module.h> // for the MODULE_*, module_*
 
 //define DO_DEBUG
