@@ -52,7 +52,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		pr_info("cpufreq_quick_get: %i\n", freq);
 		freq = cpufreq_get(0);
 		pr_info("cpufreq_get: %i\n", freq);
-		break;
+		return 0;
 
 	case IOCTL_TIMING_TSC:
 		/* this is how to measure the speed of some code using counters */
@@ -69,8 +69,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		pr_info("cnt2: %llu\n", cnt2);
 		pr_info("cdiff: %lu\n", cdiff);
 		pr_info("micros: %lu\n", crmic);
-		break;
-
+		return 0;
 	case IOCTL_TIMING_JIFFIES:
 
 		/*
@@ -93,16 +92,16 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		pr_info("HZ is %d", HZ);
 		pr_info("jmil is %lu", jmil);
 		pr_info("jmic is %lu", jmic);
-		break;
+		return 0;
 
 	case IOCTL_TIMING_EMPTY:
 		/*
 		 *	This syscall does nothing on purpose to enable timing
 		 *	from user space
 		 */
-		break;
+		return 0;
 	}
-	return(0);
+	return(-EINVAL);
 }
 
 
