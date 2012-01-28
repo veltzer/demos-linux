@@ -45,6 +45,20 @@
 // eventfd
 #define IOCTL_EVENTFD_SIGNAL				_IO(DEMO_MAGIC,28)
 
+// spinlock
+#define IOCTL_SPINLOCK_IRQSAVE				_IO(DEMO_MAGIC,29)
+#define IOCTL_SPINLOCK_REGULAR				_IO(DEMO_MAGIC,30)
+#define IOCTL_SPINLOCK_ALLOCATED			_IO(DEMO_MAGIC,31)
+
+// mmap
+#define IOCTL_MMAP_PRINT				_IO(DEMO_MAGIC,32)
+#define IOCTL_MMAP_READ					_IO(DEMO_MAGIC,33)
+#define IOCTL_MMAP_WRITE				_IO(DEMO_MAGIC,34)
+#define IOCTL_MMAP_WRITE_USER				_IO(DEMO_MAGIC,35)
+#define IOCTL_MMAP_MMAP					_IO(DEMO_MAGIC,36)
+#define IOCTL_MMAP_UNMAP				_IO(DEMO_MAGIC,37)
+#define IOCTL_MMAP_SETSIZE				_IO(DEMO_MAGIC,38)
+
 typedef struct _buffer
 {
 	unsigned long long u1;

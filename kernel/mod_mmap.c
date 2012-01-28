@@ -7,10 +7,10 @@
 #include <linux/mman.h> // for remap_pfn_range
 #include <linux/pagemap.h> // for vma structures
 
+#include "shared.h" // for the ioctl numbers
+
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
-
-#include "shared.h"
 
 /*
  *      This is a driver that maps memory allocated by the kernel into user space.
@@ -25,13 +25,13 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
+MODULE_DESCRIPTION("module that maps memory allocated by the kernel to user space");
 
 #define DO_FREE
 #define DO_RESERVE
 
 // static data
-static void          *vaddr;
+static void* vaddr;
 static unsigned int size;
 static unsigned int pg_num;
 static unsigned long phys;
@@ -48,125 +48,123 @@ static void* kaddr;
  * This is the ioctl implementation.
  */
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
-	//int i;
 	char str[256];
-	void         *ptr;
+	void* ptr;
 	unsigned int order;
-
 	unsigned long private;
 	unsigned long adjusted;
 	unsigned int diff;
 	int ret;
-	struct vm_area_struct *vma;
-	struct mm_struct      *mm;
-	void                  *kernel_addr;
+	struct vm_area_struct* vma;
+	struct mm_struct* mm;
+	void* kernel_addr;
 	unsigned long flags;
 	PR_DEBUG("start");
 	switch (cmd) {
-	/*
-	 *      Exploring VMA issues
-	 */
-	case 0:
-		ptr = (void *)arg;
-		PR_DEBUG("ptr is %p", ptr);
-		vma = find_vma(current->mm, arg);
-		PR_DEBUG("vma is %p", vma);
-		diff = arg - vma->vm_start;
-		PR_DEBUG("diff is %d", diff);
-		private = (unsigned long)vma->vm_private_data;
-		PR_DEBUG("private (ul) is %lu", private);
-		PR_DEBUG("private (p) is %p", (void *)private);
-		adjusted = private + diff;
-		PR_DEBUG("adjusted (ul) is %lu", adjusted);
-		PR_DEBUG("adjusted (p) is %p", (void *)adjusted);
-		return 0;
+		/*
+		 *      Exploring VMA issues
+		 */
+		case IOCTL_MMAP_PRINT:
+			ptr = (void *)arg;
+			PR_DEBUG("ptr is %p", ptr);
+			vma = find_vma(current->mm, arg);
+			PR_DEBUG("vma is %p", vma);
+			diff = arg - vma->vm_start;
+			PR_DEBUG("diff is %d", diff);
+			private = (unsigned long)vma->vm_private_data;
+			PR_DEBUG("private (ul) is %lu", private);
+			PR_DEBUG("private (p) is %p", (void *)private);
+			adjusted = private + diff;
+			PR_DEBUG("adjusted (ul) is %lu", adjusted);
+			PR_DEBUG("adjusted (p) is %p", (void *)adjusted);
+			return 0;
 
-	/*
-	 *      This is asking the kernel to read the memory
-	 */
-	case 1:
-		PR_DEBUG("starting to read");
-		memcpy(str, vaddr, 256);
-		str[255] = '\0';
-		PR_DEBUG("data is %s", str);
-		return 0;
+		/*
+		 *      This is asking the kernel to read the memory
+		 */
+		case IOCTL_MMAP_READ:
+			PR_DEBUG("starting to read");
+			memcpy(str, vaddr, 256);
+			str[255] = '\0';
+			PR_DEBUG("data is %s", str);
+			return 0;
 
-	/*
-	 *      This is asking the kernel to write the memory
-	 */
-	case 2:
-		PR_DEBUG("starting to write");
-		memset(vaddr, arg, size);
-		return 0;
+		/*
+		 *      This is asking the kernel to write the memory
+		 */
+		case IOCTL_MMAP_WRITE:
+			PR_DEBUG("starting to write");
+			memset(vaddr, arg, size);
+			return 0;
 
-	/*
-	 *      This demos how to take the user space pointer and turn it
-	 *      into a kernel space pointer
-	 */
-	case 3:
-		PR_DEBUG("starting to write using us pointer");
-		ptr = (void *)arg;
-		PR_DEBUG("ptr is %p", ptr);
-		return 0;
+		/*
+		 *      This demos how to take the user space pointer and turn it
+		 *      into a kernel space pointer
+		 */
+		case IOCTL_MMAP_WRITE_USER:
+			PR_DEBUG("starting to write using us pointer");
+			ptr = (void *)arg;
+			PR_DEBUG("ptr is %p", ptr);
+			return 0;
 
-	/*
-	 *      mmap a region
-	 */
-	case 4:
-		PR_DEBUG("trying to mmap");
-		if (do_kmalloc) {
-			kaddr = kmalloc(ioctl_size, GFP_KERNEL);
-		} else {
-			order = get_order(ioctl_size);
-			kaddr = (void *)__get_free_pages(GFP_KERNEL, order);
-		}
-		mm = current->mm;
-		flags = MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
-		flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
-		down_write(&mm->mmap_sem);
-		addr = do_mmap_pgoff(
-		        filp,                                                                                                                                                                           /* file pointer */
-		        (unsigned long)kaddr,                                                                                                                                                           /* address - this is the buffer we kmalloc'ed */
-		        ioctl_size,                                                                                                                                                                     /* size */
-		        PROT_READ | PROT_WRITE,                                                                                                                                                         /* protection */
-		        flags,                                                                                                                                                                          /* flags */
-		        0                                                                                                                                                                               /* pg offset */
-		        );
-		up_write(&mm->mmap_sem);
-		PR_DEBUG("kaddr is (p) %p", kaddr);
-		PR_DEBUG("real size is (d) %d", ioctl_size);
-		PR_DEBUG("addr for user space is (lu) %lu / (p) %p", addr, (void *)addr);
-		return(addr);
+		/*
+		 *      mmap a region
+		 */
+		case IOCTL_MMAP_MMAP:
+			PR_DEBUG("trying to mmap");
+			if (do_kmalloc) {
+				kaddr = kmalloc(ioctl_size, GFP_KERNEL);
+			} else {
+				order = get_order(ioctl_size);
+				kaddr = (void *)__get_free_pages(GFP_KERNEL, order);
+			}
+			mm = current->mm;
+			flags = MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
+			flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
+			down_write(&mm->mmap_sem);
+			addr = do_mmap_pgoff(
+				filp, /* file pointer */
+				(unsigned long)kaddr, /* address - this is the buffer we kmalloc'ed */
+				ioctl_size, /* size */
+				PROT_READ | PROT_WRITE, /* protection */
+				flags, /* flags */
+				0 /* pg offset */
+			);
+			up_write(&mm->mmap_sem);
+			PR_DEBUG("kaddr is (p) %p", kaddr);
+			PR_DEBUG("real size is (d) %d", ioctl_size);
+			PR_DEBUG("addr for user space is (lu) %lu / (p) %p", addr, (void *)addr);
+			return(addr);
 
-	/*
-	 *      unmap a region
-	 */
-	case 5:
-		PR_DEBUG("trying to unmap");
-		vma = find_vma(current->mm, addr);
-		kernel_addr = vma->vm_private_data;
-		size = vma->vm_end - vma->vm_start;
-		PR_DEBUG("deduced kernel_addr is %p", kernel_addr);
-		PR_DEBUG("deduced size is (d) %d", size);
-		PR_DEBUG("real size is (d) %d", ioctl_size);
-		PR_DEBUG("real kaddr is (p) %p", kaddr);
-		ret = do_munmap(current->mm, addr, ioctl_size);
-		if (do_kmalloc) {
-			kfree(kernel_addr);
-		} else {
-			order = get_order(size);
-			free_pages((unsigned long)kernel_addr, order);
-		}
-		return(ret);
+		/*
+		 *      unmap a region
+		 */
+		case IOCTL_MMAP_UNMAP:
+			PR_DEBUG("trying to unmap");
+			vma = find_vma(current->mm, addr);
+			kernel_addr = vma->vm_private_data;
+			size = vma->vm_end - vma->vm_start;
+			PR_DEBUG("deduced kernel_addr is %p", kernel_addr);
+			PR_DEBUG("deduced size is (d) %d", size);
+			PR_DEBUG("real size is (d) %d", ioctl_size);
+			PR_DEBUG("real kaddr is (p) %p", kaddr);
+			ret = do_munmap(current->mm, addr, ioctl_size);
+			if (do_kmalloc) {
+				kfree(kernel_addr);
+			} else {
+				order = get_order(size);
+				free_pages((unsigned long)kernel_addr, order);
+			}
+			return(ret);
 
-	/*
-	 *      The the size of the region
-	 */
-	case 6:
-		PR_DEBUG("setting the size");
-		ioctl_size = arg;
-		PR_DEBUG("size is %d", ioctl_size);
-		return 0;
+		/*
+		 *      The the size of the region
+		 */
+		case IOCTL_MMAP_SETSIZE:
+			PR_DEBUG("setting the size");
+			ioctl_size = arg;
+			PR_DEBUG("size is %d", ioctl_size);
+			return 0;
 	}
 	return(-EINVAL);
 }
@@ -177,7 +175,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 void kern_vma_open(struct vm_area_struct *vma) {
 	PR_DEBUG("start");
 }
-
 
 void kern_vma_close(struct vm_area_struct *vma) {
 #ifdef DO_FREE
@@ -307,9 +304,9 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
  * The file operations structure.
  */
 static struct file_operations my_fops = {
-	.owner   = THIS_MODULE,
-	.unlocked_ioctl   = kern_unlocked_ioctll,
-	.mmap    = kern_mmap,
+	.owner=THIS_MODULE,
+	.unlocked_ioctl=kern_unlocked_ioctll,
+	.mmap=kern_mmap,
 //	.mmap=kern_mmap_simple,
 };
 
