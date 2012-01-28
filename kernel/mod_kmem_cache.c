@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #include <linux/module.h> // for MODULE_*, module_*
 #include <linux/slab.h> // for the cache functions
 

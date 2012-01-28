@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #include <linux/module.h> // for the MODULE_* stuff
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */

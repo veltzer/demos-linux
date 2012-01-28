@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>
