@@ -26,6 +26,14 @@ typedef struct _BufferStruct {
 #define IOCTL_TIMING_JIFFIES		_IO(DEMO_MAGIC, 12)
 #define IOCTL_TIMING_EMPTY		_IO(DEMO_MAGIC, 13)
 
+// timing ioctls
+#define IOCTL_LIST_CREATE		_IO(DEMO_MAGIC, 14)
+#define IOCTL_LIST_DESTROY		_IO(DEMO_MAGIC, 15)
+#define IOCTL_LIST_ISEMPTY		_IO(DEMO_MAGIC, 16)
+#define IOCTL_LIST_ADD			_IO(DEMO_MAGIC, 17)
+#define IOCTL_LIST_DEL			_IO(DEMO_MAGIC, 18)
+#define IOCTL_LIST_PRINT		_IO(DEMO_MAGIC, 19)
+
 typedef struct _buffer
 {
 	unsigned long long u1;
