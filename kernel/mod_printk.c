@@ -8,7 +8,9 @@
 /*
  *      This is a minimal module showing various logging functions 
  *      I show only kernel logging functions.
- *      Always prefer the pr_* functions, or better yet, the dev_* functions.
+ *      - Always prefer the pr_* functions, or better yet, the dev_* functions.
+ *      - Notice that debug messages will not reach the log unless you define DEBUG
+ *      at compile time.
  *      TODO:
  *      show rate limited functions here (see printk.h for details).
  */
@@ -46,6 +48,8 @@ static int __init mod_init(void) {
 	pr_devel("this is a development message");
 	pr_debug("this is a debug message");
 	print_error_once_wrapper();
+	// lets dump the stack...
+	dump_stack();
 	return(0);
 }
 
@@ -53,6 +57,7 @@ static int __init mod_init(void) {
 static void __exit mod_exit(void) {
 	// this will not show any output...
 	print_error_once_wrapper();
+	dump_stack();
 }
 
 // declaration of init/cleanup functions of this module
