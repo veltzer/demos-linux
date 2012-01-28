@@ -1,17 +1,7 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_*
-#include <linux/kernel.h>
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/device.h>
-#include <linux/types.h>
-#include <linux/proc_fs.h>
-#include <linux/mm.h>
-#include <linux/list.h> // for list handling functions
+#include <linux/fs.h> // for fops
+#include <linux/device.h> // for struct device
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
