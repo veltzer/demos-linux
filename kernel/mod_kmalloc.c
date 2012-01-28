@@ -1,19 +1,18 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_*
+#include <linux/fs.h> // for fops
 
-#include "shared.h"
+#include <linux/slab.h> // for the kmalloc API
+#include <linux/pci.h> // for pci_alloc_consistent
+
+#include "shared.h" // for the ioctl numbers
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo module for testing");
-
-/*
- *      A driver which allocates memory. This is intended to explore kmalloc
- *      behaviour...
- */
+MODULE_DESCRIPTION("A module to explore kmalloc behaviour");
 
 // static data
 static struct device* my_device;
