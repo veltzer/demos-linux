@@ -146,7 +146,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
  * }
  */
 
-// now the functions
+// fops
 
 /*
  * This is the ioctl implementation.

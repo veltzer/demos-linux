@@ -1,6 +1,6 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_* stuff
-#include <linux/fs.h> // for alloc_chrdev_region, register_chrdev_region, unregister_chrdev_region, struct file_operations
+#include <linux/fs.h> // for struct device
 #include <linux/device.h> // to register our device
 #include <linux/uaccess.h> // copy_to_user, copy_from_user
 
