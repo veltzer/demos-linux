@@ -1,6 +1,7 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
+/*
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/sched.h>
 #include <linux/syscalls.h>
 #include <linux/unistd.h>
@@ -13,6 +14,11 @@
 #include <linux/kthread.h>
 #include <linux/pagemap.h>
 #include <linux/io.h>
+*/
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Module for finding the sys call table");
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
@@ -40,10 +46,6 @@
  * - how come I don't manage to do this with the set_memory_{rw},{x} etc? They are
  *	supposed to work. Check it out again.
  */
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Module for finding the sys call table");
 
 // A function to align an address to a page boundary...
 inline unsigned long align_address(unsigned long addr) {

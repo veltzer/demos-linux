@@ -3,17 +3,9 @@
 #include <linux/fs.h> // for fops
 #include <linux/device.h> // for struct device
 
-#include <linux/kernel.h>
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/types.h>
-#include <linux/mm.h>
-#include <linux/mman.h>
-#include <linux/pagemap.h>
+#include <linux/slab.h> // for the kmalloc API
+#include <linux/mman.h> // for remap_pfn_range
+#include <linux/pagemap.h> // for vma structures
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper

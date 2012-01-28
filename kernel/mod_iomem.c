@@ -1,6 +1,8 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
+#include <linux/printk.h> // for printk functions
+/*
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -11,6 +13,7 @@
 #include <linux/types.h>
 #include <linux/proc_fs.h>
 #include <linux/mm.h>
+*/
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
