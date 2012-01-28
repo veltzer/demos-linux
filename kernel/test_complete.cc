@@ -25,7 +25,7 @@ void *wait_function(void *p) {
 	fprintf(stderr,"wait thread started\n");
 	ticks_t t1 = getticks();
 	// wait thread going to sleep
-	SC(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
+	sc(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
 	ticks_t t2 = getticks();
 	fprintf(stderr,"took %d micros\n",get_mic_diff(t1, t2));
 	return(NULL);

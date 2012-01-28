@@ -59,14 +59,14 @@ void *function_crazy(void *p) {
 
 
 void *function_long(void *p) {
-	SC(ioctl(d, 1, NULL));
-	SC(ioctl(d, 1, NULL));
+	sc(ioctl(d, 1, NULL));
+	sc(ioctl(d, 1, NULL));
 	return(NULL);
 }
 
 
 void *function_long2(void *p) {
-	SC(ioctl(d2, 2, NULL));
+	sc(ioctl(d2, 2, NULL));
 	return(NULL);
 }
 
@@ -75,8 +75,8 @@ void *function_close(void *p) {
 	fprintf(stderr, "close thread started and going to sleep for two seconds\n");
 	sleep(2);
 	fprintf(stderr, "close thread trying to close handle...\n");
-	SC(close(d));
-	//SC(ioctl(d,0,NULL));
+	sc(close(d));
+	//sc(ioctl(d,0,NULL));
 	return(NULL);
 }
 
@@ -85,24 +85,24 @@ int main(int argc, char **argv, char **envp) {
 	// file to be used
 	const char *filename = "/dev/drv_ioctl_close_race";
 
-	SC(d = open(filename, O_RDWR));
-	SC(d2 = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
+	sc(d2 = open(filename, O_RDWR));
 
 	//pthread_t thread_crazy;
-	//SCIG(pthread_create(&thread_crazy,NULL,function_crazy,NULL),"pthread crazy created");
+	//sc0(pthread_create(&thread_crazy,NULL,function_crazy,NULL));
 	pthread_t thread_long;
-	SCIG(pthread_create(&thread_long, NULL, function_long, NULL), "pthread long created");
+	sc0(pthread_create(&thread_long, NULL, function_long, NULL));
 	pthread_t thread_long2;
-	SCIG(pthread_create(&thread_long2, NULL, function_long2, NULL), "pthread long created");
+	sc0(pthread_create(&thread_long2, NULL, function_long2, NULL));
 	pthread_t thread_close;
-	SCIG(pthread_create(&thread_close, NULL, function_close, NULL), "pthread close created");
+	sc0(pthread_create(&thread_close, NULL, function_close, NULL));
 
 	//waitkey("press any key to wake the close thread up");
-	//SC(ioctl(d,5,NULL));
+	//sc(ioctl(d,5,NULL));
 
-	//SCIG(pthread_join(thread_crazy,NULL),"join");
-	SCIG(pthread_join(thread_long, NULL), "join");
-	SCIG(pthread_join(thread_long2, NULL), "join");
-	SCIG(pthread_join(thread_close, NULL), "join");
+	//sc0(pthread_join(thread_crazy,NULL));
+	sc0(pthread_join(thread_long, NULL));
+	sc0(pthread_join(thread_long2, NULL));
+	sc0(pthread_join(thread_close, NULL));
 	return(0);
 }
