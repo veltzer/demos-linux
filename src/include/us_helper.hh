@@ -167,10 +167,11 @@ template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 #define SCIG(v, msg) printf("%s startecd\n",msg); scig(v, msg,0); printf("%s ended\n",msg);
 #define SCIG2(v, msg, v1, v2) printf("%s startecd\n",msg); scig2(v, msg, v1, v2); printf("%s ended\n",msg); 
 
-#define SC(v) SCIE(v, __stringify(v));
-#define sc(v) scie(v, __stringify(v),-1);
-#define scg(v) scig(v,__stringify(v),0);
-#define scp(v) scpe(v,__stringify(v),NULL);
+#define SC(v) SCIE(v, __stringify(v))
+#define sc(v) scie(v, __stringify(v),-1)
+#define scg(v) scig(v,__stringify(v),0)
+#define scp(v) scpe(v,__stringify(v),NULL)
+#define sc0(v) scig(v,__stringify(v),0)
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v));
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v));
