@@ -1,19 +1,5 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_*
-#include <linux/kernel.h>
-#include <linux/pci.h>
-#include <linux/init.h>
-#include <linux/io.h>
-#include <linux/interrupt.h>
-#include <linux/cdev.h>
-#include <linux/uaccess.h>
-#include <linux/device.h>
-#include <linux/types.h>
-#include <linux/proc_fs.h>
-#include <linux/mm.h>
-#include <linux/mman.h>
-#include <linux/gfp.h>
-#include <linux/pagemap.h>
 
 #include "shared.h"
 
