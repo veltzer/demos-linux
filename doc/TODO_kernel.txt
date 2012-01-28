@@ -1,8 +1,3 @@
-urgent:
-=======
-- get the pipe example working.
-- make the big makefile build all the standalone examples.
-
 Kernel demos:
 =============
 - improve the kmem_cache demo with the user space program.
@@ -79,3 +74,7 @@ Question: is going to sleep in the kernel actually release the BLK ? probably so
 - do example that explains wait queues.
 - do example that takes hold of an interrupt (does not handle it) but rather exposes number
 of calls to it to user space (via /proc).
+
+build system
+============
+- make the big makefile build all the standalone examples.
