@@ -54,7 +54,7 @@ static struct kern_dev* pdev;
 static struct class* my_class;
 static struct device* my_device;
 
-// now the functions
+// fops
 
 /*
  * This is the ioctl implementation.

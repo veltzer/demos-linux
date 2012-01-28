@@ -1,6 +1,6 @@
 //#define DEBUG
+#include <linux/module.h> // for MODULE_*
 #include <linux/kernel.h>
-#include <linux/module.h>
 #include <linux/pci.h>
 #include <linux/init.h>
 #include <linux/io.h>
@@ -80,7 +80,7 @@ static struct kern_dev *pdev;
 static struct class    *my_class;
 static struct device   *my_device;
 
-// now the functions
+// fops
 
 /*
  * This is the ioctl implementation.
