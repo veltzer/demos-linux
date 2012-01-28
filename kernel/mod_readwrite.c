@@ -1,16 +1,9 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_*
-/*
-#include <linux/kernel.h>
-#include <linux/init.h>
-#include <linux/syscalls.h>
-#include <linux/fcntl.h>
-#include <linux/fs.h>
-#include <linux/mm.h>
-#include <linux/slab.h>
-#include <linux/sched.h>
-#include <asm/uaccess.h>
-*/
+#include <linux/fcntl.h> // for O_ flags
+#include <linux/fs.h> // for vfs_write, vfs_read
+#include <linux/uaccess.h> // get_fs
+#include <linux/sched.h> // current
 
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper

@@ -1,20 +1,6 @@
 //#define DEBUG
 #include <linux/module.h> // for MODULE_*
-/*
-#include <linux/kernel.h>
-#include <linux/sched.h>
-#include <linux/syscalls.h>
-#include <linux/unistd.h>
-#include <asm-generic/sections.h>
-#include <linux/kgdb.h>
-#include <linux/ctype.h>
-#include <linux/uaccess.h>
-#include <linux/nmi.h>
-#include <linux/delay.h>
-#include <linux/kthread.h>
-#include <linux/pagemap.h>
-#include <linux/io.h>
-*/
+#include <linux/syscalls.h> // for the sys call numbers
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -294,6 +280,7 @@ asmlinkage static int new_pipe2(int* des,int flags) {
 */
 static int called=0;
 static asmlinkage long (*old_close)(unsigned int);
+
 asmlinkage static long new_close(unsigned int val) {
 	PR_DEBUG("here");
 	called++;
@@ -317,5 +304,6 @@ static void __exit mod_exit(void) {
 	PR_DEBUG("called is %d",called);
 	PR_DEBUG("end");
 }
+
 module_init(mod_init);
 module_exit(mod_exit);
