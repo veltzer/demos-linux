@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp) {
 	// file handle
 	int d;
 
-	SC(d = open(filename, O_RDWR));
-	SC(close(d));
+	sc(d = open(filename, O_RDWR));
+	sc(close(d));
 	return(0);
 }

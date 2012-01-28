@@ -25,12 +25,10 @@ int main(int argc, char **argv, char **envp) {
 	sc(efd = eventfd(0, 0));
 	int pid;
 	sc(pid = fork());
-	switch (pid) {
-		case 0:
-			printf("Child\n");
-
-		default:
-			printf("Parent\n");
+	if(pid==0) {
+		printf("Child\n");
+	} else {
+		printf("Parent\n");
 	}
 	sc(close(fd));
 	return(0);

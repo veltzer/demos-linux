@@ -22,8 +22,8 @@ int main(int argc, char **argv, char **envp) {
 	const char *filename = "/dev/demo";
 	// file descriptor
 	int d;
-	SC(d = open(filename, O_RDWR));
-	SC(ioctl(d, ioctl_num, NULL));
-	SC(close(d));
+	sc(d = open(filename, O_RDWR));
+	sc(ioctl(d, ioctl_num, NULL));
+	sc(close(d));
 	return(0);
 }

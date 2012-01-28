@@ -19,8 +19,8 @@ int main(int argc, char **argv, char **envp) {
 	// file descriptor to use
 	int d;
 
-	SC(d = open(filename, O_RDWR));
-	SC(ioctl(d, 0, NULL));
-	SC(close(d));
+	sc(d = open(filename, O_RDWR));
+	sc(ioctl(d, 0, NULL));
+	sc(close(d));
 	return(0);
 }

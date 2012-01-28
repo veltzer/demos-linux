@@ -48,10 +48,10 @@ int main(int argc, char **argv, char **envp) {
 	// file to be used
 	const char *filename = "/dev/demo";
 
-	SC(d = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
 
 	//printf("setting the size to %d\n",size);
-	//SC(res=ioctl(d,6,size));
+	//sc(res=ioctl(d,6,size));
 
 	if (do_mmap_once) {
 		void *p;
@@ -68,7 +68,7 @@ int main(int argc, char **argv, char **envp) {
 		klog_show();
 		printproc("demo");
 		klog_clear();
-		SC(munmap(p, size));
+		sc(munmap(p, size));
 		klog_show();
 		printbuddy();
 	}
@@ -76,14 +76,14 @@ int main(int argc, char **argv, char **envp) {
 		printproc("demo");
 		klog_clear();
 		// trying to map memory
-		SC(res = ioctl(d, 4, NULL));
+		sc(res = ioctl(d, 4, NULL));
 		void *p = (void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		klog_clear();
 		// trying to unmap memory
-		SC(res = ioctl(d, 5, NULL));
+		sc(res = ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
@@ -91,7 +91,7 @@ int main(int argc, char **argv, char **envp) {
 		printproc("demo");
 		klog_clear();
 		// trying to map memory
-		SC(res = ioctl(d, 4, NULL));
+		sc(res = ioctl(d, 4, NULL));
 		void *p = (void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
@@ -99,7 +99,7 @@ int main(int argc, char **argv, char **envp) {
 		memset(p, 0, size);
 		klog_clear();
 		// trying to unmap memory
-		SC(res = ioctl(d, 5, NULL));
+		sc(res = ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
@@ -107,11 +107,11 @@ int main(int argc, char **argv, char **envp) {
 		const int number = 10;
 		for (int i = 0; i < number; i++) {
 			// trying to map memory
-			SC(res = ioctl(d, 4, NULL));
+			sc(res = ioctl(d, 4, NULL));
 			void *p = (void *)res;
 			printf("the pointer I got is %p\n", p);
 			// trying to unmap memory
-			SC(res = ioctl(d, 5, NULL));
+			sc(res = ioctl(d, 5, NULL));
 		}
 	}
 	if (do_stress_mmap) {
@@ -128,10 +128,10 @@ int main(int argc, char **argv, char **envp) {
 			             ), "mmap");
 			printf("the pointer I got is %p\n", p);
 			memset(p, 0, size);
-			SC(munmap(p, size));
+			sc(munmap(p, size));
 			printbuddy();
 		}
 	}
-	SC(close(d));
+	sc(close(d));
 	return(0);
 }

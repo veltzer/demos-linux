@@ -59,7 +59,7 @@ int main(int argc, char **argv, char **envp) {
 	const int offset = 0;
 
 	fprintf(stderr, "Asking the kernel to open the handle\n");
-	SC(d = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
 	//printproc();
 
 	SCPE(data = mmap(
@@ -92,15 +92,15 @@ int main(int argc, char **argv, char **envp) {
 			fprintf(stderr, "Setting memory to ['%c']\n", i);
 			memset(data, i, size);
 			print_data(data, size);
-			SC(ioctl(d, 1, NULL));
+			sc(ioctl(d, 1, NULL));
 			print_data(data, size);
 			waitkey(NULL);
 
-			SC(ioctl(d, 2, i + 1));
+			sc(ioctl(d, 2, i + 1));
 			print_data(data, size);
 
 			fprintf(stderr, "Asking kernel to read memory...\n");
-			SC(ioctl(d, 1, NULL));
+			sc(ioctl(d, 1, NULL));
 			print_data(data, size);
 			waitkey(NULL);
 		}
@@ -108,22 +108,22 @@ int main(int argc, char **argv, char **envp) {
 	if (do_stress) {
 		for (char i = 'a'; i < 'z'; i += 2) {
 			memset(data, i, size);
-			SC(ioctl(d, 1, NULL));
-			SC(ioctl(d, 2, i + 1));
-			SC(ioctl(d, 1, NULL));
+			sc(ioctl(d, 1, NULL));
+			sc(ioctl(d, 2, i + 1));
+			sc(ioctl(d, 1, NULL));
 		}
 	}
 	if (do_vma) {
-		SC(ioctl(d, 0, data));
+		sc(ioctl(d, 0, data));
 		void *p = (void *)((char *)data + size / 2);
-		SC(ioctl(d, 0, p));
+		sc(ioctl(d, 0, p));
 		waitkey(NULL);
 	}
 
-	SC(munmap(data, size));
+	sc(munmap(data, size));
 	printproc("demo");
-	SC(munmap(data2, size));
+	sc(munmap(data2, size));
 	printproc("demo");
-	SC(close(d));
+	sc(close(d));
 	return(0);
 }

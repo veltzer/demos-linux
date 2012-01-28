@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp) {
 
 	//klog_clear();
 
-	SC(d = open(filename, O_RDWR));
+	sc(d = open(filename, O_RDWR));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey(NULL);
@@ -54,11 +54,11 @@ int main(int argc, char **argv, char **envp) {
 		INFO("trying to write on the buffer");
 		memset(ptr, 'a', size);
 		// get buffer from user space
-		SC(ioctl(d, IOCTL_DEMO_READ, 'a'));
-		SC(ioctl(d, IOCTL_DEMO_WRITE, 'a' + 1));
+		sc(ioctl(d, IOCTL_DEMO_READ, 'a'));
+		sc(ioctl(d, IOCTL_DEMO_WRITE, 'a' + 1));
 		memcheck(ptr, 'a' + 1, size);
 
-		SC(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
+		sc(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
 		//printproc("demo");
 		//klog_show_clear();
 		waitkey(NULL);
@@ -84,7 +84,7 @@ int main(int argc, char **argv, char **envp) {
 		do_prog_finish();
 	}
 
-	SC(close(d));
+	sc(close(d));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey(NULL);
