@@ -267,7 +267,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 		break;
 	}
-	return(-EFAULT);
+	return(-EINVAL);
 }
 
 

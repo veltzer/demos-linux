@@ -73,7 +73,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		// try to acquire the same lock from an interrupt handler or higher level task
 		spin_lock(&mr_lock);
 		spin_unlock(&mr_lock);
-		break;
+		return 0;
 
 	case 1:
 		lock_t = kmalloc(sizeof(spinlock_t), GFP_KERNEL);
@@ -81,9 +81,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		spin_lock(lock_t);
 		spin_unlock(lock_t);
 		kfree(lock_t);
-		break;
+		return 0;
 	}
-	return(0);
+	return(-EINVAL);
 }
 
 

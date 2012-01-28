@@ -185,8 +185,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("Successful exit");
 		return(uptr);
 
-		break;
-
 	/*
 	 *	Asking the kernel to munmap user space.
 	 *	No arguments are required.
@@ -206,8 +204,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		uptr = -1;
 		return(0);
 
-		break;
-
 	/*
 	 *	Asking the kernel to write to the buffer.
 	 *	One argument which is the value to write.
@@ -220,8 +216,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		memset(kptr, arg, size);
 		return(0);
 
-		break;
-
 	/*
 	 *	Asking the kernel to check that the buffer is a certain value.
 	 *	One argument which is the value to check.
@@ -233,8 +227,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		}
 		return(memcheck(kptr, arg, size));
 
-		break;
-
 	/*
 	 *	Asking the kernel to copy the in kernel buffer to user space.
 	 *	One argument which is the pointer to the user space buffer.
@@ -245,10 +237,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return(-EFAULT);
 		}
 		return(copy_to_user((void *)arg, kptr, size));
-
-		break;
 	}
-	return(-EFAULT);
+	return(-EINVAL);
 }
 
 

@@ -141,7 +141,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		adjusted = private + diff;
 		PR_DEBUG("adjusted (ul) is %lu", adjusted);
 		PR_DEBUG("adjusted (p) is %p", (void *)adjusted);
-		break;
+		return 0;
 
 	/*
 	 *      This is asking the kernel to read the memory
@@ -151,7 +151,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		memcpy(str, vaddr, 256);
 		str[255] = '\0';
 		PR_DEBUG("data is %s", str);
-		break;
+		return 0;
 
 	/*
 	 *      This is asking the kernel to write the memory
@@ -159,7 +159,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case 2:
 		PR_DEBUG("starting to write");
 		memset(vaddr, arg, size);
-		break;
+		return 0;
 
 	/*
 	 *      This demos how to take the user space pointer and turn it
@@ -169,7 +169,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("starting to write using us pointer");
 		ptr = (void *)arg;
 		PR_DEBUG("ptr is %p", ptr);
-		break;
+		return 0;
 
 	/*
 	 *      mmap a region
@@ -200,8 +200,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("addr for user space is (lu) %lu / (p) %p", addr, (void *)addr);
 		return(addr);
 
-		break;
-
 	/*
 	 *      unmap a region
 	 */
@@ -223,8 +221,6 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		}
 		return(ret);
 
-		break;
-
 	/*
 	 *      The the size of the region
 	 */
@@ -232,9 +228,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("setting the size");
 		ioctl_size = arg;
 		PR_DEBUG("size is %d", ioctl_size);
-		break;
+		return 0;
 	}
-	return(0);
+	return(-EINVAL);
 }
 
 
