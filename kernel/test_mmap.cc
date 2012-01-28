@@ -1,14 +1,13 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include <stdio.h> // for fprintf(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <stdlib.h> // for free(3), malloc(3)
+#include <string.h> // for strncpy(3)
+#include <sys/mman.h> // for mmap(2), munmap(2)
+#include <sys/ioctl.h> // for ioctl(2)
+
+#include "shared.h" // for the ioctl numbers
 
 #include "us_helper.hh"
 
@@ -41,7 +40,6 @@ void print_data(void *data, int size) {
 	free(pdata);
 }
 
-
 int main(int argc, char **argv, char **envp) {
 	// the data pointer
 	void *data;
@@ -63,20 +61,20 @@ int main(int argc, char **argv, char **envp) {
 	//printproc();
 
 	SCPE(data = mmap(
-	             NULL,                                                                                                                                                                                                                                                                                                                                                     /* we DO NOT recommend an address - better to let the kernel decide */
-	             size,                                                                                                                                                                                                                                                                                                                                                     /* the size we need */
-	             PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                                                                                                   /* we want read AND write */
-	             flags,                                                                                                                                                                                                                                                                                                                                                    /* we don't want page faults */
-	             d,                                                                                                                                                                                                                                                                                                                                                        /* file descriptor */
-	             offset                                                                                                                                                                                                                                                                                                                                                    /* offset */
+	             NULL, /* we DO NOT recommend an address - better to let the kernel decide */
+	             size, /* the size we need */
+	             PROT_READ | PROT_WRITE, /* we want read AND write */
+	             flags, /* we don't want page faults */
+	             d, /* file descriptor */
+	             offset /* offset */
 	             ), "mmap");
 	SCPE(data2 = mmap(
-	             NULL,                                                                                                                                                                                                                                                                                                                                                      /* we DO NOT recommend an address - better to let the kernel decide */
-	             size,                                                                                                                                                                                                                                                                                                                                                      /* the size we need */
-	             PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                                                                                                    /* we want read AND write */
-	             flags,                                                                                                                                                                                                                                                                                                                                                     /* we don't want page faults */
-	             d,                                                                                                                                                                                                                                                                                                                                                         /* file descriptor */
-	             offset                                                                                                                                                                                                                                                                                                                                                     /* offset */
+	             NULL, /* we DO NOT recommend an address - better to let the kernel decide */
+	             size, /* the size we need */
+	             PROT_READ | PROT_WRITE, /* we want read AND write */
+	             flags, /* we don't want page faults */
+	             d, /* file descriptor */
+	             offset /* offset */
 	             ), "mmap");
 	fprintf(stderr, "pointer I got is %p\n", data);
 	print_data(data, size);
@@ -92,15 +90,15 @@ int main(int argc, char **argv, char **envp) {
 			fprintf(stderr, "Setting memory to ['%c']\n", i);
 			memset(data, i, size);
 			print_data(data, size);
-			sc(ioctl(d, 1, NULL));
+			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
 			print_data(data, size);
 			waitkey(NULL);
 
-			sc(ioctl(d, 2, i + 1));
+			sc(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
 			print_data(data, size);
 
 			fprintf(stderr, "Asking kernel to read memory...\n");
-			sc(ioctl(d, 1, NULL));
+			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
 			print_data(data, size);
 			waitkey(NULL);
 		}
@@ -108,15 +106,15 @@ int main(int argc, char **argv, char **envp) {
 	if (do_stress) {
 		for (char i = 'a'; i < 'z'; i += 2) {
 			memset(data, i, size);
-			sc(ioctl(d, 1, NULL));
-			sc(ioctl(d, 2, i + 1));
-			sc(ioctl(d, 1, NULL));
+			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
+			sc(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
+			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
 		}
 	}
 	if (do_vma) {
-		sc(ioctl(d, 0, data));
+		sc(ioctl(d, IOCTL_MMAP_PRINT, data));
 		void *p = (void *)((char *)data + size / 2);
-		sc(ioctl(d, 0, p));
+		sc(ioctl(d, IOCTL_MMAP_PRINT, p));
 		waitkey(NULL);
 	}
 
