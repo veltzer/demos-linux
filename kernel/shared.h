@@ -59,6 +59,11 @@
 #define IOCTL_MMAP_UNMAP				_IO(DEMO_MAGIC,37)
 #define IOCTL_MMAP_SETSIZE				_IO(DEMO_MAGIC,38)
 
+// race
+#define IOCTL_RACE_EMPTY				_IO(DEMO_MAGIC,39)
+#define IOCTL_RACE_10					_IO(DEMO_MAGIC,40)
+#define IOCTL_RACE_10000				_IO(DEMO_MAGIC,41)
+
 typedef struct _buffer
 {
 	unsigned long long u1;

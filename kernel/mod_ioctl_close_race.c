@@ -4,10 +4,10 @@
 #include <linux/device.h> // for struct device
 #include <linux/delay.h> // for ssleep()
 
+#include "shared.h" // for ioctl numbers
+
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
-
-#include "shared.h" // for ioctl numbers
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -24,18 +24,18 @@ static struct device* my_device;
 static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	PR_DEBUG("start");
 	switch (cmd) {
-		case 0:
+		case IOCTL_RACE_EMPTY:
 			// empty ioctl to 'just work';
 			PR_INFO("end");
 			return(0);
 
-		case 1:
+		case IOCTL_RACE_10:
 			// long ioctl to stall for time
 			ssleep(10);
 			PR_INFO("end");
 			return(0);
 
-		case 2:
+		case IOCTL_RACE_10000:
 			// long ioctl to stall for time
 			ssleep(10000);
 			PR_INFO("end");
