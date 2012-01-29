@@ -7,8 +7,6 @@
 #include <linux/cdev.h> // for cdev_*
 #include <linux/sched.h> // for cond_resched
 
-#include "kernel_helper.h" // our own helper
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
@@ -33,7 +31,7 @@ static int open_zero(struct inode * inode, struct file * file) {
 	//memset(p,0,PAGE_SIZE);
 	//file->private_data=(void*)p;
 	file->private_data=(void*)get_zeroed_page(GFP_KERNEL);
-	INFO("all is ok and buffer is %p",file->private_data);
+	pr_info("all is ok and buffer is %p",file->private_data);
 	return 0;
 }
 
@@ -46,7 +44,7 @@ static ssize_t read_zero(struct file * file, char __user * buf, size_t count, lo
 
 	remaining=count;
 	while(remaining) {
-		ssize_t curr=smin(PAGE_SIZE,remaining);
+		ssize_t curr=min(remaining,(ssize_t)PAGE_SIZE);
 		/*
 		if(copy_to_user(buf,file->private_data,curr)) {
 			return -EFAULT;
@@ -94,34 +92,34 @@ static int zero_init(void) {
 	int err=0;
 	// allocate our own range of devices
 	if((err=alloc_chrdev_region(&first_dev, first_minor, MINOR_COUNT, THIS_MODULE->name))) {
-		ERROR("cannot alloc_chrdev_region");
+		pr_err("cannot alloc_chrdev_region");
 		goto err_final;
 	}
-	INFO("allocated the region");
+	pr_info("allocated the region");
 	// add the cdev structure
 	cdev_init(&cdev, &zero_fops);
 	if((err=cdev_add(&cdev, first_dev, MINOR_COUNT))) {
-		ERROR("cannot cdev_add");
+		pr_err("cannot cdev_add");
 		goto err_dealloc;
 	}
-	INFO("added the cdev");
+	pr_info("added the cdev");
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
-		ERROR("failed in class_create");
+		pr_err("failed in class_create");
 		err=PTR_ERR(my_class);
 		goto err_cdev_del;
 	}
-	INFO("created the class");
+	pr_info("created the class");
 	// and now lets auto-create a /dev/ node
 	my_device=device_create(my_class, NULL, first_dev,"%s",THIS_MODULE->name);
 	if(IS_ERR(my_device)) {
-		ERROR("failed in device_create");
+		pr_err("failed in device_create");
 		err=PTR_ERR(my_device);
 		goto err_class;
 	}
-	INFO("created the device");
-	INFO("loaded ok");
+	pr_info("created the device");
+	pr_info("loaded ok");
 	return 0;
 //err_device:
 	device_destroy(my_class, first_dev);
@@ -140,7 +138,7 @@ static void zero_exit(void) {
 	class_destroy(my_class);
 	cdev_del(&cdev);
 	unregister_chrdev_region(first_dev, MINOR_COUNT);
-	INFO("unloaded ok");
+	pr_info("unloaded ok");
 }
 
 module_init(zero_init);
