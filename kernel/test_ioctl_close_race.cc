@@ -6,6 +6,8 @@
 #include <fcntl.h> // for open(2)
 #include <sys/ioctl.h> // for ioctl(2)
 
+#include "shared.h" // for ioctl numbers
+
 #include "us_helper.hh"
 
 /*
@@ -35,7 +37,7 @@ void *function_crazy(void *p) {
 	while (!over) {
 		counter++;
 		// ioctl to do nothing...
-		int res = ioctl(d, 0, NULL);
+		int res = ioctl(d, IOCTL_RACE_EMPTY, NULL);
 		if (res == -1) {
 			err = true;
 			//perror("ERROR from crazy thread...");
@@ -59,14 +61,13 @@ void *function_crazy(void *p) {
 
 
 void *function_long(void *p) {
-	sc(ioctl(d, 1, NULL));
-	sc(ioctl(d, 1, NULL));
+	sc(ioctl(d, IOCTL_RACE_10, NULL));
 	return(NULL);
 }
 
 
 void *function_long2(void *p) {
-	sc(ioctl(d2, 2, NULL));
+	sc(ioctl(d2, IOCTL_RACE_10000, NULL));
 	return(NULL);
 }
 
@@ -76,7 +77,7 @@ void *function_close(void *p) {
 	sleep(2);
 	fprintf(stderr, "close thread trying to close handle...\n");
 	sc(close(d));
-	//sc(ioctl(d,0,NULL));
+	//sc(ioctl(d,IOCTL_RACE_EMPTY,NULL));
 	return(NULL);
 }
 
@@ -88,8 +89,6 @@ int main(int argc, char **argv, char **envp) {
 	sc(d = open(filename, O_RDWR));
 	sc(d2 = open(filename, O_RDWR));
 
-	//pthread_t thread_crazy;
-	//sc0(pthread_create(&thread_crazy,NULL,function_crazy,NULL));
 	pthread_t thread_long;
 	sc0(pthread_create(&thread_long, NULL, function_long, NULL));
 	pthread_t thread_long2;
@@ -97,10 +96,6 @@ int main(int argc, char **argv, char **envp) {
 	pthread_t thread_close;
 	sc0(pthread_create(&thread_close, NULL, function_close, NULL));
 
-	//waitkey("press any key to wake the close thread up");
-	//sc(ioctl(d,5,NULL));
-
-	//sc0(pthread_join(thread_crazy,NULL));
 	sc0(pthread_join(thread_long, NULL));
 	sc0(pthread_join(thread_long2, NULL));
 	sc0(pthread_join(thread_close, NULL));

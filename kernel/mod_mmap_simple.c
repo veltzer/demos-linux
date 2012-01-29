@@ -7,6 +7,8 @@
 #include <linux/mman.h> // for remap_pfn_range
 #include <linux/pagemap.h> // for vma structures
 
+#include "shared.h" // for the ioctl numbers
+
 //#define DO_DEBUG
 #include "kernel_helper.h" // our own helper
 
@@ -50,7 +52,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	/*
 	 *	Exploring VMA issues
 	 */
-	case 0:
+	case IOCTL_MMAP_PRINT:
 		ptr = (void *)arg;
 		PR_DEBUG("ptr is %p", ptr);
 		vma = find_vma(current->mm, arg);
@@ -68,7 +70,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	/*
 	 *	This is asking the kernel to read the memory
 	 */
-	case 1:
+	case IOCTL_MMAP_READ:
 		PR_DEBUG("starting to read");
 		memcpy(str, vaddr, 256);
 		str[255] = '\0';
@@ -78,7 +80,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	/*
 	 *	This is asking the kernel to write the memory
 	 */
-	case 2:
+	case IOCTL_MMAP_WRITE:
 		PR_DEBUG("starting to write");
 		memset(vaddr, arg, size);
 		return 0;
@@ -87,7 +89,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	 *	This demos how to take the user space pointer and turn it
 	 *	into a kernel space pointer
 	 */
-	case 3:
+	case IOCTL_MMAP_WRITE_USER:
 		PR_DEBUG("starting to write using us pointer");
 		ptr = (void *)arg;
 		PR_DEBUG("ptr is %p", ptr);
@@ -96,7 +98,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	/*
 	 *	mmap a region from an ioctl
 	 */
-	case 4:
+	case IOCTL_MMAP_MMAP:
 		PR_DEBUG("trying to mmap");
 
 		/*
@@ -132,7 +134,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	/*
 	 *	unmap a region
 	 */
-	case 5:
+	case IOCTL_MMAP_UNMAP:
 		PR_DEBUG("trying to unmap");
 		vma = find_vma(current->mm, addr);
 		kernel_addr = vma->vm_private_data;
@@ -153,7 +155,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	/*
 	 *	The the size of the region
 	 */
-	case 6:
+	case IOCTL_MMAP_SETSIZE:
 		PR_DEBUG("setting the size");
 		ioctl_size = arg;
 		PR_DEBUG("size is %d", ioctl_size);
