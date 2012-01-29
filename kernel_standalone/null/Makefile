@@ -1,14 +1,14 @@
 # name of this module
-NAME:=mynull
+MODNAME:=null
 # ko to make
-KO:=$(NAME).ko
+KO:=$(MODNAME).ko
 # fill in the name of the module. I know that it's weird but this should be a .o name
 # and is probably due to backwards compatibility issues.
-obj-m:=$(NAME).o
+obj-m:=$(MODNAME).o
 # This is not strictly required for a single object module where the name of the module
 # is the name of the single file in it. In my case this is not the case since the module
 # is hello.ko while the single file is main.c.
-$(NAME)-objs:=main.o
+$(MODNAME)-objs:=main.o
 # fill in the version of the kernel for which you want the module compiled to
 # the ?= means that it will only be set if you have not provided this via the command line.
 # You can override using "make KVER=2.6.35".
@@ -43,3 +43,14 @@ insmod:
 .PHONY: rmmod
 rmmod:
 	sudo rmmod $(NAME)
+# a target to debug my own makefile...
+.PHONY: debug
+debug:
+	$(info MODNAME is $(MODNAME))
+	$(info KO is $(KO))
+	$(info KVER is $(KVER))
+	$(info KDIR is $(KDIR))
+	$(info V is $(V))
+	$(info CURDIR is $(CURDIR))
+	$(info obj-m is $(obj-m))
+	$(info $(MODNAME)-objs is $($(MODNAME)-objs))

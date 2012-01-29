@@ -1,30 +1,20 @@
-#include <linux/module.h>
-
-/*
- * This is a module with error in the initialisation process...
- */
+#include <linux/module.h> // for MODULE_*
+#include <linux/printk.h> // for pr_*
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Hello World module");
+MODULE_DESCRIPTION("module with error in the initialisation process");
 
-// parameters for this module
-
-// constants for this module
-
-// our own functions
+// init/exit functions
 static int __init mod_init(void) {
-	printk(KERN_ALERT "in init");
+	pr_err("mod_init");
 	return(-1);
 }
 
-
 static void __exit mod_exit(void) {
-	printk(KERN_ALERT "in exit");
+	pr_err("mod_exit");
 }
 
-
 // declaration of init/cleanup functions of this module
-
 module_init(mod_init);
 module_exit(mod_exit);

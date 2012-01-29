@@ -4,8 +4,6 @@
 #include <linux/device.h> // for device_create
 #include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC...
 
-#include "kernel_helper.h" // our own helper
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A simple implementation for something like /dev/null");
@@ -46,31 +44,31 @@ static struct device *my_device;
 
 static int null_init(void) {
 	int err;
-	INFO("start");
+	pr_info("start");
 	// this is registering the new device operations
 	if((err=register_chrdev(NULL_MAJOR,THIS_MODULE->name,&null_fops))) {
-		ERROR("unable to get major %d for %s dev",NULL_MAJOR,THIS_MODULE->name);
+		pr_err("unable to get major %d for %s dev",NULL_MAJOR,THIS_MODULE->name);
 		goto err_nothing;
 	}
 	if(auto_register) {
 		// this is creating a new class (/sys/class)
 		my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 		if(IS_ERR(my_class)) {
-			ERROR("failed to create class");
+			pr_err("failed to create class");
 			err=PTR_ERR(my_class);
 			goto err_register;
 		}
-		INFO("created class");
+		pr_info("created class");
 		// and now lets auto-create a /dev/ node
 		my_device=device_create(my_class, NULL, MKDEV(NULL_MAJOR, NULL_MINOR),"%s",THIS_MODULE->name);
 		if(IS_ERR(my_device)) {
-			ERROR("failed to create device");
+			pr_err("failed to create device");
 			err=PTR_ERR(my_device);
 			goto err_class;
 		}
-		INFO("emitted message to udev to create /dev file in user space");
+		pr_info("emitted message to udev to create /dev file in user space");
 	}
-	INFO("device loaded successfuly...");
+	pr_info("device loaded successfuly...");
 	return 0;
 // err_device:
 	device_destroy(my_class, MKDEV(NULL_MAJOR, NULL_MINOR));
@@ -83,13 +81,13 @@ err_nothing:
 }
 
 static void null_exit(void) {
-	INFO("start");
+	pr_info("start");
 	if(auto_register) {
 		device_destroy(my_class, MKDEV(NULL_MAJOR, NULL_MINOR));
 		class_destroy(my_class);
 	}
 	unregister_chrdev(NULL_MAJOR,THIS_MODULE->name);
-	INFO("device unloaded successfuly...");
+	pr_info("device unloaded successfuly...");
 }
 
 module_init(null_init);
