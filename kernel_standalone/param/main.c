@@ -1,10 +1,7 @@
 #include <linux/module.h>  // for MODULE_*, module_*
 #include <linux/printk.h> // for printk and pr_* APIs
+#include <linux/init.h> // for __init, __exit
 #include <linux/moduleparam.h> // for module_param()
-
-/*
- * A module showing off module parameters
- */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -22,7 +19,6 @@ static int __init hello_init(void) {
 	pr_info("myparam is %d",myparam);
 	return (0);
 }
-
 
 static void __exit hello_exit(void) {
 	pr_info("myparam is %d",myparam);
