@@ -1,11 +1,12 @@
 // includes
 #include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
+#include <linux/init.h> // for __init, __exit
 #include <linux/slab.h> // for kmalloc
 #include <linux/cdev.h> // for char device
 #include <linux/fs.h> // for fops
 #include <linux/device.h> // for device support
 
-// first the structures
+// structures
 struct kern_dev {
 	// pointer to the first device number allocated to us
 	dev_t first_dev;
@@ -17,7 +18,7 @@ struct kern_dev {
 static struct kern_dev* pdev;
 static struct class* my_class;
 
-// parameters for this module
+// parameters
 static int chrdev_alloc_dynamic = 1;
 module_param(chrdev_alloc_dynamic, bool, 0444);
 MODULE_PARM_DESC(chrdev_alloc_dynamic, "Allocate the device number dynamically?");
@@ -39,8 +40,7 @@ module_param(minors_count, int, 0444);
 MODULE_PARM_DESC(minors_count, "how many minors to allocate");
 
 // registration/unregistration functions
-
-int register_dev(void) {
+int __init register_dev(void) {
 	int ret;
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
@@ -102,21 +102,21 @@ int register_dev(void) {
 	PR_DEBUG("did device_create");
 	return(0);
 
-//goto_all:
-//	device_destroy(my_class,pdev->first_dev);
-goto_create_device:
-	cdev_del(&pdev->cdev);
-goto_deregister:
-	unregister_chrdev_region(pdev->first_dev, minors_count);
-goto_dealloc:
-	kfree(pdev);
-goto_destroy:
-	class_destroy(my_class);
-goto_nothing:
-	return ret;
+	//goto_all:
+	//	device_destroy(my_class,pdev->first_dev);
+	goto_create_device:
+		cdev_del(&pdev->cdev);
+	goto_deregister:
+		unregister_chrdev_region(pdev->first_dev, minors_count);
+	goto_dealloc:
+		kfree(pdev);
+	goto_destroy:
+		class_destroy(my_class);
+	goto_nothing:
+		return ret;
 }
 
-void unregister_dev(void) {
+void __exit unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
 	unregister_chrdev_region(pdev->first_dev, minors_count);
@@ -124,7 +124,7 @@ void unregister_dev(void) {
 	class_destroy(my_class);
 }
 
-// our own functions
+// init/exit functions
 static int __init mod_init(void) {
 	return(register_dev());
 }
@@ -133,7 +133,6 @@ static void __exit mod_exit(void) {
 	unregister_dev();
 }
 
-// declaration of init/cleanup functions of this module
-
+// declaration of init/exit functions of this module
 module_init(mod_init);
 module_exit(mod_exit);
