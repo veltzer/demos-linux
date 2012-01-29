@@ -1,24 +1,18 @@
 #include <linux/module.h>  // for MODULE_*, module_*
-
-/*
- *	This is a minimal Hello, World! driver doing just init and cleanup
- */
+#include <linux/printk.h> // for printk and pr_* APIs
+#include <linux/init.h> // for __init, __exit
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Hello World module");
+MODULE_DESCRIPTION("minimal Hello, World! driver doing just init and cleanup");
 
-// our own functions
-static int __init hello_init(void)
-{
-	printk(KERN_ALERT "in init\n");
+static int __init hello_init(void) {
+	pr_info("in hello_init");
 	return (0);
 }
 
-
-static void __exit hello_exit(void)
-{
-	printk(KERN_ALERT "in exit\n");
+static void __exit hello_exit(void) {
+	pr_info("in hello_exit");
 }
 
 module_init(hello_init);
