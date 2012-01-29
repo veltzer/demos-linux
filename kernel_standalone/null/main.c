@@ -28,7 +28,7 @@ const int NULL_MINOR=0;
 // these are the actual operations
 
 static ssize_t write_null(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
-	INFO("start");
+	//DEBUG("start");
 	// remmember to increment the position to let the user think that he is actually
 	// writing something...
 	*ppos+=count;
