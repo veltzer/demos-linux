@@ -61,8 +61,8 @@
 
 // race
 #define IOCTL_RACE_EMPTY				_IO(DEMO_MAGIC,39)
-#define IOCTL_RACE_10					_IO(DEMO_MAGIC,40)
-#define IOCTL_RACE_10000				_IO(DEMO_MAGIC,41)
+#define IOCTL_RACE_SLEEP_SHORT				_IO(DEMO_MAGIC,40)
+#define IOCTL_RACE_SLEEP_LONG				_IO(DEMO_MAGIC,41)
 
 typedef struct _buffer
 {
