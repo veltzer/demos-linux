@@ -2,7 +2,7 @@
 # parameters #
 ##############
 # directories
-US_DIRS:=src/user_space src/user_space_interbit
+US_DIRS:=src/examples src/exercises_interbit src/exercises
 KERNEL_DIR:=kernel
 US_INCLUDE:=src/include
 # kernel variables

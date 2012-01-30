@@ -1,6 +1,7 @@
-#include <iostream>
+#include <iostream> // for std::cerr
 #include <signal.h>
-#include <stdio.h>
+#include <stdio.h> // for perror(3)
+#include <errno.h> // for perror(3)
 
 /*
  * This example shows how to eliminate lots of redundant C error checking
@@ -15,7 +16,7 @@
 // this is the non template approach
 int syscall(int val,int err_val) {
 	if(val==err_val) {
-		perror("C++ exception thrown");
+		//perror("C++ exception thrown");
 		throw std::exception();
 	}
 	return val;
@@ -24,7 +25,7 @@ int syscall(int val,int err_val) {
 // Here is a template that will take care of all our needs
 template<class T> T syscall(T val, T err_val) {
 	if(val==err_val) {
-		perror("C++ exception thrown");
+		//perror("C++ exception thrown");
 		throw std::exception();
 	}
 	return(val);
@@ -34,7 +35,6 @@ template<class T> T syscall(T val, T err_val) {
 void myhandler(int sig) {
 	std::cerr << "in signal handler for signal " << sig << std::endl;
 }
-
 
 int main(int argc, char **argv, char **envp) {
 	// here is an example of using this construct
