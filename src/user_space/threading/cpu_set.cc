@@ -1,6 +1,5 @@
 #include <sched.h> // for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h> // for sysconf(3)
-#include <pthread.h>
 
 #include "us_helper.hh" // for TRACE(), scig()
 
@@ -8,8 +7,6 @@
  *      This is a demo of how to use a cpu set
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  *
  * TODO:
  * - move the print_cpu_set function into the shared code. find other uses
