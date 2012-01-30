@@ -1,5 +1,3 @@
-- bring back the hellofcmp example once I have built an fcmp package for ubuntu.
-	and installed it on the laptop.
 - core dump example: show how an application can dump its own core
 and continue running (gcore on the cmd line, sending itself a signal,
 running the right function).
