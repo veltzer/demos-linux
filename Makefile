@@ -3,7 +3,7 @@
 ##############
 # directories
 US_DIRS:=src/examples src/exercises_interbit src/exercises
-KERNEL_DIR:=kernel
+KERNEL_DIR:=src/kernel
 US_INCLUDE:=src/include
 # kernel variables
 # version of kernel to build against
