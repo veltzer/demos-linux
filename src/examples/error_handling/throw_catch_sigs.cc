@@ -1,14 +1,23 @@
-#include <iostream>
-#include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <iostream> // for std::cerr
+#include <signal.h> // for sigemptyset(2), sigaddset(2), sigprocmask(2), raise(3), kill(2)
+#include <stdlib.h> // for exit(3)
+#include <stdio.h> // for perror(3)
+#include <errno.h> // for perror(3)
+#include <sys/types.h> // for kill(2), getpid(2)
+#include <unistd.h> // for getpid(2)
 
 /*
- * This demp demostrates C++ style exception handling as response to OS signals.
+ * This demp demostrates C++ style exception handling in response to OS signals.
  *
  * Things to notice:
+ * - the non busy loop for waiting for signals in the main thread
  * - the need to unblock the signal in the signal handler
  * - the fact that raise(3) and kill(2) do not work exactly the same.
+ * - the fact that the signal is blocked inside the signal handler while other signals are not.
+ * this effects the protection you get on your data structures.
+ * - if you want more than one signal cached then you should use the sigqueue(2) instead of the kill(2) interface and then you can also pass parameters to that handler (limit is according to ulimit).
+ * - Only one signal is "cached" while you are blocking that signal (the kernel holds a mask of pending signals for you).
+ * - I provided a SigQueue executable to allow you to do that. Use it to see the signals queued and the value that you provide cought by the process. 
  *
  * 			Mark Veltzer
  */
