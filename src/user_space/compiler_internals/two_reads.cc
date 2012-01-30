@@ -11,8 +11,6 @@
  * fears it may change value.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 void printit(int val);

@@ -13,7 +13,6 @@
  *   after all) but rather what the reference is pointing to.
  *
  * 		Mark Veltzer
- * EXTRA_LIBS=
  */
 
 int main(int argc, char **argv, char **envp) {

@@ -7,8 +7,6 @@
  * Demo for a performance counter on i64...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 typedef unsigned long ticks;

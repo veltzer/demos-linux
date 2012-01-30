@@ -43,8 +43,6 @@
  *	that people could see the assembly code generated.
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 int main(int argc, char **argv, char **envp) {

@@ -9,8 +9,6 @@
  *      optimizer not to know ahead of time what the result would be...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int do_something(int val) {
 	printf("Im doing something...\n");

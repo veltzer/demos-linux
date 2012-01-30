@@ -7,8 +7,6 @@
  *      This example explores wide strings in GCC.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 #define WS(s) L ## s
 

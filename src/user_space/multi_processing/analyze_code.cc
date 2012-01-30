@@ -9,8 +9,6 @@
  * the status code means or as a demo of how to analyze such a code. 
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	if(argc!=2) {

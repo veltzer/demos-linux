@@ -6,8 +6,6 @@
  *      This MUST be done in 2 levels...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 #define __stringify_1(x) # x
 #define __stringify(x)   __stringify_1(x)

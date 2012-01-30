@@ -3,8 +3,7 @@
 /*
  * This example investigates the sizeof() of C++ object.
  *
- *                                              Mark Veltzer
- * EXTRA_LIBS=
+ *	Mark Veltzer
  */
 
 class A {

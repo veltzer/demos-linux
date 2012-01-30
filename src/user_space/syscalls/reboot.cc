@@ -11,8 +11,6 @@
  *      your machine, so you better watch out...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	sc(syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2, LINUX_REBOOT_CMD_RESTART, NULL));

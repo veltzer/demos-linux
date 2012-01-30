@@ -13,8 +13,6 @@
  *   Same for float <-> double and the like.
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 void trace(const char *fmt, ...) {
 	va_list ap;

@@ -26,8 +26,6 @@
  *      being called.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 inline void *operator new(const unsigned int size) {
 	void *p = malloc(size);

@@ -15,8 +15,6 @@
  *      http://dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // this is how to use unused in a function declaration...

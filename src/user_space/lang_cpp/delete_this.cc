@@ -16,9 +16,6 @@
  * even a silent bug which is worse at times.
  *
  *                              Mark Veltzer
- * EXTRA_LIBS=
- *
- * TODO:
  */
 
 class A {

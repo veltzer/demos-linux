@@ -9,9 +9,6 @@
  * memory...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
- *
  */
 
 /*

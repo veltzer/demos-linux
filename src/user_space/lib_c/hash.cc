@@ -11,8 +11,6 @@
  *      man hsearch or info libc under 'hsearch' or 'hash'.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	//struct hsearch_data HTAB;

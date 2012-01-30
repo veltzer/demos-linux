@@ -8,8 +8,6 @@
  * Remmember that this number can change at any minute.
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	int ncpus;

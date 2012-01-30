@@ -25,8 +25,6 @@
  *   as is used here seems too small for good performace on todays systems.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 int copy_file(const char* filein, const char* fileout) {

@@ -18,8 +18,6 @@
  *
  * TODO:
  * - actually measure the time with a performance counter and see it.
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	int sum = 0;

@@ -21,8 +21,6 @@
  *      under glibc.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int trace(const char *fmt, ...) {
 	extern char *program_invocation_short_name;

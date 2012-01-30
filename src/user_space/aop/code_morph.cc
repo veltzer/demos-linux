@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> // for printf(3)
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -15,10 +15,6 @@
  * via the MMU but you can do it if you mprotect it differently...
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
- *
- * TODO:
  */
 
 const int times=10;

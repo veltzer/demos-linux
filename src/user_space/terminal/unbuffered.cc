@@ -35,8 +35,6 @@
  *      characters one by one...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 void set_noncannon(int desc) {
 	struct termios settings;

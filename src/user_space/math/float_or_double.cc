@@ -6,8 +6,6 @@
  * between float and double at compile time instead of at run time.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // first option - using floats...

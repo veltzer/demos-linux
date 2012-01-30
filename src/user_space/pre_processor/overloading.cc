@@ -4,8 +4,6 @@
  * This example shows that you cannot redefine preprocessor macros.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 #define mymacro(a1) printf("one\n");
 // the next line will cause a compile time error...

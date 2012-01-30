@@ -20,8 +20,6 @@
  *	richer API but does require some learning.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	printf("stdout, no flush (bad updates)\n");
