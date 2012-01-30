@@ -1,5 +1,4 @@
 #include <stdio.h> // for printf(3)
-#include <string.h>
 
 /*
  * This example demostrates that the compiler actually adds full loops
@@ -12,24 +11,38 @@
  * to throw your code away or to morph it to something which will be very hard
  * to recognize.
  *
- * Use a disassembler to see the resulting machine code...
+ * Use a disassembler to see the resulting machine code.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  *
  * TODO:
  * - make this example disassemble itself and show what the compiler did, or maybe
  *   morph it's own code to show that the sum is there ?
  */
 int main(int argc, char **argv, char **envp) {
-	int sum = 0;
+	int sum;
 
+	sum=0;
 	for (int i = 0; i < 100; i++) {
 		sum += i;
 	}
-	for (int j = 99; j > 0; j--) {
-		sum += j;
+	printf("sum is %d\n", sum);
+
+	sum=0;
+	for (int i = 99; i >= 0; i--) {
+		sum += i;
+	}
+	printf("sum is %d\n", sum);
+
+	sum=0;
+	for (int i = 0; i < 100; i+=2) {
+		sum += i;
+	}
+	printf("sum is %d\n", sum);
+
+	sum=0;
+	for (int i = 98; i >= 0; i-=2) {
+		sum += i;
 	}
 	printf("sum is %d\n", sum);
 	return(0);
