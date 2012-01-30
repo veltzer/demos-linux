@@ -1,5 +1,8 @@
 Kernel demos:
 =============
+- see that my demo for showing stuff in proc is good.
+	if not - use the new proc API and fix it up.
+- do demo of handling interrupts (mouse for instance). take this from the gilad slides.
 - improve the kmem_cache demo with the user space program.
 - add an example of a mempool.
 - add an example of waitqueues (waking up different processes).
@@ -23,7 +26,6 @@ space with hooks (much like /proc).
 
 - do demo of mempool in demo_kernel.
 - do demo of debugging kmalloc and kfree.
-- do demo of handling interrupts (mouse for instance). take this from the gilad slides.
 - do demo of semaphore. include/asm/semaphore.h
 
 - check that spin_lock_bh actually works by waiting in the kernel and seeing the DPC not enter...

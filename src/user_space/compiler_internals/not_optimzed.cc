@@ -7,6 +7,11 @@
 	not simulate your code but rather understand the underlying
 	construct to deduce what you are doing and use a predefined
 	set of formulas to precalculate the result...
+
+	You can see that indeed it is not optimized when you disassemble
+	the code.
+
+		Mark Veltzer
 */
 
 int main(int argc,char** argv,char** envp) {
