@@ -11,11 +11,17 @@
 	You can see that indeed it is not optimized when you disassemble
 	the code.
 
+	Compare the second loop to the first.
+
 		Mark Veltzer
 */
 
 int main(int argc,char** argv,char** envp) {
 	int sum=0;
+	for(int i=0;i<100;i++) {
+		sum+=i;
+	}
+	printf("sum is %d\n",sum);
 	for(int i=0;i<100;i++) {
 		sum+=i*i;
 	}
