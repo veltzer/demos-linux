@@ -1,6 +1,7 @@
-# name of this module
 ifeq ($(MODNAME),)
+	# name of this module
 	export MODNAME:=$(notdir $(CURDIR))
+	# objects for this module
 	export $(MODNAME)-objs:=$(addsuffix .o,$(basename $(shell find . -name "*.c" -and -not -name "*.mod.c")))
 endif
 # ko to make
