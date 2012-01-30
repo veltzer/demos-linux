@@ -31,7 +31,7 @@ veltzer@fermat:~/install/linux-source-2.6.32/drivers$ fgrep "wake_up_all(" `find
 63
 veltzer@fermat:~/install/linux-source-2.6.32/drivers$ fgrep "wake_up_interruptible_all(" `find . -type f -name "*.c"` | wc -l
 15
-Which means that you should usually call 'wake_up' or 'wake_up_interruptible' rather than wak_up_all...
+Which means that you should usually call 'wake_up' or 'wake_up_interruptible' rather than wake_up_all...
 
 - If you want to find the kernel headers that you are using they are under:
 	/usr/src/linux-headers-`uname -r`/include/linux on ubuntu systems.

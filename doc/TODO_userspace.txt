@@ -5,6 +5,10 @@ and continue running (gcore on the cmd line, sending itself a signal,
 running the right function).
 - give an example of a binary that accesses it's own symbols by name.
 	ld_ functions with NULL.
+- do a user space example that compares various ways of getting a time stamp
+	(rdtsc, gettimeofday, getclock, ...)
+- do a user space program that measures the rdtsc progress vs time
+	and compares it to the values taken from the cpufreq library.
 
 - do an example that links dlls together and create a "mega dll".
 - do an example that links object files + a bunch of dlls into a "exe + dlls in one file" package. This way this exe can have backtrace capability with good symbol names. Demo it.

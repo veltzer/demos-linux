@@ -23,11 +23,14 @@ int main(int argc, char **argv, char **envp) {
 	printf("run something like watch --interval=0.2 lsmod\n");
 	// file descriptor
 	int fd;
+	int fd2;
 	while(true) {
 		sc(fd = open(filename, O_RDWR));
+		sc(fd2 = open(filename, O_RDWR));
 		usleep(1000000);
 		//sleep(1);
 		sc(close(fd));
+		sc(close(fd2));
 		usleep(1000000);
 		//sleep(1);
 	}
