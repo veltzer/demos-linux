@@ -27,6 +27,7 @@ packs=[
 	'dialog',
 	'libace-dev',
 	'iptables-dev',
+	'cpulimit', # for the cpulimit command
 ]
 
 args=['sudo','apt-get','install']
