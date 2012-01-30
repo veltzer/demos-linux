@@ -7,7 +7,6 @@
  *      object and not let us do anything with it including taking fields
  *      or doing pointer arithmetic...
  *                                              Mark Veltzer
- * EXTRA_LIBS=
  */
 
 #define CppOffsetOf(className, FieldName) ((char *)(&(((className *)1)->FieldName)) - (char *)1)

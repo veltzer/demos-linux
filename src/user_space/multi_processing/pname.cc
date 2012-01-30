@@ -21,8 +21,6 @@
  * - set names of threads in a multi threaded application (will be in a separate demo).
  *
  *                              Mark Veltzer
- * EXTRA_LIBS=
- *
  * TODO:
  * - add a fork(2) to this demo and show that parent and child can have different names.
  */

@@ -20,8 +20,6 @@
  *      compiler...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 /*

@@ -19,8 +19,6 @@
  *   must be used.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 inline  __attribute__((__gnu_inline__)) void trace(int first, ...) {
 	int i=__builtin_va_arg_pack_len();

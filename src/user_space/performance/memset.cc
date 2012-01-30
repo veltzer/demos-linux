@@ -20,8 +20,6 @@
  * TODO: find out how wmemset work and discuss it's efficiency.
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	const int size = 1000;

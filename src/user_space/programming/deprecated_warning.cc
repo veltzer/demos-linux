@@ -9,8 +9,6 @@
  *      'info gcc' for more details.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // this is how to use unused in a function declaration...

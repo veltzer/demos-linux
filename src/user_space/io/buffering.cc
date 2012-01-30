@@ -8,8 +8,6 @@
  *      io files...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 void printBuff(FILE *s, const char *name) {
 	printf("stats for the [%s] stream\n", name);

@@ -15,7 +15,6 @@
  *              wait, waitpid, wait3, wait4...
  *
  *                              Mark Veltzer
- * EXTRA_LIBS=
  */
 void print_status(int status) {
 	if (WIFEXITED(status)) {

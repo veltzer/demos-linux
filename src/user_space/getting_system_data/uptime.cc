@@ -13,8 +13,6 @@
  *      This is not very suitable for very delicate and precise timings but still.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 void uptime(float *time1, float *time2) {
 	// null the pointers

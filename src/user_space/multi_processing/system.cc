@@ -6,8 +6,6 @@
  *      from system(3)
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	int res = system("/bin/ls /foo");

@@ -17,8 +17,6 @@
  *
  *              Mark Veltzer
  *
- * EXTRA_LIBS=
- *
  * TODO:
  * - improve the guessing system to also handle free (get reports about them
  *   and be able to guess even though there are calls to free(3)).

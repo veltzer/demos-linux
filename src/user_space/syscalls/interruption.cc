@@ -18,8 +18,6 @@
  * original value you want to look at.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 static void sig_handler(int sig) {

@@ -24,7 +24,6 @@
  *   in the kernel that does this...).
  *
  *                              Mark Veltzer
- * EXTRA_LIBS=
  */
 
 int main(int argc, char **argv, char **envp) {

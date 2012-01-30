@@ -4,8 +4,6 @@
  * This shows how to use the pre-processor to catenate stuff...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 #define catit(a,b) a ## b

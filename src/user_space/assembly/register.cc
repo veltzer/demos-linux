@@ -4,8 +4,6 @@
  * This is an example of getting a register on an i32 machine
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 static inline unsigned int getregister() {

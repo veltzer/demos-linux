@@ -26,8 +26,6 @@
  *   _user_ of the program.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 //#define NDEBUG

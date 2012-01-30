@@ -22,8 +22,6 @@
  *      - mmap anonymous pages (this is supposed to be quite effective...).
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // this next function takes an address and aligns it to page size

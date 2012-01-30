@@ -18,7 +18,6 @@
  *		at all that is...).
  *
  *			Mark Veltzer
- * EXTRA_LIBS=
  */
 
 class A {

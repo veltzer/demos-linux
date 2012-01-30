@@ -6,8 +6,6 @@
  *      for wide strings (overriding the definition of wchar_t).
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 #define wchar_t char

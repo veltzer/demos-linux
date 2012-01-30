@@ -22,7 +22,6 @@
  *      on program termination.
  *
  *                              Mark Veltzer
- * EXTRA_LIBS=
  */
 
 class A {

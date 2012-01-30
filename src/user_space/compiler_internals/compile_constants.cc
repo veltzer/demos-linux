@@ -6,8 +6,6 @@
  *      are known by the compiler in order to speed things up...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 static inline int _sum(int i) {
 	std::cerr << "in _sum for " << i << std::endl;

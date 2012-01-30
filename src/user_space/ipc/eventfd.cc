@@ -20,8 +20,6 @@
  * - eventfd can be multiplexed using select, poll or epoll.
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 volatile bool cont=true;

@@ -21,8 +21,6 @@
  * an even amount of records.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // signal handling functions

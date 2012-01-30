@@ -8,8 +8,6 @@
  *      a terminal or not and print it's name in case it is.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	// lets take the file descriptor number from stdin which is usually

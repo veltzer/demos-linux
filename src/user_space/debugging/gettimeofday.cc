@@ -10,8 +10,6 @@
  *      This example also shows how accurate this method of measurement is...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 void print_timeval(struct timeval *tv, const char *name) {
 	printf("%s - sec is %lu\n", name, tv->tv_sec);
