@@ -1,2 +1,4 @@
 - show how to exit cleanly by breaking out of syscalls in other threads
 	(siginterrupt(2)).
+- show how to cleanup after threads.
+- show how to intercept signals and perform some cleanup code.
