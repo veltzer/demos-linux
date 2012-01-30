@@ -20,6 +20,7 @@
  *      - closing a file descriptor only schedules release to be called in the kernel.
  *      - this release will be called once any ioctls on the current file descriptor end.
  *      - any new operations on this file descriptor are not allowed (bad file descriptor).
+ *      - makes it easier to program in the kernel.
  *
  *      		Mark Veltzer
  *
@@ -27,22 +28,22 @@
  */
 
 // file descriptor
-int d, d2;
+int fd, fd2;
 
-void *function_crazy(void *p) {
+void *function_empty(void *p) {
 	bool over = false;
 	int counter = 0;
-	bool err = false;
-
+	int errors=0;
 	while (!over) {
 		counter++;
+		bool err;
 		// ioctl to do nothing...
-		int res = ioctl(d, IOCTL_RACE_EMPTY, NULL);
+		int res = ioctl(fd, IOCTL_RACE_EMPTY, NULL);
 		if (res == -1) {
-			err = true;
-			//perror("ERROR from crazy thread...");
-			//over=true;
+			err=true;
+			errors++;
 		} else {
+			err=false;
 		}
 		if (counter % 10000 == 0) {
 			char c;
@@ -53,51 +54,71 @@ void *function_crazy(void *p) {
 			}
 			fprintf(stdout, "%c", c);
 			fflush(stdout);
-			err = false;
+		}
+		if(errors==100000) {
+			over=true;
+			fprintf(stdout, "X");
+			fflush(stdout);
 		}
 	}
 	return(NULL);
 }
 
 
-void *function_long(void *p) {
-	sc(ioctl(d, IOCTL_RACE_10, NULL));
+void *function_short(void *p) {
+	fprintf(stdout, "ss");
+	fflush(stdout);
+	sc(ioctl(fd, IOCTL_RACE_SLEEP_SHORT, NULL));
+	fprintf(stdout, "fs");
+	fflush(stdout);
 	return(NULL);
 }
 
 
-void *function_long2(void *p) {
-	sc(ioctl(d2, IOCTL_RACE_10000, NULL));
+void *function_long(void *p) {
+	fprintf(stdout, "sl");
+	fflush(stdout);
+	sc(ioctl(fd2, IOCTL_RACE_SLEEP_LONG, NULL));
+	fprintf(stdout, "fl");
+	fflush(stdout);
 	return(NULL);
 }
 
 
 void *function_close(void *p) {
-	fprintf(stderr, "close thread started and going to sleep for two seconds\n");
 	sleep(2);
-	fprintf(stderr, "close thread trying to close handle...\n");
-	sc(close(d));
+	fprintf(stdout,"c");
+	fflush(stdout);
+	sc(close(fd));
+	fprintf(stdout,"C");
+	fflush(stdout);
+	// this will create an error
 	//sc(ioctl(d,IOCTL_RACE_EMPTY,NULL));
 	return(NULL);
 }
 
 
 int main(int argc, char **argv, char **envp) {
-	// file to be used
-	const char *filename = "/dev/drv_ioctl_close_race";
+	const char *filename = "/dev/mod_ioctl_close_race";
+	printf("Inserting the driver...\n");
+	my_system("sudo rmmod mod_ioctl_close_race");
+	my_system("sudo insmod ./mod_ioctl_close_race.ko");
+	my_system("sudo chmod 666 %s",filename);
 
-	sc(d = open(filename, O_RDWR));
-	sc(d2 = open(filename, O_RDWR));
+	sc(fd=open(filename, O_RDWR));
+	sc(fd2=open(filename, O_RDWR));
 
-	pthread_t thread_long;
+	pthread_t thread_empty,thread_short,thread_long,thread_close;
+	sc0(pthread_create(&thread_empty, NULL, function_empty, NULL));
+	sc0(pthread_create(&thread_short, NULL, function_short, NULL));
 	sc0(pthread_create(&thread_long, NULL, function_long, NULL));
-	pthread_t thread_long2;
-	sc0(pthread_create(&thread_long2, NULL, function_long2, NULL));
-	pthread_t thread_close;
 	sc0(pthread_create(&thread_close, NULL, function_close, NULL));
-
+	sc0(pthread_join(thread_empty, NULL));
+	sc0(pthread_join(thread_short, NULL));
 	sc0(pthread_join(thread_long, NULL));
-	sc0(pthread_join(thread_long2, NULL));
 	sc0(pthread_join(thread_close, NULL));
+	//sc(close(fd));
+	sc(close(fd2));
+	fprintf(stdout,"\nALL DONE\n");
 	return(0);
 }
