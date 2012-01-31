@@ -1,0 +1,9 @@
+Write a kernel module that holds a buffer in kernel space.
+The kernel module implements a character device driver and thus
+allows user space to read and write to that buffer.
+
+* Do not worry about synchronisation, wakeup, go to sleep or any of that.
+
+test your driver this way:
+$ echo "hello" > /dev/mybuffer
+$ cat /dev/mybuffer

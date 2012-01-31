@@ -7,7 +7,7 @@ endif
 # ko to make
 KO:=$(MODNAME).ko
 # dev file in /dev
-DEV:=/dev/$(NAME)
+DEV:=/dev/$(MODNAME)
 # fill in the name of the module. I know that it's weird but this should be a .o name
 # and is probably due to backwards compatibility issues.
 obj-m:=$(MODNAME).o
@@ -43,14 +43,14 @@ indent:
 	indent -kr -i8 *.c
 .PHONY: insmod
 insmod:
-	-sudo rmmod $(NAME)
+	-sudo rmmod $(MODNAME)
 	sudo dmesg -c > /dev/null
 	sudo insmod $(KO)
 	sleep 1 # wait for the /dev files to appear
 	sudo chmod 666 $(DEV)*
 .PHONY: rmmod
 rmmod:
-	sudo rmmod $(NAME)
+	sudo rmmod $(MODNAME)
 # a target to debug my own makefile...
 .PHONY: debug
 debug:
@@ -58,6 +58,7 @@ debug:
 	$(info KO is $(KO))
 	$(info KVER is $(KVER))
 	$(info KDIR is $(KDIR))
+	$(info DEV is $(DEV))
 	$(info V is $(V))
 	$(info CURDIR is $(CURDIR))
 	$(info obj-m is $(obj-m))
