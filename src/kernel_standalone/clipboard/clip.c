@@ -16,7 +16,7 @@
 #include<linux/sched.h>			/* TASK_* definitions */
 #include<asm/uaccess.h>			/* User space access */
 
-MODULE_AUTHOR("Mark Veltzer<mark.veltzer@gmail.com>");
+MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("A proc/interrupt/clipboard example");
 

@@ -4,7 +4,7 @@
 #include <linux/fs.h> // for fops
 #include <linux/device.h> // for class_create
 #include <linux/slab.h> // for kzalloc
-#include <asm/uaccess.h> // for copy_to_user, access_ok
+#include <linux/uaccess.h> // for copy_to_user, access_ok
 #include <linux/cdev.h> // for cdev_*
 #include <linux/sched.h> // for TASK_INTERRUPTIBLE and more constants
 #include <linux/spinlock.h> // for spinlock_t and ops on it
@@ -349,7 +349,7 @@ static int __init pipe_init(void) {
 	}
 	pr_debug("created the class");
 	for(i=0;i<pipes_count;i++) {
-	// and now lets auto-create a /dev/ node
+		// and now lets auto-create a /dev/ node
 		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),first_minor+i),NULL,"%s%d",THIS_MODULE->name,i);
 		if(IS_ERR(pipes[i].pipe_device)) {
 			pr_err("device_create");
@@ -360,10 +360,12 @@ static int __init pipe_init(void) {
 	pr_debug("created the device");
 	pr_info("end");
 	return 0;
-//err_device:
+	/*
+err_device:
 	for(i=0;i<pipes_count;i++) {
-		device_destroy(my_class, first_dev);
+		device_destroy(my_class, MKDEV(MAJOR(first_dev),first_minor+i));
 	}
+	*/
 err_class:
 	class_destroy(my_class);
 err_cdev_del:
@@ -383,7 +385,7 @@ static void __exit pipe_exit(void) {
 	int i;
 	pr_info("start");
 	for(i=0;i<pipes_count;i++) {
-		device_destroy(my_class,MKDEV(MAJOR(first_dev),i));
+		device_destroy(my_class,MKDEV(MAJOR(first_dev),MINOR(first_dev)+i));
 	}
 	class_destroy(my_class);
 	cdev_del(&cdev);
