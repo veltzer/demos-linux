@@ -1,7 +1,9 @@
 Kernel demos:
 =============
-- see that my demo for showing stuff in proc is good.
-	if not - use the new proc API and fix it up.
+- do a simple example of exposing stuff via proc.
+	(using the old non seq API).
+- use the above example of interrupt handling example which exposes the number of
+	interrupt recieved via that /proc interface.
 - do demo of handling interrupts (mouse for instance). take this from the gilad slides.
 - improve the kmem_cache demo with the user space program.
 - add an example of a mempool.
@@ -13,7 +15,7 @@ Kernel demos:
 - do an example of kernel semaphores (semaphore.h).
 
 - add example of using /sys sysfs attributes as another example of exposing stuff to user
-space with hooks (much like /proc).
+space with hooks.
 
 - demonstrate the use of the might_sleep function.
 
