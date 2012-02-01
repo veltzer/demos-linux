@@ -20,7 +20,7 @@ static struct device* my_device;
  */
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	PR_INFO("start");
-	return(0);
+	return 0;
 }
 
 /*
