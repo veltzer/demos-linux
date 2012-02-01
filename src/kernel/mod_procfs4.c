@@ -3,11 +3,13 @@
  * This program uses the seq_file library to manage the /proc file.
  */
 
+#define DEBUG
 #include <linux/module.h> // for the MODULE_*
+#include <linux/printk.h> // for printk and the pr_* API
 #include <linux/proc_fs.h> // Necessary because we use proc fs
 #include <linux/seq_file.h> // for seq_file
 
-#define PROC_NAME "iter"
+#define PROC_NAME KBUILD_MODNAME
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -20,15 +22,16 @@ MODULE_DESCRIPTION("a module showing how to use the _seq /proc API");
  *     *	- after the function stop (end of sequence)
  *      *
  *       */
-static void *my_seq_start(struct seq_file *s, loff_t *pos) {
-	static unsigned long counter = 0;
+static void* my_seq_start(struct seq_file *s, loff_t *pos) {
+	pr_debug("my_seq_start %p, %Ld",s,*pos);
 	/* beginning a new sequence ? */	
-	if ( *pos == 0 ) {	
+	if ( *pos == 0 ) {
 		/* yes => return a non null value to begin the sequence */
-		return &counter;
+		int* p=(int*)kmalloc(sizeof(int),GFP_KERNEL);
+		*p=0;
+		return p;
 	} else {
-		/* no => it's the end of the sequence, return end to stop reading */
-		*pos = 0;
+		/* no => it's the end of the sequence, return NULL to stop reading */
 		return NULL;
 	}
 }
@@ -38,25 +41,34 @@ static void *my_seq_start(struct seq_file *s, loff_t *pos) {
  * It's called untill the return is NULL (this ends the sequence).
  */
 static void *my_seq_next(struct seq_file *s, void *v, loff_t *pos) {
-	unsigned long *tmp_v = (unsigned long *)v;
-	(*tmp_v)++;
-	(*pos)++;
-	return NULL;
+	int *p;
+	pr_debug("my_seq_next %p, %p, %Ld",s,v,*pos);
+	p=(int*)v;
+	if(*p<10) {
+		(*p)++;
+		(*pos)++;
+		return v;
+	} else {
+		return NULL;
+	}
 }
 
 /**
  * This function is called at the end of a sequence
  */
 static void my_seq_stop(struct seq_file *s, void *v) {
-	/* nothing to do, we use a static value in start() */
+	pr_debug("my_seq_stop %p, %p",s,v);
+	kfree(v);
 }
 
 /**
  * This function is called for each "step" of a sequence
  */
 static int my_seq_show(struct seq_file *s, void *v) {
-	loff_t *spos = (loff_t *) v;
-	seq_printf(s, "%Ld\n", *spos);
+	int* p;
+	pr_debug("my_seq_show %p, %p",s,v);
+	p=(int*)v;
+	seq_printf(s, "%d\n", *p);
 	return 0;
 }
 
