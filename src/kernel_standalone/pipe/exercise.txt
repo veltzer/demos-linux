@@ -5,3 +5,11 @@ create a module that exposes files in /dev of the form:
 
 Each pipe represents a PAGE_SIZE buffer in kernel.
 Allow reading and writing to the pipe.
+
+Take care of synchronization.
+
+If a reader wants to read and there is no data in the pipe and also there
+are no writers, return EOF to the reader.
+
+Compare your results with the Linux implementation of a pipe, use pipemeter.
+Are your results better? Worse? Why?
