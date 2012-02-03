@@ -17,11 +17,7 @@
 
 /*
  * TODO:
- * - print the total like ls does.
- * - add sorting.
- * - if we are sorting then might as well find the maximum number of hard links
- *   	and maximum number of blocks.
- * - print owner and group.
+ * - print date 
  */
 
 static int strcmp_wrap(const void* pa,const void* pb) {
