@@ -18,6 +18,7 @@
 /*
  * TODO:
  * - print date 
+ * - print symlink.
  */
 
 static int strcmp_wrap(const void* pa,const void* pb) {
