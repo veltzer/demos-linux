@@ -1,9 +1,8 @@
 #include <stdio.h> // for printf(3)
-#include <string.h>
-#include <sys/utsname.h>
-#include <stdbool.h>
+#include <sys/utsname.h> // for uname(2)
+#include <stdbool.h> // for bool
 
-#include "us_helper.hh"
+#include "us_helper.hh" // our own helper
 
 /*
  *      This is a demo showing the sizes of variables on the architecture
@@ -35,10 +34,10 @@ int main(int argc, char **argv, char **envp) {
 	PRINT_SIZEOF(unsigned long long);
 	PRINT_SIZEOF(float);
 	PRINT_SIZEOF(double);
+	// this is not allowed in C
+	//float* x={ 5, 3, 2, 1 }; 
+	// but this is...
 	float x[] = { 5, 3, 2, 1 }; 
 	printf("size of x is %d\n",sizeof(x));
-	// next syntax is NOT allowed in C...
-	//float* y = { 5, 3, 2, 1 }; 
-	//printf("size of y is %d\n",sizeof(y));
 	return(0);
 }
