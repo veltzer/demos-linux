@@ -15,11 +15,11 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A named pipe exercise");
 
 #define DO_COPY
-//#define DO_SPINLOCK
-#define DO_MUTEX
-//#define DO_WAIT
+#define DO_SPINLOCK
+//#define DO_MUTEX
+#define DO_WAITQUEUE
 #define DO_WAKEUP
-#define DO_SCHEDULE
+//#define DO_SCHEDULE
 //#define DO_NOTHING
 
 /*
@@ -47,7 +47,7 @@ MODULE_DESCRIPTION("A named pipe exercise");
 static int pipes_count=8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
-static int pipe_size=PAGE_SIZE;
+static int pipe_size=PAGE_SIZE*100;
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
@@ -59,9 +59,15 @@ typedef struct _my_pipe_t {
 	size_t write_pos;
 	wait_queue_head_t read_queue;
 	wait_queue_head_t write_queue;
+	#ifdef DO_SPINLOCK
 	spinlock_t lock;
+	#endif // DO_SPINLOCK
 	struct device* pipe_device;
+	#ifdef DO_MUTEX
 	struct inode* inode;
+	#endif // DO_MUTEX
+	int readers;
+	int writers;
 } my_pipe_t;
 
 static my_pipe_t* pipes=NULL;
@@ -72,10 +78,14 @@ static inline void pipe_ctor(my_pipe_t* pipe) {
 	pipe->size=pipe_size;
 	pipe->read_pos=0;
 	pipe->write_pos=0;
+#ifdef DO_SPINLOCK
 	spin_lock_init(&pipe->lock);
+#endif // DO_SPINLOCK
 	pipe->pipe_device=NULL;
 	init_waitqueue_head(&pipe->read_queue);
 	init_waitqueue_head(&pipe->write_queue);
+	pipe->readers=0;
+	pipe->writers=0;
 }
 
 // pipe destructor
@@ -127,21 +137,27 @@ static inline void pipe_unlock(my_pipe_t* const pipe) {
 
 // wait on the pipes readers queue
 static inline int pipe_wait_read(my_pipe_t* const pipe) {
-	#ifdef DO_WAIT
+	#ifdef DO_WAITQUEUE
 	int ret;
 	pipe_unlock(pipe);
 	ret=wait_event_interruptible(pipe->read_queue,pipe_data(pipe)>0);
 	pipe_lock(pipe);
 	return ret;
-	#endif // DO_WAIT
+	#endif // DO_WAITQUEUE
 	#ifdef DO_SCHEDULE
+	int ret;
 	DEFINE_WAIT(wait);
 	prepare_to_wait(&pipe->read_queue, &wait, TASK_INTERRUPTIBLE);
 	pipe_unlock(pipe);
 	schedule();
+	if(signal_pending(current)) {
+		ret=-ERESTARTSYS;
+	} else {
+		ret=0;
+	}
 	finish_wait(&pipe->read_queue, &wait);
 	pipe_lock(pipe);
-	return 0;
+	return ret;
 	#endif // DO_SHCEDULE
 	#ifdef DO_NOTHING
 	return 0;
@@ -150,21 +166,27 @@ static inline int pipe_wait_read(my_pipe_t* const pipe) {
 
 // wait on the pipes writers queue
 static inline int pipe_wait_write(my_pipe_t* const pipe) {
-	#ifdef DO_WAIT
+	#ifdef DO_WAITQUEUE
 	int ret;
 	pipe_unlock(pipe);
-	ret=wait_event_interruptible(pipe->write_queue,pipe_data(pipe)>0);
+	ret=wait_event_interruptible(pipe->write_queue,pipe_room(pipe)>0);
 	pipe_lock(pipe);
 	return ret;
-	#endif // DO_WAIT
+	#endif // DO_WAITQUEUE
 	#ifdef DO_SCHEDULE
+	int ret;
 	DEFINE_WAIT(wait);
 	prepare_to_wait(&pipe->write_queue, &wait, TASK_INTERRUPTIBLE);
 	pipe_unlock(pipe);
 	schedule();
+	if(signal_pending(current)) {
+		ret=-ERESTARTSYS;
+	} else {
+		ret=0;
+	}
 	finish_wait(&pipe->write_queue, &wait);
 	pipe_lock(pipe);
-	return 0;
+	return ret;
 	#endif // DO_SHCEDULE
 	#ifdef DO_NOTHING
 	return 0;
@@ -227,12 +249,32 @@ static inline int pipe_copy_to_user(my_pipe_t* const pipe,int count,char** __use
 
 // these are the actual operations
 
-static int pipe_open(struct inode * inode, struct file * file) {
+static int pipe_open(struct inode * inode, struct file * filp) {
 	// hide the minor number in the private_data of the file_struct
 	int minor=iminor(inode);
 	my_pipe_t* pipe=pipes+minor;
+#ifdef DO_MUTEX
 	pipe->inode=inode;
-	file->private_data=pipe;
+#endif // DO_MUTEX
+	if(filp->f_mode & FMODE_READ) {
+		pipe->readers++;
+	}
+	if(filp->f_mode & FMODE_WRITE) {
+		pipe->writers++;
+	}
+	filp->private_data=pipe;
+	return 0;
+}
+
+static int pipe_release(struct inode* inode,struct file* filp) {
+	my_pipe_t* pipe;
+	pipe=(my_pipe_t*)(filp->private_data);
+	if(filp->f_mode & FMODE_READ) {
+		pipe->readers--;
+	}
+	if(filp->f_mode & FMODE_WRITE) {
+		pipe->writers--;
+	}
 	return 0;
 }
 
@@ -248,13 +290,19 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 	// the pipe LOCKED with data
 	pipe_lock(pipe);
 	data=pipe_data(pipe);
-	while(data==0) {
+	while(data==0 && pipe->writers>0) {
 		if((ret=pipe_wait_read(pipe))) {
+			pipe_unlock(pipe);
 			return ret;
 		}
 		data=pipe_data(pipe);
 	}
 	pr_debug("data is %d",data);
+	// EOF handling
+	if(data==0 && pipe->writers==0) {
+		pipe_unlock(pipe);
+		return 0;
+	}
 	// now data > 0
 	work_size=min(data,count);
 	pr_debug("work_size is %d",work_size);
@@ -299,6 +347,7 @@ static ssize_t pipe_write(struct file * file, const char __user * buf, size_t co
 	room=pipe_room(pipe);
 	while(room==0) {
 		if((ret=pipe_wait_write(pipe))) {
+			pipe_unlock(pipe);
 			return ret;
 		}
 		room=pipe_room(pipe);
@@ -337,6 +386,7 @@ static ssize_t pipe_write(struct file * file, const char __user * buf, size_t co
 // this is the operations table
 static const struct file_operations pipe_fops = {
 	.open=pipe_open,
+	.release=pipe_release,
 	.read=pipe_read,
 	.write=pipe_write,
 };
