@@ -15,5 +15,8 @@ int main(int argc, char **argv, char **envp) {
 	printf("'%%#lx' is %#lx\n", i);
 	printf("'%%#lX' is %#lX\n", i);
 	printf("with conversion '%%lX' is %lX\n", (unsigned long)p);
+	int width=5;
+	int num=4;
+	printf("%*d", width, num);
 	return(0);
 }
