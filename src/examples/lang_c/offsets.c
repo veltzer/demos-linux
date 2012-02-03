@@ -36,9 +36,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("field_a is in offset %d\n",__builtin_offsetof(mystruct,field_a));
 	printf("field_b is in offset %d\n",__builtin_offsetof(mystruct,field_b));
 	printf("field_c is in offset %d\n",__builtin_offsetof(mystruct,field_c));
-	// using a gcc builtin
-	printf("field_a is in offset %d\n",__compiler_offsetof(mystruct,field_a));
-	printf("field_b is in offset %d\n",__compiler_offsetof(mystruct,field_b));
-	printf("field_c is in offset %d\n",__compiler_offsetof(mystruct,field_c));
 	return(0);
 }
