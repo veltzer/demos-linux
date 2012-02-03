@@ -3,13 +3,10 @@
 #include<linux/slab.h>			/* Memory alloc functions */
 #include<linux/fs.h>			/* File operations */
 #include<linux/errno.h>			/* Error codes */
-#include<linux/interrupt.h>		/* Interrupts */
-#include<linux/proc_fs.h>		/* Proc file */
-#include<linux/cdev.h>			/* Character device */
-#include<linux/sched.h>			/* TASK_* definitions */
 #include<linux/uaccess.h>		/* User space access */
 #include<linux/printk.h>		/* printk and pr_* API */
-#include <linux/device.h> // for class_create
+#include<linux/cdev.h>			/* Character device */
+#include<linux/device.h>		/* for class_create */
 
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");
@@ -51,6 +48,7 @@ int mybuffer_release(struct inode* inode,struct file* filp) {
  * Simply copy data to the user buffer...
  */
 ssize_t mybuffer_read(struct file* filp,__user char* user_buf,size_t count,loff_t* offset) {
+	int ret; // error code in case of error
 	int bytes_to_read;
 	/* Number of bytes left to read in the open file */
 	bytes_to_read=min(BUFFER_SIZE-(*offset),(loff_t)count);
@@ -58,12 +56,12 @@ ssize_t mybuffer_read(struct file* filp,__user char* user_buf,size_t count,loff_
 		/* All read and returning 0 for End Of File */
 		return 0;
 	}
-	if(copy_to_user(
+	if((ret=copy_to_user(
 		user_buf,
 		*offset+buffer,
 		bytes_to_read
-	)) {
-		return(-EFAULT);
+	))) {
+		return ret;
 	} else {
 		*offset+=bytes_to_read;
 		return bytes_to_read;
@@ -99,6 +97,7 @@ ssize_t mybuffer_write(struct file* filp,const char* user_buf,size_t count,loff_
 /* our file operations structure that gathers all the ops */
 
 struct file_operations mybuffer_fops={
+	.owner = THIS_MODULE,
 	.open=mybuffer_open,
 	.release=mybuffer_release,
 	.read=mybuffer_read,
@@ -108,7 +107,7 @@ struct file_operations mybuffer_fops={
 /*
  * Module housekeeping.
  */
-static int mybuffer_init(void) {
+static int __init mybuffer_init(void) {
 	int ret; // error code to return in case of error
 	buffer=kmalloc(BUFFER_SIZE,GFP_KERNEL);
 	if(!buffer) {
@@ -118,16 +117,15 @@ static int mybuffer_init(void) {
 	}
 	memset(buffer,0,BUFFER_SIZE);
 
-	if(alloc_chrdev_region(&mybuffer_dev,0,BUFFER_COUNT,THIS_MODULE->name)) {
+	if((ret=alloc_chrdev_region(&mybuffer_dev,0,BUFFER_COUNT,THIS_MODULE->name))) {
 		pr_err("alloc_chrdev_region");
-		ret=-ENODEV;
 		goto error_after_alloc;
 	}
 
 	mybuffer_cdev=cdev_alloc();
-	if(!mybuffer_cdev) {
+	if(IS_ERR(mybuffer_cdev)) {
 		pr_err("cdev_alloc");
-		ret=-ENOMEM;
+		ret=PTR_ERR(mybuffer_cdev);
 		goto error_after_region;
 	}
 	mybuffer_cdev->ops=&mybuffer_fops;
@@ -154,7 +152,7 @@ static int mybuffer_init(void) {
 		ret=PTR_ERR(mybuffer_device);
 		goto error_after_class_create;
 	}
-	pr_info("clipboard loaded sucessfuly");
+	pr_info("mybuffer loaded sucessfuly");
 	return 0;
 
 /*
@@ -173,13 +171,13 @@ any_error:
 	return ret;
 }
 
-static void mybuffer_cleanup(void) {
+static void __exit mybuffer_cleanup(void) {
 	device_destroy(my_class, mybuffer_dev);
 	class_destroy(my_class);
 	cdev_del(mybuffer_cdev);
 	unregister_chrdev_region(mybuffer_dev,BUFFER_COUNT);
 	kfree(buffer);
-	pr_info("clipboard unloaded succefully.");
+	pr_info("mybuffer unloaded succefully.");
 }
 
 module_init(mybuffer_init);
