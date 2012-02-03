@@ -1,5 +1,3 @@
-Exercise for systems programming course
-=======================================
 Write your own implementation of ls -l. Try to make it emit output
 which is as close to the ls -l output as possible.
 Here is how to compare your output with the output of ls:
