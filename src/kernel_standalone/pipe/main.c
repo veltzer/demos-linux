@@ -39,7 +39,9 @@ MODULE_DESCRIPTION("A named pipe exercise");
  * TODO:
  * - explain the difference in performance mentioned above and improve this example to
  *   give similar performance.
- *
+ * - hold the readers and writers as atomic variables.
+ *   This will enable us to remove the spinlock protection that we currently have in the
+ *   	'open' and 'release' fops.
  *
  * TOOLS: pipemeter
  */
@@ -47,7 +49,10 @@ MODULE_DESCRIPTION("A named pipe exercise");
 static int pipes_count=8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
-static int pipe_size=PAGE_SIZE*100;
+// this size of pipe performs very well! (3.0 G/s)
+//static int pipe_size=PAGE_SIZE*100;
+// this one doesnt...
+static int pipe_size=PAGE_SIZE;
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
@@ -251,30 +256,37 @@ static inline int pipe_copy_to_user(my_pipe_t* const pipe,int count,char** __use
 
 static int pipe_open(struct inode * inode, struct file * filp) {
 	// hide the minor number in the private_data of the file_struct
+	// BUG! subtract the minor number we got when allocating
 	int minor=iminor(inode);
 	my_pipe_t* pipe=pipes+minor;
 #ifdef DO_MUTEX
 	pipe->inode=inode;
 #endif // DO_MUTEX
+	filp->private_data=pipe;
+	pipe_lock(pipe);
 	if(filp->f_mode & FMODE_READ) {
 		pipe->readers++;
 	}
 	if(filp->f_mode & FMODE_WRITE) {
 		pipe->writers++;
 	}
-	filp->private_data=pipe;
+	pipe_unlock(pipe);
 	return 0;
 }
 
 static int pipe_release(struct inode* inode,struct file* filp) {
 	my_pipe_t* pipe;
 	pipe=(my_pipe_t*)(filp->private_data);
+	pipe_lock(pipe);
 	if(filp->f_mode & FMODE_READ) {
 		pipe->readers--;
 	}
 	if(filp->f_mode & FMODE_WRITE) {
 		pipe->writers--;
+		// wake up readers which wait - only needed if the spin lock is not used
+		//pipe_wake_readers(pipe);
 	}
+	pipe_unlock(pipe);
 	return 0;
 }
 
