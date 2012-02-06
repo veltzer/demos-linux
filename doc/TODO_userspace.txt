@@ -95,6 +95,10 @@ do they conflict and where do they match.
         show that the wakeup is pretty near the expected time (rdtsc).
 - do example of fifo and priorities in pthreads.
 
+- add example of a process doing a fork and the child (or parent) giving themselves
+	a different name so that they would appear differently in the process table
+	(show the process table from the program).
+
 creating temp files correctly:
 ==============================
 mkdtemp(3), mktemp(3), tempnam(3), tmpfile(3), tmpnam(3)
