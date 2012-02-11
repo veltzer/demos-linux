@@ -59,12 +59,14 @@ $ getconf LEVEL1_DCACHE_LINESIZE
 $ cat /proc/cpuinfo | grep "clflush size"
 $ cat /sys/devices/system/cpu/cpu0/cache/index0/coherency_line_size
 
-
 How to get the cache line size on linux? (programatically)
 ==========================================================
 
 How do you pad a structure to have the size rounded to cache line size?
 =======================================================================
+- Do it at compile time (ofcourse).
+- add a member which you do not use or ask the compiler to pad using
+special syntax.
 
 How pipeline organization in a core effects programming
 =======================================================
@@ -83,9 +85,91 @@ because pipe utilisation is better.
 
 out of order memory.
 
-Multicore vs multi CPU
+Introduction
+============
+Most modern computers and even cell phones have more than one physical
+device that can run code.
+These devices, whether you call them cores or CPUs can operate AT THE SAME TIME.
+The idea was to speed up processing when making the transistor smaller became too difficult.
+Add more cores and you are done, right?!? Wrong...
+
+The problems of memory
 ======================
-explain the difference between multi core and multi CPU.
+Why do CPUs need a memory cache at all? The idea is that not all memory acts
+in the same speed
+There are, and always will be, better technologies for faster memory, and old technologies for slower memory
+- There is a huge monetary difference between these types of memory.
+- (Why didn't they make the entire Airplane out the stuff that makes up the black box? ...:)
+- So can we use the fact that we have fast and expensive memory as opposed to slower and less
+expensive memory to speed up the computer? Yes.
+
+The CPU cache
+=============
+- A relatively small area of memory within the CPU that is made out of the fast expensive memory
+and which stores a copy of some addresses accessed by the CPU.
+- The algorithm that chooses which addresses to store in the cache is varied across different
+CPUs.
+some store the last addresses accessed, some store the most heavily used ones. 
+- The idea is to reduce the AVERAGE time it take to access a given memory address.
+- Rests upon the assumption that software is not chaotic and tends to reuse the
+same addresses most of the time.
+- In reality CPUs usually have more than one cache. As you get away from the core caches become
+bigger but also slower until you reach main memory which is biggest and slowest.
+- These are called L1, L2, L3, ...
+
+Types of caches
+===============
+- In reality CPUs have more than one type of cache:
+- DCACHE: data cache used for data access (read and write)
+- ICACHE: instruction cache (used to cache execute only memory which is your code)
+- TLB: Translation Lookaside Buffer. Speeds up virtual to physical address translation.
+	(I will mention that later).
+
+When do you thrash the cache?
+=============================
+- thrashing: using many resources to do little work. bad.
+- A piece of software allocates huge amount of ram and then accesses address by random accessing
+each address one time.
+- A piece of software at any given point in time with so much ram that the same address is never
+accessed twice.
+- In all of these cases the cache is used (it is in hardware after all) but it is not useful. The
+cache is only useful if you access 
+
+
+Multi core vs Multi CPU
+=======================
+- the terms multi core and multi CPU are highly abused and used with various meaning.
+- We will use the following meaning:
+- A multi CPU machine is a machine with more than one execution unit where little
+is shared between the units.
+- A multi core machine is a machine with more than one execution unit where more
+is shared between the units.
+- I know, know, 'little' and 'more' will be explained shortly.
+
+What is there to share?
+=======================
+- for our purposes the following are important:
+	- various data caches and instruction caches.
+	- parts of the execution pipe line.
+	- interrupt controllerer
+	- bridge to the hardware bus
+- there are other things which may be shared like the fact that the two CPUs are
+	inside the same "chip" or shared the same socket or voltage
+	regulator which are not important to us.
+- Why should you care if CPUs share or don't share some of this stuff? Because
+it effects performance, and even your programming!
+
+Coherent vs non coherent platforms
+==================================
+- Coherency is a very important subject.
+- A perfectly coherent platform is one where all components of
+the system (IO devices, all cores and CPUS) see memory in exactly
+the same way.
+- Coherency is a hardware feature which can be controlled by software
+(special machine instructions).
+- Most real systems are incoherent in some ways.
+- Some systems could be used in both coherent and incoherent ways.
+- because the CPU
 
 How do I know how many cores I have?
 ====================================
@@ -127,3 +211,26 @@ What is numa?
 
 What are numa system calls on Linux?
 ====================================
+
+How do measure the performance of all of those?
+===============================================
+- modern CPUs hold counters for all of the above:
+	TLB misses, data cache misses, instruction cache misses, branch prediction misses,
+	and much much more.
+- some of the counters are only accessible from kernel mode
+and most from any mode. Writing to them is usually restricted
+to kernel mode.
+- in order to access them you need to write assembly code which
+is non portable.
+- the problem is counting them right since these counters are
+not per thread or process because the CPU doesn't know about
+threads or processes.
+- If you are the only process running then no problem (although
+you are counting the OS as well).
+- if not then better solutions are required.
+
+How do I measure if all of these techniques work?
+=================================================
+- Write your own code in assembly. Most people don't do that.
+- on Linux use perf
+- use a library like PAPI to give you the CPU counters involved. 

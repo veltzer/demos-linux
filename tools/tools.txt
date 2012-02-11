@@ -11,7 +11,6 @@ process statistics:
 	nice, renice, snice
 	netstat, nc
 	atop, atopsar
-	oprofile
 io:
 	iostat
 	iotop, ionice
@@ -78,6 +77,8 @@ power managements:
 big tools:
 	systemtap
 	perf
+	oprofile
+	sysprof
 
 pipe performance:
 	pipemeter: cat /dev/zero | pipemeter | wc -c
