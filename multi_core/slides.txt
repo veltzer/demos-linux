@@ -1,0 +1,129 @@
+What are pipe lines in the CPU?
+===============================
+A clock in a CPU is simply a oscillator crystal at a constant rate
+that synchronizes the operation of all the parts of the CPU.
+On a steady clock CPU the clock also has to be longer than the longest executing
+instruction (bummer!)
+This means that it is difficult to increase the clock rate. Even if most instructions
+are very short the longest one determines the clock rate.
+
+RISC
+=====
+One solution was to simpify instructions: break down complicated instructions
+into simple ones.
+Now the longest instruction is much shorter and the CPU clock could be increased.
+But now you need to fetch more instructions and have a bigger instruction cache.
+Compilers also work harder because even simple operations require generation of several
+machine instructions - and object files become bigger.
+
+PIPELINES
+=====
+A different solution was to keep instructions complex but break them down inside
+the cpu.
+Each instruction will be broken up to several stages.
+This way several instructions could be executed at the same time because every
+stage will be executed
+Clock rate can now be increased to match the time it taken the most complicated
+stage of the most compilcated instruction to execute.
+Compilers don't have to work hard.
+
+Because increasing the clock became hard engineers decided on a pipe line
+approach to increasing the CPU speed.
+
+How pipelines affect programming
+================================
+- the CPU misses branch prediction as a result of the pipelining
+process.
+- now we need to tell the CPU how likely/unlikey our bra
+likely/unlikely hints to the compiler.
+
+core which is very unregular (noisy and hard to predict)
+will be slower because it will confuse the branch prediction code.
+
+- show an example of likely/unlikely code.
+	show this on gcc and on Intel.
+
+What are cache lines?
+=====================
+- when the CPU fetches memory it does not fetch it one address at a time.
+- instead it fetches a full "cache line".
+- typical cache lines are 16 to 128 bytes and are usually aligned.
+- for example, on current intel processors cache lines are 64 bytes.
+- Cache line should not be confused with memory page which is a much bigger
+construct.
+
+How to get the cache line size on linux? (command line)
+========================================
+On the command line:
+$ getconf LEVEL1_DCACHE_LINESIZE
+$ cat /proc/cpuinfo | grep "clflush size"
+$ cat /sys/devices/system/cpu/cpu0/cache/index0/coherency_line_size
+
+
+How to get the cache line size on linux? (programatically)
+==========================================================
+
+How do you pad a structure to have the size rounded to cache line size?
+=======================================================================
+
+How pipeline organization in a core effects programming
+=======================================================
+Imagine a cpu with integer, memory, floating point and branch pipelines.
+This means that code like:
+	int x=y+7
+	int z=t+5
+	float r=sqrt(k)
+	float u=m*m
+is better written as
+	int x=y+7
+	float r=sqrt(k)
+	int z=t+5
+	float u=m*m
+because pipe utilisation is better.
+
+out of order memory.
+
+Multicore vs multi CPU
+======================
+explain the difference between multi core and multi CPU.
+
+How do I know how many cores I have?
+====================================
+- read the manual of your mother board?!?
+- $ cat /proc/cpuinfo | grep processor
+- number of configured processors:
+	$ getconf _NPROCESSORS_CONF
+- number of online processors:
+	$ getconf _NPROCESSORS_ONLN
+- $ cat /sys/devices/system/cpu/{present,offline,online}
+
+What is the maximum amount of CPUs that I may run on?
+=====================================================
+- Sometimes you need access to this information in order to hold data
+per CPU.
+- you can ask how many processors are currently online but new processors
+may be added at runtime.
+- the operating system kernel is compiled to a maximum number
+of CPUs in it's data structures. You can use that number in your code as well.
+- you can get that from the kernel headers package.
+- or you can read /sys/devices/system/cpu/kernel_max
+
+How multicore/multicpu affects programming
+==========================================
+Multicore CPUs will see memory changes earlier.
+Multicore will slow each other more since they share resources.
+Memory communication between multicore processes will be faster while
+	between CPUs on a multi-CPU machine it will be slower.
+
+How do you get the CPU topology on Linux? (command line)
+========================================================
+
+How do you get the CPU topology on Linux? (programmatic)
+========================================================
+
+
+What is numa?
+=============
+
+What are numa system calls on Linux?
+====================================
