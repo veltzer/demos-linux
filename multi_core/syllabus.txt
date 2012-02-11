@@ -1,201 +1,189 @@
 order:
-                multi processor and multi-core.
-     real time design patterns.
-                linux systems programming.
-                effective (C++,STL,Boost).
- 
-=======================
-= first part - 2 days =
-=======================
+	multi processor and multi-core (2 days)
+	real time design patterns. (1 day)
+	linux systems programming. (2 days)
+	effective (2 days)
+	optimizing linux performace (3 days)
+	linux networking (3 days)
+====================================
+= first part - Multi core - 2 days =
+====================================
+Book: Multicore application programming: For windows, Linux and Oracle Solaris.
+Definitions.
+	Difference between multicore and multi-cpu.
+CPU caches.
+	(chapter 1).
+	how to optimize cache utilization.
+	how to measure cache utilization.
+	how to avoid cache line sharing.
+Chapter 3 (identifying opportunities for parallelism).
+Concepts and definition:
+	mutex
+	futexs
+	semaphores
+	RWLock and other locks.
+	spinlocks.
+	Lock free algorithms.
+	Deadlock, livelock.
+	Memory sharing.
+	Message queues.
+	Barriers
+	Conditions.
+	Machine memory barrier.
+	Compiler barrier.
+intro open mp:
+	chapter 7 from the book.
+	show interesting examples.
+	show what can be done - don't explain every #pragma.
+	when to use, compare to regular multi threading.
+	exercise: write a merge sort with open mp. optimize it.
+low level synchronisation:
+	atomic operations on intel using icc.
+	memory barrier on icc.
+	compiler barrier on icc.
+lock free algorithms tour (chapter 8):
+	lock free circular buffer.
+	lock free hash table.
+exercise: write a cyclic buffer to serve as a logging buffer.
+	write APIs to log to the buffer and protect the buffer
+	only via atomic operations.
+===================================================
+= second part - Real time design patterns - 1 day =
+===================================================
+Memory:
+	avoiding memory allocation (obstack).
+	using a memory cache.
+	using per thread cache (the problems).
+concurrency:
+	fine grained locking.
+	randezvous.
+	simulteneous locking.
+	double checked locking.
+distribution:
+	proactor (exapmles from ACE).
+	object monitor.
+advanced techniques:
+	Copy on write.
+	RCU.
+	full multi versioning.
+exercise: multi threaded server with proactor and randezvous between the worker threads.
+===================================================
+= third part - Linux systems programming - 2 days =
+===================================================
+IO: (short)
+	raw APIs.
+		open flags.
+		read and write semantics.
+		read and write performance.
+	all other apis (directories etc...)
+signals: (short)
+	overview.
+	problems with signal handling.
+	using signal handling for program termination.
+	signal handers interaction with "regular code"
+			(-EINTR, siginterrupt)
+	blocking signal.
+	mention linux specific signal handling functions.
+multi process: (emphasis)
+	entire chapter.
+Posix threads: (emphasis)
+	No theory (covered in multi core chapter).
+	Don't explain all APIS.
+	Show only Linux specific APIs which are not exposed via ACE.
+SYSV interprocess communication: (emphasis)
+	semaphores:
+		performance.
+		when to use.
+		when not to use.
+		compare to futex, condition, atomics,...
+	mmap of regular file:
+		performance.
+		how is caching done.
+	shared memory:
+		the two APIs of shared memory.
+===================================
+= forth part - Effective - 2 days =
+===================================
+Book: Efficient C++ performance programming techniques Dov Bulka, David Mayhew
 Effective C++.
-                Efficient C++ peorformance programming techniques
-                Dov Bulka, David Mayhew
- 
-                correct construction.
-                virtual functions abuse.
-                return value optimisation.
-                redundant construction.
-                efficient use of temporary variables.
-                inlining
-                                how not to inline
- 
-                execrises on this part: None.
-                examples: yes - for each topic.
+	correct construction.
+	virtual functions abuse.
+	return value optimisation.
+	redundant construction.
+	efficient use of temporary variables.
+	inlining
+		how not to inline
+	execrises on this part: None.
+	examples: yes - for each topic.
 Effective STL:
-                Performance of various STL data structures.
-                Correct iteration of data strcutures.
-                Modifying containers while iterating.
-                STL allocators.
-                Complex keys for maps, sets...
- 
-                exercises: ?
-                examples: yes - for each topic.
+	Performance of various STL data structures.
+	Correct iteration of data strcutures.
+	Modifying containers while iterating.
+	STL allocators.
+	Complex keys for maps, sets...
+
+	exercises: ?
+	examples: yes - for each topic.
 Boost:
-                Bind.
-                Flyweight.
-                Tuple.
-                Circular buffer.
-                Intrusive containers (compare to STL).
-                Pool.
-                Scope Exit.
-                Serialisation.
-                Tokenizer (compare to STL, ACE).
- 
-                exercises:
-                                read and write records from the disk using the serialisation (boost).
-                                use the pool for allocation.
-                                use Flyweight to hold the objects.
-                examples: yes - for each topic.
- 
-========================
-= second part - 2 days =
-========================
-Linux systems programming:
-                IO: (short)
-                                raw APIs.
-                                                open flags.
-                                                read and write semantics.
-                                                read and write performance.
-                                all other apis (directories etc...)
-                signals: (short)
-                                overview.
-                                problems with signal handling.
-                                using signal handling for program termination.
-                                signal handers interaction with "regular code"
-                                                (-EINTR, siginterrupt)
-                                blocking signal.
-                                mention linux specific signal handling functions.
-                multi process: (emphasis)
-                                entire chapter.
-                Posix threads: (emphasis)
-                                No theory (covered in multi core chapter).
-                                Don't explain all APIS.
-                                Show only Linux specific APIs which are not exposed via ACE.
-                SYSV interprocess communication: (emphasis)
-                                semaphores:
-                                                performance.
-                                                when to use.
-                                                when not to use.
-                                                compare to futex, condition, atomics,...
-                                mmap of regular file:
-                                                performance.
-                                                how is caching done.
-                                shared memory:
-                                                the two APIs of shared memory.
- 
-========================
-= fourth part - 2 days =
-========================
-Multi core:
-                Multicore application programming: For windows, Linux and Oracle Solaris.
-                Definitions.
-                Difference between multicore and multi-cpu.
-                CPU caches.
-                                (chapter 1).
-                                how to optimize cache utilization.
-                                how to measure cache utilization.
-                                how to avoid cache line sharing.
-                Chapter 3 (identifying opportunities for parallelism).
-                Concepts and definition:
-                                mutex
-                                futexs
-                                semaphores
-                                RWLock and other locks.
-                                spinlocks.
-                                Lock free algorithms.
-                                Deadlock, livelock.
-                                Memory sharing.
-                                Message queues.
-                                Barriers
-                                Conditions.
-                                Machine memory barrier.
-                                Compiler barrier.
-                intro open mp:
-                                chapter 7 from the book.
-                                show interesting examples.
-                                show what can be done - don't explain every #pragma.
-                                when to use, compare to regular multi threading.
-                                exercise: write a merge sort with open mp. optimize it.
-                low level synchronisation:
-                                atomic operations on intel using icc.
-                                memory barrier on icc.
-                                compiler barrier on icc.
-                lock free algorithms tour (chapter 8):
-                                lock free circular buffer.
-                                lock free hash table.
-                exercise: write a cyclic buffer to serve as a logging buffer.
-                                write APIs to log to the buffer and protect the buffer
-                                only via atomic operations.
- 
-======================
-= fifth part - 1 day =
-======================
-Real time design patterns:
-                Memory:
-                                avoiding memory allocation (obstack).
-                                using a memory cache.
-                                using per thread cache (the problems).
-                concurrency:
-                                fine grained locking.
-                                randezvous.
-                                simulteneous locking.
-                                double checked locking.
-                distribution:
-                                proactor (exapmles from ACE).
-                                object monitor.
-                advanced techniques:
-                                Copy on write.
-                                RCU.
-                                full multi versioning.
-                exercise: multi threaded server with proactor and randezvous between the worker
-                                threads.
- 
-======================
-= sixth part - 3 day =
-======================
-Optimizing Linux performance: A Hands-On guide to Linux performance tools.
-                Introductions:
-                                IO bound vs CPU bound vs memory bound.
-                system wide performance:
-                                (strace, ptrace, system tap, kernel profiler (ftrace))
-                take the list of tools and divide them:
-                                take the tools from the book.
-                                tools for CPU bound applications.
-                                tools for system wide debuggin.
-                                tools for latency sensitive (sleeping) applications.
-                profiling:
-                                gdb
-                                perf
-                                valgrind
-                                oprofile
-                exercise:
-                                take an application and find it's bottle neck.
-                                one app for CPU, one app for IO, one for memory.
- 
-=========================
-= seventh part - 3 days =
-=========================
-Linux networking:
-                Intro:
-                                IPv4 vs IPv6.
-                                tcp, udp, broadcast, multicast, unicast
-                                linux networking internals.
-                                                /proc
-                                                /sys
-                problems with acquiring the same address (e.g. on system crash).
-                                sharing of file descriptors between processes.
-                working with raw sockets.
-                special flags for sockets.
-                async io.
-                                signal driver.
-                                epoll driver.
-                out of band data.
-                tools for monitoring networking apps:
-                                (take the list from my tools).
-                linux network stack:
-                SNMP:
-                                theory.
-                                show example of SNMP server and client on Linux.
-                exercise:
-                                implement a multi threaded web server.
-                                use: async io (epoll/signal driven with thread pool).
+	Bind.
+	Flyweight.
+	Tuple.
+	Circular buffer.
+	Intrusive containers (compare to STL).
+	Pool.
+	Scope Exit.
+	Serialisation.
+	Tokenizer (compare to STL, ACE).
+	exercises:
+		read and write records from the disk using the serialisation (boost).
+		use the pool for allocation.
+		use Flyweight to hold the objects.
+	examples: yes - for each topic.
+==========================================
+= fifth part - Linux performance - 3 day =
+==========================================
+Book: Optimizing Linux performance: A Hands-On guide to Linux performance tools.
+Introductions:
+	IO bound vs CPU bound vs memory bound.
+system wide performance:
+	(strace, ptrace, system tap, kernel profiler (ftrace))
+	perf, oprofile, sysprof
+take the list of tools and divide them:
+	take the tools from the book.
+	tools for CPU bound applications.
+	tools for system wide debuggin.
+	tools for latency sensitive (sleeping) applications.
+profiling:
+	gdb
+	perf
+	valgrind
+	oprofile
+exercise:
+	take an application and find it's bottle neck.
+	one app for CPU, one app for IO, one for memory.
+==========================================
+= sixth part - Linux networking - 3 days =
+==========================================
+Intro:
+	IPv4 vs IPv6.
+	tcp, udp, broadcast, multicast, unicast
+	linux networking internals.
+			/proc
+			/sys
+problems with acquiring the same address (e.g. on system crash).
+	sharing of file descriptors between processes.
+working with raw sockets.
+special flags for sockets.
+async io.
+	signal driver.
+	epoll driver.
+out of band data.
+tools for monitoring networking apps:
+	(take the list from my tools).
+linux network stack:
+SNMP:
+	theory.
+	show example of SNMP server and client on Linux.
+exercise:
+	implement a multi threaded web server.
+	use: async io (epoll/signal driven with thread pool).
