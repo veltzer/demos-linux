@@ -1,0 +1,16 @@
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for sysconf(3)
+
+#include "us_helper.hh"
+
+/*
+ * An example showing how to get the cache line size on linux.
+ *
+ *		Mark Veltzer
+ */
+int main(int argc, char **argv, char **envp) {
+	int linesize;
+	sc(linesize=sysconf(_SC_LEVEL1_DCACHE_LINESIZE));
+	printf("sysconf(_SC_LEVEL1_DCACHE_LINESIZE)=%d\n",linesize);
+	return(0);
+}

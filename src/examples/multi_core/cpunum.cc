@@ -4,8 +4,11 @@
 #include "us_helper.hh"
 
 /*
- * This is a simple example showing how to get the number of current cpus which are online...
- * Remmember that this number can change at any minute.
+ * This is a simple example showing how to get the number of current cpus...
+ * _SC_NPROCESSORS_CONF - means configured CPUs, not neccessarily working
+ * _SC_NPROCESSORS_ONLN - means online CPUs. You may not have access to all of
+ * them.
+ * Remmember that the number of online CPUs can change at any minute.
  *
  *		Mark Veltzer
  */
@@ -13,5 +16,7 @@ int main(int argc, char **argv, char **envp) {
 	int ncpus;
 	sc(ncpus=sysconf(_SC_NPROCESSORS_ONLN));
 	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",ncpus);
+	sc(ncpus=sysconf(_SC_NPROCESSORS_CONF));
+	printf("sysconf(_SC_NPROCESSORS_CONF)=%d\n",ncpus);
 	return(0);
 }
