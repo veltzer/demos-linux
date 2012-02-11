@@ -12,13 +12,21 @@
  *
  *		Mark Veltzer
  */
+
+void print_cpu(int cpunum) {
+}
+
 int main(int argc, char **argv, char **envp) {
 	pid_t pid=getpid();
 	printf("change my cpu using [taskset --cpu-list --pid [list] %d]\n",pid);
-	int cpunum;
+	int cpunum=sched_getcpu();
+	printf("sched_getcpu() says I'm running on core %d\n",cpunum);
 	while(true) {
-		cpunum=sched_getcpu();
-		printf("sched_getcpu() says I'm running on core %d\n",cpunum);
+		int newcpunum=sched_getcpu();
+		if(cpunum!=newcpunum) {
+			cpunum=newcpunum;
+			printf("I've switched to running on core %d\n",cpunum);
+		}
 		sleep(3);
 	}
 	return(0);
