@@ -1,0 +1,13 @@
+What is oprofile?
+=================
+
+Installing oprofile
+===================
+- On ubuntu:
+	sudo apt-get install oprofile oprofile-gui
+- documentation is in /usr/share/doc/oprofile/oprofile.html
+
+References:
+===========
+oprofile documentation
+http://oprofile.sourceforge.net/docs/
