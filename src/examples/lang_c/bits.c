@@ -5,8 +5,6 @@
  *      This is to check some assumptions on bit operations
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 #define COMB(a, b) (a | b)

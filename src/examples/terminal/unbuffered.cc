@@ -39,10 +39,10 @@
 void set_noncannon(int desc) {
 	struct termios settings;
 
-	sc(tcgetattr(desc, &settings));
+	CHECK_NOT_M1(tcgetattr(desc, &settings));
 	cfmakeraw(&settings);
 	//settings.c_lflag&=~ICANON;
-	sc(tcsetattr(desc, TCSANOW, &settings));
+	CHECK_NOT_M1(tcsetattr(desc, TCSANOW, &settings));
 }
 
 

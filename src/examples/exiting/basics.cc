@@ -43,7 +43,7 @@ void my_atexit(void) {
 }
 
 int main(int argc, char **argv, char **envp) {
-	sc(atexit(my_atexit));
+	CHECK_NOT_M1(atexit(my_atexit));
 	const unsigned int code=5;
 	A a(5);
 	char * line = NULL;

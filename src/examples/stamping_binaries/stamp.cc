@@ -57,7 +57,7 @@ int main(int argc, char **argv, char **envp) {
 	printf("date is %s\n", __DATE__);
 	printf("time is %s\n", __TIME__);
 	struct tm tm;
-	scp(strptime(__DATE__ " " __TIME__, "%b %d %Y %H:%M:%S", &tm));
+	CHECK_NOT_NULL(strptime(__DATE__ " " __TIME__, "%b %d %Y %H:%M:%S", &tm));
 	time_t t = mktime(&tm);
 	printf("t is %lu\n", t);
 
@@ -67,21 +67,21 @@ int main(int argc, char **argv, char **envp) {
 	// lets try to run strings(1) on our own binary to see the data...
 	snprintf(cmd,len,"strings %s | grep id_ | grep -v grep",argv[0]);
 	printf("\nrunning [%s]\n",cmd);
-	sc(system(cmd));
+	CHECK_NOT_M1(system(cmd));
 
 	// lets try to see the actual symbols using objdump(1)...
 	snprintf(cmd,len,"objdump -C --section=" SECTION " -x %s | grep id_",argv[0]);
 	printf("\nrunning [%s]\n",cmd);
-	sc(system(cmd));
+	CHECK_NOT_M1(system(cmd));
 
 	// lets dump our own core
 	snprintf(cmd,len,"gcore -o /tmp/core %d",getpid());
 	printf("\nrunning [%s]\n",cmd);
-	sc(system(cmd));
+	CHECK_NOT_M1(system(cmd));
 
 	// lets run gdb to see if we can see our information from a debugging session
 	snprintf(cmd,len,"gdb -c /tmp/core.%d -q %s -x %s",getpid(),argv[0],script);
 	printf("\nrunning [%s]\n",cmd);
-	sc(system(cmd));
+	CHECK_NOT_M1(system(cmd));
 	return(0);
 }

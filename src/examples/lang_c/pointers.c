@@ -4,8 +4,6 @@
  *      Foobar** to char**.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 void func(char **p) {
 }

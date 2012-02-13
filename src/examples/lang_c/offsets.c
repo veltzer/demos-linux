@@ -12,7 +12,6 @@
  *      "struct" prefix to the structure name or drop it.
  *
  *                                              Mark Veltzer
- * EXTRA_LIBS=
  */
 
 #define myoffsetof(structname,fieldname) ((char *)(&(((structname *)0)->fieldname)) - (char *)0)

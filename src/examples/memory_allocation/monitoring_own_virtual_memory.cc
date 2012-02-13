@@ -19,7 +19,7 @@ extern char etext, edata, end; /* The symbols must have some type, or "gcc -Wall
 
 void show_vmem() {
 	struct rusage usage;
-	sc(getrusage(RUSAGE_SELF,&usage));
+	CHECK_NOT_M1(getrusage(RUSAGE_SELF,&usage));
 	printf("usage.ru_maxrss=%lu\n",usage.ru_maxrss);
 	printf("usage.ru_minflt=%lu\n",usage.ru_minflt);
 	// the following values do not change and so I don't print them...

@@ -27,7 +27,7 @@ static void sig_handler(int sig) {
 
 int main(int argc, char **argv, char **envp) {
 	// make sure we break out on receiving the SIGUSR1 signal...
-	sc(siginterrupt(SIGUSR1,1));
+	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
 	CHECK_NOT_VAL(signal(SIGUSR1, sig_handler),SIG_ERR);
 	int ret;
 	printf("signal me with [kill -s SIGUSR1 %d]\n",getpid()); 

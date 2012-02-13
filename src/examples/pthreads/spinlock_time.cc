@@ -24,9 +24,9 @@ static pthread_spinlock_t mylock;
 static void *worker(void *not_used) {
 	while (true) {
 		TRACE("before lock");
-		scg(pthread_spin_lock(&mylock));
+		CHECK_ZERO(pthread_spin_lock(&mylock));
 		sleep(1);
-		scg(pthread_spin_unlock(&mylock));
+		CHECK_ZERO(pthread_spin_unlock(&mylock));
 		TRACE("after lock");
 		sleep(1);
 	}
@@ -38,20 +38,20 @@ int main(int argc, char **argv, char **envp) {
 	// first initialize the lock (no need for sharing between processes which
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
-	scg(pthread_spin_init(&mylock, 0));
+	CHECK_ZERO(pthread_spin_init(&mylock, 0));
 	const int num = 2;
 	pthread_t threads[num];
 	int ids[num];
 	TRACE("starting threads...");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
-		scg(pthread_create(threads + i, NULL, worker, ids + i));
+		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("finished creating threads, joining them...");
 	for (int i = 0; i < num; i++) {
-		scg(pthread_join(threads[i], NULL));
+		CHECK_ZERO(pthread_join(threads[i], NULL));
 	}
 	TRACE("joined all threads, destroying the lock...");
-	scg(pthread_spin_destroy(&mylock));
+	CHECK_ZERO(pthread_spin_destroy(&mylock));
 	return(0);
 }

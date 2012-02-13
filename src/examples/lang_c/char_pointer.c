@@ -20,8 +20,6 @@
  *      access functions go away and so you don't segfault.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {
 	const char *other = "blabla";

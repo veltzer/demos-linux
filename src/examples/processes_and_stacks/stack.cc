@@ -18,7 +18,7 @@
 // print the current limit for stack usage for the process
 void print_limit(void) {
 	struct rlimit rlim;
-	sc(getrlimit(RLIMIT_STACK,&rlim));
+	CHECK_NOT_M1(getrlimit(RLIMIT_STACK,&rlim));
 	printf("rlim_cur is %ld\n",rlim.rlim_cur);
 	printf("rlim_max is %ld\n",rlim.rlim_max);
 }

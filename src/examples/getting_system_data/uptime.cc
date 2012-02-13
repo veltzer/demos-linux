@@ -23,14 +23,14 @@ void uptime(float *time1, float *time2) {
 	const unsigned int size = 256;
 	char buf[size];
 	int d, res;
-	sc(d = open(filename, O_RDONLY));
-	sc(res = read(d, buf, size));
+	CHECK_NOT_M1(d = open(filename, O_RDONLY));
+	CHECK_NOT_M1(res = read(d, buf, size));
 	char *saveptr;
 	char *ptr = strtok_r(buf, " ", &saveptr);
 	*time1 = atof(ptr);
 	ptr = strtok_r(NULL, " ", &saveptr);
 	*time2 = atof(ptr);
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 }
 
 

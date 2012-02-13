@@ -10,8 +10,6 @@
  *      It also explores how to get offsets of fields in structures...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // this next macro calculates the offset of a field from the structure

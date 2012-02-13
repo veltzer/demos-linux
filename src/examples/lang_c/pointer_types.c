@@ -8,8 +8,6 @@
  *      Regular software developers usually do not use these features...
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 // this is taken from the kernel sources (include/linux/compiler.h)
