@@ -6,7 +6,6 @@
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs sdl gl glu
- * EXTRA_LIB=
  *
  *	Mark Veltzer
  *

@@ -16,4 +16,4 @@
 	3 posix_fadvise
 	2 truncate, ftruncate
 	2 msync
-- do a demo of asynchroneous IO.
+- add more examples of aio.

@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(fd=open("/etc/passwd",O_RDONLY));
 	/* Allocate a data buffer for the aiocb request */
 	void* ptr;
-	CHECK_NOT_NULL(ptr=malloc(BUFSIZE));
+	CHECK_NOT_NULL(ptr=malloc(BUFSIZE+1));
 	struct aiocb my_aiocb;
 	/* Zero out the aiocb structure (recommended) */
 	bzero(&my_aiocb,sizeof(struct aiocb));
@@ -38,5 +38,8 @@ int main(int argc, char **argv, char **envp) {
 	int ret;
 	CHECK_NOT_M1(ret=aio_return(&my_aiocb));
 	printf("got ret of %d\n",ret);
+	char* buf=(char*)my_aiocb.aio_buf;
+	buf[ret]='\0';
+	printf("%s\n",buf);
 	return(0);
 }

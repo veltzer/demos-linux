@@ -13,7 +13,7 @@ ALL_DEPS:=Makefile
 # bahviour of linking with standard C/C++ runtime libraries.
 FLAGS_FOR_SHARED_LIB:=-shared -Xlinker -e -Xlinker my_entry
 # These are the libraries used by your library
-EXTRA_LIBS:=
+LIBS:=
 
 .PHONY: all
 all: $(EXE_NAME)
@@ -21,7 +21,7 @@ all: $(EXE_NAME)
 $(EXE_NAME): $(EXE_OBJECTS) $(SO_NAME) $(ALL_DEPS)
 	$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_LINK_NAME)
 $(SO_NAME): $(SO_OBJECTS)  $(ALL_DEPS)
-	$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_NAME) $(SO_OBJECTS) $(EXTRA_LIBS)
+	$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_NAME) $(SO_OBJECTS) $(LIBS)
 
 .PHONY: clean
 clean: $(ALL_DEPS)
