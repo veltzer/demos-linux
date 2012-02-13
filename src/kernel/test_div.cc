@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **envp) {
 	char s1[len];
 	char s2[len];
 
-	sc(fd = open(filename, O_RDWR));
+	CHECK_NOT_M1(fd = open(filename, O_RDWR));
 	while (true) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");
@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp) {
 		b.d1 = atoi(s1);
 		b.d2 = atoi(s2);
 		klog_clear();
-		sc(ioctl(fd, IOCTL_DIV_DOOPS, &b));
+		CHECK_NOT_M1(ioctl(fd, IOCTL_DIV_DOOPS, &b));
 		klog_show_clear();
 		printf("unsigned long long results:\n");
 		printf("div is %llu - should be %llu\n", b.udiv, b.u1 / b.u2);
@@ -59,6 +59,6 @@ int main(int argc, char **argv, char **envp) {
 		printf("add is %lld - should be %lld\n", b.dadd, b.u1 + b.u2);
 		printf("sub is %lld - should be %lld\n", b.dsub, b.u1 - b.u2);
 	}
-	sc(close(fd));
+	CHECK_NOT_M1(close(fd));
 	return(0);
 }

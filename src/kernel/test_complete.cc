@@ -25,7 +25,7 @@ void *wait_function(void *p) {
 	fprintf(stderr,"wait thread started\n");
 	ticks_t t1 = getticks();
 	// wait thread going to sleep
-	sc(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
+	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
 	ticks_t t2 = getticks();
 	fprintf(stderr,"took %d micros\n",get_mic_diff(t1, t2));
 	return(NULL);
@@ -41,18 +41,18 @@ int main(int argc, char **argv, char **envp) {
 	my_system("sudo chmod 666 %s",filename);
 
 	// we are the in the parent of the threads - connect to the device
-	sc(fd = open(filename, O_RDWR));
+	CHECK_NOT_M1(fd = open(filename, O_RDWR));
 	// initialize the completion
-	sc(ioctl(fd, IOCTL_COMPLETE_INIT, NULL));
+	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_INIT, NULL));
 
 	pthread_t thread_wait1, thread_wait2;
-	sc0(pthread_create(&thread_wait1, NULL, wait_function, NULL));
-	sc0(pthread_create(&thread_wait2, NULL, wait_function, NULL));
+	CHECK_ZERO(pthread_create(&thread_wait1, NULL, wait_function, NULL));
+	CHECK_ZERO(pthread_create(&thread_wait2, NULL, wait_function, NULL));
 	waitkey("press any key to wake the thread up");
 	// waking the thread
-	sc(ioctl(fd, IOCTL_COMPLETE_COMPLETE_ALL, NULL));
-	sc0(pthread_join(thread_wait1, NULL));
-	sc0(pthread_join(thread_wait2, NULL));
-	sc(close(fd));
+	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_COMPLETE_ALL, NULL));
+	CHECK_ZERO(pthread_join(thread_wait1, NULL));
+	CHECK_ZERO(pthread_join(thread_wait2, NULL));
+	CHECK_NOT_M1(close(fd));
 	return(0);
 }

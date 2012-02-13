@@ -92,7 +92,7 @@ int main(int argc,char** argv,char** envp) {
 	DIR* d;
 	struct dirent* dircontent;
 	const bool hidedots=true;
-	scp(d=opendir("."));
+	CHECK_NOT_NULL(d=opendir("."));
 	int num_files=0;
 	int num_blocks=0;
 	while ((dircontent = readdir(d))) {
@@ -113,7 +113,7 @@ int main(int argc,char** argv,char** envp) {
 		arr[i]=(char*)malloc(256);
 		strncpy(arr[i],dircontent->d_name,256);
 		struct stat buf;
-		sc(stat(arr[i],&buf));
+		CHECK_NOT_M1(stat(arr[i],&buf));
 		num_blocks+=buf.st_blocks;
 		if(buf.st_nlink>max_link) {
 			max_link=buf.st_nlink;
@@ -126,7 +126,7 @@ int main(int argc,char** argv,char** envp) {
 	//printf("log10 is %lf, %ld, %d\n",log10(max_link),lrint(ceil(log10(max_link))),max_link);
 	int size_width=lrint(ceil(log10(max_size)));
 	int size_link=lrint(ceil(log10(max_link+1)));
-	sc(closedir(d));
+	CHECK_NOT_M1(closedir(d));
 	qsort(arr,num_files,sizeof(char*),strcmp_wrap);
 	printf("total %d\n",num_blocks/2);
 	for(int i=0;i<num_files;i++) {
@@ -135,7 +135,7 @@ int main(int argc,char** argv,char** envp) {
 			continue;
 		}
 		struct stat buf;
-		sc(stat(arr[i],&buf));
+		CHECK_NOT_M1(stat(arr[i],&buf));
 		char p[11];
 		mode_t m=buf.st_mode;
 		filetype(m,p);

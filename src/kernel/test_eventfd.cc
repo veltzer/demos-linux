@@ -20,16 +20,16 @@ int main(int argc, char **argv, char **envp) {
 	// file descriptor
 	int fd;
 
-	sc(fd = open(filename, O_RDWR));
+	CHECK_NOT_M1(fd = open(filename, O_RDWR));
 	int efd;
-	sc(efd = eventfd(0, 0));
+	CHECK_NOT_M1(efd = eventfd(0, 0));
 	int pid;
-	sc(pid = fork());
+	CHECK_NOT_M1(pid = fork());
 	if(pid==0) {
 		printf("Child\n");
 	} else {
 		printf("Parent\n");
 	}
-	sc(close(fd));
+	CHECK_NOT_M1(close(fd));
 	return(0);
 }

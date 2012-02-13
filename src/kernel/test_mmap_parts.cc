@@ -48,27 +48,27 @@ int main(int argc, char **argv, char **envp) {
 	// file to be used
 	const char *filename = "/dev/demo";
 
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 
 	//printf("setting the size to %d\n",size);
-	//sc(res=ioctl(d,6,size));
+	//CHECK_NOT_M1(res=ioctl(d,6,size));
 
 	if (do_mmap_once) {
 		void *p;
 		klog_clear();
-		SCPE(p = mmap(
+		CHECK_NOT_VAL(p = mmap(
 		             NULL,                                                                                                                                                                                                                                                                                                                                                                                                                                                          /* we DO NOT recommend an address - better to let the kernel decide */
 		             size,                                                                                                                                                                                                                                                                                                                                                                                                                                                          /* the size we need */
 		             PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                                                                                                                                                                                                        /* we want read AND write */
 		             MAP_SHARED | MAP_POPULATE,                                                                                                                                                                                                                                                                                                                                                                                                                                     /* we want to shard with kernel and don't want page faults */
 		             d,                                                                                                                                                                                                                                                                                                                                                                                                                                                             /* file descriptor */
 		             0                                                                                                                                                                                                                                                                                                                                                                                                                                                              /* offset */
-		             ), "mmap");
+		             ), MAP_FAILED);
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		klog_clear();
-		sc(munmap(p, size));
+		CHECK_NOT_M1(munmap(p, size));
 		klog_show();
 		printbuddy();
 	}
@@ -76,14 +76,14 @@ int main(int argc, char **argv, char **envp) {
 		printproc("demo");
 		klog_clear();
 		// trying to map memory
-		sc(res = ioctl(d, 4, NULL));
+		CHECK_NOT_M1(res = ioctl(d, 4, NULL));
 		void *p = (void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		klog_clear();
 		// trying to unmap memory
-		sc(res = ioctl(d, 5, NULL));
+		CHECK_NOT_M1(res = ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
@@ -91,7 +91,7 @@ int main(int argc, char **argv, char **envp) {
 		printproc("demo");
 		klog_clear();
 		// trying to map memory
-		sc(res = ioctl(d, 4, NULL));
+		CHECK_NOT_M1(res = ioctl(d, 4, NULL));
 		void *p = (void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
@@ -99,7 +99,7 @@ int main(int argc, char **argv, char **envp) {
 		memset(p, 0, size);
 		klog_clear();
 		// trying to unmap memory
-		sc(res = ioctl(d, 5, NULL));
+		CHECK_NOT_M1(res = ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
@@ -107,31 +107,31 @@ int main(int argc, char **argv, char **envp) {
 		const int number = 10;
 		for (int i = 0; i < number; i++) {
 			// trying to map memory
-			sc(res = ioctl(d, 4, NULL));
+			CHECK_NOT_M1(res = ioctl(d, 4, NULL));
 			void *p = (void *)res;
 			printf("the pointer I got is %p\n", p);
 			// trying to unmap memory
-			sc(res = ioctl(d, 5, NULL));
+			CHECK_NOT_M1(res = ioctl(d, 5, NULL));
 		}
 	}
 	if (do_stress_mmap) {
 		const int number = 100000;
 		for (int i = 0; i < number; i++) {
 			void *p;
-			SCPE(p = mmap(
+			CHECK_NOT_VAL(p = mmap(
 			             NULL,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   /* we DO NOT recommend an address - better to let the kernel decide */
 			             size,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   /* the size we need */
 			             PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 /* we want read AND write */
 			             MAP_SHARED | MAP_POPULATE,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              /* we want to shard with kernel and don't want page faults */
 			             d,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /* file descriptor */
 			             0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       /* offset */
-			             ), "mmap");
+			             ), MAP_FAILED);
 			printf("the pointer I got is %p\n", p);
 			memset(p, 0, size);
-			sc(munmap(p, size));
+			CHECK_NOT_M1(munmap(p, size));
 			printbuddy();
 		}
 	}
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

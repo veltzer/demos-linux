@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp) {
 
 	//klog_clear();
 
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey(NULL);
@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp) {
 	if (do_single) {
 		// the size of data that we need
 		const unsigned int size = 1000000;
-		SCPE(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), "map to user");
+		CHECK_NOT_VAL(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
 		//printproc("demo");
 		//klog_show_clear();
 		waitkey(NULL);
@@ -54,11 +54,11 @@ int main(int argc, char **argv, char **envp) {
 		INFO("trying to write on the buffer");
 		memset(ptr, 'a', size);
 		// get buffer from user space
-		sc(ioctl(d, IOCTL_DEMO_READ, 'a'));
-		sc(ioctl(d, IOCTL_DEMO_WRITE, 'a' + 1));
+		CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_READ, 'a'));
+		CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_WRITE, 'a' + 1));
 		memcheck(ptr, 'a' + 1, size);
 
-		sc(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
+		CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
 		//printproc("demo");
 		//klog_show_clear();
 		waitkey(NULL);
@@ -69,22 +69,22 @@ int main(int argc, char **argv, char **envp) {
 			do_prog(i, 10, count);
 			unsigned int size = (i % 1000 + 1) * 4096;
 			char c = i % 20 + 'a';
-			scp(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size));
+			CHECK_NOT_NULL(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size));
 			// set the buffer to c
 			memset(ptr, c, size);
 			// get buffer from user space
-			sc(ioctl(d, IOCTL_DEMO_READ, c));
+			CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_READ, c));
 			// ask the kernel to write c+1
-			sc(ioctl(d, IOCTL_DEMO_WRITE, c + 1));
+			CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_WRITE, c + 1));
 			// check that the buffer has the right data
 			memcheck(ptr, c + 1, size);
 			// get ridd of the in kernel buffer
-			sc(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
+			CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
 		}
 		do_prog_finish();
 	}
 
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey(NULL);

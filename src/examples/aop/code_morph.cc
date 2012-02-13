@@ -67,7 +67,7 @@ char* find_cell(void* ptr,char val) {
  */
 void segv_handler(int sig) {
 	fprintf(stderr,"in segv_handler, changing protection for the page...\n");
-	sc(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC));
+	CHECK_NOT_M1(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC));
 }
 
 int main(int argc, char **argv, char **envp) {

@@ -20,21 +20,21 @@ int main(int argc, char **argv, char **envp) {
 	int d;
 
 	//klog_clear();
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	printf("starting out\n");
 	for (unsigned int i = 1; i < 1000000; i += 100) {
 		// kmalloc does not allocate on a page boundry...
-		//sc(ioctl(d,IOCTL_DEMO_KMALLOC,i),"kmalloc");
+		//CHECK_NOT_M1(ioctl(d,IOCTL_DEMO_KMALLOC,i),"kmalloc");
 		//printf("kmalloc: i is %d\n",i);
-		sc(ioctl(d, IOCTL_DEMO_GET_FREE_PAGES, i));
+		CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_GET_FREE_PAGES, i));
 		printf("__get_free_pages: i is %d\n", i);
 		// I don't seem to be able to call these unless I have a real
 		// device (like PCI etc...).
-		//sc(ioctl(d,IOCTL_DEMO_PCI_ALLOC_CONSISTENT,i),"pci_alloc_consistent");
+		//CHECK_NOT_M1(ioctl(d,IOCTL_DEMO_PCI_ALLOC_CONSISTENT,i),"pci_alloc_consistent");
 		//printf("pci_alloc_consistent: i is %d",i);
-		//sc(ioctl(d,IOCTL_DEMO_DMA_ALLOC_COHERENT,i),"dma_alloc_coherent");
+		//CHECK_NOT_M1(ioctl(d,IOCTL_DEMO_DMA_ALLOC_COHERENT,i),"dma_alloc_coherent");
 		//printf("dma_alloc_coherent: i is %d",i);
 	}
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

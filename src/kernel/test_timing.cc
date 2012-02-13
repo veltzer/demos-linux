@@ -25,21 +25,21 @@ int main(int argc, char **argv, char **envp) {
 	int d;
 
 	printf("Starting\n");
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 
 	printf("showing cpus and their frequencies\n");
 	klog_clear();
-	sc(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
+	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
 	klog_show_clear();
 	// sleep for 1 second to allow us to see the results
 	//sleep(1);
 
 	klog_clear();
-	sc(ioctl(d, IOCTL_TIMING_TSC, 1000));
+	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_TSC, 1000));
 	klog_show_clear();
 
 	klog_clear();
-	sc(ioctl(d, IOCTL_TIMING_JIFFIES, 1000));
+	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_JIFFIES, 1000));
 	klog_show_clear();
 
 	struct timeval t1, t2;
@@ -47,11 +47,11 @@ int main(int argc, char **argv, char **envp) {
 	printf("doing %d syscalls\n",loop);
 	gettimeofday(&t1, NULL);
 	for (unsigned int i = 0;i < loop;i++) {
-		sc(ioctl(d, IOCTL_TIMING_EMPTY, NULL));
+		CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_EMPTY, NULL));
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one syscall: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

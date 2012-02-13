@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp) {
 	const int def_errno=2005;
 
 	printf("Starting, errno at start is %d\n",def_errno);
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 
 	for (int i = -10; i < 10; i++) {
 		errno = def_errno;
@@ -38,6 +38,6 @@ int main(int argc, char **argv, char **envp) {
 		myerrno = errno;
 		printf("kernel returned %d, I got %d and errno is %d\n", i, res, myerrno);
 	}
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

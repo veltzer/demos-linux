@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp) {
 	// file handle
 	int d;
 
-	sc(d = open(filename, O_RDWR));
-	sc(close(d));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

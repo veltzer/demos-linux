@@ -22,13 +22,13 @@
 
 void doChildOne(int* fd) {
 	// close standard output 
-	sc(close(1));
+	CHECK_NOT_M1(close(1));
 	// close the read end of the pipe
-	sc(close(fd[0]));
+	CHECK_NOT_M1(close(fd[0]));
 	// setup fd 1 to be correct
-	sc(dup2(fd[1],1));
+	CHECK_NOT_M1(dup2(fd[1],1));
 	// execute ls -l
-	sc(execl("/bin/ls","/bin/ls","-l",NULL));
+	CHECK_NOT_M1(execl("/bin/ls","/bin/ls","-l",NULL));
 }
 
 /*
@@ -37,38 +37,38 @@ void doChildOne(int* fd) {
 
 void doChildTwo(int* fd) {
 	// close standard input 
-	sc(close(0));
+	CHECK_NOT_M1(close(0));
 	// close the write end of the pipe
-	sc(close(fd[1]));
+	CHECK_NOT_M1(close(fd[1]));
 	// setup fd 1 to be correct
-	sc(dup2(fd[0],0));
+	CHECK_NOT_M1(dup2(fd[0],0));
 	// execute ls -l
-	sc(execl("/usr/bin/wc","/usr/bin/wc","-l",NULL));
+	CHECK_NOT_M1(execl("/usr/bin/wc","/usr/bin/wc","-l",NULL));
 }
 
 int main(int argc,char** argv,char** envp) {
 	int fd[2];
-	sc(pipe(fd));
+	CHECK_NOT_M1(pipe(fd));
 	// child one
 	int pid1;
-	sc(pid1=fork());
+	CHECK_NOT_M1(pid1=fork());
 	if(pid1==0) {
 		doChildOne(fd);
 	}
 	// child two
 	int pid2;
-	sc(pid2=fork());
+	CHECK_NOT_M1(pid2=fork());
 	if(pid2==0) {
 		doChildTwo(fd);
 	}
 	// close the pipe at the parent
 	// we cannot close before the fork or the children will not be able to use this
 	// pipe...
-	sc(close(fd[0]));
-	sc(close(fd[1]));
+	CHECK_NOT_M1(close(fd[0]));
+	CHECK_NOT_M1(close(fd[1]));
 	// wait for both children to die...
 	int status;
-	sc(waitpid(pid1,&status,0));
-	sc(waitpid(pid2,&status,0));
+	CHECK_NOT_M1(waitpid(pid1,&status,0));
+	CHECK_NOT_M1(waitpid(pid2,&status,0));
 	return 0;
 }

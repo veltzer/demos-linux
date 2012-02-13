@@ -50,27 +50,27 @@ const char *filename = "/dev/mod_open_close_release";
 void do_open_close(void) {
 	int d;
 
-	sc(d = open(filename, O_RDWR));
-	sc(close(d));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(close(d));
 }
 
 
 void do_close(void) {
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 }
 
 
 void do_open_and_forget(void) {
 	int d;
 
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 }
 
 
 void do_open_and_segfault(void) {
 	int d;
 
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	char *p = (char *)NULL;
 	*p = 0;
 }
@@ -79,7 +79,7 @@ void do_open_and_segfault(void) {
 pid_t run_in_process(void (*f)(void)) {
 	pid_t pid;
 
-	sc(pid = fork());
+	CHECK_NOT_M1(pid = fork());
 	if (pid == 0) {
 		f();
 		exit(0);
@@ -97,17 +97,17 @@ int main(int argc, char **argv, char **envp) {
 	printf("Scenario 1 - a single process opening and closing...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	sc(d = open(filename, O_RDWR));
-	sc(close(d));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(close(d));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 2 - a single process opening twice and closing twice...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	sc(d = open(filename, O_RDWR));
-	sc(d2 = open(filename, O_RDWR));
-	sc(close(d));
-	sc(close(d2));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d2 = open(filename, O_RDWR));
+	CHECK_NOT_M1(close(d));
+	CHECK_NOT_M1(close(d2));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 3 - two process opening and closing the same file...\n");
@@ -116,42 +116,42 @@ int main(int argc, char **argv, char **envp) {
 	pid_t c1 = run_in_process(do_open_close);
 	pid_t c2 = run_in_process(do_open_close);
 	int status;
-	sc(waitpid(c1, &status, 0));
-	sc(waitpid(c2, &status, 0));
+	CHECK_NOT_M1(waitpid(c1, &status, 0));
+	CHECK_NOT_M1(waitpid(c2, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 4 - parent opens, spawns two children who close and closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	c1 = run_in_process(do_close);
 	c2 = run_in_process(do_close);
-	sc(close(d));
-	sc(waitpid(c1, &status, 0));
-	sc(waitpid(c2, &status, 0));
+	CHECK_NOT_M1(close(d));
+	CHECK_NOT_M1(waitpid(c1, &status, 0));
+	CHECK_NOT_M1(waitpid(c2, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 5 - open, dup and two closes...\n");
 	printf("=============================================================\n");
 	klog_clear();
-	sc(d = open(filename, O_RDWR));
-	sc(d2 = dup(d));
-	sc(close(d));
-	sc(close(d2));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d2 = dup(d));
+	CHECK_NOT_M1(close(d));
+	CHECK_NOT_M1(close(d2));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 6 - open and forget to close\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_forget);
-	sc(waitpid(c1, &status, 0));
+	CHECK_NOT_M1(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	printf("Scenario 7 - open and segfault\n");
 	printf("=============================================================\n");
 	klog_clear();
 	c1 = run_in_process(do_open_and_segfault);
-	sc(waitpid(c1, &status, 0));
+	CHECK_NOT_M1(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey(NULL);
 	return(0);
