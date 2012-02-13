@@ -53,11 +53,11 @@ int main(int argc, char **argv, char **envp) {
 	void      *rets[num];
 
 	fprintf(stderr, "main starting\n");
-	SCIG(pthread_create(&thread1, NULL, worker1, ids + 0), "pthread_create");
-	SCIG(pthread_create(&thread2, NULL, worker2, ids + 1), "pthread_create");
+	CHECK_ZERO(pthread_create(&thread1, NULL, worker1, ids + 0));
+	CHECK_ZERO(pthread_create(&thread2, NULL, worker2, ids + 1));
 	fprintf(stderr, "main ended creating threads\n");
-	SCIG(pthread_join(thread1, rets + 0), "pthread_join");
-	SCIG(pthread_join(thread1, rets + 1), "pthread_join");
+	CHECK_ZERO(pthread_join(thread1, rets + 0));
+	CHECK_ZERO(pthread_join(thread1, rets + 1));
 	fprintf(stderr, "main ended\n");
 	return(0);
 }

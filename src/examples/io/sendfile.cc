@@ -31,8 +31,8 @@ int copy_file(const char* filein, const char* fileout) {
 	size_t sendfile_bufsize=getpagesize();
 	int err_code=0;
 	int fdin,fdout;
-	sc(fdin=open(filein, O_RDONLY, 0666));
-	sc(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
+	CHECK_NOT_M1(fdin=open(filein, O_RDONLY, 0666));
+	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	// we need the return value outside the loop
 	int ret;
 	// this is the main copy loop
@@ -45,8 +45,8 @@ int copy_file(const char* filein, const char* fileout) {
 		perror("unable to send file");
 		err_code=1;
 	}
-	sc(close(fdin));
-	sc(close(fdout));
+	CHECK_NOT_M1(close(fdin));
+	CHECK_NOT_M1(close(fdout));
 	return err_code;
 }
 

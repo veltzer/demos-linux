@@ -48,14 +48,14 @@ int main(int argc, char **argv, char **envp) {
 	fprintf(stderr, "main starting\n");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
-		SCIG(pthread_attr_init(attrs+i),"pthread_attr_init");
-		SCIG(pthread_attr_setstacksize(attrs+i,(i+1)*1024*1024), "pthread_attr_setstacksize");
-		SCIG(pthread_create(threads + i, attrs+i, worker, ids + i), "pthread_create");
-		SCIG(pthread_attr_destroy(attrs+i),"pthread_attr_destroy");
+		CHECK_ZERO(pthread_attr_init(attrs+i));
+		CHECK_ZERO(pthread_attr_setstacksize(attrs+i,(i+1)*1024*1024));
+		CHECK_ZERO(pthread_create(threads + i, attrs+i, worker, ids + i));
+		CHECK_ZERO(pthread_attr_destroy(attrs+i));
 	}
 	fprintf(stderr, "main ended creating threads\n");
 	for (int i = 0; i < num; i++) {
-		SCIG(pthread_join(threads[i], rets + i), "pthread_join");
+		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	fprintf(stderr, "main ended\n");
 	return(0);

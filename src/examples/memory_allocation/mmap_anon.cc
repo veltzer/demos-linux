@@ -49,12 +49,12 @@ int main(int argc, char **argv, char **envp) {
 
 	printproc(NULL);
 	print_stats();
-	scp(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0));
+	CHECK_NOT_NULL(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0));
 	printproc(NULL);
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {
 		// this next line needs permission to lock memory (check ulimit or run as sudo)
-		sc(mlock(p,size));
+		CHECK_NOT_M1(mlock(p,size));
 	}
 	if(do_touch) {
 		memset(p, 0, size);

@@ -40,7 +40,7 @@ pid_t gettid_cached() {
 	if(ptr==NULL) {
 		cached_tid* ctid=(cached_tid*)malloc(sizeof(cached_tid));
 		ctid->val=gettid();
-		sc(pthread_setspecific(tid_key,ctid));
+		CHECK_NOT_M1(pthread_setspecific(tid_key,ctid));
 		return ctid->val;
 	} else {
 		cached_tid* ctid=(cached_tid*)ptr;
@@ -49,7 +49,7 @@ pid_t gettid_cached() {
 }
 
 void gettid_cache_init() {
-	sc(pthread_key_create(&tid_key,gettid_cache_delete));
+	CHECK_NOT_M1(pthread_key_create(&tid_key,gettid_cache_delete));
 }
 
 int main(int argc, char **argv, char** envp) {
@@ -57,37 +57,37 @@ int main(int argc, char **argv, char** envp) {
 	const unsigned int loop=1000000;
 
 	printf("doing %d gettimeofday (for comparison)\n",loop);
-	sc(gettimeofday(&t1, NULL));
+	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for (unsigned int i = 0;i < loop;i++) {
 		struct timeval t3;
 		gettimeofday(&t3, NULL);
 	}
-	sc(gettimeofday(&t2, NULL));
+	CHECK_NOT_M1(gettimeofday(&t2, NULL));
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 
 	printf("doing %d getpid\n",loop);
-	sc(gettimeofday(&t1, NULL));
+	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for (unsigned int i = 0;i < loop;i++) {
 		getpid();
 	}
-	sc(gettimeofday(&t2, NULL));
+	CHECK_NOT_M1(gettimeofday(&t2, NULL));
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 
 	printf("doing %d gettid\n",loop);
-	sc(gettimeofday(&t1, NULL));
+	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for (unsigned int i = 0;i < loop;i++) {
 		gettid();
 	}
-	sc(gettimeofday(&t2, NULL));
+	CHECK_NOT_M1(gettimeofday(&t2, NULL));
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 
 	gettid_cache_init();
 	printf("doing %d gettid_cached\n",loop);
-	sc(gettimeofday(&t1, NULL));
+	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for (unsigned int i = 0;i < loop;i++) {
 		gettid_cached();
 	}
-	sc(gettimeofday(&t2, NULL));
+	CHECK_NOT_M1(gettimeofday(&t2, NULL));
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 	return 0;
 }

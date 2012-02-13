@@ -18,14 +18,14 @@ static void *worker(void *p) {
 	int counter=0;
 	while (true) {
 		TRACE("before lock");
-		scg(pthread_mutex_lock(&mylock));
+		CHECK_ZERO(pthread_mutex_lock(&mylock));
 		sleep(1);
 		// this simulates a bug. see what this thread is doing using
 		// strace on the process or thread id.
 		if(id==1 && counter==10) {
 			sleep(1000);
 		}
-		scg(pthread_mutex_unlock(&mylock));
+		CHECK_ZERO(pthread_mutex_unlock(&mylock));
 		counter++;
 		TRACE("after lock");
 		sleep(1);
@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp) {
 	// first initialize the lock (no need for sharing between processes which
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
-	scg(pthread_mutex_init(&mylock,NULL));
+	CHECK_ZERO(pthread_mutex_init(&mylock,NULL));
 	const int num = 2;
 	pthread_t threads[num];
 	int ids[num];
@@ -46,13 +46,13 @@ int main(int argc, char **argv, char **envp) {
 	TRACE("starting threads...");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
-		scg(pthread_create(threads + i, NULL, worker, ids + i));
+		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("finished creating threads, joining them...");
 	for (int i = 0; i < num; i++) {
-		scg(pthread_join(threads[i], rets + i));
+		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("joined all threads, destroying the lock...");
-	scg(pthread_mutex_destroy(&mylock));
+	CHECK_ZERO(pthread_mutex_destroy(&mylock));
 	return(0);
 }

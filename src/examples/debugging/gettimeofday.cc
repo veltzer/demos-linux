@@ -38,9 +38,9 @@ unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 int main(int argc, char **argv, char **envp) {
 	struct timeval tv_start, tv_end;
 
-	SCIG(gettimeofday(&tv_start, NULL), "gettimeofday");
+	CHECK_NOT_M1(gettimeofday(&tv_start, NULL));
 	usleep(50 * 1000);
-	SCIG(gettimeofday(&tv_end, NULL), "gettimeofday");
+	CHECK_NOT_M1(gettimeofday(&tv_end, NULL));
 	print_timeval(&tv_start, "start");
 	print_timeval(&tv_end, "end");
 	unsigned long diff = diff_timeval_in_micro(&tv_start, &tv_end);

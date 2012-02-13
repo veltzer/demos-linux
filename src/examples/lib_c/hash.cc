@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp) {
 	//SC(hcreate_r(50,&HTAB));
 	// next function does not return any status...
 	//hdestroy_r(&HTAB);
-	sc(hcreate(50));
+	CHECK_NOT_M1(hcreate(50));
 	// next function does not return any status...
 	hdestroy();
 	// TODO

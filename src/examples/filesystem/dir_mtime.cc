@@ -34,7 +34,7 @@ const char* filename="tmpfile";
 
 void show_mtime(const char* filename) {
 	struct stat buf;
-	sc(stat(filename,&buf));
+	CHECK_NOT_M1(stat(filename,&buf));
 	//printf("Data for %s\n",filename);
 	//printf("Last status change: %s", ctime(&buf.st_ctime));
 	printf("%s ctime: %s",filename,ctime(&buf.st_ctime));
@@ -52,9 +52,9 @@ int main(int argc, char **argv, char **envp) {
 	char fullname[PATH_MAX];
 	snprintf(fullname,PATH_MAX,"%s/%s/%s/%s",dirname,dirname,dirname,filename);
 	// lets make the directories...
-	sc(mkdir(dirname,mode_all));
-	sc(mkdir(dirname2,mode_all));
-	sc(mkdir(dirname3,mode_all));
+	CHECK_NOT_M1(mkdir(dirname,mode_all));
+	CHECK_NOT_M1(mkdir(dirname2,mode_all));
+	CHECK_NOT_M1(mkdir(dirname3,mode_all));
 	// lets check the mtime of the various dirs...
 	show_mtime(dirname);
 	show_mtime(dirname2);
@@ -64,18 +64,18 @@ int main(int argc, char **argv, char **envp) {
 	sleep(2);
 	// now lets create a file inside the directory...
 	int d;
-	sc(d=open(fullname,O_CREAT|O_EXCL,mode_all));
+	CHECK_NOT_M1(d=open(fullname,O_CREAT|O_EXCL,mode_all));
 	// lets close the file
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	// lets check the mtime of the various dirs...
 	show_mtime(dirname);
 	show_mtime(dirname2);
 	show_mtime(dirname3);
 	// now lets delete the file
-	sc(unlink(fullname));
+	CHECK_NOT_M1(unlink(fullname));
 	// lets delete the directories (reverse order)... 
-	sc(rmdir(dirname3));
-	sc(rmdir(dirname2));
-	sc(rmdir(dirname));
+	CHECK_NOT_M1(rmdir(dirname3));
+	CHECK_NOT_M1(rmdir(dirname2));
+	CHECK_NOT_M1(rmdir(dirname));
 	return(0);
 }

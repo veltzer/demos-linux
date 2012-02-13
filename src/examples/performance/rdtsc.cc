@@ -51,7 +51,7 @@ int main(int argc, char **argv, char **envp) {
 	
 	printf("lets get the cpu and numa node via getcpu(2)...\n");
 	int c,n;
-	sc(syscall(__NR_getcpu, &c, &n, NULL));
+	CHECK_NOT_M1(syscall(__NR_getcpu, &c, &n, NULL));
 	printf("getcpu(2) says cpu is [%d] and numa node is [%d]...\n", c, n);
 
 	printf("lets get the cpu via sched_getcpu(3)...\n");
@@ -78,17 +78,17 @@ int main(int argc, char **argv, char **envp) {
 	// this one requires parsing
 	const char *cmd = "cat /proc/cpuinfo | grep MH";
 	printf("going to do command [%s]\n", cmd);
-	sc(system(cmd));
+	CHECK_NOT_M1(system(cmd));
 
 	// this one requires root (sudo)
 	const char *cmd2 = "sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq";
 	printf("going to do command [%s]\n", cmd2);
-	sc(system(cmd2));
+	CHECK_NOT_M1(system(cmd2));
 
 	// this one is ok for everyone
 	const char *cmd3 = "cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
 	printf("going to do command [%s]\n", cmd3);
-	sc(system(cmd3));
+	CHECK_NOT_M1(system(cmd3));
 
 	// this is using libcpufreq (it actually does the about reading of the
 	// file in /sys...)

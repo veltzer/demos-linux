@@ -26,7 +26,7 @@ void set_thread_name(const char* newname) {
 	const unsigned int size=16;
 	char name[size];
 	strncpy(name,newname,size);
-	sc(prctl(PR_SET_NAME,name));
+	CHECK_NOT_M1(prctl(PR_SET_NAME,name));
 }
 
 pthread_mutex_t mutex_init,mutex_start,mutex_end;

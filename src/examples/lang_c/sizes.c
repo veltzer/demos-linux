@@ -11,15 +11,13 @@
  *      This is intended for a GNU/linux system.
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 #define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type));
 
 int main(int argc, char **argv, char **envp) {
 	struct utsname buf;
 
-	sc(uname(&buf));
+	CHECK_NOT_M1(uname(&buf));
 	printf("architecture is [%s]\n", buf.machine);
 	PRINT_SIZEOF(bool);
 	PRINT_SIZEOF(char);

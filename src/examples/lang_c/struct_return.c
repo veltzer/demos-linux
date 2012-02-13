@@ -5,8 +5,6 @@
  *	This is an attempt to return a struct from a function
  *
  *		Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 typedef struct _foo {

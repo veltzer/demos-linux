@@ -4,8 +4,6 @@
  * This is a demo showing what happens if strings span more than one line
  *
  *              Mark Veltzer
- *
- * EXTRA_LIBS=
  */
 
 int main(int argc, char **argv, char **envp) {

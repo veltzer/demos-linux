@@ -89,15 +89,15 @@ int main(int argc, char **argv, char **envp) {
 				print_stats();
 				break;
 			case 5:
-				sc(mlockall(MCL_CURRENT));
+				CHECK_NOT_M1(mlockall(MCL_CURRENT));
 				print_stats();
 				break;
 			case 6:
-				sc(mlockall(MCL_FUTURE));
+				CHECK_NOT_M1(mlockall(MCL_FUTURE));
 				print_stats();
 				break;
 			case 7:
-				sc(munlockall());
+				CHECK_NOT_M1(munlockall());
 				print_stats();
 				break;
 			case 8:

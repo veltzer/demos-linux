@@ -34,14 +34,14 @@ void get_driver_version(const char *filename) {
 		perror(dlerror());
 		exit(1);
 	}
-	sc(dlclose(handle));
+	CHECK_NOT_M1(dlclose(handle));
 }
 
 
 int main(int argc, char **argv, char **envp) {
 	struct utsname buf;
 
-	sc(uname(&buf));
+	CHECK_NOT_M1(uname(&buf));
 	printf("os verions is %s\n", buf.release);
 	char filename[256];
 	sprintf(filename, "/lib/modules/%s/kernel/drivers/ata/ahci.ko", buf.release);

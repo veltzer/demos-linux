@@ -36,7 +36,7 @@ int main(int argc, char **argv, char **envp) {
 	}
 	printf("\n\n");
 	printf("stdout, no buffer (good updates, no call to flush so good performance)\n");
-	sc(setvbuf(stdout,NULL,_IONBF,0));
+	CHECK_NOT_M1(setvbuf(stdout,NULL,_IONBF,0));
 	for (unsigned int i = 1000; i > 0; i--) {
 		printf("i is %d      \r", i);
 		usleep(10000);

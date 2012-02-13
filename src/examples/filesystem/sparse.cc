@@ -51,7 +51,7 @@ int main(int argc, char **argv, char **envp) {
 		exit(1);
 	}
 	struct stat stat_buf;
-	sc(stat(fname, &stat_buf));
+	CHECK_NOT_M1(stat(fname, &stat_buf));
 	fprintf(stderr,"buf.size is %lu\n",stat_buf.st_size);
 	fprintf(stderr,"buf.blocks (512B each) is %lu\n",stat_buf.st_blocks);
 	fprintf(stderr,"real total calculated size is %lu\n",stat_buf.st_blocks*512);
@@ -77,6 +77,6 @@ int main(int argc, char **argv, char **envp) {
 	memcheck(buf,0,buf_size);
 
 	// now lets get ridd of the file...
-	sc(unlink(fname));
+	CHECK_NOT_M1(unlink(fname));
 	return(0);
 }

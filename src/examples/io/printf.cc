@@ -8,8 +8,10 @@
 int main(int argc, char **argv, char **envp) {
 	unsigned long i = 0xabcd0123;
 	void          *p = (void *)i;
+	char* cp=(char*)i;
 
 	printf("void* printed as '%%p' is %p\n", p);
+	printf("char* (and any other pointer) printed as '%%p' is %p\n", cp);
 	printf("'%%lx' is %lx\n", i);
 	printf("'%%lX' is %lX\n", i);
 	printf("'%%#lx' is %#lx\n", i);
@@ -17,6 +19,6 @@ int main(int argc, char **argv, char **envp) {
 	printf("with conversion '%%lX' is %lX\n", (unsigned long)p);
 	int width=5;
 	int num=4;
-	printf("%*d", width, num);
+	printf("printing with non compile time width %*d\n", width, num);
 	return(0);
 }

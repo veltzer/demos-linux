@@ -132,6 +132,7 @@ static inline void scpe(void *t, const char *msg, void *errval) {
 		exit(1);
 	}
 }
+// check functions start here
 static inline void check_zero(int val,const char* msg) {
 	if (val != 0) {
 		perror("error in system call");
@@ -147,8 +148,18 @@ static inline void check_not_m1(int val,const char* msg) {
 }
 static inline void check_1(int val,const char* msg) {
 	if (val !=1 ) {
-		//fprintf(stderr,"error in syscall with msg [%s]\n",msg);
-		//fprintf(stderr,"value is [%d]\n",val);
+		perror("error in system call");
+		exit(1);
+	}
+}
+static inline void check_not_negative(int t, const char* msg) {
+	if(t<0) {
+		perror("error in system call");
+		exit(1);
+	}
+}
+static inline void check_not_null(void* ptr, const char* msg) {
+	if(ptr==NULL) {
 		perror("error in system call");
 		exit(1);
 	}
@@ -162,29 +173,31 @@ template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 }
 #endif // __cplusplus
 
-#define SCIE(v, msg) printf("%s startecd\n",msg); scie(v, msg,-1); printf("%s ended\n",msg);
-#define SCPE(v, msg) printf("%s startecd\n",msg); scpe(v, msg,NULL); printf("%s ended\n",msg);
-#define SCIG(v, msg) printf("%s startecd\n",msg); scig(v, msg,0); printf("%s ended\n",msg);
-#define SCIG2(v, msg, v1, v2) printf("%s startecd\n",msg); scig2(v, msg, v1, v2); printf("%s ended\n",msg); 
+//#define SCIE(v, msg) printf("%s startecd\n",msg); scie(v, msg,-1); printf("%s ended\n",msg);
+//#define SCPE(v, msg) printf("%s startecd\n",msg); scpe(v, msg,NULL); printf("%s ended\n",msg);
+//#define SCIG(v, msg) printf("%s startecd\n",msg); scig(v, msg,0); printf("%s ended\n",msg);
+//#define SCIG2(v, msg, v1, v2) printf("%s startecd\n",msg); scig2(v, msg, v1, v2); printf("%s ended\n",msg); 
+//#define SC(v) SCIE(v, __stringify(v))
 
-#define SC(v) SCIE(v, __stringify(v))
-#define sc(v) scie(v, __stringify(v),-1)
-#define scg(v) scig(v,__stringify(v),0)
-#define scp(v) scpe(v,__stringify(v),NULL)
-#define sc0(v) scig(v,__stringify(v),0)
+//#define sc(v) scie(v, __stringify(v),-1)
+//#define scg(v) scig(v,__stringify(v),0)
+//#define scp(v) scpe(v,__stringify(v),NULL)
+//#define sc0(v) scig(v,__stringify(v),0)
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v));
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v));
 #define CHECK_1(v) check_1(v, __stringify(v));
+#define CHECK_NOT_NEGATVIE(v) check_not_negative(v,__stringify(v))
+#define CHECK_NOT_NULL(v) check_not_null(v,__stringify(v))
 #define CHECK_NOT_VAL(v,e) check_not_val(v, __stringify(v),e);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
-	sc(system("sudo dmesg -c > /dev/null"));
+	CHECK_NOT_M1(system("sudo dmesg -c > /dev/null"));
 }
 
 static inline void klog_show(void) {
-	sc(system("sudo dmesg"));
+	CHECK_NOT_M1(system("sudo dmesg"));
 }
 
 static inline void klog_show_clear(void) {
@@ -287,7 +300,7 @@ static inline void my_system(const char *fmt, ...) {
 	vsnprintf(str, cmd_size,fmt, args);
 	va_end(args);
 	fprintf(stderr,"doing [%s]\n",str);
-	sc(system(str));
+	CHECK_NOT_M1(system(str));
 }
 
 void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
@@ -341,9 +354,9 @@ static inline void print_scheduling_info() {
 	//printf("getpriority %d\n", tid, pri);
 	struct sched_param myparam;
 	// 0 means current process
-	sc(sched_getparam(0,&myparam));
+	CHECK_NOT_M1(sched_getparam(0,&myparam));
 	int scheduler;
-	sc(scheduler=sched_getscheduler(0));
+	CHECK_NOT_M1(scheduler=sched_getscheduler(0));
 	printf("==================================\n");
 	printf("scheduling data for the current thread...\n");
 	printf("sched_getparam returned %d\n", myparam.sched_priority);

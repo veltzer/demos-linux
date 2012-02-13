@@ -34,7 +34,7 @@ static void register_handler() {
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_sigaction = handler;
-	sc(sigaction(SIGUSR1, &sa, NULL));
+	CHECK_NOT_M1(sigaction(SIGUSR1, &sa, NULL));
 }
 // print an inotify mask in readable form
 static uint32_t types[]={
@@ -67,10 +67,10 @@ int main(int argc, char **argv, char **envp) {
 	int fd;
 	const char* path="/tmp";
 	register_handler();
-	sc(siginterrupt(SIGUSR1,1));
-	sc(fd=inotify_init());
+	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
+	CHECK_NOT_M1(fd=inotify_init());
 	uint32_t mask=IN_CREATE | IN_DELETE | IN_MODIFY | IN_MOVED_TO | IN_MOVED_FROM;
-	sc(inotify_add_watch(fd,path,mask));
+	CHECK_NOT_M1(inotify_add_watch(fd,path,mask));
 	printf("fd is %d\n", fd);
 	printf("stop me with [kill -s SIGUSR1 %d]\n",getpid());
 	printf("trace me with [strace -p %d]\n",getpid());
@@ -84,7 +84,7 @@ int main(int argc, char **argv, char **envp) {
 		if(res==-1) {
 			int err=errno;
 			if(err!=EINTR) {
-				sc(res);
+				CHECK_NOT_M1(res);
 			} else {
 				continue;
 			}
@@ -108,7 +108,7 @@ int main(int argc, char **argv, char **envp) {
 		// each read should return an exact number of records
 		assert(i==res);
 	}
-	sc(close(fd));
+	CHECK_NOT_M1(close(fd));
 	printf("max_rec is %d\n",max_rec);
 	printf("max_len is %d\n",max_len);
 	return(0);
