@@ -60,22 +60,22 @@ static void do_test(char *data, unsigned int size, const char *name) {
 	b.size = size;
 	b.pointer = data;
 	//klog_clear();
-	sc(ioctl(d, IOCTL_DEMO_MAP, &b));
+	CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_MAP, &b));
 	//klog_show();
 	show_data(data, size);
 	//klog_clear();
-	sc(ioctl(d, IOCTL_DEMO_READ));
+	CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_READ));
 	//klog_show();
 	show_data(data, size);
-	sc(ioctl(d, IOCTL_DEMO_WRITE, 'z'));
+	CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_WRITE, 'z'));
 	show_data(data, size);
 	printf("writing b into the buffer from userspace\n");
 	memset(data, 'b', size);
 	//klog_clear();
-	sc(ioctl(d, IOCTL_DEMO_READ));
+	CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_READ));
 	//klog_show();
 	show_data(data, size);
-	sc(ioctl(d, IOCTL_DEMO_UNMAP));
+	CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_UNMAP));
 	show_data(data, size);
 }
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv, char **envp) {
 	// file name of the device
 	const char *filename = "/dev/demo";
 
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	if (do_stack_test) {
 		char data[csize + getpagesize() * 10];
 		do_test(data, csize, "stack");
@@ -106,6 +106,6 @@ int main(int argc, char **argv, char **envp) {
 		static char data[csize];
 		do_test(data, csize, "stacks");
 	}
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

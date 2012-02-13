@@ -22,12 +22,12 @@ int main(int argc, char **argv, char **envp) {
 	clockid_t clk_id = CLOCK_MONOTONIC;
 	struct timespec res;
 
-	sc(clock_getres(clk_id, &res));
+	CHECK_NOT_M1(clock_getres(clk_id, &res));
 	print_timespec("clock resolution is ", &res);
 	printf("\n");
 	while (true) {
 		struct timespec t;
-		sc(clock_gettime(clk_id, &t));
+		CHECK_NOT_M1(clock_gettime(clk_id, &t));
 		print_timespec("clock time is ", &t);
 	}
 	return(0);

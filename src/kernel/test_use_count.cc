@@ -25,12 +25,12 @@ int main(int argc, char **argv, char **envp) {
 	int fd;
 	int fd2;
 	while(true) {
-		sc(fd = open(filename, O_RDWR));
-		sc(fd2 = open(filename, O_RDWR));
+		CHECK_NOT_M1(fd = open(filename, O_RDWR));
+		CHECK_NOT_M1(fd2 = open(filename, O_RDWR));
 		usleep(1000000);
 		//sleep(1);
-		sc(close(fd));
-		sc(close(fd2));
+		CHECK_NOT_M1(close(fd));
+		CHECK_NOT_M1(close(fd2));
 		usleep(1000000);
 		//sleep(1);
 	}

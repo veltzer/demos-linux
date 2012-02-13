@@ -46,7 +46,7 @@ void *worker(void *p) {
 	fprintf(pfile, "starting thread %d\n", num);
 	for (int i = 0; i < 10; i++) {
 		int ret;
-		SCIG2(ret = pthread_barrier_wait(&bar), "pthread_barrier_wait", 0, PTHREAD_BARRIER_SERIAL_THREAD);
+		CHECK_ONEOFTWO(ret = pthread_barrier_wait(&bar),0, PTHREAD_BARRIER_SERIAL_THREAD);
 		//fprintf(pfile, "thread %d got %d from pthread_barrier_wait\n", num, ret);
 		//int b = __sync_add_and_fetch(&counter, 1);
 		__sync_add_and_fetch(&counter, 1);
@@ -67,22 +67,22 @@ int main(int argc, char **argv, char **envp) {
 	cpu_set_t cpu_sets[num];
 	void           *rets[num];
 
-	SCIG(pthread_barrier_init(&bar, NULL, num), "pthread_barrier_init");
+	CHECK_ZERO(pthread_barrier_init(&bar, NULL, num));
 	fprintf(pfile, "main starting\n");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
 		print_cpu_set(cpu_sets + i);
-		SCIG(pthread_attr_init(attrs + i), "pthread_attr_init");
-		SCIG(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i), "pthread_attr_setaffinity_np");
-		SCIG(pthread_create(threads + i, attrs + i, worker, ids + i), "pthread_create");
+		CHECK_ZERO(pthread_attr_init(attrs + i));
+		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
+		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	fprintf(pfile, "main ended creating threads\n");
 	for (int i = 0; i < num; i++) {
-		SCIG(pthread_join(threads[i], rets + i), "pthread_join");
+		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
-	SCIG(pthread_barrier_destroy(&bar), "pthread_barrier_destroy");
+	CHECK_ZERO(pthread_barrier_destroy(&bar));
 	fprintf(pfile, "main ended\n");
 	return(0);
 }

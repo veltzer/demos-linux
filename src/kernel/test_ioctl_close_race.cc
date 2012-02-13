@@ -68,7 +68,7 @@ void *function_empty(void *p) {
 void *function_short(void *p) {
 	fprintf(stdout, "ss");
 	fflush(stdout);
-	sc(ioctl(fd, IOCTL_RACE_SLEEP_SHORT, NULL));
+	CHECK_NOT_M1(ioctl(fd, IOCTL_RACE_SLEEP_SHORT, NULL));
 	fprintf(stdout, "fs");
 	fflush(stdout);
 	return(NULL);
@@ -78,7 +78,7 @@ void *function_short(void *p) {
 void *function_long(void *p) {
 	fprintf(stdout, "sl");
 	fflush(stdout);
-	sc(ioctl(fd2, IOCTL_RACE_SLEEP_LONG, NULL));
+	CHECK_NOT_M1(ioctl(fd2, IOCTL_RACE_SLEEP_LONG, NULL));
 	fprintf(stdout, "fl");
 	fflush(stdout);
 	return(NULL);
@@ -89,11 +89,11 @@ void *function_close(void *p) {
 	sleep(2);
 	fprintf(stdout,"c");
 	fflush(stdout);
-	sc(close(fd));
+	CHECK_NOT_M1(close(fd));
 	fprintf(stdout,"C");
 	fflush(stdout);
 	// this will create an error
-	//sc(ioctl(d,IOCTL_RACE_EMPTY,NULL));
+	//CHECK_NOT_M1(ioctl(d,IOCTL_RACE_EMPTY,NULL));
 	return(NULL);
 }
 
@@ -105,20 +105,20 @@ int main(int argc, char **argv, char **envp) {
 	my_system("sudo insmod ./mod_ioctl_close_race.ko");
 	my_system("sudo chmod 666 %s",filename);
 
-	sc(fd=open(filename, O_RDWR));
-	sc(fd2=open(filename, O_RDWR));
+	CHECK_NOT_M1(fd=open(filename, O_RDWR));
+	CHECK_NOT_M1(fd2=open(filename, O_RDWR));
 
 	pthread_t thread_empty,thread_short,thread_long,thread_close;
-	sc0(pthread_create(&thread_empty, NULL, function_empty, NULL));
-	sc0(pthread_create(&thread_short, NULL, function_short, NULL));
-	sc0(pthread_create(&thread_long, NULL, function_long, NULL));
-	sc0(pthread_create(&thread_close, NULL, function_close, NULL));
-	sc0(pthread_join(thread_empty, NULL));
-	sc0(pthread_join(thread_short, NULL));
-	sc0(pthread_join(thread_long, NULL));
-	sc0(pthread_join(thread_close, NULL));
-	//sc(close(fd));
-	sc(close(fd2));
+	CHECK_ZERO(pthread_create(&thread_empty, NULL, function_empty, NULL));
+	CHECK_ZERO(pthread_create(&thread_short, NULL, function_short, NULL));
+	CHECK_ZERO(pthread_create(&thread_long, NULL, function_long, NULL));
+	CHECK_ZERO(pthread_create(&thread_close, NULL, function_close, NULL));
+	CHECK_ZERO(pthread_join(thread_empty, NULL));
+	CHECK_ZERO(pthread_join(thread_short, NULL));
+	CHECK_ZERO(pthread_join(thread_long, NULL));
+	CHECK_ZERO(pthread_join(thread_close, NULL));
+	//CHECK_NOT_M1(close(fd));
+	CHECK_NOT_M1(close(fd2));
 	fprintf(stdout,"\nALL DONE\n");
 	return(0);
 }

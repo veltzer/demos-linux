@@ -57,25 +57,25 @@ int main(int argc, char **argv, char **envp) {
 	const int offset = 0;
 
 	fprintf(stderr, "Asking the kernel to open the handle\n");
-	sc(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	//printproc();
 
-	SCPE(data = mmap(
+	CHECK_NOT_VAL(data = mmap(
 	             NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 	             size, /* the size we need */
 	             PROT_READ | PROT_WRITE, /* we want read AND write */
 	             flags, /* we don't want page faults */
 	             d, /* file descriptor */
 	             offset /* offset */
-	             ), "mmap");
-	SCPE(data2 = mmap(
+	             ), MAP_FAILED);
+	CHECK_NOT_VAL(data2 = mmap(
 	             NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 	             size, /* the size we need */
 	             PROT_READ | PROT_WRITE, /* we want read AND write */
 	             flags, /* we don't want page faults */
 	             d, /* file descriptor */
 	             offset /* offset */
-	             ), "mmap");
+	             ), MAP_FAILED);
 	fprintf(stderr, "pointer I got is %p\n", data);
 	print_data(data, size);
 	printproc("demo");
@@ -90,15 +90,15 @@ int main(int argc, char **argv, char **envp) {
 			fprintf(stderr, "Setting memory to ['%c']\n", i);
 			memset(data, i, size);
 			print_data(data, size);
-			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
+			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_READ, NULL));
 			print_data(data, size);
 			waitkey(NULL);
 
-			sc(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
+			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
 			print_data(data, size);
 
 			fprintf(stderr, "Asking kernel to read memory...\n");
-			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
+			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_READ, NULL));
 			print_data(data, size);
 			waitkey(NULL);
 		}
@@ -106,22 +106,22 @@ int main(int argc, char **argv, char **envp) {
 	if (do_stress) {
 		for (char i = 'a'; i < 'z'; i += 2) {
 			memset(data, i, size);
-			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
-			sc(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
-			sc(ioctl(d, IOCTL_MMAP_READ, NULL));
+			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_READ, NULL));
+			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
+			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_READ, NULL));
 		}
 	}
 	if (do_vma) {
-		sc(ioctl(d, IOCTL_MMAP_PRINT, data));
+		CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_PRINT, data));
 		void *p = (void *)((char *)data + size / 2);
-		sc(ioctl(d, IOCTL_MMAP_PRINT, p));
+		CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_PRINT, p));
 		waitkey(NULL);
 	}
 
-	sc(munmap(data, size));
+	CHECK_NOT_M1(munmap(data, size));
 	printproc("demo");
-	sc(munmap(data2, size));
+	CHECK_NOT_M1(munmap(data2, size));
 	printproc("demo");
-	sc(close(d));
+	CHECK_NOT_M1(close(d));
 	return(0);
 }

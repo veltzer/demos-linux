@@ -164,6 +164,12 @@ static inline void check_not_null(void* ptr, const char* msg) {
 		exit(1);
 	}
 }
+static inline void check_oneoftwo(int v, const char* msg,int e1,int e2) {
+	if(v!=e1 && v!=e2) {
+		perror("error in system call");
+		exit(1);
+	}
+}
 #ifdef __cplusplus 
 template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 	if (t == errval) {
@@ -190,6 +196,7 @@ template<class T> inline void check_not_val(T t,const char *msg, T errval) {
 #define CHECK_NOT_NEGATVIE(v) check_not_negative(v,__stringify(v))
 #define CHECK_NOT_NULL(v) check_not_null(v,__stringify(v))
 #define CHECK_NOT_VAL(v,e) check_not_val(v, __stringify(v),e);
+#define CHECK_ONEOFTWO(v,e1,e2) check_oneoftwo(v, __stringify(v),e1,e2);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
