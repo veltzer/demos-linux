@@ -173,7 +173,8 @@ $(C_PRE): %.p: %.cc $(ALL_DEPS)
 	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -E -o $@ $< $$EXTRA_FLAGS
 $(CC_DIS) $(C_DIS): %.dis: %.exe $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)objdump --source --disassemble $< > $@
+	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
+#	$(Q)objdump --demangle --source --disassemble --no-show-raw-insn --section=.text $< > $@
 
 # rule about how to create .ko files...
 $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
