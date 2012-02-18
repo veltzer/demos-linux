@@ -1,4 +1,7 @@
 #include <stdio.h> // for vprintf(3)
+#include <sys/time.h> // for gettimeofday(2)
+
+#include "us_helper.hh" // for micro_diff
 
 /*
  * This is an example of how to use the __restrict gcc feature
@@ -20,23 +23,55 @@
  * If you want to see this in action create a disassembled version of this code
  * under different versions of the myrestrict macro below...
  *
+ * The difference in performance here is quite noticable...
+ *
  *              Mark Veltzer
  */
 
 #define myrestrict __restrict
 //#define myrestrict
 
-void add(int* myrestrict arr,int num, int* myrestrict result) {
-	//*result=0;
+void add_restrict(int* myrestrict arr,int num, int* myrestrict result) __attribute__ ((noinline));
+void add_restrict(int* myrestrict arr,int num, int* myrestrict result) {
+	*result=0;
+	for(int i=0;i<num;i++) {
+		*result+=arr[i];
+	}
+}
+
+void add_no_restrict(int* myrestrict arr,int num, int* myrestrict result) __attribute__ ((noinline));
+void add_no_restrict(int* arr,int num, int* result) {
+	*result=0;
 	for(int i=0;i<num;i++) {
 		*result+=arr[i];
 	}
 }
 
 int main(int argc, char **argv, char **envp) {
-	int arr[]={ 1,2,3,4 };
-	int res=0;
-	add(arr,sizeof(arr)/sizeof(int),&res);
-	printf("the sum is %d\n",res);
+	// prepare a large array
+	const unsigned int array_size=1000000;
+	int* arr=new int[array_size];
+	int res;
+	for(unsigned int i=0;i<array_size;i++) {
+		arr[i]=random();
+	}
+	const unsigned int loop=1000;
+	struct timeval t1, t2;
+
+	printf("doing %d no restrict calls\n",loop);
+	gettimeofday(&t1, NULL);
+	for(unsigned int i=0;i<loop;i++) {
+		add_no_restrict(arr,array_size,&res);
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+
+	printf("doing %d restrict calls\n",loop);
+	gettimeofday(&t1, NULL);
+	for(unsigned int i=0;i<loop;i++) {
+		add_restrict(arr,array_size,&res);
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 	return(0);
 }
