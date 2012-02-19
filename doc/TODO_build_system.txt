@@ -1,0 +1,6 @@
+TODO list for the build system for these examples:
+==================================================
+- my build system does not work well for kernel samples with -j.
+	try to build all (make clean and then make -j 4) and you
+	will see the errors.
+	fix this.

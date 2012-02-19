@@ -121,14 +121,22 @@ static inline void scig(int t, const char *msg, int goodval) {
 
 static inline void scig2(int t, const char *msg, int v1, int v2) {
 	if ((t != v1) && (t != v2)) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else {
+			fprintf(stderr,"error: %s\n",strerror(v1));
+		}
 		exit(1);
 	}
 }
 
 static inline void scpe(void *t, const char *msg, void *errval) {
 	if (t == errval) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else {
+			fprintf(stderr,"error of unknown type\n");
+		}
 		exit(1);
 	}
 }
@@ -146,31 +154,51 @@ static inline void check_zero(int val,const char* msg) {
 
 static inline void check_not_m1(int val,const char* msg) {
 	if (val ==-1 ) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else {
+			fprintf(stderr,"error: %s\n",strerror(val));
+		}
 		exit(1);
 	}
 }
 static inline void check_1(int val,const char* msg) {
 	if (val !=1 ) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else {
+			fprintf(stderr,"error: %s\n",strerror(val));
+		}
 		exit(1);
 	}
 }
 static inline void check_not_negative(int t, const char* msg) {
 	if(t<0) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else {
+			fprintf(stderr,"error: %s\n",strerror(t));
+		}
 		exit(1);
 	}
 }
 static inline void check_not_null(void* ptr, const char* msg) {
 	if(ptr==NULL) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else { 
+			fprintf(stderr,"error: bad pointer\n");
+		}
 		exit(1);
 	}
 }
 static inline void check_oneoftwo(int v, const char* msg,int e1,int e2) {
 	if(v!=e1 && v!=e2) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else { 
+			fprintf(stderr,"error: %s\n",strerror(v));
+		}
 		exit(1);
 	}
 }
