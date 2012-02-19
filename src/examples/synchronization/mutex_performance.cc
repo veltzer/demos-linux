@@ -28,7 +28,6 @@
  * EXTRA_LIBS=-lpthread
  *
  * TODO:
- * - run all the code here in high priority.
  */
 
 void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {

@@ -25,9 +25,12 @@
 const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 pthread_barrier_t bar;
 int counter = 0;
-FILE              *pfile = stdout;
 const int wait_usecs = 0;
-//FILE* pfile=stderr;
+//FILE *pfile = stdout;
+FILE* pfile=stderr;
+const int attempts=10000;
+const int thread_num = 10;
+
 void print_cpu_set(cpu_set_t *p) {
 	fprintf(pfile, "_SC_NRPROCESSORS_ONLN is %d\n", cpu_num);
 	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
@@ -44,7 +47,7 @@ void *worker(void *p) {
 	int num = *(int *)p;
 
 	fprintf(pfile, "starting thread %d\n", num);
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < attempts; i++) {
 		int ret;
 		CHECK_ONEOFTWO(ret = pthread_barrier_wait(&bar),0, PTHREAD_BARRIER_SERIAL_THREAD);
 		//fprintf(pfile, "thread %d got %d from pthread_barrier_wait\n", num, ret);
@@ -52,7 +55,7 @@ void *worker(void *p) {
 		__sync_add_and_fetch(&counter, 1);
 		//fprintf(pfile, "thread %d got %d from counter\n", num, b);
 		usleep(wait_usecs);
-		fprintf(pfile, "thread %d finished work\n", num);
+		//fprintf(pfile, "thread %d finished work\n", num);
 	}
 	fprintf(pfile, "ending thread %d\n", num);
 	return(NULL);
@@ -60,29 +63,29 @@ void *worker(void *p) {
 
 
 int main(int argc, char **argv, char **envp) {
-	const int num = 10;
-	pthread_t threads[num];
-	pthread_attr_t attrs[num];
-	int ids[num];
-	cpu_set_t cpu_sets[num];
-	void           *rets[num];
+	pthread_t threads[thread_num];
+	pthread_attr_t attrs[thread_num];
+	int ids[thread_num];
+	cpu_set_t cpu_sets[thread_num];
+	void           *rets[thread_num];
 
-	CHECK_ZERO(pthread_barrier_init(&bar, NULL, num));
+	CHECK_ZERO(pthread_barrier_init(&bar, NULL, thread_num));
 	fprintf(pfile, "main starting\n");
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < thread_num; i++) {
 		ids[i] = i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
-		print_cpu_set(cpu_sets + i);
+		//print_cpu_set(cpu_sets + i);
 		CHECK_ZERO(pthread_attr_init(attrs + i));
 		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	fprintf(pfile, "main ended creating threads\n");
-	for (int i = 0; i < num; i++) {
+	for (int i = 0; i < thread_num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	CHECK_ZERO(pthread_barrier_destroy(&bar));
+	fprintf(pfile,"counter is %d and should be %d\n",counter,thread_num*attempts);
 	fprintf(pfile, "main ended\n");
 	return(0);
 }

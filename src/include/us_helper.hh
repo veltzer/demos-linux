@@ -13,11 +13,11 @@
 #include <sys/syscall.h> // for syscall(2)
 #include <unistd.h> // for getpid(2), syscall(2), sysconf(2)
 #include <proc/readproc.h> // for get_proc_stats(3)
-#include <string.h> // for strncpy(3)
+#include <string.h> // for strncpy(3), strerror(3)
 #include <sys/time.h> // for getpriority(2)
 #include <sys/resource.h> // for getpriority(2)
 #include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
-#include <pthread.h>
+#include <pthread.h> // for the entire pthread_* API
 #include <errno.h> // for errno
 
 /*
@@ -135,7 +135,11 @@ static inline void scpe(void *t, const char *msg, void *errval) {
 // check functions start here
 static inline void check_zero(int val,const char* msg) {
 	if (val != 0) {
-		perror("error in system call");
+		if(errno!=0) {
+			perror("error in system call");
+		} else {
+			fprintf(stderr,"error: %s\n",strerror(val));
+		}
 		exit(1);
 	}
 }
