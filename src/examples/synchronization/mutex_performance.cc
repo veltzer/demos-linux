@@ -1,6 +1,6 @@
 #include <stdio.h> // for printf(3)
 #include <sys/time.h> // for gettimeofday(2)
-#include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3)
+#include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
 #include <semaphore.h> // for sem_init(3), sem_wait(3), sem_post(3)
 #include <sys/types.h> // for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/ipc.h> // for ftok(3), semget(3), semctl(3), semop(3)
@@ -95,5 +95,8 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_ERRORCHECK_NP));
 	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck,&attr));
 	run_high_priority(work,NULL,90);
+	CHECK_ZERO(pthread_mutex_destroy(&mutex_fast));
+	CHECK_ZERO(pthread_mutex_destroy(&mutex_recursive));
+	CHECK_ZERO(pthread_mutex_destroy(&mutex_errorcheck));
 	return(0);
 }
