@@ -5,6 +5,10 @@
 #include<sys/types.h>
 #include<sys/syscall.h>
 
+/*
+ * EXTRA_LIBS=-lpthread
+ */
+
 class ImpThread:public MyThread {
 	private:
 		int limit;
