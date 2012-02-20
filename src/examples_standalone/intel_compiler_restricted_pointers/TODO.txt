@@ -1,0 +1,3 @@
+- this example implies that there is no difference between adding restrict and not adding it.
+	does the intel compiler assume that pointers are restricted by default ?!?
+	investigate...
