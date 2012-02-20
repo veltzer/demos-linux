@@ -9,8 +9,8 @@
  * It may enter some C++ standard or it may not.
  *
  * What are the semantics of __restrict?
- * It tells the compiler that any access to the values pointed to by this point
- * will be done only through this pointer or derived pointers from this point.
+ * It tells the compiler that any access to the values pointed to by this pointer
+ * will be done only through this pointer or derived pointers from this pointer.
  *
  * This means that if you write a function that gets two pointers and you add
  * restrict to them then you commit to them having no overlapped areas.
@@ -39,12 +39,21 @@ void add_restrict(int* myrestrict arr,int num, int* myrestrict result) {
 	}
 }
 
-void add_no_restrict(int* myrestrict arr,int num, int* myrestrict result) __attribute__ ((noinline));
+void add_no_restrict(int* arr,int num, int* result) __attribute__ ((noinline));
 void add_no_restrict(int* arr,int num, int* result) {
 	*result=0;
 	for(int i=0;i<num;i++) {
 		*result+=arr[i];
 	}
+}
+
+void add_temp(int* arr,int num, int* result) __attribute__ ((noinline));
+void add_temp(int* arr,int num, int* result) {
+	int temp=0;
+	for(int i=0;i<num;i++) {
+		temp+=arr[i];
+	}
+	*result=temp;
 }
 
 int main(int argc, char **argv, char **envp) {
@@ -70,6 +79,14 @@ int main(int argc, char **argv, char **envp) {
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0;i<loop;i++) {
 		add_restrict(arr,array_size,&res);
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+
+	printf("doing %d temp calls\n",loop);
+	gettimeofday(&t1, NULL);
+	for(unsigned int i=0;i<loop;i++) {
+		add_temp(arr,array_size,&res);
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
