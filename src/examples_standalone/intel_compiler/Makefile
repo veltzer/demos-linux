@@ -12,3 +12,7 @@ main.exe: main.c
 .PHONY: clean
 clean:
 	-rm -f main.exe
+
+.PHONY: dis
+dis:
+	objdump main.exe --disassemble > main.dis
