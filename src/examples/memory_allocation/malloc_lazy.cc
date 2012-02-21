@@ -44,12 +44,13 @@ int main(int argc, char **argv, char **envp) {
 		printf("1) touch some pages\n");
 		printf("2) touch all pages\n");
 		printf("3) allocate more ram (without touching it)\n");
-		printf("4) allocate more ram (with touching it)\n");
-		printf("5) call mlockall (no future)\n");
-		printf("6) call mlockall (with future)\n");
-		printf("7) call munlockall\n");
-		printf("8) just print stats\n");
-		printf("9) exit\n");
+		printf("4) allocate more ram (with calloc)\n");
+		printf("5) allocate more ram (with touching it)\n");
+		printf("6) call mlockall (no future)\n");
+		printf("7) call mlockall (with future)\n");
+		printf("9) call munlockall\n");
+		printf("9) just print stats\n");
+		printf("10) exit\n");
 		unsigned int bufsize=256;
 		char buf[bufsize];
 		char *r=fgets(buf,bufsize,stdin);
@@ -85,27 +86,30 @@ int main(int argc, char **argv, char **envp) {
 				print_stats();
 				break;
 			case 4:
-				//p = (char *)calloc(page_size , page_number);
+				p = (char *)calloc(page_size , page_number);
+				print_stats();
+				break;
+			case 5:
 				p = (char *)malloc(page_size * page_number);
 				memset(p,5,page_size*page_number);
 				print_stats();
 				break;
-			case 5:
+			case 6:
 				CHECK_NOT_M1(mlockall(MCL_CURRENT));
 				print_stats();
 				break;
-			case 6:
+			case 7:
 				CHECK_NOT_M1(mlockall(MCL_FUTURE));
 				print_stats();
 				break;
-			case 7:
+			case 8:
 				CHECK_NOT_M1(munlockall());
 				print_stats();
 				break;
-			case 8:
+			case 9:
 				print_stats();
 				break;
-			case 9:
+			case 10:
 				over=true;
 				break;
 			default:
