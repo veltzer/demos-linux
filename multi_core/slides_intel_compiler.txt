@@ -1,0 +1,6 @@
+slides about the intel compiler:
+- do some slides about how to install the intel compiler.
+- comparison of intel compiler to gcc
+	performance examples.
+- compatibility of the intel compiler to the gcc compiler
+	- do example with C++ compatibility for the intel compiler.

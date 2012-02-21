@@ -47,6 +47,7 @@ lock free algorithms tour (chapter 8):
 exercise: write a cyclic buffer to serve as a logging buffer.
 	write APIs to log to the buffer and protect the buffer
 	only via atomic operations.
+exercise2: implement a spin lock.
 ===================================================
 = second part - Real time design patterns - 1 day =
 ===================================================
