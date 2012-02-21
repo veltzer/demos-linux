@@ -61,7 +61,7 @@ concurrency:
 	simulteneous locking.
 	double checked locking.
 distribution:
-	proactor (exapmles from ACE).
+	proactor (examples from ACE).
 	object monitor.
 advanced techniques:
 	Copy on write.
