@@ -85,7 +85,9 @@ int main(int argc, char **argv, char **envp) {
 				print_stats();
 				break;
 			case 4:
-				p = (char *)calloc(page_size , page_number);
+				//p = (char *)calloc(page_size , page_number);
+				p = (char *)malloc(page_size * page_number);
+				memset(p,5,page_size*page_number);
 				print_stats();
 				break;
 			case 5:
