@@ -28,8 +28,8 @@
 
 void my_func(size_t size) {
 	char* p=(char*)alloca(size);
-	p[0]=0;
-	//bzero(p,size);
+	//p[0]=0;
+	bzero(p,size);
 }
 
 int main(int argc,char** argv,char** envp) {

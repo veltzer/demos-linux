@@ -17,7 +17,7 @@
  *
  *	Function call barriers
  *	======================
- *	On some platforms/compilers these are also memory barriers but no so in gcc
+ *	On some platforms/compilers these are also memory barriers but not so in gcc
  *	that assumes that functions that are called do not change the content of registers
  *	(and if they do, they put back everything the way they found it...). In any case
  *	you cannot really rely on them since you are not sure which functions are macros,
@@ -45,6 +45,16 @@
  *		Mark Veltzer
  */
 
+bool stack_direction_up(void) {
+	int a;
+	int u;
+	if(&a>&u) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 int main(int argc, char **argv, char **envp) {
 	int a = 0;
 	int u = 0;
@@ -56,7 +66,13 @@ int main(int argc, char **argv, char **envp) {
 	const char* tests[max];
 	int loc=0;
 	// p will point to a but the compiler does not know it.
-	int *p = &u + 1;
+	int* p=&u;
+	if(stack_direction_up()) {
+		p--;
+	} else {
+		p++;
+	}
+	//int *p = &u - 1;
 	// this taking of the address of a to have the compiler actually store
 	// a on the stack at all! If we don't do this the compiler will treat
 	// a as a register for the entire scope of this function!
