@@ -1,1 +1,8 @@
 - in advanced io talk about readahead(2) and show an example.
+
+- write slides about room for optimization.
+- write slides about allocating memory fast.
+- write slides about patterns.
+	start with the proactor pattern.
+- write slides about restrict.
+- padding of structures and aligning structures in gcc and intel.
