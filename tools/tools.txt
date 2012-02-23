@@ -90,3 +90,6 @@ watchdogs/fault helpers:
 
 mysql:
 	mytop
+
+programming:
+	cdecl
