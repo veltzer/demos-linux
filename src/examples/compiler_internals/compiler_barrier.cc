@@ -1,5 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for srandom(3)
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <stdlib.h> // for srandom(3), exit(3)
+
+#include "us_helper.hh" // for CHECK_NOT_NULL
 
 /*
  *	This is an example of a compiler barrier
@@ -35,6 +37,16 @@
  *	====================
  *	Used to work in some versions of gcc but stopped working. Better not to use.
  *
+ *	Notes:
+ *	- the loop that you see in the code forces the compiler to use a register
+ *	to hold the 'a' variable (if you compile with optimisation ofcourse).
+ *	- if you disassemble the code you see that the compiler writes the loop variable
+ *	(a in our case) back to it's natural place on the stack right after the loop.
+ *	- after the loop suprisingly, the compiler is certain that the register is still
+ *	holding the right value for a and so uses it in the print...
+ *	- without a good compiler barrier the compiler is certain that the value in the
+ *	register is synchronized with the memory location.
+ *
  *	References:
  *	http://ridiculousfish.com/blog/archives/2007/02/17/barrier/
  *
@@ -45,141 +57,150 @@
  *		Mark Veltzer
  */
 
-bool stack_direction_up(void) {
+// a small function to tell you if the stack direction is up or down...
+bool stack_direction_up() __attribute__((noinline));
+bool stack_direction_up() {
 	int a;
 	int u;
-	if(&a>&u) {
+	unsigned int pa=(unsigned int)&a;
+	unsigned int pu=(unsigned int)&u;
+	if(pa==pu+sizeof(int)) {
 		return false;
-	} else {
+	}
+	if(pa==pu-sizeof(int)) {
 		return true;
 	}
+	fprintf(stderr,"strange stack you have here...\n");
+	exit(1);
 }
 
+FILE* outfile;
+
+#define TEST(shortname,desc,code)\
+void test_ ## shortname() __attribute__((noinline));\
+void test_ ## shortname(int& val_before,int& val_after,int& dummy) {\
+	int a = 0;\
+	int u = 0;\
+	const int CORRECT_VAL=2000;\
+	const int WRONG_VAL=3200;\
+	/* p will point to a but the compiler does not know it.*/\
+	int* p=&u;\
+	if(stack_direction_up()) {\
+		p--;\
+	} else {\
+		p++;\
+	}\
+	/* this taking of the address of a to have the compiler actually store */\
+	/* a on the stack at all! If we don't do this the compiler will treat */\
+	/* a as a register for the entire scope of this function! */\
+	int *pa = &a;\
+	/* this printing is essential to keep the compiler from telling us */\
+	/* that 'pa' is an unused variable... */\
+	fprintf(outfile,"pa is %p\n", pa);\
+	fprintf(outfile,"p is %p\n",p);\
+	fprintf(outfile,"&a is %p\n",&a);\
+	fprintf(outfile,"now starting...\n");\
+	a=100;\
+	while (a < 3000) {\
+		a+=a;\
+	}\
+	asm("nop");\
+	*p = CORRECT_VAL;\
+	val_before=a;\
+	code;\
+	val_after=a;\
+	asm("nop");\
+	printf("results for [%s]\n",__stringify(code));\
+	printf("description [%s]\n",desc);\
+	printf("val_before is %d, val_after is %d\n",val_before,val_after);\
+	if(val_before==WRONG_VAL) {\
+		printf("compiler used register for value\n");\
+	} else {\
+		printf("compiler did not use register for value, you are probably running without optimization\n");\
+	}\
+	if(val_after==CORRECT_VAL) {\
+		printf("barrier worked\n");\
+	} else {\
+		printf("barrier did not work\n");\
+	}\
+	printf("===========================================\n");\
+}
+
+TEST(
+	nothing,
+	"doing nothing. this should give you the same values, which are the WRONG values.",
+);
+TEST(
+	machbar,
+	"This is a MACHINE memory barrier and not a compiler barrier. It does not\
+	act as a compiler barrier but. This does not work.\
+	the next macro actually inlines a machine instruction...",
+	__sync_synchronize()
+);
+TEST(
+	emptasm,
+	"empty assembly block which works on some compilers but not on others \
+	on gcc 4.5.2 it does not and in general expect more modern compiler \
+	to grow smarter and thus see that you are not really doing anything \
+	in between...",
+	asm volatile("")
+);
+TEST(
+	funccall,
+	"calling extern function which works on some compilers because a function is a natural compiler barrier\
+	but not so in gcc which is very aggressive on optimization...",
+	srandom(5)
+);
+TEST(
+	fullcompbar,
+	"official compiler barrier for gcc which is\
+	a statement telling the GNU assembler not to reorder around it",
+	asm volatile("" : : : "memory")
+);
+TEST(
+	singvarbar,
+	"a single variable barrier",
+	asm volatile("" : "=g" (a) : : )
+);
+TEST(
+	singvarbar2,
+	"a single variable barrier",
+	asm volatile("" : "=r" (a) : : )
+);
+TEST(
+	singvarbar3,
+	"a single variable barrier",
+	asm volatile("" : "=r" (dummy) : : )
+);
+TEST(
+	singvarvol,
+	"attempt to use volatile to barrier the compiler",
+	*(volatile int *)&a=a;
+);
+TEST(
+	singvarvol2,
+	"attempt to use volatile to barrier the compiler",
+	{ int y = a; *(volatile int*)&a = y; }
+);
+TEST(
+	atomicop,
+	"attempt to do an atomic operation on the var",
+	__sync_bool_compare_and_swap(&a, 0, 0)
+);
+
 int main(int argc, char **argv, char **envp) {
-	int a = 0;
-	int u = 0;
-	const int max=10;
-	const int CORRECT_VAL=2000;
-	const int WRONG_VAL=4000;
-	int val_before[max];
-	int val_after[max];
-	const char* tests[max];
-	int loc=0;
-	// p will point to a but the compiler does not know it.
-	int* p=&u;
-	if(stack_direction_up()) {
-		p--;
-	} else {
-		p++;
-	}
-	//int *p = &u - 1;
-	// this taking of the address of a to have the compiler actually store
-	// a on the stack at all! If we don't do this the compiler will treat
-	// a as a register for the entire scope of this function!
-	int *pa = &a;
-
-	// this printing is essential to keep the compiler from telling us
-	// that 'pa' is an unused variable...
-	printf("pa is %p\n", pa);
-	printf("p is %p\n",p);
-	printf("&a is %p\n",&a);
-	printf("now starting...\n");
-
-	// this should give you the same values, which are the WRONG values.
-	tests[loc]="doing nothing";
-	a=1000;
-	//this code will cause the compiler to put a into a register
-	while (a < 3000) {
-		a+=a;
-	}
-	// the compiler writes a to it's 'natural' place on the stack
-	*p = CORRECT_VAL;
-	// suprisingly, the compiler is certain that the register is still
-	// holding the right value for a and so uses it in the print...
-	val_before[loc]=a;
-	// this line does NOT write the value of the register used to hold a into
-	// the ram place for a on the stack and the proof for this is the fact
-	// that 999 is printed for a. It looks like the compiler is certain that
-	// the memory location for a IS synchronized with the register value for a
-	// bacause it wrote it to memory after the 'for' loop.
-	val_after[loc]=a;
-	loc++;
-	//vals[loc++]=*p;
-
-	// This is a MACHINE memory barrier and not a compiler barrier. It does not
-	// act as a compiler barrier but. This does not work.
-	tests[loc]="__sync_synchronize()";
-	a=1000;
-	while (a < 3000) {
-		a+=a;
-	}
-	*p = CORRECT_VAL;
-	val_before[loc]=a;
-	// the next macro actually inlines a machine instruction...
-	__sync_synchronize();
-	val_after[loc]=a;
-	loc++;
-	
-	// this works on some compilers but not on others
-	// on gcc 4.5.2 it does not and in general expect more modern compiler
-	// to grow smarter and thus see that you are not really doing anything
-	// in between...
-	tests[loc]="empty assembly block";
-	a=1000;
-	while (a < 3000) {
-		a+=a;
-	}
-	*p = CORRECT_VAL;
-	val_before[loc]=a;
-	// an empty asm statement to see if the compiler creates a barrier over it
-	asm volatile("");
-	val_after[loc]=a;
-	loc++;
-
-
-	// this works because a function is a natural compiler barrier
-	tests[loc]="function call barrier";
-	a=1000;
-	while (a < 3000) {
-		a+=a;
-	}
-	*p = CORRECT_VAL;
-	val_before[loc]=a;
-	// a function call is a natural compiler barrier, but not so in gcc
-	// which is very aggressive on optimization...
-	srandom(100);
-	val_after[loc]=a;
-	loc++;
-	
-	// this works because it is the official compiler barrier for gcc
-	tests[loc]="official compiler barrier";
-	a=1000;
-	while (a < 3000) {
-		a+=a;
-	}
-	*p = CORRECT_VAL;
-	val_before[loc]=a;
-	// a statement telling the GNU assembler not to reorder around it
-	asm volatile("" ::: "memory");
-	val_after[loc]=a;
-	loc++;
-
-	// print the results
-	printf("=============================================================\n");
-	for(int i=0;i<loc;i++) {
-		printf("results for [%s]\n",tests[i]);
-		printf("val_before is %d, val_after is %d\n",val_before[i],val_after[i]);
-		if(val_before[i]==WRONG_VAL) {
-			printf("compiler used register for value\n");
-		} else {
-			printf("compiler did not use register for value, you are probably running without optimization\n");
-		}
-		if(val_after[i]==CORRECT_VAL) {
-			printf("barrier worked\n");
-		} else {
-			printf("barrier did not work\n");
-		}
-		printf("=============================================================\n");
-	}
+	CHECK_NOT_NULL(outfile=fopen("/dev/null","w"));
+	int val_before,val_after,dummy;
+	test_nothing(val_before,val_after,dummy);
+	test_machbar(val_before,val_after,dummy);
+	test_emptasm(val_before,val_after,dummy);
+	test_funccall(val_before,val_after,dummy);
+	test_fullcompbar(val_before,val_after,dummy);
+	test_singvarbar(val_before,val_after,dummy);
+	test_singvarbar2(val_before,val_after,dummy);
+	test_singvarbar3(val_before,val_after,dummy);
+	test_singvarvol(val_before,val_after,dummy);
+	test_singvarvol2(val_before,val_after,dummy);
+	test_atomicop(val_before,val_after,dummy);
 	return(0);
 }
