@@ -78,7 +78,7 @@ FILE* outfile;
 
 #define TEST(shortname,desc,code)\
 void test_ ## shortname() __attribute__((noinline));\
-void test_ ## shortname(int& val_before,int& val_after,int& dummy) {\
+void test_ ## shortname(volatile int& val_before,volatile int& val_after,int& dummy) {\
 	int a = 0;\
 	int u = 0;\
 	const int CORRECT_VAL=2000;\
