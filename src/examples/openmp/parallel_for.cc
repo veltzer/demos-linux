@@ -6,7 +6,7 @@
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
 
-#include <cmath>
+#include <cmath> // for std::sin
 #include <stdio.h> // for printf(3)
 #include <omp.h>
 
