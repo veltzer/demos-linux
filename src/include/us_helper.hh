@@ -436,4 +436,14 @@ static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
 	//printf("thread joined and return val was %p\n",retval);
 }
 
+static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
+	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
+	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
+	for (int j = 0; j < CPU_SETSIZE; j++) {
+		if (CPU_ISSET(j, p)) {
+			fprintf(pfile,"\tCPU %d\n", j);
+		}
+	}
+}
+
 #endif // __us_helper_h

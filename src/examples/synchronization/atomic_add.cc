@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <unistd.h>
 #include <unistd.h> // for sysconf
 
 #include "us_helper.hh"
@@ -22,7 +21,6 @@
  *
  * EXTRA_LIBS=-lpthread
  */
-const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 pthread_barrier_t bar;
 int counter = 0;
 const int wait_usecs = 0;
@@ -30,18 +28,7 @@ const int wait_usecs = 0;
 FILE* pfile=stderr;
 const int attempts=10000;
 const int thread_num = 10;
-
-void print_cpu_set(cpu_set_t *p) {
-	fprintf(pfile, "_SC_NRPROCESSORS_ONLN is %d\n", cpu_num);
-	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
-	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
-	for (int j = 0; j < CPU_SETSIZE; j++) {
-		if (CPU_ISSET(j, p)) {
-			printf("\tCPU %d\n", j);
-		}
-	}
-}
-
+const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 
 void *worker(void *p) {
 	int num = *(int *)p;
@@ -75,7 +62,7 @@ int main(int argc, char **argv, char **envp) {
 		ids[i] = i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
-		//print_cpu_set(cpu_sets + i);
+		//print_cpu_set(pfile,cpu_sets + i);
 		CHECK_ZERO(pthread_attr_init(attrs + i));
 		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
