@@ -10,15 +10,39 @@
 #include "us_helper.hh"
 
 /*
- * This is a demo for using pthread spin locks...
+ * This is an example of writing your own spin locks...
  *
  *              Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */
+// this is the spin lock implementation (pthread "like")
+typedef struct _mypthread_spinlock_t {
+	int val;
+} mypthread_spinlock_t;
+
+int mypthread_spin_init(mypthread_spinlock_t* lock) {
+	lock->val=0;
+	return 0;
+}
+int mypthread_spin_destroy(mypthread_spinlock_t* lock) {
+	// do nothing
+	return 0;
+}
+int mypthread_spin_lock(mypthread_spinlock_t* lock) {
+	// lets spin!...
+	while(!__sync_bool_compare_and_swap(&(lock->val),0,1)) {
+	}
+	return 0;
+}
+int mypthread_spin_unlock(mypthread_spinlock_t* lock) {
+	__sync_bool_compare_and_swap(&(lock->val),1,0);
+	return 0;
+}
+
 FILE* pfile=stderr;
 const int loops=3;
-pthread_spinlock_t lock;
+mypthread_spinlock_t lock;
 int counter=0;
 const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 
@@ -27,7 +51,7 @@ void *worker(void *p) {
 	fprintf(pfile, "starting thread %d\n", num);
 	int success=0;
 	while(success<loops) {
-		CHECK_ZERO(pthread_spin_lock(&lock));
+		CHECK_ZERO(mypthread_spin_lock(&lock));
 		if(counter%cpu_num==num) {
 			fprintf(pfile, "thread %d caught lock\n", num);
 			sleep(1);
@@ -35,12 +59,11 @@ void *worker(void *p) {
 			success++;
 			fprintf(pfile, "thread %d released lock\n", num);
 		}
-		CHECK_ZERO(pthread_spin_unlock(&lock));
+		CHECK_ZERO(mypthread_spin_unlock(&lock));
 	}
 	fprintf(pfile, "ending thread %d\n", num);
 	return(NULL);
 }
-
 
 int main(int argc, char **argv, char **envp) {
 	const int thread_num=cpu_num;
@@ -50,7 +73,7 @@ int main(int argc, char **argv, char **envp) {
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
 
 	fprintf(pfile, "main starting\n");
-	CHECK_ZERO(pthread_spin_init(&lock,PTHREAD_PROCESS_PRIVATE));
+	CHECK_ZERO(mypthread_spin_init(&lock));
 	for (int i = 0; i < thread_num; i++) {
 		ids[i] = i;
 		CPU_ZERO(cpu_sets + i);
@@ -63,7 +86,7 @@ int main(int argc, char **argv, char **envp) {
 	for (int i = 0; i < thread_num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], NULL));
 	}
-	CHECK_ZERO(pthread_spin_destroy(&lock));
+	CHECK_ZERO(mypthread_spin_destroy(&lock));
 	delete threads;
 	delete attrs;
 	delete ids;
