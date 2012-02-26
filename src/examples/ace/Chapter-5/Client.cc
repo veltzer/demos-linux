@@ -1,4 +1,4 @@
-/**
+/*
  * $Id: Client.cpp 80826 2008-03-04 14:51:23Z wotte $
  *
  * A simple client program using ACE_Svc_Handler and ACE_Connector.

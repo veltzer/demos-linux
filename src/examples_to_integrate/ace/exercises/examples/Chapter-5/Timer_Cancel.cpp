@@ -1,4 +1,4 @@
-/**
+/*
  *
  * Changing the interval and canceling
  */

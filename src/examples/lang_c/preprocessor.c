@@ -1,6 +1,6 @@
 #include <stdio.h> // for printf(3)
 
-/**
+/*
  * An example showing how to use the preprocessor in order to avoid
  * repetative code.
  *
