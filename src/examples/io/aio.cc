@@ -1,18 +1,24 @@
 #include <stdio.h> // for printf(3)
-#include <aio.h> // for aio_*(3)
+#include <aio.h> // for aio_read(3), aio_suspend(3), aio_return(3)
 #include <strings.h> // for bzero(3)
 #include <stdlib.h> // for malloc(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
 
 #include "us_helper.hh" // our own helper
 
 /*
  * This is an example of asynchroneous IO.
  *
+ * Note that you must link with -lrt or this example will not work.
+ *
  * References:
  * man aio.h
  * http://www.ibm.com/developerworks/linux/library/l-async/
  *
  *              Mark Veltzer
+ *
  * EXTRA_LIBS=-lrt
  */
 int main(int argc, char **argv, char **envp) {
