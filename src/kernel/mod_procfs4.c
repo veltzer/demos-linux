@@ -1,4 +1,4 @@
-/**
+/*
  * procfs4.c -  create a "file" in /proc
  * This program uses the seq_file library to manage the /proc file.
  */
@@ -15,13 +15,13 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("a module showing how to use the _seq /proc API");
 
-/**
- *  * This function is called at the beginning of a sequence.
- *   * ie, when:
- *    *	- the /proc file is read (first time)
- *     *	- after the function stop (end of sequence)
- *      *
- *       */
+/*
+ * This function is called at the beginning of a sequence.
+ * ie, when:
+ * - the /proc file is read (first time)
+ * - after the function stop (end of sequence)
+ *
+ */
 static void* my_seq_start(struct seq_file *s, loff_t *pos) {
 	pr_debug("my_seq_start %p, %Ld",s,*pos);
 	/* beginning a new sequence ? */	
@@ -36,7 +36,7 @@ static void* my_seq_start(struct seq_file *s, loff_t *pos) {
 	}
 }
 
-/**
+/*
  * This function is called after the beginning of a sequence.
  * It's called untill the return is NULL (this ends the sequence).
  */
@@ -53,7 +53,7 @@ static void *my_seq_next(struct seq_file *s, void *v, loff_t *pos) {
 	}
 }
 
-/**
+/*
  * This function is called at the end of a sequence
  */
 static void my_seq_stop(struct seq_file *s, void *v) {
@@ -61,7 +61,7 @@ static void my_seq_stop(struct seq_file *s, void *v) {
 	kfree(v);
 }
 
-/**
+/*
  * This function is called for each "step" of a sequence
  */
 static int my_seq_show(struct seq_file *s, void *v) {
@@ -72,7 +72,7 @@ static int my_seq_show(struct seq_file *s, void *v) {
 	return 0;
 }
 
-/**
+/*
  * This structure gather "function" to manage the sequence
  */
 static struct seq_operations my_seq_ops={
@@ -82,14 +82,14 @@ static struct seq_operations my_seq_ops={
 	.show  = my_seq_show
 };
 
-/**
+/*
  * This function is called when the /proc file is open.
  */
 static int my_open(struct inode *inode, struct file *file) {
 	return seq_open(file,&my_seq_ops);
 };
 
-/**
+/*
  * This structure gathers "functions" that manage the /proc file
  */
 static struct file_operations my_file_ops = {
@@ -100,7 +100,7 @@ static struct file_operations my_file_ops = {
 	.release = seq_release
 };
 	
-/**
+/*
  * This function is called when the module is loaded
  */
 int init_module(void) {
@@ -113,7 +113,7 @@ int init_module(void) {
 	return 0;
 }
 
-/**
+/*
  * This function is called when the module is unloaded.
  */
 void cleanup_module(void) {

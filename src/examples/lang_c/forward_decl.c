@@ -1,6 +1,6 @@
 #include <stdio.h> // for printf(3)
 
-/**
+/*
  * An example of forward declaration of a function
  */
 

@@ -1,4 +1,4 @@
-/**
+/*
  * $Id: Get_Opt_Long.cpp 80826 2008-03-04 14:51:23Z wotte $
  *
  * ACE_Get_Opt long_only examples. Sample code from The ACE

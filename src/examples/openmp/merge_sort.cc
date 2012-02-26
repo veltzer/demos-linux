@@ -1,5 +1,5 @@
 /*
- * A demo calculating the sin table with openmp.
+ * An example of writing a merge sort algorithm using open mp.
  *
  * 			Mark Veltzer
  *
