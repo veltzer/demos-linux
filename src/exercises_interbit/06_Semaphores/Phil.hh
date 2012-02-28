@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 const int NPHIL=5;
-const char* KEYFILE="philosophers";
+const char* KEYFILE="/etc/passwd";
 
 union semun {
 	int val;		/* value for SETVAL */

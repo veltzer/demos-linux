@@ -26,7 +26,7 @@ int main(int argc,char** argv,char** envp)
 	int i;
 	char ans[10];
 
-	if ((key = ftok("shmserver", 'x')) == -1)
+	if ((key = ftok("/etc/passwd", 'x')) == -1)
 	{
 		perror("ftok failed");
 		exit(errno);

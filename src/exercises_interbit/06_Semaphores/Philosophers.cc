@@ -1,6 +1,5 @@
 #include "Phil.hh"
 
-struct sembuf sops[2];
 int semid;
 
 void think(int id)
@@ -31,14 +30,13 @@ void putForks(int id)
 	else
 		next=id+1;
 	printf("Philosopher %d is replacing the forks\n", id);
-
+	struct sembuf sops[2];
 	sops[0].sem_num = id;
 	sops[0].sem_op = 1;
 	sops[0].sem_flg = 0;
 	sops[1].sem_num = next;
 	sops[1].sem_op = 1;
 	sops[1].sem_flg = 0;
-
 	if ( semop(semid, sops, 2) == -1 )
 	{
 		perror("semop");
@@ -55,6 +53,7 @@ void pickForks(int id)
 	else
 		next = id+1;
 	printf("Philosopher %d is trying to pick up the forks\n", id);
+	struct sembuf sops[2];
 	sops[0].sem_num = id;
 	sops[0].sem_op = -1;
 	sops[0].sem_flg = 0;

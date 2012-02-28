@@ -139,7 +139,7 @@ int main(int argc,char** argv,char** envp)
 		fprintf(stderr, "MyID must be 0-%d\n", MAXCLINTS);
 		exit(errno);
 	}
-	if ((key = ftok("shmserver", 'x')) == -1)
+	if ((key = ftok("/etc/passwd", 'x')) == -1)
 	{
 		perror("ftok failed");
 		exit(errno);
