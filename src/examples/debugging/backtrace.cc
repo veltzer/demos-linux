@@ -40,7 +40,7 @@
  * 	- do cxx name demangling.
  * 	- move to registering the handler via sigaction and show how to specify it's own stack
  * 	and the effect of this on the result.
- * 	- show in another example what happnes if we do a segfault inside a segfault handler.
+ * 	- show in another example what happens if we do a segfault inside a segfault handler.
  * 	- do the recommendations from the gilad ben yossef slide show:
  * 		pipe the data to another process standing by,
  * 		malloc and heap poisoning
@@ -62,6 +62,11 @@ void print_trace(bool full) {
 		nptrs-=2;
 	}
 	fprintf(stderr, "backtrace() returned %d addresses\n", nptrs);
+	// the reason we print to stdout and not to stderr 
+	// (which would be more correct) is because we want
+	// this demo to be filtered directly to c++filt
+	// - on second thought just run this command using
+	// cmd 2>&1 | c++filt...
 	backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 
 	/*
