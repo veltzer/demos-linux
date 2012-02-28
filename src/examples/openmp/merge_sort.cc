@@ -17,7 +17,10 @@ void mergesort(int* arr,unsigned int from,unsigned int to,int* scratch) {
 	}
 	unsigned int length=to-from;
 	unsigned int mid=(from+to)/2;
-	omp_set_num_threads(2);
+	// if you put the number of threads here omp will not exceed them
+	// if you don't then omp will use the number of your cores...
+	// see this via ps -eLf...
+	//omp_set_num_threads(2);
 	#pragma omp parallel sections
 	{
 		#pragma omp section
@@ -58,7 +61,7 @@ void mergesort(int* arr,unsigned int size) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	const unsigned int size=10000000;
+	const unsigned int size=100000000;
 	int* arr=new int[size];
 	for(unsigned int i=0;i<size;i++) {
 		arr[i]=random();
