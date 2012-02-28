@@ -1,11 +1,15 @@
-#include <stdlib.h>
-#include <iostream>
+#include <stdlib.h> // for atoi(3)
+#include <iostream> // for std::cerr, std::endl, 
 
 /*
- *      This example shows how to use compile time constants which
- *      are known by the compiler in order to speed things up...
+ * This example shows how to use compile time constants which
+ * are known by the compiler in order to speed things up and
+ * still present one API.
  *
  *              Mark Veltzer
+ *
+ * TODO:
+ * - this example does not work. Fix it up.
  */
 static inline int _sum(int i) {
 	std::cerr << "in _sum for " << i << std::endl;
@@ -22,18 +26,18 @@ static inline int _sum(int i) {
  *      statement itself!
  */
 static inline int sum(int i) {
-	if (__builtin_constant_p(i) && (i == 100)) {
+	//if (__builtin_constant_p(i) && (i == 100)) {
+		//return(5051);
+	if (__builtin_constant_p(i)) {
 		return(5051);
 	} else {
 		return(_sum(i));
 	}
 }
 
-
 void fake_manipulate_int(int *ip) {
 	*ip = atoi("100");
 }
-
 
 int main(int argc, char **argv, char **envp) {
 	std::cerr << "sum for 99 is " << sum(99) << std::endl;
