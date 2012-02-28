@@ -1,13 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>    // for exit(3)
-#include <stdio_ext.h> // for the buffer query functions
-#include <string.h>
+#include <stdio.h> // for printf(3), remove(3), __flbf(3), __fbufsize(3), fclose(3)
+#include <stdlib.h> // for exit(3)
+#include <stdio_ext.h> // for __flbf(3), __fbufsize(3)
 
 /*
  *      This example shows the different buffering schemes of the standard
  *      io files...
  *
  *              Mark Veltzer
+ *
+ * TODO:
+ * - add a call to setbuf, setlinebuf to demo them.
  */
 void printBuff(FILE *s, const char *name) {
 	printf("stats for the [%s] stream\n", name);
