@@ -10,10 +10,10 @@
 /*
  * This demo shows that the performance of various syscalls.
  * we compare:
- * 	- gettimeofdat(2). worst. always does it's thing and needs to read
+ * 	- gettimeofday(2). worst. always does it's thing and needs to read
  * 		the system time.
  * 	- gettid(2). intermediate. not cached.
- * 	- getpid(2). best since it is cached by the kernel.
+ * 	- getpid(2). best since it is cached by glibc.
  * we also show the performance of gettid_cached which is a TLS cached version
  * of gettid and performs much better.
  *
