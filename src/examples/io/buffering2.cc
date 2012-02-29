@@ -1,4 +1,4 @@
-#include<stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3), fprintf(3)
 
 /*
  * Example of buffering of stdout causing loss of messages...
