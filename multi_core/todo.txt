@@ -13,4 +13,3 @@ slides about the intel compiler:
 	performance examples.
 - compatibility of the intel compiler to the gcc compiler
 	- do example with C++ compatibility for the intel compiler.
-
