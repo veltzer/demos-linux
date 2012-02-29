@@ -4,6 +4,7 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
 #endif // _GNU_SOURCE
+#include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
 #include <cpufreq.h> // for cpufreq_get_freq_kernel(2)
 #include <sys/prctl.h> // for prctl(2)
 #include <stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
@@ -16,7 +17,6 @@
 #include <string.h> // for strncpy(3), strerror(3)
 #include <sys/time.h> // for getpriority(2)
 #include <sys/resource.h> // for getpriority(2)
-#include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
 #include <pthread.h> // for the entire pthread_* API
 #include <errno.h> // for errno
 
@@ -437,9 +437,10 @@ static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
 }
 
 static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
+	int j;
 	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
 	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
-	for (int j = 0; j < CPU_SETSIZE; j++) {
+	for (j = 0; j < CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
 			fprintf(pfile,"\tCPU %d\n", j);
 		}
