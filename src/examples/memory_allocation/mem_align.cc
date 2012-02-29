@@ -1,27 +1,27 @@
-#include <stdio.h>     // for printf,fprintf,perror
-#include <unistd.h>    // for getpagesize,sysconf
-#include <malloc.h>    // for valloc,memalign
-#include <stdlib.h>    // for posix_memalign,malloc
-#include <sys/mman.h>  // for mmap
-#include <string.h>    // for memset
+#include <stdio.h> // for printf,fprintf,perror
+#include <unistd.h> // for getpagesize,sysconf
+#include <malloc.h> // for valloc,memalign
+#include <stdlib.h> // for posix_memalign,malloc
+#include <sys/mman.h> // for mmap
+#include <string.h> // for memset
 
 #include "us_helper.hh" // for printproc
 
 /*
- *      This demo shows how to allocate memory which is PAGE_SIZE aligned...
+ * This demo shows how to allocate memory which is PAGE_SIZE aligned...
  *
- *      To get the page size of the system two ways are presented:
- *      - getpagesize()
- *      - sysconf(_SC_PAGESIZE)
+ * To get the page size of the system two ways are presented:
+ * - getpagesize()
+ * - sysconf(_SC_PAGESIZE)
  *
- *      To get aligned memory 4 ways are presented:
- *      - valloc (deprecated)
- *      - memalign (deprecated)
- *      - posix_memalign (this is the one to use).
- *      - malloc (if you don't have any of the others...).
- *      - mmap anonymous pages (this is supposed to be quite effective...).
+ * To get aligned memory 4 ways are presented:
+ * - valloc (deprecated)
+ * - memalign (deprecated)
+ * - posix_memalign (this is the one to use).
+ * - malloc (if you don't have any of the others...).
+ * - mmap anonymous pages (this is supposed to be quite effective...).
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 // this next function takes an address and aligns it to page size
@@ -48,20 +48,20 @@ void *mem_align(unsigned int size) {
 
 
 /*
- *      This function works by allocating more memory than is actually required.
- *      (One page more to be precise). Then asking malloc to allocate that memory
- *      and allocating the aligned block that we need within the block allocated
- *      by malloc...
+ * This function works by allocating more memory than is actually required.
+ * (One page more to be precise). Then asking malloc to allocate that memory
+ * and allocating the aligned block that we need within the block allocated
+ * by malloc...
  *
- *      NOTE: you should also keep a hash table to release the memory since free
- *      wants the ORIGINAL malloc returned pointer and not the rounded one. This
- *      is not demonstrated in this example...
+ * NOTE: you should also keep a hash table to release the memory since free
+ * wants the ORIGINAL malloc returned pointer and not the rounded one. This
+ * is not demonstrated in this example...
  */
 void *malloc_align(unsigned int size) {
 	int ps = getpagesize();
 	int pages = size / ps + 1;
 	int new_size = pages * ps;
-	void         *ptr = malloc(new_size);
+	void* ptr = malloc(new_size);
 	unsigned int iptr = (unsigned int)ptr;
 
 	iptr = (iptr / ps + 1) * ps;
@@ -70,20 +70,21 @@ void *malloc_align(unsigned int size) {
 
 
 /*
- *      mmap anonymous allocation function
+ * mmap anonymous allocation function
  */
 void *mmap_alloc(unsigned int size) {
-	//int flags=MAP_ANONYMOUS | MAP_PRIVATE; /* we want anonymous mapping */
-	int flags = MAP_ANONYMOUS | MAP_SHARED;                                                                                                                                                                              /* we want anonymous mapping */
+	/* we want anonymous mapping */
+	int flags=MAP_ANONYMOUS;
+	flags|=MAP_PRIVATE;
+	//flags|=MAP_SHARED;
 	void *res = mmap(
-	        NULL,                                                                                                                                                                                                                                                                   /* dont recommend address */
-	        size,                                                                                                                                                                                                                                                                   /* the size we need */
-	        PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                 /* we want read AND write */
-	        flags,
-	        -1,                                                                                                                                                                                                                                                                     /* we do not have a device to allocate from */
-	        0                                                                                                                                                                                                                                                                       /* we dont need an offset as we don't have a file and are doing anon */
-	        );
-
+		NULL,/* dont recommend address */
+		size,/* the size we need */
+		PROT_READ | PROT_WRITE,/* we want read AND write */
+		flags,
+		-1,/* we do not have a device or fd to allocate from */
+		0/* we dont need an offset as we don't have a file and are doing anon */
+	);
 	if (res == MAP_FAILED) {
 		perror("mmap failed");
 		exit(1);
