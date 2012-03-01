@@ -1,8 +1,8 @@
+#include "us_helper.hh" // our own helper
+
 #include <stdio.h> // for printf(3)
 #include <sys/utsname.h> // for uname(2)
 #include <stdbool.h> // for bool
-
-#include "us_helper.hh" // our own helper
 
 /*
  *      This is a demo showing the sizes of variables on the architecture
