@@ -108,9 +108,10 @@ SYSV interprocess communication: (emphasis)
 Book: Efficient C++ performance programming techniques Dov Bulka, David Mayhew
 Effective C++.
 	correct construction.
-	virtual functions abuse.
-	return value optimisation.
 	redundant construction.
+	virtual functions abuse.
+
+	return value optimisation.
 	efficient use of temporary variables.
 	inlining
 		how not to inline
@@ -122,7 +123,6 @@ Effective STL:
 	Modifying containers while iterating.
 	STL allocators.
 	Complex keys for maps, sets...
-
 	exercises: ?
 	examples: yes - for each topic.
 Boost:
