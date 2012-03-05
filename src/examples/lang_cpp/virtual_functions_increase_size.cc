@@ -45,7 +45,7 @@ int main(int argc, char **argv, char **envp) {
 	int* p1=(int*)&obj1;
 	int* p2=(int*)&obj2;
 	assert(*p1==*p2);
-	assert(*(p1+1)=4);
-	assert(*(p2+1)=5);
+	assert(4==*(p1+1));
+	assert(5==*(p2+1));
 	return(0);
 }
