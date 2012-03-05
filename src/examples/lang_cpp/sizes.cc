@@ -9,8 +9,8 @@
 class A {
 	public:
 		int a;
-		char b;
 		int c;
+		char b;
 		char d;
 
 		void dosomething() {
@@ -32,11 +32,19 @@ class B: public A {
 };
 #define CppOffsetOf(className, FieldName) ((char *)(&(((className *)1)->FieldName)) - (char *)1)
 
+class C {
+};
+
 int main(int argc, char **argv, char **envp) {
 	std::cout << "sizeof(A) is " << sizeof(A) << std::endl;
 	std::cout << "sizeof(B) is " << sizeof(B) << std::endl;
+	std::cout << "sizeof(C) is " << sizeof(C) << std::endl;
 	//std::cout << "__builtin_offsetof(e,B) " << __builtin_offsetof(e,B) << std::endl;
 	std::cout << "CppOffsetOf(B,e) " << CppOffsetOf(B,e) << std::endl;
+	std::cout << "CppOffsetOf(A,a) " << CppOffsetOf(A,a) << std::endl;
+	std::cout << "CppOffsetOf(A,b) " << CppOffsetOf(A,b) << std::endl;
+	std::cout << "CppOffsetOf(A,c) " << CppOffsetOf(A,c) << std::endl;
+	std::cout << "CppOffsetOf(A,d) " << CppOffsetOf(A,d) << std::endl;
 	A* a=new A();
 	a->dosomething();
 	A* ab=new B();
