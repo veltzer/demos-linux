@@ -1,2 +1,0 @@
-HTTP protocol made easy:
-http://www.jmarshall.com/easy/http/#sample
