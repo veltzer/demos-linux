@@ -93,3 +93,4 @@ mysql:
 
 programming:
 	cdecl
+	lint (various sorts)
