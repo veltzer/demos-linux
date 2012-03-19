@@ -152,7 +152,7 @@ system wide performance:
 take the list of tools and divide them:
 	take the tools from the book.
 	tools for CPU bound applications.
-	tools for system wide debuggin.
+	tools for system wide debugging.
 	tools for latency sensitive (sleeping) applications.
 profiling:
 	gdb
