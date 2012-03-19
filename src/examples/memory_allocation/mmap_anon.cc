@@ -1,6 +1,6 @@
 #include <stdio.h> // for printf(3)
 #include <string.h> // for memset(3)
-#include <sys/mman.h> // for mmap(2)
+#include <sys/mman.h> // for mmap(2), munmap(2)
 #include <unistd.h> // for getpagesize(2)
 #include <assert.h> // for assert(3)
 
@@ -40,7 +40,7 @@ static inline void print_stats(void) {
 }
 
 int main(int argc, char **argv, char **envp) {
-	const int size = 1000000;
+	const int size = 1024*1024;
 	void      *p;
 	int flags=MAP_PRIVATE | MAP_ANONYMOUS;
 	if(do_populate) {
@@ -61,5 +61,6 @@ int main(int argc, char **argv, char **envp) {
 	}
 	printf("p is %p\n", p);
 	print_stats();
+	CHECK_ZERO(munmap(p,size));
 	return(0);
 }

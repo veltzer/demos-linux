@@ -1,0 +1,7 @@
+#!/usr/bin/env stap
+
+probe begin
+{
+	print ("hello world\n")
+	exit ()
+}
