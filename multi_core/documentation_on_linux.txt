@@ -1,0 +1,24 @@
+1. manual pages (only syscalls).
+	NOT INSTALLED BY DEFAULT.
+	In ubuntu this comes from a package called 'manpages-dev'
+	in redhat this is called 'man-pages'.
+	(man 2 open)
+2. glibc info pages.
+	in ubuntu this comes from 'glibc-doc'.
+	in redhat this is called 'glibc-devel'.
+	(info libc)
+3. pthreads manual pages.
+	ubuntu: from the above 'manpages-dev' packages.
+	same for redhat.
+4. gcc - two sources of info:
+	man gcc.
+		ubuntu: this is part of the 'gcc' package.
+		same for RH.
+	info gcc
+		ubuntu: this comes from: 'gcc-4.6-doc'.
+		RH: part of the gcc package (no separate documentation). 
+5. ACE
+	In your case ask your local system administrator.
+	ubuntu: part of the package system
+6. install the kernel-source package for kernel sources.
+	ubuntu: linux-source package.

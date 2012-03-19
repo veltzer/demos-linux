@@ -9,7 +9,8 @@
 
 class A {
 	public:
-		static void performance_hog_function() __attribute__((noinline)) {
+		//static void performance_hog_function() __attribute__((noinline)) {
+		static void performance_hog_function() {
 			float sum=0;
 			for(unsigned int i=0;i<1000000;i++) {
 				for(unsigned int j=0;j<1000000;j++) {

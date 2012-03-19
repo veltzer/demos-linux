@@ -1,8 +1,8 @@
 process statistics:
-	vmstat
+	sar, sadc(8), sa1(8), sa2(8), sadf(1), isag(1).
 	mpstat
+	vmstat
 	pidstat
-	sar, sadc(8), sa1(8), sa2(8), sadf(1), isag(1)
 	free, uptime
 	top, htop
 	/proc, /sys, /debugfs filesystems
