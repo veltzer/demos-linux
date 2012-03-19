@@ -26,7 +26,7 @@ int counter = 0;
 const int wait_usecs = 0;
 //FILE *pfile = stdout;
 FILE* pfile=stderr;
-const int attempts=10000;
+const int attempts=10000000;
 const int thread_num = 10;
 const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 
