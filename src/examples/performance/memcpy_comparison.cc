@@ -36,8 +36,13 @@ int main(int argc, char **argv, char** envp) {
 	printf("doing %d copy int by int\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for (unsigned int i = 0;i < loop;i++) {
+		int* pbuf1=(int*)buf1;
+		int* pbuf2=(int*)buf2;
 		for(unsigned int j=0;j<size/sizeof(int);j++) {
-			((int*)buf1)[j]=((int*)buf2)[j];
+			*pbuf1=*pbuf2;
+			pbuf1++;
+			pbuf2++;
+			//((int*)buf1)[j]=((int*)buf2)[j];
 		}
 	}
 	CHECK_NOT_M1(gettimeofday(&t2, NULL));
