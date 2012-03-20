@@ -7,6 +7,7 @@ import subprocess
 
 packs=[
 	'htop',
+	'sysprof',
 ]
 
 args=['sudo','apt-get','install']

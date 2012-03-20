@@ -12,16 +12,24 @@
 class A {
 	public:
 		static void performance_hog_function(char* buf1,char* buf2,unsigned int size) __attribute__((noinline)) {
-		//static void performance_hog_function() {
-			//float sum=0;
 			for(unsigned int i=0;i<1000000;i++) {
 				for(unsigned int j=0;j<1000000;j++) {
 					memcpy(buf1,buf2,size);
-					//sum+=i*j;
 				}
 			}
-			//std::cout << sum << std::endl;
 
+		}
+		// the function is not inlined on purpose so it would show up in profilers
+		// like 'perf(1)'...
+		//static void performance_hog_function2() {
+		static void performance_hog_function2() __attribute__((noinline)) {
+			float sum=0;
+			for(unsigned int i=0;i<1000000;i++) {
+				for(unsigned int j=0;j<1000000;j++) {
+					sum+=i*j;
+				}
+			}
+			std::cout << sum << std::endl;
 		}
 };
 
