@@ -1,0 +1,27 @@
+#! /usr/bin/env stap
+
+# This script tries to identify contended user-space locks by hooking
+# into the futex system call.
+
+global FUTEX_WAIT = 0 /*, FUTEX_WAKE = 1 */
+
+global lock_waits # long-lived stats on (tid,lock) blockage elapsed time
+global process_names # long-lived pid-to-execname mapping
+
+probe syscall.futex.return {  
+  if ($op != FUTEX_WAIT) next # don't care about WAKE event originator
+  process_names[pid()] = execname()
+  elapsed = gettimeofday_us() - @entry(gettimeofday_us())
+  lock_waits[pid(), $uaddr] <<< elapsed
+}
+
+probe begin {
+	print ("started collecting data...\n")
+}
+
+probe end {
+  foreach ([pid+, lock] in lock_waits) 
+    printf ("%s[%d] lock %p contended %d times, %d avg us\n",
+            process_names[pid], pid, lock, @count(lock_waits[pid,lock]),
+            @avg(lock_waits[pid,lock]))
+}

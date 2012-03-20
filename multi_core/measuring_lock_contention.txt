@@ -1,0 +1,3 @@
+- you can use mutrace (see the document about it).
+- you can use systemtap (it has a futex script).
+- you can use perf ("perf lock record" and then "perf report").
