@@ -20,7 +20,7 @@
  *
  *              Mark Veltzer
  *
- * EXTRA_LIBS=-finstrument-functions -finstrument-functions-exclude-function-list=printf
+ * EXTRA_COMPILE_FLAGS=-finstrument-functions -finstrument-functions-exclude-function-list=printf
  * OPTION_WITHOUT_FUNCTION_ATTRIBUTES=-finstrument-functions -finstrument-functions-exclude-function-list=__cyg_profile_func_enter,__cyg_profile_func_exit,printf
  */
 void long_task(void) {
