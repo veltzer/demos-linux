@@ -11,6 +11,8 @@
 
 class A {
 	public:
+		// use this example to see that the actual memcpy(3) function
+		// is tuned to the cpu you are running on...
 		static void performance_hog_function(char* buf1,char* buf2,unsigned int size) __attribute__((noinline)) {
 			for(unsigned int i=0;i<1000000;i++) {
 				for(unsigned int j=0;j<1000000;j++) {
@@ -22,7 +24,7 @@ class A {
 		// the function is not inlined on purpose so it would show up in profilers
 		// like 'perf(1)'...
 		//static void performance_hog_function2() {
-		static void performance_hog_function2() __attribute__((noinline)) {
+		static void performance_hog_function_cpu() __attribute__((noinline)) {
 			float sum=0;
 			for(unsigned int i=0;i<1000000;i++) {
 				for(unsigned int j=0;j<1000000;j++) {
@@ -34,9 +36,10 @@ class A {
 };
 
 int main(int argc, char **argv, char **envp) {
-	const unsigned int size=1024*1024;
-	char* buf1=(char*)malloc(size);
-	char* buf2=(char*)malloc(size);
-	A::performance_hog_function(buf1,buf2,size);
+	//const unsigned int size=1024*1024;
+	//char* buf1=(char*)malloc(size);
+	//char* buf2=(char*)malloc(size);
+	//A::performance_hog_function(buf1,buf2,size);
+	A::performance_hog_function_cpu();
 	return(0);
 }

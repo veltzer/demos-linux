@@ -8,6 +8,7 @@ import subprocess
 packs=[
 	'htop',
 	'sysprof',
+	'mutrace',
 ]
 
 args=['sudo','apt-get','install']

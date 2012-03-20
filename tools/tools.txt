@@ -11,6 +11,7 @@ process statistics:
 	nice, renice, snice
 	netstat, nc
 	atop, atopsar
+	mutrace (for lock contention)
 io:
 	iostat
 	iotop, ionice
