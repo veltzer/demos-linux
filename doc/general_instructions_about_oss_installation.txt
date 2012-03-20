@@ -1,0 +1,8 @@
+- most package come in .tar.gz format
+	(could be in .tar.bz2 or .tar.xz).
+- open them: tar xvf [package_name.tar.gz]
+- cd into them: cd [package_name]
+- run the configure script: ./configure.
+- install whatever is missing which the configure complains about.
+- run "make"
+- run "sudo make install"
