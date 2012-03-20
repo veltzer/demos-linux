@@ -1,0 +1,7 @@
+This explores how you can do profiling and specifically answer
+the question: who called this function that takes lots of time?
+
+answers:
+- you can use sysprof(1). It gives you call graphs in the UI.
+- you can use the -g flag to perf record and then you record
+	call graph that you can later view with perf report.

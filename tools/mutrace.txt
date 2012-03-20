@@ -1,0 +1,2 @@
+Install the relevent package and then use the following:
+LD_PRELOAD=/usr/lib/mutrace/libmutrace.so ./src/examples/pthreads/mutex.exe

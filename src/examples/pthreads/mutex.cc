@@ -16,8 +16,8 @@ static pthread_mutex_t mylock;
 static void *worker(void *p) {
 	int id=*(int*)p;
 	int counter=0;
-	while (true) {
-		TRACE("before lock");
+	while (counter<10) {
+		TRACE("%d before lock",id);
 		CHECK_ZERO(pthread_mutex_lock(&mylock));
 		sleep(1);
 		// this simulates a bug. see what this thread is doing using
@@ -27,7 +27,7 @@ static void *worker(void *p) {
 		}
 		CHECK_ZERO(pthread_mutex_unlock(&mylock));
 		counter++;
-		TRACE("after lock");
+		TRACE("%d after lock",id);
 		sleep(1);
 	}
 	return(NULL);
