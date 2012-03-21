@@ -9,6 +9,7 @@
  * man 2 nice
  *
  * 	Mark Veltzer
+ */
 
 int main(int argc,char** argv,char** envp) {
 	float sum;
