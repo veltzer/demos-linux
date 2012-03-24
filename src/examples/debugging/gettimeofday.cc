@@ -6,16 +6,15 @@
 #include "us_helper.hh"
 
 /*
- *      This example shows how to use gettimeofday
- *      This example also shows how accurate this method of measurement is...
+ * This example shows how to use gettimeofday
+ * This example also shows how accurate this method of measurement is...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 void print_timeval(struct timeval *tv, const char *name) {
 	printf("%s - sec is %lu\n", name, tv->tv_sec);
 	printf("%s - usec is %lu\n", name, tv->tv_usec);
 }
-
 
 unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 	if (tv1->tv_sec > tv2->tv_sec) {
@@ -33,7 +32,6 @@ unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 	diff += (tv2->tv_usec - tv1->tv_usec) / 1000;
 	return(diff);
 }
-
 
 int main(int argc, char **argv, char **envp) {
 	struct timeval tv_start, tv_end;

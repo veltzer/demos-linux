@@ -7,11 +7,11 @@
 #include "us_helper.hh"
 
 /*
- *      This is a demo of how to use the BUG() macro in the kernel to find bugs.
- *      Notice that this produces a stack trace in dmesg.
- *      Notice also that you can still rmmod your module if you had a bug.
+ * This is a demo of how to use the BUG() macro in the kernel to find bugs.
+ * Notice that this produces a stack trace in dmesg.
+ * Notice also that you can still rmmod your module if you had a bug.
  *
- *      		Mark Veltzer
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	// file to be used

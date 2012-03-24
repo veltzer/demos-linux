@@ -9,28 +9,28 @@
 #define DO_FORK
 
 /*
- *      Explore usage of command line gcore.
+ * Explore usage of command line gcore.
  *
- *      This simple process simply increases a counter and prints it in a slow
- *      manner.
+ * This simple process simply increases a counter and prints it in a slow
+ * manner.
  *
- *      Take a photo of this process in action using gcore and then debug it
- *      and see if you get the right value...
+ * Take a photo of this process in action using gcore and then debug it
+ * and see if you get the right value...
  *
- *      I had to make i volatile since the compiler would put it in a register
- *      and optimize it out.
+ * I had to make i volatile since the compiler would put it in a register
+ * and optimize it out.
  *
- *      Why do I do the fork at the begining? It seems that newer linux distributions
- *      do not allow ptrace (which is at the core of gcore) of any process to any process
- *      (ubuntu is a prime example). The default policy (which can be configured by /proc)
- *      is that only the parent of a process can photo the child.
+ * Why do I do the fork at the begining? It seems that newer linux distributions
+ * do not allow ptrace (which is at the core of gcore) of any process to any process
+ * (ubuntu is a prime example). The default policy (which can be configured by /proc)
+ * is that only the parent of a process can photo the child.
  *
- *      Actually, I'm using sudo here so I'm not really using ptrace right. This is because
- *      the process that I'm taking a photo of and the gcore process are siblings and not
- *      parent-child. There is probably a way to make this work if we link with libgdb and call
- *      gcore functionality directly from our code.
+ * Actually, I'm using sudo here so I'm not really using ptrace right. This is because
+ * the process that I'm taking a photo of and the gcore process are siblings and not
+ * parent-child. There is probably a way to make this work if we link with libgdb and call
+ * gcore functionality directly from our code.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 #ifdef DO_FORK

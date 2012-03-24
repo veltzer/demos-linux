@@ -10,7 +10,7 @@
  * Notice:
  * - the use of pre-processor var args type of macro.
  * - the use of __attribute__((format)) for compile time type checking of arguments
- *   to the tracer.
+ *	to the tracer.
  * - the use of vfprintf to finally log the results.
  *
  * 					Mark Veltzer

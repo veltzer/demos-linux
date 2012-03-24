@@ -5,21 +5,21 @@
 #include "us_helper.hh"
 
 /*
- *      This example shows how you can write C functions in C++ code.
- *      This seems trivial, right ?!? Just write regular functions
- *      like:
- *      =========== SNIP =========
- *      int add(int a,int b) {
- *              return a+b;
- *      }
- *      =========== SNIP =========
- *      But this is not what I mean....
- *      I want the linkage to be C style...
+ * This example shows how you can write C functions in C++ code.
+ * This seems trivial, right ?!? Just write regular functions
+ * like:
+ * =========== SNIP =========
+ * int add(int a,int b) {
+ *	return a+b;
+ * }
+ * =========== SNIP =========
+ * But this is not what I mean....
+ * I want the linkage to be C style...
  *
- *      The assumption in this example is that it is compiled using a C++
- *      compiler...
+ * The assumption in this example is that it is compiled using a C++
+ * compiler...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 /*

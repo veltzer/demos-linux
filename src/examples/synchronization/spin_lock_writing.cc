@@ -12,7 +12,7 @@
 /*
  * This is an example of writing your own spin locks...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

@@ -19,12 +19,12 @@
  *
  * Notes:
  * - we send the data page by page and call sendfile(2) many times. This could
- *   be avoided using fstat(2) after the open of the input file and sending the
- *   entire content at once. On the other hand this could cause performance issues.
- *   This needs to be checked. In any case the buffer of a single page size
- *   as is used here seems too small for good performace on todays systems.
+ * be avoided using fstat(2) after the open of the input file and sending the
+ * entire content at once. On the other hand this could cause performance issues.
+ * This needs to be checked. In any case the buffer of a single page size
+ * as is used here seems too small for good performace on todays systems.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 int copy_file(const char* filein, const char* fileout) {

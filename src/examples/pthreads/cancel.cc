@@ -7,26 +7,26 @@
  * This demo is a pthread_cancel demo and was copied from the pthread_cancel
  * manpage.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  *
  * TODO:
  * - show that the cancellation happened in the middle of the sleep and that it was close
- *   to the time that asked the cancellation.
+ * to the time that asked the cancellation.
  * - show what other functions instead of sleep can be used as cancellation points.
  */
 
 static void * thread_func(void *ignored_argument) {
 	/* Disable cancellation for a while, so that we don't
-	*               immediately react to a cancellation request */
+	* immediately react to a cancellation request */
 	CHECK_ZERO(pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL));
 	TRACE("started; cancellation disabled");
 	sleep(5);
 	TRACE("about to enable cancellation");
 	CHECK_ZERO(pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL));
 	/* sleep() is a cancellation point */
-	sleep(1000);        /* Should get canceled while we sleep */
+	sleep(1000); /* Should get canceled while we sleep */
 	/* Should never get here */
 	TRACE("not canceled!");
 	return NULL;

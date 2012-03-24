@@ -37,6 +37,6 @@ int main(int argc, char **argv, char **envp) {
 		return(1);
 	}
 	std::cout << "info is " << info << "\n";
-	mysql_close(&mysql);                                                                                                         //there are no error codes for this one
+	mysql_close(&mysql); // there are no error codes for this one
 	return(0);
 }

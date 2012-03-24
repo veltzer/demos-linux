@@ -4,9 +4,9 @@
 #include <locale.h>
 
 /*
- *      This example explores wide strings in GCC.
+ * This example explores wide strings in GCC.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 #define WS(s) L ## s
 

@@ -5,12 +5,12 @@
  *
  * Things to notice:
  * - the reference is not even stored in it's own place on the stack, or anywhere.
- *   It is a compile time figment of the imagination.
+ *	It is a compile time figment of the imagination.
  * - when changing the reference you change the actual value, much like you would do
- *   with a pointer. The syntax is different though. Instead of doing *p=7 you simply
- *   do p=7.
+ *	with a pointer. The syntax is different though. Instead of doing *p=7 you simply
+ *	do p=7.
  * - Changing the reference DOES NOT change what value of the reference (it s a pointer
- *   after all) but rather what the reference is pointing to.
+ *	after all) but rather what the reference is pointing to.
  *
  * 		Mark Veltzer
  */

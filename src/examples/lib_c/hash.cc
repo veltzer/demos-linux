@@ -5,12 +5,12 @@
 #include "us_helper.hh"
 
 /*
- *      This demos how to use the has supplied with the standard C library...
+ * This demos how to use the has supplied with the standard C library...
  *
- *      You can see documentation for these functions at
- *      man hsearch or info libc under 'hsearch' or 'hash'.
+ * You can see documentation for these functions at
+ * man hsearch or info libc under 'hsearch' or 'hash'.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	//struct hsearch_data HTAB;

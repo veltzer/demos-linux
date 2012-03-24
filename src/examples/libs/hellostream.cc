@@ -1,7 +1,7 @@
-#include <iostream>
+#include <iostream> // for std::cout
 
 /*
- *      This program demonstrates use of C++ streams
+ * This program demonstrates use of C++ streams
  *
  *	Mark Veltzer
  *

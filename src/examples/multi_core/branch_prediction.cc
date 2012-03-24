@@ -5,17 +5,17 @@
 // that does not have __builtin_expect you would just define likely/unlikely
 // in a way that is appropriate to that compiler, or maybe even just
 // the identity function.
-#define likely(x)       __builtin_expect((x),1)
-#define unlikely(x)     __builtin_expect((x),0)
-//#define likely(x)	x
-//#define unlikely(x)     x
+#define likely(x) __builtin_expect((x),1)
+#define unlikely(x) __builtin_expect((x),0)
+//#define likely(x) x
+//#define unlikely(x) x
 
 /*
  * This is an example of giving hints to the compiler about branchings.
  * Note that:
  * - some cpus have branch prediction in hardware and ignore such hints.
  * - you can pass flags to the compiler to ignore these hints and create
- *   regular branch instructions.
+ *	regular branch instructions.
  * - some compiler and/or compiler versions do not actually use this information.
  *
  * Where can this help?
@@ -23,8 +23,8 @@
  *
  * TODO:
  * - on the command line using time(1) this example runs the same with branch prediction and without.
- *   Modify this to have a marked effect on performance and measure itself so that I can show when
- *   this is effective.
+ *	Modify this to have a marked effect on performance and measure itself so that I can show when
+ *	this is effective.
  *
  *		Mark Veltzer
  */

@@ -2,9 +2,9 @@
 #include <wx/frame.h>
 
 /*
- *      This example is a simple wxWindows application.
+ * This example is a simple wxWindows application.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_CMDS=wx-config --cflags --libs
  */
@@ -32,9 +32,9 @@ bool MyApp::OnInit(void) {
 	MyFrame *frame = new MyFrame(_T("Hello World"), wxPoint(50, 50), wxSize(450, 350));
 
 	frame->Connect(ID_Quit, wxEVT_COMMAND_MENU_SELECTED,
-	               (wxObjectEventFunction) & MyFrame::OnQuit);
+		(wxObjectEventFunction) & MyFrame::OnQuit);
 	frame->Connect(ID_About, wxEVT_COMMAND_MENU_SELECTED,
-	               (wxObjectEventFunction) & MyFrame::OnAbout);
+		(wxObjectEventFunction) & MyFrame::OnAbout);
 
 	frame->Show(TRUE);
 	SetTopWindow(frame);

@@ -2,9 +2,9 @@
 #include <ctype.h> // for isgraph(3)
 
 /*
- *      This is an example to show how best to print characters on the screen...
+ * This is an example to show how best to print characters on the screen...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	for (int c = 0; c < 256; c++) {

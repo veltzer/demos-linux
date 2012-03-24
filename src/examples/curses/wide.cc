@@ -7,11 +7,11 @@
 #include <locale.h>
 
 /*
- *      Curses example number 3...
+ *	Curses example number 3...
  *
- *      This is an example of how to use wide characters in curses...
+ *	This is an example of how to use wide characters in curses...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lncursesw
  */
@@ -31,10 +31,10 @@ int main(int argc, char **argv, char **envp) {
 	setlocale(LC_ALL, "");
 
 	/*
-	 *      printf("size of chtype is %d\n",sizeof(chtype));
-	 *      printf("size of wchar_t is %d\n",sizeof(wchar_t));
-	 *      printf("size of char is %d\n",sizeof(char));
-	 *      printf("size of cchar_t is %d\n",sizeof(cchar_t));
+	 * printf("size of chtype is %d\n",sizeof(chtype));
+	 * printf("size of wchar_t is %d\n",sizeof(wchar_t));
+	 * printf("size of char is %d\n",sizeof(char));
+	 * printf("size of cchar_t is %d\n",sizeof(cchar_t));
 	 */
 	initscr();
 	cbreak();
@@ -61,14 +61,14 @@ int main(int argc, char **argv, char **envp) {
 		}
 
 		/*
-		 *              res=addwstr(string);
-		 *              res=addnwstr(&c,1);
-		 *              if(res==ERR) {
-		 *                      stop=true;
-		 *                      setErr("could not addwstr");
-		 *                      continue;
-		 *              }
-		 *              refresh();
+		 * res=addwstr(string);
+		 * res=addnwstr(&c,1);
+		 * if(res==ERR) {
+		 *	stop=true;
+		 *	setErr("could not addwstr");
+		 *	continue;
+		 * }
+		 * refresh();
 		 */
 	}
 	endwin();

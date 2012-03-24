@@ -4,9 +4,9 @@
 #include "us_helper.hh" // our own helper
 
 /*
- *      This is a standard pthread demo
+ * This is a standard pthread demo
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp) {
 	const int num = 10;
 	pthread_t threads[num];
 	int ids[num];
-	void      *rets[num];
+	void* rets[num];
 
 	TRACE("main starting");
 	for (int i = 0; i < num; i++) {

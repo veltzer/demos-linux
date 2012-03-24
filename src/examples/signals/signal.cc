@@ -14,15 +14,15 @@
  * Things to note:
  * - the same signal handler can be used for handling more than one signal.
  * - if you send a signal when the signal handler is active then it is not
- *   activated (meaning that the code that you write need not be re-entrant).
+ *	activated (meaning that the code that you write need not be re-entrant).
  * - the signal is remmember though and will be activated the first thing after
- *   the signal handler is over.
+ *	the signal handler is over.
  * - the system does not remmember more than 1 signal. It actually has a bit
- *   mask of waiting signals so each waiting signal is either on or off.
+ *	mask of waiting signals so each waiting signal is either on or off.
  * - the pause(2) call can be used to block until a signal arrives an provide
- *   you with a non-busy wait loop on signals.
+ *	you with a non-busy wait loop on signals.
  *
- *   			Mark Veltzer
+ *		Mark Veltzer
  */
 
 static unsigned int counter = 0;

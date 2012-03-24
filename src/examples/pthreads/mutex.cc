@@ -6,7 +6,7 @@
 /*
  * This demos mutex usage.
  *
- *                      Mark Veltzer
+ *	Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */
@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **envp) {
 	const int num = 2;
 	pthread_t threads[num];
 	int ids[num];
-	void      *rets[num];
+	void* rets[num];
 	TRACE("starting threads...");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;

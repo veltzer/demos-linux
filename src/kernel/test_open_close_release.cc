@@ -10,36 +10,36 @@
 #include "us_helper.hh"
 
 /*
- *      This is a test which will explain which methods in the driver are
- *      called. Here are the scenarios which are shown:
- *      - a single process opening and closing.
- *      - a pair of processes both opening and closing the same file.
- *      - a process which open a file and dies.
- *      - two processes one which dies.
+ * This is a test which will explain which methods in the driver are
+ * called. Here are the scenarios which are shown:
+ * - a single process opening and closing.
+ * - a pair of processes both opening and closing the same file.
+ * - a process which open a file and dies.
+ * - two processes one which dies.
  *
- *      This example explains when open and release are called.
- *      open - is called when a unique new fd is created based on the device driver file.
- *              It is NOT called when an already existing fd is duplicated like in the
- *              case of fork(2) or dup(2).
- *      release - is called when the final fd of the last process is closed. This means
- *              that no userspace process still holds a connection to that fd.
- *              It is NOT called when a close(2) occurs which is not the last one...
- *      Common questions are:
- *              1. how do I know within the driver that a certain process
- *              that talked to my driver died?
- *              2. how do I know within the driver that a new process
- *              was created that is using a file descriptor that I am serving?
- *              3. how do I know within the driver that a file descriptor
- *              that I am serving just god dupped?
- *              Some attempts at answers:
- *              - you don't. file descriptors in UNIX are NOT tied to
- *              one process - they may be shared. You only get notification when they
- *              are created or finally destroyed.
- *              - don't shared file descriptors. Close them in the parent or child if
- *              you fork or only open them after forks.
- *              - have every process which closes the descriptor do
- *              an ioctl(2) on it before closing notifying you. The same could be done
- *              after fork(2) or dup(2)...
+ * This example explains when open and release are called.
+ * open - is called when a unique new fd is created based on the device driver file.
+ *	It is NOT called when an already existing fd is duplicated like in the
+ *	case of fork(2) or dup(2).
+ * release - is called when the final fd of the last process is closed. This means
+ *	that no userspace process still holds a connection to that fd.
+ *	It is NOT called when a close(2) occurs which is not the last one...
+ * Common questions are:
+ * 1. how do I know within the driver that a certain process
+ * that talked to my driver died?
+ * 2. how do I know within the driver that a new process
+ * was created that is using a file descriptor that I am serving?
+ * 3. how do I know within the driver that a file descriptor
+ * that I am serving just god dupped?
+ * Some attempts at answers:
+ * - you don't. file descriptors in UNIX are NOT tied to
+ * one process - they may be shared. You only get notification when they
+ * are created or finally destroyed.
+ * - one strategy is to not share file descriptors. Close them in the parent or child if
+ * you fork or only open them after forks.
+ * - have every process which closes the descriptor do
+ * an ioctl(2) on it before closing notifying you. The same could be done
+ * after fork(2) or dup(2). But why would you want that?
  */
 
 // file descriptor

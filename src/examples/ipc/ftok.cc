@@ -10,9 +10,9 @@
  */
 
 int main(int argc,char** argv,char** envp) {
-       key_t k1=ftok("/tmp/no_such_file", 17);
-       printf("key with no file is %d\n",k1);
-       key_t k2=ftok("/etc/passwd", 17);
-       printf("key with file is %d\n",k2);
-       return 0;
+	key_t k1=ftok("/tmp/no_such_file", 17);
+	printf("key with no file is %d\n",k1);
+	key_t k2=ftok("/etc/passwd", 17);
+	printf("key with file is %d\n",k2);
+	return 0;
 }

@@ -1,4 +1,4 @@
-#include <stdio.h>  // for scanf(3), printf(3), fflush(3)
+#include <stdio.h> // for scanf(3), printf(3), fflush(3)
 #include <sys/types.h> // for getpid(2)
 #include <unistd.h> // for getpid(2)
 #include <signal.h> // for signal(2), siginterrupt(3)
@@ -17,7 +17,7 @@
  * any call to other APIs may change it's value and so lose the
  * original value you want to look at.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 static void sig_handler(int sig) {

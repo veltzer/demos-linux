@@ -14,7 +14,7 @@
  * TODO:
  * - remove the run high priority function from this code.
  *
- *                      Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

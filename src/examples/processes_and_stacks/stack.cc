@@ -1,5 +1,5 @@
 #include <string.h> // for memset(3)
-#include <stdio.h>  // for printf(3)
+#include <stdio.h> // for printf(3)
 #include <sys/resource.h> // for getrlimit(2)
 
 #include "us_helper.hh" // our own helper
@@ -10,7 +10,7 @@
  * Notes:
  * - this is why it's a bad idea to store stuff on the stack.
  * - note that without the memset there is no problem since the
- *   memory is not really allocated.
+ *	memory is not really allocated.
  *
  * 			Mark Veltzer
  */

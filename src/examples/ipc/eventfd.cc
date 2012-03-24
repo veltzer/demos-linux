@@ -13,10 +13,10 @@
  *
  * Notes:
  * - the child may make several calls to write and the parent will only
- *   get one wakeup for these calls. This is because eventfd is made for
- *   signaling and two signals are just as good as one. The parent can
- *   notice that it has been signaled more than once since the sum of the
- *   childs passed values is passed to it.
+ *	get one wakeup for these calls. This is because eventfd is made for
+ *	signaling and two signals are just as good as one. The parent can
+ *	notice that it has been signaled more than once since the sum of the
+ *	childs passed values is passed to it.
  * - eventfd can be multiplexed using select, poll or epoll.
  *
  *		Mark Veltzer
