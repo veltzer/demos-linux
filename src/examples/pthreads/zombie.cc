@@ -1,4 +1,4 @@
-#include <pthread.h> // for pthread_create
+#include <pthread.h> // for pthread_create(3)
 #include <string.h> // for strncpy(3)
 #include <sys/prctl.h> // for prctl(2)
 #include <unistd.h> // for sleep(3)
