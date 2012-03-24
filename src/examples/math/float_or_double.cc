@@ -5,7 +5,7 @@
  * This is an example for all the folk wishing to do numerical applications and want to switch
  * between float and double at compile time instead of at run time.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 // first option - using floats...
@@ -30,8 +30,8 @@ typedef double some_float;
  * example of a type neutral function
  */
 inline some_float add(some_float a, some_float b) {
-       return a+b;
-}       
+	return a+b;
+}
 
 int main(int argc, char **argv, char **envp) {
 	some_float f1=MC(3.14);

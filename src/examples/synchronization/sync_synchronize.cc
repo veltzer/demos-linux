@@ -13,7 +13,7 @@
  * that since a compiler barrier is only a compile time instruction about
  * code emittion.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

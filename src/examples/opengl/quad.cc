@@ -39,10 +39,10 @@ void DrawAQuad() {
 	gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
 
 	glBegin(GL_QUADS);
-	glColor3f(1., 0., 0.); glVertex3f(-.75, -.75, 0.);
-	glColor3f(0., 1., 0.); glVertex3f( .75, -.75, 0.);
-	glColor3f(0., 0., 1.); glVertex3f( .75,  .75, 0.);
-	glColor3f(1., 1., 0.); glVertex3f(-.75,  .75, 0.);
+	glColor3f(1., 0., 0.); glVertex3f(-.75,-.75,0.);
+	glColor3f(0., 1., 0.); glVertex3f(+.75,-.75,0.);
+	glColor3f(0., 0., 1.); glVertex3f(+.75,+.75,0.);
+	glColor3f(1., 1., 0.); glVertex3f(-.75,+.75,0.);
 	glEnd(); } 
  
 int main(int argc, char** argv, char** envp) {

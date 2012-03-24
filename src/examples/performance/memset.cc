@@ -15,7 +15,7 @@
  *	a single machine instruction on Intel which means that it is very efficient.
  * - the wmemset function is not inline assembly (you can break on it in the debugger)
  * - this example does not explore the inner workins of the wmemset function
- *   (meanins whether it is implemented efficiently or not).
+ * (meanins whether it is implemented efficiently or not).
  *
  * TODO: find out how wmemset work and discuss it's efficiency.
  *
@@ -23,7 +23,7 @@
  */
 int main(int argc, char **argv, char **envp) {
 	const int size = 1000;
-	char      *buf = (char *)malloc(size);
+	char* buf = (char *)malloc(size);
 
 	memset(buf, 0, 8);
 	memset(buf, 0, size);

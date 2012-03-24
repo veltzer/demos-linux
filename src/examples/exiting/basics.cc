@@ -6,22 +6,22 @@
 #include "us_helper.hh"
 
 /*
- *      This example explores the different ways of exiting a program... 
+ * This example explores the different ways of exiting a program... 
  *
- *	abort(3)
- *	========
- *      After this program terminates echo $? and see that it's termination
- *      code is 134.
+ * abort(3)
+ * ========
+ * After this program terminates echo $? and see that it's termination
+ * code is 134.
  *
- *      TODO:
- *      - show that by catching the signal we cannot avoid abort terminating
- *      the program...
- *      - wrap this program in a fork and show what the parent thinks of the
- *      child ending...
- *      - show a pattern by which a C++ object can request to do cleanup work
- *      on program termination.
+ * TODO:
+ * - show that by catching the signal we cannot avoid abort terminating
+ * the program...
+ * - wrap this program in a fork and show what the parent thinks of the
+ * child ending...
+ * - show a pattern by which a C++ object can request to do cleanup work
+ * on program termination.
  *
- *                              Mark Veltzer
+ *		Mark Veltzer
  */
 
 class A {

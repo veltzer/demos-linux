@@ -4,13 +4,13 @@
 #include "us_helper.hh" // for TRACE(), scig()
 
 /*
- *      This is a demo of how to use a cpu set
+ * This is a demo of how to use a cpu set
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * TODO:
  * - move the print_cpu_set function into the shared code. find other uses
- *   of it and eliminate them.
+ * of it and eliminate them.
  */
 void print_cpu_set(cpu_set_t *p) {
 	TRACE("CPU_COUNT is %d", CPU_COUNT(p));

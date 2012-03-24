@@ -65,22 +65,23 @@ int drawGLScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(-1.5f, 0.0f, -6.0f);
-	glBegin(GL_TRIANGLES);                                                                                                                /* Drawing Using Triangles */
-	glColor3f(1.0f, 0.0f, 0.0f);                                                                                                          /* Red */
-	glVertex3f(0.0f, 1.0f, 0.0f);                                                                                                         /* Top Of Triangle */
-	glColor3f(0.0f, 1.0f, 0.0f);                                                                                                          /* Green */
-	glVertex3f(-1.0f, -1.0f, 0.0f);                                                                                                       /* Left Of Triangle */
-	glColor3f(0.0f, 0.0f, 1.0f);                                                                                                          /* Blue */
-	glVertex3f(1.0f, -1.0f, 0.0f);                                                                                                        /* Right Of Triangle */
-	glEnd();                                                                                                                              /* Finished Drawing The Triangle */
+	glBegin(GL_TRIANGLES); /* Drawing Using Triangles */
+	glColor3f(1.0f, 0.0f, 0.0f); /* Red */
+	glVertex3f(0.0f, 1.0f, 0.0f); /* Top Of Triangle */
+	glColor3f(0.0f, 1.0f, 0.0f); /* Green */
+	glVertex3f(-1.0f, -1.0f, 0.0f); /* Left Of Triangle */
+	glColor3f(0.0f, 0.0f, 1.0f); /* Blue */
+	glVertex3f(1.0f, -1.0f, 0.0f); /* Right Of Triangle */
+	glEnd(); /* Finished Drawing The Triangle */
 	glTranslatef(3.0f, 0.0f, 0.0f);
 	glColor3f(0.5f, 0.5f, 1.0f);
-	glBegin(GL_QUADS);                                                                                                                    /* Draw A Quad */
-	glVertex3f(1.0f, 1.0f, 0.0f);                                                                                                         /* Top Right Of The Quad */
-	glVertex3f(-1.0f, 1.0f, 0.0f);                                                                                                        /* Top Left Of The Quad */
-	glVertex3f(-1.0f, -1.0f, 0.0f);                                                                                                       /* Bottom Left Of The Quad */
-	glVertex3f(1.0f, -1.0f, 0.0f);                                                                                                        /* Bottom Right Of The Quad */
-	glEnd();                                                                                                                              /* Done Drawing The Quad */
+	glBegin(GL_QUADS);
+	/* Draw A Quad */
+	glVertex3f(1.0f, 1.0f, 0.0f); /* Top Right Of The Quad */
+	glVertex3f(-1.0f, 1.0f, 0.0f); /* Top Left Of The Quad */
+	glVertex3f(-1.0f, -1.0f, 0.0f); /* Bottom Left Of The Quad */
+	glVertex3f(1.0f, -1.0f, 0.0f); /* Bottom Right Of The Quad */
+	glEnd(); /* Done Drawing The Quad */
 	SDL_GL_SwapBuffers();
 	return(true);
 }
@@ -96,8 +97,8 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "Video query failed: %s\n", SDL_GetError());
 		Quit(1);
 	}
-	int videoFlags = SDL_OPENGL;                                                                                                             /* Enable OpenGL in SDL */
-	videoFlags |= SDL_GL_DOUBLEBUFFER;                                                                                                       /* Enable double buffering */
+	int videoFlags = SDL_OPENGL; /* Enable OpenGL in SDL */
+	videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
 	if (videoInfo->hw_available) {
 		videoFlags |= SDL_HWSURFACE;
 	} else {

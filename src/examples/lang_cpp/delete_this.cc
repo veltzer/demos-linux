@@ -15,7 +15,7 @@
  * that cause doing "delete this" may cause a segfault or maybe
  * even a silent bug which is worse at times.
  *
- *                              Mark Veltzer
+ *		Mark Veltzer
  */
 
 class A {

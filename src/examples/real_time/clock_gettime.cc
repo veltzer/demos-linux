@@ -5,9 +5,9 @@
 #include "us_helper.hh"
 
 /*
- *      Demo the clock_gettime usage
+ * Demo the clock_gettime usage
  *
- *              Mark Veltzer
+ *	Mark Veltzer
  *
  * EXTRA_LIBS=-lrt
  */

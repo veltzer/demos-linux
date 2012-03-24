@@ -2,12 +2,12 @@
 #include <string.h>
 
 /*
- *      This example explores the funky eh_frame
+ * This example explores the funky eh_frame
  *
  * TODO:
- *      What does this demo do ? try to find out and document it...
+ *	What does this demo do ? try to find out and document it...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 class A {

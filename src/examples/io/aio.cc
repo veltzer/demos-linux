@@ -17,7 +17,7 @@
  * man aio.h
  * http://www.ibm.com/developerworks/linux/library/l-async/
  *
- *              Mark Veltzer
+ *	Mark Veltzer
  *
  * EXTRA_LIBS=-lrt
  */

@@ -9,11 +9,11 @@
 
 #include <stdio.h> // for printf(3)
 #include <stdlib.h> // for atoi(3)
-#include <dlfcn.h>  // for dlsym(3)
+#include <dlfcn.h> // for dlsym(3)
 
 int (*p_atoi)(const char* nptr);
 
-void  setup() __attribute__((constructor));
+void setup() __attribute__((constructor));
 void setup() {
 	p_atoi=(typeof(p_atoi))dlsym(RTLD_NEXT,"atoi");
 }

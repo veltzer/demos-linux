@@ -7,17 +7,17 @@
 #include "us_helper.hh"
 
 /*
- *      This is a demo which shows atomic add using the
- *      __sync_add_and_fetch gcc function.
- *      see
- *      http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html
- *      for more details...
+ * This is a demo which shows atomic add using the
+ * __sync_add_and_fetch gcc function.
+ * see
+ * http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html
+ * for more details...
  *
- *      The idea here is to try to break this function by having multiple
- *      thread try to increment the counter at once. This is achieved by
- *      using pthread barriers so this example is based on the pthread barriers example.
+ * The idea here is to try to break this function by having multiple
+ * thread try to increment the counter at once. This is achieved by
+ * using pthread barriers so this example is based on the pthread barriers example.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */
@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp) {
 	pthread_attr_t attrs[thread_num];
 	int ids[thread_num];
 	cpu_set_t cpu_sets[thread_num];
-	void           *rets[thread_num];
+	void* rets[thread_num];
 
 	CHECK_ZERO(pthread_barrier_init(&bar, NULL, thread_num));
 	fprintf(pfile, "main starting\n");

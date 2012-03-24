@@ -10,7 +10,7 @@
  * - the same function can be registered multiple times (with atexit or on_exit).
  * - the limit to number of registrations seems to be very high (millions ?!?).
  * - the API to on_exit seems to be a bit better since it allows to pass a pointer
- *   and get the exit code which atexit does not allow.
+ * and get the exit code which atexit does not allow.
  * - on the other hand the documentation states that atexit is preffered on Linux.
  *
  * 			Mark Veltzer

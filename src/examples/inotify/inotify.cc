@@ -20,7 +20,7 @@
  * file name lengths. And a single read can return more than one record but will always return
  * an even amount of records.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 // signal handling functions

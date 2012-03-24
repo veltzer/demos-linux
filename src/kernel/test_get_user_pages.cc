@@ -11,14 +11,14 @@
 #include "shared.h"
 
 /*
- *      This test checks memory mapping where the memory is dictated from
- *      user space.
- *      1. Allocate memory in user space.
- *      2. Ask kernel to map it to kernel space.
- *      3. Ask kernel to manipulate that memory address.
- *      4. Check (from user space) that the memory was actually changed.
- *      5. Ask kernel to unmap the memory.
- *      6. Check (from user space) that the memory was actually changed.
+ * This test checks memory mapping where the memory is dictated from
+ * user space.
+ * 1. Allocate memory in user space.
+ * 2. Ask kernel to map it to kernel space.
+ * 3. Ask kernel to manipulate that memory address.
+ * 4. Check (from user space) that the memory was actually changed.
+ * 5. Ask kernel to unmap the memory.
+ * 6. Check (from user space) that the memory was actually changed.
  */
 
 // file descriptor to access the device with...

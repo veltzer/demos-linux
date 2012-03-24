@@ -7,29 +7,29 @@
 #include "us_helper.hh"
 
 /*
- *      This is a demo for the sched_yield(2) or for pthread_yield(3) which are
- *      in effect the same. The difference between these two functions is that
- *      sched_yield could be used and should be used in a multi process context
- *      while pthread_yield is more appropriate in a multi threaded context.
+ * This is a demo for the sched_yield(2) or for pthread_yield(3) which are
+ * in effect the same. The difference between these two functions is that
+ * sched_yield could be used and should be used in a multi process context
+ * while pthread_yield is more appropriate in a multi threaded context.
  *
- *      The idea of this demo is to show how two threads yield one to the other
- *      using this API and no other synchronization mechanism except an atomic
- *      variable. Ofcourse they spin a lot in this example.
+ * The idea of this demo is to show how two threads yield one to the other
+ * using this API and no other synchronization mechanism except an atomic
+ * variable. Ofcourse they spin a lot in this example.
  *
- *      If you run this demo on a single CPU machine then you will see that
- *      the output that you get from the two threads is interwoven which means
- *      that they yield one to the other.
- *      Ofcourse, this is not strictly a proof that this works since even on a single
- *      CPU machine with heavy load it could be that not even the single TRACE executing
- *      could fit in a time slot. But you get the idea.
- *      If you look at the first runs you would see that one of these threads gets a lot
- *      of the CPU. This is because it takes time to create the other thread in the
- *      operating system and it seems that yield does not always guarantee that the other
- *      thread wins.
- *      There is a barrier here also used to jump start the threads at exactly the same
- *      time but strictly speaking it is not required for this demo.
+ * If you run this demo on a single CPU machine then you will see that
+ * the output that you get from the two threads is interwoven which means
+ * that they yield one to the other.
+ * Ofcourse, this is not strictly a proof that this works since even on a single
+ * CPU machine with heavy load it could be that not even the single TRACE executing
+ * could fit in a time slot. But you get the idea.
+ * If you look at the first runs you would see that one of these threads gets a lot
+ * of the CPU. This is because it takes time to create the other thread in the
+ * operating system and it seems that yield does not always guarantee that the other
+ * thread wins.
+ * There is a barrier here also used to jump start the threads at exactly the same
+ * time but strictly speaking it is not required for this demo.
  *
- *                      Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

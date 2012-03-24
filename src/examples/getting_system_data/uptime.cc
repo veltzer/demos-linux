@@ -9,17 +9,17 @@
 #include "us_helper.hh"
 
 /*
- *      This demo shows how to get the uptime of the machine...
- *      This is not very suitable for very delicate and precise timings but still.
+ * This demo shows how to get the uptime of the machine...
+ * This is not very suitable for very delicate and precise timings but still.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 void uptime(float *time1, float *time2) {
 	// null the pointers
 	*time1 = 0;
 	*time2 = 0;
 	// read the data from the /proc/uptime virtual file...
-	const char         *filename = "/proc/uptime";
+	const char* filename = "/proc/uptime";
 	const unsigned int size = 256;
 	char buf[size];
 	int d, res;

@@ -5,14 +5,14 @@
  *	- to get the time stamp we use gcc's __DATE__ __TIME__ __FILE__ __LINE__ and related macros.
  *	- the demo also shows how to actually print the version from your program if you want to.
  *	- the demo shows how to stamp EACH compilation unit separately so that you will know what
- *	  version of each individual object file is.
+ *		version of each individual object file is.
  *	- the demo shows how to put stuff in the stamp whether they be strings, numbers or whatever.
  *	- the demo actually demonstrates that the information got to the object or exe file using
- *	  various techniques.
+ *		various techniques.
  *	- the demo also puts the md5 checksum of the source into the object file which could be used to perfectly ascertain from which exact source was this object produced.
  *
  *	If you want to see more macros that the compiler provides just run:
- *	cpp -dM  < /dev/null
+ *	cpp -dM < /dev/null
  *
  *		Mark Veltzer
  *

@@ -5,9 +5,9 @@
 #include "us_helper.hh" // for TRACE(), scig()
 
 /*
- *      This shows how to create threads with a certain affinity
+ * This shows how to create threads with a certain affinity
  *
- *              Mark Veltzer
+ *	Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

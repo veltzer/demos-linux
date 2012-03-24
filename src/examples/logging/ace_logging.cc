@@ -7,7 +7,7 @@
  * - traces will be printed on exit from functions (destructor pattern).
  * - %I can be used in ACE_DEBUG in order to indent messages properly.
  * - functions that do not use ACE_TRACE in them will not show up or contribute
- *   to the trace nesting at all.
+ *	to the trace nesting at all.
  *
  * note that ACE_NTRACE can be enabled/disabled on a per file basis and so can
  * only be enabled at compile time in modules that you want to debug...

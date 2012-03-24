@@ -10,10 +10,10 @@
 #include "us_helper.hh"
 
 /*
- *      This is a demo which shows that perror, errno etc all work on a thread
- *      by thread level...
+ * This is a demo which shows that perror, errno etc all work on a thread
+ * by thread level...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */
@@ -50,7 +50,7 @@ int main(int argc, char **argv, char **envp) {
 	pthread_t thread2;
 	const int num = 2;
 	int ids[num];
-	void      *rets[num];
+	void* rets[num];
 
 	fprintf(stderr, "main starting\n");
 	CHECK_ZERO(pthread_create(&thread1, NULL, worker1, ids + 0));

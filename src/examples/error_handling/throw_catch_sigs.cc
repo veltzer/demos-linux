@@ -1,4 +1,4 @@
-#include <iostream> // for std::cerr
+#include <iostream> // for std::cerr, std::endl
 #include <signal.h> // for sigemptyset(2), sigaddset(2), sigprocmask(2), raise(3), kill(2)
 #include <stdlib.h> // for exit(3)
 #include <stdio.h> // for perror(3)
@@ -24,17 +24,17 @@
 
 /*
  * static void printStatus() {
- *      sigset_t old;
- *      if(sigprocmask(SIG_BLOCK,NULL,&old)==-1) {
- *              perror("problem with calling sigprocmask(2)");
- *              exit(1);
- *      }
- *      int ret=sigismember(&old,SIGFPE);
- *      if(ret==-1) {
- *              perror("problem with calling sigismember(2)");
- *              exit(1);
- *      }
- *      std::cerr << "ret is " << ret << std::endl;
+ *	sigset_t old;
+ *	if(sigprocmask(SIG_BLOCK,NULL,&old)==-1) {
+ *		perror("problem with calling sigprocmask(2)");
+ *		exit(1);
+ *	}
+ *	int ret=sigismember(&old,SIGFPE);
+ *	if(ret==-1) {
+ *		perror("problem with calling sigismember(2)");
+ *		exit(1);
+ *	}
+ *	std::cerr << "ret is " << ret << std::endl;
  * }
  */
 

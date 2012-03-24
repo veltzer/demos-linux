@@ -6,19 +6,19 @@
 #include "us_helper.hh"
 
 /*
- *      This example creates a zombie thread.
- *      definition: A zombie thread is a thread which is not joined by the parent.
- *      This example shows that once this thread dies it does not
- *      turn into a zombie process as far as the OS is concerned.
+ * This example creates a zombie thread.
+ * definition: A zombie thread is a thread which is not joined by the parent.
+ * This example shows that once this thread dies it does not
+ * turn into a zombie process as far as the OS is concerned.
  *
- *      So why should you use pthread_join/pthread_detach?
- *      In order to clean up the threads memory footprint in the pthread library.
- *      You should choose one, and only one, of either pthread_join or pthread_detach.
+ * So why should you use pthread_join/pthread_detach?
+ * In order to clean up the threads memory footprint in the pthread library.
+ * You should choose one, and only one, of either pthread_join or pthread_detach.
  *
- *      TODO:
- *      - show that this example works the same even if you call pthread_detach.
+ * TODO:
+ * - show that this example works the same even if you call pthread_detach.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

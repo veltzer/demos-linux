@@ -9,9 +9,9 @@
 #include "us_helper.hh"
 
 /*
- *      This example explores how to use thread priorities
+ * This example explores how to use thread priorities
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

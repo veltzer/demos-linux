@@ -13,13 +13,13 @@
  *
  * three ways to do this:
  * - put the noinline attribute on the function. This is no good since the compiler
- *   will respect this when other functions call this function but not when this function
- *   calls itself. We could have used this with mutual recursion.
+ *	will respect this when other functions call this function but not when this function
+ *	calls itself. We could have used this with mutual recursion.
  * - have the function do some side effect. This has the same problems as above. Again,
- *   mutual recursion could have helped.
+ *	mutual recursion could have helped.
  * - have the function call itself several times. This saved the day for this example.
  *
- *   				Mark Veltzer
+ *		Mark Veltzer
  */
 
 void show_stack_size() {

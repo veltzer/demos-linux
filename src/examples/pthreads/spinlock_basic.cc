@@ -4,12 +4,12 @@
 #include "us_helper.hh" // for TRACE()
 
 /*
- *      This is a demo for thread spin locks.
- *      Run on any machine and you will see a problem in that they will block
- *      each other. This blockage does not turn into a dead lock since the OS
- *      will preempt them and eventually each will get it's turn.
+ * This is a demo for thread spin locks.
+ * Run on any machine and you will see a problem in that they will block
+ * each other. This blockage does not turn into a dead lock since the OS
+ * will preempt them and eventually each will get it's turn.
  *
- *                      Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

@@ -6,7 +6,7 @@
 /*
  * Demo for a performance counter on i64...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 typedef unsigned long ticks;

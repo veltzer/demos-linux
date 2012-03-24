@@ -11,23 +11,23 @@
 #include<GL/glu.h>
 
 /*
- *      OpenGL example number 2...
- *      Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Programming_Animations_with_GLX_and_Xlib
+ * OpenGL example number 2...
+ * Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Programming_Animations_with_GLX_and_Xlib
  *
- *              Mark Veltzer
+ *			Mark Veltzer
  *
  * EXTRA_LIBS=-lX11 -lGL -lGLU
  */
 //////////////////////////////////////////////////////////////////////////////////
 //				GLOBAL IDENTIFIERS				//
 //////////////////////////////////////////////////////////////////////////////////
-Display                 *dpy;
-Window                  root, win;
-GLint                   att[]   = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-XVisualInfo             *vi;
-GLXContext              glc;
-Colormap                cmap;
-XSetWindowAttributes    swa;
+Display* dpy;
+Window root, win;
+GLint att[]={ GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+XVisualInfo* vi;
+GLXContext glc;
+Colormap cmap;
+XSetWindowAttributes swa;
 XWindowAttributes	wa;
 XEvent			xev;
 
@@ -41,55 +41,56 @@ float			rot_z_vel = 50.0, rot_y_vel = 30.0;
 //				DRAW A CUBE					//
 //////////////////////////////////////////////////////////////////////////////////
 void DrawCube(float size) {
+	glBegin(GL_QUADS);
 
- glBegin(GL_QUADS);
+	glColor3f(0.7, 0.0, 0.0);
+	glVertex3f(-size,-size,-size);
+	glVertex3f(+size,-size,-size);
+	glVertex3f(+size,+size,-size);
+	glVertex3f(-size,+size,-size);
 
-  glColor3f(0.7, 0.0, 0.0);
-  glVertex3f(-size, -size, -size);
-  glVertex3f( size, -size, -size);
-  glVertex3f( size,  size, -size);
-  glVertex3f(-size,  size, -size);
+	glVertex3f(-size,-size,+size);
+	glVertex3f(+size,-size,+size);
+	glVertex3f(+size,+size,+size);
+	glVertex3f(-size,+size,+size);
 
-  glVertex3f(-size, -size,  size);
-  glVertex3f( size, -size,  size);
-  glVertex3f( size,  size,  size);
-  glVertex3f(-size,  size,  size);
+	glColor3f(0.0, 0.0, 0.7);
 
-  glColor3f(0.0, 0.0, 0.7);
+	glVertex3f(-size,-size,-size);
+	glVertex3f(-size,-size,+size);
+	glVertex3f(-size,+size,+size);
+	glVertex3f(-size,+size,-size);
 
-  glVertex3f(-size, -size, -size);
-  glVertex3f(-size, -size,  size);
-  glVertex3f(-size,  size,  size);
-  glVertex3f(-size,  size, -size);
+	glVertex3f(+size,-size,-size);
+	glVertex3f(+size,-size,+size);
+	glVertex3f(+size,+size,+size);
+	glVertex3f(+size,+size,-size);
 
-  glVertex3f( size, -size, -size);
-  glVertex3f( size, -size,  size);
-  glVertex3f( size,  size,  size);
-  glVertex3f( size,  size, -size);
+	glColor3f(0.0, 0.7, 0.0);
 
-  glColor3f(0.0, 0.7, 0.0);
+	glVertex3f(-size,-size,-size);
+	glVertex3f(-size,-size,+size);
+	glVertex3f(+size,-size,+size);
+	glVertex3f(+size,-size,-size);
 
-  glVertex3f(-size, -size, -size);
-  glVertex3f(-size, -size,  size);
-  glVertex3f( size, -size,  size);
-  glVertex3f( size, -size, -size);
+	glVertex3f(-size,+size,-size);
+	glVertex3f(-size,+size,+size);
+	glVertex3f(+size,+size,+size);
+	glVertex3f(+size,+size,-size);
 
-  glVertex3f(-size, size, -size);
-  glVertex3f(-size, size,  size);
-  glVertex3f( size, size,  size);
-  glVertex3f( size, size, -size);
-
- glEnd(); }
+	glEnd();
+}
 //////////////////////////////////////////////////////////////////////////////////
 //				ROTATE THE CUBE					//
 //////////////////////////////////////////////////////////////////////////////////
 void RotateCube() {
- glMatrixMode(GL_MODELVIEW);
- glLoadIdentity();
- glRotatef(rot_y_vel*DT, 0.0, 1.0, 0.0);
- glRotatef(rot_z_vel*DT, 0.0, 0.0, 1.0);
- glMultMatrixf(rotation_matrix);
- glGetFloatv(GL_MODELVIEW_MATRIX, rotation_matrix); }
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glRotatef(rot_y_vel*DT, 0.0, 1.0, 0.0);
+	glRotatef(rot_z_vel*DT, 0.0, 0.0, 1.0);
+	glMultMatrixf(rotation_matrix);
+	glGetFloatv(GL_MODELVIEW_MATRIX, rotation_matrix);
+}
 //////////////////////////////////////////////////////////////////////////////////
 //				EXPOSURE FUNCTION				//
 //////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +152,7 @@ void CreateWindow() {
 	exit(0); }
 
  root = DefaultRootWindow(dpy);
- 
+
  if((vi = glXChooseVisual(dpy, 0, att)) == NULL) {
 	printf("\n\tno matching visual\n\n");
 	exit(0); }
@@ -246,7 +247,7 @@ void CheckKeyboard() {
 		rot_y_vel += 200.0*DT; }
 
 	else if(strncmp(key_string, "F1", 2) == 0) {
-		rot_y_vel = 0.0; 
+		rot_y_vel = 0.0;
 		rot_z_vel = 0.0; }
 
 	else if(strncmp(key_string, "Escape", 5) == 0) {
@@ -254,16 +255,17 @@ void CheckKeyboard() {
 //////////////////////////////////////////////////////////////////////////////////
 //				MAIN PROGRAM					//
 //////////////////////////////////////////////////////////////////////////////////
-int main(int argc, char** argv,char** envp){
-
- CreateWindow();
- SetupGL();
- InitTimeCounter();
-
- while(true) {
-	UpdateTimeCounter();
-	CalculateFPS();
-	RotateCube();
-	ExposeFunc(); 
-	usleep(1000);
-	CheckKeyboard(); } }
+int main(int argc, char** argv,char** envp) {
+	CreateWindow();
+	SetupGL();
+	InitTimeCounter();
+	while(true) {
+		UpdateTimeCounter();
+		CalculateFPS();
+		RotateCube();
+		ExposeFunc();
+		usleep(1000);
+		CheckKeyboard();
+	}
+	return EXIT_SUCCESS;
+}

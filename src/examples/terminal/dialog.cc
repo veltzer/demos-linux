@@ -5,7 +5,7 @@
 //}
 
 /*
- *      This example shows how to use the dialog C library.
+ * This example shows how to use the dialog C library.
  *
  * 				Mark Veltzer
  *

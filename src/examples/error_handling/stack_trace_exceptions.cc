@@ -37,9 +37,9 @@ private:
 	// that you are probably not interested in
 	static const int drop_frames = 2;
 	static const int size = 25;
-	void             *array[size];
+	void* array[size];
 	int nSize;
-	char             **symbols;
+	char** symbols;
 public:
 	TracedException() {
 		nSize = backtrace(array, size);
@@ -56,16 +56,16 @@ public:
 		for (int i = nSize - drop_frames - 1; i >= 0; i--) {
 			char *symbol = symbols[i];
 			std::cerr
-			        << symbol << ","
-			        << std::endl;
+				<< symbol << ","
+				<< std::endl;
 			//char result_name[256];
 			//char result_offset[256];
 			//error_demangle(symbol, result_name, 256, result_offset, 256);
 			//std::cerr
-			//        << symbol << ","
-			//        << result_name << ","
-			//        << result_offset
-			//        << std::endl;
+			//	<< symbol << ","
+			//	<< result_name << ","
+			//	<< result_offset
+			//	<< std::endl;
 		}
 	}
 };

@@ -5,12 +5,12 @@
 #include <unistd.h>
 
 /*
- *      Curses example number 1...
+ * Curses example number 1...
  *
- *      This is an example of how to read a character from the keyboard
- *      in non-blocking mode...
+ * This is an example of how to read a character from the keyboard
+ * in non-blocking mode...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lncursesw
  */
