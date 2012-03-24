@@ -26,7 +26,7 @@ class A {
 		//static void performance_hog_function2() {
 		static void performance_hog_function_cpu() __attribute__((noinline)) {
 			float sum=0;
-			for(unsigned int i=0;i<1000000;i++) {
+			for(unsigned int i=0;i<100;i++) {
 				for(unsigned int j=0;j<500000;j++) {
 					sum+=i*j;
 				}
