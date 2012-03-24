@@ -11,18 +11,18 @@
 #include "us_helper.hh"
 
 /*
- *      This application has two threads:
- *              - one running like crazy doing ioctls.
- *              - one asking to close the driver (which halts).
- *              - main asking for input and releases the close process...
+ * This application has two threads:
+ *	- one running like crazy doing ioctls.
+ *	- one asking to close the driver (which halts).
+ *	- main asking for input and releases the close process...
  *
- *      What do we learn from this?
- *      - closing a file descriptor only schedules release to be called in the kernel.
- *      - this release will be called once any ioctls on the current file descriptor end.
- *      - any new operations on this file descriptor are not allowed (bad file descriptor).
- *      - makes it easier to program in the kernel.
+ * What do we learn from this?
+ *	- closing a file descriptor only schedules release to be called in the kernel.
+ *	- this release will be called once any ioctls on the current file descriptor end.
+ *	- any new operations on this file descriptor are not allowed (bad file descriptor).
+ *	- makes it easier to program in the kernel.
  *
- *      		Mark Veltzer
+ *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
  */

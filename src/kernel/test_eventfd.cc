@@ -9,10 +9,10 @@
 #include "us_helper.hh"
 
 /*
- *      This tests eventfd code in the kernel...
+ * This tests eventfd code in the kernel...
  *
- *      TODO:
- *      call ioctl on the eventfd and get the signal...
+ * TODO:
+ * - call ioctl on the eventfd and get the signal...
  */
 int main(int argc, char **argv, char **envp) {
 	// file to be used

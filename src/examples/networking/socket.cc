@@ -1,23 +1,15 @@
 #include <sys/types.h> // for socket(2), bind(2)
 #include <sys/socket.h> // for socket(2), bind(2)
-#include <strings.h>  // for bzero(3)
+#include <strings.h> // for bzero(3)
 #include <stdio.h> // for perror(3), printf(3)
 #include <errno.h> // for errno
 #include <netdb.h> // for getservbyname(3)
-#include <arpa/inet.h> // for ntons
+#include <arpa/inet.h> // for ntohs(3)
 
 #include "us_helper.hh" // our own helper
 
-//#include <sys/wait.h>
-//#include <netinet/in.h>
-//#include <netdb.h>
-//#include <unistd.h>
-//#include <time.h>
-//#include <stdlib.h>
-//#include <string.h>
-
 /*
- * This is a demo of a socket server implementation in pure C in Linux
+ * This is a demo of a simple echo socket server implementation in pure C in Linux
  *
  * 			Mark Veltzer
  */

@@ -7,10 +7,10 @@
 #include "us_helper.hh" // our user helper
 
 /*
- *      A basic test which opens the device, runs one ioctl with 0 or user given
- *      cmd and no data and then closes the device
- *     	
- *     			Mark Veltzer
+ * A basic test which opens the device, runs one ioctl with 0 or user given
+ * cmd and no data and then closes the device
+ *
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	int ioctl_num = 0;

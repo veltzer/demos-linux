@@ -14,12 +14,12 @@
 #include "shared.h"
 
 /*
- *      This is a test for kernel driven mmap.
+ * This is a test for kernel driven mmap.
  *
- *      The test:
- *      - opens the file.
- *      - asks (via ioctl) to mmap to it's space.
- *      - closes the file.
+ * The test:
+ * - opens the file.
+ * - asks (via ioctl) to mmap to it's space.
+ * - closes the file.
  */
 
 //const bool do_single=true;

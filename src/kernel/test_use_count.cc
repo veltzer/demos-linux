@@ -11,8 +11,8 @@
 
 /*
  * This is a simple test to see the use count of kernel modules
- *     	
- *     			Mark Veltzer
+ *
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	const char *filename = "/dev/mod_use_count";

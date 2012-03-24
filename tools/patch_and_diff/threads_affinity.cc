@@ -10,7 +10,7 @@
 #include "us_helper.h"
 
 /*
- *      This shows how to create threads with a certain affinity
+ * This shows how to create threads with a certain affinity
  *
  * EXTRA_LIBS=-lpthread
  */
@@ -19,7 +19,7 @@ void print_cpu_set(cpu_set_t *p) {
 	fprintf(stderr, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
 	for (int j = 0; j < CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
-			printf("    CPU %d\n", j);
+			printf("\tCPU %d\n", j);
 		}
 	}
 }
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp) {
 	pthread_attr_t attrs[num];
 	cpu_set_t cpu_sets[num];
 	int ids[num];
-	void           *rets[num];
+	void* rets[num];
 
 	fprintf(stderr, "main starting\n");
 	for (int i = 0; i < num; i++) {

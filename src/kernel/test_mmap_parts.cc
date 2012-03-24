@@ -13,7 +13,7 @@
 #include "us_helper.hh"
 
 /*
- *      This test shows how you can do mmap via an ioctl...
+ * This test shows how you can do mmap via an ioctl...
  */
 
 bool do_mmap_once = false;
@@ -57,13 +57,13 @@ int main(int argc, char **argv, char **envp) {
 		void *p;
 		klog_clear();
 		CHECK_NOT_VAL(p = mmap(
-		             NULL,                                                                                                                                                                                                                                                                                                                                                                                                                                                          /* we DO NOT recommend an address - better to let the kernel decide */
-		             size,                                                                                                                                                                                                                                                                                                                                                                                                                                                          /* the size we need */
-		             PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                                                                                                                                                                                                        /* we want read AND write */
-		             MAP_SHARED | MAP_POPULATE,                                                                                                                                                                                                                                                                                                                                                                                                                                     /* we want to shard with kernel and don't want page faults */
-		             d,                                                                                                                                                                                                                                                                                                                                                                                                                                                             /* file descriptor */
-		             0                                                                                                                                                                                                                                                                                                                                                                                                                                                              /* offset */
-		             ), MAP_FAILED);
+			NULL, /* we DO NOT recommend an address - better to let the kernel decide */
+			size, /* the size we need */
+			PROT_READ | PROT_WRITE, /* we want read AND write */
+			MAP_SHARED | MAP_POPULATE, /* we want to shard with kernel and don't want page faults */
+			d, /* file descriptor */
+			0 /* offset */
+		), MAP_FAILED);
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
@@ -119,13 +119,13 @@ int main(int argc, char **argv, char **envp) {
 		for (int i = 0; i < number; i++) {
 			void *p;
 			CHECK_NOT_VAL(p = mmap(
-			             NULL,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   /* we DO NOT recommend an address - better to let the kernel decide */
-			             size,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   /* the size we need */
-			             PROT_READ | PROT_WRITE,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 /* we want read AND write */
-			             MAP_SHARED | MAP_POPULATE,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              /* we want to shard with kernel and don't want page faults */
-			             d,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /* file descriptor */
-			             0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       /* offset */
-			             ), MAP_FAILED);
+				NULL, /* we DO NOT recommend an address - better to let the kernel decide */
+				size, /* the size we need */
+				PROT_READ | PROT_WRITE, /* we want read AND write */
+				MAP_SHARED | MAP_POPULATE, /* we want to shard with kernel and don't want page faults */
+				d, /* file descriptor */
+				0 /* offset */
+			), MAP_FAILED);
 			printf("the pointer I got is %p\n", p);
 			memset(p, 0, size);
 			CHECK_NOT_M1(munmap(p, size));

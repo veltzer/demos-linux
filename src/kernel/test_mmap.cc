@@ -12,13 +12,15 @@
 #include "us_helper.hh"
 
 /*
- *      This is a test for the mmap demo:
- *      0. open.
- *      1. allocate memory in kernel space and get pointer in used (mmap).
- *      2. ask kernel to manipulate the memory.
- *      3. print it out.
- *      4. unmap.
- *      5. close.
+ * This is a test for the mmap demo:
+ * 0. open.
+ * 1. allocate memory in kernel space and get pointer in used (mmap).
+ * 2. ask kernel to manipulate the memory.
+ * 3. print it out.
+ * 4. unmap.
+ * 5. close.
+ *
+ *			Mark Veltzer
  */
 
 bool do_play = false;
@@ -61,21 +63,21 @@ int main(int argc, char **argv, char **envp) {
 	//printproc();
 
 	CHECK_NOT_VAL(data = mmap(
-	             NULL, /* we DO NOT recommend an address - better to let the kernel decide */
-	             size, /* the size we need */
-	             PROT_READ | PROT_WRITE, /* we want read AND write */
-	             flags, /* we don't want page faults */
-	             d, /* file descriptor */
-	             offset /* offset */
-	             ), MAP_FAILED);
+		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
+		size, /* the size we need */
+		PROT_READ | PROT_WRITE, /* we want read AND write */
+		flags, /* we don't want page faults */
+		d, /* file descriptor */
+		offset /* offset */
+		), MAP_FAILED);
 	CHECK_NOT_VAL(data2 = mmap(
-	             NULL, /* we DO NOT recommend an address - better to let the kernel decide */
-	             size, /* the size we need */
-	             PROT_READ | PROT_WRITE, /* we want read AND write */
-	             flags, /* we don't want page faults */
-	             d, /* file descriptor */
-	             offset /* offset */
-	             ), MAP_FAILED);
+		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
+		size, /* the size we need */
+		PROT_READ | PROT_WRITE, /* we want read AND write */
+		flags, /* we don't want page faults */
+		d, /* file descriptor */
+		offset /* offset */
+		), MAP_FAILED);
 	fprintf(stderr, "pointer I got is %p\n", data);
 	print_data(data, size);
 	printproc("demo");
