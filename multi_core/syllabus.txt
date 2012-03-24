@@ -169,8 +169,8 @@ Intro:
 	IPv4 vs IPv6.
 	tcp, udp, broadcast, multicast, unicast
 	linux networking internals.
-			/proc
-			/sys
+		/proc
+		/sys
 problems with acquiring the same address (e.g. on system crash).
 	sharing of file descriptors between processes.
 working with raw sockets.
