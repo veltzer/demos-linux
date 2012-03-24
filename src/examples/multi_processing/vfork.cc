@@ -17,12 +17,12 @@
  * - tracing seems to work fine and sleep(3) also.
  * - writing to the parent data does not seem to be harmful too.
  * - result: the return from the function in which vfork was called is the one
- *   causing the segfault.
+ * causing the segfault.
  * - the segfault seems to be in the parent not in the child. Need to check this
- *   for sure.
+ * for sure.
  * - the results of using vfork incorrectly (not for exec) are indeed undefined as the manual page says.
  *
- *                              Mark Veltzer
+ *		Mark Veltzer
  */
 void print_status(int status) {
 	if (WIFEXITED(status)) {

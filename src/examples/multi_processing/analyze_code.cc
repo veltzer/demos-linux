@@ -8,7 +8,7 @@
  * an analysis of what the code means. Useful in case where you are not sure what
  * the status code means or as a demo of how to analyze such a code. 
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	if(argc!=2) {

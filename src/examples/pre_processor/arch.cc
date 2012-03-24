@@ -1,9 +1,9 @@
 #include <stdio.h> // for printf(3)
 
 /*
- *      This shows how to use preprocessor defines...
+ * This shows how to use preprocessor defines...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 #ifdef __GNUC__

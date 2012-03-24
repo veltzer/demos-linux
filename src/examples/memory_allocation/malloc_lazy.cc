@@ -16,8 +16,8 @@
  *
  * Notes:
  * - you have to have the right limits set in order to call mlockall. On a standard
- *   Ubuntu system ulimit. A standard workaround in an ubuntu system like this is
- *   to run the process as root (via sudo or the like...).
+ * Ubuntu system ulimit. A standard workaround in an ubuntu system like this is
+ * to run the process as root (via sudo or the like...).
  *
  * You can also look at how this program is working using this:
  * while [[ true ]]; do ps -C malloc_lazy.exe -o comm,min_flt,rss; sleep 1;done

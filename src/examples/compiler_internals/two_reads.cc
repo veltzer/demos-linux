@@ -10,7 +10,7 @@
  * because the compiler treats the volatile with suspicion and
  * fears it may change value.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 void printit(int val);

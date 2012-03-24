@@ -8,13 +8,13 @@
 #include "us_helper.hh"
 
 /*
- *      This example explains how parents should wait for their children
- *      and analyze the result of the childs death or the like.
- *      The example uses the most complex interface waitid(2). You could,
- *      ofcourse, alter it to use one of the simpler apis:
- *              wait, waitpid, wait3, wait4...
+ * This example explains how parents should wait for their children
+ * and analyze the result of the childs death or the like.
+ * The example uses the most complex interface waitid(2). You could,
+ * ofcourse, alter it to use one of the simpler apis:
+ * wait, waitpid, wait3, wait4...
  *
- *                              Mark Veltzer
+ * Mark Veltzer
  */
 void print_status(int status) {
 	if (WIFEXITED(status)) {

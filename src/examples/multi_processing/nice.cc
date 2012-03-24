@@ -10,21 +10,21 @@
  *
  * A few notes about this example:
  * - as you can see nice(2) is a "soft" priority. All of these processes are very
- *   busy but still the ones with the bigger nice value manage to get a few
- *   instructions executed at some point in time...
+ * busy but still the ones with the bigger nice value manage to get a few
+ * instructions executed at some point in time...
  * - from the command line you can start a process with a certain nice level
- *   by using:
- *   nice --adjustment=[nice level] [command with args]
- *   or you can set a nice level of a process after it has started with the renice
- *   command:
+ * by using:
+ * nice --adjustment=[nice level] [command with args]
+ * or you can set a nice level of a process after it has started with the renice
+ * command:
  *
- *   You can see the nice level of your process via ps using the %n value:
- *   ps -o %n,...
+ * You can see the nice level of your process via ps using the %n value:
+ * ps -o %n,...
  *
- *   You can see the nice level of a process via the /proc filesystem using
- *   the following command: 
- *   cat /proc/[pid]/stat | cut -f 19 -d " "
- *   (see man 5 proc for more details...)
+ * You can see the nice level of a process via the /proc filesystem using
+ * the following command: 
+ * cat /proc/[pid]/stat | cut -f 19 -d " "
+ * (see man 5 proc for more details...)
  *
  * 	Mark Veltzer
  */

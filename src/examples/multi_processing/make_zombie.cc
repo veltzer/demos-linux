@@ -14,7 +14,7 @@
  * - The parent creates the process.
  * - The process ends.
  * - The parent does not collect the processes return code using one of
- *   the wait(2) family of functions.
+ * the wait(2) family of functions.
  *
  * Note that if the parent dies then init(1) will actually serve as the
  * new parent for the child process (sort of adoption) and will clear the
@@ -31,7 +31,8 @@
  * - catting files from the /proc folder (done in two ways in this example).
  * - top(1)
  *
- *                              Mark Veltzer
+ *		Mark Veltzer
+ *
  * EXTRA_LIBS=-lproc
  *
  */

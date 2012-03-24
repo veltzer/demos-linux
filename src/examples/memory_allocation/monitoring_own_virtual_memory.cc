@@ -26,9 +26,9 @@ void show_vmem() {
 	/*
 	void* p=sbrk(0);
 	printf("p is %p\n",p);
-	printf("    program text (etext)      %10p\n", &etext);
-	printf("    initialized data (edata)  %10p\n", &edata);
-	printf("    uninitialized data (end)  %10p\n", &end);
+	printf("\tprogram text (etext) %10p\n", &etext);
+	printf("\tinitialized data (edata) %10p\n", &edata);
+	printf("\tuninitialized data (end) %10p\n", &end);
 	*/
 }
 

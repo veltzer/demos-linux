@@ -16,7 +16,7 @@
  * the OS buffers are empty they are fast (memcpy to kernel) and when
  * they are full they block...
  *
- *              Mark Veltzer
+ *	Mark Veltzer
  *
  * EXTRA_LIBS=
  */

@@ -6,7 +6,7 @@
  * are known by the compiler in order to speed things up and
  * still present one API.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * TODO:
  * - this example does not work. Fix it up.
@@ -18,12 +18,12 @@ static inline int _sum(int i) {
 
 
 /*
- *      Take note that this function must be inlined or in the compilation unit with
- *      it's usage points for this trick to take effect. If you are worried about
- *      what happens when the compiler compiles this function for real (not in inline mode)
- *      then you not need be worried: __builtin_constant_p(x) is then always assumed to
- *      return false and so the entire branch of that code goes away including the 'if'
- *      statement itself!
+ * Take note that this function must be inlined or in the compilation unit with
+ * it's usage points for this trick to take effect. If you are worried about
+ * what happens when the compiler compiles this function for real (not in inline mode)
+ * then you not need be worried: __builtin_constant_p(x) is then always assumed to
+ * return false and so the entire branch of that code goes away including the 'if'
+ * statement itself!
  */
 static inline int sum(int i) {
 	//if (__builtin_constant_p(i) && (i == 100)) {

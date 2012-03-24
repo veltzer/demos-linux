@@ -17,7 +17,7 @@
  *
  * TODO:
  * - add multi threading and releases to really show the difference
- *   between obstacks and malloc.
+ * between obstacks and malloc.
  *
  *	Mark Veltzer
  */

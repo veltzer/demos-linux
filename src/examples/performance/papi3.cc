@@ -14,7 +14,7 @@
  * References:
  * http://icl.cs.utk.edu/papi/index.html
  *
- *              Mark Veltzer
+ *	Mark Veltzer
  *
  * EXTRA_LIBS=-lpapi
  */

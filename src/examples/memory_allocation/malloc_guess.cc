@@ -1,4 +1,4 @@
-#include <stdio.h>  // for printf(3)
+#include <stdio.h> // for printf(3)
 #include <stdlib.h> // for malloc(3)
 #include <assert.h> // for assert(3)
 #include <sys/types.h> // for getpid(2)
@@ -15,11 +15,11 @@
  * (probably - well check it later...).
  * - It is also deducible that malloc always allocated on an 8 byte boundry.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * TODO:
  * - improve the guessing system to also handle free (get reports about them
- *   and be able to guess even though there are calls to free(3)).
+ * and be able to guess even though there are calls to free(3)).
  */
 
 static char* p;

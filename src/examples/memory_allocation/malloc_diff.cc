@@ -8,7 +8,7 @@
  * The idea is to use this application as a way to analyze how malloc allocates
  * memory...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 /*

@@ -1,14 +1,14 @@
 #include <stdio.h> // for printf(3)
 
 /*
- *      This example shows how to quote strings in GCC
- *      Stolen from the linux kernel.
- *      This MUST be done in 2 levels...
+ * This example shows how to quote strings in GCC
+ * Stolen from the linux kernel.
+ * This MUST be done in 2 levels...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 #define __stringify_1(x) # x
-#define __stringify(x)   __stringify_1(x)
+#define __stringify(x) __stringify_1(x)
 #define FOOBAR 2.2 .2
 
 int main(int argc, char **argv, char **envp) {
