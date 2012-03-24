@@ -3,10 +3,10 @@
 #include <stdio_ext.h> // for __flbf(3), __fbufsize(3)
 
 /*
- *      This example shows the different buffering schemes of the standard
- *      io files...
+ * This example shows the different buffering schemes of the standard
+ * io files...
  *
- *              Mark Veltzer
+ *	Mark Veltzer
  *
  * TODO:
  * - add a call to setbuf, setlinebuf to demo them.

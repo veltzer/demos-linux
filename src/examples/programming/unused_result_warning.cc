@@ -1,20 +1,20 @@
 /*
- *      This is a demo of how to write a function for which the user must check the
- *      return value for...
+ * This is a demo of how to write a function for which the user must check the
+ * return value for...
  *
- *      There are many more attributes that you can attach to functions in order to
- *      get more checks from the compiler at compile time and get better code. Check
- *      'info gcc' for more details.
+ * There are many more attributes that you can attach to functions in order to
+ * get more checks from the compiler at compile time and get better code. Check
+ * 'info gcc' for more details.
  *
- *      Note that you can attach the "unused" attribute to variables as below
- *      to avoid warnings about them being unused when you really don't want
- *      to check the return value.
+ * Note that you can attach the "unused" attribute to variables as below
+ * to avoid warnings about them being unused when you really don't want
+ * to check the return value.
  *
- *      see the discussion in:
- *      http://stackoverflow.com/questions/3599160/unused-parameter-warnings-in-c-code
- *      http://dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
+ * see the discussion in:
+ * http://stackoverflow.com/questions/3599160/unused-parameter-warnings-in-c-code
+ * http://dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 // this is how to use unused in a function declaration...

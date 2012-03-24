@@ -25,7 +25,7 @@
  *
  * The difference in performance here is quite noticable...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 #define myrestrict __restrict

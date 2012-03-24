@@ -15,12 +15,12 @@
  *
  * When would you want to use this?
  * - when you're doing lots of multi processing (fork(2)) and want to distinguish between
- *   the various processes.
+ * the various processes.
  * - when whatever it is that your doing depends on how you were run (envrionment,
- *   directory, conditions that you find, time of day, argv[0], whatever...).
+ * directory, conditions that you find, time of day, argv[0], whatever...).
  * - set names of threads in a multi threaded application (will be in a separate demo).
  *
- *                              Mark Veltzer
+ *		Mark Veltzer
  * TODO:
  * - add a fork(2) to this demo and show that parent and child can have different names.
  */

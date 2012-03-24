@@ -1,14 +1,14 @@
-#include <stdio.h>  // for printf(3)
+#include <stdio.h> // for printf(3)
 #include <stdlib.h> // for atoi(3)
 
 /*
- *      Lets see if short circuit bool expression evaluation works...
- *      You determine (via args) whether the first expression or second
- *      expression is 1 or 0.
- *      The reason that I'm using argv here is in order for the compilers
- *      optimizer not to know ahead of time what the result would be...
+ * Lets see if short circuit bool expression evaluation works...
+ * You determine (via args) whether the first expression or second
+ * expression is 1 or 0.
+ * The reason that I'm using argv here is in order for the compilers
+ * optimizer not to know ahead of time what the result would be...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 int do_something(int val) {
 	printf("Im doing something...\n");

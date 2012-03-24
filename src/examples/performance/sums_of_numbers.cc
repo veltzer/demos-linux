@@ -13,11 +13,11 @@
  *
  * Use a disassembler to see the resulting machine code.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  *
  * TODO:
  * - make this example disassemble itself and show what the compiler did, or maybe
- *   morph it's own code to show that the sum is there ?
+ * morph it's own code to show that the sum is there ?
  */
 int main(int argc, char **argv, char **envp) {
 	int sum;
