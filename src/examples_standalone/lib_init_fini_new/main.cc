@@ -19,7 +19,7 @@ void *worker(void *p) {
 }
 
 /*
- *      This is an empty testing application
+ * This is an empty testing application
  */
 int main(int argc, char **argv, char **envp) {
 	TRACE("begin");
@@ -55,7 +55,7 @@ int main(int argc, char **argv, char **envp) {
 	const int num = 2;
 	pthread_t threads[num];
 	int ids[num];
-	void      *rets[num];
+	void* rets[num];
 
 	TRACE("before pthread_create");
 	for (int i = 0; i < num; i++) {

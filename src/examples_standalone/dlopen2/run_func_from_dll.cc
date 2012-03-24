@@ -8,11 +8,11 @@ int main(int argc, char **argv, char **envp) {
 		fprintf(stderr, "%s: usage: %s [library] [function] [value]\n", argv[0], argv[0]);
 		exit(-1);
 	}
-	const char   *p_lib = argv[1];
-	const char   *p_func = argv[2];
-	const char   *p_sval = argv[3];
+	const char* p_lib = argv[1];
+	const char* p_func = argv[2];
+	const char* p_sval = argv[3];
 	const double p_dval = atof(p_sval);
-	void         *h = dlopen(p_lib, RTLD_NOW);
+	void* h = dlopen(p_lib, RTLD_NOW);
 	if (h == NULL) {
 		fprintf(stderr, "error with dlopen: %s\n", dlerror());
 		exit(errno);

@@ -9,12 +9,12 @@
  * mangled.
  */
 inline void error_demangle(
-        char         *symbol,
-        char         *result_name,
-        unsigned int max_name,
-        char         *result_offset,
-        unsigned int max_offset
-        ) {
+	char* symbol,
+	char* result_name,
+	unsigned int max_name,
+	char* result_offset,
+	unsigned int max_offset
+	) {
 	char *begin_name = NULL, *begin_offset = NULL, *end_offset = NULL;
 
 	// find parentheses and +address offset surrounding the mangled name:
@@ -38,9 +38,9 @@ inline void error_demangle(
 		// __cxa_demangle():
 		// allocate string which will be filled with the demangled function name
 		size_t funcnamesize = 256;
-		char   *funcname = (char *)malloc(funcnamesize);
+		char* funcname = (char *)malloc(funcnamesize);
 		int status;
-		char   *ret = abi::__cxa_demangle(begin_name, funcname, &funcnamesize, &status);
+		char* ret = abi::__cxa_demangle(begin_name, funcname, &funcnamesize, &status);
 		if (status == 0) {
 			// use possibly realloc()-ed string
 			funcname = ret;
