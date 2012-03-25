@@ -23,6 +23,7 @@
 //const unsigned int port=7000;
 const char* serv_name="http-alt";
 const char* serv_proto="tcp";
+const char* input_file="/tmp/input.http";
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
@@ -51,11 +52,17 @@ void *worker(void* arg) {
 	ssize_t res;
 	CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
 	while(res!=0) {
-		TRACE("thread %d in loop",gettid());
-		CHECK_NOT_M1(send(fd,buff,res,0));
-		CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
+		int ifd;
+		CHECK_NOT_M1(ifd=open(input_file,O_RDONLY));
+		ssize_t ires;
+		CHECK_NOT_M1(ires=read(ifd,buff,buflen));
+		while(ires!=0) {
+			CHECK_NOT_M1(send(fd,buff,ires,0));
+			CHECK_NOT_M1(ires=read(ifd,buff,buflen));
+		}
+		CHECK_NOT_M1(close(ifd));
+		CHECK_NOT_M1(close(fd));
 	}
-	CHECK_NOT_M1(close(fd));
 	TRACE("thread %d ending",gettid());
 	return NULL;
 }
