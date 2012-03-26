@@ -15,6 +15,7 @@
 #include <arpa/inet.h> // for inet_addr(3)
 #include <sys/mman.h> // for mmap(2)
 #include <stdlib.h> // for rand(3)
+#include <assert.h> // for assert(3)
 
 #include "us_helper.hh" // our own helper
 
@@ -53,7 +54,7 @@ void *worker(void* arg) {
 	// 1. allocate memory (via anonymous mmap(2)).
 	unsigned int mysize=getpagesize()*100;
 	void* mypointer;
-	CHECK_NOT_NULL(mypointer=mmap(NULL,mysize,PROT_READ|PROT_WRITE,0,-1,0));
+	CHECK_NOT_NULL(mypointer=mmap(NULL,mysize,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0));
 	// 2. fill it with data.
 	int* p=(int*)mypointer;
 	for(unsigned int i=0;i<mysize/sizeof(int);i++) {
@@ -73,11 +74,16 @@ void *worker(void* arg) {
 	myiovec.iov_len=mysize;
 	int bytes;
 	char* pp=(char*)mypointer;
-	while((bytes=vmsplice(mypipe[1],&myiovec,1,SPLICE_F_GIFT))>0) {
+	while((bytes=vmsplice(mypipe[1],&myiovec,1,SPLICE_F_GIFT| SPLICE_F_MOVE))>0) {
 		myiovec.iov_len-=bytes;
 		pp+=bytes;
 		myiovec.iov_base=(void*)pp;
-		CHECK_NOT_M1(splice(mypipe[0],NULL,fd,NULL,bytes,SPLICE_F_MOVE));
+		int todo=bytes;
+		int ret;
+		while((ret=splice(mypipe[0],NULL,fd,NULL,todo,SPLICE_F_MOVE)>0)) {
+			todo-=ret;
+		}
+		assert(ret==0);
 	}
 	if(bytes<0) {
 		perror("error has occured");

@@ -51,11 +51,11 @@ void* worker(void* arg) {
 		CHECK_NOT_M1(send(sockfd,sbuf,sbuflen,0));
 
 		// lets receive
-		unsigned int rbuflen=1024;
+		unsigned int rbuflen=getpagesize();
 		char rbuf[rbuflen];
 		int ret;
 		CHECK_NOT_M1(ret=recv(sockfd,rbuf,rbuflen,0));
-		char prbuf[rbuflen];
+		char prbuf[rbuflen+1];
 		snprintf(prbuf,ret+1,"%s",rbuf);
 		printf("%d: received [%s]\n",threadid,prbuf);
 	}
