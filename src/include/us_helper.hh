@@ -154,6 +154,7 @@ static inline void check_zero(int val,const char* msg) {
 
 static inline void check_not_m1(int val,const char* msg) {
 	if (val ==-1 ) {
+		fprintf(stderr,"command is %s\n",msg);
 		if(errno!=0) {
 			perror("error in system call");
 		} else {
