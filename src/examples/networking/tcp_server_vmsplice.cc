@@ -54,7 +54,7 @@ void *worker(void* arg) {
 	// 1. allocate memory (via anonymous mmap(2)).
 	unsigned int mysize=getpagesize()*100;
 	void* mypointer;
-	CHECK_NOT_NULL(mypointer=mmap(NULL,mysize,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0));
+	CHECK_NOT_VAL(mypointer=mmap(NULL,mysize,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0),MAP_FAILED);
 	// 2. fill it with data.
 	int* p=(int*)mypointer;
 	for(unsigned int i=0;i<mysize/sizeof(int);i++) {
