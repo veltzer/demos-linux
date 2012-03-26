@@ -1,5 +1,5 @@
-#include <sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2)
-#include <sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2)
+#include <sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
+#include <sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2)
 #include <strings.h> // for bzero(3)
 #include <stdio.h> // for perror(3), printf(3), atoi(3)
 #include <errno.h> // for errno
@@ -23,7 +23,7 @@
 //const unsigned int port=7000;
 const char* serv_name="http-alt";
 const char* serv_proto="tcp";
-const char* input_file="/tmp/input.http";
+const char* input_file="src/examples/networking/web_server.http";
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
@@ -76,16 +76,22 @@ int main(int argc,char** argv, char** envp) {
 		exit(EXIT_FAILURE);
 	}
 	unsigned int port=atoi(argv[1]);
+	printf("contact me at port %d\n",port);
 
 	// lets get the port number using getservbyname(3)
-	struct servent* p_servent;
-	CHECK_NOT_NULL(p_servent=getservbyname(serv_name,serv_proto));
-	print_servent(p_servent);
+	//struct servent* p_servent;
+	//CHECK_NOT_NULL(p_servent=getservbyname(serv_name,serv_proto));
+	//print_servent(p_servent);
 
 	// lets open the socket
 	int sockfd;
 	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 	printf("opened socket with sockfd %d\n",sockfd);
+
+	// lets make the socket reusable
+	int optval=1;
+	CHECK_NOT_M1(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&optval,sizeof(optval)));
+	printf("setsockopt was ok\n");
 
 	// lets create the address
 	struct sockaddr_in server;
