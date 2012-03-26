@@ -1,5 +1,5 @@
 #include <sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
-#include <sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2)
+#include <sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
 #include <strings.h> // for bzero(3)
 #include <stdio.h> // for perror(3), printf(3), atoi(3)
 #include <errno.h> // for errno
@@ -9,12 +9,14 @@
 #include <fcntl.h> // for open(2)
 #include <unistd.h> // for read(2), close(2)
 #include <pthread.h> // for pthread_create(3)
-#include <netinet/in.h> // for sockaddr_in 
+#include <netinet/in.h> // for sockaddr_in, inet_addr(3)
+#include <arpa/inet.h> // for inet_addr(3)
 
 #include "us_helper.hh" // our own helper
 
 /*
- * This is a demo of a simple echo socket server implementation in pure C in Linux
+ * This is a demo of a simple echo socket server implementation in pure C
+ * in Linux
  *
  * 			Mark Veltzer
  * EXTRA_LIBS=-lpthread
@@ -48,12 +50,17 @@ void *worker(void* arg) {
 	TRACE("thread %d got fd %d",gettid(),fd);
 	const unsigned int buflen=1024;
 	char buff[buflen];
+	char prbuff[buflen+1];
 	ssize_t res;
 	CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
+	snprintf(prbuff,res+1,"%s",buff);
+	TRACE("thread %d received %s",gettid(),prbuff);
 	while(res!=0) {
-		TRACE("thread %d in loop",gettid());
+		TRACE("thread %d sending %s",gettid(),buff);
 		CHECK_NOT_M1(send(fd,buff,res,0));
 		CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
+		snprintf(prbuff,res+1,"%s",buff);
+		TRACE("thread %d received %s",gettid(),prbuff);
 	}
 	CHECK_NOT_M1(close(fd));
 	TRACE("thread %d ending",gettid());
@@ -66,12 +73,13 @@ int main(int argc,char** argv, char** envp) {
 	//time_t t;
 	//char ibuffer[1000], obuffer[1000];
 	//
-	if(argc!=2) {
+	if(argc!=3) {
 		fprintf(stderr,"usage: %s [port]\n",argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	unsigned int port=atoi(argv[1]);
-	printf("contact me at port %d\n",port);
+	const char* host=argv[1];
+	const unsigned int port=atoi(argv[2]);
+	printf("contact me at host %s port %d\n",host,port);
 
 	// lets get the port number using getservbyname(3)
 	//struct servent* p_servent;
@@ -92,6 +100,7 @@ int main(int argc,char** argv, char** envp) {
 	struct sockaddr_in server;
 	bzero(&server, sizeof(server));
 	server.sin_family=AF_INET;
+	//server.sin_addr.s_addr=inet_addr(host);
 	server.sin_addr.s_addr=INADDR_ANY;
 	//server.sin_addr.s_addr=0xff000000;
 	//server.sin_port=p_servent->s_port;
