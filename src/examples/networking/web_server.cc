@@ -51,18 +51,16 @@ void *worker(void* arg) {
 	char buff[buflen];
 	ssize_t res;
 	CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
-	while(res!=0) {
-		int ifd;
-		CHECK_NOT_M1(ifd=open(input_file,O_RDONLY));
-		ssize_t ires;
+	int ifd;
+	CHECK_NOT_M1(ifd=open(input_file,O_RDONLY));
+	ssize_t ires;
+	CHECK_NOT_M1(ires=read(ifd,buff,buflen));
+	while(ires!=0) {
+		CHECK_NOT_M1(send(fd,buff,ires,0));
 		CHECK_NOT_M1(ires=read(ifd,buff,buflen));
-		while(ires!=0) {
-			CHECK_NOT_M1(send(fd,buff,ires,0));
-			CHECK_NOT_M1(ires=read(ifd,buff,buflen));
-		}
-		CHECK_NOT_M1(close(ifd));
-		CHECK_NOT_M1(close(fd));
 	}
+	CHECK_NOT_M1(close(ifd));
+	CHECK_NOT_M1(close(fd));
 	TRACE("thread %d ending",gettid());
 	return NULL;
 }
