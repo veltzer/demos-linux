@@ -9,6 +9,7 @@ packs=[
 	'htop',
 	'sysprof',
 	'mutrace',
+	'iptraf',
 ]
 
 args=['sudo','apt-get','install']
