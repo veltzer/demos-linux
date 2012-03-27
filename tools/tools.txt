@@ -9,7 +9,6 @@ process statistics:
 	ps pstree pgrep
 	skill, pkill, kill, killall, killall5
 	nice, renice, snice
-	netstat, nc
 	atop, atopsar
 	mutrace (for lock contention)
 io:
@@ -47,8 +46,8 @@ kernel:
 	btrace
 
 networking:
-	ping
-	traceroute
+	ping/ping6
+	traceroute/traceroute6
 	jnettop
 	iftop
 	iptraf
@@ -62,6 +61,13 @@ networking:
 	mergecap
 	text2pcap
 	ethtool
+	netstat
+	nc
+	route
+	ifconfig
+	iwconfig
+	iwlist
+	telnet
 
 java debugging:
 	jstack

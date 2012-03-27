@@ -75,6 +75,7 @@ int main(int argc,char** argv, char** envp) {
 	printf("setsockopt was ok\n");
 
 	// unlink the old filename...
+	// BUG!!! first check if the file exists!
 	CHECK_NOT_M1(unlink(filename));
 
 	// lets create the address
