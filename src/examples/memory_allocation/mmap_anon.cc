@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **envp) {
 
 	printproc(NULL);
 	print_stats();
-	CHECK_NOT_NULL(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0));
+	CHECK_NOT_VAL(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0),MAP_FAILED);
 	printproc(NULL);
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {

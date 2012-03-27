@@ -15,7 +15,7 @@
 #include "us_helper.hh" // our own helper
 
 /*
- * This is udp client demo that writes to a file anything it gets.
+ * This is udp client demo that sends a file to a udp port.
  *
  * 			Mark Veltzer
  */
@@ -29,12 +29,6 @@ int main(int argc,char** argv, char** envp) {
 	const unsigned int port=atoi(argv[2]);
 	const char* file=argv[3];
 
-	// print 
-	printf("If you want to send to this app you can just use nc like this:\n");
-	printf("nc -u localhost %d < /etc/passwd\n",port);
-	printf("and then:\n");
-	printf("cmp /etc/passwd [yourfile]\n");
-
 	// lets open the socket
 	int sockfd;
 	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP));
@@ -44,40 +38,39 @@ int main(int argc,char** argv, char** envp) {
 	struct sockaddr_in server;
 	bzero(&server, sizeof(server));
 	server.sin_family=AF_INET;
-	//server.sin_addr.s_addr=INADDR_ANY;
-	server.sin_addr.s_addr=inet_addr(host);
-	server.sin_port=htons(port);
+	server.sin_addr.s_addr=INADDR_ANY;
+	//server.sin_addr.s_addr=inet_addr(host);
+	//server.sin_port=htons(port);
 
 	// lets bind...
 	CHECK_NOT_M1(bind(sockfd,(struct sockaddr *)&server, sizeof(server)));
 	TRACE("binded successfully");
 
-	// lets create the peer address 
+	// lets create the address
 	struct sockaddr_in peer_addr;
-	socklen_t peer_len;
+	bzero(&peer_addr, sizeof(peer_addr));
+	peer_addr.sin_family=AF_INET;
+	//peer_addr.sin_addr.s_addr=INADDR_ANY;
+	peer_addr.sin_addr.s_addr=inet_addr(host);
+	peer_addr.sin_port=htons(port);
 
-	// lets recv
+	// lets send
+	int fd;
+	CHECK_NOT_M1(fd=open(file,O_RDONLY));
+	int ret;
 	unsigned int buflen=getpagesize();
 	char buf[buflen];
-	int ret;
-	int fd;
-	CHECK_NOT_M1(fd=open(file,O_WRONLY | O_CREAT | O_TRUNC,0666));
-	while((ret=recvfrom(sockfd,buf,buflen,0,(struct sockaddr *)&peer_addr,&peer_len))>0) {
-		TRACE("peer address is %s",inet_ntoa(peer_addr.sin_addr));
-		const unsigned int prlen=20;
-		char prbuf[prlen];
-		int to_print=min(prlen-1,ret);
-		snprintf(prbuf,to_print,"%s",buf);
-		TRACE("recv %d bytes (%s)",ret,prbuf);
+	while((ret=read(fd,buf,buflen))>0) {
+		TRACE("read %d bytes",ret);
 		int bytes=ret;
 		char* pbuf=buf;
 		while(bytes>0) {
 			int written;
-			CHECK_NOT_M1(written=write(fd,pbuf,bytes));
+			CHECK_NOT_M1(written=sendto(sockfd,buf,bytes,0,(struct sockaddr *)&peer_addr,sizeof(peer_addr)));
+			TRACE("sendto %d bytes",written);
 			bytes-=written;
 			pbuf+=written;
 		}
-		CHECK_NOT_M1(fsync(fd));
 	}
 	if(ret<0) {
 		perror("error in recvfrom");
