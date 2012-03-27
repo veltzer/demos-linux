@@ -47,24 +47,22 @@ int main(int argc,char** argv, char** envp) {
 	TRACE("binded successfully");
 
 	// lets create the peer address 
-	/*
-	struct sockaddr_in peer;
-	bzero(&peer, sizeof(peer));
-	peer.sin_family=AF_INET;
-	//server.sin_addr.s_addr=INADDR_ANY;
-	peer.sin_addr.s_addr=inet_addr(host);
-	peer.sin_port=htons(port);
-	socklen_t len;
-	*/
+	struct sockaddr_in peer_addr;
+	socklen_t peer_len;
 
 	// lets recv
-	unsigned int buflen=1024;
+	unsigned int buflen=getpagesize();
 	char buf[buflen];
 	int ret;
 	int fd;
 	CHECK_NOT_M1(fd=open(file,O_WRONLY | O_CREAT | O_TRUNC,0666));
-	while((ret=recvfrom(sockfd,buf,buflen,0,NULL,NULL))>0) {
-		TRACE("recv %s",buf);
+	while((ret=recvfrom(sockfd,buf,buflen,0,(struct sockaddr *)&peer_addr,&peer_len))>0) {
+		TRACE("peer address is %s",inet_ntoa(peer_addr.sin_addr));
+		const unsigned int prlen=20;
+		char prbuf[prlen];
+		int to_print=min(prlen-1,ret);
+		snprintf(prbuf,to_print,"%s",buf);
+		TRACE("recv %d bytes (%s)",ret,prbuf);
 		int bytes=ret;
 		char* pbuf=buf;
 		while(bytes>0) {
@@ -73,6 +71,7 @@ int main(int argc,char** argv, char** envp) {
 			bytes-=written;
 			pbuf+=written;
 		}
+		CHECK_NOT_M1(fsync(fd));
 	}
 	if(ret<0) {
 		perror("error in recvfrom");
