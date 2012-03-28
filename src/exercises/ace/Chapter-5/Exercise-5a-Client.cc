@@ -27,8 +27,7 @@ public:
 		if (connector_.connect(client_stream_, remote_addr_) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "connection failed"), -1);
 		} else {
-			ACE_DEBUG((LM_DEBUG, "(%P|%t) connected to %s\n",
-			           remote_addr_.get_host_name()));
+			ACE_DEBUG((LM_DEBUG, "(%P|%t) connected to %s\n", remote_addr_.get_host_name()));
 		}
 		return(0);
 	}

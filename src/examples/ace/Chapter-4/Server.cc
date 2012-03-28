@@ -11,8 +11,8 @@
  */
 
 /*
- *      Example of simple single threaded ace socket server.
- *      Notice the hanlding of interruption
+ * Example of simple single threaded ace socket server.
+ * Notice the hanlding of interruption
  */
 int ACE_TMAIN(int, ACE_TCHAR **) {
 	// lets open the port...
@@ -22,10 +22,7 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	ACE_SOCK_Acceptor acceptor;
 
 	if (acceptor.open(port_to_listen, 1) == -1) {
-		ACE_ERROR_RETURN((LM_ERROR,
-		                  ACE_TEXT("%p\n"),
-		                  ACE_TEXT("acceptor.open")),
-		                 100);
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 	}
 	// lets print our own connect address...
 	ACE_TCHAR my_name[MAXHOSTNAMELEN];

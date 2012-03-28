@@ -35,9 +35,7 @@ public:
 		new_state.cancelstate = PTHREAD_CANCEL_ENABLE;
 		new_state.canceltype = PTHREAD_CANCEL_ASYNCHRONOUS;
 		if (ACE_Thread::setcancelstate(new_state, 0) == -1) {
-			ACE_ERROR_RETURN((LM_ERROR,
-			                  ACE_TEXT("%p\n"),
-			                  ACE_TEXT("cancelstate")), -1);
+			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("cancelstate")), -1);
 		}
 		return(0);
 	}

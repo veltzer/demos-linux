@@ -20,8 +20,7 @@ public:
 
 	int status_update(void) {
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Obtaining a status_update in %t ")
-		           ACE_TEXT("thread of control\n")));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Obtaining a status_update in %t ") ACE_TEXT("thread of control\n")));
 		// Simulate sending message to controller and getting status.
 		ACE_OS::sleep(2);
 		return(next_result_id());
@@ -40,9 +39,7 @@ private:
 
 class StatusUpdate : public ACE_Method_Request {
 public:
-	StatusUpdate(HA_ControllerAgent & controller,
-	             ACE_Future<int> &returnVal)
-	: controller_(controller), returnVal_(returnVal) {
+	StatusUpdate(HA_ControllerAgent & controller, ACE_Future<int> &returnVal) : controller_(controller), returnVal_(returnVal) {
 		ACE_TRACE(ACE_TEXT("StatusUpdate::StatusUpdate"));
 	}
 
@@ -58,12 +55,13 @@ public:
 
 private:
 	HA_ControllerAgent& controller_;
-	ACE_Future<int>     returnVal_;
+	ACE_Future<int> returnVal_;
 };
 
 class ExitMethod : public ACE_Method_Request {
 public:
-	virtual int call(void) {                                                                                                     // Cause exit.
+	virtual int call(void) {
+		// Cause exit.
 		return(-1);
 	}
 };
@@ -79,7 +77,8 @@ public:
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
 
-		while (1) {                                                                                                                                                                                                         // Dequeue the next method object
+		while (true) {
+			// Dequeue the next method object
 			auto_ptr<ACE_Method_Request>
 			request(this->activation_queue_.dequeue());
 
@@ -118,7 +117,8 @@ public:
 
 
 	//FUZZ: disable check_for_lack_ACE_OS
-	void exit(void) {                                                                                                     //FUZZ: enable check_for_lack_ACE_OS
+	void exit(void) {
+		//FUZZ: enable check_for_lack_ACE_OS
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgentProxy::exit"));
 		this->scheduler_.enqueue(new ExitMethod);
 	}
@@ -138,14 +138,14 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 		results[i] = controller.status_update();
 	}
 
-	ACE_OS::sleep(5);                                                                                                      // Do other work.
+	ACE_OS::sleep(5);
+	// Do other work.
 
 	// Get results...
 	for (int j = 0; j < 10; j++) {
 		int result = 0;
 		results[j].get(result);
-		ACE_DEBUG((LM_DEBUG,
-		           ACE_TEXT("New status_update %d\n"), result));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("New status_update %d\n"), result));
 	}
 
 	// Cause the status_updater threads to exit.

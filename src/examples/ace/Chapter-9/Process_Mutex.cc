@@ -25,15 +25,15 @@ public:
 			int result = this->gmutex_.acquire();
 			ACE_ASSERT(result == 0);
 
-			ACE_DEBUG((LM_DEBUG,
-			           ACE_TEXT("(%P| %t) has the mutex\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P| %t) has the mutex\n")));
 
 			// Access Global resource
 			ACE_OS::sleep(1);
 
 			result = this->gmutex_.release();
 			ACE_ASSERT(result == 0);
-			ACE_OS::sleep(1);                                                                                                                                                                                                                                                                                                                 // Give other process a chance.
+			// Give other process a chance.
+			ACE_OS::sleep(1);
 		}
 	}
 
@@ -45,14 +45,16 @@ private:
 
 // Listing 0 code/ch10
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
-	if (argc > 1) {                                                                                                       // Run as the child.
+	if (argc > 1) {
+		// Run as the child.
 		// Create or get the global mutex.
 		ACE_Process_Mutex mutex("GlobalMutex");
 
 		GResourceUser acquirer(mutex);
 
 		acquirer.run();
-	} else {                                                                                                              // Run as the parent.
+	} else {
+		// Run as the parent.
 		ACE_Process_Options options;
 		options.command_line(ACE_TEXT("%s a"), argv[0]);
 		ACE_Process processa, processb;
@@ -60,18 +62,13 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		pid_t pida = processa.spawn(options);
 		pid_t pidb = processb.spawn(options);
 
-		ACE_DEBUG((LM_DEBUG,
-		           ACE_TEXT("Spawned processes; pids %d:%d\n"),
-		           pida, pidb));
-
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Spawned processes; pids %d:%d\n"), pida, pidb)); 
 		if (processa.wait() == -1) {
-			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
-			                  ACE_TEXT("processa wait")), -1);
+			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processa wait")), -1);
 		}
 
 		if (processb.wait() == -1) {
-			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
-			                  ACE_TEXT("processb wait")), -1);
+			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processb wait")), -1);
 		}
 	}
 

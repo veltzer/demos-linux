@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+
 /*
  * This example shows that two consecutive reads of the same value
  * are optimized away by the compiler.

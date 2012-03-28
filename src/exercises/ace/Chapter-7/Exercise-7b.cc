@@ -34,7 +34,7 @@ public:
 		ACE_TRACE(ACE_TEXT("MessageAgent::message_read"));
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Message Read ")));
 		// Read message from queue
-		ReadMessage(&msg_queue);                                                                                                                                                                                                // Read Single message
+		ReadMessage(&msg_queue);
 		ACE_OS::sleep(2);
 		return(next_result_id());
 	}
@@ -68,13 +68,14 @@ public:
 
 
 private:
-	MessageAgent&   message_;
+	MessageAgent& message_;
 	ACE_Future<int> returnVal_;
 };
 
 class ExitMethod : public ACE_Method_Request {
 public:
-	virtual int call(void) {                                                                                                // Cause exit.
+	virtual int call(void) {
+		// Cause exit.
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Finally reached Future call()\n")));
 		return(-1);
 	}
@@ -91,7 +92,8 @@ public:
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
 
-		while (1) {                                                                                                                                                                                               // Dequeue the next method object
+		while (true) {
+			// Dequeue the next method object
 			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
 
 			// Invoke the method request.
@@ -160,68 +162,74 @@ private:
 };
 
 int GetMessageType(char *data) {
-	static ACE_Read_Buffer rb(ACE_STDIN);                                                                                                       // Read new line from stdin
+	// Read new line from stdin
+	static ACE_Read_Buffer rb(ACE_STDIN);
 
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char *buffer = rb.read('\n');
 
-	if (buffer == 0) {                                                                                                                                                                                                   // return message type zero when EOF is reached
-		return(0);                                                                                                                                                                                                                      // Return 0 as message type
+	if (buffer == 0) {
+		// return message type zero when EOF is reached
+		// Return 0 as message type
+		return(0);
 	} else {
 		int type;
 		sscanf(buffer, "%d", &type);
-		ACE_OS::sprintf(data, "%s", buffer + 2);                                                                                                                                                                                                                   // Remove the type from the buffer
+		// Remove the type from the buffer
+		ACE_OS::sprintf(data, "%s", buffer + 2);
 		return(type);
 	}
 }
 
 
-int SendMessage(char *buffer, int type) {                                                                                                                   // ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("SendMessage Line:%l\n")));
+int SendMessage(char *buffer, int type) {
+	// ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("SendMessage Line:%l\n")));
 	ACE_Message_Block *mb;
-	size_t size = ACE_OS::strlen(buffer);                                                                                                           // get message size
+	// get message size
+	size_t size = ACE_OS::strlen(buffer);
 
 	// Allocate a new message, but have it "borrow" its memory from the buffer.
-//ACE_NEW_RETURN (mb, ACE_Message_Block (size+1, ACE_Message_Block::MB_DATA, 0, buffer), 0);
-	ACE_NEW_RETURN(mb, ACE_Message_Block(size + 1), 0);                                                                                                      // Reserve location for buffer internally
-	ACE_OS::strcpy(mb->wr_ptr(), buffer);                                                                                                                    // Then we DO NOT need to re-allocate buffer
-	mb->wr_ptr(size + 1);                                                                                                                                    // Also we release ONLY the mb which holds the buffer
-	mb->msg_type(type);                                                                                                                                      // Set Message Type
+	//ACE_NEW_RETURN (mb, ACE_Message_Block (size+1, ACE_Message_Block::MB_DATA, 0, buffer), 0);
+	ACE_NEW_RETURN(mb, ACE_Message_Block(size + 1), 0);
+	// Reserve location for buffer internally
+	ACE_OS::strcpy(mb->wr_ptr(), buffer);
+	// Then we DO NOT need to re-allocate buffer
+	// Also we release ONLY the mb which holds the buffer
+	mb->wr_ptr(size + 1);
+	// Set Message Type
+	mb->msg_type(type);
 	switch (type) {
-	case 1:
-//                 Enqueue in tail queue
-		if (msg_queue.enqueue_tail(mb) == -1) {
-			ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
-		}
-		break;
-
-	case 2:
-//                 Enqueue in head queue
-		if (msg_queue.enqueue_head(mb) == -1) {
-			ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
-		}
-		break;
-
-	case 3:
-//                 Enqueue in tail queue
-		if (msg_queue.enqueue_tail(mb) == -1) {
-			ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
-		}
-		break;
-
-	case 4:
-//                 Enqueue in head queue
-		if (msg_queue.enqueue_head(mb) == -1) {
-			ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
-		}
-		break;
-
-	default:
-//                 Enqueue the message at priority 10
-		mb->msg_priority(10);
-		if (msg_queue.enqueue_prio(mb) == -1) {
-			ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
-		}
+		case 1:
+			// Enqueue in tail queue
+			if (msg_queue.enqueue_tail(mb) == -1) {
+				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
+			}
+			break;
+		case 2:
+			// Enqueue in head queue
+			if (msg_queue.enqueue_head(mb) == -1) {
+				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
+			}
+			break;
+		case 3:
+			// Enqueue in tail queue
+			if (msg_queue.enqueue_tail(mb) == -1) {
+				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
+			}
+			break;
+		case 4:
+			// Enqueue in head queue
+			if (msg_queue.enqueue_head(mb) == -1) {
+				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
+			}
+			break;
+		default:
+			// Enqueue the message at priority 10
+			mb->msg_priority(10);
+			if (msg_queue.enqueue_prio(mb) == -1) {
+				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
+			}
 		break;
 	}
 
@@ -242,7 +250,8 @@ int ReadMessage(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	}
 
 	// Free up the Message_Block. Buffer is includede and is NOT pointed.
-	mb->release();                                                                                                // Free the Memory Block
+	// Free the Memory Block
+	mb->release();
 
 	return(type);
 }
@@ -268,7 +277,8 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 			break;
 		}
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Sending message: <%s> (%d)\n"), buffer, type));
-		SendMessage(buffer, type);                                                                                                                                                                                                   // Send the Message
+		// Send the Message
+		SendMessage(buffer, type);
 		// Increment index before being used, therefore we do not need
 		// to decrease outside the loop if there is a need for that
 		i++;

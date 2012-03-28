@@ -12,7 +12,7 @@
 
 #include <ace/Read_Buffer.h>
 
-typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>   SHARED_ALLOC;
+typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block> SHARED_ALLOC;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
 MALLOC_LIFO_RECORD;
 
@@ -22,7 +22,7 @@ class Record {
 public:
 	Record(SHARED_ALLOC * shared, char *name) {
 		size_t len = ACE_OS::strlen(name) + 1;
-		char   *buf = reinterpret_cast<char *>(shared->malloc(len));
+		char* buf = reinterpret_cast<char *>(shared->malloc(len));
 
 		ACE_OS::strcpy(buf, name);
 		name_ = buf;
@@ -77,18 +77,22 @@ int StoreMessages(SHARED_ALLOC *shared, char *buf) {
 
 
 int GetMessageType(char *data) {
-	static ACE_Read_Buffer rb(ACE_STDIN);                                                                                                       // Read new line from stdin
+	// Read new line from stdin
+	static ACE_Read_Buffer rb(ACE_STDIN);
 
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char *buffer = rb.read('\n');
 
-	if (buffer == 0) {                                                                                                                                                                                                   // return message type zero when EOF is reached
-		return(0);                                                                                                                                                                                                                      // Return 0 as message type
+	if (buffer == 0) {
+		// return message type zero when EOF is reached
+		// Return 0 as message type
+		return(0);
 	} else {
 		int type;
 		sscanf(buffer, "%d", &type);
-		ACE_OS::sprintf(data, "%s", buffer + 2);                                                                                                                                                                                                                   // Remove the type from the buffer
+		// Remove the type from the buffer
+		ACE_OS::sprintf(data, "%s", buffer + 2);
 		return(type);
 	}
 }
@@ -106,21 +110,18 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 	StoreName[1] = (char *)"Exercise_7a-store.1";
 	StoreName[2] = (char *)"Exercise_7a-store.2";
 
-	if (argc > 1) {                                                                                                  // Use an existing file
-		ACE_MMAP_Memory_Pool_Options option0(ACE_DEFAULT_BASE_ADDR,
-		                                     ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
-		ACE_MMAP_Memory_Pool_Options option1(ACE_DEFAULT_BASE_ADDR + 100000,
-		                                     ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
-		ACE_MMAP_Memory_Pool_Options option2(ACE_DEFAULT_BASE_ADDR + 200000,
-		                                     ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
+	if (argc > 1) {
+		// Use an existing file
+		ACE_MMAP_Memory_Pool_Options option0(ACE_DEFAULT_BASE_ADDR, ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
+		ACE_MMAP_Memory_Pool_Options option1(ACE_DEFAULT_BASE_ADDR + 100000, ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
+		ACE_MMAP_Memory_Pool_Options option2(ACE_DEFAULT_BASE_ADDR + 200000, ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
 
 		options[0] = &option0;
 		options[1] = &option1;
 		options[2] = &option2;
 		for (i = 0; i < 3; i++) {
 			ACE_NEW_RETURN(shared[i], SHARED_ALLOC(StoreName[i], StoreName[i], options[i]), -1);
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i,
-			           shared[i]->base_addr()));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i, shared[i]->base_addr()));
 		}
 		for (i = 0; i < 3; i++) {
 			PrintMessages(shared[i], i);
@@ -128,10 +129,10 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 	} else {
 		ACE_MMAP_Memory_Pool_Options option0(0, ACE_MMAP_Memory_Pool_Options::NEVER_FIXED);
 
-		for (i = 0; i < 3; i++) {                                                                                                                                                                                                      //ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("%C\n"), StoreName[i]));
+		for (i = 0; i < 3; i++) {
+			//ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("%C\n"), StoreName[i]));
 			ACE_NEW_RETURN(shared[i], SHARED_ALLOC(StoreName[i], StoreName[i], &option0), -1);
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i,
-			           shared[i]->base_addr()));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i, shared[i]->base_addr()));
 		}
 
 		char buffer[100];
@@ -163,7 +164,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 				index = 2;
 			}
 			StoreMessages(shared[index], buffer);
-		}                                                                                                                                                                                                    // End while loop
+		}
 	}
 
 	for (i = 0; i < 3; i++) {
