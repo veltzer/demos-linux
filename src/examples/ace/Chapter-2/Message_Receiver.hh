@@ -54,8 +54,7 @@ public:
 
 	virtual int handle_input(ACE_HANDLE fd);
 
-	virtual int handle_close(ACE_HANDLE = ACE_INVALID_HANDLE,
-	                         ACE_Reactor_Mask = ACE_Event_Handler::ALL_EVENTS_MASK) {
+	virtual int handle_close(ACE_HANDLE = ACE_INVALID_HANDLE, ACE_Reactor_Mask = ACE_Event_Handler::ALL_EVENTS_MASK) {
 		this->peer().close();
 		delete this;
 		return(0);

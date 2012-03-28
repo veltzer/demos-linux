@@ -8,8 +8,9 @@
 
 static inline unsigned int getregister() {
 	unsigned int val;
-
 	asm ("rdtsc" : "=val" (val));
+	// does not work
+	//asm ("eax" : "=val" (val));
 	return val;
 }
 

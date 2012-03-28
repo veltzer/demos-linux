@@ -29,8 +29,7 @@ public:
 
 		int i = 0;
 
-		ACE_DEBUG((LM_DEBUG,
-		           ACE_TEXT("(%t) SocketHandler Thread %d running\n"), value));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) SocketHandler Thread %d running\n"), value));
 		addr.set(50000 + value, ACE_LOCALHOST);
 		if (-1 == connector.connect(peer, addr, &timeout)) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Client connect")), 1);
@@ -44,7 +43,7 @@ public:
 				peer.close();
 				return(0);
 			}
-			printf("Client: <%d> %2d.  %s", value, ++i, buf);
+			printf("Client: <%d> %2d. %s", value, ++i, buf);
 			ACE_OS::sleep(1);
 		}
 		return(0);

@@ -22,9 +22,7 @@ public:
 
 	int status_update(void) {
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));
-		ACE_DEBUG((LM_DEBUG,
-		           ACE_TEXT("%N - Obtaining a status_update in %t ")
-		           ACE_TEXT("thread of control\n")));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - Obtaining a status_update in %t ") ACE_TEXT("thread of control\n")));
 		// Simulate time to send message and get status.
 		ACE_OS::sleep(2);
 		return(next_result_id());
@@ -44,9 +42,7 @@ private:
 
 class StatusUpdate : public ACE_Method_Request {
 public:
-	StatusUpdate(HA_ControllerAgent & controller,
-	             ACE_Future<int> &returnVal)
-	: controller_(controller), returnVal_(returnVal) {
+	StatusUpdate(HA_ControllerAgent & controller, ACE_Future<int> &returnVal) : controller_(controller), returnVal_(returnVal) {
 		ACE_TRACE(ACE_TEXT("StatusUpdate::StatusUpdate"));
 	}
 
@@ -63,7 +59,7 @@ public:
 
 private:
 	HA_ControllerAgent& controller_;
-	ACE_Future<int>     returnVal_;
+	ACE_Future<int> returnVal_;
 };
 
 class ExitMethod : public ACE_Method_Request {
@@ -90,9 +86,9 @@ public:
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
 
-		while (1) {                                                                                                                                                                                                         // Dequeue the next method object
-			ACE_DEBUG((LM_DEBUG,
-			           ACE_TEXT("%N - In Scheduler::svc waiting for queue data dequeue\n")));
+		while (true) {
+			// Dequeue the next method object
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - In Scheduler::svc waiting for queue data dequeue\n")));
 			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
 
 			// Invoke the method request.
@@ -136,7 +132,8 @@ public:
 
 
 	//FUZZ: disable check_for_lack_ACE_OS
-	void exit(void) {                                                                                                     //FUZZ: enable check_for_lack_ACE_OS
+	void exit(void) {
+		//FUZZ: enable check_for_lack_ACE_OS
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgentProxy::exit"));
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - In HA_ControllerAgentProxy::exit\n")));
 		this->scheduler_.enqueue(new ExitMethod);
@@ -151,7 +148,7 @@ private:
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - Constructing HA_ControllerAgentProxy controller\n")));
 	HA_ControllerAgentProxy controller;
-	ACE_Future<int>         results[10];
+	ACE_Future<int> results[10];
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - Activating the controller.status_update\n")));
 	for (int i = 0; i < 1; i++) {
@@ -159,7 +156,8 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	}
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - We simulate doing other work by sleep(5)\n")));
-	ACE_OS::sleep(5);                                                                                                      // Do other work.
+	ACE_OS::sleep(5);
+	// Do other work.
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - ------Until now we did not request any data----\n")));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - After the sleep we are going to get the results\n")));
@@ -177,7 +175,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	controller.exit();
 	ACE_Thread_Manager::instance()->wait();
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("-------------------------\n")));
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Done                     \n")));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Done\n")));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("-------------------------\n")));
 	return(0);
 }

@@ -47,24 +47,20 @@ public:
 		NUM_USES = 10
 	};
 
-	HA_CommandHandler(HA_Device_Repository & rep,
-	                  ACE_Condition_Thread_Mutex& wait,
-	                  ACE_Thread_Mutex & mutex)
-		: rep_(rep), waitCond_(wait), mutex_(mutex) {
+	HA_CommandHandler(HA_Device_Repository & rep, ACE_Condition_Thread_Mutex& wait, ACE_Thread_Mutex & mutex) : rep_(rep), waitCond_(wait), mutex_(mutex) {
 	}
 
 	virtual int svc(void);
 
 private:
-	HA_Device_Repository&            rep_;
+	HA_Device_Repository& rep_;
 	ACE_Condition_Thread_Mutex& waitCond_;
-	ACE_Thread_Mutex&                mutex_;
+	ACE_Thread_Mutex& mutex_;
 };
 // Listing 2 code/ch12
 int
 HA_CommandHandler::svc(void) {
-	ACE_DEBUG((LM_DEBUG,
-	           ACE_TEXT("(%t) Handler Thread running\n")));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Handler Thread running\n")));
 
 	for (int i = 0; i < NUM_USES; i++) {
 		this->mutex_.acquire();
@@ -89,8 +85,7 @@ HA_CommandHandler::svc(void) {
 // Listing 2
 int
 HA_Device_Repository::update_device(int device_id) {
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Updating device %d\n"),
-	           device_id));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Updating device %d\n"), device_id));
 
 	ACE_OS::sleep(1);
 	return(0);

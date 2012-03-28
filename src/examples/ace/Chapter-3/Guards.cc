@@ -33,8 +33,7 @@ static Object *object;
 int
 HA_Device_Repository::update_device(int device_id) {
 	this->mutex_.acquire();
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Updating device %d\n"),
-	           device_id));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Updating device %d\n"), device_id));
 
 	// Allocate a new object.
 	ACE_NEW_RETURN(object, Object, -1);

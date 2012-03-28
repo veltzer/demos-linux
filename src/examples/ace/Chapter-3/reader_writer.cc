@@ -96,9 +96,7 @@ static void *reader(void *) {
 			ACE_Thread::yield();
 
 			if (ACE_OS::thr_equal(shared_thr_id, thr_id) == 0) {
-				ACE_DEBUG((LM_DEBUG,
-				           "(%t) somebody changed %d to %d\n",
-				           thr_id, shared_thr_id));
+				ACE_DEBUG((LM_DEBUG, "(%t) somebody changed %d to %d\n", thr_id, shared_thr_id));
 			}
 		}
 
@@ -135,8 +133,7 @@ static void *writer(void *) {
 			ACE_Thread::yield();
 
 			if (ACE_OS::thr_equal(shared_thr_id, self) == 0) {
-				ACE_DEBUG((LM_DEBUG, "(%t) somebody wrote on my data %d\n",
-				           shared_thr_id));
+				ACE_DEBUG((LM_DEBUG, "(%t) somebody wrote on my data %d\n", shared_thr_id));
 			}
 		}
 
@@ -153,13 +150,15 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	ACE_LOG_MSG->open(argv[0]);
 	parse_args(argc, argv);
 
-	current_readers = 0;                                                                                                     // Possibly already done
-	current_writers = 0;                                                                                                     // Possibly already done
+	current_readers = 0;
+	// Possibly already done
+	current_writers = 0;
+	// Possibly already done
 
 	ACE_DEBUG((LM_DEBUG, "(%t) main thread starting\n"));
 
 	if ((thr_mgr.spawn_n(n_readers, (ACE_THR_FUNC)reader, 0, THR_NEW_LWP) == -1) ||
-	    (thr_mgr.spawn_n(n_writers, (ACE_THR_FUNC)writer, 0, THR_NEW_LWP) == -1)) {
+		(thr_mgr.spawn_n(n_writers, (ACE_THR_FUNC)writer, 0, THR_NEW_LWP) == -1)) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn_n"), 1);
 	}
 

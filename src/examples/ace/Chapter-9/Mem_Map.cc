@@ -15,16 +15,14 @@ int ACE_TMAIN(int, ACE_TCHAR *argv[]) {
 
 	ACE_ASSERT(srcMap.addr() != 0);
 	ACE_Mem_Map destMap(argv[2],
-	                    srcMap.size(),
-	                    O_RDWR | O_CREAT,
-	                    ACE_DEFAULT_FILE_PERMS,
-	                    PROT_RDWR,
-	                    ACE_MAP_SHARED);
+		srcMap.size(),
+		O_RDWR | O_CREAT,
+		ACE_DEFAULT_FILE_PERMS,
+		PROT_RDWR,
+		ACE_MAP_SHARED);
 
 	ACE_ASSERT(destMap.addr() != 0);
-	ACE_OS::memcpy(destMap.addr(),
-	               srcMap.addr(),
-	               srcMap.size());
+	ACE_OS::memcpy(destMap.addr(), srcMap.addr(), srcMap.size());
 	destMap.sync();
 	srcMap.close();
 	destMap.close();
