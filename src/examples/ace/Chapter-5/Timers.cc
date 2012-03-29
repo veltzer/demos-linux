@@ -14,9 +14,7 @@
 typedef void (*timerTask_t)(void);
 
 // Listing 1 code/ch07
-pid_t timerTask(int initialDelay,
-                int interval,
-                timerTask_t task) {
+pid_t timerTask(int initialDelay, int interval, timerTask_t task) {
 	if ((initialDelay < 1) && (interval < 1)) {
 		return(-1);
 	}

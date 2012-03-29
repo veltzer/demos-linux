@@ -8,7 +8,7 @@
  */
 
 /*
- * Boring default constructor.  Be sure our barrier_ is initialized in
+ * Boring default constructor. Be sure our barrier_ is initialized in
  * case we get destructed before opened.
  */
 Task::Task(void)
@@ -19,9 +19,9 @@ Task::Task(void)
 
 /*
  * You'll see in the svc() method that when we get a shutdown request,
- * we always putq() it back into our message queue.  The last thread in
+ * we always putq() it back into our message queue. The last thread in
  * the pool will do this also and result in there always being one
- * shutdown request left in the queue when we get here.  Just to be
+ * shutdown request left in the queue when we get here. Just to be
  * polite, we'll go ahead and get that message and release it.
  *
  * We also delete the barrier_ object we used to synch the svc()
@@ -40,8 +40,8 @@ Task::~Task(void) {
 
 /*
  * The ACE_Barrier needs to know how many threads it will be working
- * for.  For that reason, we have to put off it's construction until we
- * get here.  We then pass the thread count through to our base class'
+ * for. For that reason, we have to put off it's construction until we
+ * get here. We then pass the thread count through to our base class'
  * activate().
  */
 int Task::start(int threads) {
@@ -67,7 +67,7 @@ int Task::close(u_long flags) {
 int Task::svc(void) {
 	/*
 	 * All of the threads will block here until the last thread
-	 * arrives.  They will all then be free to begin doing work.
+	 * arrives. They will all then be free to begin doing work.
 	 */
 	this->barrier_->wait();
 
@@ -76,10 +76,10 @@ int Task::svc(void) {
 	// Where we getq() the message
 	ACE_Message_Block *message;
 	// What we really put into the queue is a Message_Block, so we'll
-	// cast the 'message' to 'message_block' after getting it.  I'm
+	// cast the 'message' to 'message_block' after getting it. I'm
 	// going through some extra steps here just to be explicit
 	ACE_Message_Block *message_block;
-	// The baseclass of the work object we put into the queue.  Notice
+	// The baseclass of the work object we put into the queue. Notice
 	// that we can use this and not bother with the Work object at all.
 	//Unit_Of_Work * unit_of_work;
 
@@ -96,7 +96,7 @@ int Task::svc(void) {
 			break;
 		}
 
-		// Cast the pointer to our specialized Message_Block.  We could
+		// Cast the pointer to our specialized Message_Block. We could
 		// have done this at the getq() call but I wanted to be explicit
 		// about what we're doing here
 		message_block = (ACE_Message_Block *)message;
@@ -112,7 +112,7 @@ int Task::svc(void) {
 
 		/*
 		 * Get the Unit_Of_Work pointer out of our specialized
-		 * Message_Block.  Since the methods of interest are virtual, we
+		 * Message_Block. Since the methods of interest are virtual, we
 		 * don't have to know what kind of work we're to do.
 		 */
 		//unit_of_work = message_block->data();
@@ -126,8 +126,8 @@ int Task::svc(void) {
 		ACE_DEBUG((LM_DEBUG, "(%P|%t) Block 0x%x contains (%s)\n", (void *)message, cp));
 
 		/*
-		 * Pretend that the work takes a little time to process.  This
-		 * prevents one thread from getting all of the action.  In a real
+		 * Pretend that the work takes a little time to process. This
+		 * prevents one thread from getting all of the action. In a real
 		 * system you wouldn't need to do this since the work really
 		 * would take time to complete.
 		 */

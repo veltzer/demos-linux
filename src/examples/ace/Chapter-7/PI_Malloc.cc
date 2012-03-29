@@ -21,8 +21,7 @@ public:
 	Record(int id1, int id2, char *name)
 		: id1_(id1), id2_(id2) {
 		size_t len = ACE_OS::strlen(name) + 1;
-		char   *buf =
-		        reinterpret_cast<char *>(g_allocator->malloc(len));
+		char* buf = reinterpret_cast<char *>(g_allocator->malloc(len));
 
 		ACE_OS::strcpy(buf, name);
 		name_ = buf;
@@ -62,9 +61,7 @@ void showRecords(void) {
 
 		for (void *temp = 0; iter.next(temp) != 0; iter.advance()) {
 			Record *record = reinterpret_cast<Record *>(temp);
-			ACE_DEBUG((LM_DEBUG,
-			           ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"),
-			           record->name(), record->id1(), record->id2()));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"), record->name(), record->id1(), record->id2()));
 		}
 	}
 }
@@ -78,10 +75,7 @@ int addRecords(void) {
 
 		void *memory = g_allocator->malloc(sizeof(Record));
 		if (memory == 0) {
-			ACE_ERROR_RETURN((LM_ERROR,
-			                  ACE_TEXT("%p\n"),
-			                  ACE_TEXT("Unable to malloc")),
-			                 -1);
+			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Unable to malloc")), -1);
 		}
 
 		// Allocate and place record

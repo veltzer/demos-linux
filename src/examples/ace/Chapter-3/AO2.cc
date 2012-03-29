@@ -21,9 +21,7 @@ public:
 
 	int status_update(void) {
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));
-		ACE_DEBUG((LM_DEBUG,
-		           ACE_TEXT("Obtaining a status_update in %t ")
-		           ACE_TEXT("thread of control\n")));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Obtaining a status_update in %t ") ACE_TEXT("thread of control\n")));
 		// Simulate sending message to controller
 		// and getting status.
 		ACE_OS::sleep(2);
@@ -43,9 +41,7 @@ private:
 
 class StatusUpdate : public ACE_Method_Request {
 public:
-	StatusUpdate(HA_ControllerAgent & controller,
-	             ACE_Future<int> &returnVal)
-	: controller_(controller), returnVal_(returnVal) {
+	StatusUpdate(HA_ControllerAgent & controller, ACE_Future<int> &returnVal) : controller_(controller), returnVal_(returnVal) {
 		ACE_TRACE(ACE_TEXT("StatusUpdate::StatusUpdate"));
 	}
 
@@ -61,7 +57,7 @@ public:
 
 private:
 	HA_ControllerAgent& controller_;
-	ACE_Future<int>     returnVal_;
+	ACE_Future<int> returnVal_;
 };
 
 class ExitMethod : public ACE_Method_Request {
@@ -120,7 +116,8 @@ public:
 
 
 	//FUZZ: disable check_for_lack_ACE_OS
-	void exit(void) {                                                                                                     //FUZZ: enable check_for_lack_ACE_OS
+	void exit(void) {
+		//FUZZ: enable check_for_lack_ACE_OS
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgentProxy::exit"));
 		this->scheduler_.enqueue(new ExitMethod);
 	}

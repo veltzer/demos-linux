@@ -70,8 +70,7 @@ private:
 		ACE_TRACE("Manager::prepare");
 
 		options.command_line(ACE_TEXT("%s 1"), this->programName_);
-		if ((this->setStdHandles(options) == -1) ||
-		    (this->setEnvVariable(options) == -1)) {
+		if ((this->setStdHandles(options) == -1) || (this->setEnvVariable(options) == -1)) {
 			return(-1);
 		}
 #if !defined (ACE_WIN32) && !defined (ACE_LACKS_PWD_FUNCTIONS)
@@ -129,21 +128,15 @@ public:
 	int doWork(void) {
 		ACE_TRACE("Slave::doWork");
 
-		ACE_DEBUG((LM_INFO,
-		           ACE_TEXT("(%P) started at %T, parent is %d\n"),
-		           ACE_OS::getppid()));
+		ACE_DEBUG((LM_INFO, ACE_TEXT("(%P) started at %T, parent is %d\n"), ACE_OS::getppid()));
 		this->showWho();
-		ACE_DEBUG((LM_INFO,
-		           ACE_TEXT("(%P) the private environment is %s\n"),
-		           ACE_OS::getenv("PRIVATE_VAR")));
+		ACE_DEBUG((LM_INFO, ACE_TEXT("(%P) the private environment is %s\n"), ACE_OS::getenv("PRIVATE_VAR")));
 
 		ACE_TCHAR str[128];
-		ACE_OS::sprintf(str, ACE_TEXT("(%d) Enter your command\n"),
-		                static_cast<int>(ACE_OS::getpid()));
+		ACE_OS::sprintf(str, ACE_TEXT("(%d) Enter your command\n"), static_cast<int>(ACE_OS::getpid()));
 		ACE_OS::write(ACE_STDOUT, str, ACE_OS::strlen(str));
 		this->readLine(str);
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P) Executed: %C\n"),
-		           str));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P) Executed: %C\n"), str));
 		return(0);
 	}
 
@@ -151,10 +144,8 @@ public:
 	void showWho(void) {
 		ACE_TRACE("Slave::showWho");
 #if !defined (ACE_LACKS_PWD_FUNCTIONS)
-//    passwd *pw = ::getpwuid (ACE_OS::geteuid ());
-//    ACE_DEBUG ((LM_INFO,
-//                ACE_TEXT ("(%P) Running this process as:%s\n"),
-//                pw->pw_name));
+//	passwd *pw = ::getpwuid (ACE_OS::geteuid ());
+//	ACE_DEBUG ((LM_INFO, ACE_TEXT ("(%P) Running this process as:%s\n"), pw->pw_name));
 #endif
 	}
 
@@ -179,7 +170,8 @@ public:
 };
 
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
-	if (argc > 1) {                                                                                                    // Slave mode
+	if (argc > 1) {
+		// Slave mode
 		Slave s;
 		return(s.doWork());
 	}

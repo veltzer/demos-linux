@@ -23,7 +23,7 @@ public:
 	//Handle the connection once it has been established. Here the
 	//connection is handled by reading BUFFER_SIZE amount of data from the
 	//remote and then closing the connection stream down.
-	int handle_connection() {  
+	int handle_connection() {
 		// Read data from client
 		static char message[BUFFER_SIZE + 1];
 		// Save some more space than being read
@@ -38,7 +38,7 @@ public:
 			if (!ACE_OS::strcmp(message, "Quit")) {
 				break;
 			}
-		}                                                                                                                                                                                                         // End while
+		}
 // Close new endpoint
 		if (new_stream_.close() == -1) {
 			ACE_ERROR((LM_ERROR, "%p\n", "close"));
@@ -65,13 +65,13 @@ public:
 				ACE_ERROR((LM_ERROR, "%p\n", "accept"));
 				continue;
 			} else {
-				ACE_DEBUG((LM_DEBUG, "Connection established with remote %s:%d\n",
-				           client_addr_.get_host_name(), client_addr_.get_port_number()));
-				handle_connection();                                                                                                                                                                                                                                                                                                                                                                                                                 //          Handle the connection
+				ACE_DEBUG((LM_DEBUG, "Connection established with remote %s:%d\n", client_addr_.get_host_name(), client_addr_.get_port_number()));
+				// Handle the connection
+				handle_connection();
 				ACE_OS::exit(1);
 			}
-#endif                                                                                                                                              /* TIMEOUT */
-		}                                                                                                                                                                                                         // End while
+#endif /* TIMEOUT */
+		}
 	}
 
 

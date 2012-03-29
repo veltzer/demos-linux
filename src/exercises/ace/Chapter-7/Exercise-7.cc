@@ -12,7 +12,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>   SHARED_ALLOC;
+typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block> SHARED_ALLOC;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
 MALLOC_LIFO_RECORD;
 
@@ -22,7 +22,7 @@ class Record {
 public:
 	Record(SHARED_ALLOC * shared, char *name) {
 		size_t len = ACE_OS::strlen(name) + 1;
-		char   *buf = reinterpret_cast<char *>(shared->malloc(len));
+		char* buf = reinterpret_cast<char *>(shared->malloc(len));
 
 		ACE_OS::strcpy(buf, name);
 		name_ = buf;
@@ -74,18 +74,22 @@ int StoreMessages(SHARED_ALLOC *shared, char *buf) {
 
 
 int GetMessageType(char *data) {
-	static ACE_Read_Buffer rb(ACE_STDIN);                                                                                                       // Read new line from stdin
+	// Read new line from stdin
+	static ACE_Read_Buffer rb(ACE_STDIN);
 
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char *buffer = rb.read('\n');
 
-	if (buffer == 0) {                                                                                                                                                                                                   // return message type zero when EOF is reached
-		return(0);                                                                                                                                                                                                                      // Return 0 as message type
+	if (buffer == 0) {
+		// return message type zero when EOF is reached
+		// Return 0 as message type
+		return(0);
 	} else {
 		int type;
 		sscanf(buffer, "%d", &type);
-		ACE_OS::sprintf(data, "%s", buffer + 2);                                                                                                                                                                                                                   // Remove the type from the buffer
+		// Remove the type from the buffer
+		ACE_OS::sprintf(data, "%s", buffer + 2);
 		return(type);
 	}
 }
@@ -93,10 +97,11 @@ int GetMessageType(char *data) {
 
 // Backing files where the data is kept.
 #define STORE_NAME ACE_TEXT("Exercise_7.store")
-#define Address    ACE_DEFAULT_BASE_ADDR
+#define Address ACE_DEFAULT_BASE_ADDR
 
 int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
-	if (argc > 1) {                                                                                                  // Use an existing file
+	if (argc > 1) {
+		// Use an existing file
 		ACE_MMAP_Memory_Pool_Options options(ACE_DEFAULT_BASE_ADDR, ACE_MMAP_Memory_Pool_Options::FIRSTCALL_FIXED);
 
 		ACE_NEW_RETURN(shared, SHARED_ALLOC(STORE_NAME, STORE_NAME, &options), -1);

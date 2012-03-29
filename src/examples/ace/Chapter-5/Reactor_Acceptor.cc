@@ -48,7 +48,7 @@ int ClientAcceptor::handle_input(ACE_HANDLE) {
 	ACE_SOCK_Stream peer;
 	if(this->m_acceptor.accept(peer)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("Failed to accept ") ACE_TEXT("client connection")), -1);
-        }
+	}
 	peer.close();
 	return(0);
 }

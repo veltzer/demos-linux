@@ -17,7 +17,7 @@
 
 class ClientService :
 public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> {
-	typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>   super;
+	typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> super;
 
 public:
 	int open(void * = 0);
@@ -29,8 +29,7 @@ public:
 	virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE);
 
 	// Called when this handler is removed from the ACE_Reactor.
-	virtual int handle_close(ACE_HANDLE handle,
-	                         ACE_Reactor_Mask close_mask);
+	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
 };
 // Listing 3
 

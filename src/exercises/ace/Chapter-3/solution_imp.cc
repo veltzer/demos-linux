@@ -46,8 +46,7 @@ public:
 		m.acquire();
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) waiting for lock\n")));
 		AttemptCounter++;
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"),
-		           LockedCounter % 3, value));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"), LockedCounter % 3, value));
 		if (LockedCounter % 3 == value) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
 			LockedCounter++;

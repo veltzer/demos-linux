@@ -101,7 +101,7 @@ public:
 protected:
 public:
 	ACE_SOCK_Acceptor acceptor;
-	Net_Handler       *Save_handler;
+	Net_Handler* Save_handler;
 };
 
 Net_Listener::Net_Listener(int local_address) {
@@ -133,13 +133,15 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 	// inherit the properties of the listen handle, including its event
 	// associations.
 	int reset_new_hndl = this->reactor()->uses_event_associations();
+	// reset new handler
 	int result = this->acceptor.accept(stream,
-	                                   &remote_address,
-	                                   0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      // timeout
-	                                   1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      // restart
-	                                   reset_new_hndl);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        // reset new handler
-	ACE_ASSERT(result == 0);
-	ACE_UNUSED_ARG(result);
+		&remote_address,
+		0, // timeout
+		1, // restart
+		reset_new_hndl
+	);
+		ACE_ASSERT(result == 0);
+		ACE_UNUSED_ARG(result);
 	remote_address.dump();
 	Net_Handler *handler;
 	ACE_NEW_RETURN(handler, Net_Handler(stream), -1);
@@ -183,12 +185,13 @@ public:
 };
 
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
-	Net_Listener    *listener1 = 0;
-	Net_Listener    *listener2 = 0;
+	Net_Listener* listener1 = 0;
+	Net_Listener* listener2 = 0;
 	int port = ACE_DEFAULT_SERVER_PORT;
 	ACE_Sig_Handler handler;
 
-	CatchSignal terminate(SIGTRAP);                                                                                                         // SIGTRAP is 5
+	// SIGTRAP is 5
+	CatchSignal terminate(SIGTRAP);
 
 	if (argc > 1) {
 		port = atoi(argv[1]);

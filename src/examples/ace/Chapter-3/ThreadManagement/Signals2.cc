@@ -15,12 +15,10 @@
 class SignalableTask : public ACE_Task<ACE_MT_SYNCH> {
 public:
 	virtual int handle_signal(int signum,
-      siginfo_t * = 0,
-      ucontext_t * = 0) {
+		siginfo_t * = 0,
+		ucontext_t * = 0) {
 		if (signum == SIGUSR1) {
-			ACE_DEBUG((LM_DEBUG,
-			           ACE_TEXT("(%t) received a %S signal\n"),
-			           signum));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) received a %S signal\n"), signum));
 			handle_alert();
 		}
 
@@ -73,7 +71,8 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_Sig_Handler sh;
 	sh.register_handler(SIGUSR1, &handler);
 
-	ACE_OS::sleep(1);                                                                                                          // Allow threads to start
+	// Allow threads to start
+	ACE_OS::sleep(1);
 
 	for (int i = 0; i < 5; i++) {
 		ACE_OS::kill(ACE_OS::getpid(), SIGUSR1);

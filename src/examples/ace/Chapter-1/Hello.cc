@@ -1,8 +1,8 @@
 // Short program demonstrates printing Hello World using the ACE environment
 // notice that both ACE_DEBUG and ACE_ERROR are going to stderr.
-#include <ace/Log_Msg.h>     // for ACE_DEBUG and ACE_ERROR
+#include <ace/Log_Msg.h> // for ACE_DEBUG and ACE_ERROR
 #include <ace/OS_NS_stdio.h> // for the printf function
-#include <ace/streams.h>     // for C++ streams interface
+#include <ace/streams.h> // for C++ streams interface
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

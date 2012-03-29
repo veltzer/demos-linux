@@ -53,7 +53,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep reading stdin, until we reach EOF.
 	while (true) {
 		// Allocate a new buffer.
-		char              *buffer = rb.read('\n');
+		char* buffer = rb.read('\n');
 		ACE_Message_Block *mb;
 		if (buffer == NULL) {
 			// Send a 0-sized shutdown message to the other thread and exit
@@ -67,12 +67,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 			// Enqueue the message in fifo order.
 			// Allocate a new message, but have it "borrow" its memory
 			// from the buffer.
-			ACE_NEW_RETURN(mb,
-			               ACE_Message_Block(rb.size(),
-			                                 ACE_Message_Block::MB_DATA,
-			                                 0,
-			                                 buffer),
-			               0);
+			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			mb->wr_ptr(rb.size());
 			ACE_DEBUG((LM_DEBUG, "enqueueing message of size %d\n", rb.size()));
 			// Enqueue into the tail
@@ -91,8 +86,7 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	// A synchronized message queue.
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
 
-	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)&msg_queue,
-	                  THR_NEW_LWP | THR_DETACHED) == -1) {
+	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)&msg_queue, THR_NEW_LWP | THR_DETACHED) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);
 	}
 	// Wait for producer thread to exit (notice that the consumer runs

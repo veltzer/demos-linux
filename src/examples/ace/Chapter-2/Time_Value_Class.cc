@@ -12,7 +12,7 @@ using namespace std;
 // Where: 1200 means 20 minutes
 // 36000 means 10 hours
 
-const ACE_Time_Value max_interval(60 * 60);  // 1 hour.
+const ACE_Time_Value max_interval(60 * 60); // 1 hour.
 int main(int argc, char **argv) {
 	//ACE_Time_Value expiration = ACE_OS::gettimeofday();
 	ACE_Time_Value expiration;
