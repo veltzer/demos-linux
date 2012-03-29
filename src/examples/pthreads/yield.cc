@@ -29,6 +29,10 @@
  * There is a barrier here also used to jump start the threads at exactly the same
  * time but strictly speaking it is not required for this demo.
  *
+ * TODO:
+ * - show the number of voluntary context switches going up. Show this via proc
+ * or via libproc.
+ *
  *		Mark Veltzer
  *
  * EXTRA_LIBS=-lpthread
@@ -36,6 +40,7 @@
 
 //#define DO_BARRIER
 //#define DO_ONEYIELD
+//#define USE_SCHED_YIELD
 
 #ifdef DO_BARRIER
 pthread_barrier_t barrier;
@@ -68,10 +73,18 @@ void *worker(void *p) {
 		TRACE("counter is %d, cur is %d",counter,cur);
 #ifndef DO_ONEYIELD
 		while(counter==cur && !ended) {
-			CHECK_ZERO(sched_yield());
+			#ifdef USE_SCHED_YIELD
+			CHECK_NOT_M1(sched_yield());
+			#else
+			CHECK_ZERO(pthread_yield());
+			#endif
 		}
 #else // DO_ONEYIELD
+		#ifdef USE_SCHED_YIELD
+		CHECK_NOT_M1(sched_yield());
+		#else
 		CHECK_ZERO(pthread_yield());
+		#endif
 #endif // DO_ONEYIELD
 	}
 	ended=true;

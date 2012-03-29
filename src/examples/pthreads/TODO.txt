@@ -2,40 +2,30 @@
 	in the wrapper each thread will have a name.
 	Add the ability to connect via telnet to this application and see all of
 	it's threads.
-- show how this is solved in ACE and Boost and stdlibc++.
+	show how this is solved in ACE and Boost and stdlibc++.
 
 - do the example of measuring thread performance as in the manual entry of
 	pthread_getcpuclockid
 
-- do example of cancelling a thread.
+- do examples of
+	pthread_atfork
+	pthread_detach
+	pthread_once
+	pthread_cancel
 	pthread_cleanup_pop
 	pthread_cleanup_push
-
-- show an example of doing pthread_once (this is a sort of a singleton pattern).
-
-- do an example of sched_yield(2) (I already have an example of pthread_yield(3)).
-	show the voluntary context switches number going up in /proc.
-
-- do an example of pthread_atfork
 
 - do an example of named semaphore usage:
 	sem_* functions.
 
-- do examples of mutex usage.
-
-- do examples of futex usage.
-
-- do examples that compare futex to mutex run times.
-
-- do example of thread detach.
-
 - show usage of pthread_exit. Actually, show all ways that allow one to exit a thread
 	- pthread_exit
-	- pthread_cancell.
+	- pthread_cancel.
 	- send sigkill to the thread.
 	- more ?!?
 
 - do demo of one stack stepping over another one.
+
 - add examples about threads and stacks:
 	1) two threads which show that one thread can step over the stack of the
 	other thread with using a very large stack.
