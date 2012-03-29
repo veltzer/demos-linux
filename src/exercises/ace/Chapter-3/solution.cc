@@ -90,7 +90,7 @@ class SharedResource {
 
 class HA_CommandHandler : public ACE_Task_Base {
 	private:
-		SharedResource&  sharedResource;
+		SharedResource& sharedResource;
 		const int value;
 	public:
 		HA_CommandHandler(SharedResource & sharedResource, const int value) : sharedResource(sharedResource), value(value) {

@@ -11,8 +11,8 @@
  */
 
 #ifndef FIXED_ADDRESS
-typedef ACE_Malloc<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex>                 ALLOCATOR;
-typedef ACE_Malloc_LIFO_Iterator<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex>   MALLOC_LIFO_ITERATOR;
+typedef ACE_Malloc<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex> ALLOCATOR;
+typedef ACE_Malloc_LIFO_Iterator<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex> MALLOC_LIFO_ITERATOR;
 #else
 #include <ace/PI_Malloc.h>
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
@@ -22,7 +22,7 @@ MALLOC_LIFO_ITERATOR;
 #endif
 
 ALLOCATOR *g_allocator;
-#define BACKING_STORE "backing.store"      // Backing file where the data is kept.
+#define BACKING_STORE "backing.store" // Backing file where the data is kept.
 class Record {
 public:
 	Record(int id1, int id2, char *name)
@@ -71,7 +71,7 @@ int addRecords(void) {
 		if (memory == 0) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Unable to malloc")), -1);
 		}
-//  Allocate and place record
+		// Allocate and place record
 		Record *newRecord = new(memory) Record(i, i + 1, buf);
 		if (g_allocator->bind(buf, newRecord) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("bind failed")), -1);
@@ -88,8 +88,7 @@ void showRecords(void) {
 
 		for (void *temp = 0; iter.next(temp) != 0; iter.advance()) {
 			Record *record = reinterpret_cast<Record*>(temp);
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"),
-			           record->name(), record->id1(), record->id2()));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"), record->name(), record->id1(), record->id2()));
 		}
 	}
 }
@@ -107,7 +106,8 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 	} else {
 		addRecords();
 	}
-	g_allocator->sync();                                                                                                      // Flush to the disk
+	// Flush to the disk
+	g_allocator->sync();
 	delete g_allocator;
 	return(0);
 }

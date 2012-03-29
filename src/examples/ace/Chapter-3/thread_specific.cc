@@ -22,13 +22,11 @@ static ACE_TSS<Errno> tss_error;
 // Serializes output via cout.
 static ACE_SYNCH_MUTEX printf_lock;
 
-typedef ACE_TSS_Guard<ACE_Thread_Mutex>   GUARD;
+typedef ACE_TSS_Guard<ACE_Thread_Mutex> GUARD;
 
 extern "C" void
 cleanup(void *ptr) {
-	ACE_DEBUG((LM_DEBUG,
-	           "(%t) in cleanup, ptr = %x\n",
-	           ptr));
+	ACE_DEBUG((LM_DEBUG, "(%t) in cleanup, ptr = %x\n", ptr));
 
 	delete reinterpret_cast<char *>(ptr);
 }
@@ -39,7 +37,7 @@ static void *worker(void *c) {
 	intptr_t count = reinterpret_cast<intptr_t>(c);
 
 	ACE_thread_key_t key = ACE_OS::NULL_key;
-	int              *ip = 0;
+	int* ip = 0;
 
 	// Make one key that will be available when the thread exits so that
 	// we'll have something to cleanup!
@@ -63,7 +61,8 @@ static void *worker(void *c) {
 
 		ACE_DEBUG((LM_DEBUG, "(%t) in worker 1, key = %d, ip = %x\n", key, ip));
 
-		{                                                                                                                                                                                                          // tmp is workaround for gcc strict aliasing warning.
+		{
+			// tmp is workaround for gcc strict aliasing warning.
 			void *tmp = reinterpret_cast<void *>(ip);
 
 			if (ACE_Thread::setspecific(key, tmp) == -1) {
@@ -107,9 +106,9 @@ static void *worker(void *c) {
 			ACE_OS::printf("(%t)", handle);
 
 			ACE_OS::printf(" errno = %d, lineno = %d, flags = %d\n",
-			               tss_error->error(),
-			               tss_error->line(),
-			               tss_error->flags());
+				tss_error->error(),
+				tss_error->line(),
+				tss_error->flags());
 		}
 		key = ACE_OS::NULL_key;
 
@@ -169,9 +168,9 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) { // The Service_Config must be the f
 	ACE_UNUSED_ARG(sa);
 
 	if (ACE_Thread_Manager::instance()->spawn_n(threads,
-	                                            ACE_THR_FUNC(&worker),
-	                                            reinterpret_cast<void *>(count),
-	                                            THR_BOUND | THR_DETACHED) == -1) {
+		ACE_THR_FUNC(&worker),
+		reinterpret_cast<void *>(count),
+		THR_BOUND | THR_DETACHED) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "ACE_Thread_Manager::spawn_n"), -1);
 	}
 

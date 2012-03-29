@@ -62,7 +62,8 @@ int main(int argc, char** argv,char** envp) {
 			ACE_DEFAULT_THREAD_PRIORITY,
 			NULL,
 			0,
-		threadHandles) != n_threads) {
+			threadHandles
+		) != n_threads) {
 		ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 	}
 	//Wait for all the threads to exit before you let the main fall

@@ -1,13 +1,12 @@
+#include <link.h> // for dl_iterate_phdr(3)
+#include <stdio.h> // for printf(3)
+
 /*
  * This example shows how to find out which libraries you are linked to.
  * Sort of a cheap ldd replacement.
  *
  * 		Mark Veltzer
  */
-
-#include <link.h> // for dl_iterate_phdr(3)
-#include <stdio.h> // for printf(3)
-
 static bool verbose=false;
 
 static int callback(struct dl_phdr_info *info, size_t size, void *data) {

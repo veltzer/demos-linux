@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// This example is from the ACE Programmers Guide.
-////  Chapter:  "Thread Management"
+//// Chapter: "Thread Management"
 //// For details please see the guide at
 //// http://www.cs.wustl.edu/~schmidt/ACE.html
-////  AUTHOR: Umar Syyid (usyyid@hns.com)
+//// AUTHOR: Umar Syyid (usyyid@hns.com)
 //// and Ambreen Ilyas (ambreen@bitsmart.com)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 	// and have the process exit. This way of using join is non-portable
 	// and may not work on a system using pthreads.
 	int check_count = 0;
-	//  sleep(30);
+	// sleep(30);
 	while (ACE_Thread::join(threads[check_count],NULL,NULL) == 0) {
 		check_count++;
 	}

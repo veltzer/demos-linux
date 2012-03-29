@@ -34,19 +34,16 @@ int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, A
 #define NO_TIMEOUT
 #ifdef NO_TIMEOUT
 	if (acceptor->accept(*peer) == -1) {
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) Failed to accept ")
-		                  ACE_TEXT("client connection\n")), 100);
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) Failed to accept ") ACE_TEXT("client connection\n")), 100);
 	}
 #else
 	ACE_Time_Value timeout(10, 0);
 
 	if (acceptor->accept(*peer, peer_addr, &timeout, 0) == -1) {
 		if (ACE_OS::last_error() == EINTR) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while ")
-			           ACE_TEXT("waiting for connection\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while ") ACE_TEXT("waiting for connection\n")));
 		} else if (ACE_OS::last_error() == ETIMEDOUT) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while ")
-			           ACE_TEXT("waiting for connection\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while ") ACE_TEXT("waiting for connection\n")));
 		}
 	} else {
 		ACE_TCHAR peer_name[MAXHOSTNAMELEN];

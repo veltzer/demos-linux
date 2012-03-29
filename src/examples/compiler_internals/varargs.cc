@@ -22,6 +22,7 @@
  *
  *	Mark Veltzer
  */
+
 int trace(const char *fmt, ...) {
 	extern char *program_invocation_short_name;
 

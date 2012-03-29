@@ -14,18 +14,18 @@ public:
 		cerr << "Log Message Received:" << endl;
 		unsigned long msg_severity = log_record.type();
 		ACE_Log_Priority prio = static_cast<ACE_Log_Priority>(msg_severity);
-		const ACE_TCHAR  *prio_name = ACE_Log_Record::priority_name(prio);
+		const ACE_TCHAR* prio_name = ACE_Log_Record::priority_name(prio);
 		const time_t epoch = log_record.time_stamp().sec();
 		cerr << "\tType: "
-		     << ACE_TEXT_ALWAYS_CHAR(prio_name)
-		     << endl
-		     << "\tLength: " << log_record.length()
-		     << endl
-		     << "\tTime_Stamp: "
-		     << ACE_TEXT_ALWAYS_CHAR(ACE_OS::ctime(&epoch))
-		     << endl
-		     << "\tPid: " << log_record.pid()
-		     << endl;
+			<< ACE_TEXT_ALWAYS_CHAR(prio_name)
+			<< endl
+			<< "\tLength: " << log_record.length()
+			<< endl
+			<< "\tTime_Stamp: "
+			<< ACE_TEXT_ALWAYS_CHAR(ACE_OS::ctime(&epoch))
+			<< endl
+			<< "\tPid: " << log_record.pid()
+			<< endl;
 		ACE_CString data(">> ");
 
 		data += ACE_TEXT_ALWAYS_CHAR(log_record.msg_data());

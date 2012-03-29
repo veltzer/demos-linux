@@ -158,13 +158,9 @@ void LF_ThreadPool::process_message(ACE_Message_Block *mb) {
 	int msgId;
 	ACE_OS::memcpy(&msgId, mb->rd_ptr(), sizeof(int));
 	mb->release();
-	ACE_DEBUG((LM_DEBUG,
-	           ACE_TEXT("(%t) Started processing message:%d\n"),
-	           msgId));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Started processing message:%d\n"), msgId));
 	ACE_OS::sleep(1);
-	ACE_DEBUG((LM_DEBUG,
-	           ACE_TEXT("(%t) Finished processing message:%d\n"),
-	           msgId));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Finished processing message:%d\n"), msgId));
 }
 
 

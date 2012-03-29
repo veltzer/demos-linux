@@ -1,5 +1,5 @@
-#include <ace/OS_NS_stdio.h>   // This is for snprintf
-#include <ace/Log_Msg.h>       // This is for ACE_DEBUG
+#include <ace/OS_NS_stdio.h> // This is for snprintf
+#include <ace/Log_Msg.h> // This is for ACE_DEBUG
 #include <ace/Message_Block.h> // This is for ACE_Message_Block
 
 /*

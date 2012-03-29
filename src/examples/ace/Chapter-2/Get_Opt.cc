@@ -7,12 +7,12 @@
  */
 
 //
-// options are: -f            file FileName
-//              -g
-//              -h
-//              -l parameter
-//              --cool_option               - we get 0 into the switch
-//              --the_answer                - we get 42 into the switch
+// options are: -f file FileName
+// -g
+// -h
+// -l parameter
+// --cool_option - we get 0 into the switch
+// --the_answer - we get 42 into the switch
 //
 //
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) { // Example for a long option without a corresponding short option.
@@ -55,8 +55,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) { // Example for a long option withou
 			break;
 
 		case ':':
-			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("-%c requires an argument\n"),
-			                  cmd_opts.opt_opt()), -1);
+			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("-%c requires an argument\n"), cmd_opts.opt_opt()), -1);
 
 
 		default:

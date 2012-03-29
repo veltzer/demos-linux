@@ -20,12 +20,7 @@ int HA_CommandHandler::svc(void) {
 			/*
 			DeviceCommandHeader *dch = (DeviceCommandHeader *)mb->rd_ptr();
 			mb->rd_ptr(sizeof(DeviceCommandHeader));
-			ACE_DEBUG((LM_DEBUG,
-			           ACE_TEXT("Message for device #%d with ")
-			           ACE_TEXT("command payload of:\n%s"),
-			           dch->deviceId_, mb->rd_ptr()));
-			this->rep_.update_device(dch->deviceId_,
-			                         mb->rd_ptr());
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d with ") ACE_TEXT("command payload of:\n%s"), dch->deviceId_, mb->rd_ptr())); this->rep_.update_device(dch->deviceId_, mb->rd_ptr());
 			*/
 			ACE_DEBUG((LM_DEBUG,ACE_TEXT("message is %s\n"),mb->rd_ptr()));
 			mb->release();
@@ -50,9 +45,7 @@ int Message_Receiver::read_header(DeviceCommandHeader *dch) {
 	ssize_t result = this->peer().recv_n(dch, sizeof(DeviceCommandHeader));
 
 	if (result <= 0) {
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
-		                  ACE_TEXT("Recieve Failure")),
-		                 -1);
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Recieve Failure")), -1);
 	}
 	return(0);
 }
@@ -78,7 +71,8 @@ int Message_Receiver::handle_input(ACE_HANDLE) {
 		return(-1);
 	}
 
-	if (dch.deviceId_ < 0) {                                                                                                     // Handle shutdown.
+	if (dch.deviceId_ < 0) {
+		// Handle shutdown.
 		this->handler_->putq(shut_down_message());
 		return(-1);
 	}
@@ -89,8 +83,7 @@ int Message_Receiver::handle_input(ACE_HANDLE) {
 	mb->copy((const char *)&dch, sizeof dch);
 	// Copy the payload.
 	if (this->copy_payload(mb, dch.length_) < 0) {
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
-		                  ACE_TEXT("Recieve Failure")), -1);
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Recieve Failure")), -1);
 	}
 	// Pass it off to the handler thread.
 	this->handler_->putq(mb);
@@ -137,8 +130,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	ACE_INET_Addr addr(port);
 
 	if (acceptor.open(addr) == -1) {
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
-		                  ACE_TEXT("Failed to open connection")), -1);
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Failed to open connection")), -1);
 	}
 
 	ACE_Reactor::instance()->run_reactor_event_loop();

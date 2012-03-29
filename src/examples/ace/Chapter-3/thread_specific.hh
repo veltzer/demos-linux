@@ -5,10 +5,10 @@
 #include <ace/Guard_T.h>
 #include <ace/Thread_Mutex.h>
 
-// Define a class that will be stored in thread-specific data.  Note
+// Define a class that will be stored in thread-specific data. Note
 // that as far as this class is concerned it's just a regular C++
-// class.  The ACE_TSS wrapper transparently ensures that objects of
-// this class will be placed in thread-specific storage.  All calls on
+// class. The ACE_TSS wrapper transparently ensures that objects of
+// this class will be placed in thread-specific storage. All calls on
 // ACE_TSS::operator->() are delegated to the appropriate method in
 // the Errno class.
 
