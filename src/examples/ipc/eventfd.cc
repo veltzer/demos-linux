@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp) {
 			uint64_t u = strtoull(argv[j], NULL, 0);
 			printf("Child writing %llu (0x%llx) to efd\n",u,u);
 			ssize_t s = write(efd, &u, sizeof(uint64_t));
-			scassert(s == sizeof(uint64_t),"write size");
+			CHECK_ASSERT(s == sizeof(uint64_t));
 			//sleep(1);
 		}
 		printf("Child completed write loop\n");
@@ -58,7 +58,7 @@ int main(int argc, char **argv, char **envp) {
 		// install a signal handler for when the child dies so that we could know
 		// that we need to stop listening for messages from it
 		sighandler_t old=signal(SIGCHLD,handler);
-		scassert(old!=SIG_ERR,"signal");
+		CHECK_ASSERT(old!=SIG_ERR);
 		// this is neccessary in order to 'break' out of the read(2) system
 		// call when SIGCHLD comes along...
 		CHECK_NOT_M1(siginterrupt(SIGCHLD,1));
@@ -67,7 +67,7 @@ int main(int argc, char **argv, char **envp) {
 			uint64_t u;
 			ssize_t s = read(efd, &u, sizeof(uint64_t));
 			if(cont) {
-				scassert(s == sizeof(uint64_t),"read size");
+				CHECK_ASSERT(s == sizeof(uint64_t));
 				printf("Parent read %llu (0x%llx) from efd\n",u,u);
 			}
 		}
