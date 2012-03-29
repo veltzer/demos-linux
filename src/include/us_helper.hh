@@ -91,51 +91,6 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
  * and will throw an exception if any of them pops up.
  * I removed "throw new std::exception();" from the following functions.
  */
-/*
-static inline void scie(int t, const char *msg, int errval) {
-	if (t == errval) {
-		perror("error in system call");
-		exit(1);
-	}
-}
-#ifdef __cplusplus 
-template<class T> inline void scie(T t,const char *msg, T errval) {
-	if (t == errval) {
-		perror("error in system call");
-		exit(1);
-	}
-}
-#endif // __cplusplus
-
-static inline void scig(int t, const char *msg, int goodval) {
-	if (t != goodval) {
-		perror("error in system call");
-		exit(1);
-	}
-}
-
-static inline void scig2(int t, const char *msg, int v1, int v2) {
-	if ((t != v1) && (t != v2)) {
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: %s\n",strerror(v1));
-		}
-		exit(1);
-	}
-}
-
-static inline void scpe(void *t, const char *msg, void *errval) {
-	if (t == errval) {
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error of unknown type\n");
-		}
-		exit(1);
-	}
-}
-*/
 // check functions start here
 static inline void check_zero(int val,const char* msg,const char* base_file,const char* file,const int line) {
 	if (val != 0) {
