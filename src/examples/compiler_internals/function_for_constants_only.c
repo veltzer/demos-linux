@@ -23,8 +23,9 @@ static inline int _sum(int i) {
  * This inline version does not work because of bug in gcc whereby __builtin_constant_p(i) is not
  * a constant
  */
+
 /*
-static inline int sum(int i) {
+static __attribute__((always_inline)) int sum(int i) {
 	return __builtin_choose_expr(__builtin_constant_p(i),_sum(i),(void*)0);
 }
 */

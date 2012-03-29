@@ -25,10 +25,8 @@ static inline int _sum(int i) {
  * return false and so the entire branch of that code goes away including the 'if'
  * statement itself!
  */
-static inline int sum(int i) {
-	//if (__builtin_constant_p(i) && (i == 100)) {
-		//return(5051);
-	if (__builtin_constant_p(i)) {
+static __attribute__((__always_inline__)) int sum(int i) {
+	if (__builtin_constant_p(i) && (i == 100)) {
 		return(5051);
 	} else {
 		return(_sum(i));
