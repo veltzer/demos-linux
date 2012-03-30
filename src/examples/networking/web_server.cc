@@ -9,7 +9,7 @@
 #include<fcntl.h> // for open(2)
 #include<unistd.h> // for read(2), close(2)
 #include<pthread.h> // for pthread_create(3)
-#include<netinet/in.h> // for sockaddr_in 
+#include<netinet/in.h> // for sockaddr_in
 
 #include"us_helper.hh" // our own helper
 

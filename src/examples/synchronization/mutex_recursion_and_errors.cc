@@ -26,7 +26,7 @@
  *	can see this by acquiring the lock 2 times, releasing it once and seeing that the
  *	destroy function is creating an error (knowing that the lock is still taken one
  *	time).
- * 
+ *
  *
  *			Mark Veltzer
  *

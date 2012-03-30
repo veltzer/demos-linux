@@ -49,13 +49,13 @@ inline pid_t gettid(void) {
 /* Get a backtrace from a signal handler.
  * array is place to put array
  * size is it's size
- * context is a pointer to the mysterious signal ahndler 3rd parameter with the registers 
+ * context is a pointer to the mysterious signal ahndler 3rd parameter with the registers
  * distance is the distance is calls from the signal handler
- * 
+ *
  */
 inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_t * context, unsigned int distance) {
 
-	/* WARNING: If you ever remove the inline from the function prototype, 
+	/* WARNING: If you ever remove the inline from the function prototype,
 	 * adjust this to match!!!
 	 */
 #define IP_STACK_FRAME_NUMBER (3)
@@ -66,27 +66,27 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 	assert(distance <= size);
 	
 	/* OK, here is the tricky part:
-	 * 
-	 * Linux signal handling on some archs works by the kernel replacing, in situ, the 
+	 *
+	 * Linux signal handling on some archs works by the kernel replacing, in situ, the
 	 * return address of the faulting function on the faulting thread user space stack with
-	 * that of the Glibc signal unwind handling routine and coercing user space to just to 
+	 * that of the Glibc signal unwind handling routine and coercing user space to just to
 	 * glibc signal handler preamble. Later the signal unwind handling routine undo this.
-	 * 
+	 *
 	 * What this means for us is that the backtrace we get is missing the single most important
 	 * bit of information: the addres of the faulting function.
-	 * 
+	 *
 	 * We get it back using the undocumented 3rs parameter to the signal handler call back
-	 * with used in it's SA_SIGINFO form which contains access to the registers kept during 
-	 * the fault. We grab the IP from there and 'fix' the backtrace. 
-	 * 
+	 * with used in it's SA_SIGINFO form which contains access to the registers kept during
+	 * the fault. We grab the IP from there and 'fix' the backtrace.
+	 *
 	 * This needs to be different per arch, of course.
-	 */ 
+	 */
 	
 #ifdef __i386__
 	array[distance] = (void *)(context->uc_mcontext.gregs[REG_EIP]);
 #endif /* __i386__ */
 
-#ifdef __PPC__ 
+#ifdef __PPC__
 	array[distance] = (void *)(context->uc_mcontext.regs->nip);
 #endif /* __PPC__ */
 	return ret;
@@ -94,12 +94,12 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 
 
 /* The fault handler function.
- * 
+ *
  * OK. The rules of the battle are those:
- * 
+ *
  * 1. Can't use any function that relies on malloc and friends working as the malloc arena may be corrupt.
  * 2. Can only use a the POSIX.1-2003 list of async-safe functions.
- * 3. Some of the functions on the list are not always safe (like fork when atfork() is used), 
+ * 3. Some of the functions on the list are not always safe (like fork when atfork() is used),
  * so need to avoid these also.
  * 4. No locking allowed. We don't know in what state the process/thread was when the exception
  * occured.
@@ -122,7 +122,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 	
 	/* Get the backtrace. See signal_backtrace for the parameters */
 	
-	g_crash_msg.num_backtrace_frames = signal_backtrace(g_crash_msg.backtrace, 
+	g_crash_msg.num_backtrace_frames = signal_backtrace(g_crash_msg.backtrace,
 			CRASH_MAX_BACKTRACE_DEPTH, context, 0);
 	
 	/* Grab the kernel thread id. Because signal handler are shared between all
@@ -158,9 +158,9 @@ retry_write:
 	 * This shouldn't really happen since we mask all signals
 	 * during the handler run via sigaction sa_mask field but
 	 * it can't hurt to test.
-	 * 
-	 * It's useless to test for any other condition since we 
-	 * can't do anything if we fail 
+	 *
+	 * It's useless to test for any other condition since we
+	 * can't do anything if we fail
 	 */
 	if(ret && EINTR==errno) goto retry_write;
 	
@@ -177,12 +177,12 @@ retry_write:
 	
 	assert(0 /* Not Reached */);
 
-	return; 
+	return;
 }
 
 /* Set the FD_CLOEXEC flag of desc if value is nonzero,
 	or clear the flag if value is 0.
-	Return 0 on success, or -1 on error with errno set. */ 
+	Return 0 on success, or -1 on error with errno set. */
 	
 int set_cloexec_flag (int desc, int value)
 {
@@ -253,14 +253,14 @@ int register_crash_handler(const char * process_name, unsigned char * assert_buf
 	/* This requires some explaining:
 	* In theory, neither backtrace nor backtrace_symbold_fd call malloc and friends so
 	* we are able to use them in a an exception handler safely.
-	* 
+	*
 	* In practice recent glibc versions put these function in a seperate shared library
 	* called libgcc_s.so when gets loaded automagically by the dynamic linker when any these
 	* of these functions are first used and, you guessed it, the dynamic linker uses malloc
 	* in the process to get some internal buffer.
-	* 
-	* We therefore give these a dummy call here during registration to assure that the library 
-	* gets loaded where it's safe to malloc. 
+	*
+	* We therefore give these a dummy call here during registration to assure that the library
+	* gets loaded where it's safe to malloc.
 	*/
 	dummy_trace_size = backtrace(dummy_trace_array, 1);
 	backtrace_symbols_fd (dummy_trace_array, dummy_trace_size, -1);
@@ -282,7 +282,7 @@ int register_crash_handler(const char * process_name, unsigned char * assert_buf
 
 
 	/* Register the handler for all exception signals. */
-	ret = sigaction (SIGSEGV, &act, NULL); 
+	ret = sigaction (SIGSEGV, &act, NULL);
 	ret |= sigaction (SIGILL, &act, NULL);
 	ret |= sigaction (SIGFPE, &act, NULL);
 	ret |= sigaction (SIGBUS, &act, NULL);

@@ -4,7 +4,7 @@
 
 /*
  * This example explores compiler builtins like:
- * __FILE__, __LINE__, __func__, __FUNCTION__, __PRETTY_FUNCTION__ 
+ * __FILE__, __LINE__, __func__, __FUNCTION__, __PRETTY_FUNCTION__
  * Which can be used in order to produce better error/logging/debug/warning messages.
  *
  * Notice that if you put the prints, even in an inline function, then you get the data

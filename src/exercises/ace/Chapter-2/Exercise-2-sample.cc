@@ -38,7 +38,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	}
 	// Free up the buffer memory and the Message_Block.
 	ACE_Allocator::instance()->free(mb->rd_ptr());
-	// Release the Message Block 
+	// Release the Message Block
 	mb->release();
 	if (length == 0) {
 		// you may use the zero length as program termination

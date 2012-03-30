@@ -24,7 +24,7 @@
  * We show the status of the child in this application in two ways:
  * - using the ps command.
  * - using the libproc library.
- * - catting 
+ * - catting
  *
  * From the command line you can also see info about zombies using:
  * - ps(1) (done in this example).

@@ -22,7 +22,7 @@
  * ps -o %n,...
  *
  * You can see the nice level of a process via the /proc filesystem using
- * the following command: 
+ * the following command:
  * cat /proc/[pid]/stat | cut -f 19 -d " "
  * (see man 5 proc for more details...)
  *

@@ -1,3 +1,6 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
+#endif // _GNU_SOURCE
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h> // for EXIT_SUCCESS

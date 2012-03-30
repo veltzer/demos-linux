@@ -5,7 +5,7 @@
 
 int main(int argc,char** argv,char** envp) {
 	void* h=dlopen("libadd.so",RTLD_NOW);
-	if(h==NULL) { 
+	if(h==NULL) {
 		perror("problem with dlopen");
 		exit(errno);
 	}

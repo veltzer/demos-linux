@@ -23,7 +23,7 @@ int main() {
 	/* with continue... */
 	printf("second round...\n");
 	for(i=0;i<100;i++) {
-		if(i%5==0) continue; 
+		if(i%5==0) continue;
 		if((i+1)%3!=0) continue;
 		printf("i is %d\n",i);
 	}

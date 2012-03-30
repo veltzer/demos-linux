@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
 	CHECK_NOT_VAL(signal(SIGUSR1, sig_handler),SIG_ERR);
 	int ret;
-	printf("signal me with [kill -s SIGUSR1 %d]\n",getpid()); 
+	printf("signal me with [kill -s SIGUSR1 %d]\n",getpid());
 	bool broken=false;
 	bool matchingError=false;
 	while(true) {

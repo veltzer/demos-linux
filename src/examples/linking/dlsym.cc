@@ -3,7 +3,7 @@
 #include<dlfcn.h> // for dlsym(3)
 
 /*
- * This example shows how to override a symbol like atoi. We define our own atoi 
+ * This example shows how to override a symbol like atoi. We define our own atoi
  * but also call the original implementation.
  *
  * EXTRA_LIBS=-ldl

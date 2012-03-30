@@ -18,7 +18,7 @@ MODULE_DESCRIPTION("This is a driver that demos the alloc_bootmem function");
  * friends have 4MB or some such limit (depending on platform).
  * - if you write a small driver like this, link it to the physical kernel, the the function
  * alloca_bootmem will be found and you will get the memory assigned.
- * 
+ *
  * How would you use the buffer ?
  * Add yet another function that returns the pointer to the buffer in some way and export it.
  * Other modules, even dynamic ones, could call upon that function and get the pointer and

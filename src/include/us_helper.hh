@@ -149,7 +149,7 @@ static inline void check_not_null(void* ptr, const char* msg,const char* base_fi
 		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
 		if(errno!=0) {
 			perror("error in system call");
-		} else { 
+		} else {
 			fprintf(stderr,"error: bad pointer\n");
 		}
 		exit(1);
@@ -161,7 +161,7 @@ static inline void check_oneoftwo(int v, const char* msg,int e1,int e2,const cha
 		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
 		if(errno!=0) {
 			perror("error in system call");
-		} else { 
+		} else {
 			fprintf(stderr,"error: %s\n",strerror(v));
 		}
 		exit(1);
@@ -175,7 +175,7 @@ static inline void check_assert(int t,const char* msg,const char* base_file,cons
 		exit(1);
 	}
 }
-#ifdef __cplusplus 
+#ifdef __cplusplus
 template<class T> inline void check_not_val(T t,const char *msg, T errval,const char* base_file,const char* file,const int line) {
 	if (t == errval) {
 		fprintf(stderr,"command is %s\n",msg);

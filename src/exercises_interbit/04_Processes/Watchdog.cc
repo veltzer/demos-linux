@@ -9,7 +9,7 @@
 #include<string.h>
 
 struct itimerval timer;
-int gotusr1=0; 
+int gotusr1=0;
 int gotusr2=0;
 int child1pid;
 int child2pid;

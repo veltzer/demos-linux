@@ -110,7 +110,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 	/* Grab time stamp */
 	clock_gettime(CLOCK_REALTIME, &timestamp);
 	
-	fprintf (stderr, 
+	fprintf (stderr,
 				"\n********************"
 				"\n* EXCEPTION CAUGHT *"
 				"\n********************\n"
@@ -150,7 +150,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 	/* Produce a core dump for in depth debugging */
 	abort();
 	
-	return; 
+	return;
 }
 
 
@@ -174,7 +174,7 @@ int main ( int argc, char * argv[]) {
 	act.sa_flags = SA_SIGINFO;
 
 	/* Register the handler for all exception signals. */
-	ret = sigaction (SIGSEGV, &act, NULL); 
+	ret = sigaction (SIGSEGV, &act, NULL);
 	ret |= sigaction (SIGILL, &act, NULL);
 	ret |= sigaction (SIGFPE, &act, NULL);
 	ret |= sigaction (SIGBUS, &act, NULL);
@@ -204,8 +204,8 @@ int main ( int argc, char * argv[]) {
 void croak(void) {
 	int *ip = (int *) 17;
 	/* Do a simple system that fails so that errno has some interesting
-	* value to check 
-	*/ 
+	* value to check
+	*/
 	write(3000, "xxx", 3);
 	/* Try to put 7 in address 17. This is an illegal memory access.
 	* Sit back and watch the fire works...

@@ -11,7 +11,7 @@
 const int MSGSZ=128;
 const int MAXQUEUE=32768;
 
-typedef struct mymsgbuf 
+typedef struct mymsgbuf
 {
 	long mtype;
 	long fromID;
@@ -53,7 +53,7 @@ void DoChild()
 			for(i=1; i<MAXQUEUE; i++)
 			{
 				currentQueueSize = 0;
-				while ((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), 
+				while ((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
 					i, IPC_NOWAIT|MSG_NOERROR))!=-1)
 				{
 					currentQueueSize += msgsize;
@@ -64,7 +64,7 @@ void DoChild()
 					biggestQID = i;
 				}
 			}
-			printf("\n\nAll Queues cleared.\nBiggest queue was %d containing %d bytes.", 
+			printf("\n\nAll Queues cleared.\nBiggest queue was %d containing %d bytes.",
 				biggestQID, biggestQueueSize);
 		}
 		sleep(5);
@@ -201,7 +201,7 @@ int main(int argc,char** argv,char** envp)
 					perror("scanf");
 				}
 				fprintf(stderr, "Enter msg_perm.mode: ");
-				ret=scanf("%hd", &msgCtlBuf.msg_perm.mode); 
+				ret=scanf("%hd", &msgCtlBuf.msg_perm.mode);
 				if(ret<1) {
 					perror("scanf");
 				}

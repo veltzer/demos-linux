@@ -73,7 +73,7 @@ int main(int argc, char **argv, char **envp) {
 	show_mtime(dirname3);
 	// now lets delete the file
 	CHECK_NOT_M1(unlink(fullname));
-	// lets delete the directories (reverse order)... 
+	// lets delete the directories (reverse order)...
 	CHECK_NOT_M1(rmdir(dirname3));
 	CHECK_NOT_M1(rmdir(dirname2));
 	CHECK_NOT_M1(rmdir(dirname));

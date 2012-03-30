@@ -1,7 +1,7 @@
 // This example will create 10 timers. As soon that all of them are created
 // the 5th timer is cancelled.
 // We will see that all of them (except the 5th) are activated.
-// ACE will activate the handle_timeout method when timer timeout arrives. 
+// ACE will activate the handle_timeout method when timer timeout arrives.
 //
 #include<ace/Timer_Queue.h>
 #include<ace/Reactor.h>

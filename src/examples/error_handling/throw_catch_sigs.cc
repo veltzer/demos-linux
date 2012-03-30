@@ -17,7 +17,7 @@
  * this effects the protection you get on your data structures.
  * - if you want more than one signal cached then you should use the sigqueue(2) instead of the kill(2) interface and then you can also pass parameters to that handler (limit is according to ulimit).
  * - Only one signal is "cached" while you are blocking that signal (the kernel holds a mask of pending signals for you).
- * - I provided a SigQueue executable to allow you to do that. Use it to see the signals queued and the value that you provide cought by the process. 
+ * - I provided a SigQueue executable to allow you to do that. Use it to see the signals queued and the value that you provide cought by the process.
  *
  * 			Mark Veltzer
  */

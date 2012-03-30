@@ -111,7 +111,7 @@ void sigint(int gotsig)
 	}
 	while ((dircontent = readdir(sdir)))
 	{
-		if ((strcmp(dircontent->d_name, "." ) == 0) 
+		if ((strcmp(dircontent->d_name, "." ) == 0)
 			|| strcmp(dircontent->d_name, "..") == 0)
 			continue;
 		sprintf(strPID, "%d", getpid());

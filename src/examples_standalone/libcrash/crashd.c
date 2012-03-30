@@ -24,16 +24,16 @@ static struct crash_message_struct * crash_msg = (struct crash_message_struct *)
 /* A simple compiler only memory barrier, both read and write */
 #define mb(x) asm volatile ("" : : : "memory")
 
-/* When this is set from SIGTERM signal handler it's 
+/* When this is set from SIGTERM signal handler it's
  * time to terminate.
- * 
- * NOTE: It's a very good idea to kill crashd before any process 
- * relying on it for exception handling. 
+ *
+ * NOTE: It's a very good idea to kill crashd before any process
+ * relying on it for exception handling.
  */
 static char terminate_flag = 0;
 
-/* When this is set from the SIGALRM signal handler 
- * it means our time to read crash details is out 
+/* When this is set from the SIGALRM signal handler
+ * it means our time to read crash details is out
  */
 
 static char timeout_flag = 0;
@@ -144,7 +144,7 @@ static void handle_crash(void) {
 	assert(sizeof(crash_msg->assert_buffer[0])==sizeof(unsigned char));
 
 	
-	fprintf (stderr, 
+	fprintf (stderr,
 			"\n********************"
 			"\n* EXCEPTION CAUGHT *"
 			"\n********************\n"
@@ -204,7 +204,7 @@ static void alarm_sig_handler(int signal) {
  * because of a fault when processing some crash. The chances
  * are very slim that we'll be able to save any meaningfull
  * data and we risk getting stuck instead of resetting the system,
- * so we just reboot 
+ * so we just reboot
  */
 static void fault_sig_handler(int signal) {
 
@@ -213,7 +213,7 @@ static void fault_sig_handler(int signal) {
 }
 
 
-/* Utility function to register a simple signal handler with no flags 
+/* Utility function to register a simple signal handler with no flags
  * (as opposed to signal(2))
  */
 static int register_signal(int signo, sighandler_t handler) {
@@ -294,7 +294,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	(void)alarm(READ_TIMEOUT);
 	
 	/* This crazy loop reads the message in, possbly in several parts.
-	 * We continue when we're done or when it's time to leave. 
+	 * We continue when we're done or when it's time to leave.
 	 */
 	
 	do {
@@ -309,7 +309,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 		/* Oh oh... we're late. Time out. */
 		if(timeout_flag) break;
 		
-		/* Handle random signals nicely */ 
+		/* Handle random signals nicely */
 		if(-1 == ret && EINTR == errno) continue;
 		
 		/* Read errors make us nervous. log and bail out */
@@ -335,11 +335,11 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 bail_out:
 	/* Oy very... if we got here it means that the crash daemon has itself
 	 * encountered some error. We simply record it in the usuall format and
-	 * initaite a crash as normal. 
-	 * 
+	 * initaite a crash as normal.
+	 *
 	 * We don't bother with the backtrace symbols since there is only main here
 	 * but we do put a meaningful error message as ancillary data.
-	 * 
+	 *
 	 * Hope this never happens...
 	 */
 
@@ -350,7 +350,7 @@ bail_out:
 	clock_gettime(CLOCK_REALTIME, &crash_msg->timestamp);
 	crash_msg->num_backtrace_frames=backtrace(crash_msg->backtrace, CRASH_MAX_BACKTRACE_DEPTH);
 	snprintf(crash_msg->ancillary_data, CRASH_ANCILLARY_DATA_SIZE-1,
-			"crashd bailing out due to %s\n",strerror(errno)); 
+			"crashd bailing out due to %s\n",strerror(errno));
 	
 	handle_crash();
 

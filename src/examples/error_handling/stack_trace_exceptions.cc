@@ -19,7 +19,7 @@
  * - yet another issue is C++ name mangling. You can either do that on the command
  * line using the 'c++filt(1)' tool or in the code by using the C++ library.
  * - the '-rdynamic' flag is needed if the 'backtrace_symbols' function is to
- * work and return symbols to you. 
+ * work and return symbols to you.
  *
  * 			Mark Veltzer
  *

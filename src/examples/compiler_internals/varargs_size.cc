@@ -15,7 +15,7 @@
  * This allows you to optimize a variadic API to use a non variadic version when that
  * version is not required.
  * - this builtin function can ONLY be used in a function that is GUARANTEED to be
- * inlined. This is not so with the regular 'inline' keyword. Instead the 
+ * inlined. This is not so with the regular 'inline' keyword. Instead the
  * '__attribute__((__gnu_inline__))' or '__attribute__((__always_inline__))'
  * must be used.
  *

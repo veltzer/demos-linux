@@ -11,7 +11,7 @@
 
 struct itimerval timer;
 int pipefd[2];
-int gotusr1 = 0; 
+int gotusr1 = 0;
 int gotusr2 = 0;
 
 int child1pid, child2pid;

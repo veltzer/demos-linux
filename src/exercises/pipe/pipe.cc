@@ -21,7 +21,7 @@
  */
 
 void doChildOne(int* fd) {
-	// close standard output 
+	// close standard output
 	CHECK_NOT_M1(close(1));
 	// close the read end of the pipe
 	CHECK_NOT_M1(close(fd[0]));
@@ -36,7 +36,7 @@ void doChildOne(int* fd) {
  */
 
 void doChildTwo(int* fd) {
-	// close standard input 
+	// close standard input
 	CHECK_NOT_M1(close(0));
 	// close the write end of the pipe
 	CHECK_NOT_M1(close(fd[1]));

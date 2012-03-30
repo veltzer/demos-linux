@@ -3,7 +3,7 @@
 
 /*
  * This is a demo of how to write a function for which the user should not use
- * (deprecated). 
+ * (deprecated).
  *
  * There are many more attributes that you can attach to functions in order to
  * get more checks from the compiler at compile time and get better code. Check

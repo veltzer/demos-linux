@@ -108,7 +108,7 @@ ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff
  * number of bytes written to the user. Why don't we loop until we write the entire buffer of
  * the user (count bytes)? Well, we could do it but then we would not comply with the standard
  * UNIX semantics for write that state that we should write what we can NOW and return the number
- * of bytes written. 
+ * of bytes written.
  *
  * A simpler approach would have been to just see if we have at least count bytes free in the
  * buffer and return an error if that is not the case. This is too simplistic and would break

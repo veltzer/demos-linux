@@ -45,13 +45,13 @@ int main(int argc,char** argv,char** envp)
 		}
 	}
 	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLIENTS);
-	if((shmid = shmget(key, sizeof(struct data) * MAXCLIENTS, 
-		IPC_CREAT | 0666)) < 0) 
+	if((shmid = shmget(key, sizeof(struct data) * MAXCLIENTS,
+		IPC_CREAT | 0666)) < 0)
 	{
 		perror("shmget failed");
 		exit(errno);
 	}
-	if((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1) 
+	if((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1)
 	{
 		perror("shmat failed");
 		exit(errno);

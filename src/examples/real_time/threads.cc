@@ -10,7 +10,7 @@
  * - afining the threads to a cpu.
  * - locking all memory (mlock).
  * - blocking all malloc from that moment onward.
- * 
+ *
  * 		Mark Veltzer
  */
 

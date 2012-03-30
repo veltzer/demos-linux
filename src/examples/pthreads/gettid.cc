@@ -14,7 +14,7 @@
 	- there is no wrapper function in libc for gettid. I use a wrapper
 	here that I defined myself in "us_helper.hh". Check it out. You can either
 	use that or use some framework which gives you wrappers.
- 
+
 			Mark Veltzer
 EXTRA_LIBS=-lpthread
 */

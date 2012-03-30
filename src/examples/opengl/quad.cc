@@ -43,8 +43,9 @@ void DrawAQuad() {
 	glColor3f(0., 1., 0.); glVertex3f(+.75,-.75,0.);
 	glColor3f(0., 0., 1.); glVertex3f(+.75,+.75,0.);
 	glColor3f(1., 1., 0.); glVertex3f(-.75,+.75,0.);
-	glEnd(); } 
- 
+	glEnd();
+}
+
 int main(int argc, char** argv, char** envp) {
 	dpy=XOpenDisplay(NULL);
 	if(dpy == NULL) {
@@ -56,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	if(vi == NULL) {
 		printf("no appropriate visual found\n");
 		exit(0);
-	} 
+	}
 	//printf("tvisual %p selected\n", (void *)vi->visualid); }/* %p creates hexadecimal output like in glxinfo */
 	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
 	swa.colormap = cmap;
@@ -66,14 +67,14 @@ int main(int argc, char** argv, char** envp) {
 	XStoreName(dpy, win, "VERY SIMPLE APPLICATION");
 	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
-	glEnable(GL_DEPTH_TEST); 
+	glEnable(GL_DEPTH_TEST);
 	while(true) {
 		XNextEvent(dpy, &xev);
 		if(xev.type == Expose) {
 			printf("got expose\n");
 			XGetWindowAttributes(dpy, win, &gwa);
 			glViewport(0, 0, gwa.width, gwa.height);
-			DrawAQuad(); 
+			DrawAQuad();
 			glXSwapBuffers(dpy, win);
 		} else if(xev.type == KeyPress) {
 			printf("got key press\n");

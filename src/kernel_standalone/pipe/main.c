@@ -297,7 +297,7 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
 	pipe=(my_pipe_t*)(file->private_data);
-	// lets sleep while there is no data in the pipe 
+	// lets sleep while there is no data in the pipe
 	// why do we not just use the waitqueue condition? because we want to get
 	// the pipe LOCKED with data
 	pipe_lock(pipe);

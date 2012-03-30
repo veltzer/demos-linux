@@ -6,7 +6,7 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- * This is a minimal module showing various logging functions 
+ * This is a minimal module showing various logging functions
  * I show only kernel logging functions.
  * - Always prefer the pr_* functions, or better yet, the dev_* functions.
  * - Notice that debug messages will not reach the log unless you define DEBUG

@@ -148,12 +148,12 @@ int main(int argc,char** argv,char** envp)
 		perror("semget failed");
 		exit(errno);
 	}
-	if ((shmid = shmget(key, sizeof(smdata), 0)) < 0) 
+	if ((shmid = shmget(key, sizeof(smdata), 0)) < 0)
 	{
 		perror("shmget failed");
 		exit(errno);
 	}
-	if ((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1) 
+	if ((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1)
 	{
 		perror("shmat failed");
 		exit(errno);

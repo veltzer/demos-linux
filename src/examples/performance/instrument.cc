@@ -17,7 +17,7 @@
  * - It seems that printf is inlined also and so you have to tell the compiler not to instrument
  * that as well.
  * - Since I do not wish to instrument main then I put an attribute on it not to be
- * instrumented. 
+ * instrumented.
  *
  *		Mark Veltzer
  *

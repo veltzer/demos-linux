@@ -12,14 +12,14 @@
 #include"us_helper.hh" // our own helper
 
 /*
- * An example of a sniffer 
+ * An example of a sniffer
  *
  * References:
  * http://www.tenouk.com/Module42a.html
  *
  * 		Mark Veltzer
  */
- 
+
 int main(int argc, char** argv,char** envp) {
 	// lets check that we are running as root
 	uid_t euid=geteuid();

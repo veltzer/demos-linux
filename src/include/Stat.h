@@ -35,7 +35,7 @@ class Stat {
 			binnum=ibinnum;
 			binsize=ibinsize;
 			mean=imean;
-			bins=new unsigned int[binnum]; 
+			bins=new unsigned int[binnum];
 			for(unsigned int i=0;i<binnum;i++) {
 				bins[i]=0;
 			}

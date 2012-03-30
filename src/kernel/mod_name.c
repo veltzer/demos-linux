@@ -13,7 +13,7 @@ mark@abel:~/install/linux-3.1.6/drivers$ fgrep "KBUILD_MODNAME" `find . -type f 
 586
 mark@abel:~/install/linux-3.1.6/drivers$ fgrep "THIS_MODULE->name" `find . -type f -name "*.c"` | wc -l
 1
-mark@abel:~/install/linux-3.1.6/drivers$ 
+mark@abel:~/install/linux-3.1.6/drivers$
 
  * This sort of solves the issue.
  */
