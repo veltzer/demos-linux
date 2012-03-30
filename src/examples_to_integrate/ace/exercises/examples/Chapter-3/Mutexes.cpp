@@ -1,13 +1,12 @@
-#include "ace/config-lite.h"
-
-#include "ace/Synch.h"
-#include "ace/Task.h"
+#include<ace/config-lite.h>
+#include<ace/Synch.h>
+#include<ace/Task.h>
 
 class HA_Device_Repository
 {
 public:
-  HA_Device_Repository ()
-  { }
+  HA_Device_Repository() {
+  }
 
   void update_device (int device_id)
   { mutex_.acquire ();

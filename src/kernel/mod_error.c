@@ -1,5 +1,5 @@
-#include <linux/module.h> // for MODULE_*
-#include <linux/printk.h> // for pr_*
+#include<linux/module.h> // for MODULE_*
+#include<linux/printk.h> // for pr_*
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

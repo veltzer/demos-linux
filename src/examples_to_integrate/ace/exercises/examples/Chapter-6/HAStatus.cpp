@@ -1,14 +1,15 @@
-// $Id: HAStatus.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include "ace/OS_NS_sys_time.h"
-#include "ace/os_include/os_netdb.h"
-
-// Listing 1 code/ch07
-#include "ace/Auto_Ptr.h"
-#include "ace/Log_Msg.h"
-#include "ace/INET_Addr.h"
-#include "ace/SOCK_Acceptor.h"
-#include "ace/Reactor.h"
+#include<ace/OS_NS_sys_time.h>
+#include<ace/os_include/os_netdb.h>
+#include<ace/Auto_Ptr.h>
+#include<ace/Log_Msg.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Acceptor.h>
+#include<ace/Reactor.h>
+#include<ace/Message_Block.h>
+#include<ace/Message_Queue.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/Synch.h>
+#include<ace/Signal.h>
 
 class ClientAcceptor : public ACE_Event_Handler
 {
@@ -36,10 +37,6 @@ protected:
 // Listing 1
 
 // Listing 6 code/ch07
-#include "ace/Message_Block.h"
-#include "ace/Message_Queue.h"
-#include "ace/SOCK_Stream.h"
-#include "ace/Synch.h"
 
 class ClientService : public ACE_Event_Handler
 {
@@ -262,7 +259,6 @@ LoopStopper::handle_signal (int, siginfo_t *, ucontext_t *)
 // Listing 12
 
 // Listing 13 code/ch07
-#include "ace/Signal.h"
 
 class LogSwitcher : public ACE_Event_Handler
 {

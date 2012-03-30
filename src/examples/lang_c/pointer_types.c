@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h>
+#include<string.h>
 
 /*
  *      This demos how to use compiler attributes to make sure we don't mix pointers that

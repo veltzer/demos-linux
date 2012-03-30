@@ -1,14 +1,9 @@
-// $Id: Timers.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include "ace/config-all.h"
-#include "ace/OS_main.h"
-
-#if !defined (ACE_LACKS_FORK)
-
-#include "ace/streams.h"
-#include "ace/OS_NS_unistd.h"
-#include "ace/OS_NS_time.h"
-#include "ace/OS_NS_signal.h"
+#include<ace/config-all.h>
+#include<ace/OS_main.h>
+#include<ace/streams.h>
+#include<ace/OS_NS_unistd.h>
+#include<ace/OS_NS_time.h>
+#include<ace/OS_NS_signal.h>
 
 typedef void (*timerTask_t)(void);
 
@@ -63,20 +58,5 @@ int ACE_TMAIN (int, ACE_TCHAR *[])
   pid_t timerId = timerTask (3, 5, foo);
   programMainLoop ();
   ACE_OS::kill (timerId, SIGINT);
-  return 0;
+  return EXIT_SUCCESS;
 }
-// Listing 3
-
-#else
-#include "ace/OS_NS_stdio.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  //FUZZ: disable check_for_lack_ACE_OS
-  ACE_OS::puts ("This very unportable example requires fork().\n");
-  //FUZZ: enable check_for_lack_ACE_OS
-
-  return 0;
-}
-
-#endif /* ACE_LACKS_FORK */

@@ -1,7 +1,7 @@
-#include "ace/OS_main.h"
-#include "ace/Stream.h"
-#include "ace/Task.h"
-#include "ace/Message_Block.h"
+#include"ace/OS_main.h"
+#include"ace/Stream.h"
+#include"ace/Task.h"
+#include"ace/Message_Block.h"
 
 typedef ACE_Stream<ACE_MT_SYNCH> MT_Stream;
 typedef ACE_Module<ACE_MT_SYNCH> MT_Module;

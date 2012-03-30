@@ -1,6 +1,6 @@
-#include <linux/module.h> // for MODULE_*, module_*
+#include<linux/module.h> // for MODULE_*, module_*
 
-#include "another_file.h" // our own API
+#include"another_file.h" // our own API
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

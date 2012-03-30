@@ -1,14 +1,12 @@
-#include <errno.h>
-
-#include <signal.h>
-#include <time.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include<errno.h>
+#include<signal.h>
+#include<time.h>
+#include<sys/ipc.h>
+#include<sys/sem.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
 
 const int NPHIL=5;
 const char* KEYFILE="/etc/passwd";

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include<stdio.h>
 
 template<class T> class A {
 public:

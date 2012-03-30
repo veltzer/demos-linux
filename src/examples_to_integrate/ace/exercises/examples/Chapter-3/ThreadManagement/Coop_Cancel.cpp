@@ -1,12 +1,9 @@
-// $Id: Coop_Cancel.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include "ace/config-lite.h"
-#if defined (ACE_HAS_THREADS)
-
-#include "ace/OS_NS_time.h"
-#include "ace/OS_NS_unistd.h"
-#include "ace/Task.h"
-#include "ace/Log_Msg.h"
+#include<ace/config-lite.h>
+#include<ace/OS_NS_time.h>
+#include<ace/OS_NS_unistd.h>
+#include<ace/Task.h>
+#include<ace/Log_Msg.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 // Listing 1 code/ch13
 class CanceledTask : public ACE_Task<ACE_MT_SYNCH>
@@ -42,27 +39,11 @@ public:
 // Listing 1
 
 // Listing 2 code/ch13
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  CanceledTask task;
-  task.activate ();
-
-  ACE_OS::sleep (1);
-
-  ACE_Thread_Manager::instance ()->cancel_task (&task);
-  task.wait ();
-  return 0;
+int ACE_TMAIN (int, ACE_TCHAR *[]) {
+	CanceledTask task;
+	task.activate ();
+	ACE_OS::sleep (1);
+	ACE_Thread_Manager::instance ()->cancel_task (&task);
+	task.wait ();
+	return EXIT_SUCCESS;
 }
-// Listing 2
-
-#else
-#include "ace/OS_main.h"
-#include "ace/OS_NS_stdio.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  ACE_OS::puts (ACE_TEXT ("This example requires threads."));
-  return 0;
-}
-
-#endif /* ACE_HAS_THREADS */

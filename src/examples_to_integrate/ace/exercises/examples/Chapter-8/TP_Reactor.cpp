@@ -7,18 +7,16 @@
 //      Nanbor Wang <nanbor@cs.wustl.edu>
 // == == == == == == == == == == == == == == == == == == == == == == ==
 
-#include "ace/config-lite.h"
-#if defined (ACE_HAS_THREADS)
+#include"ace/config-lite.h"
+#include"ace/OS_NS_string.h"
+#include"ace/OS_NS_unistd.h"
+#include"ace/SOCK_Connector.h"
+#include"ace/SOCK_Acceptor.h"
+#include"ace/Acceptor.h"
+#include"ace/Thread_Manager.h"
+#include"ace/TP_Reactor.h"
 
-#include "ace/OS_NS_string.h"
-#include "ace/OS_NS_unistd.h"
-#include "ace/SOCK_Connector.h"
-#include "ace/SOCK_Acceptor.h"
-#include "ace/Acceptor.h"
-#include "ace/Thread_Manager.h"
-#include "ace/TP_Reactor.h"
-
-#include "Request_Handler.h"
+#include"Request_Handler.h"
 
 // Accepting end point.  This is actually "localhost:10010", but some
 // platform couldn't resolve the name so we use the IP address
@@ -257,15 +255,3 @@ int ACE_TMAIN (int, ACE_TCHAR *[])
 
   return 0;
 }
-// Listing 1
-#else
-#include "ace/OS_main.h"
-#include "ace/OS_NS_stdio.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  ACE_OS::puts (ACE_TEXT ("This example requires threads."));
-  return 0;
-}
-
-#endif /* ACE_HAS_THREADS */

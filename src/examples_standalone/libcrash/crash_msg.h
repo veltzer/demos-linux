@@ -1,9 +1,9 @@
 #ifndef CRASH_MSG_H_
 #define CRASH_MSG_H_
 
-#include <sys/types.h>
-#include <time.h>
-#include <assert.h>
+#include<sys/types.h>
+#include<time.h>
+#include<assert.h>
 
 struct crash_message_struct;
 

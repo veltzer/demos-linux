@@ -1,5 +1,5 @@
-#include <stdio.h> // for printf(3), scanf(3)
-#include <string.h> // for strlen(3)
+#include<stdio.h> // for printf(3), scanf(3)
+#include<string.h> // for strlen(3)
 
 #define STRINGSIZE 30
 int main() {

@@ -1,9 +1,8 @@
-#include "ace/config-lite.h"
+#include"ace/config-lite.h"
+#include"ace/Synch.h"
+#include"ace/Task.h"
 
-#include "ace/Synch.h"
-#include "ace/Task.h"
-#include "ClientContext.h"
-
+#include"ClientContext.h"
 
 void* ClientContext::get_attribute (const char *name)
 { void * value = 0;

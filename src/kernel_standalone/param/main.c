@@ -1,7 +1,7 @@
-#include <linux/module.h>  // for MODULE_*, module_*
-#include <linux/printk.h> // for printk and pr_* APIs
-#include <linux/init.h> // for __init, __exit
-#include <linux/moduleparam.h> // for module_param()
+#include<linux/module.h>  // for MODULE_*, module_*
+#include<linux/printk.h> // for printk and pr_* APIs
+#include<linux/init.h> // for __init, __exit
+#include<linux/moduleparam.h> // for module_param()
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

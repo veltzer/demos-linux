@@ -1,9 +1,9 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/printk.h> // for printk functions
+#include<linux/module.h> // for MODULE_*
+#include<linux/printk.h> // for printk functions
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  *      This is a driver to walk the iomem list and see all the resources...

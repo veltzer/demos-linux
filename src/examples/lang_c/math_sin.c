@@ -1,5 +1,5 @@
-#include <stdio.h> // for printf(3)
-#include <math.h> // for sin(3)
+#include<stdio.h> // for printf(3)
+#include<math.h> // for sin(3)
 
 int main() {
 	double x=4.56;

@@ -1,10 +1,7 @@
-// $Id: Condition_Variables.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include "ace/config-lite.h"
-#if defined (ACE_HAS_THREADS)
-
-#include "ace/Task.h"
-#include "ace/Synch.h"
+#include<ace/config-lite.h>
+#include<ace/Task.h>
+#include<ace/Synch.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 // Listing 1 code/ch12
 class HA_Device_Repository
@@ -85,37 +82,17 @@ HA_Device_Repository::update_device (int device_id)
   ACE_OS::sleep (1);
   return 0;
 }
-// Listing 3 code/ch12
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  HA_Device_Repository rep;
-  ACE_Thread_Mutex rep_mutex;
-
-  //FUZZ: disable check_for_lack_ACE_OS
-  ACE_Condition<ACE_Thread_Mutex> wait (rep_mutex);
-  //FUZZ: enable check_for_lack_ACE_OS
-
-  HA_CommandHandler handler1 (rep, wait, rep_mutex);
-  HA_CommandHandler handler2 (rep, wait, rep_mutex);
-
-  handler1.activate ();
-  handler2.activate ();
-
-  handler1.wait ();
-  handler2.wait ();
-
-  return 0;
+int ACE_TMAIN(int, ACE_TCHAR *[]) {
+	HA_Device_Repository rep;
+	ACE_Thread_Mutex rep_mutex;
+	//FUZZ: disable check_for_lack_ACE_OS
+	ACE_Condition<ACE_Thread_Mutex> wait (rep_mutex);
+	//FUZZ: enable check_for_lack_ACE_OS
+	HA_CommandHandler handler1 (rep, wait, rep_mutex);
+	HA_CommandHandler handler2 (rep, wait, rep_mutex);
+	handler1.activate ();
+	handler2.activate ();
+	handler1.wait ();
+	handler2.wait ();
+	return EXIT_SUCCESS;
 }
-// Listing 3
-
-#else
-#include "ace/OS_main.h"
-#include "ace/OS_NS_stdio.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  ACE_OS::puts (ACE_TEXT ("This example requires threads."));
-  return 0;
-}
-
-#endif /* ACE_HAS_THREADS */

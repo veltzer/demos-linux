@@ -1,11 +1,10 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-
-#include <linux/slab.h> // for the kmalloc API
-#include <linux/pagemap.h> // for vma structures
+#include<linux/module.h> // for MODULE_*
+#include<linux/slab.h> // for the kmalloc API
+#include<linux/pagemap.h> // for vma structures
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -17,7 +16,7 @@ MODULE_DESCRIPTION("get_user_pages demo");
  *	use the MMU to map it to a single kernel side linear address...
  */
 
-#include "shared.h"
+#include"shared.h"
 
 // static data
 static struct device* my_device;
@@ -230,4 +229,4 @@ static struct file_operations my_fops = {
 	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
-#include "device.inc"
+#include"device.inc"

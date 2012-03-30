@@ -1,4 +1,4 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
 
 /*
  * Compare the version that uses the 'break' keyword with the version that

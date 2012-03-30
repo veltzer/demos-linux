@@ -1,7 +1,7 @@
 #ifndef CRASH_H
 #define CRASH_H
 
-#include <signal.h>
+#include<signal.h>
 
 /* Main library registration function. 
  * Call this once for each process (not thread). Recall after fork() if you want

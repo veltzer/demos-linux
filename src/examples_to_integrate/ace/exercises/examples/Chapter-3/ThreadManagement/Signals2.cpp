@@ -1,14 +1,10 @@
-// $Id: Signals2.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include "ace/config-lite.h"
-#if defined (ACE_HAS_THREADS)
-
-#include "ace/OS_NS_time.h"
-#include "ace/OS_NS_unistd.h"
-#include "ace/Task.h"
-#include "ace/Log_Msg.h"
-#include "ace/Signal.h"
-//#include "ace/Sig_Handler.h"
+#include<ace/config-lite.h>
+#include<ace/OS_NS_time.h>
+#include<ace/OS_NS_unistd.h>
+#include<ace/Task.h>
+#include<ace/Log_Msg.h>
+#include<ace/Signal.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 class SignalableTask : public ACE_Task<ACE_MT_SYNCH>
 {
@@ -80,18 +76,5 @@ int ACE_TMAIN (int, ACE_TCHAR *[])
   for (int i = 0; i < 5; i++)
     ACE_OS::kill (ACE_OS::getpid (), SIGUSR1);
   handler.wait ();
-  return 0;
+  return EXIT_SUCCESS;
 }
-// Listing 1
-
-#else
-#include "ace/OS_main.h"
-#include "ace/OS_NS_stdio.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  ACE_OS::puts (ACE_TEXT ("This example requires threads."));
-  return 0;
-}
-
-#endif /* ACE_HAS_THREADS */

@@ -1,9 +1,9 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/slab.h> // for the kmalloc API
+#include<linux/module.h> // for MODULE_*
+#include<linux/slab.h> // for the kmalloc API
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  *	This example demos how to allocate and deallocate coherent memory for DMA

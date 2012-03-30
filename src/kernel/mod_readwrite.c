@@ -1,12 +1,12 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/fcntl.h> // for O_ flags
-#include <linux/fs.h> // for vfs_write, vfs_read
-#include <linux/uaccess.h> // get_fs
-#include <linux/sched.h> // current
+#include<linux/module.h> // for MODULE_*
+#include<linux/fcntl.h> // for O_ flags
+#include<linux/fs.h> // for vfs_write, vfs_read
+#include<linux/uaccess.h> // get_fs
+#include<linux/sched.h> // current
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

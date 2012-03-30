@@ -215,9 +215,9 @@ check_ws:
 .PHONY: check_files
 check_files:
 	-find . -mindepth 2 -type f -and -not -name "*.cc" -and -not -name "*.h" -and -not -name "*.h" -and -not -name "*.txt" -and -not -name "*.conf" -and -not -name "*.ini" -and -not -name "*.sample" -and -not -name "*.data" -and -not -name "*.doc" -and -not -name "*.bash" -and -not -name "*.c"
-.PHONY: check_include
-check_include:
-	-grep "include \"ace" `find . -name "*.cc" -or -name "*.h"`
+.PHONY: check_ace_include
+check_ace_include:
+	-grep "include \"ace" `find . -name "*.cc" -or -name "*.h" -or -name "*.c" -or -name "*.hh"`
 .PHONY: check_tests_for_drivers
 check_tests_for_drivers:
 	cd $(KERNEL_DIR);for x in test_*.cc; do y=`echo $$x | cut -f 2- -d _`;z=mod_`basename $$y .cc`.c; if [ ! -f $$z ]; then echo "missing $$z"; fi ; done

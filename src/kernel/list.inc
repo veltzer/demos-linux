@@ -2,8 +2,8 @@
  *      List handling functions
  */
 
-#include <linux/list.h> // for list handling functions
-#include <linux/slab.h> // for kmalloc, kfree
+#include<linux/list.h> // for list handling functions
+#include<linux/slab.h> // for kmalloc, kfree
 
 /*
  *      private structure to hold void pointers

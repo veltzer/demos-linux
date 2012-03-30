@@ -1,8 +1,8 @@
 //#define DEBUG
-#include <linux/module.h> // for the MODULE_*, module_*
+#include<linux/module.h> // for the MODULE_*, module_*
 
 //define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

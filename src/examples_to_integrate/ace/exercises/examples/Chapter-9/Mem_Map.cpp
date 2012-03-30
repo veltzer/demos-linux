@@ -1,7 +1,7 @@
-#include "ace/OS_NS_fcntl.h"
-#include "ace/OS_NS_string.h"
-#include "ace/Mem_Map.h"
-#include "ace/Log_Msg.h"
+#include"ace/OS_NS_fcntl.h"
+#include"ace/OS_NS_string.h"
+#include"ace/Mem_Map.h"
+#include"ace/Log_Msg.h"
 
 int ACE_TMAIN (int, ACE_TCHAR *argv[])
 { ACE_HANDLE srcHandle = ACE_OS::open (argv[1], O_RDONLY);

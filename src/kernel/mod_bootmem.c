@@ -1,9 +1,9 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_* stuff
-#include <linux/bootmem.h> // for the bootmem function
+#include<linux/module.h> // for MODULE_* stuff
+#include<linux/bootmem.h> // for the bootmem function
 
 //define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

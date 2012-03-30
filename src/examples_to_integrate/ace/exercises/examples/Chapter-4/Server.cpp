@@ -1,15 +1,12 @@
-// $Id: Server.cpp 80826 2008-03-04 14:51:23Z wotte $
+#include<ace/os_include/os_netdb.h>
+#include<ace/OS_NS_errno.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/SOCK_Acceptor.h>
+#include<ace/Log_Msg.h>
+#include<ace/Time_Value.h>
 
-#include "ace/os_include/os_netdb.h"
-#include "ace/OS_NS_errno.h"
-#include "ace/INET_Addr.h"
-#include "ace/SOCK_Stream.h"
-#include "ace/SOCK_Acceptor.h"
-#include "ace/Log_Msg.h"
-#include "ace/Time_Value.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
+int ACE_TMAIN (int, ACE_TCHAR *[]) {
   // Listing 1 code/ch06
   ACE_INET_Addr port_to_listen ("HAStatus");
   ACE_SOCK_Acceptor acceptor;

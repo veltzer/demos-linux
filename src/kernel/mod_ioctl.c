@@ -1,10 +1,10 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*, module_*
-#include <linux/fs.h> // for fops
-#include <linux/device.h> // for device support
+#include<linux/module.h> // for MODULE_*, module_*
+#include<linux/fs.h> // for fops
+#include<linux/device.h> // for device support
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -31,4 +31,4 @@ static struct file_operations my_fops = {
 	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
-#include "device.inc"
+#include"device.inc"

@@ -17,8 +17,8 @@
 //    %I - with    trace about 12 characters. Multiple "%I " is possible
 // 
 #define ACE_NTRACE 0
-#include <ace/streams.h>
-#include <ace/Log_Msg.h>
+#include<ace/streams.h>
+#include<ace/Log_Msg.h>
 void FunB ()
 { ACE_TRACE(ACE_TEXT ("FunB"));
   ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("DEBUG : pid=%P Line:%l File=%N\n")));
