@@ -9,20 +9,15 @@
  *		Mark Veltzer
  */
 
-typedef unsigned long ticks;
-
-static __inline__ ticks getticks(void) {
-	ticks ret;
-	// this does not compile for some reason (stolen from the PAPI library...)
-	//asm __volatile__("mov %0=ar.itc":"=r" (ret));
-	ret=1;
+static inline unsigned long getstackpointer(void) {
+	unsigned long ret;
+	asm ("movl %%esp, %0" : "=r" (ret));
 	return ret;
 }
 
-int main(int argc, char **argv, char **envp) {
-	printf("starting up...\n");
-	printf("ticks is %lu\n",getticks());
+int main(int argc, char** argv, char** envp) {
+	printf("stackpointer is %lu\n",getstackpointer());
 	sleep(1);
-	printf("ticks is %lu\n",getticks());
+	printf("stackpointer is %lu\n",getstackpointer());
 	return(0);
 }
