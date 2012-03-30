@@ -74,7 +74,7 @@ ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff
 ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff_t* offset) {
 	int ret; // error code in case of error
 	int bytes_to_write=min(BUFFER_SIZE-(*offset),(loff_t)count);
-	// buffer is full, return error 
+	// buffer is full, return error
 	if(bytes_to_write==0) {
 		return(-EIO);
 	}

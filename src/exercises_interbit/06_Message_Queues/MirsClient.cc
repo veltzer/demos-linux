@@ -10,7 +10,7 @@
 const int MSGSZ=1024;
 
 // note we cannot declare msgbuf and get away with it
-typedef struct mymsgbuf 
+typedef struct mymsgbuf
 {
 	long mtype;
 	long fromID;
@@ -81,7 +81,7 @@ int main(int argc,char** argv,char** envp)
 		perror("ftok failed");
 		exit(errno);
 	}
-	if ((msqid = msgget(key, 0)) < 0) 
+	if ((msqid = msgget(key, 0)) < 0)
 	{
 		perror("msgget failed");
 		exit(errno);

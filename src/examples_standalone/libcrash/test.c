@@ -75,13 +75,13 @@ void croak(void) {
 	__free_hook = kill_free;
 	__memalign_hook = kill_memalign;
 
-	/* Corrupt the malloc arena as a real fault would do. 
-	*/ 
+	/* Corrupt the malloc arena as a real fault would do.
+	*/
 	memset(p-1024, 42, 1024);
 
 	/* Do a simple system that fails so that errno has some interesting
-	* value to check 
-	*/ 
+	* value to check
+	*/
 	write(3000, "xxx", 3);
 
 	/* Try to put 7 in address 17. This is an illegal memory access.

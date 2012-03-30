@@ -62,7 +62,7 @@ void print_trace(bool full) {
 		nptrs-=2;
 	}
 	fprintf(stderr, "backtrace() returned %d addresses\n", nptrs);
-	// the reason we print to stdout and not to stderr 
+	// the reason we print to stdout and not to stderr
 	// (which would be more correct) is because we want
 	// this demo to be filtered directly to c++filt
 	// - on second thought just run this command using

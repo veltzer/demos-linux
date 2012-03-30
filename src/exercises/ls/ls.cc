@@ -17,7 +17,7 @@
 
 /*
  * TODO:
- * - print date 
+ * - print date
  * - print symlink.
  */
 

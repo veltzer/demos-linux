@@ -32,7 +32,7 @@
  *	=====================================
  *	This is because rsyslogd in ubuntu is synchroneous. Most syslogd implementations are
  *	like that.
- * 
+ *
  * TODO:
  * - add three more test cases: open(2), write(2), close(2) with
  *	- standard flags.

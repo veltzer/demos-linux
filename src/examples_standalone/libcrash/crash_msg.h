@@ -16,9 +16,9 @@ struct crash_message_struct;
 
 /* Dead man switch: we wait this many seconds since first being tickled
  * until we continue processing crash, whether full crash information
- * has been received or not 
+ * has been received or not
  * */
-#define READ_TIMEOUT (10) 
+#define READ_TIMEOUT (10)
 
 void crashd_main(char daemonise_flag, const char * progname, int pfd[]);
 
@@ -31,8 +31,8 @@ struct crash_message_struct {
 	/* The process PID */
 	pid_t process_id;
 	/* The process kernel thread id (struct task -> pid), NOT pthread_self() */
-	pid_t thread_id; 
-	/* The number of the exception signal */ 
+	pid_t thread_id;
+	/* The number of the exception signal */
 	unsigned int signal_number;
 	/* The signal code from siginfo_t. Provides exception reason */
 	unsigned int signal_code;

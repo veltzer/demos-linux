@@ -36,9 +36,9 @@ int main(int argc, char **argv, char **envp) {
 	PRINT_SIZEOF(float);
 	PRINT_SIZEOF(double);
 	// this is not allowed in C
-	//float* x={ 5, 3, 2, 1 }; 
+	//float* x={ 5, 3, 2, 1 };
 	// but this is...
-	float x[] = { 5, 3, 2, 1 }; 
+	float x[] = { 5, 3, 2, 1 };
 	printf("size of x is %d\n",sizeof(x));
 	return(0);
 }

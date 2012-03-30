@@ -4,7 +4,7 @@
 
 /*
  * This example shows that private in C++ is protection only for compile time
- * and not for run time. 
+ * and not for run time.
  *
  *		Mark Veltzer
  *

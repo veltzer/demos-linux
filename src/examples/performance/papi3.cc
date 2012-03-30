@@ -10,7 +10,7 @@
  * Demo for using the PAPI library for RDTSC.
  * This example also proves that RDTSC is exactly what the PAPI library
  * is using under the hood.
- * 
+ *
  * References:
  * http://icl.cs.utk.edu/papi/index.html
  *

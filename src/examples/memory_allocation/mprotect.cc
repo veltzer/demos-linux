@@ -11,7 +11,7 @@
 /*
  * This is a demo of the use of mprotect(2) to protect your memory and thus try to
  * find a memory violation.
- * 
+ *
  * 				Mark Veltzer
  */
 

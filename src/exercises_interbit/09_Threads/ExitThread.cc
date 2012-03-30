@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<errno.h>
- 
+
 /*
  * EXTRA_LIBS=-lpthread
  */
@@ -30,7 +30,7 @@ int main(int argc,char** argv,char** envp)
 	// start all threads giving each it's input
 	for(int i=0;i<NUM_THREADS;i++)
 	{
-		int rc=pthread_create(&threads[i],NULL,PrintHello, 
+		int rc=pthread_create(&threads[i],NULL,PrintHello,
 			(void *)&t[i]);
 		if(rc) {
 			perror("could not create thread");

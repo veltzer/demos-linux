@@ -13,7 +13,7 @@
  * Note that this code MUST be compiled using a C compiler and not a C++
  * compiler since the results will be different. In a C++ compiler,
  * _Bool is bool which is a built in type and true and false are built
- * ins. 
+ * ins.
  *
  *		Mark Veltzer
  */

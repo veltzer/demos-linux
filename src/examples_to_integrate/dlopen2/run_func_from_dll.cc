@@ -13,7 +13,7 @@ int main(int argc,char** argv,char** envp) {
 	const char* p_sval=argv[3];
 	const double p_dval=atof(p_sval);
 	void* h=dlopen(p_lib,RTLD_NOW);
-	if(h==NULL) { 
+	if(h==NULL) {
 		fprintf(stderr,"error with dlopen: %s\n",dlerror());
 		exit(errno);
 	}

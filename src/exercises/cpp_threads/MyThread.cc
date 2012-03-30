@@ -2,7 +2,7 @@
 
 #include"MyThread.hh"
 #include"us_helper.hh" // for CHECK_ZERO
- 
+
 /*
  * EXTRA_LIBS=-lpthread
  */

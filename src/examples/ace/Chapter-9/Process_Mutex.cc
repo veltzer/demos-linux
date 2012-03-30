@@ -60,7 +60,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		pid_t pida = processa.spawn(options);
 		pid_t pidb = processb.spawn(options);
 
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Spawned processes; pids %d:%d\n"), pida, pidb)); 
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Spawned processes; pids %d:%d\n"), pida, pidb));
 		if (processa.wait() == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processa wait")), -1);
 		}

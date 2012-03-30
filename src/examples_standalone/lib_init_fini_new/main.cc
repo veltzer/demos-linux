@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp) {
 		TRACE("child ending");
 		return 0;
 	}
-	// lets do it again to see what happens if the child terminates abruptly... 
+	// lets do it again to see what happens if the child terminates abruptly...
 	TRACE("forking a brat...");
 	child_pid=fork();
 	if(child_pid) {

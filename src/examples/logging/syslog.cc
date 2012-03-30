@@ -26,7 +26,7 @@
  * is formatted in the form of a date and sent, along with the data, to syslog.
  * You can see all of this if you strace(1) this example. There seems to be no way to
  * tell syslog(3) not to do this timing thing and just send the message.
- * 
+ *
  * So how long does it take to call syslog? Two system calls worth (pretty long but
  * shorter than writing to a file).
  *
@@ -82,7 +82,7 @@ int main(int argc, char **argv, char **envp) {
 	for (int i = 0; i < 200; i++) {
 		syslog(i%8, "this is a message %d of loglevel %s", i, str_log[i%8]);
 	}
-	// lets send the same message many times to show that 
+	// lets send the same message many times to show that
 	// notice that the filtering of same messages IS NOT done at the source
 	// syslog will ACTUALLY send the message 200 times, the syslogd application
 	// is the one that will notice that the same message was received and will

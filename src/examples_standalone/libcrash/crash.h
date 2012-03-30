@@ -3,14 +3,14 @@
 
 #include<signal.h>
 
-/* Main library registration function. 
+/* Main library registration function.
  * Call this once for each process (not thread). Recall after fork() if you want
- * process name and ID to be updated 
- * 
+ * process name and ID to be updated
+ *
  */
 int register_crash_handler(
 		const char * process_name, 		/* Name of Process, such as argv[0] */
-		unsigned char * assert_buf_ptr	/* Pointer to assert buffer */ 
+		unsigned char * assert_buf_ptr	/* Pointer to assert buffer */
 );
 
 /* Asks this thread to dump. You can use this for asserts. */
@@ -19,7 +19,7 @@ int static inline crash_dump(void) {
 	return raise(SIGQUIT);
 }
 
-#ifdef USE_THREADS 
+#ifdef USE_THREADS
 
 /* Ask some other thread to dump. You can use this for asserts. */
 int static inline crash_dump_thread(pthread_t thread) {

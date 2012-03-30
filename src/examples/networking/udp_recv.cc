@@ -29,7 +29,7 @@ int main(int argc,char** argv, char** envp) {
 	const unsigned int port=atoi(argv[2]);
 	const char* file=argv[3];
 
-	// print 
+	// print
 	printf("If you want to send to this app you can just use nc like this:\n");
 	printf("nc -u localhost %d < /etc/passwd\n",port);
 	printf("and then:\n");
@@ -52,7 +52,7 @@ int main(int argc,char** argv, char** envp) {
 	CHECK_NOT_M1(bind(sockfd,(struct sockaddr *)&server, sizeof(server)));
 	TRACE("binded successfully");
 
-	// lets create the peer address 
+	// lets create the peer address
 	struct sockaddr_in peer_addr;
 	socklen_t peer_len;
 

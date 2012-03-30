@@ -6,7 +6,7 @@
 #include"us_helper.hh"
 
 /*
- * This example explores the different ways of exiting a program... 
+ * This example explores the different ways of exiting a program...
  *
  * abort(3)
  * ========

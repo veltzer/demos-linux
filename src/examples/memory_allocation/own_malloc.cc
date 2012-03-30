@@ -12,7 +12,7 @@
  * (malloc and calloc should have it, realloc will not).
  *
  * Notes:
- * - show how the compiler uses the info in disassebly. 
+ * - show how the compiler uses the info in disassebly.
  *
  * 	Mark Veltzer
  */

@@ -25,7 +25,7 @@ void scanthedir(char* dirname) {
 		exit(errno);
 	}
 	while ((dircontent = readdir(sdir))) {
-		if ((strcmp(dircontent->d_name, "." ) == 0) 
+		if ((strcmp(dircontent->d_name, "." ) == 0)
 			|| strcmp(dircontent->d_name, "..") == 0)
 			continue;
 		sprintf(tmpdir, "%s/%s", dirname, dircontent->d_name);
@@ -42,7 +42,7 @@ void scanthedir(char* dirname) {
 					exit(errno);
 				}
 				while ((fddircontent = readdir(fddir))) {
-					if ((strcmp(fddircontent->d_name, "." ) == 0) 
+					if ((strcmp(fddircontent->d_name, "." ) == 0)
 						|| strcmp(fddircontent->d_name, "..") == 0)
 						continue;
 					sprintf(linkname, "%s/%s", fddirname, fddircontent->d_name);

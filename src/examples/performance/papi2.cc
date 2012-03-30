@@ -6,7 +6,7 @@
 
 /*
  * Demo for using the PAPI performance counters library.
- * 
+ *
  * References:
  * http://icl.cs.utk.edu/papi/index.html
  *

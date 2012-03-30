@@ -4,7 +4,7 @@
 #include<linux/device.h> // for struct device
 #include<linux/delay.h> // for udelay
 #include<linux/cpufreq.h> // for cpufreq_*
-#include<linux/cpu.h> // for getting the number of cpus 
+#include<linux/cpu.h> // for getting the number of cpus
 
 #include"shared.h"
 
