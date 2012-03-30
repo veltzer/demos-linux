@@ -213,7 +213,7 @@ todo:
 check_ws:
 	-git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
 	-git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	-git grep -l -e "\\t$$" -- '*.h' '*.hh' '*.c' '*.cc'
+#-git grep -l -e "\\t$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_files
 check_files:
 	-find . -mindepth 2 -type f -and -not -name "*.cc" -and -not -name "*.h" -and -not -name "*.h" -and -not -name "*.txt" -and -not -name "*.conf" -and -not -name "*.ini" -and -not -name "*.sample" -and -not -name "*.data" -and -not -name "*.doc" -and -not -name "*.bash" -and -not -name "*.c"
