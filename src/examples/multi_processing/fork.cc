@@ -1,11 +1,11 @@
-#include <unistd.h> // for fork(2)
-#include <stdio.h> // for fgets(3), perror(3)
-#include <sys/types.h> // for waitid(2)
-#include <sys/wait.h> // for waitid(2)
-#include <stdlib.h> // for exit(3), atoi(3)
-#include <string.h> // for strsignal(3)
+#include<unistd.h> // for fork(2)
+#include<stdio.h> // for fgets(3), perror(3)
+#include<sys/types.h> // for waitid(2)
+#include<sys/wait.h> // for waitid(2)
+#include<stdlib.h> // for exit(3), atoi(3)
+#include<string.h> // for strsignal(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example explains how parents should wait for their children

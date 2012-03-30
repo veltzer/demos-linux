@@ -1,8 +1,8 @@
-#include <iostream> // for std::cerr
-#include <signal.h>
-#include <stdio.h> // for perror(3)
-#include <errno.h> // for perror(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<iostream> // for std::cerr
+#include<signal.h>
+#include<stdio.h> // for perror(3)
+#include<errno.h> // for perror(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to eliminate lots of redundant C error checking

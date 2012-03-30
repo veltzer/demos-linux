@@ -1,7 +1,7 @@
-#include <pthread.h> // for pthread_spin_init/lock/unlock/destroy(3),
+#include<pthread.h> // for pthread_spin_init/lock/unlock/destroy(3),
 // for pthread_create(3), pthread_join(3)
 
-#include "us_helper.hh" // for TRACE()
+#include"us_helper.hh" // for TRACE()
 
 /*
  * This is a demo for thread spin locks.

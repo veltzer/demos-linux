@@ -1,4 +1,4 @@
-#include "d.h"
+#include"d.h"
 
 void D::foo(void) {
 }

@@ -1,8 +1,7 @@
-#include "b.h"
+#include"b.h"
 
 void B::foo(void) {
 }
-
 
 void B::zoo(void) {
 }

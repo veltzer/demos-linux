@@ -1,23 +1,23 @@
 //#define _GNU_SOURCE
-#include <sys/uio.h> // for vmsplice(2), struct iovec
-#include <sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
-#include <sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
-#include <strings.h> // for bzero(3)
-#include <stdio.h> // for perror(3), printf(3), atoi(3)
-#include <errno.h> // for errno
-#include <netdb.h> // for getservbyname(3)
-#include <arpa/inet.h> // for ntohs(3)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2), vmsplice(2), splice(2)
-#include <unistd.h> // for read(2), close(2), pipe(2)
-#include <pthread.h> // for pthread_create(3)
-#include <netinet/in.h> // for sockaddr_in, inet_addr(3)
-#include <arpa/inet.h> // for inet_addr(3)
-#include <sys/mman.h> // for mmap(2)
-#include <stdlib.h> // for rand(3)
-#include <assert.h> // for assert(3)
+#include<sys/uio.h> // for vmsplice(2), struct iovec
+#include<sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
+#include<sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
+#include<strings.h> // for bzero(3)
+#include<stdio.h> // for perror(3), printf(3), atoi(3)
+#include<errno.h> // for errno
+#include<netdb.h> // for getservbyname(3)
+#include<arpa/inet.h> // for ntohs(3)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2), vmsplice(2), splice(2)
+#include<unistd.h> // for read(2), close(2), pipe(2)
+#include<pthread.h> // for pthread_create(3)
+#include<netinet/in.h> // for sockaddr_in, inet_addr(3)
+#include<arpa/inet.h> // for inet_addr(3)
+#include<sys/mman.h> // for mmap(2)
+#include<stdlib.h> // for rand(3)
+#include<assert.h> // for assert(3)
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
 /*
  * This is an example of using vmsplice to send mucho data to clients.

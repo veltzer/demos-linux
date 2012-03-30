@@ -1,13 +1,13 @@
-#include <stdio.h> // for fprintf(3), perror(3)
-#include <errno.h> // for perror(3)
-#include <stdlib.h> // for exit(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <sys/sendfile.h> // for senffile(2)
-#include <unistd.h> // getpagesize(2)
+#include<stdio.h> // for fprintf(3), perror(3)
+#include<errno.h> // for perror(3)
+#include<stdlib.h> // for exit(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<sys/sendfile.h> // for senffile(2)
+#include<unistd.h> // getpagesize(2)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This demos shows how to use sendfile(2) to avoid copy to/from user space.

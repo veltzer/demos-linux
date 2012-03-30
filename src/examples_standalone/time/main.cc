@@ -1,4 +1,4 @@
-#include "time.hh"
+#include"time.hh"
 
 int main() {
 	Time t;

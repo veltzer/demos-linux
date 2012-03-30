@@ -1,6 +1,6 @@
-#include <postgresql/libpq-fe.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include<postgresql/libpq-fe.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 /*
  * EXTRA_LIBS=-lpq

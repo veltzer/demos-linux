@@ -1,11 +1,11 @@
-#include <stdio.h> // for printf,fprintf,perror
-#include <unistd.h> // for getpagesize,sysconf
-#include <malloc.h> // for valloc,memalign
-#include <stdlib.h> // for posix_memalign,malloc
-#include <sys/mman.h> // for mmap
-#include <string.h> // for memset
+#include<stdio.h> // for printf,fprintf,perror
+#include<unistd.h> // for getpagesize,sysconf
+#include<malloc.h> // for valloc,memalign
+#include<stdlib.h> // for posix_memalign,malloc
+#include<sys/mman.h> // for mmap
+#include<string.h> // for memset
 
-#include "us_helper.hh" // for printproc
+#include"us_helper.hh" // for printproc
 
 /*
  * This demo shows how to allocate memory which is PAGE_SIZE aligned...

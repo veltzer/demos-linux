@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for sysconf(3)
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for sysconf(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * An example showing how to get the cache line size on linux.

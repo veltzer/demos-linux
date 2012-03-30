@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h> // for powf(3), pow(3)
-#include <stdlib.h> // for atof(3)
+#include<stdio.h>
+#include<string.h>
+#include<math.h> // for powf(3), pow(3)
+#include<stdlib.h> // for atof(3)
 
 /*
  * This is an exploration of how to compiler coverts between float

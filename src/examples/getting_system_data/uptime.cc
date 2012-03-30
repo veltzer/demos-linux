@@ -1,12 +1,12 @@
-#include <stdio.h> // for printf(3)
-#include <string.h> // for strtok_r(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <unistd.h> // for read(2), close(2)
-#include <stdlib.h> // for stof(3)
+#include<stdio.h> // for printf(3)
+#include<string.h> // for strtok_r(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<unistd.h> // for read(2), close(2)
+#include<stdlib.h> // for stof(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This demo shows how to get the uptime of the machine...

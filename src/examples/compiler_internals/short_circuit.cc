@@ -1,5 +1,5 @@
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for atoi(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for atoi(3)
 
 /*
  * Lets see if short circuit bool expression evaluation works...

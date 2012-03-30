@@ -12,13 +12,13 @@
  * 			Mark Veltzer
  */
 
-#include <malloc.h> // for malloc(3) and the hooks
+#include<malloc.h> // for malloc(3) and the hooks
 //#define NDEBUG
-#include <assert.h> // for assert(3)
-#include <iostream> // for std::exception
-#include <stdlib.h> // for exit(3)
+#include<assert.h> // for assert(3)
+#include<iostream> // for std::exception
+#include<stdlib.h> // for exit(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 static bool malloc_allowed=true;
 

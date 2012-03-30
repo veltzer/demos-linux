@@ -1,9 +1,7 @@
-// $Id: Process_Mutex.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include <ace/OS_NS_unistd.h>
-#include <ace/Log_Msg.h>
-#include <ace/Process.h>
-#include <ace/Process_Mutex.h>
+#include<ace/OS_NS_unistd.h>
+#include<ace/Log_Msg.h>
+#include<ace/Process.h>
+#include<ace/Process_Mutex.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

@@ -1,6 +1,6 @@
-#include <omp.h> // for #pragma omg parallel
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<omp.h> // for #pragma omg parallel
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a minimal openmp program.

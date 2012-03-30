@@ -1,6 +1,6 @@
-#include <link.h> // for dl_iterate_phdr(3)
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<link.h> // for dl_iterate_phdr(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to find out which libraries you are linked to.

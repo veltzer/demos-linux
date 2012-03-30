@@ -1,5 +1,5 @@
-#include <curses.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<curses.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Curses example program number 2...

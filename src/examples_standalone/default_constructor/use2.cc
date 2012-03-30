@@ -1,5 +1,5 @@
-#include "a.h"
-#include "b.h"
+#include"a.h"
+#include"b.h"
 
 void func2(void) {
 	A a;

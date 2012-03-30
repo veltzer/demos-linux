@@ -1,13 +1,13 @@
-#include <stdio.h> // for fprintf(3)
-#include <pthread.h> // for pthread_create(3), pthread_join(3), pthread_spin_init(3), pthread_spin_destroy(3)
+#include<stdio.h> // for fprintf(3)
+#include<pthread.h> // for pthread_create(3), pthread_join(3), pthread_spin_init(3), pthread_spin_destroy(3)
 	// pthread_spin_lock(3), pthread_spin_unlock(3), pthread_attr_init(3), pthread_attr_setaffinity_np(3)
-#include <unistd.h> // for sysconf(3)
+#include<unistd.h> // for sysconf(3)
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
 #endif // _GNU_SOURCE
-#include <sched.h> // for CPU_ZERO(3), CPU_SET(3)
+#include<sched.h> // for CPU_ZERO(3), CPU_SET(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a demo for using pthread spin locks...

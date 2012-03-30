@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <wchar.h>
-#include <string.h>
-#include <locale.h>
+#include<stdio.h>
+#include<wchar.h>
+#include<string.h>
+#include<locale.h>
 
-#include <sys/utsname.h>
-#include <dlfcn.h>
+#include<sys/utsname.h>
+#include<dlfcn.h>
 
 /*
  * This example shows how to extract the version number from a "ko" (kernel object)
@@ -26,7 +26,7 @@
  * EXTRA_LIBS=-ldl
  */
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 void get_driver_version(const char *filename) {
 	void* handle = dlopen(filename, RTLD_LAZY);

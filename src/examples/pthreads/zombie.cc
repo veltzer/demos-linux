@@ -1,9 +1,9 @@
-#include <pthread.h> // for pthread_create(3)
-#include <string.h> // for strncpy(3)
-#include <sys/prctl.h> // for prctl(2)
-#include <unistd.h> // for sleep(3)
+#include<pthread.h> // for pthread_create(3)
+#include<string.h> // for strncpy(3)
+#include<sys/prctl.h> // for prctl(2)
+#include<unistd.h> // for sleep(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example creates a zombie thread.

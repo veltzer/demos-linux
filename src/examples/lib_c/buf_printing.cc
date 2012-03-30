@@ -1,6 +1,6 @@
-#include <stdio.h> // for printf(3)
-#include <ctype.h> // for isgraph(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for printf(3)
+#include<ctype.h> // for isgraph(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example to show how best to print characters on the screen...

@@ -1,8 +1,8 @@
-#include <sys/signalfd.h>
-#include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include<sys/signalfd.h>
+#include<signal.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<stdio.h>
 
 /*
  * This demo of signalfd was stolen shamelessly from the signalfd(2) manpage.

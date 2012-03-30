@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
+#include<stdio.h> // for printf(3)
+#include<pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
 
-#include "us_helper.hh" // for CHECK_ZERO
+#include"us_helper.hh" // for CHECK_ZERO
 
 /*
  * This example creates a pthread_mutex which is a futex, grabs it and releases

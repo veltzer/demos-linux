@@ -1,11 +1,11 @@
-#include <stdio.h> // for scanf(3), printf(3), fflush(3)
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2)
-#include <signal.h> // for signal(2), siginterrupt(3)
-#include <stdio.h> // for perror(3)
-#include <errno.h> // for errno(3)
+#include<stdio.h> // for scanf(3), printf(3), fflush(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+#include<signal.h> // for signal(2), siginterrupt(3)
+#include<stdio.h> // for perror(3)
+#include<errno.h> // for errno(3)
 
-#include "us_helper.hh" // our user space helper
+#include"us_helper.hh" // our user space helper
 
 /*
  * This is an example of a calculator that you can break out of.

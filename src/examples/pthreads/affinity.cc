@@ -1,8 +1,8 @@
-#include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <sched.h> // for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
-#include <unistd.h> // for sysconf(3)
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<sched.h> // for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
+#include<unistd.h> // for sysconf(3)
 
-#include "us_helper.hh" // for TRACE(), scig()
+#include"us_helper.hh" // for TRACE(), scig()
 
 /*
  * This shows how to create threads with a certain affinity

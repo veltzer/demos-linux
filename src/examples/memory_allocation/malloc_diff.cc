@@ -1,7 +1,7 @@
-#include <stdlib.h> // for malloc(3)
-#include <assert.h> // for assert(3)
+#include<stdlib.h> // for malloc(3)
+#include<assert.h> // for assert(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This application just prints malloc diffs for various malloc allocation.

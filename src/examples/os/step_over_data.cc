@@ -2,7 +2,7 @@
 #include<unistd.h> // for sysconf(3), getpid(2)
 #include<signal.h> // for signal(2)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example shows that the data segment is organized into pages. It shows

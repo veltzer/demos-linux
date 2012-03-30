@@ -1,4 +1,4 @@
-#include "b.h"
+#include"b.h"
 
 void B::bar(void) {
 }

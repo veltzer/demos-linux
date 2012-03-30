@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <stdbool.h> // for bool, true and false
+#include<stdio.h> // for printf(3)
+#include<stdbool.h> // for bool, true and false
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a demo of how to use the _Bool and stdbool.h headers for

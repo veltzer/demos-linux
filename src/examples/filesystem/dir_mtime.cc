@@ -19,14 +19,14 @@
  * 	Mark Veltzer
  */
 
-#include <sys/stat.h> // for mkdir(2), stat(2), open(2)
-#include <sys/types.h> // for mkdir(2), stat(2), open(2)
-#include <fcntl.h> // for open(2)
-#include <unistd.h> // for rmdir(2), stat(2), unlink(2), sleep(3)
-#include <stdio.h> // for snprintf(3), printf(3)
-#include <time.h> // for time(3)
+#include<sys/stat.h> // for mkdir(2), stat(2), open(2)
+#include<sys/types.h> // for mkdir(2), stat(2), open(2)
+#include<fcntl.h> // for open(2)
+#include<unistd.h> // for rmdir(2), stat(2), unlink(2), sleep(3)
+#include<stdio.h> // for snprintf(3), printf(3)
+#include<time.h> // for time(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 // the directory we will be creating...
 const char* dirname="tmpdir";

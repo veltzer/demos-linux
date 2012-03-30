@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 
 /*
  * This explores how to override the new operator for the entire C++ environment.

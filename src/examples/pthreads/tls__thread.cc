@@ -1,6 +1,6 @@
-#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
 
-#include "us_helper.hh" // for CHECK_*, TRACE
+#include"us_helper.hh" // for CHECK_*, TRACE
 
 /*
  * This is a demo of thread local storage using gcc __thread storage modifier.

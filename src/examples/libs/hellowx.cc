@@ -1,5 +1,5 @@
-#include <wx/wx.h>
-#include <wx/frame.h>
+#include<wx/wx.h>
+#include<wx/frame.h>
 
 /*
  * This example is a simple wxWindows application.

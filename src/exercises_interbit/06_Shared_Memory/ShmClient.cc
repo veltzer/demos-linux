@@ -1,14 +1,13 @@
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <sys/sem.h>
-#include <unistd.h>
-
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<errno.h>
+#include<sys/types.h>
+#include<sys/ipc.h>
+#include<sys/shm.h>
+#include<sys/sem.h>
+#include<unistd.h>
+#include<time.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
 const int CLIENTMESSAGESIZE=1024;
 const int MAXMESSAGE=256;

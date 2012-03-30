@@ -1,5 +1,5 @@
-#include <QtGui/qapplication.h>
-#include <QtGui/qpushbutton.h>
+#include<QtGui/qapplication.h>
+#include<QtGui/qpushbutton.h>
 
 /*
  * This is a simple Qt hello world program

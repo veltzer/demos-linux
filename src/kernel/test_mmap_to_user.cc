@@ -1,17 +1,17 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/ioctl.h>
+#include<string.h>
+#include<sys/mman.h>
+#include<sys/types.h>
+#include<unistd.h>
 
-#include "us_helper.hh"
-#include "shared.h"
+#include"us_helper.hh"
+#include"shared.h"
 
 /*
  * This is a test for kernel driven mmap.

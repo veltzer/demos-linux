@@ -1,8 +1,8 @@
-#include <strings.h> // for bzero(3)
-#include <alloca.h> // for alloca(3)
-#include <stdio.h> // for printf(3)
+#include<strings.h> // for bzero(3)
+#include<alloca.h> // for alloca(3)
+#include<stdio.h> // for printf(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example investigates what happens if you call alloca(3) twice...

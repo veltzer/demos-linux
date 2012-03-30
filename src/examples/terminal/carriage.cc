@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3), fflush(3), setvbuf(3)
-#include <unistd.h> // for usleep(3)
+#include<stdio.h> // for printf(3), fflush(3), setvbuf(3)
+#include<unistd.h> // for usleep(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is an example of how to use the carriage return character

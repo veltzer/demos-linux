@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h> // for sysconf
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<pthread.h>
+#include<unistd.h> // for sysconf
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a demo which shows atomic add using the

@@ -1,8 +1,8 @@
-#include <string.h> // for memset
-#include <stdlib.h> // for malloc
-#include <wchar.h> // for wmemset
+#include<string.h> // for memset
+#include<stdlib.h> // for malloc
+#include<wchar.h> // for wmemset
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example explores the inner workings of memset...

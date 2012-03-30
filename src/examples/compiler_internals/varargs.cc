@@ -1,5 +1,5 @@
-#include <stdio.h> // for vprintf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for vprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to use the __builtin_ varargs

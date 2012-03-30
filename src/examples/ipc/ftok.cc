@@ -1,7 +1,7 @@
-#include <sys/types.h> // for ftok(3)
-#include <sys/ipc.h> // for ftok(3)
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<sys/types.h> // for ftok(3)
+#include<sys/ipc.h> // for ftok(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows that you actually need to point to a real existing file

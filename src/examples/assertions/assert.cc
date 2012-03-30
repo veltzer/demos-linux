@@ -37,11 +37,11 @@ int main(int argc, char **argv, char **envp) {
 	assert(1 == 1);
 	printf("in here 1\n");
 #define NDEBUG
-#include <assert.h> // for assert(3)
+#include<assert.h> // for assert(3)
 	assert(1 == 2);
 	printf("in here 2\n");
 #undef NDEBUG
-#include <assert.h> // for assert(3)
+#include<assert.h> // for assert(3)
 	assert(3 == 4);
 	printf("in here 3\n");
 	return EXIT_SUCCESS;

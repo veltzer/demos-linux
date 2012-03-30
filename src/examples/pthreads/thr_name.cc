@@ -1,11 +1,11 @@
-#include <pthread.h> // for pthread_create, pthread_join
-#include <stdio.h> // for printf(3)
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2)
-#include <string.h> // for strncpy(3)
-#include <sys/prctl.h> // for prctl(2)
+#include<pthread.h> // for pthread_create, pthread_join
+#include<stdio.h> // for printf(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+#include<string.h> // for strncpy(3)
+#include<sys/prctl.h> // for prctl(2)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This exapmles shows how to set thread names in Linux.

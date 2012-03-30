@@ -1,6 +1,6 @@
-#include <iostream> // for std::cout, std::endl
-#include <string.h> // for memcpy(3)
-#include <stdlib.h> // for malloc(3)
+#include<iostream> // for std::cout, std::endl
+#include<string.h> // for memcpy(3)
+#include<stdlib.h> // for malloc(3)
 
 /*
  * This is a simple example that spends lots of time in a function.

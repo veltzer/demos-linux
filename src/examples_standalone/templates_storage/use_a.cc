@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include "A.h"
+#include<stdio.h>
+#include"A.h"
 
 int main(int argc, char **argv, char **envp) {
 	A<int> a;

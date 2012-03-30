@@ -1,8 +1,5 @@
-// $Id: ExitHandler.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-// Listing 1 code/ch13
-#include <ace/Task.h>
-#include <ace/Log_Msg.h>
+#include<ace/Task.h>
+#include<ace/Log_Msg.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

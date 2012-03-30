@@ -1,12 +1,12 @@
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/resource.h>
+#include<pthread.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/time.h>
+#include<sys/resource.h>
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example explores how to use thread priorities

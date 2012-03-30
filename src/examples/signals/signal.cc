@@ -1,10 +1,10 @@
-#include <signal.h> // for signal(2)
-#include <stdio.h> // for perror(3)
-#include <stdlib.h> // for exit(3)
-#include <unistd.h> // for pause(2), getpid(2)
-#include <sys/types.h> // for getpid(2)
+#include<signal.h> // for signal(2)
+#include<stdio.h> // for perror(3)
+#include<stdlib.h> // for exit(3)
+#include<unistd.h> // for pause(2), getpid(2)
+#include<sys/types.h> // for getpid(2)
 
-#include "us_helper.hh" // for TRACE
+#include"us_helper.hh" // for TRACE
 
 /*
  * This is a simple example which shows how to do signal handling with the

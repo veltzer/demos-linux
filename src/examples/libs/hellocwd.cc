@@ -8,9 +8,9 @@
 #define DEBUG
 #ifdef DEBUG
 #define CWDEBUG
-#include <libcwd/sys.h>
-#include <libcwd/debug.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<libcwd/sys.h>
+#include<libcwd/debug.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 // Define our own debug channel:
 namespace libcwd {
 	namespace channels {

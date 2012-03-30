@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <dlfcn.h>
-#include <stdlib.h>
-#include <errno.h>
+#include<stdio.h>
+#include<dlfcn.h>
+#include<stdlib.h>
+#include<errno.h>
 
 int main(int argc, char **argv, char **envp) {
 	if (argc != 4) {

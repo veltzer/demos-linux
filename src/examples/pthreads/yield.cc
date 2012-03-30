@@ -1,10 +1,10 @@
-#include <pthread.h> // for pthread_yield(3), pthread_create(3), pthread_join(3)
-#include <sched.h> // for sched_yield(2)
-#include <stdio.h> // for fprintf(3)
-#include <stdlib.h> // for exit(3)
-#include <unistd.h> // for sleep(3)
+#include<pthread.h> // for pthread_yield(3), pthread_create(3), pthread_join(3)
+#include<sched.h> // for sched_yield(2)
+#include<stdio.h> // for fprintf(3)
+#include<stdlib.h> // for exit(3)
+#include<unistd.h> // for sleep(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a demo for the sched_yield(2) or for pthread_yield(3) which are

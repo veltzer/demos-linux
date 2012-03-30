@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example for all the folk wishing to do numerical applications and want to switch

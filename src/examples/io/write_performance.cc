@@ -1,12 +1,12 @@
-#include <stdio.h> // for printf(3), fprintf(3)
-#include <strings.h> // for bzero(3)
-#include <stdlib.h> // for malloc(3), atoi(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
+#include<stdio.h> // for printf(3), fprintf(3)
+#include<strings.h> // for bzero(3)
+#include<stdlib.h> // for malloc(3), atoi(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
 
-#include "us_helper.hh" // our own helper
-#include "Stat.h" // our own helper
+#include"us_helper.hh" // our own helper
+#include"Stat.h" // our own helper
 
 /*
  * This example explores the performance of the write system call...

@@ -1,6 +1,4 @@
-// $Id: State.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include <ace/Task.h>
+#include<ace/Task.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

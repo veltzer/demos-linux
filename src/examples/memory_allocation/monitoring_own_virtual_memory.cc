@@ -1,10 +1,10 @@
-#include <stdlib.h> // for malloc(3)
-#include <stdio.h> // for printf(3)
-#include <sys/time.h> // for getrusage(2)
-#include <sys/resource.h> // for getrusage(2)
-#include <strings.h> // for bzero(3)
+#include<stdlib.h> // for malloc(3)
+#include<stdio.h> // for printf(3)
+#include<sys/time.h> // for getrusage(2)
+#include<sys/resource.h> // for getrusage(2)
+#include<strings.h> // for bzero(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is an example which shows how to monitor your own virtual memory using getrusage
