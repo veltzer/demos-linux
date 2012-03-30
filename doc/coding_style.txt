@@ -6,3 +6,9 @@
 - main prototype:
 	int main(int argc,char** argv,char** envp) {
 	}
+- functions:
+	open on the same line:
+	int add(int a,int b) {
+		return a+b;
+	}
+- tabs: real ones, 8 characters
