@@ -1,7 +1,7 @@
-#include <stdlib.h> // for atoi(3)
-#include <stdio.h> // for printf(3)
-#include <sys/types.h> // for WIF(3)
-#include <sys/wait.h> // for WIF(3)
+#include<stdlib.h> // for atoi(3)
+#include<stdio.h> // for printf(3)
+#include<sys/types.h> // for WIF(3)
+#include<sys/wait.h> // for WIF(3)
 
 /*
  * This executable receives the status code (exit code) of some process and prints

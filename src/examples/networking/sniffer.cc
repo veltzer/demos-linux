@@ -1,15 +1,15 @@
-#include <sys/types.h> // for socket(2)
-#include <sys/socket.h> // for socket(2)
-#include <stdio.h> // for printf(3), fprintf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
-#include <unistd.h> // for read(2)
-#include <netinet/ip.h> // for struct iphdr
-#include <netinet/tcp.h> // for struct tcphdr
-#include <netinet/in.h> // for IPPROTO_TCP
-#include <unistd.h> // for geteuid(2)
-#include <sys/types.h> // for geteuid(2)
+#include<sys/types.h> // for socket(2)
+#include<sys/socket.h> // for socket(2)
+#include<stdio.h> // for printf(3), fprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<unistd.h> // for read(2)
+#include<netinet/ip.h> // for struct iphdr
+#include<netinet/tcp.h> // for struct tcphdr
+#include<netinet/in.h> // for IPPROTO_TCP
+#include<unistd.h> // for geteuid(2)
+#include<sys/types.h> // for geteuid(2)
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
 /*
  * An example of a sniffer 

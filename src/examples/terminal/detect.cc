@@ -1,7 +1,7 @@
-#include <stdio.h> // for stdin
-#include <unistd.h> // for isatty, ttyname
+#include<stdio.h> // for stdin
+#include<unistd.h> // for isatty, ttyname
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is an example of how to detect whether a file you are using is

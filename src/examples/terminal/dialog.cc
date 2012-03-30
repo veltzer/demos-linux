@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h>
+#include<string.h>
 //extern "C" {
-#include <dialog.h>
+#include<dialog.h>
 //}
 
 /*

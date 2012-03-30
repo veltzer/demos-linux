@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example shows how you can write C functions in C++ code.

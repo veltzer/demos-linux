@@ -1,12 +1,10 @@
-#include <ace/OS_NS_stdio.h>
-#include <ace/OS_NS_string.h>
-
-#include <ace/MMAP_Memory_Pool.h>
-#include <ace/Malloc_T.h>
-#include <ace/Null_Mutex.h>
-#include <ace/PI_Malloc.h>
-
-#include <ace/Read_Buffer.h>
+#include<ace/OS_NS_stdio.h>
+#include<ace/OS_NS_string.h>
+#include<ace/MMAP_Memory_Pool.h>
+#include<ace/Malloc_T.h>
+#include<ace/Null_Mutex.h>
+#include<ace/PI_Malloc.h>
+#include<ace/Read_Buffer.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

@@ -1,19 +1,18 @@
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/wait.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
+#include<errno.h>
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<sys/wait.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<netdb.h>
+#include<unistd.h>
+#include<time.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<strings.h>
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	int on, got, brsock, rplysock, newsock;
 	ssize_t datalen;
 	socklen_t rplyFromAddressLen;

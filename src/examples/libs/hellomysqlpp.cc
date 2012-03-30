@@ -1,5 +1,5 @@
-#include <iostream> // for std::cout, std::cerr, std::endl
-#include <mysql++.h> // for mysqlpp::*
+#include<iostream> // for std::cout, std::cerr, std::endl
+#include<mysql++.h> // for mysqlpp::*
 
 /*
  * You need all of these folders added with -I because of how the h files

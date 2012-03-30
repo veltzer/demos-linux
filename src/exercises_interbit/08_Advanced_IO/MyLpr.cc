@@ -1,14 +1,12 @@
-#include <errno.h>
-
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<errno.h>
+#include<sys/param.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
 const int MAXINDEXSIZE=128;
 struct index
@@ -17,8 +15,7 @@ struct index
 	char path[MAXPATHLEN];
 };
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	int fdindex;
 	struct index buffer;
 	int buffersize;

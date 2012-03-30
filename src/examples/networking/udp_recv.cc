@@ -1,18 +1,18 @@
-#include <sys/types.h> // for socket(2), recv(2), connect(2), send(2), open(2)
-#include <sys/stat.h> // for open(2)
-#include <sys/socket.h> // for socket(2), recv(2), connect(2), send(2), inet_addr(3)
-#include <strings.h> // for bzero(3)
-#include <stdio.h> // for printf(3), atoi(3), snprintf(3)
-#include <stdlib.h> // for exit(3)
-#include <unistd.h> // for close(2)
-#include <sys/un.h> // for sockaddr_un
-#include <string.h> // for strlen(3)
-#include <netinet/in.h> // for sockaddr_in, inet_addr(3)
-#include <arpa/inet.h> // for inet_addr(3)
-#include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <fcntl.h> // for open(2)
+#include<sys/types.h> // for socket(2), recv(2), connect(2), send(2), open(2)
+#include<sys/stat.h> // for open(2)
+#include<sys/socket.h> // for socket(2), recv(2), connect(2), send(2), inet_addr(3)
+#include<strings.h> // for bzero(3)
+#include<stdio.h> // for printf(3), atoi(3), snprintf(3)
+#include<stdlib.h> // for exit(3)
+#include<unistd.h> // for close(2)
+#include<sys/un.h> // for sockaddr_un
+#include<string.h> // for strlen(3)
+#include<netinet/in.h> // for sockaddr_in, inet_addr(3)
+#include<arpa/inet.h> // for inet_addr(3)
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<fcntl.h> // for open(2)
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
 /*
  * This is udp client demo that writes to a file anything it gets.

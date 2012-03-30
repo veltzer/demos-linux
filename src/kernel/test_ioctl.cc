@@ -1,10 +1,10 @@
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <sys/ioctl.h> // for ioctl(2)
-#include <unistd.h> // for close(2)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<sys/ioctl.h> // for ioctl(2)
+#include<unistd.h> // for close(2)
 
-#include "us_helper.hh" // our user helper
+#include"us_helper.hh" // our user helper
 
 /*
  * A basic test which opens the device, runs one ioctl with 0 or user given

@@ -1,12 +1,12 @@
-#include <stdio.h> // for printf(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <unistd.h> // for close(2)
-#include <sys/ioctl.h> // for ioctl(2)
-#include <errno.h> // for errno(3)
+#include<stdio.h> // for printf(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<unistd.h> // for close(2)
+#include<sys/ioctl.h> // for ioctl(2)
+#include<errno.h> // for errno(3)
 
-#include "us_helper.hh" // our own helper for user space
+#include"us_helper.hh" // our own helper for user space
 
 /*
  * This is an example which explores how user space experiences errors coming from the kernel.

@@ -1,8 +1,8 @@
-#include <iostream>
-#include <stdlib.h>
-#include <execinfo.h>
-#include <exception>
-#include "demangle.hh"
+#include<iostream>
+#include<stdlib.h>
+#include<execinfo.h>
+#include<exception>
+#include"demangle.hh"
 
 /*
  * This is a C++ example of how to create exceptions which contain a stack trace

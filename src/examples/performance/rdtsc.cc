@@ -1,11 +1,11 @@
-#include <sys/time.h>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <cpufreq.h>
+#include<sys/time.h>
+#include<time.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<cpufreq.h>
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a demo which shows how, on i386 platforms, to read the rdtsc

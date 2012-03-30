@@ -1,6 +1,6 @@
-#include <stdio.h> // for fprintf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
-#include <setjmp.h> // for longjmp(3), setjmp(3)
+#include<stdio.h> // for fprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<setjmp.h> // for longjmp(3), setjmp(3)
 
 /*
  * This is a demo of how to use the setjmp/longjmp in order to simulate exception

@@ -1,14 +1,14 @@
-#include <stdio.h> // for printf(3)
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h> // for sleep(3)
-#include <strings.h> // for bzero(3)
-#include <signal.h> // for signal(2)
-#include <sys/mman.h> // for mprotect(2)
-#include <unistd.h> // for getpagesize(2)
+#include<stdio.h> // for printf(3)
+#include<string.h>
+#include<stdlib.h>
+#include<pthread.h>
+#include<unistd.h> // for sleep(3)
+#include<strings.h> // for bzero(3)
+#include<signal.h> // for signal(2)
+#include<sys/mman.h> // for mprotect(2)
+#include<unistd.h> // for getpagesize(2)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is an example that shows that you cannot alter code, which is protected

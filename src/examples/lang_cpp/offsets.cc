@@ -1,5 +1,5 @@
-#include <iostream> // for std::cout, std::endl
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<iostream> // for std::cout, std::endl
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * watch these macros and see if you can figure out what they do...

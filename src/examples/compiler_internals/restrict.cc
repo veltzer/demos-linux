@@ -1,7 +1,7 @@
-#include <stdio.h> // for vprintf(3)
-#include <sys/time.h> // for gettimeofday(2)
+#include<stdio.h> // for vprintf(3)
+#include<sys/time.h> // for gettimeofday(2)
 
-#include "us_helper.hh" // for micro_diff
+#include"us_helper.hh" // for micro_diff
 
 /*
  * This is an example of how to use the __restrict gcc feature

@@ -1,5 +1,5 @@
-#include <stdio.h> // for fprintf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for fprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of a segmentation fault created by calling a function badly.

@@ -1,5 +1,5 @@
-//#include <mtl/mtl.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+//#include<mtl/mtl.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This program demonstrates the use of the MTL (Matrix Template Library)

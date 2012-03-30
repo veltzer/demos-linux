@@ -1,8 +1,8 @@
-#include <string.h> // for memset(3)
-#include <stdio.h> // for printf(3)
-#include <sys/resource.h> // for getrlimit(2)
+#include<string.h> // for memset(3)
+#include<stdio.h> // for printf(3)
+#include<sys/resource.h> // for getrlimit(2)
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
 /*
  * This example shows the stack limitations of a regular program.

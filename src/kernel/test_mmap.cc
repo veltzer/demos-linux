@@ -1,15 +1,15 @@
-#include <stdio.h> // for fprintf(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <stdlib.h> // for free(3), malloc(3)
-#include <string.h> // for strncpy(3)
-#include <sys/mman.h> // for mmap(2), munmap(2)
-#include <sys/ioctl.h> // for ioctl(2)
+#include<stdio.h> // for fprintf(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<stdlib.h> // for free(3), malloc(3)
+#include<string.h> // for strncpy(3)
+#include<sys/mman.h> // for mmap(2), munmap(2)
+#include<sys/ioctl.h> // for ioctl(2)
 
-#include "shared.h" // for the ioctl numbers
+#include"shared.h" // for the ioctl numbers
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a test for the mmap demo:

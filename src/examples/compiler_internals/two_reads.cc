@@ -1,5 +1,5 @@
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows that two consecutive reads of the same value

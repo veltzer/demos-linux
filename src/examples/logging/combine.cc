@@ -1,7 +1,7 @@
-#include <stdarg.h> // for va_start(3), va_end(3)
-#include <syslog.h> // for vsyslog(3)
-#include <stdio.h> // for fprintf(3), vfprintf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdarg.h> // for va_start(3), va_end(3)
+#include<syslog.h> // for vsyslog(3)
+#include<stdio.h> // for fprintf(3), vfprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of how to do a full tracer, with:

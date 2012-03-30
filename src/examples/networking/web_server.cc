@@ -1,17 +1,17 @@
-#include <sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
-#include <sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2)
-#include <strings.h> // for bzero(3)
-#include <stdio.h> // for perror(3), printf(3), atoi(3)
-#include <errno.h> // for errno
-#include <netdb.h> // for getservbyname(3)
-#include <arpa/inet.h> // for ntohs(3)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <unistd.h> // for read(2), close(2)
-#include <pthread.h> // for pthread_create(3)
-#include <netinet/in.h> // for sockaddr_in 
+#include<sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
+#include<sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2)
+#include<strings.h> // for bzero(3)
+#include<stdio.h> // for perror(3), printf(3), atoi(3)
+#include<errno.h> // for errno
+#include<netdb.h> // for getservbyname(3)
+#include<arpa/inet.h> // for ntohs(3)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<unistd.h> // for read(2), close(2)
+#include<pthread.h> // for pthread_create(3)
+#include<netinet/in.h> // for sockaddr_in 
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
 /*
  * This is a demo of a simple echo socket server implementation in pure C in Linux

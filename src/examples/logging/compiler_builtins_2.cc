@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <stdarg.h> // for va_start(3), va_end(3)
+#include<stdio.h> // for printf(3)
+#include<stdarg.h> // for va_start(3), va_end(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is an expansion of the previous example showing how to use compiler builtins

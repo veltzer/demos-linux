@@ -17,7 +17,7 @@
 
 // the next
 #define ACE_NTRACE 1
-#include <ace/Log_Msg.h>
+#include<ace/Log_Msg.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

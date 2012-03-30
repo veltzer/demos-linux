@@ -1,11 +1,11 @@
-#include <unistd.h> // for fork(2), getpid(2), sleep(3), pipe(2)
-#include <stdio.h> // for printf(3)
-#include <sys/types.h> // for waitid(2), getpid(2)
-#include <sys/wait.h> // for waitid(2)
-#include <stdlib.h> // for exit(3)
-#include <string.h> // for strsignal(3)
+#include<unistd.h> // for fork(2), getpid(2), sleep(3), pipe(2)
+#include<stdio.h> // for printf(3)
+#include<sys/types.h> // for waitid(2), getpid(2)
+#include<sys/wait.h> // for waitid(2)
+#include<stdlib.h> // for exit(3)
+#include<string.h> // for strsignal(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This example demostrates how processes become zombies in Linux...

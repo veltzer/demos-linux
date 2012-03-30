@@ -1,8 +1,8 @@
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for nice(2), fork(2), pause(2)
-#include <stdlib.h> // for exit(3)
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for nice(2), fork(2), pause(2)
+#include<stdlib.h> // for exit(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This demo is to be used when demoing nice level.

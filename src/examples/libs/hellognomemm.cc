@@ -1,4 +1,4 @@
-#include <libgnomeuimm.h>
+#include<libgnomeuimm.h>
 
 /*
  * This is a demo program for using Gnome--

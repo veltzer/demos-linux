@@ -1,5 +1,5 @@
-#include <link.h>
-#include <stdio.h>
+#include<link.h>
+#include<stdio.h>
 
 /*
  * This is a demo of how to use the auditing API of the GNU dynamic linker

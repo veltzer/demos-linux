@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <SDL/SDL.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<GL/gl.h>
+#include<GL/glu.h>
+#include<SDL/SDL.h>
+#include<stdlib.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs sdl gl glu

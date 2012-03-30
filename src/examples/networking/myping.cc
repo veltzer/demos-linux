@@ -1,15 +1,15 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/in_systm.h>
-#include <netinet/ip.h>
-#include <netinet/ip_icmp.h>
-#include <string.h>
-#include <arpa/inet.h>
-#include <stdlib.h> // for exit(3), atoi(3)
-#include <unistd.h> // for close(2)
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<netdb.h>
+#include<netinet/in.h>
+#include<netinet/in_systm.h>
+#include<netinet/ip.h>
+#include<netinet/ip_icmp.h>
+#include<string.h>
+#include<arpa/inet.h>
+#include<stdlib.h> // for exit(3), atoi(3)
+#include<unistd.h> // for close(2)
 
 /*
  * An example of doing ICMP, in this case ping, in user space...

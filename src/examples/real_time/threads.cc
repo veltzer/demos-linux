@@ -1,4 +1,4 @@
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This application should show how to create real time threads...

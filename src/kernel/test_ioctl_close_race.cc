@@ -1,14 +1,14 @@
-#include <stdio.h> // for fprintf(3), fflush(3)
-#include <unistd.h> // for sleep(3), close(2)
-#include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <sys/ioctl.h> // for ioctl(2)
+#include<stdio.h> // for fprintf(3), fflush(3)
+#include<unistd.h> // for sleep(3), close(2)
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<sys/ioctl.h> // for ioctl(2)
 
-#include "shared.h" // for ioctl numbers
+#include"shared.h" // for ioctl numbers
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This application has two threads:

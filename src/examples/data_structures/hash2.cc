@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <search.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<search.h>
 
 /*
  * This is a demo of using the GNU C libraries hash table implementation

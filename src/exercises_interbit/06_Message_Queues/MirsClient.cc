@@ -1,11 +1,11 @@
-#include <errno.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<errno.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/ipc.h>
+#include<sys/msg.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
 const int MSGSZ=1024;
 

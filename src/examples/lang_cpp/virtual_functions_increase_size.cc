@@ -1,6 +1,6 @@
-#include <iostream> // for std::cout, std::endl
-#include <assert.h> // for assert(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<iostream> // for std::cout, std::endl
+#include<assert.h> // for assert(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows that a single virtual function in an object increases it's size.

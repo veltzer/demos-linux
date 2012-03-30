@@ -1,8 +1,8 @@
-#include <iostream>
-#include <signal.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+#include<iostream>
+#include<signal.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<unistd.h>
 
 /*
  * This is a general command line utility to send signals via

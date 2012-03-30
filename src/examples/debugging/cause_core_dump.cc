@@ -1,4 +1,4 @@
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a simple example causing a core dump.

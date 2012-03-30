@@ -1,4 +1,4 @@
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This application should explore real time signals between processes.

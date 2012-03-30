@@ -1,6 +1,4 @@
 /*
- * $Id: ARGV_Example.cpp 80826 2008-03-04 14:51:23Z wotte $
- *
  * ACE_ARGV examples not in a larger program. Sample code from The ACE
  * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
  */
@@ -9,11 +7,11 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-#include <ace/os_include/os_netdb.h>
-#include <ace/OS_NS_string.h>
-#include <ace/Log_Msg.h>
-#include <ace/ARGV.h>
-#include <ace/Get_Opt.h>
+#include<ace/os_include/os_netdb.h>
+#include<ace/OS_NS_string.h>
+#include<ace/Log_Msg.h>
+#include<ace/ARGV.h>
+#include<ace/Get_Opt.h>
 
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	static const ACE_TCHAR options[] = ACE_TEXT(":f:h:");

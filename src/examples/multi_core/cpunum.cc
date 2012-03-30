@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for sysconf(3)
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for sysconf(3)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This is a simple example showing how to get the number of current cpus...

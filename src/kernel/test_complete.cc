@@ -1,13 +1,13 @@
-#include <stdio.h> // for fprintf(3)
-#include <sys/ioctl.h> // for ioctl(2)
-#include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
+#include<stdio.h> // for fprintf(3)
+#include<sys/ioctl.h> // for ioctl(2)
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
-#include "shared.h" // for the ioctl codes
+#include"shared.h" // for the ioctl codes
 
 /*
  * This is a demo of how to put a thread to sleep and wake it up

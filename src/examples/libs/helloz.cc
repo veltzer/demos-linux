@@ -1,7 +1,7 @@
-#include <zlib.h> // for compress2(3)
-#include <stdio.h> // for printf(3)
-#include <string.h> // for strlen(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<zlib.h> // for compress2(3)
+#include<stdio.h> // for printf(3)
+#include<string.h> // for strlen(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * A simple example of using the libz library.

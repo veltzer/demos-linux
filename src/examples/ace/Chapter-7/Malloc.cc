@@ -1,20 +1,20 @@
-#define FIXED_ADDRESS
-#include <ace/OS_NS_stdio.h>
-#include <ace/OS_NS_string.h>
-
-#include <ace/MMAP_Memory_Pool.h>
-#include <ace/Malloc_T.h>
-#include <ace/Null_Mutex.h>
+#include<ace/OS_NS_stdio.h>
+#include<ace/OS_NS_string.h>
+#include<ace/MMAP_Memory_Pool.h>
+#include<ace/Malloc_T.h>
+#include<ace/Null_Mutex.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
+#define FIXED_ADDRESS
+
 #ifndef FIXED_ADDRESS
 typedef ACE_Malloc<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex> ALLOCATOR;
 typedef ACE_Malloc_LIFO_Iterator<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex> MALLOC_LIFO_ITERATOR;
 #else
-#include <ace/PI_Malloc.h>
+#include<ace/PI_Malloc.h>
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
 ALLOCATOR;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>

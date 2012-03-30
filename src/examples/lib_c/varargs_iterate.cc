@@ -1,6 +1,6 @@
-#include <stdio.h> // for printf(3)
-#include <stdarg.h> // for va_start(3), va_arg(3), va_end(3)
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for printf(3)
+#include<stdarg.h> // for va_start(3), va_arg(3), va_end(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to code a function that receives a variable

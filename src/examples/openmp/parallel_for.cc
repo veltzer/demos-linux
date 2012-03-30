@@ -1,7 +1,7 @@
-#include <cmath> // for std::sin
-#include <stdio.h> // for printf(3)
-#include <omp.h> // for #pragma omp parallel for
-#include <stdlib.h> // for EXIT_SUCCESS
+#include<cmath> // for std::sin
+#include<stdio.h> // for printf(3)
+#include<omp.h> // for #pragma omp parallel for
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * A demo calculating the sin table with openmp.

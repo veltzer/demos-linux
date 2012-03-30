@@ -1,13 +1,13 @@
 //#define _GNU_SOURCE
-#include <pthread.h>
-#include <sched.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include<pthread.h>
+#include<sched.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 // for sysconf
-#include <unistd.h>
+#include<unistd.h>
 
-#include "us_helper.h"
+#include"us_helper.h"
 
 /*
  * This shows how to create threads with a certain affinity

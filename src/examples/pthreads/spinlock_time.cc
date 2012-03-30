@@ -1,6 +1,6 @@
-#include <pthread.h> // for pthread_spin_init/lock/unlock/destroy(3)
+#include<pthread.h> // for pthread_spin_init/lock/unlock/destroy(3)
 
-#include "us_helper.hh" // for TRACE()
+#include"us_helper.hh" // for TRACE()
 
 /*
  * This example examines the time it takes to lock and unlock a spin lock.

@@ -1,14 +1,14 @@
-#include <stdio.h> // for printf(3), fflush(3), fgets(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <stdlib.h> // for atoi(3)
-#include <unistd.h> // for close(3)
-#include <sys/ioctl.h> // for ioctl(2)
+#include<stdio.h> // for printf(3), fflush(3), fgets(3)
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<stdlib.h> // for atoi(3)
+#include<unistd.h> // for close(3)
+#include<sys/ioctl.h> // for ioctl(2)
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
-#include "shared.h" // for ioctl numbers
+#include"shared.h" // for ioctl numbers
 
 /*
  * A basic test which opens the device, runs one ioctl with 0 or user given

@@ -1,12 +1,12 @@
-#include <stdio.h> // for printf(3)
-#include <sys/time.h> // for gettimeofday(2)
-#include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
-#include <semaphore.h> // for sem_init(3), sem_wait(3), sem_post(3)
-#include <sys/types.h> // for ftok(3), semget(3), semctl(3), semop(3)
-#include <sys/ipc.h> // for ftok(3), semget(3), semctl(3), semop(3)
-#include <sys/sem.h> // for semget(3), semctl(3), semop(3)
+#include<stdio.h> // for printf(3)
+#include<sys/time.h> // for gettimeofday(2)
+#include<pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
+#include<semaphore.h> // for sem_init(3), sem_wait(3), sem_post(3)
+#include<sys/types.h> // for ftok(3), semget(3), semctl(3), semop(3)
+#include<sys/ipc.h> // for ftok(3), semget(3), semctl(3), semop(3)
+#include<sys/sem.h> // for semget(3), semctl(3), semop(3)
 
-#include "us_helper.hh" // for micro_diff, CHECK_ZERO
+#include"us_helper.hh" // for micro_diff, CHECK_ZERO
 
 /*
  * This demo shows the difference between regular pthread mutex (which is a

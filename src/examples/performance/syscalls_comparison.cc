@@ -1,11 +1,11 @@
-#include <stdio.h> // for printf(3)
-#include <sys/time.h> // for gettimeofday(2)
-#include <sys/types.h> // for getpid(2), gettid(2)
-#include <unistd.h> // for getpid(2)
-#include <stdlib.h> // for free(3), malloc(3)
-#include <pthread.h> // for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
+#include<stdio.h> // for printf(3)
+#include<sys/time.h> // for gettimeofday(2)
+#include<sys/types.h> // for getpid(2), gettid(2)
+#include<unistd.h> // for getpid(2)
+#include<stdlib.h> // for free(3), malloc(3)
+#include<pthread.h> // for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
 
-#include "us_helper.hh" // for micro_diff
+#include"us_helper.hh" // for micro_diff
 
 /*
  * This demo shows that the performance of various syscalls.

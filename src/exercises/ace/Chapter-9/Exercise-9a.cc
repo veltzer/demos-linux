@@ -1,18 +1,17 @@
 // We must replace Acceptor with Connector
 // #define ACE_NTRACE 0
-#include <ace/config-lite.h>
-#include <ace/OS_NS_unistd.h>
-#include <ace/Task.h>
-#include <ace/Log_Msg.h>
-#include <ace/Process_Manager.h>
-
-#include <ace/OS_NS_time.h>
-#include <ace/Signal.h>
-#include <ace/Sig_Handler.h>
-#include <ace/INET_Addr.h>
-#include <ace/SOCK_Stream.h>
-#include <ace/SOCK_Acceptor.h>
-#include <ace/SOCK_Connector.h>
+#include<ace/config-lite.h>
+#include<ace/OS_NS_unistd.h>
+#include<ace/Task.h>
+#include<ace/Log_Msg.h>
+#include<ace/Process_Manager.h>
+#include<ace/OS_NS_time.h>
+#include<ace/Signal.h>
+#include<ace/Sig_Handler.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/SOCK_Acceptor.h>
+#include<ace/SOCK_Connector.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

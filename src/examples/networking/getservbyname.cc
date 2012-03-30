@@ -1,7 +1,7 @@
-#include <netdb.h> // for getservbyname(3)
-#include <stdio.h> // for printf(3)
+#include<netdb.h> // for getservbyname(3)
+#include<stdio.h> // for printf(3)
 
-#include "us_helper.hh" // our own helper
+#include"us_helper.hh" // our own helper
 
 /*
  * A simple example to demonstrate getservbyname(3)

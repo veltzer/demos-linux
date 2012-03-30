@@ -1,10 +1,10 @@
-#include <iostream>
-#include <signal.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2)
+#include<iostream>
+#include<signal.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdio.h>
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
 
 /*
  * This demo demostrates how to cause a thread that is stuck in a long system call to

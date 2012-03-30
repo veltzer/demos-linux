@@ -1,7 +1,7 @@
-#include <ace/OS_NS_stdio.h> // for ACE_STDIN
-#include <ace/Message_Queue.h> // for the two message queues
-#include <ace/Read_Buffer.h> // for the read buffer
-#include <ace/Thread_Manager.h> // for the thread manager to manage everything
+#include<ace/OS_NS_stdio.h> // for ACE_STDIN
+#include<ace/Message_Queue.h> // for the two message queues
+#include<ace/Read_Buffer.h> // for the read buffer
+#include<ace/Thread_Manager.h> // for the thread manager to manage everything
 
 /*
 EXTRA_CMDS=pkg-config --cflags --libs ACE

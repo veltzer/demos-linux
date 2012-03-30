@@ -1,6 +1,6 @@
-#include <stdio.h> // for fprintf(3), printf(3)
-#include <math.h> // for sin(3)
-#include <stdlib.h> // for atof(3)
+#include<stdio.h> // for fprintf(3), printf(3)
+#include<math.h> // for sin(3)
+#include<stdlib.h> // for atof(3)
 
 /*
  * The function runs the sin function on data from the outside world because

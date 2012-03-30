@@ -1,7 +1,7 @@
-#include <gtkmm/main.h> // for Gtk::Main
-#include <gtkmm/button.h> // for Gtk::Button
-#include <gtkmm/window.h> // for Gtk::Window
-#include <iostream> // for std::cout, std::endl
+#include<gtkmm/main.h> // for Gtk::Main
+#include<gtkmm/button.h> // for Gtk::Button
+#include<gtkmm/window.h> // for Gtk::Window
+#include<iostream> // for std::cout, std::endl
 
 /*
  * A stolen example from the gtkmm distribution. Slightly modified.

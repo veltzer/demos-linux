@@ -1,14 +1,14 @@
-#include <sys/inotify.h> // for inotify_init(2), inotify_add_watch(2)
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for read(2), close(2)
-#include <assert.h> // for assert(3)
-#include <errno.h> // for errno(3)
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2)
-#include <signal.h> // for siginterrupt(2)
-#include <limits.h> // for PATH_MAX
+#include<sys/inotify.h> // for inotify_init(2), inotify_add_watch(2)
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for read(2), close(2)
+#include<assert.h> // for assert(3)
+#include<errno.h> // for errno(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+#include<signal.h> // for siginterrupt(2)
+#include<limits.h> // for PATH_MAX
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file changes.

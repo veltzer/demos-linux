@@ -7,7 +7,7 @@
  *
  */
 
-#include <gnome.h>
+#include<gnome.h>
 
 int main(int argc, char** argv, char** envp) {
 	gnome_init("mdi-test", "1.0", argc, argv);

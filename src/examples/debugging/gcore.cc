@@ -1,8 +1,8 @@
-#include <stdio.h> // for printf(3)
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2), sleep(3), fork(2)
+#include<stdio.h> // for printf(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2), sleep(3), fork(2)
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 #define DO_SLEEP
 //#define DO_SELF_PHOTO

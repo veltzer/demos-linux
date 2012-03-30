@@ -1,8 +1,8 @@
-#include <stdio.h> // for stdin
-#include <unistd.h> // for isatty, ttyname
-#include <termios.h> // for tcsetattr, tcgetattr
+#include<stdio.h> // for stdin
+#include<unistd.h> // for isatty, ttyname
+#include<termios.h> // for tcsetattr, tcgetattr
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  * Try to think of the next exercise: try to read just one character from

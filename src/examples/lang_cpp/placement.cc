@@ -1,7 +1,7 @@
-#include <stdlib.h>
-#include <iostream>
+#include<stdlib.h>
+#include<iostream>
 
-#include "us_helper.hh"
+#include"us_helper.hh"
 
 /*
  *	This example shows how to use the C++ operator new placement

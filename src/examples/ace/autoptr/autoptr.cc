@@ -1,5 +1,5 @@
-#include <ace/Auto_Ptr.h>
-#include <iostream>
+#include<ace/Auto_Ptr.h>
+#include<iostream>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

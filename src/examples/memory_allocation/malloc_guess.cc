@@ -1,9 +1,9 @@
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for malloc(3)
-#include <assert.h> // for assert(3)
-#include <sys/types.h> // for getpid(2)
-#include <unistd.h> // for getpid(2)
-#include <string.h> // for memset(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for malloc(3)
+#include<assert.h> // for assert(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+#include<string.h> // for memset(3)
 
 /*
  * This application tries to guess where the next malloc allocation would be...

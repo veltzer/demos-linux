@@ -1,16 +1,14 @@
-#include <ace/OS_NS_stdio.h>
-#include <ace/OS_NS_string.h>
-
-#include <ace/MMAP_Memory_Pool.h>
-#include <ace/Malloc_T.h>
-#include <ace/Null_Mutex.h>
-#include <ace/PI_Malloc.h>
+#include<ace/OS_NS_stdio.h>
+#include<ace/OS_NS_string.h>
+#include<ace/MMAP_Memory_Pool.h>
+#include<ace/Malloc_T.h>
+#include<ace/Null_Mutex.h>
+#include<ace/PI_Malloc.h>
+#include<ace/Read_Buffer.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-
-#include <ace/Read_Buffer.h>
 
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block> SHARED_ALLOC;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
