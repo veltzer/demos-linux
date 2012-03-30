@@ -38,7 +38,7 @@ void doChild(int semid, struct data * smdata, int myID)
 			perror("semop");
 			exit(1);
 		}
-		
+
 		if (smdata[myID].readOffset != smdata[myID].writeOffset)
 		{
 			messageSizePTR = (int *)smdata[myID].message + smdata[myID].readOffset/sizeof(int);
@@ -80,31 +80,31 @@ void doParent(int semid, struct data * smdata, int myID)
 		}
 		toID = atoi(Sto);
 		printf("Message to %d: ", toID);
-	
+
 		s=fgets(message+sizeof(int)*2, sizeof(message) - sizeof(int)*2 -1, stdin);
 		if(s!=message) {
 			perror("fgets error");
 		}
-		
+
 		messageSizePTR = (int *)message;
 		* messageSizePTR = strlen(message+sizeof(int)*2) + sizeof(int)*2;
-		
+
 		FromIDPTR = (int *)message+1;
 		* FromIDPTR = myID;
-		
+
 		reminder = * messageSizePTR % sizeof(int);
 		if (reminder > 0)
 			* messageSizePTR += sizeof(int) - reminder;
 		sops[0].sem_num = toID;
 		sops[0].sem_op = 1;
 		sops[0].sem_flg = 0;
-		
+
 		if ( semop(semid, sops, 1) == -1 )
 		{
 			perror("semop");
 			exit(1);
 		}
-		
+
 		spaceLeft = CLIENTMESSAGESIZE - smdata[toID].writeOffset;
 		if (* messageSizePTR > spaceLeft)
 		{

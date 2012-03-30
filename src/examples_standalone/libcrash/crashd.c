@@ -116,17 +116,17 @@ static inline char * code2str(int code, int signal) {
 static void inline do_reboot(void) {
 
 #ifdef NDEBUG
-	
+
 	char * reboot_argv[] = { "reboot", NULL};
 	char * reboot_env[] = {NULL};
-	
+
 	execve("/sbin/reboot", reboot_argv, reboot_env);
 
 #else /* NDEBUG */
 
 	fprintf(stderr, "Boo!!! would have rebooted but running in debug mode. Have a nice day.\n");
 	exit(3);
-	
+
 #endif /* NDEBUG */
 
 	/* NOT REACHED */
@@ -137,13 +137,13 @@ static void inline do_reboot(void) {
  * This is just an example: it speqs the entire message to stderr in human readable form
  */
 static void handle_crash(void) {
-	
+
 	int i;
 
 	assert(crash_msg != NULL);
 	assert(sizeof(crash_msg->assert_buffer[0])==sizeof(unsigned char));
 
-	
+
 	fprintf (stderr,
 			"\n********************"
 			"\n* EXCEPTION CAUGHT *"
@@ -168,18 +168,18 @@ static void handle_crash(void) {
 			strerror(crash_msg->handler_errno),
 			ctime(&(crash_msg->timestamp.tv_sec)),
 			crash_msg->assert_buffer
-			
+
 	);
 
 	fprintf(stderr, "\nStack trace addresses:\n");
 	for(i=0; i< crash_msg->num_backtrace_frames; ++i) {
 			fprintf(stderr, "[%d] %p\n", i, crash_msg->backtrace[i]);
 	}
-	
+
 	fprintf(stderr, "\nAncillary data follows:\n");
 	fprintf(stderr, "%s\n",crash_msg->ancillary_data);
 	fflush(NULL);
-	
+
 	return;
 }
 
@@ -219,7 +219,7 @@ static void fault_sig_handler(int signal) {
 static int register_signal(int signo, sighandler_t handler) {
 
 	struct sigaction act;
-	
+
 	memset(&act, 0, sizeof (act));
 	act.sa_handler = handler;
 	sigemptyset (&act.sa_mask);
@@ -237,47 +237,47 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	fd_set rfds;
 
 	ret = fork();
-	
+
 	if(ret) {
 		return;
 	} else {
 		close(pfd[1]);
 		fd = pfd[0];
 	}
-	
+
 	/* This forks again, closing stdin/out/err and loose our TTY, if asked to. */
 	if(daemonise_flag) {
 		ret = daemon(0, 1);
 		if(-1==ret) goto bail_out;
-	}	
-	
+	}
+
 	/* Register all signal handlers for timeout, kill and fault */
 	ret = register_signal(SIGTERM, term_sig_handler);
 	if(-1 == ret) goto bail_out;
-	
+
 	ret = register_signal(SIGALRM, alarm_sig_handler);
 	if(-1 == ret) goto bail_out;
-	
+
 	ret = register_signal(SIGSEGV, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
-		
+
 	ret = register_signal(SIGILL, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
-		
+
 	ret = register_signal(SIGFPE, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
-	
+
 	ret = register_signal(SIGBUS, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
-		
+
 
 	/* OK, wait for someone to tickle us */
-	
+
 	FD_ZERO(&rfds);
 	FD_SET(fd, &rfds);
-	
+
 	ret = select(fd+1, &rfds, NULL, NULL, NULL);
-	
+
 	/* Deal correctly with random harmless signals
 	 * Especially useful for when we run under debugger */
 	while(-1 == ret && EINTR == errno) {
@@ -287,18 +287,18 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 		ret = select(fd+1, &rfds, NULL, NULL, NULL);
 	}
-	
+
 	if(-1==ret) goto bail_out;
-	
+
 	/* OK, we have action. First thing arm the timer */
 	(void)alarm(READ_TIMEOUT);
-	
+
 	/* This crazy loop reads the message in, possbly in several parts.
 	 * We continue when we're done or when it's time to leave.
 	 */
-	
+
 	do {
-		
+
 		ret = read(fd, p, remaining_bytes);
 
 		/* We need to exit if the end closed the pipe or if we asked to terminate */
@@ -308,20 +308,20 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 		/* Oh oh... we're late. Time out. */
 		if(timeout_flag) break;
-		
+
 		/* Handle random signals nicely */
 		if(-1 == ret && EINTR == errno) continue;
-		
+
 		/* Read errors make us nervous. log and bail out */
 		if(-1 == ret) break;
-		
-		p += ret;		
+
+		p += ret;
 		remaining_bytes -= ret;
-		
+
 	} while (ret && (remaining_bytes > 0));
-	
+
 	assert(CRASH_MSG_MAGIC == crash_msg->magic);
-	
+
 	/* Make sure the process name has an ending NULL */
 	crash_msg->process_name[CRASH_MAX_PROCESS_NAME_SIZE-1] = '\0';
 
@@ -329,9 +329,9 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 	/* Go process the crash */
 	handle_crash();
-	
+
 	exit(0);
-	
+
 bail_out:
 	/* Oy very... if we got here it means that the crash daemon has itself
 	 * encountered some error. We simply record it in the usuall format and
@@ -351,10 +351,10 @@ bail_out:
 	crash_msg->num_backtrace_frames=backtrace(crash_msg->backtrace, CRASH_MAX_BACKTRACE_DEPTH);
 	snprintf(crash_msg->ancillary_data, CRASH_ANCILLARY_DATA_SIZE-1,
 			"crashd bailing out due to %s\n",strerror(errno));
-	
+
 	handle_crash();
 
-	
+
 	/* THE END */
 	return;
 }

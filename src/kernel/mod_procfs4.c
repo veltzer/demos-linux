@@ -24,7 +24,7 @@ MODULE_DESCRIPTION("a module showing how to use the _seq /proc API");
  */
 static void* my_seq_start(struct seq_file *s, loff_t *pos) {
 	pr_debug("my_seq_start %p, %Ld",s,*pos);
-	/* beginning a new sequence ? */	
+	/* beginning a new sequence ? */
 	if ( *pos == 0 ) {
 		/* yes => return a non null value to begin the sequence */
 		int* p=(int*)kmalloc(sizeof(int),GFP_KERNEL);
@@ -99,7 +99,7 @@ static struct file_operations my_file_ops = {
 	.llseek=seq_lseek,
 	.release=seq_release
 };
-	
+
 /*
  * This function is called when the module is loaded
  */

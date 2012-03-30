@@ -84,7 +84,7 @@ int main(int argc,char** argv,char** envp)
 		fprintf(stderr, "bad argument %c, Argument must be numeric value between 0 and 5\n", argv[1][0]);
 		exit(1);
 	}
-	
+
 	if ((key = ftok(KEYFILE, 'x')) == -1 )
 	{
 		perror("ftok failed");

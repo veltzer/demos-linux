@@ -30,7 +30,7 @@ int main(int argc,char** argv,char** envp)
 		perror("semget");
 		exit(errno);
 	}
-	
+
 	for(i=0; i<NPHIL; i++)
 	{
 		if (semctl(semid, i,SETVAL,1 ) < 0)

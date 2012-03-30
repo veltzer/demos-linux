@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp) {
 	// this is the default type of locked (the "FAST" kind...) using the
 	// special initialisation syntax...
 	//pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
-	
+
 	// this is creation of pthread using the init function...
 	//pthread_mutex_t mutex;
 	//CHECK_ZERO(pthread_mutex_init(&mutex,NULL));

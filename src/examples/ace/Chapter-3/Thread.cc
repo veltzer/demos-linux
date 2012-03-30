@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 	int n_threads = ACE_OS::atoi(argv[1]);
 	//Setup the random number generator
 	ACE_OS::srand(::seed);
-	
+
 	// create the data structures needed
 	ACE_thread_t* threads=new ACE_thread_t[n_threads];
 	//ACE_hthread_t *threadHandles = new ACE_hthread_t[n_threads];
