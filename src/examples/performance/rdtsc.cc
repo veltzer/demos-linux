@@ -48,7 +48,7 @@ void long_task(void) {
 
 int main(int argc, char **argv, char **envp) {
 	printf("starting up...\n");
-	
+
 	printf("lets get the cpu and numa node via getcpu(2)...\n");
 	int c,n;
 	CHECK_NOT_M1(syscall(__NR_getcpu, &c, &n, NULL));

@@ -119,7 +119,7 @@ int main(int argc, char **argv, char **envp) {
 	printf("pt4 is %p (%d)\n", pt4, (unsigned int)pt4 % ps);
 	printf("pt5 is %p (%d)\n", pt5, (unsigned int)pt5 % ps);
 	printproc(NULL);
-	
+
 	void* ptr=(void*)main;
 	printf("ptr is %p\n",ptr);
 	printf("ptr aligned is %p\n",align_address(ptr));

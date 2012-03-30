@@ -59,7 +59,7 @@ void test_imp2() {
 	CHECK_NOT_M1(gettimeofday(&t2, NULL));
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 }
-	
+
 int main(int argc, char **argv, char** envp) {
 	if(argc!=3) {
 		printf("usage: %s [loop] [size]\n",argv[0]);

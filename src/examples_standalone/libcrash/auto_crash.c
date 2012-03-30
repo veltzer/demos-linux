@@ -17,17 +17,17 @@ void __attribute__ ((constructor)) debug_auto_init(void);
 static unsigned char buf[128];
 
 void debug_auto_init(void) {
-	
+
 	/* Print some meaningfull message so they'll know that we're running */
 	fprintf(stderr, "\n*** libcrash automagically loaded. Registering...");
-	
+
 	/* Blast us if we know what's the process name. We just use [AUTOMAGIC] */
-	
+
 	if(register_crash_handler("[AUTOMAGIC]", buf))
 		fprintf(stderr, "Failed!\n");
 	else
 		fprintf(stderr, "Success.\n");
-	
+
 	return;
 }
 

@@ -35,7 +35,6 @@ unsigned int round_it(unsigned int size) {
 	if(size==8) size+=8;
 	return size;
 }
-		
 
 /* let the guessing system know that you have allocated memory */
 void mguess_allocated(unsigned int size) {

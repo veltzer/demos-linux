@@ -98,18 +98,17 @@ static inline char * code2str(int code, int signal) {
 
 void fault_handler (int signal, siginfo_t * siginfo, void *context)
 {
+	#define MAX_FRAMES 25
 
-#define MAX_FRAMES 25
-	
 	void * frames[MAX_FRAMES];
 	int num_frames;
 	struct timespec timestamp;
 	char ** symbols;
 	int i;
-	
+
 	/* Grab time stamp */
 	clock_gettime(CLOCK_REALTIME, &timestamp);
-	
+
 	fprintf (stderr,
 				"\n********************"
 				"\n* EXCEPTION CAUGHT *"
@@ -131,25 +130,25 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 				strerror(errno),
 				ctime(&timestamp.tv_sec)
 		);
-	
+
 	/* Get the backtrace. */
 	num_frames = backtrace(frames, MAX_FRAMES);
-	
+
 	symbols = backtrace_symbols(frames, num_frames);
-	
+
 	if(symbols) {
 		for(i=0; i< num_frames; i++) {
 			fprintf(stderr, "%s\n", symbols[i]);
 		}
 	}
-	
+
 	fflush(NULL);
-	
+
 	free(symbols);
-	
+
 	/* Produce a core dump for in depth debugging */
 	abort();
-	
+
 	return;
 }
 

@@ -156,11 +156,11 @@ void CreateWindow() {
  if((vi = glXChooseVisual(dpy, 0, att)) == NULL) {
 	printf("\n\tno matching visual\n\n");
 	exit(0); }
-	
+
  if((cmap = XCreateColormap(dpy, root, vi->visual, AllocNone)) == 0) {
  	printf("\n\tcannot create colormap\n\n");
 	exit(0); }
-	
+
  swa.event_mask = KeyPressMask;
  swa.colormap 	= cmap;
  win = XCreateWindow(dpy, root, 0, 0, 700, 700, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
@@ -188,9 +188,9 @@ void SetupGL() {
  for(int font_size = 14; font_size < 32; font_size += 2) {
  	sprintf(font_string, "-adobe-courier-*-r-normal--%i-*", font_size);
 	font_struct = XLoadQueryFont(dpy, font_string);
-	
+
 	if(font_struct != NULL) {
- 		glXUseXFont(font_struct->fid, 32, 192, 32);		
+ 		glXUseXFont(font_struct->fid, 32, 192, 32);
 		break; } }
  /////////////////////////////////////////////////
  //	INITIALIZE ROTATION MATRIX		//

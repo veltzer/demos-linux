@@ -59,12 +59,12 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 	 * adjust this to match!!!
 	 */
 #define IP_STACK_FRAME_NUMBER (3)
-	
+
 	unsigned int ret = backtrace(array, size);
 	distance += IP_STACK_FRAME_NUMBER;
-	
+
 	assert(distance <= size);
-	
+
 	/* OK, here is the tricky part:
 	 *
 	 * Linux signal handling on some archs works by the kernel replacing, in situ, the
@@ -81,7 +81,7 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 	 *
 	 * This needs to be different per arch, of course.
 	 */
-	
+
 #ifdef __i386__
 	array[distance] = (void *)(context->uc_mcontext.gregs[REG_EIP]);
 #endif /* __i386__ */
@@ -106,9 +106,9 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
  */
 void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 	int i, ret;
-	
+
 #ifdef USE_THREADS
-	
+
 	ret = pthread_spin_trylock(&g_thread_lock);
 	if (EBUSY == ret) {
 		/* Think of the following as an async-signal safe super sched_yield that
@@ -119,37 +119,37 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 	}
 
 #endif /* USE_THREADS */
-	
+
 	/* Get the backtrace. See signal_backtrace for the parameters */
-	
+
 	g_crash_msg.num_backtrace_frames = signal_backtrace(g_crash_msg.backtrace,
 			CRASH_MAX_BACKTRACE_DEPTH, context, 0);
-	
+
 	/* Grab the kernel thread id. Because signal handler are shared between all
 	 * threads of the same process, this can only be doen in fault time. */
-	
+
 	g_crash_msg.thread_id = gettid();
-	
+
 	/* Grab the signal number */
 	g_crash_msg.signal_number = signal;
-	
+
 	/* Grab time stamp */
 	clock_gettime(CLOCK_REALTIME, &g_crash_msg.timestamp);
-	
+
 	/* Copy the assert buffer without using strings.h fucntions. */
 	for(i=0; i< CRASH_ASSERT_BUFFER_SIZE; ++i) {
 		g_crash_msg.assert_buffer[i] = *(g_assert_buf_ptr++);
 	}
-		
+
 	if (siginfo) /* No reasons for this to be NULL, but still... */
-	{	
+	{
 		/* See description of these in crash_msg.h */
 		g_crash_msg.signal_code = siginfo->si_code;
 		g_crash_msg.fault_address = siginfo->si_addr;
 		g_crash_msg.signal_errno = siginfo->si_errno;
 		g_crash_msg.handler_errno = errno;
 	}
-	
+
 retry_write:
 
 	ret = write(g_logfd, &g_crash_msg, sizeof(g_crash_msg));
@@ -163,18 +163,18 @@ retry_write:
 	 * can't do anything if we fail
 	 */
 	if(ret && EINTR==errno) goto retry_write;
-	
+
 	/* We use backtrace_symbols_fd rather then backtrace_symbols since
 	 * the latter uses malloc to allocate memory and if we got here
 	 * because of malloc arena curroption we'll double fault.
 	 */
 	backtrace_symbols_fd(g_crash_msg.backtrace, g_crash_msg.num_backtrace_frames, g_logfd);
-	
+
 	close(g_logfd);
 
 	/* Produce a core dump for post morteum debugging */
 	abort();
-	
+
 	assert(0 /* Not Reached */);
 
 	return;
@@ -183,7 +183,7 @@ retry_write:
 /* Set the FD_CLOEXEC flag of desc if value is nonzero,
 	or clear the flag if value is 0.
 	Return 0 on success, or -1 on error with errno set. */
-	
+
 int set_cloexec_flag (int desc, int value)
 {
 	int oldflags = fcntl(desc, F_GETFD, 0);
@@ -238,7 +238,7 @@ int register_crash_handler(const char * process_name, unsigned char * assert_buf
 			return errno;
 		}
 		g_logfd = pfd[1]; /* Grab the write end of the pipe */
-	
+
 		/* If the caller program execs, we want the pipe to close,
 		* because it's not likely a random program will have the
 		* right signal handler set to use the crash daemon. */

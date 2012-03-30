@@ -48,7 +48,7 @@ void* doit(void* arg) {
 	get_thread_name(orig_name,256);
 	TRACE("original thread name is [%s]",orig_name);
 	thread_data* td=(thread_data*)arg;
-	
+
 	set_thread_name(td->name);
 	TRACE("gettid() is %d",gettid());
 	TRACE("getpid() is %d",getpid());
@@ -81,7 +81,7 @@ int main(int argc,char** argv,char** envp) {
 	// wait for the threads to be initialized, if we got the lock then they are...
 	CHECK_ZERO(pthread_mutex_lock(&td1.start_mutex));
 	CHECK_ZERO(pthread_mutex_lock(&td2.start_mutex));
-	
+
 	// now that both threads have set their name, show the threads with their names...
 	my_system("ps -p %d -L",getpid());
 	// let the threads die (if we do not unlock they will wait forever...)
