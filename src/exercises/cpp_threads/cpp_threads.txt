@@ -2,11 +2,4 @@ Create a C++ class that will wrap the pthread thread
 constrcut. Demostrate it's use.
 
 Create a new mutex over the standard mutex.
-
-Phase 1:
-	The new mutex will be release if the thread ends.
-	Do this on:
-		a. normal exit of the thread.
-		b. abnormal exit of the thread.
-
 Demostrate the use.
