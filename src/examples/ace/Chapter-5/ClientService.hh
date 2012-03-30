@@ -1,6 +1,4 @@
 /*
- * $Id: ClientService.h 80826 2008-03-04 14:51:23Z wotte $
- *
  * Sample code from The ACE Programmer's Guide,
  * copyright 2003 Addison-Wesley. All Rights Reserved.
  */
@@ -8,12 +6,12 @@
 #ifndef __CLIENTSERVICE_H_
 #define __CLIENTSERVICE_H_
 
-#include <ace/Synch_Traits.h>
-#include <ace/Null_Condition.h>
-#include <ace/Null_Mutex.h>
-#include <ace/Message_Block.h>
-#include <ace/SOCK_Stream.h>
-#include <ace/Svc_Handler.h>
+#include<ace/Synch_Traits.h>
+#include<ace/Null_Condition.h>
+#include<ace/Null_Mutex.h>
+#include<ace/Message_Block.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/Svc_Handler.h>
 
 class ClientService :
 public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> {

@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example showing how to force the compiler not to inline the function.
@@ -15,5 +16,5 @@ int doit(int a,int b) {
 
 int main(int argc,char** argv,char** envp) {
 	printf("did you know that 2+2=%d\n",doit(2,2));
-	return 0;
+	return EXIT_SUCCESS;
 }

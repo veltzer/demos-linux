@@ -51,5 +51,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("%lf\n",my_double_func(5.5f,6.7f));
 	printf("%f\n",my_float_func(5.5,6.7));
 	printf("%lf\n",my_double_func(5.5,6.7));
-	return(0);
+	return EXIT_SUCCESS;
 }

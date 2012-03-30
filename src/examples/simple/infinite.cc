@@ -1,3 +1,5 @@
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /*
  * This is a demo of a program always wanting the CPU.
  * If you look at it through ps like in:
@@ -8,7 +10,7 @@
  */
 
 int main(int argc,char** argv,char** envp) {
-	while(1) {
+	while(true) {
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

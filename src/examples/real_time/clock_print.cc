@@ -60,5 +60,5 @@ int main(int argc, char **argv, char **envp) {
 		CHECK_NOT_M1(clock_gettime(clk_id, &ts));
 		printf("clock resolution for clock %s (%d) is %ld (sec) %ld (nsec), time %ld.%09ld\n", clocks[i].name, clocks[i].id, res.tv_sec, res.tv_nsec,ts.tv_sec,ts.tv_nsec);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

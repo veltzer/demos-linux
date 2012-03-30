@@ -14,5 +14,5 @@
  */
 int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2, LINUX_REBOOT_CMD_RESTART, NULL));
-	return(0);
+	return EXIT_SUCCESS;
 }

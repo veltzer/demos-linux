@@ -1,4 +1,5 @@
-#include <iostream>
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * watch these macros and see if you can figure out what they do...
@@ -96,5 +97,5 @@ int main(int argc, char **argv, char **envp) {
 	std::cout << "CppOffsetOf(NameFMultInherit,z) is " << CppOffsetOf(NameFMultInherit, z) << std::endl;
 	std::cout << "CastOffsetOf(NameFMultInherit,NameOneVirtOneField) is " << CastOffsetOf(NameFMultInherit, NameOneVirtOneField) << std::endl;
 	std::cout << "CastOffsetOf(NameFMultInherit,NameOneVirtTwoField) is " << CastOffsetOf(NameFMultInherit, NameOneVirtTwoField) << std::endl;
-	return(0);
+	return EXIT_SUCCESS;
 }

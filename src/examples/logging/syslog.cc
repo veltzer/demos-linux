@@ -108,5 +108,5 @@ int main(int argc, char **argv, char **envp) {
 	sleep(1);
 	// show my own log (diregard other logs from other programs)
 	my_system("tail /var/log/syslog | grep %s | grep %d",myname,getpid());
-	return 0;
+	return EXIT_SUCCESS;
 }

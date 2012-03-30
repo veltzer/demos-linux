@@ -1,6 +1,7 @@
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for sleep(3)
-#include <papi.h> // for PAPI_* functions
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for sleep(3)
+#include<papi.h> // for PAPI_* functions
+#include<stdlib.h> // for EXIT_SUCCESS
 
 //#include "us_helper.hh"
 
@@ -57,5 +58,5 @@ int main(int argc, char **argv, char **envp) {
 	ret=PAPI_read_counters(arr,counters);
 	printf("ret is %d\n",ret);
 	print_counters(arr,counters);
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example of getting a register on an i32 machine
@@ -20,5 +21,5 @@ static inline unsigned int getstackpointer() {
 int main(int argc, char **argv, char **envp) {
 	printf("stackpointer is %u\n",getstackpointer());
 	printf("rdtsc is %u\n",getrdtsc());
-	return(0);
+	return EXIT_SUCCESS;
 }

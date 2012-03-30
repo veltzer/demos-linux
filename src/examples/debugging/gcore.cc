@@ -49,10 +49,11 @@ int main(int argc, char **argv, char **envp) {
 			}
 #endif // DO_SELF_PHOTO
 		}
-		return(0);
+		return EXIT_SUCCESS;
 #ifdef DO_FORK
 	} else {
 		my_system("sudo gcore %d",child_pid);
 	}
 #endif // DO_FORK
+	return EXIT_SUCCESS;
 }

@@ -109,5 +109,5 @@ int main(int argc,char** argv,char** envp) {
 	#ifdef DO_ATOF
 	s_atof.print_gnuplot();
 	#endif // DO_ATOF
-	return 0;
+	return EXIT_SUCCESS;
 }

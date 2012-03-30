@@ -62,5 +62,5 @@ int main(int argc,char** argv,char** envp) {
 	pthread_t t;
 	CHECK_ZERO(pthread_create(&t,NULL,doit,NULL));
 	CHECK_ZERO(pthread_join(t,NULL));
-	return 0;
+	return EXIT_SUCCESS;
 }

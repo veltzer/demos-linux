@@ -113,5 +113,5 @@ int main(int argc, char **argv, char **envp) {
 	A d(6.7);
 
 	std::cerr << "d.val is " << d.val << std::endl;
-	return(0);
+	return EXIT_SUCCESS;
 }

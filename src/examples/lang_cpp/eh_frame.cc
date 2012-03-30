@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example explores the funky eh_frame
@@ -24,7 +24,6 @@ public:
 
 int main(int argc, char **argv, char **envp) {
 	A a;
-
 	a.doit();
-	return(0);
+	return EXIT_SUCCESS;
 }

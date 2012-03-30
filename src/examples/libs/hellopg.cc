@@ -66,5 +66,5 @@ int main(int argc, char** argv, char** envp) {
 	res = PQexec(conn, "COMMIT");
 	PQclear(res);
 	PQfinish(conn);
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,6 +1,4 @@
 /*
- * $Id: Timer_State_Data.cpp 80826 2008-03-04 14:51:23Z wotte $
- *
  * Reactor examples
  *
  * Timers & state data
@@ -10,10 +8,10 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-#include <ace/OS_NS_time.h>
-#include <ace/Log_Msg.h>
-#include <ace/Reactor.h>
-#include <ace/Event_Handler.h>
+#include<ace/OS_NS_time.h>
+#include<ace/Log_Msg.h>
+#include<ace/Reactor.h>
+#include<ace/Event_Handler.h>
 
 // Listing 0 code/ch07
 class TemperatureSensor {

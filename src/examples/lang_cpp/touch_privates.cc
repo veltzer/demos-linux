@@ -77,5 +77,5 @@ int main(int argc, char **argv, char **envp) {
 	setSecret(&b,7,true);
 	printf("a.getSecret() is %d\n",a.getSecret());
 	printf("b.getSecret() is %d\n",b.getSecret());
-	return(0);
+	return EXIT_SUCCESS;
 }

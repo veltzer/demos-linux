@@ -30,5 +30,5 @@ int main(int argc, char **argv, char **envp) {
 		CHECK_NOT_M1(clock_gettime(clk_id, &t));
 		print_timespec("clock time is ", &t);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

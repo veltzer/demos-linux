@@ -1,3 +1,5 @@
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /*
  * This example shows how to use timerfd to do timing in an application.
  *
@@ -8,5 +10,5 @@
  */
 
 int main(int argc,char** argv,char** envp) {
-	return 0;
+	return EXIT_SUCCESS;
 }

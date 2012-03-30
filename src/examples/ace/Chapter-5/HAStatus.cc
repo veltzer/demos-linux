@@ -1,13 +1,14 @@
-#include <ace/OS_NS_sys_time.h>
-#include <ace/os_include/os_netdb.h>
-#include <ace/Auto_Ptr.h>
-#include <ace/Log_Msg.h>
-#include <ace/INET_Addr.h>
-#include <ace/SOCK_Acceptor.h>
-#include <ace/Reactor.h>
-#include <ace/Message_Queue.h>
-#include <ace/SOCK_Stream.h>
-#include <ace/Synch.h>
+#include<ace/OS_NS_sys_time.h>
+#include<ace/os_include/os_netdb.h>
+#include<ace/Auto_Ptr.h>
+#include<ace/Log_Msg.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Acceptor.h>
+#include<ace/Reactor.h>
+#include<ace/Message_Queue.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/Synch.h>
+#include<ace/Signal.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -21,7 +22,6 @@ public:
 	virtual ACE_HANDLE get_handle(void) const {
 		return(this->acceptor_.get_handle());
 	}
-
 
 	// Called when a connection is ready to accept.
 	virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
@@ -39,14 +39,12 @@ public:
 		return(this->sock_);
 	}
 
-
 	int open(void);
 
 	// Get this handler's I/O handle.
 	virtual ACE_HANDLE get_handle(void) const {
 		return(this->sock_.get_handle());
 	}
-
 
 	// Called when input is available from the client.
 	virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
@@ -66,14 +64,12 @@ ClientAcceptor::~ClientAcceptor() {
 	this->handle_close(ACE_INVALID_HANDLE, 0);
 }
 
-
 int ClientAcceptor::open(const ACE_INET_Addr& listen_addr) {
 	if (this->acceptor_.open(listen_addr, 1) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), -1);
 	}
 	return(this->reactor()->register_handler (this, ACE_Event_Handler::ACCEPT_MASK));
 }
-
 
 int ClientAcceptor::handle_input(ACE_HANDLE) {
 	ClientService *client;
@@ -92,7 +88,6 @@ int ClientAcceptor::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-
 int ClientAcceptor::handle_close(ACE_HANDLE, ACE_Reactor_Mask) {
 	if (this->acceptor_.get_handle() != ACE_INVALID_HANDLE) {
 		ACE_Reactor_Mask m = ACE_Event_Handler::ACCEPT_MASK | ACE_Event_Handler::DONT_CALL;
@@ -101,7 +96,6 @@ int ClientAcceptor::handle_close(ACE_HANDLE, ACE_Reactor_Mask) {
 	}
 	return(0);
 }
-
 
 int ClientService::open(void) {
 	ACE_TCHAR peer_name[MAXHOSTNAMELEN];
@@ -112,7 +106,6 @@ int ClientService::open(void) {
 	}
 	return(this->reactor()->register_handler (this, ACE_Event_Handler::READ_MASK));
 }
-
 
 int ClientService::handle_input(ACE_HANDLE) {
 	const size_t INPUT_SIZE = 4096;
@@ -152,7 +145,6 @@ int ClientService::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-
 int ClientService::handle_output(ACE_HANDLE) {
 	ACE_Message_Block *mb;
 
@@ -174,7 +166,6 @@ int ClientService::handle_output(ACE_HANDLE) {
 	return((this->output_queue_.is_empty()) ? -1 : 0);
 }
 
-
 int ClientService::handle_close(ACE_HANDLE, ACE_Reactor_Mask mask) {
 	if (mask == ACE_Event_Handler::WRITE_MASK) {
 		return(0);
@@ -186,7 +177,6 @@ int ClientService::handle_close(ACE_HANDLE, ACE_Reactor_Mask mask) {
 	delete this;
 	return(0);
 }
-
 
 class LoopStopper : public ACE_Event_Handler {
 public:
@@ -200,14 +190,10 @@ LoopStopper::LoopStopper(int signum) {
 	ACE_Reactor::instance()->register_handler(signum, this);
 }
 
-
 int LoopStopper::handle_signal(int, siginfo_t *, ucontext_t *) {
 	ACE_Reactor::instance()->end_reactor_event_loop();
 	return(0);
 }
-
-
-#include <ace/Signal.h>
 
 class LogSwitcher : public ACE_Event_Handler {
 public:
@@ -241,9 +227,7 @@ LogSwitcher::LogSwitcher(int on_sig, int off_sig)
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("After register_handler\n")));
 }
 
-
-int
-LogSwitcher::handle_signal(int signum, siginfo_t *, ucontext_t *) {
+int LogSwitcher::handle_signal(int signum, siginfo_t *, ucontext_t *) {
 	if ((signum == this->on_sig_) || (signum == this->off_sig_)) {
 		this->on_off_ = signum == this->on_sig_;
 		ACE_Reactor::instance()->notify(this);
@@ -251,7 +235,6 @@ LogSwitcher::handle_signal(int signum, siginfo_t *, ucontext_t *) {
 	}
 	return(0);
 }
-
 
 int LogSwitcher::handle_exception(ACE_HANDLE) {
 	if (this->on_off_) {
@@ -262,18 +245,13 @@ int LogSwitcher::handle_exception(ACE_HANDLE) {
 	return(0);
 }
 
-
 int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_INET_Addr port_to_listen("HAStatus");
-
 	ClientAcceptor acceptor;
-
 	acceptor.reactor(ACE_Reactor::instance());
 	if (acceptor.open(port_to_listen) == -1) {
 		return(1);
 	}
-
 	ACE_Reactor::instance()->run_reactor_event_loop();
-
 	return(0);
 }

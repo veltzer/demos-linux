@@ -1,10 +1,8 @@
-// $Id: Iovec.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include <ace/INET_Addr.h>
-#include <ace/SOCK_Stream.h>
-#include <ace/SOCK_Connector.h>
-#include <ace/Log_Msg.h>
-#include <ace/OS_NS_unistd.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/SOCK_Connector.h>
+#include<ace/Log_Msg.h>
+#include<ace/OS_NS_unistd.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

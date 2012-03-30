@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <wchar.h>
-#include <string.h>
-#include <locale.h>
+#include<stdio.h> // for wprintf(3)
+#include<wchar.h> // for wprintf(3)
+#include<locale.h> // for setlocale(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example explores wide strings in GCC.
@@ -22,5 +22,5 @@ int main(int argc, char **argv, char **envp) {
 	//wprintf(L"here is a string\n");
 	//printf("length of %s is %d\n",s1,strlen(s1));
 	wprintf(L"here is a wide char for ya [%ls]\n", s2);
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -46,5 +46,5 @@ int main(int argc,char** argv,char** envp) {
 		}
 		show_vmem();
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

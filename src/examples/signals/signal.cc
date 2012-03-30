@@ -54,5 +54,5 @@ int main(int argc, char **argv, char **envp) {
 		int ret = pause();
 		TRACE("wakeup with %d",ret);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

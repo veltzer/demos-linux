@@ -59,5 +59,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("c2 is %lld\n",c2);
 	printf("t1 is %lld\n",t1);
 	printf("t2 is %lld\n",t2);
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -108,5 +108,5 @@ int main(int argc, char **argv, char **envp) {
 		CHECK_ZERO(pthread_join(threads[i],NULL));
 	}
 	TRACE("end");
-	return(0);
+	return EXIT_SUCCESS;
 }

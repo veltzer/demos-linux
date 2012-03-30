@@ -1,4 +1,5 @@
 #include <curses.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Curses example program number 2...
@@ -18,5 +19,5 @@ int main(int argc, char **argv, char **envp) {
 	initscr();
 	cbreak();
 	noecho();
-	return(0);
+	return EXIT_SUCCESS;
 }

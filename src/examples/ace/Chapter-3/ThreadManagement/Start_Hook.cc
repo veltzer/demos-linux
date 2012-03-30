@@ -1,10 +1,7 @@
-// $Id: Start_Hook.cpp 80826 2008-03-04 14:51:23Z wotte $
-
-#include <ace/Thread_Hook.h>
-#include <ace/Task.h>
-#include <ace/Log_Msg.h>
-
-#include "SecurityContext.hh"
+#include<ace/Thread_Hook.h>
+#include<ace/Task.h>
+#include<ace/Log_Msg.h>
+#include"SecurityContext.hh"
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

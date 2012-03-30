@@ -83,5 +83,5 @@ int main(int argc, char** argv,char** envp) {
 			(unsigned long long) exp,
 			(unsigned long long) tot_exp);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -69,5 +69,5 @@ int main(int argc, char **argv, char **envp) {
 	if(matchingError) {
 		printf("doing some cleanup code at end of program in case of EOF or parse error...\n");
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

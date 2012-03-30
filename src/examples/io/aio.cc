@@ -48,5 +48,5 @@ int main(int argc, char **argv, char **envp) {
 	char* buf=(char*)my_aiocb.aio_buf;
 	buf[ret]='\0';
 	printf("%s\n",buf);
-	return(0);
+	return EXIT_SUCCESS;
 }

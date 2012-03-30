@@ -1,3 +1,5 @@
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /*
  * This is a simple example causing a core dump.
  *
@@ -7,8 +9,7 @@
  * 			Mark Veltzer
  */
 
-int main(int argc, char **argv, char **envp)
-{
+int main(int argc, char** argv, char** envp) {
 	*(char *)0 = 0;
-	return(0);
+	return EXIT_SUCCESS;
 }

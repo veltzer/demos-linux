@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of how to write a function for which the user should not use
@@ -29,5 +30,5 @@ int main(int argc, char **argv, char **envp) {
 	//add(5,6);
 	// this is a good line...
 	printf("%d+%d is %d\n", a, b, add(a, b));
-	return(0);
+	return EXIT_SUCCESS;
 }

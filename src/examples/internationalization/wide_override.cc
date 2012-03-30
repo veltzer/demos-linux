@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is trying to override the default gcc behaviour
@@ -13,5 +13,5 @@
 int main(int argc, char **argv, char **envp) {
 	printf("size of char is %d\n", sizeof(char));
 	printf("size of wchar_t is %d\n", sizeof(wchar_t));
-	return(0);
+	return EXIT_SUCCESS;
 }

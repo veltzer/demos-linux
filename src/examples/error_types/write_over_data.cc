@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  *
@@ -36,5 +37,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("*foo is %d\n",*foo);
 	do_something_with_an_integer(a);
 	*/
-	return(0);
+	return EXIT_SUCCESS;
 }

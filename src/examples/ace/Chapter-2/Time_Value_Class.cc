@@ -1,8 +1,7 @@
-//#include <ace/OS.h>
-#include <ace/ARGV.h>
-#include <ace/Get_Opt.h>
-#include <ace/ARGV.h>
-#include <iostream>
+#include<ace/ARGV.h>
+#include<ace/Get_Opt.h>
+#include<ace/ARGV.h>
+#include<iostream>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

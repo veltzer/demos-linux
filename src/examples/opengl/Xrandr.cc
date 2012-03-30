@@ -83,5 +83,5 @@ int main(int argc,char** argv,char** envp) {
 	//	EXIT
 	//
 	assert(XCloseDisplay(dpy));
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -73,5 +73,5 @@ int main(int argc,char** argv,char** envp) {
 	for(unsigned int i=0;i<size;i++) {
 		printf("%d: %d\n",i,arr[i]);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

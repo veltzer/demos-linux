@@ -111,5 +111,5 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(close(fd));
 	printf("max_rec is %d\n",max_rec);
 	printf("max_len is %d\n",max_len);
-	return(0);
+	return EXIT_SUCCESS;
 }

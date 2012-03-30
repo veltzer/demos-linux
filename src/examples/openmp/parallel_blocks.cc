@@ -1,3 +1,7 @@
+#include<stdio.h> // for printf(3)
+#include<omp.h> // for omp_*(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+
 /*
  * This is an example of a parallel block of code. The for loop is not parallel
  * here, it is the block containting the for loop that is parallel.
@@ -6,9 +10,6 @@
  *
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
-
-#include<stdio.h> // for printf(3)
-#include<omp.h> // for omp_*(3)
 
 int main(int argc,char** argv,char** envp) {
 	int id;
@@ -38,5 +39,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("\n");
 	printf("Normal end of execution.\n" );
 	printf("Elapsed wall clock time=%f\n",wtime);
-	return 0;
+	return EXIT_SUCCESS;
 }

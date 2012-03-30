@@ -21,5 +21,5 @@ int main(int argc, char **argv, char **envp) {
 	// next function does not return any status...
 	hdestroy();
 	// TODO
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -46,5 +46,5 @@ int main(int argc, char **argv, char **envp) {
 	std::cerr << "sum for 100 is " << sum(100) << std::endl;
 	std::cerr << "sum for 100 is " << sum(100) << std::endl;
 	std::cerr << "sum for 101 is " << sum(101) << std::endl;
-	return(0);
+	return EXIT_SUCCESS;
 }

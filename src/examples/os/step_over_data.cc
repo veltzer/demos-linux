@@ -55,5 +55,5 @@ int main(int argc,char** argv,char** envp) {
 	}
 	// do not remove the next call (see above note)
 	printf("this is a dummy print which is never reached and must stay here so that the compiler will not optimize away the loop before when compiling with optimization turned on");
-	return 0;
+	return EXIT_SUCCESS;
 }

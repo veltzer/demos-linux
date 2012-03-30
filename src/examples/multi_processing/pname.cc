@@ -63,5 +63,5 @@ int main(int argc, char **argv, char **envp) {
 	my_print_process_name_from_proc();
 	my_system("ps -o comm | grep %s | grep -v grep",newname);
 	TRACE("end");
-	return(0);
+	return EXIT_SUCCESS;
 }

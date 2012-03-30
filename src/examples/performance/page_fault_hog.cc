@@ -26,5 +26,5 @@ void minor_fault_hog_function() {
 
 int main(int argc, char **argv, char **envp) {
 	minor_fault_hog_function();
-	return(0);
+	return EXIT_SUCCESS;
 }

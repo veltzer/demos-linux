@@ -70,5 +70,5 @@ int main(int argc, char **argv, char **envp) {
 		}
 		std::cerr << "main: after read" << std::endl;
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

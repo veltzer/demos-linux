@@ -21,5 +21,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("bool is really %s\n",__stringify(bool));
 	printf("true is really %s\n",__stringify(true));
 	printf("false is really %s\n",__stringify(false));
-	return(0);
+	return EXIT_SUCCESS;
 }

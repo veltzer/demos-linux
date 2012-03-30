@@ -1,15 +1,13 @@
-// $Id: Timers.cpp 80826 2008-03-04 14:51:23Z wotte $
-
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-#include <ace/config-all.h>
-#include <ace/OS_main.h>
-#include <ace/streams.h>
-#include <ace/OS_NS_unistd.h>
-#include <ace/OS_NS_time.h>
-#include <ace/OS_NS_signal.h>
+#include<ace/config-all.h>
+#include<ace/OS_main.h>
+#include<ace/streams.h>
+#include<ace/OS_NS_unistd.h>
+#include<ace/OS_NS_time.h>
+#include<ace/OS_NS_signal.h>
 
 typedef void (*timerTask_t)(void);
 

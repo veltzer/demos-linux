@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 // these we stolen shamelessly from the kernel.
 // It is a good idea to use them so that if you have a compiler
@@ -42,5 +43,5 @@ int main(int argc, char **argv, char **envp) {
 	}
 	printf("sum is %lld\n",sum);
 	printf("x is %d\n",x);
-	return(0);
+	return EXIT_SUCCESS;
 }

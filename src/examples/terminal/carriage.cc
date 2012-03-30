@@ -48,5 +48,5 @@ int main(int argc, char **argv, char **envp) {
 		usleep(10000);
 	}
 	printf("\n\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

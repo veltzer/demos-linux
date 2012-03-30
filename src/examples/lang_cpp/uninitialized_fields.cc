@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Example showing forgetting for initialization of members
@@ -17,5 +18,5 @@ int main(int argc,char** argv,char** envp) {
 	A a;
 	printf("a.a is %d\n",a.a);
 	printf("a.b is %d\n",a.b);
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -47,6 +47,5 @@ int main(int argc, char **argv, char **envp) {
 	sprintf(filename, "/lib/modules/%s/kernel/drivers/ata/ahci.ko", buf.release);
 	printf("filename is %s\n", filename);
 	get_driver_version(filename);
-
-	return(0);
+	return EXIT_SUCCESS;
 }

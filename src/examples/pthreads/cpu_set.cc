@@ -30,5 +30,5 @@ int main(int argc, char **argv, char **envp) {
 		CPU_SET(i, &cpuset);
 	}
 	print_cpu_set(&cpuset);
-	return(0);
+	return EXIT_SUCCESS;
 }

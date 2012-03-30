@@ -1,5 +1,6 @@
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for sleep(3)
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for sleep(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 //#include "us_helper.hh"
 
@@ -19,5 +20,5 @@ int main(int argc, char** argv, char** envp) {
 	printf("stackpointer is %lu\n",getstackpointer());
 	sleep(1);
 	printf("stackpointer is %lu\n",getstackpointer());
-	return(0);
+	return EXIT_SUCCESS;
 }

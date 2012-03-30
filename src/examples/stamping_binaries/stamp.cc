@@ -83,5 +83,5 @@ int main(int argc, char **argv, char **envp) {
 	snprintf(cmd,len,"gdb -c /tmp/core.%d -q %s -x %s",getpid(),argv[0],script);
 	printf("\nrunning [%s]\n",cmd);
 	CHECK_NOT_M1(system(cmd));
-	return(0);
+	return EXIT_SUCCESS;
 }

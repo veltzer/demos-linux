@@ -14,5 +14,5 @@ int main(int argc, char** argv, char** envp) {
 	GtkWidget *w = gnome_app_new("mdi-test", "1.0");
 	gtk_widget_show(w);
 	gtk_main();
-	return(0);
+	return EXIT_SUCCESS;
 }

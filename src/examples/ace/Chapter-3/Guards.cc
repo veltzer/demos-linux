@@ -1,10 +1,10 @@
 // $Id: Guards.cpp 80826 2008-03-04 14:51:23Z wotte $
-#include <ace/config-lite.h>
-#include <ace/OS_main.h>
-#include <ace/OS_Memory.h>
-#include <ace/Guard_T.h>
-#include <ace/Log_Msg.h>
-#include <ace/Thread_Mutex.h>
+#include<ace/config-lite.h>
+#include<ace/OS_main.h>
+#include<ace/OS_Memory.h>
+#include<ace/Guard_T.h>
+#include<ace/Log_Msg.h>
+#include<ace/Thread_Mutex.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

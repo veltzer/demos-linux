@@ -91,5 +91,5 @@ int main(int argc, char **argv, char **envp) {
 	} catch (TracedException e) {
 		e.print();
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

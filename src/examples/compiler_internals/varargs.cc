@@ -1,4 +1,5 @@
 #include <stdio.h> // for vprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to use the __builtin_ varargs
@@ -42,5 +43,5 @@ int main(int argc, char **argv, char **envp) {
 	trace("%s %d %f\n", "Hello", 5, 3.14);
 	// the next line will produce a compile time error (passing int as string...)
 	//trace("%s %s %f\n","Hello",5,3.14);
-	return(0);
+	return EXIT_SUCCESS;
 }

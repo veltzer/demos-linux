@@ -10,5 +10,5 @@
 
 int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(ioctl(5,7));
-	return(0);
+	return EXIT_SUCCESS;
 }

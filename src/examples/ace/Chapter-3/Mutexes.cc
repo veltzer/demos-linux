@@ -1,6 +1,6 @@
-#include <ace/config-lite.h>
-#include <ace/Synch.h>
-#include <ace/Task.h>
+#include<ace/config-lite.h>
+#include<ace/Synch.h>
+#include<ace/Task.h>
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

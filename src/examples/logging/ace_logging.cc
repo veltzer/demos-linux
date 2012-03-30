@@ -39,5 +39,5 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%IBefore\n")));
 	foo();
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%IAfter\n")));
-	return(0);
+	return EXIT_SUCCESS;
 }

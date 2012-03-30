@@ -89,5 +89,5 @@ int main(int argc, char **argv, char **envp) {
 		assert(blk_size==real_size);
 	}
 	mguess_fini();
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -24,5 +24,5 @@ int main(int argc,char** argv, char** envp) {
 		std::cout << j << ":" << row["name"] << std::endl;
 		j++;
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -41,5 +41,5 @@ int main(int argc,char** argv,char** envp) {
 	// this will end the software immediately
 	// _exit(7);
 	exit(17);
-	return(0);
+	return EXIT_SUCCESS;
 }

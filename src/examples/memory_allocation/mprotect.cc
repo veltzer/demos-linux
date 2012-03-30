@@ -97,5 +97,5 @@ int main(int argc,char** argv,char** envp) {
 	bug_doing_write(buffer);
 
 	free(buffer);
-	return(0);
+	return EXIT_SUCCESS;
 }

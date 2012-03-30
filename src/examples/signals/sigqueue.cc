@@ -25,5 +25,5 @@ int main(int argc, char **argv, char **envp) {
 		perror("problem calling sigqueue(2)");
 		exit(1);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -49,5 +49,5 @@ int main(int argc,char** argv,char** envp) {
 		printf("f2 is %f\n",f2);
 		printf("back_i2 is %d\n",back_i2);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

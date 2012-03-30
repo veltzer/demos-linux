@@ -33,5 +33,5 @@ int main(int argc,char** argv,char** envp) {
 		printf("managed to allocate %d megs\n",d);
 		d++;
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

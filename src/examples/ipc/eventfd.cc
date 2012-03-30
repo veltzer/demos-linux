@@ -52,7 +52,7 @@ int main(int argc, char **argv, char **envp) {
 		printf("Child completed write loop\n");
 		CHECK_NOT_M1(close(efd));
 		printf("Child exiting\n");
-		return(0);
+		return EXIT_SUCCESS;
 	} else {
 		// parent branch
 		// install a signal handler for when the child dies so that we could know
@@ -73,6 +73,6 @@ int main(int argc, char **argv, char **envp) {
 		}
 		CHECK_NOT_M1(close(efd));
 		printf("Parent exiting\n");
-		return(0);
+		return EXIT_SUCCESS;
 	}
 }

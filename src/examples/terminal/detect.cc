@@ -19,5 +19,5 @@ int main(int argc, char **argv, char **envp) {
 	} else {
 		DEBUG("it is not a terminal");
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

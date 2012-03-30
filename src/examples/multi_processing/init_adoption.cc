@@ -63,5 +63,5 @@ int main(int argc, char **argv, char **envp) {
 		// lets die
 		return 0;
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

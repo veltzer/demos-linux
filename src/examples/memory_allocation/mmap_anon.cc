@@ -62,5 +62,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("p is %p\n", p);
 	print_stats();
 	CHECK_ZERO(munmap(p,size));
-	return(0);
+	return EXIT_SUCCESS;
 }

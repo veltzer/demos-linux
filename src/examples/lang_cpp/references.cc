@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example explores the use of references.
@@ -51,5 +52,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("&j is %p\n",&i);
 	printf("&k is %p\n",&k);
 	printf("*k is %d\n",*k);
-	return(0);
+	return EXIT_SUCCESS;
 }

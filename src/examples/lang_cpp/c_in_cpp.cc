@@ -56,5 +56,5 @@ int main(int argc, char **argv, char **envp) {
 	my_system("nm ./c_in_cpp | grep style_add");
 	printf("These are the symbols with demangling:\n");
 	my_system("nm -C ./c_in_cpp | grep style_add");
-	return(0);
+	return EXIT_SUCCESS;
 }

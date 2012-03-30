@@ -1,5 +1,6 @@
 #include <link.h> // for dl_iterate_phdr(3)
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to find out which libraries you are linked to.
@@ -21,5 +22,5 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data) {
 
 int main(int argc, char** argv,char** envp) {
 	dl_iterate_phdr(callback, NULL);
-	return 0;
+	return EXIT_SUCCESS;
 }

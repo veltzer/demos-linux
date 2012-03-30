@@ -1,6 +1,7 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	//const int i=5;
 	//const int* pi=&i;
 	//const int& ri=i;
@@ -8,5 +9,5 @@ int main() {
 	// i=8;
 	//*pi=7;
 	//ri=8;
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -19,5 +19,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("sysconf(_SC_LEVEL1_DCACHE_LINESIZE)=%d\n",linesize);
 	CHECK_NOT_M1(linesize=sysconf(_SC_LEVEL1_ICACHE_LINESIZE));
 	printf("sysconf(_SC_LEVEL1_ICACHE_LINESIZE)=%d\n",linesize);
-	return(0);
+	return EXIT_SUCCESS;
 }

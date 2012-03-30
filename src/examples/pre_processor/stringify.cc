@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to quote strings in GCC
@@ -13,5 +14,5 @@
 
 int main(int argc, char **argv, char **envp) {
 	printf("this is some " __stringify(FOOBAR) " string\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

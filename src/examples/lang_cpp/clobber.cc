@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo that shows C++ allows to clobber variable names in serveral ways:
@@ -34,5 +35,5 @@ class B: public A {
 int main(int argc,char** argv,char** envp) {
 	B b;
 	b.doSomething(7);
-	return 0;
+	return EXIT_SUCCESS;
 }

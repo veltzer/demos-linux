@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This shows how to use preprocessor defines...
@@ -12,5 +13,5 @@ int main(int argc, char **argv, char **envp) {
 #ifdef __cplusplus
 	printf("This means that we are in c++ context\n");
 #endif // __cplusplus
-	return(0);
+	return EXIT_SUCCESS;
 }

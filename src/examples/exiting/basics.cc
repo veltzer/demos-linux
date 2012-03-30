@@ -88,5 +88,5 @@ int main(int argc, char **argv, char **envp) {
 		}
 	}
 	printf("does this ever get executed ?!?\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

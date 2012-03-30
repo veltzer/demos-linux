@@ -18,5 +18,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",ncpus);
 	CHECK_NOT_M1(ncpus=sysconf(_SC_NPROCESSORS_CONF));
 	printf("sysconf(_SC_NPROCESSORS_CONF)=%d\n",ncpus);
-	return(0);
+	return EXIT_SUCCESS;
 }

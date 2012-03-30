@@ -55,5 +55,5 @@ int main(int argc, char** argv, char** envp) {
 	}
 	TRACE("joined all threads, destroying the lock...");
 	CHECK_ZERO(pthread_mutex_destroy(&mylock));
-	return(0);
+	return EXIT_SUCCESS;
 }

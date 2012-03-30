@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a simple "Hello, World!" application.
@@ -7,5 +8,5 @@
  */
 int main(int argc, char **argv, char **envp) {
 	printf("Hello, World!\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

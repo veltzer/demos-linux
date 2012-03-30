@@ -117,5 +117,5 @@ int main(int argc, char** argv,char** envp) {
 		close(s);
 		usleep(30000);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

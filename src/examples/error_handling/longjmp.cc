@@ -1,4 +1,5 @@
 #include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 #include <setjmp.h> // for longjmp(3), setjmp(3)
 
 /*
@@ -39,5 +40,5 @@ int main(int argc, char **argv, char **envp) {
 			fprintf(stderr, "oops, got an error from func %d\n", ret);
 		}
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

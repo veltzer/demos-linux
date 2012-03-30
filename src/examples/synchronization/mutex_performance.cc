@@ -98,5 +98,5 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_fast));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_recursive));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_errorcheck));
-	return(0);
+	return EXIT_SUCCESS;
 }

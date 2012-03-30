@@ -43,5 +43,5 @@ int main(int argc, char **argv, char **envp) {
 	print_timeval(&tv_end, "end");
 	unsigned long diff = diff_timeval_in_micro(&tv_start, &tv_end);
 	printf("diff is %lu\n", diff);
-	return(0);
+	return EXIT_SUCCESS;
 }

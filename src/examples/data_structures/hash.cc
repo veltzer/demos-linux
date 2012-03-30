@@ -59,5 +59,5 @@ int main(int argc,char** argv,char** envp) {
 		perror("hash_destroy failed");
 		exit(1);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

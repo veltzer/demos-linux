@@ -17,5 +17,5 @@
 int main(int argc, char **argv, char **envp) {
 	init_dialog(NULL, NULL);
 	end_dialog();
-	return(0);
+	return EXIT_SUCCESS;
 }

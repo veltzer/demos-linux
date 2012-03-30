@@ -61,5 +61,5 @@ class A {
 int main(int argc, char **argv, char **envp) {
 	A a;
 	a.thisMethod(5,6);
-	return 0;
+	return EXIT_SUCCESS;
 }

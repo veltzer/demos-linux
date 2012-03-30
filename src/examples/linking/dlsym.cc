@@ -23,5 +23,5 @@ int atoi(const char* nptr) {
 
 int main(int argc,char** argv,char** envp) {
 	printf("atoi of 45 is %d\n",atoi("45"));
-	return 0;
+	return EXIT_SUCCESS;
 }

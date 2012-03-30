@@ -85,5 +85,5 @@ int main(int argc, char** argv, char** envp) {
 	pthread_join(mpt, NULL);
 	pthread_join(lpt, NULL);
 	printf("main exiting\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

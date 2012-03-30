@@ -1,3 +1,8 @@
+#include <cmath> // for std::sin
+#include <stdio.h> // for printf(3)
+#include <omp.h> // for #pragma omp parallel for
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /*
  * A demo calculating the sin table with openmp.
  *
@@ -5,10 +10,6 @@
  *
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
-
-#include <cmath> // for std::sin
-#include <stdio.h> // for printf(3)
-#include <omp.h>
 
 int main(int argc,char** argv,char** envp) {
 	const int size = 256;
@@ -22,5 +23,5 @@ int main(int argc,char** argv,char** envp) {
 	for(int i=0;i<size;i++) {
 		printf("sinTable[%d]=%lf\n",i,sinTable[i]);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

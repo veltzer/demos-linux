@@ -46,5 +46,5 @@ int main(int argc,char** argv,char** envp) {
 		handle_error(1);
 	printf("value 0 is %lld\n",values[0]);
 	printf("value 1 is %lld\n",values[1]);
-	return 0;
+	return EXIT_SUCCESS;
 }

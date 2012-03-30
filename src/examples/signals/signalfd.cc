@@ -45,4 +45,5 @@ int main(int argc, char** argv, char** envp) {
 			printf("Read unexpected signal\n");
 		}
 	}
+	return EXIT_SUCCESS;
 }

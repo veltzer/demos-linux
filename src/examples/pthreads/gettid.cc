@@ -37,5 +37,5 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_ZERO(pthread_create(&t2,NULL,doit,NULL));
 	CHECK_ZERO(pthread_join(t1,NULL));
 	CHECK_ZERO(pthread_join(t2,NULL));
-	return 0;
+	return EXIT_SUCCESS;
 }

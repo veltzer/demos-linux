@@ -1,6 +1,5 @@
-#include <stdio.h> // for printf(3)
-#include <string.h> // for memcpy(3)
-#include <iostream>
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 ////////////////////////////
 // This is in the HH file //
@@ -18,8 +17,7 @@ class Employee {
 // This is in the CC file //
 ////////////////////////////
 void Employee::printSalary() {
-	printf("my salary is %d\n",salary);
-	std::cout << "Hello";
+	std::cout << "Hello" << salary << std::endl;
 }
 void Employee::setSalary(int newsalary) {
 	salary=newsalary;
@@ -28,9 +26,9 @@ void Employee::setSalary(int newsalary) {
 ///////////////////////////////
 // This is in the using part //
 ///////////////////////////////
-int main() {
+int main(int argc,char** argv,char** envp) {
 	Employee e;
 	e.setSalary(7);
 	e.printSalary();
-	return 0;
+	return EXIT_SUCCESS;
 }
