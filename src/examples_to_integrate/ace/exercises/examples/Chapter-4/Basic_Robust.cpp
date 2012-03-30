@@ -1,14 +1,11 @@
-// $Id: Basic_Robust.cpp 80826 2008-03-04 14:51:23Z wotte $
+#include<ace/OS_NS_errno.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/SOCK_Connector.h>
+#include<ace/Log_Msg.h>
+#include<ace/Time_Value.h>
 
-#include "ace/OS_NS_errno.h"
-#include "ace/INET_Addr.h"
-#include "ace/SOCK_Stream.h"
-#include "ace/SOCK_Connector.h"
-#include "ace/Log_Msg.h"
-#include "ace/Time_Value.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
+int ACE_TMAIN (int, ACE_TCHAR *[]) {
   /*
    * Here we will use the default ctor and the set()
    * method to configure it. After each set() we will

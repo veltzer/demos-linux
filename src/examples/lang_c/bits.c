@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h>
+#include<string.h>
 
 /*
  *      This is to check some assumptions on bit operations

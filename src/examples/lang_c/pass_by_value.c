@@ -1,4 +1,4 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
 
 void addone(double* a) {
 	*a+=1.0;

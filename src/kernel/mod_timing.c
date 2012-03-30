@@ -1,16 +1,15 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/fs.h> // for fops
-#include <linux/device.h> // for struct device
+#include<linux/module.h> // for MODULE_*
+#include<linux/fs.h> // for fops
+#include<linux/device.h> // for struct device
+#include<linux/delay.h> // for udelay
+#include<linux/cpufreq.h> // for cpufreq_*
+#include<linux/cpu.h> // for getting the number of cpus 
 
-#include <linux/delay.h> // for udelay
-#include <linux/cpufreq.h> // for cpufreq_*
-#include <linux/cpu.h> // for getting the number of cpus 
-
-#include "shared.h"
+#include"shared.h"
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  *	This driver shows how various timing delays are done in the kernel
@@ -115,4 +114,4 @@ static struct file_operations my_fops = {
 	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
-#include "device.inc"
+#include"device.inc"

@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <dlfcn.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<dlfcn.h>
+#include<stdlib.h>
 
 int main(int argc, char **argv, char **envp) {
 	void *h = dlopen("libadd.so", RTLD_NOW);

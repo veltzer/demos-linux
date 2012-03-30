@@ -1,10 +1,9 @@
-#include "ace/config-lite.h"
-
-#include "ace/OS_NS_string.h"
-#include "ace/OS_NS_sys_time.h"
-#include "ace/Task.h"
-#include "ace/Containers.h"
-#include "ace/Synch.h"
+#include"ace/config-lite.h"
+#include"ace/OS_NS_string.h"
+#include"ace/OS_NS_sys_time.h"
+#include"ace/Task.h"
+#include"ace/Containers.h"
+#include"ace/Synch.h"
 
 class Follower
 {

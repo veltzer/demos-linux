@@ -1,12 +1,10 @@
-// $Id: Guards.cpp 80826 2008-03-04 14:51:23Z wotte $
-#include "ace/config-lite.h"
-#if defined (ACE_HAS_THREADS)
-
-#include "ace/OS_main.h"
-#include "ace/OS_Memory.h"
-#include "ace/Guard_T.h"
-#include "ace/Log_Msg.h"
-#include "ace/Thread_Mutex.h"
+#include<ace/config-lite.h>
+#include<ace/OS_main.h>
+#include<ace/OS_Memory.h>
+#include<ace/Guard_T.h>
+#include<ace/Log_Msg.h>
+#include<ace/Thread_Mutex.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 // This file exists primarily to get code into the book to show different
 // ways to do the same thing. For complete context and explanation, please
@@ -75,21 +73,8 @@ HA_Device_Repository::update_device (int /* device_id */)
 }
 // Listing 3
 
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  HA_Device_Repository rep;
-  rep.update_device (42);
-  return 0;
+int ACE_TMAIN (int, ACE_TCHAR *[]) {
+	HA_Device_Repository rep;
+	rep.update_device(42);
+	return EXIT_SUCCESS;
 }
-
-#else
-#include "ace/OS_main.h"
-#include "ace/OS_NS_stdio.h"
-
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{
-  ACE_OS::puts (ACE_TEXT ("This example requires threads."));
-  return 0;
-}
-
-#endif /* ACE_HAS_THREADS */

@@ -1,10 +1,10 @@
 // includes
-#include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
-#include <linux/init.h> // for __init, __exit
-#include <linux/slab.h> // for kmalloc
-#include <linux/cdev.h> // for char device
-#include <linux/fs.h> // for fops
-#include <linux/device.h> // for device support
+#include<linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
+#include<linux/init.h> // for __init, __exit
+#include<linux/slab.h> // for kmalloc
+#include<linux/cdev.h> // for char device
+#include<linux/fs.h> // for fops
+#include<linux/device.h> // for device support
 
 // structures
 struct kern_dev {

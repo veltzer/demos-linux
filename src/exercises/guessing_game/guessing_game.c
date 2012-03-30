@@ -1,5 +1,5 @@
-#include <stdio.h> // for printf(3), scanf(3)
-#include <stdlib.h> // for rand(3)
+#include<stdio.h> // for printf(3), scanf(3)
+#include<stdlib.h> // for rand(3)
 
 int main() {
 	int rand_number;

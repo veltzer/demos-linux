@@ -1,9 +1,9 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/printk.h> // for the printk API
+#include<linux/module.h> // for MODULE_*
+#include<linux/printk.h> // for the printk API
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

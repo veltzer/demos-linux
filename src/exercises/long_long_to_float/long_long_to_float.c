@@ -1,4 +1,4 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
 
 int main(int argc,char** argv,char** envp) {
 	long long ll=0;

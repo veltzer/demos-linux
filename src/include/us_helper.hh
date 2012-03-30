@@ -4,21 +4,23 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
 #endif // _GNU_SOURCE
-#include <sched.h> // for sched_getparam(2), sched_getscheduler(2)
-#include <cpufreq.h> // for cpufreq_get_freq_kernel(2)
-#include <sys/prctl.h> // for prctl(2)
-#include <stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
-#include <stdlib.h> // for system(3), exit(3)
-#include <stdarg.h> // for vsnprintf(3), va_start(3), va_list(3), va_end(3)
-#include <sys/types.h> // for getpid(2), gettid(2)
-#include <sys/syscall.h> // for syscall(2)
-#include <unistd.h> // for getpid(2), syscall(2), sysconf(2)
-#include <proc/readproc.h> // for get_proc_stats(3)
-#include <string.h> // for strncpy(3), strerror(3)
-#include <sys/time.h> // for getpriority(2)
-#include <sys/resource.h> // for getpriority(2)
-#include <pthread.h> // for the entire pthread_* API
-#include <errno.h> // for errno
+#include<sched.h> // for sched_getparam(2), sched_getscheduler(2)
+#include<cpufreq.h> // for cpufreq_get_freq_kernel(2)
+#include<sys/prctl.h> // for prctl(2)
+#include<stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
+#include<stdlib.h> // for system(3), exit(3)
+#include<stdarg.h> // for vsnprintf(3), va_start(3), va_list(3), va_end(3)
+#include<sys/types.h> // for getpid(2), gettid(2)
+#include<sys/syscall.h> // for syscall(2)
+#include<unistd.h> // for getpid(2), syscall(2), sysconf(2)
+#include<proc/readproc.h> // for get_proc_stats(3)
+#include<string.h> // for strncpy(3), strerror(3)
+#include<sys/time.h> // for getpriority(2)
+#include<sys/resource.h> // for getpriority(2)
+#include<pthread.h> // for the entire pthread_* API
+#include<errno.h> // for errno
+#include<sys/utsname.h> // for uname(2)
+#include<stdbool.h> // for bool
 
 /*
  * Stringify macros - helps you turn anything into a string

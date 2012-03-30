@@ -1,4 +1,4 @@
-#include <stdio.h> // for scanf(3), printf(3), perror(3)
+#include<stdio.h> // for scanf(3), printf(3), perror(3)
 
 void print_array(int* ar,int size) {
 	int i;

@@ -4,10 +4,10 @@
  */
 
 #define DEBUG
-#include <linux/module.h> // for the MODULE_*
-#include <linux/printk.h> // for printk and the pr_* API
-#include <linux/proc_fs.h> // Necessary because we use proc fs
-#include <linux/seq_file.h> // for seq_file
+#include<linux/module.h> // for the MODULE_*
+#include<linux/printk.h> // for printk and the pr_* API
+#include<linux/proc_fs.h> // Necessary because we use proc fs
+#include<linux/seq_file.h> // for seq_file
 
 #define PROC_NAME KBUILD_MODNAME
 

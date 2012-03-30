@@ -1,10 +1,10 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*. module_*
-#include <linux/printk.h> // for pr_*
-#include <linux/cpumask.h> // for num_online_cpus
+#include<linux/module.h> // for MODULE_*. module_*
+#include<linux/printk.h> // for pr_*
+#include<linux/cpumask.h> // for num_online_cpus
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  * This is a minimal module for showing the number of current online cpus

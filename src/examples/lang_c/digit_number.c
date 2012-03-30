@@ -1,5 +1,5 @@
-#include <stdio.h> // for printf(3), scanf(3), perror(3)
-#include <stdlib.h> // for exit(3)
+#include<stdio.h> // for printf(3), scanf(3), perror(3)
+#include<stdlib.h> // for exit(3)
 
 int digit_num(long int l) {
 	int digits;

@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include<stdio.h>
 
 /*
  *      This is an empty testing application

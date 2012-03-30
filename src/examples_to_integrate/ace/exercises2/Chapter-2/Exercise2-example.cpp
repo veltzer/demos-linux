@@ -4,13 +4,13 @@
 // According to the Exercise there should be two consumers.
 // Hint: DO NOT ACTIVATE them from the producer. !!!
 //
-#include <ace/OS_NS_stdio.h>
-#include <ace/Malloc_Base.h>    // To get ACE_Allocator
-#include <ace/Message_Queue.h>
-#include <ace/Read_Buffer.h>
-#include <ace/Thread_Manager.h>
-#include <ace/Service_Config.h>
-#include <ace/Truncate.h>
+#include<ace/OS_NS_stdio.h>
+#include<ace/Malloc_Base.h>    // To get ACE_Allocator
+#include<ace/Message_Queue.h>
+#include<ace/Read_Buffer.h>
+#include<ace/Thread_Manager.h>
+#include<ace/Service_Config.h>
+#include<ace/Truncate.h>
 
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;

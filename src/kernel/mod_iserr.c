@@ -1,9 +1,9 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*, module_*
-#include <linux/err.h> // for IS_ERR_VALUE
+#include<linux/module.h> // for MODULE_*, module_*
+#include<linux/err.h> // for IS_ERR_VALUE
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

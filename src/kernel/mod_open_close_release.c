@@ -1,10 +1,10 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/device.h>  // for dev_[warn|info|..]
-#include <linux/fs.h> // for fops
+#include<linux/module.h> // for MODULE_*
+#include<linux/device.h>  // for dev_[warn|info|..]
+#include<linux/fs.h> // for fops
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  *	This is a driver which prints stuff at open and release and allows you
@@ -46,4 +46,4 @@ static struct file_operations my_fops={
 	.release = kern_release,
 };
 
-#include "device.inc"
+#include"device.inc"

@@ -1,9 +1,9 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*. module_*
-#include <linux/printk.h> // for pr_*
+#include<linux/module.h> // for MODULE_*. module_*
+#include<linux/printk.h> // for pr_*
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  * Which module name is better to use: KBUILD_MODNAME or THIS_MODULE->name?

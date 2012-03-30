@@ -1,4 +1,4 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
 
 /*
  * An example of doing a loop and telling the compiler that a register should be

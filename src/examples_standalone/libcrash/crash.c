@@ -1,31 +1,31 @@
 /* _GNU_SOURCE is Needed to get REG_EIP from ucontext.h */
 #define _GNU_SOURCE
-#include <ucontext.h>
+#include<ucontext.h>
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <execinfo.h>
-#include <sys/types.h>
-#include <sys/syscall.h>
-#include <errno.h>
-#include <assert.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <string.h>
-#include <time.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<signal.h>
+#include<execinfo.h>
+#include<sys/types.h>
+#include<sys/syscall.h>
+#include<errno.h>
+#include<assert.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<string.h>
+#include<time.h>
 
 #ifdef USE_THREADS
-#include <pthread.h>
+#include<pthread.h>
 #ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 600
 #endif
-#include <sys/select.h>
+#include<sys/select.h>
 #endif /* USE_THREADS */
 
-#include "crash.h"
-#include "crash_msg.h"
+#include"crash.h"
+#include"crash_msg.h"
 
 /* Global static crash message buffer */
 static struct crash_message_struct g_crash_msg;

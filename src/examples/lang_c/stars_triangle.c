@@ -1,5 +1,5 @@
-#include <stdio.h> // for scanf(3), putchar(3), perror(3)
-#include <unistd.h> // for sleep(3)
+#include<stdio.h> // for scanf(3), putchar(3), perror(3)
+#include<unistd.h> // for sleep(3)
 
 int main() {
 	int num;

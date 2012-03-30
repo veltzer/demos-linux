@@ -1,9 +1,8 @@
-#include "ace/OS_NS_stdio.h"
-#include "ace/OS_NS_string.h"
-
-#include "ace/MMAP_Memory_Pool.h"
-#include "ace/Malloc_T.h"
-#include "ace/Null_Mutex.h"
+#include"ace/OS_NS_stdio.h"
+#include"ace/OS_NS_string.h"
+#include"ace/MMAP_Memory_Pool.h"
+#include"ace/Malloc_T.h"
+#include"ace/Null_Mutex.h"
 
 typedef ACE_Malloc<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex>
   ALLOCATOR;
@@ -15,7 +14,7 @@ ALLOCATOR  *g_allocator;
 class Record
 {
 public:
-  Record (int id1, int id2, char *name)
+  Record(int id1, int id2, char *name)
     : id1_(id1), id2_(id2), name_(0)
   {
     size_t len = ACE_OS::strlen (name) + 1;

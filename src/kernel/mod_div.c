@@ -1,17 +1,17 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_* stuff
-#include <linux/fs.h> // for struct device
-#include <linux/device.h> // to register our device
-#include <linux/uaccess.h> // copy_to_user, copy_from_user
+#include<linux/module.h> // for MODULE_* stuff
+#include<linux/fs.h> // for struct device
+#include<linux/device.h> // to register our device
+#include<linux/uaccess.h> // copy_to_user, copy_from_user
 
 //define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Driver that adds 64 bit integer arithmetic operations to the kernel");
 
-#include "shared.h" // for ioctl numbers
+#include"shared.h" // for ioctl numbers
 
 /*
  * Why do you need this module?
@@ -71,10 +71,10 @@ static struct file_operations my_fops = {
 	.unlocked_ioctl = kern_unlocked_ioctll,
 };
 
-#include "device.inc"
+#include"device.inc"
 
 // this is what gives us the division...
-#include <asm/div64.h>
+#include<asm/div64.h>
 
 /*
  * The header above gave us functions as div_u64_rem. We can either use them directly or
@@ -136,17 +136,17 @@ long long __divdi3(long long divided, long long divisor) {
  #define _FP_WS_TYPE             signed int
  #define _FP_I_TYPE              int
  *
- #include <math-emu/op-1.h>
- #include <math-emu/op-2.h>
- #include <math-emu/op-4.h>
- #include <math-emu/op-common.h>
+ #include<math-emu/op-1.h>
+ #include<math-emu/op-2.h>
+ #include<math-emu/op-4.h>
+ #include<math-emu/op-common.h>
  */
 // there is no such file for x86
-//#include <asm/sfp-machine.h>
+//#include<asm/sfp-machine.h>
 // creates compilation issues...
-//#include <math-emu/soft-fp.h>
+//#include<math-emu/soft-fp.h>
 // there is no such file for x86
-//#include <math-emu/sfp-util.h>
+//#include<math-emu/sfp-util.h>
 
 /*
 - If you compile on kernel 2.6.31-14-generic (ubuntu 9.10)

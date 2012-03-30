@@ -1,4 +1,4 @@
-#include <stdio.h> // for printf(3), getchar(3)
+#include<stdio.h> // for printf(3), getchar(3)
 
 int main() {
 	char c=getchar();

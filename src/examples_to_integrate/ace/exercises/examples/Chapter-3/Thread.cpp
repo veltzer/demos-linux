@@ -8,10 +8,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Example 1
-#include "ace/Thread.h"
-#include "ace/OS.h"
-#include "ace/Synch_T.h"
-#include "ace/Synch.h"
+#include<ace/Thread.h>
+#include<ace/OS.h>
+#include<ace/Synch_T.h>
+#include<ace/Synch.h>
 static int number=0;
 static int seed=0;
 

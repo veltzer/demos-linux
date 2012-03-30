@@ -1,7 +1,7 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
 // this must be defined if you are in a C++ context to get the constants
 #define __STDC_LIMIT_MACROS
-#include <stdint.h>
+#include<stdint.h>
 
 /*
  *      This shows how to define a long long constant and how to print long longs in linux.

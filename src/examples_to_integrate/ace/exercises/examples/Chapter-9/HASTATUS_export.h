@@ -1,7 +1,7 @@
 #ifndef HASTATUS_EXPORT_H
 #define HASTATUS_EXPORT_H
 
-#include "ace/config-all.h"
+#include"ace/config-all.h"
 
 #if defined (ACE_AS_STATIC_LIBS) && !defined (HASTATUS_HAS_DLL)
 #  define HASTATUS_HAS_DLL 0

@@ -1,4 +1,4 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
 
 /*
  * This is a demo showing what happens if strings span more than one line

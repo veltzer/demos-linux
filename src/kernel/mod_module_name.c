@@ -1,8 +1,8 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_* stuff
+#include<linux/module.h> // for MODULE_* stuff
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
 /*
  * This is a test to show how you can find out your own modules name

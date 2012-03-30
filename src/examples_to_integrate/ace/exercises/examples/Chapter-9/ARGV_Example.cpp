@@ -5,13 +5,11 @@
  * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
  */
 
-#include "ace/os_include/os_netdb.h"
-#include "ace/OS_NS_string.h"
-#include "ace/Log_Msg.h"
-
-// Listing 1 code/ch04
-#include "ace/ARGV.h"
-#include "ace/Get_Opt.h"
+#include"ace/os_include/os_netdb.h"
+#include"ace/OS_NS_string.h"
+#include"ace/Log_Msg.h"
+#include"ace/ARGV.h"
+#include"ace/Get_Opt.h"
 
 int ACE_TMAIN (int, ACE_TCHAR *[])
 {

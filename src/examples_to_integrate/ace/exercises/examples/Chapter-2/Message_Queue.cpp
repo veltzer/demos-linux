@@ -1,8 +1,7 @@
-#include "ace/config-lite.h"
-
-#include "ace/SOCK_Acceptor.h"
-#include "ace/Acceptor.h"
-#include "Message_Receiver.h"
+#include<ace/config-lite.h>
+#include<ace/SOCK_Acceptor.h>
+#include<ace/Acceptor.h>
+#include"Message_Receiver.h"
 
 int HA_CommandHandler::svc (void)
 { while(1)

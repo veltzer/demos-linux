@@ -1,12 +1,12 @@
 //#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/fs.h> // for fops
-#include <linux/device.h> // for struct device
+#include<linux/module.h> // for MODULE_*
+#include<linux/fs.h> // for fops
+#include<linux/device.h> // for struct device
 
 //#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+#include"kernel_helper.h" // our own helper
 
-#include "shared.h"
+#include"shared.h"
 
 /*
  *      Kernel module that demostrates manipulation list structures in the kernel
@@ -16,7 +16,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Kernel module that demostrates manipulation of list structures using kernel built in lists");
 
-#include "list.inc"
+#include"list.inc"
 
 // static data
 static struct device* my_device;
@@ -66,4 +66,4 @@ static struct file_operations my_fops={
 	.unlocked_ioctl=kern_unlocked_ioctll,
 };
 
-#include "device.inc"
+#include"device.inc"

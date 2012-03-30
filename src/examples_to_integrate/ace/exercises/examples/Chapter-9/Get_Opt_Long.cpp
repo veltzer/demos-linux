@@ -5,9 +5,9 @@
  * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
  */
 
-#include "ace/OS_NS_string.h"
-#include "ace/Get_Opt.h"
-#include "ace/Log_Msg.h"
+#include"ace/OS_NS_string.h"
+#include"ace/Get_Opt.h"
+#include"ace/Log_Msg.h"
 
 int
 ACE_TMAIN (int argc, ACE_TCHAR *argv[])
