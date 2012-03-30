@@ -1,6 +1,6 @@
 //#define DEBUG
 #include<linux/module.h> // for MODULE_*
-#include<linux/device.h>  // for dev_[warn|info|..]
+#include<linux/device.h> // for dev_[warn|info|..]
 #include<linux/fs.h> // for fops
 
 //#define DO_DEBUG

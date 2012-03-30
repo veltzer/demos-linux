@@ -42,9 +42,8 @@ static pthread_spinlock_t g_thread_lock;
 #endif /* USE_THREADS */
 
 /* gettid in non offical so not in glibc headers. This works though */
-inline pid_t gettid (void)
-{
-    return syscall(__NR_gettid);
+inline pid_t gettid(void) {
+	return syscall(__NR_gettid);
 }
 
 /* Get a backtrace from a signal handler.
@@ -54,7 +53,7 @@ inline pid_t gettid (void)
  * distance is the distance is calls from the signal handler
  * 
  */
-inline unsigned int signal_backtrace(void ** array, unsigned int  size, ucontext_t * context, unsigned int distance) {
+inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_t * context, unsigned int distance) {
 
 	/* WARNING: If you ever remove the inline from the function prototype, 
 	 * adjust this to match!!!
@@ -69,7 +68,7 @@ inline unsigned int signal_backtrace(void ** array, unsigned int  size, ucontext
 	/* OK, here is the tricky part:
 	 * 
 	 * Linux signal handling on some archs works by the kernel replacing, in situ, the 
-	 * return address of the faulting function on the faulting thread user space stack with  
+	 * return address of the faulting function on the faulting thread user space stack with
 	 * that of the Glibc signal unwind handling routine and coercing user space to just to 
 	 * glibc signal handler preamble. Later the signal unwind handling routine undo this.
 	 * 
@@ -84,13 +83,12 @@ inline unsigned int signal_backtrace(void ** array, unsigned int  size, ucontext
 	 */ 
 	
 #ifdef __i386__
-	  array[distance] = (void *)(context->uc_mcontext.gregs[REG_EIP]);
+	array[distance] = (void *)(context->uc_mcontext.gregs[REG_EIP]);
 #endif /* __i386__ */
 
 #ifdef __PPC__ 
-	  array[distance] = (void *)(context->uc_mcontext.regs->nip);
+	array[distance] = (void *)(context->uc_mcontext.regs->nip);
 #endif /* __PPC__ */
-	  
 	return ret;
 }
 
@@ -102,25 +100,23 @@ inline unsigned int signal_backtrace(void ** array, unsigned int  size, ucontext
  * 1. Can't use any function that relies on malloc and friends working as the malloc arena may be corrupt.
  * 2. Can only use a the POSIX.1-2003 list of async-safe functions.
  * 3. Some of the functions on the list are not always safe (like fork when atfork() is used), 
- *    so need to avoid these also.
+ * so need to avoid these also.
  * 4. No locking allowed. We don't know in what state the process/thread was when the exception
- *    occured.
+ * occured.
  */
-void fault_handler (int signal, siginfo_t * siginfo, void *context)
-{
+void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 	int i, ret;
 	
 #ifdef USE_THREADS
 	
-  ret = pthread_spin_trylock(&g_thread_lock);
-  
-  if (EBUSY == ret) {
-	  /* Think of the following as an async-signal safe super sched_yield that
-	   *  yields even to threads with lower real-time priority */
-	  sigset_t smask;
-	  sigemptyset(&smask);
-	  pselect(0, NULL, NULL, NULL, NULL, &smask);
-  }
+	ret = pthread_spin_trylock(&g_thread_lock);
+	if (EBUSY == ret) {
+		/* Think of the following as an async-signal safe super sched_yield that
+		* yields even to threads with lower real-time priority */
+		sigset_t smask;
+		sigemptyset(&smask);
+		pselect(0, NULL, NULL, NULL, NULL, &smask);
+	}
 
 #endif /* USE_THREADS */
 	
@@ -161,7 +157,7 @@ retry_write:
 	/* If we got interrupt by a signal, retry the write.
 	 * This shouldn't really happen since we mask all signals
 	 * during the handler run via sigaction sa_mask field but
-	 *  it can't hurt to test.
+	 * it can't hurt to test.
 	 * 
 	 * It's useless to test for any other condition since we 
 	 * can't do anything if we fail 
@@ -184,9 +180,9 @@ retry_write:
 	return; 
 }
 
-/* Set the FD_CLOEXEC  flag of desc if value is nonzero,
+/* Set the FD_CLOEXEC flag of desc if value is nonzero,
 	or clear the flag if value is 0.
-	Return 0 on success, or -1 on error with errno  set. */ 
+	Return 0 on success, or -1 on error with errno set. */ 
 	
 int set_cloexec_flag (int desc, int value)
 {
@@ -210,102 +206,88 @@ int set_cloexec_flag (int desc, int value)
 
 /* Registration function. Needs to be called once by each process (not thread)
  * process_name is argv[0] or whatever you'd like.
- * assert_buf_ptr needs to point to the 128 byte  assert buffer.
+ * assert_buf_ptr needs to point to the 128 byte assert buffer.
  * */
 int register_crash_handler(const char * process_name, unsigned char * assert_buf_ptr)
 {
-  struct sigaction act;	/* Signal handler register struct */
-  int ret;				/* Return value for various calls */
-  int pfd[2];			/* Pipe file descriptor array */
+	struct sigaction act;	/* Signal handler register struct */
+	int ret;				/* Return value for various calls */
+	int pfd[2];			/* Pipe file descriptor array */
 
-  /* See ahead about these two: */
-  void * dummy_trace_array[1];
-  unsigned int dummy_trace_size;
+	/* See ahead about these two: */
+	void * dummy_trace_array[1];
+	unsigned int dummy_trace_size;
 
-  assert(sizeof(g_crash_msg) <= CRASH_MAX_MSG_SIZE);
-  
-  if(!process_name || !assert_buf_ptr) {
-	  return EINVAL;
-  }
-  
-#ifdef USE_THREADS
-  
-  ret = pthread_spin_init(&g_thread_lock, 0);
-  if(ret) {
-	  return ret;
-  }
-#endif /* USE_THREADS */
+	assert(sizeof(g_crash_msg) <= CRASH_MAX_MSG_SIZE);
 
-  
-  /* If we're called again (perhaps after a fork() ), the pipe is already open.
-   * That's just fine with us */
-  
-  if(-1 == g_logfd) {
-
-	/* Grab us a pipe to communicate with our crash daemon */
-	ret = pipe(pfd);
-	
-	if(-1 == ret) {
-		return errno;
+	if(!process_name || !assert_buf_ptr) {
+		return EINVAL;
 	}
-	
-	g_logfd = pfd[1]; /* Grab the write end of the pipe */
-	
-	/* If the caller program execs, we want the pipe to close,
-	 * because it's not likely a random program will have the
-	 * right signal handler set to use the crash daemon. */
-	ret = set_cloexec_flag(g_logfd, 1);
-	
-	if(-1 == ret) {
-		return errno;
+	#ifdef USE_THREADS
+	ret = pthread_spin_init(&g_thread_lock, 0);
+	if(ret) {
+		return ret;
 	}
+	#endif /* USE_THREADS */
+	/* If we're called again (perhaps after a fork() ), the pipe is already open.
+	* That's just fine with us */
+	if(-1 == g_logfd) {
+		/* Grab us a pipe to communicate with our crash daemon */
+		ret = pipe(pfd);
+		if(-1 == ret) {
+			return errno;
+		}
+		g_logfd = pfd[1]; /* Grab the write end of the pipe */
 	
-	/* Set our daemon up */
-	crashd_main(1, process_name, pfd);
-	
-	close(pfd[0]);
+		/* If the caller program execs, we want the pipe to close,
+		* because it's not likely a random program will have the
+		* right signal handler set to use the crash daemon. */
+		ret = set_cloexec_flag(g_logfd, 1);
+		if(-1 == ret) {
+			return errno;
+		}
+		/* Set our daemon up */
+		crashd_main(1, process_name, pfd);
+		close(pfd[0]);
+	}
+	/* This requires some explaining:
+	* In theory, neither backtrace nor backtrace_symbold_fd call malloc and friends so
+	* we are able to use them in a an exception handler safely.
+	* 
+	* In practice recent glibc versions put these function in a seperate shared library
+	* called libgcc_s.so when gets loaded automagically by the dynamic linker when any these
+	* of these functions are first used and, you guessed it, the dynamic linker uses malloc
+	* in the process to get some internal buffer.
+	* 
+	* We therefore give these a dummy call here during registration to assure that the library 
+	* gets loaded where it's safe to malloc. 
+	*/
+	dummy_trace_size = backtrace(dummy_trace_array, 1);
+	backtrace_symbols_fd (dummy_trace_array, dummy_trace_size, -1);
 
-  }
-  
-  /* This requires some explaining:
-   * In theory, neither backtrace nor backtrace_symbold_fd call malloc and friends so
-   * we are able to use them in a an exception handler safely.
-   * 
-   * In practice recent glibc versions put these function in a seperate shared library
-   * called libgcc_s.so when gets loaded automagically by the dynamic linker when any these
-   * of these functions are first used and, you guessed it, the dynamic linker uses malloc
-   * in the process to get some internal buffer.
-   * 
-   * We therefore give these a dummy call here during registration to assure that the library 
-   * gets loaded where it's safe to malloc. 
-   */
-  
-  dummy_trace_size = backtrace(dummy_trace_array, 1);
-  backtrace_symbols_fd (dummy_trace_array, dummy_trace_size, -1);
-  
-  /* This data we can already grab during registration, not need to wait for crash */
-  g_crash_msg.magic = CRASH_MSG_MAGIC;
-  memcpy(g_crash_msg.process_name, process_name, strnlen(process_name, CRASH_MAX_PROCESS_NAME_SIZE)+1);
-  g_crash_msg.process_id = getpid();
-  
-  g_assert_buf_ptr = assert_buf_ptr;
-  
-  /* Prepare a sigaction struct for exception handler registrations */
-  memset(&act, 0, sizeof (act));
-  act.sa_sigaction = fault_handler;
-  /* No signals during handler run, please */
-  sigfillset (&act.sa_mask);
-  /* We want the 3 parameter form of the handler with the siginfo_t addtional data */
-  act.sa_flags = SA_SIGINFO;
+	/* This data we can already grab during registration, not need to wait for crash */
+	g_crash_msg.magic = CRASH_MSG_MAGIC;
+	memcpy(g_crash_msg.process_name, process_name, strnlen(process_name, CRASH_MAX_PROCESS_NAME_SIZE)+1);
+	g_crash_msg.process_id = getpid();
 
-  
- /* Register the handler for all exception signals. */
-  ret = sigaction (SIGSEGV, &act, NULL); 
-  ret |= sigaction (SIGILL, &act, NULL);
-  ret |= sigaction (SIGFPE, &act, NULL);  
-  ret |= sigaction (SIGBUS, &act, NULL);
-  ret |= sigaction (SIGQUIT, &act, NULL);
+	g_assert_buf_ptr = assert_buf_ptr;
 
-  
-  return ret;                                                                                                        
+	/* Prepare a sigaction struct for exception handler registrations */
+	memset(&act, 0, sizeof (act));
+	act.sa_sigaction = fault_handler;
+	/* No signals during handler run, please */
+	sigfillset (&act.sa_mask);
+	/* We want the 3 parameter form of the handler with the siginfo_t addtional data */
+	act.sa_flags = SA_SIGINFO;
+
+
+	/* Register the handler for all exception signals. */
+	ret = sigaction (SIGSEGV, &act, NULL); 
+	ret |= sigaction (SIGILL, &act, NULL);
+	ret |= sigaction (SIGFPE, &act, NULL);
+	ret |= sigaction (SIGBUS, &act, NULL);
+	ret |= sigaction (SIGQUIT, &act, NULL);
+
+
+	return ret;
 }

@@ -1,9 +1,12 @@
-#include<stdio.h>
+#include<stdio.h> // for fprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- *      This is an empty testing application
+ * This is an empty testing application
+ *
+ * 		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	fprintf(stderr, "Hello, World!\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

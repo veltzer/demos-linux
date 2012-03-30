@@ -1,15 +1,15 @@
 #include<stdio.h> // for printf(3)
 
 /*
- *      This explorer issues with accessing structures which are in themselves
- *      inside unions...
+ * This explorer issues with accessing structures which are in themselves
+ * inside unions...
  *
- *      This clearly shows that you can indeed access either fields within structures
- *      or fields which are not in structures...
+ * This clearly shows that you can indeed access either fields within structures
+ * or fields which are not in structures...
  *
- *      It also explores how to get offsets of fields in structures...
+ * It also explores how to get offsets of fields in structures...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 // this next macro calculates the offset of a field from the structure

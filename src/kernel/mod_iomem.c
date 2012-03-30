@@ -6,10 +6,10 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- *      This is a driver to walk the iomem list and see all the resources...
+ * This is a driver to walk the iomem list and see all the resources...
  *
- *      Most of the code for this example is from:
- *      $KERNEL_SOURCE/kernel/resource.c
+ * Most of the code for this example is from:
+ * $KERNEL_SOURCE/kernel/resource.c
  */
 
 MODULE_LICENSE("GPL");
@@ -23,10 +23,10 @@ static int __init mod_init(void) {
 	PR_INFO("start");
 	rp = iomem_resource.child;
 	while (rp) {
-		printk("  %0*llx-%0*llx\n",
-		       8, (unsigned long long)rp->start,
-		       8, (unsigned long long)rp->end
-		       );
+		printk("%0*llx-%0*llx\n",
+			8, (unsigned long long)rp->start,
+			8, (unsigned long long)rp->end
+		);
 		// advance to the next resource...
 		rp = rp->sibling;
 	}

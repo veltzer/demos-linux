@@ -20,9 +20,9 @@ static int __init mod_init(void) {
 
 	order = get_order(size);
 	addr = __get_free_pages(
-	        GFP_KERNEL,
-	        order
-	        );
+		GFP_KERNEL,
+		order
+	);
 	/* lets manipulate the memory */
 	for (i = 0; i < size; i++) {
 		((char *)addr)[i] = 0;

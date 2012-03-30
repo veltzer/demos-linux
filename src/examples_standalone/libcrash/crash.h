@@ -15,8 +15,8 @@ int register_crash_handler(
 
 /* Asks this thread to dump. You can use this for asserts. */
 int static inline crash_dump(void) {
-		asm volatile ("" : : : "memory");
-        return raise(SIGQUIT);
+	asm volatile ("" : : : "memory");
+	return raise(SIGQUIT);
 }
 
 #ifdef USE_THREADS 

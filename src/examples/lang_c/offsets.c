@@ -2,16 +2,16 @@
 #include<stddef.h> // for offsetof(3)
 
 /*
- *	This is an example of finding out how far a field is from the begining
- *	of the structure it is embedded in.
- *      In a similar example in C++ (using g++ instead of gcc) we had to
- *      use '1' instead of '0' in these next macros because g++ is smarter
- *      than gcc and translated the 0 to NULL and disallowed it use.
- *      In this example, since we are compiling to C we can use 0 freely.
- *      Notice that with my macro, offsetof and __builtin_offsetof you can use the
- *      "struct" prefix to the structure name or drop it.
+ * This is an example of finding out how far a field is from the begining
+ * of the structure it is embedded in.
+ * In a similar example in C++ (using g++ instead of gcc) we had to
+ * use '1' instead of '0' in these next macros because g++ is smarter
+ * than gcc and translated the 0 to NULL and disallowed it use.
+ * In this example, since we are compiling to C we can use 0 freely.
+ * Notice that with my macro, offsetof and __builtin_offsetof you can use the
+ * "struct" prefix to the structure name or drop it.
  *
- *                                              Mark Veltzer
+ *		Mark Veltzer
  */
 
 #define myoffsetof(structname,fieldname) ((char *)(&(((structname *)0)->fieldname)) - (char *)0)

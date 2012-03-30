@@ -17,7 +17,7 @@ MODULE_DESCRIPTION("This is a driver that demos the alloc_bootmem function");
  * API to obtain such a buffer even if you were guaranteed that it does exist. kmalloc and other
  * friends have 4MB or some such limit (depending on platform).
  * - if you write a small driver like this, link it to the physical kernel, the the function
- *   alloca_bootmem will be found and you will get the memory assigned.
+ * alloca_bootmem will be found and you will get the memory assigned.
  * 
  * How would you use the buffer ?
  * Add yet another function that returns the pointer to the buffer in some way and export it.

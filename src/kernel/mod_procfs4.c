@@ -1,5 +1,5 @@
 /*
- * procfs4.c -  create a "file" in /proc
+ * procfs4.c - create a "file" in /proc
  * This program uses the seq_file library to manage the /proc file.
  */
 
@@ -76,10 +76,10 @@ static int my_seq_show(struct seq_file *s, void *v) {
  * This structure gather "function" to manage the sequence
  */
 static struct seq_operations my_seq_ops={
-	.start = my_seq_start,
-	.next  = my_seq_next,
-	.stop  = my_seq_stop,
-	.show  = my_seq_show
+	.start=my_seq_start,
+	.next=my_seq_next,
+	.stop=my_seq_stop,
+	.show=my_seq_show
 };
 
 /*
@@ -93,11 +93,11 @@ static int my_open(struct inode *inode, struct file *file) {
  * This structure gathers "functions" that manage the /proc file
  */
 static struct file_operations my_file_ops = {
-	.owner   = THIS_MODULE,
-	.open    = my_open,
-	.read    = seq_read,
-	.llseek  = seq_lseek,
-	.release = seq_release
+	.owner=THIS_MODULE,
+	.open=my_open,
+	.read=seq_read,
+	.llseek=seq_lseek,
+	.release=seq_release
 };
 	
 /*

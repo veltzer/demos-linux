@@ -1,4 +1,4 @@
-#include<linux/module.h>  // for MODULE_*, module_*
+#include<linux/module.h> // for MODULE_*, module_*
 #include<linux/printk.h> // for printk and pr_* APIs
 #include<linux/init.h> // for __init, __exit
 
