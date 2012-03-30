@@ -1,2 +1,8 @@
 - includes:
 	#include<stdio.h> // look, no space
+- return from main:
+	return EXIT_SUCCESS, EXIT_FAILURE
+	(unless I have a better error code).
+- main prototype:
+	int main(int argc,char** argv,char** envp) {
+	}
