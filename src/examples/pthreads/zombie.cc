@@ -77,5 +77,5 @@ int main(int argc, char **argv, char **envp) {
 	// now the thread is dead, lets print it's state (same as before...)
 	my_system("ps --no-headers -L -p %d -o pid,lwp,comm", getpid());
 	TRACE("main ended");
-	return(0);
+	return EXIT_SUCCESS;
 }

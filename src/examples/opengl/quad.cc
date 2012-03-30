@@ -67,7 +67,7 @@ int main(int argc, char** argv, char** envp) {
 	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
 	glEnable(GL_DEPTH_TEST); 
-	while(1) {
+	while(true) {
 		XNextEvent(dpy, &xev);
 		if(xev.type == Expose) {
 			printf("got expose\n");
@@ -84,4 +84,5 @@ int main(int argc, char** argv, char** envp) {
 			exit(0);
 		}
 	}
+	return EXIT_SUCCESS;
 }

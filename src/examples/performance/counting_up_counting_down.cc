@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example examines the question of whether it is more efficient to loop
@@ -29,5 +30,5 @@ int main(int argc, char **argv, char **envp) {
 		sum += j * j;
 	}
 	printf("sum is %d\n", sum);
-	return(0);
+	return EXIT_SUCCESS;
 }

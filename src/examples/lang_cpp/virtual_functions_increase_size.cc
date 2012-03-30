@@ -1,5 +1,6 @@
 #include <iostream> // for std::cout, std::endl
 #include <assert.h> // for assert(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows that a single virtual function in an object increases it's size.
@@ -47,5 +48,5 @@ int main(int argc, char **argv, char **envp) {
 	assert(*p1==*p2);
 	assert(4==*(p1+1));
 	assert(5==*(p2+1));
-	return(0);
+	return EXIT_SUCCESS;
 }

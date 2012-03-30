@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows that two consecutive reads of the same value
@@ -14,8 +15,13 @@
  *		Mark Veltzer
  */
 
-void printit(int val);
-void print_address_of(int* ptr);
+void __attribute__((noinline)) print_address_of(int* ptr) {
+	printf("ptr is %p\n",ptr);
+}
+
+void __attribute__((noinline)) printit(int val) {
+	printf("val is %d\n",val);
+}
 
 int main(int argc, char **argv, char **envp) {
 	volatile int i=6;
@@ -30,13 +36,6 @@ int main(int argc, char **argv, char **envp) {
 	a=j;
 	a=j;
 	printit(a);
-	return(0);
+	return EXIT_SUCCESS;
 }
 
-void print_address_of(int* ptr) {
-	printf("ptr is %p\n",ptr);
-}
-
-void printit(int val) {
-	printf("val is %d\n",val);
-}

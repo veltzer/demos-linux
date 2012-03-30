@@ -90,5 +90,5 @@ int main(int argc, char **argv, char **envp) {
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
-	return(0);
+	return EXIT_SUCCESS;
 }

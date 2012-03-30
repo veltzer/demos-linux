@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 int main() {
 	int i=5;
@@ -8,5 +9,5 @@ int main() {
 	printf("i is %d, ri is %d\n",i,ri);
 	i=7;
 	printf("i is %d, ri is %d\n",i,ri);
-	return 0;
+	return EXIT_SUCCESS;
 }

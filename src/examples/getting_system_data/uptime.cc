@@ -36,9 +36,8 @@ void uptime(float *time1, float *time2) {
 
 int main(int argc, char **argv, char **envp) {
 	float time1, time2;
-
 	uptime(&time1, &time2);
 	printf("time1 is %f\n", time1);
 	printf("time2 is %f\n", time2);
-	return(0);
+	return EXIT_SUCCESS;
 }

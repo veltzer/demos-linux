@@ -1,6 +1,7 @@
 #include <zlib.h> // for compress2(3)
 #include <stdio.h> // for printf(3)
 #include <string.h> // for strlen(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * A simple example of using the libz library.
@@ -21,5 +22,5 @@ int main(int argc, char** argv, char** envp) {
 		return(1);
 	}
 	printf("result is [%s]\n", dest);
-	return(0);
+	return EXIT_SUCCESS;
 }

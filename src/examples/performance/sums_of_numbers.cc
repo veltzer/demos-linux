@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example demostrates that the compiler actually adds full loops
@@ -45,5 +46,5 @@ int main(int argc, char **argv, char **envp) {
 		sum += i;
 	}
 	printf("sum is %d\n", sum);
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -30,5 +30,5 @@ int main(int argc, char** argv, char** envp) {
 		std::cerr << "problem with close\n";
 		return(1);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

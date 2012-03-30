@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
 	this is an example of a loop that gcc cannot optimize away...
@@ -26,5 +27,5 @@ int main(int argc,char** argv,char** envp) {
 		sum+=i*i;
 	}
 	printf("sum is %d\n",sum);
-	return 0;
+	return EXIT_SUCCESS;
 }

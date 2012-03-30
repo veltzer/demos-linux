@@ -34,5 +34,5 @@ int main(int argc, char **argv, char **envp) {
 		perror("error in close");
 		exit(1);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

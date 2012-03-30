@@ -161,5 +161,5 @@ int main(int argc, char **argv, char **envp) {
 		num = 3;
 	}
 	rec_func(num);
-	return(0);
+	return EXIT_SUCCESS;
 }

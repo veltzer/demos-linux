@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This demo shows how to create a segmentation fault by trying to write
@@ -16,5 +17,5 @@ void my_func() {
 int main(int argc,char** argv,char** envp) {
 	int* t=(int*)&my_func;
 	*t=8;
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,3 +1,5 @@
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /*
  * This application should show how to listen to udev events using API...
  *
@@ -16,5 +18,5 @@
  */
 
 int main(int argc,char** argv,char** envp) {
-	return 0;
+	return EXIT_SUCCESS;
 }

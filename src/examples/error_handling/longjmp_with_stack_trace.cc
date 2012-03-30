@@ -114,5 +114,5 @@ int main(int argc, char **argv, char **envp) {
 			error_free(p);
 		}
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

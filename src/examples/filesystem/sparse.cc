@@ -78,5 +78,5 @@ int main(int argc, char **argv, char **envp) {
 
 	// now lets get ridd of the file...
 	CHECK_NOT_M1(unlink(fname));
-	return(0);
+	return EXIT_SUCCESS;
 }

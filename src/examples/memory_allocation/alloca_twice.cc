@@ -21,5 +21,5 @@ int main(int argc,char** argv,char** envp) {
 		bzero(p,10);
 		printf("p1 is %p\n",p);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

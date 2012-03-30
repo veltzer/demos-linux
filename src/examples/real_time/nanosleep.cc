@@ -52,5 +52,5 @@ int main(int argc, char **argv, char **envp) {
 		}
 		printf("time expired for usleep of %u micros is %lu diff is %lu\n", i, sum / repeats, sum / repeats - i);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

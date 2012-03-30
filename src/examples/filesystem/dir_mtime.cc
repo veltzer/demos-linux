@@ -77,5 +77,5 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(rmdir(dirname3));
 	CHECK_NOT_M1(rmdir(dirname2));
 	CHECK_NOT_M1(rmdir(dirname));
-	return(0);
+	return EXIT_SUCCESS;
 }

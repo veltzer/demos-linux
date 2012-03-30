@@ -32,7 +32,7 @@ static void * thread_func(void *ignored_argument) {
 	return NULL;
 }
 
-int main(void) {
+int main(int argc,char** argv,char** envp) {
 	pthread_t thr;
 	void *res;
 
@@ -48,4 +48,5 @@ int main(void) {
 		TRACE("thread was canceled");
 	else
 		TRACE("thread wasn't canceled (shouldn't happen!)");
+	return EXIT_SUCCESS;
 }

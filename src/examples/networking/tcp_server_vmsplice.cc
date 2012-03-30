@@ -154,5 +154,5 @@ int main(int argc,char** argv, char** envp) {
 		int* p=new int(fd);
 		CHECK_ZERO(pthread_create(&thread, NULL, worker, p));
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

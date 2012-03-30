@@ -1,4 +1,5 @@
-#include <iostream>
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example investigates the sizeof() of C++ object.
@@ -53,5 +54,5 @@ int main(int argc, char **argv, char **envp) {
 	b->dosomething();
 	A anotherA;
 	anotherA.dosomething();
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -29,5 +29,5 @@ int main(int argc, char **argv, char **envp) {
 		}
 		sleep(3);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

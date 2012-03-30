@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <stdio.h> // for perror(3)
 #include <errno.h> // for perror(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to eliminate lots of redundant C error checking
@@ -45,5 +46,5 @@ int main(int argc, char **argv, char **envp) {
 	} catch (std::exception e) {
 		std::cerr << "cought exception" << std::endl;
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -70,5 +70,5 @@ int main(int argc, char **argv, char **envp) {
 	delete cpu_sets;
 	fprintf(pfile, "counter is %d\n",counter);
 	fprintf(pfile, "main ended\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

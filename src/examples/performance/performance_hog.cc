@@ -47,5 +47,5 @@ int main(int argc, char **argv, char **envp) {
 	//char* buf2=(char*)malloc(size);
 	//A::performance_hog_function(buf1,buf2,size);
 	A::performance_hog_function_cpu();
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,6 +1,4 @@
 /*
- * $Id: Client.cpp 80826 2008-03-04 14:51:23Z wotte $
- *
  * A simple client program using ACE_Svc_Handler and ACE_Connector.
  */
 
@@ -8,11 +6,11 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-#include <ace/OS_NS_stdio.h>
-#include <ace/OS_NS_errno.h>
-#include <ace/OS_NS_string.h>
-#include <ace/OS_NS_sys_time.h>
-#include "Client.hh"
+#include<ace/OS_NS_stdio.h>
+#include<ace/OS_NS_errno.h>
+#include<ace/OS_NS_string.h>
+#include<ace/OS_NS_sys_time.h>
+#include"Client.hh"
 
 // Listing 2 code/ch07
 int Client::open(void *p) {

@@ -43,5 +43,5 @@ int main(int argc,char** argv,char** envp) {
 		printf("trying to allocate %d\n",i*size);
 		my_func(size*i);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

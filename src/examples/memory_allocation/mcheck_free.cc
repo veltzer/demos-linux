@@ -69,5 +69,5 @@ int main(int argc,char** argv,char** envp) {
 	//int status2=mprobe(buf2);
 	//printf("status is %d\n",status);
 	//printf("status is %d\n",status2);
-	return(0);
+	return EXIT_SUCCESS;
 }

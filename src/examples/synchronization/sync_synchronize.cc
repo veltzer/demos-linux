@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo to show how sync_synchronize() is implemented...
@@ -21,5 +22,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("main started\n");
 	__sync_synchronize();
 	printf("main ended\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -202,5 +202,5 @@ int main(int argc, char **argv, char **envp) {
 	test_singvarvol(val_before,val_after,dummy);
 	test_singvarvol2(val_before,val_after,dummy);
 	test_atomicop(val_before,val_after,dummy);
-	return(0);
+	return EXIT_SUCCESS;
 }

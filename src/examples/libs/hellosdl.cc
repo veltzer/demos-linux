@@ -135,5 +135,5 @@ int main(int argc, char** argv, char** envp) {
 		}
 	}
 	Quit(0);
-	return(0);
+	return EXIT_SUCCESS;
 }

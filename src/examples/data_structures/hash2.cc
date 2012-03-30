@@ -41,5 +41,5 @@ int main() {
 			ep ? ep->key : "NULL",
 			ep ? (int)(ep->data) : 0);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

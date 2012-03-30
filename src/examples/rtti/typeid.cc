@@ -1,5 +1,6 @@
-#include <iostream> // for std::cout, std::endl
-#include <typeinfo> // for typeid
+#include<iostream> // for std::cout, std::endl
+#include<typeinfo> // for typeid
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Demo the typeid function of C++, with RTTI
@@ -22,5 +23,5 @@ int main(int argc, char **argv, char **envp) {
 	std::cout << typeid(a).name() << std::endl;
 	std::cout << typeid(b).name() << std::endl;
 	std::cout << typeid(std::cout).name() << std::endl;
-	return(0);
+	return EXIT_SUCCESS;
 }

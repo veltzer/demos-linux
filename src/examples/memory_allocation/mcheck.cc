@@ -59,5 +59,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("You will not reach this line if the probe fails");
 	printf("status is %d\n",status);
 	printf("status is %d\n",status2);
-	return(0);
+	return EXIT_SUCCESS;
 }

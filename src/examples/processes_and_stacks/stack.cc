@@ -46,5 +46,5 @@ int main(int argc,char** argv,char** envp) {
 	print_limit();
 	loop(false);
 	loop(true);
-	return 0;
+	return EXIT_SUCCESS;
 }

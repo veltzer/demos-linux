@@ -1,4 +1,5 @@
-#include <iostream> // for std::cout
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a simple example of how to create a simple floating point exception.
@@ -13,5 +14,5 @@ int main(int argc, char **argv, char **envp) {
 	int j = 1 / i;
 
 	std::cout << j << std::endl;
-	return(0);
+	return EXIT_SUCCESS;
 }

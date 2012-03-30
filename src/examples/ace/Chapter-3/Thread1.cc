@@ -1,6 +1,6 @@
-#include <ace/Synch.h> // for the mutex
-#include <ace/Thread.h> // for thread functions
-#include <ace/Log_Msg.h> // for ACE_DEBUG
+#include<ace/Synch.h> // for the mutex
+#include<ace/Thread.h> // for thread functions
+#include<ace/Log_Msg.h> // for ACE_DEBUG
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

@@ -92,5 +92,5 @@ int main(int argc, char **argv, char **envp) {
 	delete [] arr1;
 	myobj *arr2 = new(17) myobj[60];
 	delete [] arr2;
-	return(0);
+	return EXIT_SUCCESS;
 }

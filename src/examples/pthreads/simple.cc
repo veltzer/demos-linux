@@ -38,5 +38,5 @@ int main(int argc, char **argv, char **envp) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");
-	return(0);
+	return EXIT_SUCCESS;
 }

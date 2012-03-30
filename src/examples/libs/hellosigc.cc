@@ -1,14 +1,15 @@
+#include <iostream>
+#include <string>
+#include <sigc++/signal_system.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /* This is a demo program for using the sigc++ signaling library
  *
  * EXTRA_LIBS=-I/usr/include/sigc++-1.0 -I/usr/lib/sigc++-1.0/include -lsigc -lpthread
  *
  *	Mark Veltzer
  *
- * */
-
-#include <iostream>
-#include <string>
-#include <sigc++/signal_system.h>
+ */
 
 using namespace SigC;
 
@@ -20,7 +21,7 @@ int main(int argc, char** argv, char** envp) {
 	Signal1<void, const std::string&> printer;
 	printer.connect(slot(print));
 	printer("Hello, World!\n");
-	return(0);
+	return EXIT_SUCCESS;
 }
 
 //template void SigC::Signal1<void, basic_string<char, string_char_traits<char>, __default_alloc_template<true, 0> > const &, SigC::Marshal<void> >::emit(basic_string<char, string_char_traits<char>, __default_alloc_template<true, 0> > const &);

@@ -1,6 +1,7 @@
 //#define NDEBUG
-#include <assert.h> // for assert(3)
-#include <stdio.h> // for printf(3)
+#include<assert.h> // for assert(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Demo the use of glibc assert in C/C++
@@ -43,5 +44,5 @@ int main(int argc, char **argv, char **envp) {
 #include <assert.h> // for assert(3)
 	assert(3 == 4);
 	printf("in here 3\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

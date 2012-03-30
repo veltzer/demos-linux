@@ -1,5 +1,6 @@
 #include <stdio.h> // for printf(3)
 #include <stdarg.h> // for va_start(3), va_arg(3), va_end(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows how to use the 'va_copy' function.
@@ -42,5 +43,5 @@ void trace(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 int main(int argc, char **argv, char **envp) {
 	printf("sizeof(va_list) is [%d]\n",sizeof(va_list));
 	//trace("%s %d %f\n", "Hello", 5, 3.14);
-	return(0);
+	return EXIT_SUCCESS;
 }

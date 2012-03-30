@@ -52,5 +52,5 @@ int main(int argc, char** argv, char** envp) {
 	HelloWorld helloworld;
 	//Shows the window and returns when it is closed.
 	Gtk::Main::run(helloworld);
-	return(0);
+	return EXIT_SUCCESS;
 }

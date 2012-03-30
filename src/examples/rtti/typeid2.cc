@@ -1,5 +1,6 @@
-#include <iostream> // for std::cout, std::endl
-#include <typeinfo> // for typeid
+#include<iostream> // for std::cout, std::endl
+#include<typeinfo> // for typeid
+#include<stdlib.h> // for EXIT_SUCCESS
 
 // empty class - don't touch this.
 class Empty {
@@ -28,4 +29,5 @@ int main(int argc,char** argv,char** envp) {
 	// pointer to a polymorphic class)
 	std::cout << "sizeof(Person) is " << sizeof(Person) << std::endl;
 	std::cout << "sizeof(Empty) is " << sizeof(Empty) << std::endl;
+	return EXIT_SUCCESS;
 }

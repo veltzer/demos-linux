@@ -33,5 +33,5 @@ int main(int argc, char **argv, char **envp) {
 	wchar_t *buf2 = (wchar_t *)malloc(size * sizeof(wchar_t));
 	wmemset(buf2, 0, size);
 	my_system("objdump --disassemble --source %s",argv[0]);
-	return(0);
+	return EXIT_SUCCESS;
 }

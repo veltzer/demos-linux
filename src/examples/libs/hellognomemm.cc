@@ -15,5 +15,5 @@ int main(int argc, char **argv, char **envp) {
 	Gnome::UI::App *a = new Gnome::UI::App("foo", "bar");
 	a->show();
 	app.run();
-	return(0);
+	return EXIT_SUCCESS;
 }

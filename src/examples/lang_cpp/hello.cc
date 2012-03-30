@@ -1,4 +1,5 @@
-#include <iostream> // for std::cout, std::endl
+#include<iostream> // for std::cout, std::endl
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * A simple hello world application for C++.
@@ -8,5 +9,5 @@
 
 int main(int argc, char **argv, char **envp) {
 	std::cout << "Hello, World!" << std::endl;
-	return(0);
+	return EXIT_SUCCESS;
 }

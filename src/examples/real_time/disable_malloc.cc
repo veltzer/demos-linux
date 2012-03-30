@@ -119,5 +119,5 @@ int main(int argc,char** argv,char** envp) {
 	p=malloc(200);
 	// we should never get to this line
 	assert(p!=NULL);
-	return 0;
+	return EXIT_SUCCESS;
 }

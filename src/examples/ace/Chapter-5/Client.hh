@@ -1,6 +1,4 @@
 /*
- * $Id: Client.h 80826 2008-03-04 14:51:23Z wotte $
- *
  * Sample code from The ACE Programmer's Guide,
  * copyright 2003 Addison-Wesley. All Rights Reserved.
  */
@@ -8,16 +6,16 @@
 #ifndef __CLIENT_H_
 #define __CLIENT_H_
 
-#include <ace/Synch_Traits.h>
-#include <ace/Null_Condition.h>
-#include <ace/Null_Mutex.h>
-#include <ace/Reactor.h>
-#include <ace/INET_Addr.h>
-#include <ace/SOCK_Stream.h>
-#include <ace/SOCK_Connector.h>
-#include <ace/Connector.h>
-#include <ace/Svc_Handler.h>
-#include <ace/Reactor_Notification_Strategy.h>
+#include<ace/Synch_Traits.h>
+#include<ace/Null_Condition.h>
+#include<ace/Null_Mutex.h>
+#include<ace/Reactor.h>
+#include<ace/INET_Addr.h>
+#include<ace/SOCK_Stream.h>
+#include<ace/SOCK_Connector.h>
+#include<ace/Connector.h>
+#include<ace/Svc_Handler.h>
+#include<ace/Reactor_Notification_Strategy.h>
 
 class Client : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> {
 	typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> super;

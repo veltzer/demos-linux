@@ -90,5 +90,5 @@ int main(int argc,char** argv,char** envp) {
 	// join the theads so that everything will be clean...
 	CHECK_ZERO(pthread_join(t1,NULL));
 	CHECK_ZERO(pthread_join(t2,NULL));
-	return 0;
+	return EXIT_SUCCESS;
 }

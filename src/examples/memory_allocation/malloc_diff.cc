@@ -53,5 +53,5 @@ int main(int argc, char **argv, char **envp) {
 		}
 		prev=p;
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example for all the folk wishing to do numerical applications and want to switch
@@ -37,5 +38,5 @@ int main(int argc, char **argv, char **envp) {
 	some_float f1=MC(3.14);
 	some_float f2=MC(3.14);
 	printf(MY_PRINTF_ARG "+" MY_PRINTF_ARG "=" MY_PRINTF_ARG "\n",f1,f2,add(f1,f2));
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -76,5 +76,5 @@ int main(int argc, char **argv, char **envp) {
 		}
 	} while (1);
 	ipq_destroy_handle(h);
-	return(0);
+	return EXIT_SUCCESS;
 }

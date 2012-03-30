@@ -1,3 +1,5 @@
+#include <stdlib.h> // for EXIT_SUCCESS
+
 /*
  * This is a demo of how to write a function for which the user must check the
  * return value for...
@@ -26,7 +28,6 @@ int add(int a, int b) {
 	return(a + b);
 }
 
-
 int main(int argc, char **argv, char **envp) {
 	const int a = 5;
 	const int b = 5;
@@ -42,5 +43,5 @@ int main(int argc, char **argv, char **envp) {
 	// another way to ignore the requirement to use the result is to put it in a variable
 	// but to mark the variable as "usused"...
 	int c __attribute__((unused))=add(a,b);
-	return(0);
+	return EXIT_SUCCESS;
 }

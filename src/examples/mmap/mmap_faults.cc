@@ -59,5 +59,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("sum is %d\n",sum);
 	CHECK_NOT_M1(munmap(res,stat_buf.st_size));
 	show_vmem();
-	return 0;
+	return EXIT_SUCCESS;
 }

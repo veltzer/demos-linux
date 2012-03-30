@@ -124,5 +124,5 @@ int main(int argc, char **argv, char **envp) {
 		print_code(info.si_code);
 		print_status(info.si_status);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -10,6 +10,7 @@
 #define CWDEBUG
 #include <libcwd/sys.h>
 #include <libcwd/debug.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 // Define our own debug channel:
 namespace libcwd {
 	namespace channels {
@@ -32,5 +33,5 @@ int main(int argc, char** argv, char** envp) {
 	Dout(dc::hello,"==============================");
 	Debug(list_channels_on(libcw_do));
 	Dout(dc::hello,"Hello World!");
-	return(0);
+	return EXIT_SUCCESS;
 }

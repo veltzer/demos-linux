@@ -74,5 +74,5 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_ZERO(pthread_barrier_destroy(&bar));
 	fprintf(pfile,"counter is %d and should be %d\n",counter,thread_num*attempts);
 	fprintf(pfile, "main ended\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

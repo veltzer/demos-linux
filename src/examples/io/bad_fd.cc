@@ -1,5 +1,6 @@
-#include <stdio.h> // for perror(3)
-#include <unistd.h> // for read(2), getdtablesize(2)
+#include<stdio.h> // for perror(3)
+#include<unistd.h> // for read(2), getdtablesize(2)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example of what happens when you read from a bad fd.
@@ -22,5 +23,5 @@ int main(int argc, char **argv, char **envp) {
 		perror("read");
 		return(-1);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

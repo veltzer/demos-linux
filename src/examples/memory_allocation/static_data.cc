@@ -35,5 +35,5 @@ int main(int argc,char** argv,char** envp) {
 	}
 	TRACE("sum is %u\n",sum);
 	my_system("ls -l %s",argv[0]);
-	return(0);
+	return EXIT_SUCCESS;
 }

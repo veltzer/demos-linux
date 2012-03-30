@@ -136,5 +136,5 @@ int main(int argc, char **argv, char **envp) {
 			std::cerr << "Got exception, lets continue anyway" << std::endl;
 		}
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

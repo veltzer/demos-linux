@@ -25,5 +25,5 @@ int main(int argc, char **argv, char **envp) {
 	} else {
 		printf("Outside the if statement\n");
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
-#include <stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This demo shows how to print an unsigned long in a big hexa format...
@@ -20,5 +21,5 @@ int main(int argc, char **argv, char **envp) {
 	int width=5;
 	int num=4;
 	printf("printing with non compile time width %*d\n", width, num);
-	return(0);
+	return EXIT_SUCCESS;
 }

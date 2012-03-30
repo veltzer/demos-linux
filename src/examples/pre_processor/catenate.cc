@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This shows how to use the pre-processor to catenate stuff...
@@ -16,5 +17,5 @@ int main(int argc, char **argv, char **envp) {
 		__stringify(bar),
 		__stringify(catit(foo,bar))
 	);
-	return(0);
+	return EXIT_SUCCESS;
 }

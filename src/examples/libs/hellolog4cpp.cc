@@ -10,6 +10,7 @@
 #include <log4cpp/NDC.hh>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * EXTRA_LIBS=-llog4cpp
@@ -27,7 +28,7 @@ int main(int argc, char** argv, char** envp) {
 	root.error("root error");
 	root.warn("root warn");
 
-	return(0);
+	return EXIT_SUCCESS;
 }
 
 

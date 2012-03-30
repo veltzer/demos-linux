@@ -47,5 +47,5 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_ZERO(pthread_mutex_unlock(&mutex));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex));
 	printf("main ended\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -54,5 +54,5 @@ int main(int argc, char **argv, char **envp) {
 	// the next code will cause infinite recursion and error...
 	//B* b=new B();
 	//delete b;
-	return(0);
+	return EXIT_SUCCESS;
 }

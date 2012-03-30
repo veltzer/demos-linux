@@ -1,4 +1,5 @@
 #include <stdio.h> // for vprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * The var args mechanism of C/C++ does not allow one to know exactly how many
@@ -34,5 +35,5 @@ int main(int argc, char** argv, char** envp) {
 	trace(1,2,3,4);
 	trace(d,d,d,d,d);
 	trace(d,d,d,d,d,d,d,d,d);
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -63,5 +63,5 @@ int main(int argc, char **argv, char **envp) {
 		printf("got [%c]\n", (unsigned char)c);
 		c = fgetc(stdin);
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -58,4 +58,5 @@ int main(int argc, char **argv, char **envp) {
 	while(true) {
 		pause();
 	}
+	return EXIT_SUCCESS;
 }

@@ -48,5 +48,5 @@ int main(int argc, char **argv, char **envp) {
 	}
 	printBuff(f2, "newly created file for reading");
 	fclose(f2);
-	return(0);
+	return EXIT_SUCCESS;
 }

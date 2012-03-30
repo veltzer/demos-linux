@@ -1,4 +1,5 @@
 #include<stdio.h> // for printf(3), fprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Example of buffering of stdout causing loss of messages...
@@ -14,4 +15,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("\n");
 	printf("help me user!!!!");
 	*(char*)0=0;
+	return EXIT_SUCCESS;
 }

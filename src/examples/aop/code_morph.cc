@@ -90,5 +90,5 @@ int main(int argc, char **argv, char **envp) {
 	*p=5;
 	// lets call the function again to see that it has changed it's behaviour...
 	function();
-	return(0);
+	return EXIT_SUCCESS;
 }

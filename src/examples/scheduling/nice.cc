@@ -3,7 +3,7 @@
 #include<unistd.h> // for getpid(2)
 #include<sched.h> // for sched_setaffinity(2), CPU_ZERO(3), CPU_SET(3)
 
-#include "us_helper.hh"
+#include "us_helper.hh" // for CHECK_ZERO, CHECK_NOT_M1, TRACE
 
 /*
  * This examples shows the effect of the nice scheduling system.
@@ -44,5 +44,5 @@ int main(int argc,char** argv,char** envp) {
 		}
 		TRACE("i is %d",i);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

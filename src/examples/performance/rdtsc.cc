@@ -99,5 +99,5 @@ int main(int argc, char **argv, char **envp) {
 	// this is again using libcpufreq but will fail since it tries to access
 	// the /proc file that requires root access)
 	//printf("proc_get_freq_kernel(0) [%lu]\n",proc_get_freq_kernel(0));
-	return(0);
+	return EXIT_SUCCESS;
 }

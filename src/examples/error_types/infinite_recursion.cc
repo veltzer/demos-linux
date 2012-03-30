@@ -58,5 +58,5 @@ static int myfunc(int y,bool end) {
 
 int main(int argc,char** argv,char** envp) {
 	myfunc(0,false);
-	return(0);
+	return EXIT_SUCCESS;
 }

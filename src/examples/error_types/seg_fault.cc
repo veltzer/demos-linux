@@ -1,4 +1,5 @@
 #include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of a segmentation fault created by calling a function badly.
@@ -20,5 +21,5 @@ int main(int argc,char** argv,char** envp) {
 	f++;
 	void (*g)()=(void (*)())f;
 	g();
-	return(0);
+	return EXIT_SUCCESS;
 }

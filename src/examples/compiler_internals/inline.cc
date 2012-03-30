@@ -1,4 +1,5 @@
 #include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example explores the different ways to inline a function.
@@ -48,5 +49,5 @@ int main(int argc, char** argv, char** envp) {
 	printf("add4(%d,%d)=%d\n",a,b,add4(a,b));
 	printf("add5(%d,%d)=%d\n",a,b,add5(a,b));
 	printf("add5(%d,%d)=%d\n",a,b,add6(a,b));
-	return(0);
+	return EXIT_SUCCESS;
 }

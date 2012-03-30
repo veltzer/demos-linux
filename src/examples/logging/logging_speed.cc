@@ -146,5 +146,5 @@ void* func(void*) {
 int main(int argc, char **argv, char **envp) {
 	print_scheduling_consts();
 	run_high_priority(func,NULL,90);
-	return 0;
+	return EXIT_SUCCESS;
 }

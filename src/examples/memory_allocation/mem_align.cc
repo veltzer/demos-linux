@@ -123,5 +123,5 @@ int main(int argc, char **argv, char **envp) {
 	void* ptr=(void*)main;
 	printf("ptr is %p\n",ptr);
 	printf("ptr aligned is %p\n",align_address(ptr));
-	return(0);
+	return EXIT_SUCCESS;
 }

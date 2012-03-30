@@ -1,4 +1,5 @@
-#include <iostream> // for std::cout, std::endl
+#include<iostream> // for std::cout, std::endl
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * An example of passing object and method and applying the method
@@ -25,5 +26,5 @@ int main(int argc, char **argv, char **envp) {
 	A a;
 	a.val=7;
 	apply(a,&A::run);
-	return(0);
+	return EXIT_SUCCESS;
 }

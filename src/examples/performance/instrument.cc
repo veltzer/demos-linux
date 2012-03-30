@@ -1,5 +1,6 @@
-#include <unistd.h> // for sleep(3)
-#include <stdio.h> // for printf(3)
+#include<unistd.h> // for sleep(3)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of how to use the instrumentation feature of the gnu compiler.
@@ -39,5 +40,5 @@ extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) {
 int main(int argc, char **argv, char **envp) __attribute__((no_instrument_function));
 int main(int argc, char **argv, char **envp) {
 	long_task();
-	return(0);
+	return EXIT_SUCCESS;
 }
