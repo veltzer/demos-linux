@@ -2,12 +2,12 @@
 #include<string.h>
 
 /*
- *      This demos how to use compiler attributes to make sure we don't mix pointers that
- *      refer to different memory spaces...
+ * This demos how to use compiler attributes to make sure we don't mix pointers that
+ * refer to different memory spaces...
  *
- *      Regular software developers usually do not use these features...
+ * Regular software developers usually do not use these features...
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 // this is taken from the kernel sources (include/linux/compiler.h)

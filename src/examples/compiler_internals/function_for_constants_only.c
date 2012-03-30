@@ -7,7 +7,7 @@
  * Notice that the trick is to create a compile time error and is based on returning
  * a void* instead of an int.
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 static inline int _sum(int i) {
 	return(i *(i + 1) / 2);

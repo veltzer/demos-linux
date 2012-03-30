@@ -145,9 +145,9 @@ static void handle_crash(void) {
 
 	
 	fprintf (stderr, 
-			"\n********************************"
-			"\n*      EXCEPTION CAUGHT        *"
-			"\n********************************\n"
+			"\n********************"
+			"\n* EXCEPTION CAUGHT *"
+			"\n********************\n"
 			"Process name: %s\n"
 			"Process ID: %d\n"
 			"Thread ID: %d\n"

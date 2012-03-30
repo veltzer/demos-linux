@@ -51,7 +51,7 @@ class Message_Receiver:public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
 			delete this;
 			return 0;
 		}
-    
+
 	private:
 		int read_header (DeviceCommandHeader *dch);
 		int copy_payload (ACE_Message_Block *mb, int payload_length);

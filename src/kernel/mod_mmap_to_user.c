@@ -2,7 +2,7 @@
 #include<linux/module.h> // for MODULE_*
 #include<linux/fs.h> // for fops
 #include<linux/device.h> // for struct device
-#include<linux/slab.h>  // for the kmalloc API
+#include<linux/slab.h> // for the kmalloc API
 #include<linux/mman.h> // for remap_pfn_range
 #include<linux/pagemap.h> // for vma structures
 

@@ -18,7 +18,7 @@
 
 static inline int memcheck(void *buf, char val, unsigned int size) {
 	unsigned int i;
-	char         *cbuf = (char *)buf;
+	char* cbuf = (char *)buf;
 
 	for (i = 0; i < size; i++) {
 		if (cbuf[i] != val) {

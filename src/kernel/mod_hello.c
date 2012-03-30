@@ -6,7 +6,7 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- *      This is a minimal module doing just init and cleanup
+ * This is a minimal module doing just init and cleanup
  */
 
 MODULE_LICENSE("GPL");

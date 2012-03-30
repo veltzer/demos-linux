@@ -9,7 +9,7 @@
 #include"shared.h"
 
 /*
- *      Kernel module that demostrates manipulation list structures in the kernel
+ * Kernel module that demostrates manipulation list structures in the kernel
  */
 
 MODULE_LICENSE("GPL");

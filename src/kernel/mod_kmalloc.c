@@ -22,7 +22,7 @@ static struct device* my_device;
  * This is the ioctl implementation.
  */
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
-	void          *ptr = NULL;
+	void* ptr = NULL;
 	unsigned long addr = -1;
 	dma_addr_t dma_handle;
 	unsigned long size;
@@ -31,9 +31,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	PR_DEBUG("start");
 	switch (cmd) {
 	/*
-	 *      kmalloc function.
+	 * kmalloc function.
 	 *
-	 *      One argument which is the size to allocate
+	 * One argument which is the size to allocate
 	 */
 	case IOCTL_DEMO_KMALLOC:
 		size = arg * PAGE_SIZE;
@@ -52,9 +52,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		ptr = NULL;
 		return(0);
 	/*
-	 *      __get_free_pages function.
+	 * __get_free_pages function.
 	 *
-	 *      One argument which is the size to allocate
+	 * One argument which is the size to allocate
 	 */
 	case IOCTL_DEMO_GET_FREE_PAGES:
 		size = arg * PAGE_SIZE;
@@ -73,7 +73,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		addr = -1;
 		return(0);
 	/*
-	 *      PCI allocation function
+	 * PCI allocation function
 	 */
 	case IOCTL_DEMO_PCI_ALLOC_CONSISTENT:
 		size = arg * PAGE_SIZE;

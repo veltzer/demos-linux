@@ -2,9 +2,9 @@
 #include<string.h>
 
 /*
- *      This is to check some assumptions on bit operations
+ * This is to check some assumptions on bit operations
  *
- *              Mark Veltzer
+ *		Mark Veltzer
  */
 
 #define COMB(a, b) (a | b)

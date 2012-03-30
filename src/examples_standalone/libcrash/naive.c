@@ -18,9 +18,8 @@
 
 
 /* gettid in non offical so not in glibc headers. This works though */
-inline pid_t gettid (void)
-{
-    return syscall(__NR_gettid);
+inline pid_t gettid (void) {
+	return syscall(__NR_gettid);
 }
 
 /* This translates a signal code into a readable string */
@@ -112,9 +111,9 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 	clock_gettime(CLOCK_REALTIME, &timestamp);
 	
 	fprintf (stderr, 
-				"\n********************************"
-				"\n*      EXCEPTION CAUGHT        *"
-				"\n********************************\n"
+				"\n********************"
+				"\n* EXCEPTION CAUGHT *"
+				"\n********************\n"
 				"Process ID: %d\n"
 				"Thread ID: %d\n"
 				"Exception: %s\n"
@@ -160,98 +159,80 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 void print_message_function (void *ptr);
 unsigned char buf[128];
 
-int
-main ( int argc, char * argv[])
-{
-  pthread_t thread1;
-  pthread_t thread2;
-  int ret;
-  struct sigaction act;	/* Signal handler register struct */
-    
-  /* Prepare a sigaction struct for exception handler registrations */
-  memset(&act, 0, sizeof (act));
-  act.sa_sigaction = fault_handler;
-  /* No signals during handler run, please */
-  sigfillset (&act.sa_mask);
-  /* We want the 3 parameter form of the handler with the siginfo_t addtional data */
-  act.sa_flags = SA_SIGINFO;
+int main ( int argc, char * argv[]) {
+	pthread_t thread1;
+	pthread_t thread2;
+	int ret;
+	struct sigaction act;	/* Signal handler register struct */
 
-    
-  /* Register the handler for all exception signals. */
-  ret = sigaction (SIGSEGV, &act, NULL); 
-  ret |= sigaction (SIGILL, &act, NULL);
-  ret |= sigaction (SIGFPE, &act, NULL);  
-  ret |= sigaction (SIGBUS, &act, NULL);
-  ret |= sigaction (SIGQUIT, &act, NULL);
+	/* Prepare a sigaction struct for exception handler registrations */
+	memset(&act, 0, sizeof (act));
+	act.sa_sigaction = fault_handler;
+	/* No signals during handler run, please */
+	sigfillset (&act.sa_mask);
+	/* We want the 3 parameter form of the handler with the siginfo_t addtional data */
+	act.sa_flags = SA_SIGINFO;
 
-  printf("Starting first run\n");
-  fflush(NULL);
+	/* Register the handler for all exception signals. */
+	ret = sigaction (SIGSEGV, &act, NULL); 
+	ret |= sigaction (SIGILL, &act, NULL);
+	ret |= sigaction (SIGFPE, &act, NULL);
+	ret |= sigaction (SIGBUS, &act, NULL);
+	ret |= sigaction (SIGQUIT, &act, NULL);
 
-  /* create two threads and let them race */
-  pthread_create (&thread1, NULL, (void *) &print_message_function, NULL);
-  
-  pthread_create (&thread2, NULL, (void *) &print_message_function, NULL);
+	printf("Starting first run\n");
+	fflush(NULL);
 
-  pthread_join (thread2, NULL);
+	/* create two threads and let them race */
+	pthread_create (&thread1, NULL, (void *) &print_message_function, NULL);
+	pthread_create (&thread2, NULL, (void *) &print_message_function, NULL);
+	pthread_join (thread2, NULL);
 
-  /* Not reached */
-  printf("This should never happen!\n");
-  fflush(NULL);
-  assert(0);
-  pthread_join (thread1, NULL);
+	/* Not reached */
+	printf("This should never happen!\n");
+	fflush(NULL);
+	assert(0);
+	pthread_join (thread1, NULL);
 
-  return 0;
+	return 0;
 }
-
 
 /* This function generaters a fault.
  * We try to REALLY be nasty and screw things up bad.
  */
 
-void
-croak (void)
-{
-  int *ip = (int *) 17;
- 
-  /* Do a simple system that fails so that errno has some interesting
-   * value to check 
-   */ 
-  write(3000, "xxx", 3);
-  
-  /* Try to put 7 in address 17. This is an illegal memory access.
-   * Sit back and watch the fire works...
-   */
-  *ip = 7;
+void croak(void) {
+	int *ip = (int *) 17;
+	/* Do a simple system that fails so that errno has some interesting
+	* value to check 
+	*/ 
+	write(3000, "xxx", 3);
+	/* Try to put 7 in address 17. This is an illegal memory access.
+	* Sit back and watch the fire works...
+	*/
+	*ip = 7;
 }
-
-
 
 /* A filler function so that we'll have a meanigful stack.
  * The volatile int is used to keep the compiler from optimizing
  * this function away
  */
 
-void
-die (void)
-{
-  volatile int i= 12;
-  croak ();
-  i++;
-  return;
+void die(void) {
+	volatile int i= 12;
+	croak ();
+	i++;
+	return;
 }
 
-
 /* The test thread function */
-void
-print_message_function(void *dummy)
-{
+void print_message_function(void *dummy) {
+	/* Latin: "those who about to die sallute you". */
+	printf ("Morituri te salutant!\n");
+	fflush(NULL);
 
-  /* Latin: "those who about to die sallute you". */
-  printf ("Morituri te salutant!\n");
-  fflush(NULL);
-  
-  /* Call the crasher functions */
-  die ();
+	/* Call the crasher functions */
+	die ();
 
-  pthread_exit (0);
+	pthread_exit (0);
 }
