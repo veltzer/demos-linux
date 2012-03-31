@@ -17,6 +17,10 @@ io:
 	hdparm, sdparm
 	blktool
 
+cpu:
+	taskset
+	cpulimit
+
 process ids:
 	pidof
 	ptrace

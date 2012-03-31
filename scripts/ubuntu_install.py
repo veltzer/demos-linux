@@ -28,6 +28,7 @@ packs=[
 	'libace-dev',
 	'iptables-dev',
 	'cpulimit', # for the cpulimit command
+	'bridge-utils', # for bridging utilities to demo creation of a bridge
 ]
 
 args=['sudo','apt-get','install']
