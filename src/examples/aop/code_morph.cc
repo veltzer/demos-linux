@@ -70,7 +70,7 @@ void segv_handler(int sig) {
 	CHECK_NOT_M1(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC));
 }
 
-int main(int argc, char **argv, char **envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// call the function to see what it is doing...
 	function();
 	// lets install our own SIGSEGV signal handler so that we won't crash...

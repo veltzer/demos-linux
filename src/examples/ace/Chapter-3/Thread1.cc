@@ -32,7 +32,7 @@ static void * worker(void *arguments) {
 	return(0);
 }
 
-int main(int argc, char** argv,char** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	if(argc<2) {
 		ACE_OS::printf("Usage: %s <number_of_threads> <number_of_iterations>\n",argv[0]);
 		ACE_OS::exit(1);

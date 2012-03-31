@@ -4,7 +4,7 @@
 /*
  * This is an example of getting a register on an i32 machine
  *
- *		Mark Veltzer
+ * Mark Veltzer
  */
 
 static inline unsigned int getrdtsc() {
@@ -18,7 +18,7 @@ static inline unsigned int getstackpointer() {
 	return val;
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("stackpointer is %u\n",getstackpointer());
 	printf("rdtsc is %u\n",getrdtsc());
 	return EXIT_SUCCESS;

@@ -188,7 +188,7 @@ TEST(
 	__sync_bool_compare_and_swap(&a, 0, 0)
 );
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_NULL(outfile=fopen("/dev/null","w"));
 	int val_before,val_after,dummy;
 	test_nothing(val_before,val_after,dummy);

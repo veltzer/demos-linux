@@ -141,7 +141,7 @@ private:
 	HA_ControllerAgent controller_;
 };
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Constructing HA_ControllerAgentProxy controller\n")));
 	HA_ControllerAgentProxy controller;
 	const int numResults=10;

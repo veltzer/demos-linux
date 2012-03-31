@@ -2,8 +2,10 @@
 #include<ace/Stream.h>
 #include<ace/Task.h>
 #include<ace/Message_Block.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -75,34 +77,30 @@ int Producer::svc(void) {
 	return(0);
 }
 
-
 int Consumer::svc(void) {
 	ACE_Message_Block *mb = 0;
-
 	// Keep looping, reading a message from the queue,
 	// until we get a 0 length message, then quit.
 	while(true) {
-		int result = getq(mb);
-		if(result == -1) {
+		int result=getq(mb);
+		if(result==-1) {
 			break;
 		}
-		int length = mb->length();
-		if(length > 0) {
+		int length=mb->length();
+		if(length>0) {
 			ACE_OS::write(ACE_STDOUT, mb->rd_ptr(), length);
 		}
 		mb->release();
-		if(length == 0) {
+		if(length==0) {
 			break;
 		}
 	}
 	return(0);
 }
 
-
-int main(int argc, char *argv[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Control hierarchically-related active objects.
 	MT_Stream stream;
-
 	// All processing is performed in the
 	// Stream after <push>’s complete.
 	stream.push(new MT_Module("Consumer", new Consumer));
@@ -112,5 +110,5 @@ int main(int argc, char *argv[]) {
 	// Barrier synchronization: wait for
 	// the threads, to exit, then exit the main thread.
 	ACE_Thread_Manager::instance()->wait();
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -40,7 +40,7 @@ static __attribute__((__always_inline__)) int add6(int a, int b) {
 	return a+b;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	int a=2;
 	int b=2;
 	printf("add1(%d,%d)=%d\n",a,b,add1(a,b));

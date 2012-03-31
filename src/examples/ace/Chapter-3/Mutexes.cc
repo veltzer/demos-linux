@@ -46,15 +46,12 @@ private:
 	HA_Device_Repository& rep_;
 };
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	HA_Device_Repository rep;
-
 	HA_CommandHandler handler1(rep);
 	HA_CommandHandler handler2(rep);
-
 	handler1.activate();
 	handler2.activate();
-
 	handler1.wait();
 	handler2.wait();
 	return(0);

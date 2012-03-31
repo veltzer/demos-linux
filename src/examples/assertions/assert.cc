@@ -33,8 +33,8 @@
  *		Mark Veltzer
  */
 
-int main(int argc, char **argv, char **envp) {
-	assert(1 == 1);
+int main(int argc,char** argv,char** envp) {
+	assert(1==1);
 	printf("in here 1\n");
 #define NDEBUG
 #include<assert.h> // for assert(3)

@@ -24,7 +24,7 @@ public:
 	}
 };
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	auto_ptr<A> a(new A("a"));
 	new A("b");
 

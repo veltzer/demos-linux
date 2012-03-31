@@ -30,7 +30,7 @@ static __attribute__((always_inline)) int sum(int i) {
 }
 */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("sum for 100 is %d\n",sum(100));
 	printf("sum for 5 is %d\n",sum(5));
 	// these next 2 lines will create a compile time error...

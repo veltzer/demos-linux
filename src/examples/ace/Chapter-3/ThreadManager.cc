@@ -51,7 +51,7 @@ public:
 	}
 };
 
-int ACE_TMAIN(int, ACE_TCHAR **) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) main: starting up\n")));
 	// first thread
 	ExitHandler eh;

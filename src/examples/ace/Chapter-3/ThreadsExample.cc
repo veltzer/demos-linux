@@ -42,7 +42,7 @@ static void* run_method(void* arg) {
 }
 */
 
-int main(int argc,char** argv,char** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	if(argc<2) {
 		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n", argv[0]));
 		ACE_OS::exit(1);

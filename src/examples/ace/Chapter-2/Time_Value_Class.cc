@@ -1,7 +1,7 @@
 #include<ace/ARGV.h>
 #include<ace/Get_Opt.h>
 #include<ace/ARGV.h>
-#include<iostream>
+#include<iostream> // for std::cout, std::endl
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
@@ -14,7 +14,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-int main(int argc, char **argv) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	const ACE_Time_Value max_interval(60*60); // 1 hour.
 	//ACE_Time_Value expiration = ACE_OS::gettimeofday();
 	ACE_Time_Value expiration;

@@ -82,9 +82,7 @@ int HA_Device_Repository::update_device(int device_id) {
 	return(0);
 }
 
-
-// Listing 3 code/ch12
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	HA_Device_Repository rep;
 	ACE_Thread_Mutex rep_mutex;
 
