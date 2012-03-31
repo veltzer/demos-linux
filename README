@@ -1,0 +1,14 @@
+The Linux API project
+=====================
+This project is a source code repository for instructors or expert programmers
+who want to explore the Linux C/C++ API.
+
+It has a few hundred examples I found are useful in explaining the Linux API.
+
+This project needs help! fork me and commit!
+
+More documentation to come...
+
+Code is licensed to me (unless explicity stolen as attributed in the source code).
+
+	Mark Veltzer <mark.veltzer@gmail.com>, 2011-2012
