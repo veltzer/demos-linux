@@ -38,7 +38,7 @@ int main(int argc, char** argv,char** envp) {
 	char buffer[length];
 	//struct ipheader *ip = (struct ipheader *) buffer;
 	//struct udpheader *udp = (struct udpheader *) (buffer + sizeof(struct ipheader));
-	while (read(fd, buffer, length) > 0) {
+	while(read(fd, buffer, length) > 0) {
 		/* packet = data + ip header + tcp header */
 		/* Little Endian/Big Endian must be considered here */
 		 printf("Dump the packet: %s\n", buffer + sizeof(struct iphdr) + sizeof(struct tcphdr));

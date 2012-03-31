@@ -63,7 +63,7 @@ int main(int argc, char **argv, char **envp) {
 	// are signals
 	const int size = 256;
 	char buf[size];
-	while (true) {
+	while(true) {
 		std::cerr << "main: before read" << std::endl;
 		if (read(fileno(stdin), buf, size) == -1) {
 			perror("main: error in read(2)");

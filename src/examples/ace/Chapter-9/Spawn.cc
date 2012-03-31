@@ -55,7 +55,7 @@ private:
 		ssize_t length = 0;
 
 		// Read the contents of the error stream written by the child and print it out.
-		while ((length = ACE_OS::read(this->outputfd_, buf, sizeof(buf) - 1)) > 0) {
+		while((length = ACE_OS::read(this->outputfd_, buf, sizeof(buf) - 1)) > 0) {
 			buf[length] = 0;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), buf));
 		}
@@ -154,7 +154,7 @@ public:
 		ACE_TRACE("Slave::readLine");
 
 		int i = 0;
-		while (true) {
+		while(true) {
 			ssize_t retval = ACE_OS::read(ACE_STDIN, &str[i], 1);
 			if (retval > 0) {
 				if (str[i] == '\n') {

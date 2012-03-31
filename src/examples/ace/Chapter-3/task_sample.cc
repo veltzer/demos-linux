@@ -83,7 +83,7 @@ int Task::svc(void) {
 	// that we can use this and not bother with the Work object at all.
 	//Unit_Of_Work * unit_of_work;
 
-	while (true) {
+	while(true) {
 		// Get the message...
 		if (this->getq(message) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, "%p\n", "getq"), -1);

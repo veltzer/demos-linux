@@ -13,10 +13,10 @@
  * 				Mark Veltzer
  */
 
-const int max_stack_frames = 25;
-const int drop_frames_start = 3;
-const int drop_frames_end = 1;
-const int max_message_size = 256;
+const int max_stack_frames=25;
+const int drop_frames_start=3;
+const int drop_frames_end=1;
+const int max_message_size=256;
 
 struct error_data {
 	int size;
@@ -31,20 +31,20 @@ static error_data *last_error;
 static jmp_buf env;
 
 inline void error_create(const char *message) {
-	error_data *p = (error_data *)malloc(sizeof(error_data));
+	error_data *p=(error_data *)malloc(sizeof(error_data));
 
-	p->size = backtrace(p->array, max_stack_frames);
-	p->symbols = backtrace_symbols(p->array, p->size);
+	p->size=backtrace(p->array, max_stack_frames);
+	p->symbols=backtrace_symbols(p->array, p->size);
 	strncpy(p->message, message, max_message_size);
-	last_error = p;
+	last_error=p;
 	longjmp(env, (int)p);
 }
 
 
 inline void error_print(FILE *f, error_data *p) {
 	fprintf(f, "error message is [%s]\n", p->message);
-	for (int i = p->size - drop_frames_start; i >= drop_frames_end; i--) {
-		char *symbol = p->symbols[i];
+	for(int i=p->size-drop_frames_start;i>=drop_frames_end;i--) {
+		char *symbol=p->symbols[i];
 		char result_name[256];
 		char result_offset[256];
 		error_demangle(symbol, result_name, 256, result_offset, 256);
@@ -72,7 +72,7 @@ inline void error_free_last() {
 // This function **must** be inlined as if setjmp returns then env will no longer
 // be valid. That's why we don't use it (there is no way to guarantee inlining).
 inline error_data *error_setjmp() {
-	int ret = setjmp(env);
+	int ret=setjmp(env);
 
 	if (!ret) {
 		return(NULL);
@@ -87,7 +87,7 @@ inline error_data *error_setjmp() {
 
 /* this simulates a function which sometimes encounters errors */
 void func() {
-	static int counter = 0;
+	static int counter=0;
 
 	counter++;
 	if (counter % 3 == 0) {
@@ -98,11 +98,11 @@ void func() {
 
 
 int main(int argc, char **argv, char **envp) {
-	for (int c = 0; c < 10; c++) {
+	for(int c=0;c<10;c++) {
 		//int ret=setjmp(env);
 		//error_data* p=(error_data*)ret;
 		//error_data* p=error_setjmp();
-		error_data *p = mac_error_setjmp();
+		error_data *p=mac_error_setjmp();
 		if (p == NULL) {
 			// This is the regular code. We get here when setting doing the
 			// setjmp for the first time

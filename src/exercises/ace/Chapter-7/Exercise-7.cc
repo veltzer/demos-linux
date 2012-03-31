@@ -46,7 +46,7 @@ int PrintMessages(SHARED_ALLOC *shared) {
 	{
 		MALLOC_LIFO_RECORD record(*shared);
 
-		for (void *temp = 0; record.next(temp) != 0; record.advance()) {
+		for(void *temp = 0; record.next(temp) != 0; record.advance()) {
 			Record *record = reinterpret_cast<Record *>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), record->name()));
 		}
@@ -114,7 +114,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 
 		char buffer[100];
 		int type = 1;
-		while (type) {
+		while(type) {
 			type = GetMessageType(buffer);
 			StoreMessages(shared, buffer);
 		}

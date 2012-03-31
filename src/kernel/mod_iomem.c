@@ -19,10 +19,9 @@ MODULE_DESCRIPTION("Demo module for testing");
 // our own functions
 static int __init mod_init(void) {
 	struct resource *rp;
-
 	PR_INFO("start");
-	rp = iomem_resource.child;
-	while (rp) {
+	rp=iomem_resource.child;
+	while(rp) {
 		printk("%0*llx-%0*llx\n",
 			8, (unsigned long long)rp->start,
 			8, (unsigned long long)rp->end

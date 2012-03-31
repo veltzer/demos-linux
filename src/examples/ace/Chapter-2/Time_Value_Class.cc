@@ -2,17 +2,20 @@
 #include<ace/Get_Opt.h>
 #include<ace/ARGV.h>
 #include<iostream>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Usage example: Time_Value_Class -e 36000 -i 1200
+ * Where: 1200 means 20 minutes
+ * 36000 means 10 hours
+ *
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-using namespace std;
-// Usage example: Time_Value_Class -e 36000 -i 1200
-// Where: 1200 means 20 minutes
-// 36000 means 10 hours
 
-const ACE_Time_Value max_interval(60 * 60); // 1 hour.
 int main(int argc, char **argv) {
+	const ACE_Time_Value max_interval(60*60); // 1 hour.
 	//ACE_Time_Value expiration = ACE_OS::gettimeofday();
 	ACE_Time_Value expiration;
 	ACE_Time_Value interval;
@@ -35,11 +38,11 @@ int main(int argc, char **argv) {
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("interval=%d max_interval=%d\n"), interval.sec(), max_interval.sec()));
 	if (interval > max_interval) {
-		cout << "interval must be less than " << max_interval.sec() << endl;
+		std::cout << "interval must be less than " << max_interval.sec() << std::endl;
 	} else if (expiration > (ACE_Time_Value::max_time - interval)) {
-		cout << "expiration + interval must be less than " << ACE_Time_Value::max_time.sec() << endl;
+		std::cout << "expiration + interval must be less than " << ACE_Time_Value::max_time.sec() << std::endl;
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("interval : %d seconds.\n"), interval.sec()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("expiration after: %d seconds.\n"), expiration.sec() - current_time.sec()));
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include<stdio.h> // for putchar(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 extern "C" {
 	extern char _binary_data_txt_start;
@@ -7,6 +8,7 @@ extern "C" {
 
 int main(int argc,char** argv,char** envp) {
 	char *p=&_binary_data_txt_start;
-	while ( p != &_binary_data_txt_end ) putchar(*p++);
-	return 0;
+	while(p!=&_binary_data_txt_end)
+		putchar(*p++);
+	return EXIT_SUCCESS;
 }

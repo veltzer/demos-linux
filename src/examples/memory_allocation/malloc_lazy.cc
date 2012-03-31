@@ -71,14 +71,14 @@ int main(int argc, char **argv, char **envp) {
 					exit(1);
 				}
 				pagenum=atoi(buf);
-				for (unsigned int i = 0; i < pagenum; i++) {
+				for(unsigned int i = 0; i < pagenum; i++) {
 					p[page_counter * page_size] = 0;
 					page_counter++;
 				}
 				print_stats();
 				break;
 			case 2:
-				for (unsigned int i = 0; i < page_number; i++) {
+				for(unsigned int i = 0; i < page_number; i++) {
 					p[i * page_size] = 0;
 				}
 				print_stats();

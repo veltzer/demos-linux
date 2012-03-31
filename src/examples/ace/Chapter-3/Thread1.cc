@@ -1,6 +1,7 @@
 #include<ace/Synch.h> // for the mutex
 #include<ace/Thread.h> // for thread functions
 #include<ace/Log_Msg.h> // for ACE_DEBUG
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -17,9 +18,8 @@ class Args {
 
 //The starting point for the worker threads
 static void * worker(void *arguments) {
-	Args *arg = (Args *)arguments;
-
-	for (int i = 0; i < arg->iterations; i++) {
+	Args *arg=(Args*)arguments;
+	for(int i=0;i<arg->iterations;i++) {
 		ACE_DEBUG((LM_DEBUG,"(%t) Trying to get a hold of this iteration\n"));
 		// lock the mutex
 		arg->mutex.acquire();
@@ -32,8 +32,8 @@ static void * worker(void *arguments) {
 	return(0);
 }
 
-int main(int argc, char *argv[]) {
-	if (argc < 2) {
+int main(int argc, char** argv,char** envp) {
+	if(argc<2) {
 		ACE_OS::printf("Usage: %s <number_of_threads> <number_of_iterations>\n",argv[0]);
 		ACE_OS::exit(1);
 	}
@@ -63,5 +63,5 @@ int main(int argc, char *argv[]) {
 	for (unsigned int i = 0; i < thread_num; i++) {
 		ACE_Thread::join(threads[i]);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

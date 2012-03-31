@@ -94,7 +94,7 @@ int main(int argc, char **argv, char **envp) {
 	DEBUG("many heap no arguments example");
 	const unsigned int num_objs = 5;
 	A* e=new A[num_objs];
-	for (unsigned int i = 0; i < num_objs; i++) {
+	for(unsigned int i=0;i<num_objs;i++) {
 		std::cerr << i << " " << "e->val is " << e[i].val << std::endl;
 	}
 	delete e;

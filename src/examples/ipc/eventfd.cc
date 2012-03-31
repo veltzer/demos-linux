@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **envp) {
 
 	if(pid==0) {
 		// child branch
-		for (int j = 1; j < argc; j++) {
+		for(int j=1;j<argc;j++) {
 			uint64_t u = strtoull(argv[j], NULL, 0);
 			printf("Child writing %llu (0x%llx) to efd\n",u,u);
 			ssize_t s = write(efd, &u, sizeof(uint64_t));

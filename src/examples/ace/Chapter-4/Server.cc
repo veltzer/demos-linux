@@ -30,7 +30,7 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Listening on %s\n"), my_name));
 	// lets go into the main loop...
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Server going into main loop\n")));
-	while (true) {
+	while(true) {
 		ACE_SOCK_Stream peer;
 		ACE_INET_Addr peer_addr;
 		ACE_Time_Value timeout(10, 0);
@@ -51,7 +51,7 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 			ssize_t bytes_received = peer.recv(buffer, sizeof(buffer));
 			// IMPORTANT NOTICE: do not allow 0 here since it is the end
 			// of file...
-			while (bytes_received > 0) {
+			while(bytes_received>0) {
 				if (peer.send(buffer, bytes_received) == -1) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) error in send")));
 				}

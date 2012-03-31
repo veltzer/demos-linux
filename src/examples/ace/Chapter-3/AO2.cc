@@ -78,12 +78,12 @@ public:
 
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
-		while (true) {
+		while(true) {
 			// Dequeue the next method object
 			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
 
 			// Invoke the method request.
-			if (request->call() == -1) {
+			if(request->call()==-1) {
 				break;
 			}
 		}

@@ -1,5 +1,3 @@
-// tail_buffer-modified.cpp - insert the zeo length message into
-// the head of the queue.
 
 #include<ace/OS_NS_stdio.h>
 #include<ace/streams.h>
@@ -8,11 +6,16 @@
 #include<ace/Read_Buffer.h>
 #include<ace/Thread_Manager.h>
 #include<ace/Service_Config.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Tail_buffer-modified.cpp - insert the zeo length message into
+ * the head of the queue.
+ *
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-//#include<ace/Truncate.h>
 
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;
@@ -28,17 +31,17 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) { // Keep loop
 	// timeout or get a message with a length == 0, which signals us to
 	// quit.
 
-	for (; ;) {
+	while(true) {
 		ACE_Message_Block *mb;
 
 		// Read from the head
-		if (msg_queue->dequeue_tail(mb) == -1) {
+		if(msg_queue->dequeue_tail(mb) == -1) {
 			break;
 		}
 
 		size_t length = mb->length();
 
-		if (length > 0) {
+		if(length>0) {
 			ACE_OS::puts(mb->rd_ptr());
 		}
 
@@ -46,7 +49,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) { // Keep loop
 		ACE_Allocator::instance()->free(mb->rd_ptr());
 		mb->release();
 
-		if (length == 0) {
+		if(length==0) {
 			break;
 		}
 	}
@@ -71,13 +74,13 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 
 		ACE_Message_Block *mb;
 
-		if (buffer == 0) {
+		if(buffer==0) {
 			// Send a 0-sized shutdown message to the other thread and
 			// exit.
 
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
 
-			if (msg_queue->enqueue_head(mb) == -1) {
+			if(msg_queue->enqueue_head(mb) == -1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
@@ -93,7 +96,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 			ACE_DEBUG((LM_DEBUG, "enqueueing message of size %d\n", rb.size()));
 
 			// Enqueue into the tail
-			if (msg_queue->enqueue_tail(mb) == -1) {
+			if(msg_queue->enqueue_tail(mb) == -1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 		}
@@ -107,15 +110,13 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	return(0);
 }
 
-
-int ACE_TMAIN(int, ACE_TCHAR *[]) { // Message queue.
+int ACE_TMAIN(int, ACE_TCHAR**) {
+	// Message queue.
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
-
-	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)&msg_queue, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if(thr_mgr.spawn(ACE_THR_FUNC(producer),(void *)&msg_queue,THR_NEW_LWP|THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);
 	}
-
 	// Wait for producer and consumer threads to exit.
 	thr_mgr.wait();
-	return(0);
+	return EXIT_SUCCESS;
 }

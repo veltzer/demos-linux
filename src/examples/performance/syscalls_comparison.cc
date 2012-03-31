@@ -58,7 +58,7 @@ int main(int argc, char **argv, char** envp) {
 
 	printf("doing %d gettimeofday (for comparison)\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i<loop;i++) {
 		struct timeval t3;
 		gettimeofday(&t3, NULL);
 	}
@@ -67,7 +67,7 @@ int main(int argc, char **argv, char** envp) {
 
 	printf("doing %d getpid\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i<loop;i++) {
 		getpid();
 	}
 	CHECK_NOT_M1(gettimeofday(&t2, NULL));
@@ -75,7 +75,7 @@ int main(int argc, char **argv, char** envp) {
 
 	printf("doing %d gettid\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i<loop;i++) {
 		gettid();
 	}
 	CHECK_NOT_M1(gettimeofday(&t2, NULL));
@@ -84,7 +84,7 @@ int main(int argc, char **argv, char** envp) {
 	gettid_cache_init();
 	printf("doing %d gettid_cached\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i<loop;i++) {
 		gettid_cached();
 	}
 	CHECK_NOT_M1(gettimeofday(&t2, NULL));

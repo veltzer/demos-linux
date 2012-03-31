@@ -89,9 +89,8 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 
 static void sbd_request(struct request_queue *q) {
 	struct request *req;
-
-	req = blk_fetch_request(q);
-	while (req != NULL) {
+	req=blk_fetch_request(q);
+	while(req!=NULL) {
 		if (!blk_fs_request(req)) {
 			// we go a request that we can not handle. We give errors on these.
 			// a real device should handle these as well...

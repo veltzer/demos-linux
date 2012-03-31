@@ -1,12 +1,12 @@
 #include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
 #include<setjmp.h> // for longjmp(3), setjmp(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of how to use the setjmp/longjmp in order to simulate exception
  * handling in C code.
  *
- * 			Mark Veltzer
+ * Mark Veltzer
  */
 
 // This buffer saves the context of the jump. We need one for each unique
@@ -15,7 +15,7 @@ static jmp_buf env;
 
 /* this simulates a function which sometimes encounters errors */
 void func() {
-	static int counter = 0;
+	static int counter=0;
 
 	counter++;
 	if (counter % 3 == 0) {
@@ -26,10 +26,10 @@ void func() {
 
 
 int main(int argc, char **argv, char **envp) {
-	for (int c = 0; c < 10; c++) {
+	for(int c=0;c<10;c++) {
 		int ret;
-		ret = setjmp(env);
-		if (!ret) {
+		ret=setjmp(env);
+		if(!ret) {
 			// This is the regular code. We get here when setting doing the
 			// setjmp for the first time
 			fprintf(stderr, "c is %d\n", c);

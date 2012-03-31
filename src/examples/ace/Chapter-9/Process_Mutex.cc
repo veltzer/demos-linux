@@ -19,7 +19,7 @@ public:
 		ACE_TRACE(ACE_TEXT("GResourceUser::run"));
 
 		int count = 0;
-		while (count++ < 10) {
+		while(count++ < 10) {
 			int result = this->gmutex_.acquire();
 			ACE_ASSERT(result == 0);
 

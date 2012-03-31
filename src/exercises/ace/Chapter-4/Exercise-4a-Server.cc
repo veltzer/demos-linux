@@ -1,31 +1,31 @@
 #include<ace/SOCK_Acceptor.h>
 #include<ace/Log_Msg.h>
 #include<ace/Read_Buffer.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
 // a Read_Buffer which is always connected to STDIN
 static ACE_Read_Buffer rb(ACE_STDIN);
 
-int GetMessageType(char *data) {
+int GetMessageType(char* data) {
 	// read a single line from stdin
 	// Allocate a new buffer.
-	char *buffer = rb.read('\n');
-
-	if (buffer == 0) {
+	char* buffer=rb.read('\n');
+	if(buffer==0) {
 		// return message type zero when EOF is reached
 		return(0);
 	} else {
 		int type;
-		sscanf(buffer, "%d", &type);
+		sscanf(buffer,"%d",&type);
 		// Remove the type from the buffer
-		ACE_OS::sprintf(data, "%s", buffer + 2);
+		ACE_OS::sprintf(data,"%s",buffer+2);
 		return(type);
 	}
 }
-
 
 int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr) {
 	/*
@@ -55,30 +55,29 @@ int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, A
 }
 
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int,ACE_TCHAR**) {
 	ACE_INET_Addr port_to_listen[3];
 	ACE_SOCK_Acceptor acceptor[3];
 	ACE_INET_Addr peer_addr[3];
 	ACE_SOCK_Stream peer[3];
 	int type = 1;
 	char buffer[4096];
-
-	for (int i = 0; i < 3; i++) {
+	for(int i=0;i<3;i++) {
 		port_to_listen[i] = ACE_INET_Addr(50000 + i, ACE_LOCALHOST);
 		if (acceptor[i].open(port_to_listen[i], 1) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 		}
 	}
-	for (int i = 0; i < 3; i++) {
+	for(int i=0;i<3;i++) {
 		MakeConnection(&acceptor[i], &port_to_listen[i], &peer[i], &peer_addr[i]);
 	}
 	int i;
-	while (type != 0) {
+	while(type!=0) {
 		type = GetMessageType(buffer);
 		if (type) {
 			size_t size = ACE_OS::strlen(buffer);
 			buffer[size++] = '\n';
-			if ((type == 1) || (type == 2)) {
+			if((type == 1) || (type == 2)) {
 				i = 0;
 			} else {
 				if ((type == 3) || (type == 4)) {
@@ -92,10 +91,10 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 		}
 	}
 	// send "End" and close the connections
-	for (int i = 0; i < 3; i++) {
+	for(int i=0;i<3;i++) {
 		peer[i].send_n("End", 4, 0);
 		peer[i].recv(buffer, sizeof(buffer));
 		peer[i].close();
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

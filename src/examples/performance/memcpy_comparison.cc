@@ -25,7 +25,7 @@ char* buf2;
 void test_memcpy() {
 	printf("doing %d memcpy\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i<loop;i++) {
 		memcpy(buf1,buf2,size);
 	}
 	CHECK_NOT_M1(gettimeofday(&t2, NULL));
@@ -35,7 +35,7 @@ void test_memcpy() {
 void test_imp1() {
 	printf("doing %d copy int by int (implementation I)\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i = 0;i < loop;i++) {
 		for(unsigned int j=0;j<size/sizeof(int);j++) {
 			((int*)buf1)[j]=((int*)buf2)[j];
 		}
@@ -47,7 +47,7 @@ void test_imp1() {
 void test_imp2() {
 	printf("doing %d copy int by int (implementation II)\n",loop);
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for (unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i<loop;i++) {
 		int* pbuf1=(int*)buf1;
 		int* pbuf2=(int*)buf2;
 		for(unsigned int j=0;j<size/sizeof(int);j++) {

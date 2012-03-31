@@ -32,7 +32,7 @@ inline void error_create(const char* message) {
 }
 inline void error_print(FILE* f,error_data* p) {
 	fprintf(f,"error message is [%s]\n",p->message);
-	for (int i=p->size-drop_frames_start;i>=drop_frames_end;i--) {
+	for(int i=p->size-drop_frames_start;i>=drop_frames_end;i--) {
 		char* symbol=p->symbols[i];
 		char result_name[256];
 		char result_offset[256];

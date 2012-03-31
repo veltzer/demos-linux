@@ -22,7 +22,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	if (connector.connect(peer, addr, &timeout) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Client connect")), 1);
 	}
-	while (true) {
+	while(true) {
 		bc = peer.recv(buf, sizeof(buf));
 		buf[bc] = 0;
 		if (!bc) {

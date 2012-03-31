@@ -4,10 +4,12 @@
 #include"Message_Receiver.hh"
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 int HA_CommandHandler::svc(void) {
-	while (true) {
+	while(true) {
 		ACE_Message_Block *mb;
 		if (this->getq(mb) == -1) {
 			break;

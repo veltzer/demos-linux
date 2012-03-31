@@ -6,6 +6,8 @@
 #include<ace/Message_Block.h>
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 int ACE_TMAIN(int, ACE_TCHAR **) {

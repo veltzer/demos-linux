@@ -29,7 +29,7 @@ int main(int argc, char **argv, char **envp) {
 	void* rets[num];
 
 	TRACE("main starting");
-	for (int i = 0; i < num; i++) {
+	for(int i=0;i<num;i++) {
 		ids[i] = i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}

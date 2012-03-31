@@ -25,7 +25,7 @@ static void *consumer(ConsumerData* pdata) {
 	// Keep looping, reading a message out of the queue, until we
 	// timeout or get a message with a length == 0, which signals us to quit.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) consumer %d starting\n"),pdata->id));
-	while (true) {
+	while(true) {
 		ACE_Message_Block *mb;
 		if (pdata->msg_queue->dequeue_head(mb) == -1) {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("(%t) %d dequeue_head\n"),pdata->id));
@@ -62,7 +62,7 @@ static void *producer(ProducerData* pdata) {
 	ACE_Read_Buffer rb(ACE_STDIN);
 
 	// Keep reading stdin, until we reach EOF.
-	while (true) {
+	while(true) {
 		// Allocate a new buffer.
 		char* buffer = rb.read('\n');
 		if (buffer == NULL) {

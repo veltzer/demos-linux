@@ -31,10 +31,10 @@ const int thread_num = 10;
 const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int*)p;
 
-	fprintf(pfile, "starting thread %d\n", num);
-	for (int i = 0; i < attempts; i++) {
+	fprintf(pfile,"starting thread %d\n", num);
+	for(int i=0;i<attempts;i++) {
 		int ret;
 		CHECK_ONEOFTWO(ret = pthread_barrier_wait(&bar),0, PTHREAD_BARRIER_SERIAL_THREAD);
 		//fprintf(pfile, "thread %d got %d from pthread_barrier_wait\n", num, ret);
@@ -58,18 +58,18 @@ int main(int argc, char **argv, char **envp) {
 
 	CHECK_ZERO(pthread_barrier_init(&bar, NULL, thread_num));
 	fprintf(pfile, "main starting\n");
-	for (int i = 0; i < thread_num; i++) {
-		ids[i] = i;
-		CPU_ZERO(cpu_sets + i);
-		CPU_SET(i % cpu_num, cpu_sets + i);
+	for(int i=0;i<thread_num;i++) {
+		ids[i]=i;
+		CPU_ZERO(cpu_sets+i);
+		CPU_SET(i%cpu_num,cpu_sets+i);
 		//print_cpu_set(pfile,cpu_sets + i);
 		CHECK_ZERO(pthread_attr_init(attrs + i));
 		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	fprintf(pfile, "main ended creating threads\n");
-	for (int i = 0; i < thread_num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets + i));
+	for(int i=0;i<thread_num;i++) {
+		CHECK_ZERO(pthread_join(threads[i],rets+i));
 	}
 	CHECK_ZERO(pthread_barrier_destroy(&bar));
 	fprintf(pfile,"counter is %d and should be %d\n",counter,thread_num*attempts);

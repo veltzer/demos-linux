@@ -1,6 +1,7 @@
 #include<stdio.h> // for printf(3)
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2), sleep(3), fork(2)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 #include"us_helper.hh"
 
@@ -32,13 +33,13 @@
  *
  *		Mark Veltzer
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 #ifdef DO_FORK
 	pid_t child_pid=fork();
 	if(child_pid==0) {
 #endif // DO_FORK
 		printf("take a photo of me with 'gcore %d'...\n",getpid());
-		for (volatile unsigned int i = 0; i < 10000; i++) {
+		for(volatile unsigned int i=0;i<10000;i++) {
 			printf("i is %d\n", i);
 #ifdef DO_SLEEP
 			usleep(5);

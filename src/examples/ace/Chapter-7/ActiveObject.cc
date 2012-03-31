@@ -73,30 +73,25 @@ public:
 		this->activate();
 	}
 
-
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
-
-		while (true) {
+		while(true) {
 			// Dequeue the next method object
 			auto_ptr<ACE_Method_Request>
 			request(this->activation_queue_.dequeue());
 
 			// Invoke the method request.
-			if (request->call() == -1) {
+			if(request->call() == -1) {
 				break;
 			}
 		}
-
 		return(0);
 	}
-
 
 	int enqueue(ACE_Method_Request *request) {
 		ACE_TRACE(ACE_TEXT("Scheduler::enqueue"));
 		return(this->activation_queue_.enqueue(request));
 	}
-
 
 private:
 	ACE_Activation_Queue activation_queue_;
@@ -134,7 +129,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 
 	ACE_Future<int> results[10];
 
-	for (int i = 0; i < 10; i++) {
+	for(int i=0;i<10;i++) {
 		results[i] = controller.status_update();
 	}
 
@@ -142,8 +137,8 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	// Do other work.
 
 	// Get results...
-	for (int j = 0; j < 10; j++) {
-		int result = 0;
+	for(int j=0;j<10;j++) {
+		int result=0;
 		results[j].get(result);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("New status_update %d\n"), result));
 	}

@@ -3,6 +3,8 @@
 #include<ace/Thread_Manager.h>
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -20,7 +22,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep looping, reading a message out of the queue, until we
 	// timeout or get a message with a length == 0, which signals us to
 	// quit.
-	while (true) {
+	while(true) {
 		ACE_Message_Block *mb;
 		// Read from the head
 		if (msg_queue->dequeue_head(mb) == -1) {
@@ -51,7 +53,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Read_Buffer rb(ACE_STDIN);
 
 	// Keep reading stdin, until we reach EOF.
-	while (true) {
+	while(true) {
 		// Allocate a new buffer.
 		char* buffer = rb.read('\n');
 		ACE_Message_Block *mb;

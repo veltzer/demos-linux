@@ -32,7 +32,7 @@
  * since the underlying libc functions (backtrace_*) are allocating memory via malloc(3)
  * which may be corrupt at that point.
  *
- *		Mark Veltzer
+ * Mark Veltzer
  *
  * EXTRA_LIBS=-rdynamic
  *
@@ -52,12 +52,12 @@
  */
 void print_trace(bool full) {
 	unsigned int nptrs;
-	const unsigned int MAX_FRAMES = 100;
+	const unsigned int MAX_FRAMES=100;
 	void* buffer[MAX_FRAMES];
 
 //	char **strings;
 //	unsigned int j;
-	nptrs = backtrace(buffer, MAX_FRAMES);
+	nptrs=backtrace(buffer, MAX_FRAMES);
 	if(!full) {
 		nptrs-=2;
 	}
@@ -70,12 +70,12 @@ void print_trace(bool full) {
 	backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 
 	/*
-	 * strings = backtrace_symbols(buffer, nptrs);
+	 * strings=backtrace_symbols(buffer, nptrs);
 	 * if (strings == NULL) {
 	 *	perror("backtrace_symbols");
 	 *	exit(EXIT_FAILURE);
 	 * }
-	 * for (j = 0; j < nptrs; j++)
+	 * for(j=0;j<nptrs;j++)
 	 *	fprintf(stderr,"%s\n", strings[j]);
 	 * free(strings);
 	 */
@@ -105,7 +105,7 @@ void print_trace_sighandler(int sig) {
  * Signal handler registration function
  */
 void trace_register(void) {
-	old_handler = signal(SIGSEGV, print_trace_sighandler);
+	old_handler=signal(SIGSEGV, print_trace_sighandler);
 	if (old_handler == SIG_ERR) {
 		perror("could not register signal...");
 		exit(1);
@@ -121,9 +121,9 @@ void trace_register(void) {
  * Simple function that generates a segmentation fault...
  */
 void do_fault(void) {
-	char *p = (char *)0;
+	char* p=(char*)0;
 
-	p[0] = 0;
+	p[0]=0;
 }
 
 /*
@@ -151,14 +151,13 @@ int rec_func(unsigned int ncalls) {
 }
 //int rec_func(unsigned int ncalls, unsigned int ret) __attribute__((__noinline__));
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc, char** argv, char** envp) {
 	trace_register();
-
 	unsigned int num;
-	if (argc > 1) {
-		num = atoi(argv[1]);
+	if(argc>1) {
+		num=atoi(argv[1]);
 	} else {
-		num = 3;
+		num=3;
 	}
 	rec_func(num);
 	return EXIT_SUCCESS;

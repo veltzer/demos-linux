@@ -72,7 +72,7 @@ int main(int argc, char **argv, char **envp) {
 	} else {
 		TRACE("this is the parent");
 		bool over = false;
-		while (!over) {
+		while(!over) {
 			TRACE("waiting for the child...");
 			siginfo_t info;
 			int res = waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED);

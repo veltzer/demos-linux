@@ -95,7 +95,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_NULL(d=opendir("."));
 	int num_files=0;
 	int num_blocks=0;
-	while ((dircontent = readdir(d))) {
+	while((dircontent = readdir(d))) {
 		if(hidedots && dircontent->d_name[0]=='.') {
 			continue;
 		}

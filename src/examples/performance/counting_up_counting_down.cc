@@ -15,20 +15,20 @@
  * counting up in this specific compiler (g++ 4.4.3) since it saves one machine
  * instruction inside the loop.
  *
- *		Mark Veltzer
+ * Mark Veltzer
  *
  * TODO:
  * - actually measure the time with a performance counter and see it.
  */
-int main(int argc, char **argv, char **envp) {
-	int sum = 0;
 
-	for (int i = 0; i < 100; i++) {
-		sum += i * i;
+int main(int argc,char** argv,char** envp) {
+	int sum=0;
+	for(int i=0;i<100;i++) {
+		sum+=i*i;
 	}
-	for (int j = 99; j > 0; j--) {
-		sum += j * j;
+	for(int j=99;j>0;j--) {
+		sum+=j*j;
 	}
-	printf("sum is %d\n", sum);
+	printf("sum is %d\n",sum);
 	return EXIT_SUCCESS;
 }

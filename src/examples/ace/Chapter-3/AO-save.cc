@@ -85,21 +85,17 @@ public:
 
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
-
-		while (true) {
+		while(true) {
 			// Dequeue the next method object
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - In Scheduler::svc waiting for queue data dequeue\n")));
 			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
-
 			// Invoke the method request.
-			if (request->call() == -1) {
+			if(request->call() == -1) {
 				break;
 			}
 		}
-
 		return(0);
 	}
-
 
 	int enqueue(ACE_Method_Request *request) {
 		ACE_TRACE(ACE_TEXT("Scheduler::enqueue"));

@@ -79,7 +79,7 @@ int main(int argc, char **argv, char **envp) {
 	setlogmask(LOG_UPTO(LOG_WARNING));
 	// lets send different messages with different log levels
 	// we will cycle through the different log levels...
-	for (int i = 0; i < 200; i++) {
+	for(int i = 0; i < 200; i++) {
 		syslog(i%8, "this is a message %d of loglevel %s", i, str_log[i%8]);
 	}
 	// lets send the same message many times to show that
@@ -90,7 +90,7 @@ int main(int argc, char **argv, char **envp) {
 	// message, will print the number of times that that message appeared...
 	// you can verify this by stracing this demo and seeing 200 different calls
 	// to send(2).
-	for (int i = 0; i < 200; i++) {
+	for(int i = 0; i < 200; i++) {
 		syslog(LOG_ERR, "did you know that 2+2=4?");
 	}
 	// lets send a different message to make syslogd(1) print the number of times

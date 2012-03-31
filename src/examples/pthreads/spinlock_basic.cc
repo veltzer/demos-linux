@@ -39,12 +39,12 @@ int main(int argc, char **argv, char **envp) {
 	pthread_t threads[num];
 	int ids[num];
 	TRACE("starting threads...");
-	for (int i = 0; i < num; i++) {
+	for(int i=0;i<num;i++) {
 		ids[i] = i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("finished creating threads, joining them...");
-	for (int i = 0; i < num; i++) {
+	for(int i=0;i<num;i++) {
 		CHECK_ZERO(pthread_join(threads[i], NULL));
 	}
 	TRACE("joined all threads, destroying the lock...");

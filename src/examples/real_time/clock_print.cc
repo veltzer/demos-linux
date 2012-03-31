@@ -53,8 +53,8 @@ clock_data clocks[num_clocks] = {
 };
 
 int main(int argc, char **argv, char **envp) {
-	for (int i = 0; i < num_clocks; i++) {
-		clockid_t clk_id = clocks[i].id;
+	for(int i=0;i<num_clocks;i++) {
+		clockid_t clk_id=clocks[i].id;
 		struct timespec res,ts;
 		CHECK_NOT_M1(clock_getres(clk_id, &res));
 		CHECK_NOT_M1(clock_gettime(clk_id, &ts));

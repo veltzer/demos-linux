@@ -10,6 +10,8 @@
  * - the "%I" ACE_DEBUG modifier adds indentation level which matches the trace
  * level.
  * - you have to put your own newline at the end of ACE_DEBUG messages.
+ *
+ * Mark Veltzer
  */
 
 /*

@@ -22,7 +22,7 @@
 static pthread_spinlock_t mylock;
 
 static void *worker(void *not_used) {
-	while (true) {
+	while(true) {
 		TRACE("before lock");
 		CHECK_ZERO(pthread_spin_lock(&mylock));
 		sleep(1);
@@ -43,7 +43,7 @@ int main(int argc, char **argv, char **envp) {
 	pthread_t threads[num];
 	int ids[num];
 	TRACE("starting threads...");
-	for (int i = 0; i < num; i++) {
+	for(int i=0;i<num;i++) {
 		ids[i] = i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}

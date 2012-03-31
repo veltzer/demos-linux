@@ -2,6 +2,12 @@
 #include<stdlib.h> // for system(3), abort(3), mkstemp(3), malloc(3)
 #include<unistd.h> // for close(2)
 
+/*
+ * Example for using the shbang line to run C code
+ *
+ * Mark Veltzer
+ */
+
 //#define DEBUG
 
 void my_system(const char* cmd) {

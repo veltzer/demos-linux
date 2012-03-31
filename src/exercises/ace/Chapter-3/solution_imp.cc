@@ -20,7 +20,7 @@ private:
 public:
 	SharedResource(int num) {
 		mutex = new ACE_Thread_Mutex[num];
-		for (int i = 0; i < num; i++) {
+		for(int i=0;i<num;i++) {
 			mutex[i].acquire();
 		}
 		LockedCounter = 0;

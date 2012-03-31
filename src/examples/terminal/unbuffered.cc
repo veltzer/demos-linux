@@ -1,6 +1,7 @@
-#include<stdio.h> // for stdin
+#include<stdio.h> // for stdin, printf(3), fgetc(3), fileno(3)
 #include<unistd.h> // for isatty, ttyname
 #include<termios.h> // for tcsetattr, tcgetattr
+#include<stdlib.h> // for EXIT_SUCCESS
 
 #include"us_helper.hh"
 
@@ -34,34 +35,31 @@
  * This is an example of how to remove buffering from the terminal and read
  * characters one by one...
  *
- *		Mark Veltzer
+ * Mark Veltzer
  */
+
 void set_noncannon(int desc) {
 	struct termios settings;
-
 	CHECK_NOT_M1(tcgetattr(desc, &settings));
 	cfmakeraw(&settings);
 	//settings.c_lflag&=~ICANON;
 	CHECK_NOT_M1(tcsetattr(desc, TCSANOW, &settings));
 }
 
-
 int main(int argc, char **argv, char **envp) {
 	// lets take the file descriptor number from stdin which is usually
 	// a terminal (unless you redirect it...)
-	int filedes = fileno(stdin);
-
+	int filedes=fileno(stdin);
 	if (isatty(filedes)) {
 		DEBUG("it is a terminal with name [%s]", ttyname(filedes));
 	} else {
 		DEBUG("it is not a terminal");
 	}
 	set_noncannon(filedes);
-
-	int c = fgetc(stdin);
-	while (c != 'e') {
+	int c=fgetc(stdin);
+	while(c!='e') {
 		printf("got [%c]\n", (unsigned char)c);
-		c = fgetc(stdin);
+		c=fgetc(stdin);
 	}
 	return EXIT_SUCCESS;
 }

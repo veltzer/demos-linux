@@ -15,7 +15,7 @@
  */
 
 #define handle_error(msg) \
-	do { perror(msg); exit(EXIT_FAILURE); } while (0)
+	do { perror(msg); exit(EXIT_FAILURE); } while(0)
 
 static void print_elapsed_time(void) {
 	static struct timespec start;
@@ -73,7 +73,7 @@ int main(int argc, char** argv,char** envp) {
 		handle_error("timerfd_settime");
 	print_elapsed_time();
 	printf("timer started\n");
-	for (tot_exp = 0; tot_exp < max_exp;) {
+	for(tot_exp=0;tot_exp<max_exp;) {
 		s = read(fd, &exp, sizeof(uint64_t));
 		if (s != sizeof(uint64_t))
 			handle_error("read");

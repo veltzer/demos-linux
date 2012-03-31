@@ -120,15 +120,15 @@ static void doBadCode(int i) {
 
 int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
-	if (signal(SIGFPE, SignalHandler) == SIG_ERR) {
+	if(signal(SIGFPE, SignalHandler) == SIG_ERR) {
 		perror("problem with calling signal(2)");
 		exit(1);
 	}
-	if (signal(SIGSEGV, SignalHandler) == SIG_ERR) {
+	if(signal(SIGSEGV, SignalHandler) == SIG_ERR) {
 		perror("problem with calling signal(2)");
 		exit(1);
 	}
-	for (int c = 0; c < 10; c++) {
+	for(int c=0;c<10;c++) {
 		std::cerr << "c is " << c << std::endl;
 		try {
 			doBadCode(c % 2);

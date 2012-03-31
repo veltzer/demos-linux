@@ -1,6 +1,5 @@
-// $Id: thread_specific.h 80826 2008-03-04 14:51:23Z wotte $
-
-#ifndef ACE_THREAD_SPECIFIC_H
+#ifndef __THREAD_SPECIFIC_H
+#define __THREAD_SPECIFIC_H
 
 #include<ace/Guard_T.h>
 #include<ace/Thread_Mutex.h>
@@ -57,10 +56,8 @@ private:
 	int lineno_;
 
 	static int flags_;
-#if defined (ACE_HAS_THREADS)
 	// flags_ needs a lock.
 	static ACE_Thread_Mutex lock_;
-#endif /* ACE_HAS_THREADS */
 };
 
-#endif /* ACE_THREAD_SPECIFIC_H */
+#endif /* __THREAD_SPECIFIC_H */

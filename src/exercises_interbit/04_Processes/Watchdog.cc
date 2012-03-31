@@ -50,9 +50,9 @@ void watchsigHandler(int gotsig)
 			printf("%s: TTL from 2\n", stime);
 			break;
 	}
-	if (gotusr1 && gotusr2)
+	if(gotusr1 && gotusr2)
 	{
-		if (setitimer(ITIMER_REAL, & timer, NULL) == -1)
+		if(setitimer(ITIMER_REAL, & timer, NULL) == -1)
 		{
 			perror("setitimer failed");
 			exit(errno);
@@ -105,62 +105,53 @@ void startChild2()
 	}
 }
 
-void timeoutsigHandler(int gotsig)
-{
-	if (gotusr1 == 0)
-	{
+void timeoutsigHandler(int gotsig) {
+	if(gotusr1==0) {
 		printf("Signal form child 1 ID %d lost. Restarting\n", child1pid);
 		kill(child1pid, SIGKILL);
 		startChild1();
 	}
-	if (gotusr2 == 0)
-	{
+	if(gotusr2==0) {
 		printf("Signal from child 2 ID %d lost. Restarting\n", child2pid);
 		kill(child2pid, SIGKILL);
 		startChild2();
 	}
 }
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	struct sigaction sigusr, sigchld, sigalrm, sigint;
 	sigset_t emptyset;
 	sigemptyset(&emptyset);
-	sigusr.sa_handler = watchsigHandler;
-	sigusr.sa_mask = emptyset;
-	sigusr.sa_flags = 0;
-
-	if (sigaction(SIGUSR1, & sigusr, NULL) == -1)
-	{
+	sigusr.sa_handler=watchsigHandler;
+	sigusr.sa_mask=emptyset;
+	sigusr.sa_flags=0;
+	if(sigaction(SIGUSR1, & sigusr, NULL) == -1) {
 		perror("sigaction SIGUSR1 failed");
 		exit(errno);
 	}
-	if (sigaction(SIGUSR2, & sigusr, NULL) == -1)
-	{
+	if(sigaction(SIGUSR2, & sigusr, NULL) == -1) {
 		perror("sigaction SIGUSR2 failed");
 		exit(errno);
 	}
-	sigchld.sa_handler = sigchildHandler;
-	sigchld.sa_mask = emptyset;
-	sigchld.sa_flags = 0;
-	if (sigaction(SIGCHLD, & sigchld, NULL) == -1)
-	{
+	sigchld.sa_handler=sigchildHandler;
+	sigchld.sa_mask=emptyset;
+	sigchld.sa_flags=0;
+	if(sigaction(SIGCHLD, & sigchld, NULL) == -1) {
 		perror("sigaction SIGCHLD failed");
 		exit(errno);
 	}
-	sigalrm.sa_handler = timeoutsigHandler;
-	sigalrm.sa_mask = emptyset;
-	sigalrm.sa_flags = 0;
-	if (sigaction(SIGALRM, & sigalrm, NULL) == -1)
+	sigalrm.sa_handler=timeoutsigHandler;
+	sigalrm.sa_mask=emptyset;
+	sigalrm.sa_flags=0;
+	if(sigaction(SIGALRM, & sigalrm, NULL) == -1)
 	{
 		perror("sigaction SIGALRM failed");
 		exit(errno);
 	}
-	sigint.sa_handler = sigintHandler;
-	sigint.sa_mask = emptyset;
-	sigint.sa_flags = 0;
-	if (sigaction(SIGINT, & sigint, NULL) == -1)
-	{
+	sigint.sa_handler=sigintHandler;
+	sigint.sa_mask=emptyset;
+	sigint.sa_flags=0;
+	if(sigaction(SIGINT, & sigint, NULL) == -1) {
 		perror("sigaction SIGINT failed");
 		exit(errno);
 	}
@@ -168,15 +159,13 @@ int main(int argc,char** argv,char** envp)
 	timer.it_interval.tv_usec = 0;
 	timer.it_value.tv_sec = 5;
 	timer.it_value.tv_usec = 0;
-	if (setitimer(ITIMER_REAL, & timer, NULL) == -1)
-	{
+	if(setitimer(ITIMER_REAL, & timer, NULL) == -1) {
 		perror("setitimer failed");
 		exit(errno);
 	}
 	startChild1();
 	startChild2();
-	while (1)
-	{
+	while(true) {
 		pause();
 	}
 	return 0;

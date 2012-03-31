@@ -34,7 +34,7 @@ void *function_empty(void *p) {
 	bool over = false;
 	int counter = 0;
 	int errors=0;
-	while (!over) {
+	while(!over) {
 		counter++;
 		bool err;
 		// ioctl to do nothing...

@@ -30,7 +30,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// timeout or get a message with a length == 0, which signals us to quit.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("consumer : thread=%t Line:%l\n")));
 	ACE_OS::sleep(1);
-	while (true) {
+	while(true) {
 		ACE_Message_Block *mb;
 		if (msg_queue->dequeue_head(mb) == -1) {
 			break;
@@ -71,7 +71,7 @@ static void *producer() {
 	ACE_Read_Buffer rb(ACE_STDIN);
 
 	// Keep reading stdin, until we reach EOF.
-	while (true) {
+	while(true) {
 		// Allocate a new buffer.
 		char* buffer = rb.read('\n');
 		ACE_Message_Block *mb;

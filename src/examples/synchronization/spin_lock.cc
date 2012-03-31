@@ -51,16 +51,16 @@ int main(int argc, char **argv, char **envp) {
 
 	fprintf(pfile, "main starting\n");
 	CHECK_ZERO(pthread_spin_init(&lock,PTHREAD_PROCESS_PRIVATE));
-	for (int i = 0; i < thread_num; i++) {
-		ids[i] = i;
-		CPU_ZERO(cpu_sets + i);
-		CPU_SET(i % cpu_num, cpu_sets + i);
-		CHECK_ZERO(pthread_attr_init(attrs + i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
-		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
+	for(int i=0;i<thread_num;i++) {
+		ids[i]=i;
+		CPU_ZERO(cpu_sets+i);
+		CPU_SET(i%cpu_num,cpu_sets+i);
+		CHECK_ZERO(pthread_attr_init(attrs+i));
+		CHECK_ZERO(pthread_attr_setaffinity_np(attrs+i,sizeof(cpu_set_t),cpu_sets+i));
+		CHECK_ZERO(pthread_create(threads+i,attrs+i,worker,ids+i));
 	}
 	fprintf(pfile, "main ended creating threads\n");
-	for (int i = 0; i < thread_num; i++) {
+	for(int i=0;i<thread_num;i++) {
 		CHECK_ZERO(pthread_join(threads[i], NULL));
 	}
 	CHECK_ZERO(pthread_spin_destroy(&lock));

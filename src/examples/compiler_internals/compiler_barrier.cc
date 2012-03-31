@@ -101,7 +101,7 @@ void test_ ## shortname(volatile int& val_before,volatile int& val_after,int& du
 	fprintf(outfile,"&a is %p\n",&a);\
 	fprintf(outfile,"now starting...\n");\
 	a=100;\
-	while (a < 3000) {\
+	while(a < 3000) {\
 		a+=a;\
 	}\
 	asm("nop");\

@@ -53,7 +53,7 @@ public:
 	}
 
 	void print() {
-		for (int i = nSize - drop_frames - 1; i >= 0; i--) {
+		for(int i=nSize-drop_frames-1;i>=0;i--) {
 			char *symbol = symbols[i];
 			std::cerr
 				<< symbol << ","

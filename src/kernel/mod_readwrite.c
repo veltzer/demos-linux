@@ -28,7 +28,7 @@ static int __init read_file(char *filename) {
 	}
 	//PR_DEBUG("debug message");
 	pos = 0;
-	while (vfs_read(filp, buf, 1, &pos) == 1) {
+	while(vfs_read(filp, buf, 1, &pos) == 1) {
 		printk("%c", buf[0]);
 	}
 	printk("\n");

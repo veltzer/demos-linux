@@ -21,8 +21,8 @@ int main(int argc, char **argv, char** envp) {
 	struct timeval t1, t2;
 	const unsigned int loop=1000000;
 	printf("doing %d syscalls\n",loop);
-	gettimeofday(&t1, NULL);
-	for (unsigned int i = 0;i < loop;i++) {
+	gettimeofday(&t1,NULL);
+	for(unsigned int i=0;i<loop;i++) {
 		struct timeval t3;
 		gettimeofday(&t3, NULL);
 		//syscall(__NR_getpid);

@@ -23,13 +23,13 @@
  */
 int main(int argc, char **argv, char **envp) {
 	printf("stdout, no flush (bad updates)\n");
-	for (unsigned int i = 1000; i > 0; i--) {
-		printf("i is %10d\r", i);
+	for(unsigned int i=1000;i>0;i--) {
+		printf("i is %10d\r",i);
 		usleep(10000);
 	}
 	printf("\n\n");
 	printf("stdout, with flush (good updates, overhead on calling flush)\n");
-	for (unsigned int i = 1000; i > 0; i--) {
+	for(unsigned int i=1000;i>0;i--) {
 		printf("i is %10d\r", i);
 		fflush(stdout);
 		usleep(10000);
@@ -37,13 +37,13 @@ int main(int argc, char **argv, char **envp) {
 	printf("\n\n");
 	printf("stdout, no buffer (good updates, no call to flush so good performance)\n");
 	CHECK_NOT_M1(setvbuf(stdout,NULL,_IONBF,0));
-	for (unsigned int i = 1000; i > 0; i--) {
+	for(unsigned int i=1000;i>0;i--) {
 		printf("i is %10d\r", i);
 		usleep(10000);
 	}
 	printf("\n\n");
 	printf("stderr, unbuffered naturally so no flush\n");
-	for (unsigned int i = 1000; i > 0; i--) {
+	for(unsigned int i=1000;i>0;i--) {
 		fprintf(stderr,"i is %10d\r", i);
 		usleep(10000);
 	}

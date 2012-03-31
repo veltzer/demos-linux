@@ -18,7 +18,7 @@ inline void error_demangle(
 
 	// find parentheses and +address offset surrounding the mangled name:
 	// ./module(function+0x15c) [0x8048a6d]
-	for (char *p = symbol; *p; ++p)
+	for(char *p = symbol; *p; ++p)
 	{
 		if (*p == '(')
 			begin_name = p;

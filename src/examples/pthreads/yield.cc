@@ -58,7 +58,7 @@ void *worker(void *p) {
 	int prev=0;
 	bool first=true;
 	for(unsigned int i=0;i<10;i++) {
-	//while (true) {
+	//while(true) {
 		//TRACE("im here");
 		int cur= __sync_add_and_fetch(&counter, 1);
 		if(!first) {
@@ -99,12 +99,12 @@ int main(int argc, char **argv, char **envp) {
 #ifdef DO_BARRIER
 	CHECK_ZERO(pthread_barrier_init(&barrier,NULL,num));
 #endif // DO_BARRIER
-	for (unsigned int i = 0; i < num; i++) {
+	for(unsigned int i=0;i<num;i++) {
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, NULL));
 	}
 	//sleep(1);
 	TRACE("created threads, now joining...");
-	for (unsigned int i = 0; i < num; i++) {
+	for(unsigned int i=0;i<num;i++) {
 		CHECK_ZERO(pthread_join(threads[i],NULL));
 	}
 	TRACE("end");

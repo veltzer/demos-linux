@@ -318,7 +318,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 		p += ret;
 		remaining_bytes -= ret;
 
-	} while (ret && (remaining_bytes > 0));
+	} while(ret && (remaining_bytes > 0));
 
 	assert(CRASH_MSG_MAGIC == crash_msg->magic);
 

@@ -58,13 +58,13 @@ int main(int argc, char **argv, char **envp) {
 	void* rets[num];
 
 	TRACE("before pthread_create");
-	for (int i = 0; i < num; i++) {
-		ids[i] = i;
-		scig(pthread_create(threads + i, NULL, worker, ids + i), "pthread_create");
+	for(int i=0;i<num;i++) {
+		ids[i]=i;
+		CHECK_ZERO(pthread_create(threads+i,NULL,worker,ids+i));
 	}
 	TRACE("created threads");
 	for (int i = 0; i < num; i++) {
-		scig(pthread_join(threads[i], rets + i), "pthread_join");
+		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("end");
 	return(0);

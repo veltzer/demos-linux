@@ -36,7 +36,7 @@ static void *worker(void *arg) {
 
 
 int main(int argc, char *argv[]) {
-	if (argc < 2) {
+	if(argc<2) {
 		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n",argv[0]));
 	}
 
@@ -49,8 +49,8 @@ int main(int argc, char *argv[]) {
 	//ACE_hthread_t *threadHandles = new ACE_hthread_t[n_threads];
 
 	//Spawn off n_threads number of threads
-	for (int i = 0; i < n_threads; i++) {
-		if (ACE_Thread::spawn(
+	for(int i=0;i<n_threads;i++) {
+		if(ACE_Thread::spawn(
 			worker,//thread worker function
 			NULL,//argument to worker
 			THR_NEW_LWP | THR_JOINABLE,//flags
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 	// and may not work on a system using pthreads.
 	int check_count = 0;
 	// sleep(30);
-	while (ACE_Thread::join(threads[check_count],NULL,NULL) == 0) {
+	while(ACE_Thread::join(threads[check_count],NULL,NULL) == 0) {
 		check_count++;
 	}
 	ACE_DEBUG((LM_DEBUG, "It's all over\n"));

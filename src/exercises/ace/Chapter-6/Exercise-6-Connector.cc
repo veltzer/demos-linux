@@ -93,7 +93,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	int type = 1;
 	char buffer[100];
 
-	while (type) {
+	while(type) {
 		type = GetMessageType(buffer);
 //		ACE_DEBUG((LM_DEBUG,"%s\n", buffer));
 		if (client.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0) == -1) {

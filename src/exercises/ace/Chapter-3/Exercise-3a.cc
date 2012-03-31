@@ -89,7 +89,7 @@ public:
 	virtual int svc(void) {
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
 
-		while (true) {
+		while(true) {
 			// Dequeue the next method object
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("In Scheduler::svc waiting for queue data dequeue\n")));
 			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
@@ -184,7 +184,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	return(0);
 
 	// Get results...
-	for (int j = 0; j < counter; j++) {
+	for(int j=0;j<counter;j++) {
 		int result = 0;
 		results[j].get(result);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("New status_update %d\n"), result));
