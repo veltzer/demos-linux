@@ -155,9 +155,8 @@ static void *producer() {
 	return(0);
 }
 
-
-// Spawn off one thread that copies stdin to stdout in order of the size of each line.
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+	// Spawn off one thread that copies stdin to stdout in order of the size of each line.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("main : thread=%t Line:%l\n")));
 	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)NULL, THR_NEW_LWP | THR_DETACHED) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn producer"), 1);

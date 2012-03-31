@@ -25,8 +25,16 @@ class HA_Device_Repository {
 
 class Object {
 };
-
 static Object *object;
+
+int HA_Device_Repository::update_device(int /* device_id */) {
+	ACE_GUARD_RETURN(ACE_Thread_Mutex, mon, mutex_, -1);
+
+	ACE_NEW_RETURN(object, Object, -1);
+	// Use the object.
+	// ...
+	return(0);
+}
 
 #if 0
 // This is less-desired way to do this...
@@ -57,19 +65,10 @@ int HA_Device_Repository::update_device(int device_id) {
 	// Guard is destroyed, automatically releasing the lock.
 }
 
-int HA_Device_Repository::update_device(int /* device_id */) {
-	ACE_GUARD_RETURN(ACE_Thread_Mutex, mon, mutex_, -1);
-
-	ACE_NEW_RETURN(object, Object, -1);
-	// Use the object.
-	// ...
-	return(0);
-}
+#endif
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	HA_Device_Repository rep;
 	rep.update_device(42);
 	return EXIT_SUCCESS;
 }
-
-#endif
