@@ -168,7 +168,7 @@ void LF_ThreadPool::process_message(ACE_Message_Block *mb) {
 
 long LF_ThreadPool::LONG_TIME = 5L;
 
-int ACE_TMAIN(int,ACE_TCHAR**) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	LF_ThreadPool tp;
 
 	tp.activate(THR_NEW_LWP | THR_JOINABLE, 5);

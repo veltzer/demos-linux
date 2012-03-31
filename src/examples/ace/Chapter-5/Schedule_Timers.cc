@@ -48,7 +48,7 @@ public:
 // the second is the signal handler
 // then it simply goes into the reactor main loop.
 // it relies on the someone (in this case the signal hanlder) to stop it...
-int ACE_TMAIN(int, ACE_TCHAR **) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	MyTimerHandler *timer = new MyTimerHandler();
 
 	ACE_Time_Value initialDelay(3);

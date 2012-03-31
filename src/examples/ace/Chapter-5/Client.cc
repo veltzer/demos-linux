@@ -1,35 +1,30 @@
-/*
- * A simple client program using ACE_Svc_Handler and ACE_Connector.
- */
-
-/*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
-
 #include<ace/OS_NS_stdio.h>
 #include<ace/OS_NS_errno.h>
 #include<ace/OS_NS_string.h>
 #include<ace/OS_NS_sys_time.h>
 #include"Client.hh"
+#include<stdlib.h> // for EXIT_SUCCESS
 
-// Listing 2 code/ch07
-int Client::open(void *p) {
-	ACE_Time_Value iter_delay(2);
+/*
+ * A simple client program using ACE_Svc_Handler and ACE_Connector.
+ *
+ * Mark Veltzer
+ *
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
+ */
+
+int Client::open(void* p) {
 	// Two seconds
-
-	if(super::open(p) == -1) {
+	ACE_Time_Value iter_delay(2);
+	if(super::open(p)==-1) {
 		return(-1);
 	}
 	this->notifier_.reactor(this->reactor());
 	this->msg_queue()->notification_strategy(&this->notifier_);
-	this->iterations_ = 0;
+	this->iterations_=0;
 	return(this->reactor()->schedule_timer(this, 0, ACE_Time_Value::zero, iter_delay));
 }
 
-
-// Listing 2
-
-// Listing 3 code/ch07
 int Client::handle_input(ACE_HANDLE) {
 	char buf[64];
 	ssize_t recv_cnt = this->peer().recv(buf, sizeof(buf) - 1);
@@ -46,16 +41,11 @@ int Client::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-
-// Listing 3
-
-// Listing 4 code/ch07
 int Client::handle_timeout(const ACE_Time_Value&, const void *) {
 	if(++this->iterations_ >= ITERATIONS) {
 		this->peer().close_writer();
 		return(0);
 	}
-
 	ACE_Message_Block *mb;
 	ACE_NEW_RETURN(mb, ACE_Message_Block(128), -1);
 	int nbytes = ACE_OS::sprintf (mb->wr_ptr(), "Iteration %d\n", this->iterations_);
@@ -65,15 +55,9 @@ int Client::handle_timeout(const ACE_Time_Value&, const void *) {
 	return(0);
 }
 
-
-// Listing 4
-
-// Listing 5 code/ch07
 int Client::handle_output(ACE_HANDLE) {
 	ACE_Message_Block *mb;
-
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
-
 	while(-1!=this->getq(mb, &nowait)) {
 		ssize_t send_cnt = this->peer().send(mb->rd_ptr(), mb->length());
 		if(send_cnt == -1) {
@@ -95,26 +79,14 @@ int Client::handle_output(ACE_HANDLE) {
 	return(0);
 }
 
-
-// Listing 5
-
-// Listing 6 code/ch07
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
-
 	ACE_Connector<Client, ACE_SOCK_CONNECTOR> connector;
 	Client client;
 	Client *pc = &client;
 	if(connector.connect(pc, port_to_connect) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("connect")), 1);
 	}
-
 	ACE_Reactor::instance()->run_reactor_event_loop();
-	return(0);
+	return EXIT_SUCCESS;
 }
-
-
-// Listing 6
-
-// Listing 7 code/ch07
-// Listing 7

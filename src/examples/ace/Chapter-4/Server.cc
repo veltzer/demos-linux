@@ -5,24 +5,24 @@
 #include<ace/SOCK_Acceptor.h>
 #include<ace/Log_Msg.h>
 #include<ace/Time_Value.h>
-
-/*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Example of simple single threaded ace socket server.
  * Notice the hanlding of interruption
+ *
+ * Mark Veltzer
+ *
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-int ACE_TMAIN(int, ACE_TCHAR **) {
+
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// lets open the port...
 	ACE_INET_Addr port_to_listen(50000);
-
 	//ACE_INET_Addr port_to_listen("HAStatus");
 	ACE_SOCK_Acceptor acceptor;
-
-	if (acceptor.open(port_to_listen, 1) == -1) {
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
+	if(acceptor.open(port_to_listen,1)==-1) {
+		ACE_ERROR_RETURN((LM_ERROR,ACE_TEXT("%p\nacceptor.open")),100);
 	}
 	// lets print our own connect address...
 	ACE_TCHAR my_name[MAXHOSTNAMELEN];
@@ -67,5 +67,5 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) connection from %s has closed...\n"), peer_name));
 		}
 	}
-	ACE_NOTREACHED(return 0);
+	ACE_NOTREACHED(return EXIT_SUCCESS);
 }

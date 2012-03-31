@@ -5,6 +5,7 @@
 
 /*
  * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -54,8 +55,7 @@ int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, A
 	return(0);
 }
 
-
-int ACE_TMAIN(int,ACE_TCHAR**) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_listen[3];
 	ACE_SOCK_Acceptor acceptor[3];
 	ACE_INET_Addr peer_addr[3];

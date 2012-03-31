@@ -41,7 +41,7 @@ class MyTime_Handler:public ACE_Event_Handler {
 		}
 };
 
-int ACE_TMAIN(int, char **) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%t: main thread starting\n")));
 	ACE_Reactor reactor;
 	MyTime_Handler *th = new MyTime_Handler;

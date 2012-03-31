@@ -1,6 +1,7 @@
 #include<ace/Message_Queue.h>
 #include<ace/Read_Buffer.h>
 #include<ace/Thread_Manager.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Mark Veltzer
@@ -10,7 +11,6 @@
 
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;
-
 // Make the queue be capable of being *very* large.
 static const long max_queue = LONG_MAX;
 
@@ -18,7 +18,7 @@ static const long max_queue = LONG_MAX;
 // the message to the stderr stream, and deletes the message. The
 // producer sends a 0-sized message to inform the consumer to stop
 // reading and exit.
-static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
+static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue) {
 	// Keep looping, reading a message out of the queue, until we
 	// timeout or get a message with a length == 0, which signals us to
 	// quit.
@@ -43,7 +43,6 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	return(NULL);
 }
 
-
 // The producer reads data from the stdin stream, creates a message,
 // and then queues the message in the message list, where it is
 // removed by the consumer thread. A 0-sized message is enqueued when
@@ -51,12 +50,11 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 // know when to exit.
 static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Read_Buffer rb(ACE_STDIN);
-
 	// Keep reading stdin, until we reach EOF.
 	while(true) {
 		// Allocate a new buffer.
-		char* buffer = rb.read('\n');
-		ACE_Message_Block *mb;
+		char* buffer=rb.read('\n');
+		ACE_Message_Block* mb;
 		if (buffer == NULL) {
 			// Send a 0-sized shutdown message to the other thread and exit
 			// (size_t is needed because 0 can be interpreted as a pointer)
@@ -83,17 +81,16 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	return(NULL);
 }
 
-
-int ACE_TMAIN(int, ACE_TCHAR **) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// A synchronized message queue.
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
 
-	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)&msg_queue, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if(thr_mgr.spawn(ACE_THR_FUNC(producer),(void *)&msg_queue,THR_NEW_LWP|THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);
 	}
 	// Wait for producer thread to exit (notice that the consumer runs
 	// inside the producer thread and is called at its tail and so this
 	// also waits for the consumer).
 	thr_mgr.wait();
-	return(0);
+	return EXIT_SUCCESS;
 }
