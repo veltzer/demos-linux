@@ -208,7 +208,7 @@ debug:
 todo:
 	-@grep TODO $(CC_SRC)
 
-# various checks...
+# checks which pass
 .PHONY: check_ws
 check_ws:
 	-@git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
@@ -219,6 +219,17 @@ check_ws:
 check_main:
 	-@git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
 	-@git grep "ACE_TMAIN" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
+.PHONY: check_ace_include
+check_ace_include:
+	-@git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+.PHONY: check_include
+check_include:
+	-@git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
+.PHONY: check_all
+check_all: check_ws check_main check_ace_include check_include
+
+# checks that dont pass
 .PHONY: check_name
 check_name:
 	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
@@ -228,13 +239,7 @@ check_syn:
 	-@git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
 	-@git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
 	-@git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
-.PHONY: check_ace_include
-check_ace_include:
-	-@git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	-@git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-.PHONY: check_include
-check_include:
-	-@git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
+
 .PHONY: check_files
 check_files:
 	-find . -mindepth 2 -type f -and -not -name "*.cc" -and -not -name "*.h" -and -not -name "*.h" -and -not -name "*.txt" -and -not -name "*.conf" -and -not -name "*.ini" -and -not -name "*.sample" -and -not -name "*.data" -and -not -name "*.doc" -and -not -name "*.bash" -and -not -name "*.c"
