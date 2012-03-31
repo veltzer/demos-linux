@@ -12,7 +12,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-// Notice the use of the ACE version of main 
+// Notice the use of the ACE version of main
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	printf("It seems that printf is working\n");
 	cout << "It seems like C++ streams are working without std:: prefix" << endl;
