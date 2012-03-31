@@ -112,7 +112,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 // Spawn off one thread that copies stdin to stdout in order of the
 // size of each line.
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
-       	// Message queue.
+	// Message queue.
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
 	if(thr_mgr.spawn(ACE_THR_FUNC(producer),(void *)&msg_queue,THR_NEW_LWP|THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);

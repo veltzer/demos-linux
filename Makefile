@@ -211,10 +211,10 @@ todo:
 # various checks...
 .PHONY: check_ws
 check_ws:
-	-git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
-	-git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	-git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
-	-git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
 	-@git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
@@ -224,27 +224,24 @@ check_name:
 	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_syn
 check_syn:
-	-git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
-	-git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
-	-git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
-	-git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-@git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-@git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-@git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-@git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
+.PHONY: check_ace_include
+check_ace_include:
+	-@git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
-	-git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_files
 check_files:
 	-find . -mindepth 2 -type f -and -not -name "*.cc" -and -not -name "*.h" -and -not -name "*.h" -and -not -name "*.txt" -and -not -name "*.conf" -and -not -name "*.ini" -and -not -name "*.sample" -and -not -name "*.data" -and -not -name "*.doc" -and -not -name "*.bash" -and -not -name "*.c"
-.PHONY: check_ace_include
-check_ace_include:
-	-git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	-git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_tests_for_drivers
 check_tests_for_drivers:
 	cd $(KERNEL_DIR);for x in test_*.cc; do y=`echo $$x | cut -f 2- -d _`;z=mod_`basename $$y .cc`.c; if [ ! -f $$z ]; then echo "missing $$z"; fi ; done
 	cd $(KERNEL_DIR);for x in mod_*.c; do y=`echo $$x | cut -f 2- -d _`;z=test_`basename $$y .c`.cc; if [ ! -f $$z ]; then echo "missing $$z"; fi ; done
-.PHONY: check_my_name
-check_my_name:
-	grep -L "Mark Veltzer" `find src -name "*.cc"` | grep -v "/ace/"
 
 # various file finds...
 
