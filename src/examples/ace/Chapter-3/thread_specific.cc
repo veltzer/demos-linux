@@ -156,7 +156,7 @@ handler(int signum) {
 }
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
-       	// The Service_Config must be the first object defined in main...
+	// The Service_Config must be the first object defined in main...
 	ACE_Service_Config daemon(argv[0]);
 
 	int threads = argc > 1 ? ACE_OS::atoi(argv[1]) : 4;
