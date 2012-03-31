@@ -14,7 +14,7 @@
 
 class SignalableTask:public ACE_Task<ACE_MT_SYNCH> {
 	public:
-		virtual int handle_signal(int signum,siginfo_t*=0,ucontext_t*=0) {
+		virtual int handle_signal(int signum,siginfo_t* =0,ucontext_t* =0) {
 			if(signum==SIGUSR1) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) received a %S signal\n"), signum));
 				handle_alert();
