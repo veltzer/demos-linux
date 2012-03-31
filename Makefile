@@ -70,18 +70,18 @@ Q:=@
 endif # DO_MKDBG
 
 # sources from the git perspective
-GIT_SOURCES:=$(shell ../scripts/git_wrapper.sh ls-files)
+GIT_SOURCES:=$(shell ./scripts/git_wrapper.sh ls-files)
 ALL:=
 CLEAN:=
 CLEAN_DIRS:=
 
 # user space applications (c and c++)
-CC_SRC:=$(shell ../scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
-C_SRC:=$(shell ../scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
-ALL_C:=$(shell ../scripts/find_wrapper.sh . -name "*.c")
-ALL_CC:=$(shell ../scripts/find_wrapper.sh . -name "*.cc")
-ALL_H:=$(shell ../scripts/find_wrapper.sh . -name "*.h")
-ALL_HH:=$(shell ../scripts/find_wrapper.sh . -name "*.hh")
+CC_SRC:=$(shell ./scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
+C_SRC:=$(shell ./scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
+ALL_C:=$(shell ./scripts/find_wrapper.sh . -name "*.c")
+ALL_CC:=$(shell ./scripts/find_wrapper.sh . -name "*.cc")
+ALL_H:=$(shell ./scripts/find_wrapper.sh . -name "*.h")
+ALL_HH:=$(shell ./scripts/find_wrapper.sh . -name "*.hh")
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
 C_ASX:=$(addsuffix .s,$(basename $(C_SRC)))
 CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
@@ -94,7 +94,7 @@ ALL:=$(ALL) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(CC_DIS) $(CC_ASX) $(CC_PRE)
 
 # kernel modules
-MOD_SRC:=$(shell ../scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
+MOD_SRC:=$(shell ./scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
 MOD_BAS:=$(basename $(MOD_SRC))
 MOD_OBJ:=$(addsuffix .o,$(MOD_BAS))
 MOD_SR2:=$(addsuffix .mod.c,$(MOD_BAS))
