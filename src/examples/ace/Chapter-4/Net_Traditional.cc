@@ -12,7 +12,7 @@
  * Mark Veltzer
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+int main(int argc,char** argv,char** envp) {
 	struct sockaddr_in srvr;
 	memset(&srvr,0,sizeof(srvr));
 	srvr.sin_family=AF_INET;
