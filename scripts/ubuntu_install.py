@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# this scrip will install all the required packages that you need on
+# this script will install all the required packages that you need on
 # ubuntu to compile and work with this package.
 
 import subprocess
@@ -29,6 +29,10 @@ packs=[
 	'iptables-dev',
 	'cpulimit', # for the cpulimit command
 	'bridge-utils', # for bridging utilities to demo creation of a bridge
+	'htop',
+	'sysprof',
+	'mutrace',
+	'iptraf',
 ]
 
 args=['sudo','apt-get','install']
