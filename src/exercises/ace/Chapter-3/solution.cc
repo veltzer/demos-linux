@@ -1,17 +1,38 @@
+/*
+	This file is part of the linuxapi project.
+	Copyright (C) 2011, 2012 Mark Veltzer <mark.veltzer@gmail.com>
+
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
+
 #define ACE_NTRACE 1
 #include<ace/Task.h> // for ACE_Task_Base
 #include<sched.h> // for sched_yield(2)
 #include<assert.h> // for assert(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a solution to the exercise.
  *
  * Try to run this with "taskset 1" and more to see the difference in performance.
+ *
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
+ *
  */
 
-/*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
 const int numAttempts=10000;
 // should the threads yield one for the other ?
 const bool yield=true;
@@ -128,5 +149,5 @@ int ACE_TMAIN(int argc, ACE_TCHAR ** argv) {
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) LockedCounter=%d\n"), sharedResource.getLockedCounter()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) AttemptCounter=%d\n"), sharedResource.getAttemptCounter()));
-	return(0);
+	return EXIT_SUCCESS;
 }

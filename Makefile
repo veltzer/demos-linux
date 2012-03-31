@@ -226,13 +226,13 @@ check_ace_include:
 .PHONY: check_include
 check_include:
 	-@git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
-.PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include
-
-# checks that dont pass
 .PHONY: check_name
 check_name:
 	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_all
+check_all: check_ws check_main check_ace_include check_include check_name
+
+# checks that dont pass
 .PHONY: check_syn
 check_syn:
 	-@git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
