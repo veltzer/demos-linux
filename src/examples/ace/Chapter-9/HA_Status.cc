@@ -30,7 +30,7 @@ int HA_Status::init(int argc, ACE_TCHAR *argv[]) { // Do ACE_Get_Opt and get con
 	int option;
 	ACE_TCHAR config_file[MAXPATHLEN];
 	ACE_OS::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
-	while ((option = cmd_opts()) != EOF) {
+	while((option = cmd_opts()) != EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);

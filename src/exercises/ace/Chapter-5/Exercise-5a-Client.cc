@@ -88,7 +88,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	client2.connect_to_server();
 	int type = 1;
 	char buffer[100];
-	while (type) {
+	while(type) {
 		type = GetMessageType(buffer);
 		// ACE_DEBUG((LM_DEBUG,"%s\n", buffer));
 		if ((type == 1) || (type == 2)) {

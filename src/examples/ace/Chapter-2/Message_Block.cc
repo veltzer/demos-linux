@@ -3,6 +3,8 @@
 #include<ace/Message_Block.h> // This is for ACE_Message_Block
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

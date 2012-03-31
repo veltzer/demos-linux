@@ -22,9 +22,8 @@ int childPID;
 int msqid;
 struct msqid_ds msgCtlBuf;
 
-void TerminateChild(int gotsig)
-{
-	int rc=kill(childPID, SIGKILL);
+void TerminateChild(int gotsig) {
+	int rc=kill(childPID,SIGKILL);
 	if(rc) {
 		perror("error in kill");
 		exit(errno);
@@ -33,16 +32,13 @@ void TerminateChild(int gotsig)
 	}
 }
 
-void DoChild()
-{
+void DoChild() {
 	int msgsize;
 	int currentQueueSize, biggestQueueSize;
 	int i, biggestQID=0;
 	message_buf rbuf;
-	while(1)
-	{
-		if (msgctl(msqid, IPC_STAT, & msgCtlBuf) == -1)
-		{
+	while(true) {
+		if(msgctl(msqid,IPC_STAT,&msgCtlBuf)==-1) {
 			perror("msgctl: msgctl failed");
 			exit(errno);
 		}
@@ -53,12 +49,12 @@ void DoChild()
 			for(i=1; i<MAXQUEUE; i++)
 			{
 				currentQueueSize = 0;
-				while ((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
+				while((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
 					i, IPC_NOWAIT|MSG_NOERROR))!=-1)
 				{
 					currentQueueSize += msgsize;
 				}
-				if (currentQueueSize > biggestQueueSize)
+				if(currentQueueSize > biggestQueueSize)
 				{
 					biggestQueueSize = currentQueueSize;
 					biggestQID = i;
@@ -82,32 +78,32 @@ int main(int argc,char** argv,char** envp)
 	SigAction.sa_handler = TerminateChild;
 	SigAction.sa_mask = emptymask;
 	SigAction.sa_flags = 0;
-	if (sigaction(SIGINT, &SigAction, NULL) == -1)
+	if(sigaction(SIGINT, &SigAction, NULL) == -1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if (sigaction(SIGTERM, &SigAction, NULL) == -1)
+	if(sigaction(SIGTERM, &SigAction, NULL) == -1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if (sigaction(SIGQUIT, &SigAction, NULL) == -1)
+	if(sigaction(SIGQUIT, &SigAction, NULL) == -1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if (sigaction(SIGABRT, &SigAction, NULL) == -1)
+	if(sigaction(SIGABRT, &SigAction, NULL) == -1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if ((key = ftok("MirsClient", 'x')) == -1)
+	if((key=ftok("MirsClient", 'x')) == -1)
 	{
 		perror("ftok failed");
 		exit(errno);
 	}
-	if ((msqid = msgget(key, IPC_CREAT | 0666 )) < 0)
+	if((msqid=msgget(key, IPC_CREAT | 0666 )) < 0)
 	{
 		perror("msgget failed");
 		exit(errno);
@@ -165,16 +161,14 @@ int main(int argc,char** argv,char** envp)
 					perror("error in kill");
 					exit(errno);
 				}
-				if (msgctl(msqid, IPC_RMID, NULL) == -1)
-				{
+				if(msgctl(msqid, IPC_RMID, NULL) == -1) {
 					perror("msgctl RMID failed");
 					exit(errno);
 				}
 				exit(0);
 				break;
 			case 3:
-				if (msgctl(msqid, IPC_STAT, & msgCtlBuf) == -1)
-				{
+				if(msgctl(msqid, IPC_STAT, & msgCtlBuf) == -1) {
 					perror("msgctl: msgctl failed");
 					exit(errno);
 				}
@@ -183,8 +177,7 @@ int main(int argc,char** argv,char** envp)
 				if(ret<1) {
 					perror("scanf");
 				}
-				if (msgctl(msqid, IPC_SET, & msgCtlBuf) == -1)
-				{
+				if(msgctl(msqid, IPC_SET, & msgCtlBuf) == -1) {
 					perror("msgctl: msgctl failed");
 					exit(errno);
 				}
@@ -205,7 +198,7 @@ int main(int argc,char** argv,char** envp)
 				if(ret<1) {
 					perror("scanf");
 				}
-				if (msgctl(msqid, IPC_SET, & msgCtlBuf) == -1)
+				if(msgctl(msqid, IPC_SET, & msgCtlBuf) == -1)
 				{
 					perror("msgctl: msgctl failed");
 					exit(errno);

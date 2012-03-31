@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp) {
 	char s2[len];
 
 	CHECK_NOT_M1(fd = open(filename, O_RDWR));
-	while (true) {
+	while(true) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");
 		fflush(stdout);

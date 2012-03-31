@@ -83,7 +83,7 @@ class SharedResource {
 		// This method will keep on trying until it succeeds. Watch out! Given
 		// the right set of cirumstances this method will loop forever.
 		void increaseValue(int value) {
-			while (!attemptIncreaseValue(value)) {
+			while(!attemptIncreaseValue(value)) {
 			}
 		}
 };
@@ -99,7 +99,7 @@ class HA_CommandHandler : public ACE_Task_Base {
 		// The real body of the thread
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) start\n")));
-			for (int i = 0; i < numAttempts; i++) {
+			for(int i=0;i<numAttempts;i++) {
 				sharedResource.attemptIncreaseValue(value);
 				// Sleep for 1 sec to let the other thread try to aquire the lock
 				// What if we remove this sleep period? Will the program work ?

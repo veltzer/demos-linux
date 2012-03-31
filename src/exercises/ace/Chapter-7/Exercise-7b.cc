@@ -80,95 +80,80 @@ public:
 	}
 };
 
-class Scheduler : public ACE_Task_Base {
-public:
-	Scheduler() {
-		ACE_TRACE(ACE_TEXT("Scheduler::Scheduler"));
-		this->activate();
-	}
+class Scheduler:public ACE_Task_Base {
+	public:
+		Scheduler() {
+			ACE_TRACE(ACE_TEXT("Scheduler::Scheduler"));
+			this->activate();
+		}
 
+		virtual int svc(void) {
+			ACE_TRACE(ACE_TEXT("Scheduler::svc"));
+			while(true) {
+				// Dequeue the next method object
+				auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
 
-	virtual int svc(void) {
-		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
+				// Invoke the method request.
+				if (request->call() == -1) {
+					break;
+				}
+			}
+			return(0);
+		}
 
-		while (true) {
-			// Dequeue the next method object
-			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
+		int enqueue(ACE_Method_Request *request) {
+			ACE_TRACE(ACE_TEXT("Scheduler::enqueue"));
+			return(this->activation_queue_.enqueue(request));
+		}
 
-			// Invoke the method request.
-			if (request->call() == -1) {
-				break;
+	private:
+		ACE_Activation_Queue activation_queue_;
+};
+
+class MessageAgentProxy {
+	// This acts as a Proxy to the message impl object.
+	public:
+		ACE_Future<int> status_update(void) {
+			ACE_TRACE(ACE_TEXT("MessageAgentProxy::status_update"));
+			ACE_Future<int> result;
+			// Create and enqueue a method request on the scheduler.
+			this->scheduler_.enqueue(new MessageRequest(this->message_, result));
+			// Return Future to the client.
+			return(result);
+		}
+		void exit(void) {
+			ACE_TRACE(ACE_TEXT("MessageAgentProxy::exit"));
+			this->scheduler_.enqueue(new ExitMethod);
+		}
+	private:
+		Scheduler scheduler_;
+		MessageAgent message_;
+};
+
+class CompletionCallBack:public ACE_Future_Observer<int> {
+	public:
+		CompletionCallBack(MessageAgentProxy& proxy):proxy_(proxy) {
+		}
+		virtual void update(const ACE_Future<int>& future) {
+			int result=0;
+			((ACE_Future<int>)future).get(result);
+			if(result==10) {
+				this->proxy_.exit();
 			}
 		}
-
-		return(0);
-	}
-
-
-	int enqueue(ACE_Method_Request *request) {
-		ACE_TRACE(ACE_TEXT("Scheduler::enqueue"));
-		return(this->activation_queue_.enqueue(request));
-	}
-
-
-private:
-	ACE_Activation_Queue activation_queue_;
+	private:
+		MessageAgentProxy& proxy_;
 };
 
-class MessageAgentProxy { // This acts as a Proxy to the message impl object.
-public:
-	ACE_Future<int> status_update(void) {
-		ACE_TRACE(ACE_TEXT("MessageAgentProxy::status_update"));
-		ACE_Future<int> result;
-
-		// Create and enqueue a method request on the scheduler.
-		this->scheduler_.enqueue(new MessageRequest(this->message_, result));
-
-		// Return Future to the client.
-		return(result);
-	}
-
-
-	void exit(void) {
-		ACE_TRACE(ACE_TEXT("MessageAgentProxy::exit"));
-		this->scheduler_.enqueue(new ExitMethod);
-	}
-
-
-private:
-	Scheduler scheduler_;
-	MessageAgent message_;
-};
-
-class CompletionCallBack : public ACE_Future_Observer<int> {
-public:
-	CompletionCallBack(MessageAgentProxy & proxy)
-	: proxy_(proxy) {
-	}
-
-	virtual void update(const ACE_Future<int>& future) {
-		int result = 0;
-
-		((ACE_Future<int>)future).get(result);
-		if (result == 10) {
-			this->proxy_.exit();
-		}
-	}
-
-
-private:
-	MessageAgentProxy& proxy_;
-};
-
-int GetMessageType(char *data) {
+int GetMessageType(char* data) {
 	// Read new line from stdin
 	static ACE_Read_Buffer rb(ACE_STDIN);
 
 	// read a single line from stdin
 	// Allocate a new buffer.
-	char *buffer = rb.read('\n');
+	char* buffer=rb.read('\n');
 
-	if (buffer == 0) {
+	if(buffer==0) {
 		// return message type zero when EOF is reached
 		// Return 0 as message type
 		return(0);
@@ -181,8 +166,7 @@ int GetMessageType(char *data) {
 	}
 }
 
-
-int SendMessage(char *buffer, int type) {
+int SendMessage(char* buffer,int type) {
 	// ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("SendMessage Line:%l\n")));
 	ACE_Message_Block *mb;
 	// get message size
@@ -198,7 +182,7 @@ int SendMessage(char *buffer, int type) {
 	mb->wr_ptr(size + 1);
 	// Set Message Type
 	mb->msg_type(type);
-	switch (type) {
+	switch(type) {
 		case 1:
 			// Enqueue in tail queue
 			if (msg_queue.enqueue_tail(mb) == -1) {
@@ -270,7 +254,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	// Set a value just initializing the while loop. It will terminate when EOF will generate type = 0
 	int type = 1;
 
-	while (type) {
+	while(type) {
 		type = GetMessageType(buffer);
 		if (!type) {
 			break;

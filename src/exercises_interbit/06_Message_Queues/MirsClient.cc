@@ -37,7 +37,7 @@ void doParent(int msqid, long myID)
 		if(ret!=SsubscriberID) {
 			perror("fgets(3)");
 		}
-		if (msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0) == -1)
+		if(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0) == -1)
 		{
 			perror("msgsnd failed");
 			exit(errno);
@@ -49,9 +49,8 @@ void doChild(int msqid, long myID)
 {
 	message_buf rbuf;
 	int msgsize;
-	while (1)
-	{
-		if ((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0)) == -1)
+	while(true) {
+		if((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0)) == -1)
 		{
 			perror("msgrcv failed");
 			exit(errno);
@@ -61,28 +60,23 @@ void doChild(int msqid, long myID)
 	}
 }
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	int msqid;
 	long myID;
 	key_t key;
-	if (argc < 2)
-	{
+	if(argc<2) {
 		fprintf(stderr, "Usage: %s MirsID\n", argv[0]);
 		exit(1);
 	}
-	if ((myID = atoi(argv[1])) < 1)
-	{
+	if((myID=atoi(argv[1]))<1) {
 		fprintf(stderr, "MirsID must be numeric positive greater than 0 and uniq (not checked)\n");
 		exit(1);
 	}
-	if ((key = ftok("MirsClient", 'x')) == -1)
-	{
+	if((key=ftok("MirsClient",'x'))==-1) {
 		perror("ftok failed");
 		exit(errno);
 	}
-	if ((msqid = msgget(key, 0)) < 0)
-	{
+	if((msqid=msgget(key,0))<0) {
 		perror("msgget failed");
 		exit(errno);
 	}

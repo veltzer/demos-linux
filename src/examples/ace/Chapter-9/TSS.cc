@@ -28,7 +28,7 @@ public:
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Setting TSS TID: %u \n"), tid));
 		this->tss_ctx_->set_attribute("thread_id", &tid);
 
-		while (handle_requests() > 0) {
+		while(handle_requests() > 0) {
 			;
 		}
 

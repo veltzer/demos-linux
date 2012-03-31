@@ -4,8 +4,10 @@
 #include<ace/Malloc_T.h>
 #include<ace/Null_Mutex.h>
 #include<ace/PI_Malloc.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -58,35 +60,29 @@ void showRecords(void) {
 	{
 		MALLOC_LIFO_ITERATOR iter(*g_allocator);
 
-		for (void *temp = 0; iter.next(temp) != 0; iter.advance()) {
+		for(void* temp=0;iter.next(temp)!=0;iter.advance()) {
 			Record *record = reinterpret_cast<Record *>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"), record->name(), record->id1(), record->id2()));
 		}
 	}
 }
 
-
 int addRecords(void) {
 	char buf[32];
-
-	for (int i = 0; i < 10; i++) {
+	for(int i=0;i<10;i++) {
 		ACE_OS::sprintf(buf, "%s:%d", "Record", i);
-
 		void *memory = g_allocator->malloc(sizeof(Record));
 		if (memory == 0) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Unable to malloc")), -1);
 		}
-
 		// Allocate and place record
 		Record *newRecord = new(memory) Record(i, i + 1, buf);
 		if (g_allocator->bind(buf, newRecord) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("bind failed")), -1);
 		}
 	}
-
 	return(0);
 }
-
 
 // Backing file where the data is kept.
 #define BACKING_STORE ACE_TEXT("backing2.store")
@@ -110,5 +106,5 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 
 	g_allocator->sync();
 	delete g_allocator;
-	return(0);
+	return EXIT_SUCCESS;
 }

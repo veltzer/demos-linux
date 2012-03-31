@@ -35,7 +35,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	switch (cmd) {
 		case IOCTL_DIV_DOOPS:
 			// get the data from the user
-			if (copy_from_user(&b, (void *)arg, sizeof(b))) {
+			if(copy_from_user(&b, (void *)arg, sizeof(b))) {
 				PR_ERROR("problem with copy_from_user");
 				return(-EFAULT);
 			}
@@ -53,7 +53,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			b.dadd = b.d1 + b.d2;
 			b.dsub = b.d1 - b.d2;
 			// copy the data back to the user
-			if (copy_to_user((void *)arg, &b, sizeof(b))) {
+			if(copy_to_user((void *)arg, &b, sizeof(b))) {
 				PR_ERROR("problem with copy_to_user");
 				return(-EFAULT);
 			}
@@ -125,8 +125,8 @@ long long __divdi3(long long divided, long long divisor) {
  * "1" ((u32)(n1)), \
  * "rm" ((u32)(d)))
  *
- #define u64_div(x,y,q) do {u32 __tmp; udiv_qrnnd(q, __tmp, (x)>>32, x, y);} while (0)
- #define u64_mod(x,y,r) do {u32 __tmp; udiv_qrnnd(__tmp, q, (x)>>32, x, y);} while (0)
+ #define u64_div(x,y,q) do {u32 __tmp; udiv_qrnnd(q, __tmp, (x)>>32, x, y);} while(0)
+ #define u64_mod(x,y,r) do {u32 __tmp; udiv_qrnnd(__tmp, q, (x)>>32, x, y);} while(0)
  #define u64_divmod(x,y,q,r) udiv_qrnnd(q, r, (x)>>32, x, y)
  */
 

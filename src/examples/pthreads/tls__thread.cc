@@ -25,13 +25,13 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("start");
 	const unsigned int num=4;
 	pthread_t threads[num];
-	for (unsigned int i = 0; i < num; i++) {
+	for(unsigned int i=0;i<num;i++) {
 		int* p=new int(i);
 		TRACE("allocated %p",p);
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, p));
 	}
 	TRACE("created threads, now joining...");
-	for (unsigned int i = 0; i < num; i++) {
+	for(unsigned int i=0;i<num;i++) {
 		CHECK_ZERO(pthread_join(threads[i],NULL));
 	}
 	TRACE("end");

@@ -31,7 +31,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(pthread_key_create(&key_myid,id_dealloc));
 	const unsigned int num=4;
 	pthread_t threads[num];
-	for (unsigned int i = 0; i < num; i++) {
+	for(unsigned int i=0;i<num;i++) {
 		int* p=new int(i);
 		TRACE("allocated %p",p);
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, p));

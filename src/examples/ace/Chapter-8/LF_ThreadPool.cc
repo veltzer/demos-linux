@@ -2,8 +2,10 @@
 #include<ace/Synch.h>
 #include<ace/Thread_Mutex.h>
 #include<ace/Condition_Thread_Mutex.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -83,7 +85,7 @@ private:
 
 int LF_ThreadPool::svc(void) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::svc"));
-	while (!done()) {
+	while(!done()) {
 		// Block until this thread is the leader.
 		become_leader();
 		ACE_Message_Block *mb = 0;
@@ -91,8 +93,8 @@ int LF_ThreadPool::svc(void) {
 
 		tv += ACE_OS::gettimeofday();
 		// Get a message, elect new leader, then process message.
-		if (this->getq(mb, &tv) < 0) {
-			if (elect_new_leader() == 0) {
+		if(this->getq(mb, &tv) < 0) {
+			if(elect_new_leader() == 0) {
 				break;
 			}
 			continue;
@@ -107,10 +109,10 @@ int LF_ThreadPool::svc(void) {
 int LF_ThreadPool::become_leader(void) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::become_leader"));
 	ACE_GUARD_RETURN(ACE_Thread_Mutex, leader_mon, this->leader_lock_, -1);
-	if (leader_active()) {
+	if(leader_active()) {
 		Follower *fw = make_follower();
 		// Wait until told to do so.
-		while (leader_active()) {
+		while(leader_active()) {
 			fw->wait();
 		}
 		delete fw;
@@ -137,11 +139,11 @@ int LF_ThreadPool::elect_new_leader(void) {
 	ACE_GUARD_RETURN(ACE_Thread_Mutex, leader_mon, this->leader_lock_, -1);
 	leader_active(0);
 	// Wake up a follower
-	if (!followers_.is_empty()) {
+	if(!followers_.is_empty()) {
 		ACE_GUARD_RETURN(ACE_Thread_Mutex, follower_mon, this->followers_lock_, -1);
 		// Get the old follower.
 		Follower *fw;
-		if (this->followers_.dequeue_head(fw) != 0) {
+		if(this->followers_.dequeue_head(fw) != 0) {
 			return(-1);
 		}
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Resigning and Electing %d\n"), fw->owner()));
@@ -166,7 +168,7 @@ void LF_ThreadPool::process_message(ACE_Message_Block *mb) {
 
 long LF_ThreadPool::LONG_TIME = 5L;
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int,ACE_TCHAR**) {
 	LF_ThreadPool tp;
 
 	tp.activate(THR_NEW_LWP | THR_JOINABLE, 5);
@@ -175,7 +177,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_Time_Value tv(1L);
 
 	ACE_Message_Block *mb;
-	for (int i = 0; i < 30; i++) {
+	for(int i=0;i<30;i++) {
 		ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(int)), -1);
 		ACE_OS::memcpy(mb->wr_ptr(), &i, sizeof(int));
 		ACE_OS::sleep(tv);
@@ -184,5 +186,5 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	}
 	ACE_Thread_Manager::instance()->wait();
 	ACE_OS::sleep(10);
-	return(0);
+	return EXIT_SUCCESS;
 }

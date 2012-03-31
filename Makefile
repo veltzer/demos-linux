@@ -218,6 +218,15 @@ check_ws:
 .PHONY: check_main
 check_main:
 	-git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
+.PHONY: check_name
+check_name:
+	-git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_syn
+check_syn:
+	-git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
+	-git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
 .PHONY: check_include
 check_include:
 	-git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'

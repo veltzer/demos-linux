@@ -64,7 +64,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	// Listing 4 code/ch06
 	for (int i = 0; i < 2 && bc > 0; ++i) {
 		size_t wc = receive[i].iov_len;
-		if (static_cast<size_t>(bc) < wc) {
+		if(static_cast<size_t>(bc) < wc) {
 			wc = static_cast<size_t>(bc);
 		}
 		ACE_OS::write(ACE_STDOUT, receive[i].iov_base, wc);

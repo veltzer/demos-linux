@@ -48,19 +48,19 @@ public:
 };
 
 int Producer::svc(void) {
-	if (ProducerData) {
-		while (true) {
+	if(ProducerData) {
+		while(true) {
 			printf("Second Program Running\n");
 			sleep(1);
 		}
 	}
-	while (true) {
+	while(true) {
 		ACE_Message_Block *mb;
 		// Allocate a new message.
 		ACE_NEW_RETURN(mb, ACE_Message_Block(BUFSIZ), -1);
 		// Keep reading stdin, until we reach EOF.
 		ssize_t n = ACE_OS::read(ACE_STDIN, mb->wr_ptr(), mb->size());
-		if (n <= 0) {
+		if(n <= 0) {
 			// Send shutdown message to other thread and exit.
 			mb->length(0);
 			put_next(mb);
@@ -81,17 +81,17 @@ int Consumer::svc(void) {
 
 	// Keep looping, reading a message from the queue,
 	// until we get a 0 length message, then quit.
-	while (true) {
+	while(true) {
 		int result = getq(mb);
-		if (result == -1) {
+		if(result == -1) {
 			break;
 		}
 		int length = mb->length();
-		if (length > 0) {
+		if(length > 0) {
 			ACE_OS::write(ACE_STDOUT, mb->rd_ptr(), length);
 		}
 		mb->release();
-		if (length == 0) {
+		if(length == 0) {
 			break;
 		}
 	}

@@ -25,7 +25,7 @@ ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	int option;
 	ACE_TCHAR config_file[MAXPATHLEN];
 	ACE_OS_String::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
-	while ((option = cmd_opts()) != EOF) {
+	while((option = cmd_opts()) != EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS_String::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);

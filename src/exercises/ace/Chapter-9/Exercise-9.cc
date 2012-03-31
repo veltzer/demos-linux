@@ -104,7 +104,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		// Use SIGUSR2
 		sh.register_handler(SIGUSR2, &handler);
 		// wit untill MyIndex is modified
-		while (MyIndex == -1) {
+		while(MyIndex==-1) {
 			ACE_OS::sleep(1);
 		}
 

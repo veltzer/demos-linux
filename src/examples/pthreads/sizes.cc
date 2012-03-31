@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp) {
 	void* rets[num];
 
 	fprintf(stderr, "main starting\n");
-	for (int i = 0; i < num; i++) {
+	for(int i=0;i<num;i++) {
 		ids[i] = i;
 		CHECK_ZERO(pthread_attr_init(attrs+i));
 		CHECK_ZERO(pthread_attr_setstacksize(attrs+i,(i+1)*1024*1024));
@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp) {
 		CHECK_ZERO(pthread_attr_destroy(attrs+i));
 	}
 	fprintf(stderr, "main ended creating threads\n");
-	for (int i = 0; i < num; i++) {
+	for(int i=0;i<num;i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	fprintf(stderr, "main ended\n");

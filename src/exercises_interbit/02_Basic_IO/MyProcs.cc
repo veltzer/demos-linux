@@ -24,7 +24,7 @@ void scanthedir(char* dirname) {
 		perror(dirname);
 		exit(errno);
 	}
-	while ((dircontent = readdir(sdir))) {
+	while((dircontent=readdir(sdir))) {
 		if ((strcmp(dircontent->d_name, "." ) == 0)
 			|| strcmp(dircontent->d_name, "..") == 0)
 			continue;
@@ -41,7 +41,7 @@ void scanthedir(char* dirname) {
 					perror(fddirname);
 					exit(errno);
 				}
-				while ((fddircontent = readdir(fddir))) {
+				while((fddircontent = readdir(fddir))) {
 					if ((strcmp(fddircontent->d_name, "." ) == 0)
 						|| strcmp(fddircontent->d_name, "..") == 0)
 						continue;

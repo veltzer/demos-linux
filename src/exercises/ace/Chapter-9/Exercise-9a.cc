@@ -58,9 +58,9 @@ int DoAccept(long ReceivePort, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr, 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Trying to accept %d.\n"), ReceivePort));
 	if (acceptor->accept(*peer, peer_addr, &timeout, 0) == -1) {
 		if (ACE_OS::last_error() == EINTR) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while ") ACE_TEXT("waiting for connection\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while waiting for connection\n")));
 		} else if (ACE_OS::last_error() == ETIMEDOUT) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while ") ACE_TEXT("waiting for connection\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while waiting for connection\n")));
 		}
 	} else {
 		ACE_TCHAR peer_name[MAXHOSTNAMELEN];
@@ -92,7 +92,7 @@ int ReceiveMessages(ACE_SOCK_Stream peer[], ACE_SOCK_Acceptor acceptor[]) {
 			}
 			// Wait for input
 			result = select(socket_fd + 1, &readset, NULL, NULL, NULL);
-		} while (result == -1 && errno == EINTR);
+		} while(result==-1 && errno==EINTR);
 
 		if (result > 0) {
 			// Loop on all bits and find one
@@ -138,7 +138,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		// Use SIGUSR2
 		sh.register_handler(SIGUSR2, &handler);
 		// wait untill MyIndex is modified
-		while (MyIndex == -1) {
+		while(MyIndex == -1) {
 			ACE_OS::sleep(1);
 		}
 

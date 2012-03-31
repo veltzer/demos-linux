@@ -1,9 +1,9 @@
 /*
  * ACE_ARGV examples not in a larger program. Sample code from The ACE
  * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
- */
-
-/*
+ *
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -13,7 +13,7 @@
 #include<ace/ARGV.h>
 #include<ace/Get_Opt.h>
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 	static const ACE_TCHAR options[] = ACE_TEXT(":f:h:");
 	static const ACE_TCHAR cmdline[] = ACE_TEXT("-f /home/managed.cfg -h $HOSTNAME");
 
@@ -27,7 +27,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 
 	ACE_OS_String::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
 	ACE_OS_String::strcpy(hostname, ACE_TEXT("not set"));
-	while ((option = cmd_opts()) != EOF) {
+	while((option = cmd_opts())!=EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS_String::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);

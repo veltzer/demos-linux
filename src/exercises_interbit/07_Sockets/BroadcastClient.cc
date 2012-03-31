@@ -58,7 +58,7 @@ int main(int argc,char** argv,char** envp) {
 		exit(errno);
 	}
 	printf("Type your request: ");
-	while (fgets(obuffer, sizeof(obuffer), stdin))
+	while(fgets(obuffer, sizeof(obuffer), stdin))
 	{
 		if ((datalen = sendto(brsock, obuffer, strlen(obuffer), 0,
 			(struct sockaddr *) & braddress, sizeof(braddress))) == -1)
@@ -71,11 +71,11 @@ int main(int argc,char** argv,char** envp) {
 		timeout.tv_usec = 0;
 		FD_ZERO(& readfds);
 		FD_SET(rplysock, & readfds);
-		while ((nfds = select(rplysock+1, & readfds, NULL, NULL, & timeout)) > 0)
+		while((nfds = select(rplysock+1, & readfds, NULL, NULL, & timeout)) > 0)
 		{
 			newsock = accept(rplysock, (struct sockaddr *) & rplyFromAddress,
 				& rplyFromAddressLen);
-			while ((got = read(newsock, ibuffer, sizeof(ibuffer))) > 0)
+			while((got = read(newsock, ibuffer, sizeof(ibuffer))) > 0)
 			{
 				ibuffer[got-1] = '\0'; // get rid of '\n'
 				printf("Reply from %s received: %s\n",

@@ -40,7 +40,7 @@ int main(int argc, char **argv, char **envp) {
 	noecho();
 	//const wchar_t* string=L"מרק";
 	bool stop = false;
-	while (!stop) {
+	while(!stop) {
 		wint_t c;
 		int res;
 		res = get_wch(&c);

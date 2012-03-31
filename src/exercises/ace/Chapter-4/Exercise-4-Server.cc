@@ -53,9 +53,9 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 
 	if (acceptor.accept(peer, &peer_addr, &timeout, 0) == -1) {
 		if (ACE_OS::last_error() == EINTR) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while ") ACE_TEXT("waiting for connection\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while waiting for connection\n")));
 		} else if (ACE_OS::last_error() == ETIMEDOUT) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while ") ACE_TEXT("waiting for connection\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while waiting for connection\n")));
 		}
 	} else {
 		ACE_TCHAR peer_name[MAXHOSTNAMELEN];
@@ -63,7 +63,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
 	}
 #endif /* NO_TIMEOUT */
-	while (type != 0) {
+	while(type != 0) {
 		type = GetMessageType(buffer);
 		// if type is not 0 (EOF) then write it to the client
 		if (type != 0) {

@@ -50,7 +50,7 @@ int main(int argc, char **argv, char **envp) {
 	TRACE("send me SIGUSR2 using [kill -s SIGUSR2 %d]",getpid());
 	// This is a non busy wait loop which only wakes up when there
 	// are signals
-	while (true) {
+	while(true) {
 		int ret = pause();
 		TRACE("wakeup with %d",ret);
 	}

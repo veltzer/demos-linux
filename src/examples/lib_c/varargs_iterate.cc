@@ -21,7 +21,7 @@ void trace(const char *fmt, ...) {
 	char c, *s;
 	float f;
 	va_start(ap,fmt);
-	while (*fmt) {
+	while(*fmt) {
 		switch (*fmt++) {
 			case 'f': /* float */
 				f = (double)va_arg(ap, double);

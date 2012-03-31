@@ -99,7 +99,7 @@ static void *producer() {
 	ACE_Read_Buffer rb(ACE_STDIN);
 
 	// Keep reading stdin, until we reach EOF.
-	while (true) {
+	while(true) {
 		// Allocate a new buffer.
 		char* buffer=rb.read('\n');
 		ACE_Message_Block *mb;
@@ -195,7 +195,7 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	// Wait for producer thread to exit. Comsumer thread is handled by the done variable
 	thr_mgr.wait();
 	// wait for all events to be completed
-	while (done != 2) {
+	while(done!=2) {
 		reactor.handle_events();
 	}
 	return(0);

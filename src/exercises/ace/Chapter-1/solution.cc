@@ -42,7 +42,7 @@ void FunA() {
 int ACE_TMAIN(int, ACE_TCHAR **) {
 	ACE_LOG_MSG->priority_mask(LM_DEBUG | LM_INFO | LM_NOTICE | LM_TRACE, ACE_Log_Msg::PROCESS);
 	ACE_TRACE(ACE_TEXT("main"));
-	for (int i = 0; i < 2; i++) {
+	for(int i = 0; i < 2; i++) {
 		FunA();
 	}
 	return(0);

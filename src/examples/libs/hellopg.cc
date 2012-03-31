@@ -49,13 +49,13 @@ int main(int argc, char** argv, char** envp) {
 		PQclear(res);
 		exit_nicely(conn);
 	}
-	int nFields = PQnfields(res);
-	for (int i = 0; i < nFields; i++) {
+	int nFields=PQnfields(res);
+	for(int i=0;i<nFields;i++) {
 		printf("%-15s", PQfname(res, i));
 	}
 	printf("\n\n");
-	for (int i = 0; i < PQntuples(res); i++) {
-		for (int j = 0; j < nFields; j++) {
+	for(int i=0;i<PQntuples(res);i++) {
+		for(int j=0;j<nFields;j++) {
 			printf("%-15s", PQgetvalue(res, i, j));
 		}
 		printf("\n");

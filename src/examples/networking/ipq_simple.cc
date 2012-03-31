@@ -74,7 +74,7 @@ int main(int argc, char **argv, char **envp) {
 			fprintf(stderr, "Unknown message type!\n");
 			break;
 		}
-	} while (1);
+	} while(true);
 	ipq_destroy_handle(h);
 	return EXIT_SUCCESS;
 }

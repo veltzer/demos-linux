@@ -117,9 +117,9 @@ int main(int argc, char** argv, char** envp) {
 	resizeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
 	drawGLScene();
 	bool done = false;
-	while (!done) {
+	while(!done) {
 		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
+		while(SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_KEYDOWN:
 				handleKeyPress(&event.key.keysym);

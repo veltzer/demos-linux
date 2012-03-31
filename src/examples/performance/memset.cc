@@ -1,6 +1,7 @@
 #include<string.h> // for memset
 #include<stdlib.h> // for malloc
 #include<wchar.h> // for wmemset
+#include<stdlib.h> // for EXIT_SUCCESS
 
 #include"us_helper.hh"
 
@@ -17,21 +18,21 @@
  * - this example does not explore the inner workins of the wmemset function
  * (meanins whether it is implemented efficiently or not).
  *
- * TODO: find out how wmemset work and discuss it's efficiency.
+ * Mark Veltzer
  *
- *		Mark Veltzer
+ * TODO: find out how wmemset work and discuss it's efficiency.
  */
-int main(int argc, char **argv, char **envp) {
-	const int size = 1000;
-	char* buf = (char *)malloc(size);
 
-	memset(buf, 0, 8);
-	memset(buf, 0, size);
-	for (int i = 0; i < size; i++) {
-		buf[i] = 0;
+int main(int argc,char** argv,char** envp) {
+	const int size=1000;
+	char* buf=(char*)malloc(size);
+	memset(buf,0,8);
+	memset(buf,0,size);
+	for(int i=0;i<size;i++) {
+		buf[i]=0;
 	}
-	wchar_t *buf2 = (wchar_t *)malloc(size * sizeof(wchar_t));
-	wmemset(buf2, 0, size);
+	wchar_t* buf2=(wchar_t*)malloc(size*sizeof(wchar_t));
+	wmemset(buf2,0,size);
 	my_system("objdump --disassemble --source %s",argv[0]);
 	return EXIT_SUCCESS;
 }

@@ -45,7 +45,7 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 	if (result > 0) {
 		message[result] = 0;
 		// Trim CR and LF (in case of telnet)
-		while (true) {
+		while(true) {
 			char value = message[result - 1];
 			if ((value == 10) || (value == 13)) {
 				message[--result] = 0;

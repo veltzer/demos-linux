@@ -42,7 +42,7 @@ void *thread_body(void *arg) {
 	}
 	printf("thread %d starting\n", tid);
 	printf("pri is %d\n", pri);
-	while (true) {
+	while(true) {
 		//pthread_barrier_wait(&mybarrier);
 		print_scheduling_info();
 		sleep(10);

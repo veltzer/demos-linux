@@ -15,7 +15,7 @@ public:
 			return(-1);
 		}
 
-		while (1) {
+		while(true) {
 			// Put this thread in a compute loop.. no
 			// cancellation points are available.
 		}

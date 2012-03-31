@@ -10,7 +10,7 @@
 int Client::open(void *p) {
 	// Two seconds
 	ACE_Time_Value iter_delay(2);
-	if (super::open(p) == -1) {
+	if(super::open(p) == -1) {
 		return(-1);
 	}
 	this->notifier_.reactor(this->reactor());
@@ -27,13 +27,13 @@ int Client::handle_input(ACE_HANDLE) {
 	char buf[64];
 	ssize_t recv_cnt = this->peer().recv(buf, sizeof(buf) - 1);
 
-	if (recv_cnt > 0) {
+	if(recv_cnt > 0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("YES! GOT DATA!!!")));
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%.*C"), static_cast<int>(recv_cnt), buf));
 		return(0);
 	}
 
-	if ((recv_cnt == 0) || (ACE_OS::last_error() != EWOULDBLOCK)) {
+	if((recv_cnt == 0) || (ACE_OS::last_error() != EWOULDBLOCK)) {
 		this->reactor()->end_reactor_event_loop();
 		return(-1);
 	}
@@ -45,7 +45,7 @@ int Client::handle_input(ACE_HANDLE) {
 
 // Listing 4 code/ch07
 int Client::handle_timeout(const ACE_Time_Value&, const void *) {
-	if (++this->iterations_ >= ITERATIONS) {
+	if(++this->iterations_ >= ITERATIONS) {
 		this->peer().close_writer();
 		return(0);
 	}
@@ -68,20 +68,20 @@ int Client::handle_output(ACE_HANDLE) {
 
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
 
-	while (-1 != this->getq(mb, &nowait)) {
+	while(-1!=this->getq(mb, &nowait)) {
 		ssize_t send_cnt = this->peer().send(mb->rd_ptr(), mb->length());
-		if (send_cnt == -1) {
+		if(send_cnt == -1) {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")));
 		} else {
 			mb->rd_ptr(static_cast<size_t>(send_cnt));
 		}
-		if (mb->length() > 0) {
+		if(mb->length() > 0) {
 			this->ungetq(mb);
 			break;
 		}
 		mb->release();
 	}
-	if (this->msg_queue()->is_empty()) {
+	if(this->msg_queue()->is_empty()) {
 		this->reactor()->cancel_wakeup (this, ACE_Event_Handler::WRITE_MASK);
 	} else {
 		this->reactor()->schedule_wakeup (this, ACE_Event_Handler::WRITE_MASK);
@@ -98,7 +98,7 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 	ACE_Connector<Client, ACE_SOCK_CONNECTOR> connector;
 	Client client;
 	Client *pc = &client;
-	if (connector.connect(pc, port_to_connect) == -1) {
+	if(connector.connect(pc, port_to_connect) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("connect")), 1);
 	}
 	ACE_Reactor::instance()->run_reactor_event_loop();

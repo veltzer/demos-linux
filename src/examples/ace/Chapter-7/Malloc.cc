@@ -64,8 +64,7 @@ private:
 
 int addRecords(void) {
 	char buf[32];
-
-	for (int i = 0; i < 10; i++) {
+	for(int i=0;i<10;i++) {
 		ACE_OS::sprintf(buf, "%s:%d", "Record", i);
 		void *memory = g_allocator->malloc(sizeof(Record));
 		if (memory == 0) {
@@ -86,7 +85,7 @@ void showRecords(void) {
 	{
 		MALLOC_LIFO_ITERATOR iter(*g_allocator);
 
-		for (void *temp = 0; iter.next(temp) != 0; iter.advance()) {
+		for(void* temp=0;iter.next(temp)!=0;iter.advance()) {
 			Record *record = reinterpret_cast<Record*>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"), record->name(), record->id1(), record->id2()));
 		}

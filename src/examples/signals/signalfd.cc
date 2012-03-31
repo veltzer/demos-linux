@@ -11,7 +11,7 @@
  */
 
 #define handle_error(msg) \
-do { perror(msg); exit(EXIT_FAILURE); } while (0)
+do { perror(msg); exit(EXIT_FAILURE); } while(0)
 
 int main(int argc, char** argv, char** envp) {
 	sigset_t mask;

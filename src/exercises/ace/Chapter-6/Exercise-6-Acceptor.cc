@@ -27,7 +27,7 @@ public:
 		// Read data from client
 		static char message[BUFFER_SIZE + 1];
 		// Save some more space than being read
-		while (true) {
+		while(true) {
 			int byte_count = 0;
 			if ((byte_count = new_stream_.recv(message, BUFFER_SIZE)) == -1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "Error in recv"));
@@ -56,7 +56,7 @@ public:
 		}
 		ACE_DEBUG((LM_DEBUG, "Starting server at port %d\n", server_addr_.get_port_number()));
 // Performs the iterative server activities.
-		while (true) {
+		while(true) {
 #define TIMEOUT
 #ifdef TIMEOUT
 			ACE_Time_Value timeout(ACE_DEFAULT_TIMEOUT);
