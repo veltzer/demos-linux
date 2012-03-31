@@ -1,5 +1,6 @@
 - includes:
-	#include<stdio.h> // look, no space
+	#include<stdio.h> // for printf(3) 
+	* no space after the include keyword
 - return from main:
 	return EXIT_SUCCESS, EXIT_FAILURE
 	(unless I have a better error code).
@@ -12,3 +13,8 @@
 		return a+b;
 	}
 - tabs: real ones, 8 characters
+- no two spaces in a row.
+- no space and then newline
+- no tab and then newline
+- no three newlines in a row
+	* to keep code concise so that it could be shown easily.
