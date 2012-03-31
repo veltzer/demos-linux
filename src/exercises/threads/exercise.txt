@@ -1,0 +1,5 @@
+Threads exercise
+1. In the example program simplethread.c there is a sleep(1) function call just before main() exits. 
+1. What will happen if sleep() is removed?
+2. Can you replace the sleep() function to anything better?
+2. Improve your IRC software to use threads.
