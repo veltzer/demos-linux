@@ -1,4 +1,5 @@
 #include<stdio.h> // for scanf(3), printf(3), perror(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 void print_array(int* ar,int size) {
 	int i;
@@ -16,7 +17,7 @@ int remove_zeros(int* ar,int size) {
 	return pos;
 }
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	// read the size of the array from the user...
 	int size;
 	printf("give me the size of the array: ");
@@ -46,5 +47,5 @@ int main() {
 	// print the array after...
 	printf("*************** results after *********************\n");
 	print_array(ar,newsize);
-	return 0;
+	return EXIT_SUCCESS;
 }

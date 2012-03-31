@@ -1,8 +1,8 @@
 #include<stdio.h> // for printf(3), scanf(3)
 #include<string.h> // for strlen(3)
 
-#define STRINGSIZE 30
-int main() {
+int main(int argc,char** argv,char** envp) {
+	const int STRINGSIZE=30;
 	char mystring[STRINGSIZE];
 	printf("Give me a string to check: ");
 	//scanf("%s",mystring);

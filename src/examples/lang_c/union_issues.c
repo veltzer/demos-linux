@@ -1,4 +1,5 @@
 #include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This explorer issues with accessing structures which are in themselves
@@ -24,7 +25,7 @@ typedef union _LARGE_INTEGER {
 	long long QuadPart;
 } LARGE_INTEGER;
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc, char** argv, char** envp) {
 	// this is how you would use such a union...
 	LARGE_INTEGER li;
 	li.LowPart=15;
@@ -45,5 +46,5 @@ int main(int argc, char **argv, char **envp) {
 	printf("offset of LowPart is %d\n", __builtin_offsetof(LARGE_INTEGER, LowPart));
 	printf("offset of HighPart is %d\n", __builtin_offsetof(LARGE_INTEGER, HighPart));
 	printf("offset of QuadPart is %d\n", __builtin_offsetof(LARGE_INTEGER, QuadPart));
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -9,7 +9,7 @@
  * 				Mark Veltzer
  */
 
-int main() {
+int main(int argc, char **argv, char **envp) {
 	/* without continue... */
 	printf("first round...\n");
 	int i;

@@ -4,6 +4,7 @@
 #include<stdio.h> // for printf(3)
 #include<sys/utsname.h> // for uname(2)
 #include<stdbool.h> // for bool
+#include<stdlib.h> // for EXIT_SUCCESS
 
 #include"us_helper.hh" // our own helper
 
@@ -40,5 +41,5 @@ int main(int argc, char **argv, char **envp) {
 	// but this is...
 	float x[] = { 5, 3, 2, 1 };
 	printf("size of x is %d\n",sizeof(x));
-	return(0);
+	return EXIT_SUCCESS;
 }

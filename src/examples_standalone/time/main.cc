@@ -1,6 +1,7 @@
 #include"time.hh"
+#include<stdlib.h> // for EXIT_SUCCESS
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	Time t;
 	t.setTime(14,56,32);
 	t.printStd();
@@ -9,5 +10,5 @@ int main() {
 		t.Tick();
 	t.printStd();
 	t.printMilitary();
-	return 0;
+	return EXIT_SUCCESS;
 }

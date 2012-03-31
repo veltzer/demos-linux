@@ -3,11 +3,12 @@
 #include<unistd.h>
 #include<errno.h>
 #include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 void print_message_function (void *ptr);
 
 
-int main(void) {
+int main(int argc,char** argv,char** envp) {
 	pthread_t thread1;
 	pthread_t thread2;
 	printf("Starting first run\n");
@@ -17,7 +18,7 @@ int main(void) {
 	/* Not reached */
 	printf("This should never happen!\n");
 	pthread_join (thread1, NULL);
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 void croak(void) {

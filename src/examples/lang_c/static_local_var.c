@@ -1,4 +1,5 @@
 #include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 void printHello() {
 	static int count=0;
@@ -7,10 +8,10 @@ void printHello() {
 	printf("Hello, World!\n");
 }
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	printHello();
 	printHello();
 	printHello();
 	printHello();
-	return 0;
+	return EXIT_SUCCESS;
 }

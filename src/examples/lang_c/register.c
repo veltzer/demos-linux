@@ -1,4 +1,5 @@
 #include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * An example of doing a loop and telling the compiler that a register should be
@@ -25,5 +26,5 @@ int main(int argc,char** argv,char** envp) {
 		asm volatile("movl %%ebx, %0;":"=r"(reg));
 		printf("reg is %d\n",reg);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

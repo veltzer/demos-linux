@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This demos how to use compiler attributes to make sure we don't mix pointers that
@@ -41,5 +42,5 @@ void *__space2 malloc2(unsigned int size) {
 
 
 int main(int argc, char **argv, char **envp) {
-	return(0);
+	return EXIT_SUCCESS;
 }
