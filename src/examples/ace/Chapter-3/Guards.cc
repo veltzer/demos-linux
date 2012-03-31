@@ -76,11 +76,8 @@ HA_Device_Repository::update_device(int /* device_id */) {
 	return(0);
 }
 
-
-// Listing 3
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	HA_Device_Repository rep;
-
 	rep.update_device(42);
 	return(0);
 }

@@ -22,7 +22,7 @@ void FunA() {
 	FunB();
 }
 
-int ACE_TMAIN(int,ACE_TCHAR**) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
 	ACE_LOG_MSG->open(argv[0], ACE_Log_Msg::SYSLOG, ACE_TEXT("ACE-Course"));
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%I a - Eytan Carmiel was here\n")));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%I b - Eytan Carmiel Can't be here\n")));

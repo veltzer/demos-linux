@@ -28,7 +28,8 @@ void sigIntHandler(int gotsig) {
 
 void sigChildHandler(int gotsig) {
 	int status;
-	while((pid_t pid=wait3(&status,WNOHANG,NULL))>0) {
+	pid_t pid;
+	while((pid=wait3(&status,WNOHANG,NULL))>0) {
 		if(WIFEXITED(status))
 			printf("Child %d exited. Status: %d\n",pid,WEXITSTATUS(status));
 		if(WIFSIGNALED(status))

@@ -37,16 +37,11 @@ public:
 		ACE_NOTREACHED(return 0);
 	}
 };
-// Listing 1
 
-// Listing 2 code/ch13
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	CanceledTask task;
-
 	task.activate();
-
 	ACE_OS::sleep(1);
-
 	ACE_Thread_Manager::instance()->cancel_task(&task);
 	task.wait();
 	return(0);

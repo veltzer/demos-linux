@@ -37,9 +37,9 @@ void fake_manipulate_int(int *ip) {
 	*ip = atoi("100");
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	std::cerr << "sum for 99 is " << sum(99) << std::endl;
-	int j = 0;
+	int j=0;
 	fake_manipulate_int(&j);
 	std::cerr << "sum for j=100 is " << sum(j) << std::endl;
 	std::cerr << "sum for 100 is " << sum(100) << std::endl;
