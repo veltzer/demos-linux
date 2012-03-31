@@ -12,3 +12,6 @@ More documentation to come...
 Code is licensed GPL3 and I hold the copyright (unless explicity stolen as attributed in the source code).
 
 	Mark Veltzer <mark.veltzer@gmail.com>, 2011-2012
+
+How do you use it? pull and compile using "make". Explore the examples. They are full of comments.
+Tweak them. Have fun.
