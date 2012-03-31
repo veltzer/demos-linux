@@ -1,15 +1,18 @@
-// This short program prints the contents of stdin to stdout sorted by
-// the length of each line via the use of an ASX Message_Queue. It
-// illustrates how priorities can be used for ACE Message_Queues.
-
 #include<ace/OS_NS_stdio.h>
 #include<ace/Malloc_Base.h> // To get ACE_Allocator
 #include<ace/Message_Queue.h>
 #include<ace/Read_Buffer.h>
 #include<ace/Thread_Manager.h>
 #include<ace/Service_Config.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * This short program prints the contents of stdin to stdout sorted by
+ * the length of each line via the use of an ASX Message_Queue. It
+ * illustrates how priorities can be used for ACE Message_Queues.
+ *
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -116,5 +119,5 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) { // Message queue.
 	}
 	// Wait for producer and consumer threads to exit.
 	thr_mgr.wait();
-	return(0);
+	return EXIT_SUCCESS;
 }

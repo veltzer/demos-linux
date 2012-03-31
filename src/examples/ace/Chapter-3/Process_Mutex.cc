@@ -2,41 +2,36 @@
 #include<ace/Log_Msg.h>
 #include<ace/Process.h>
 #include<ace/Process_Mutex.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
 class GResourceUser {
-public:
-	GResourceUser(ACE_Process_Mutex & mutex) : gmutex_(mutex) {
-		ACE_TRACE(ACE_TEXT("GResourceUser::GResourceUser"));
-	}
-
-
-	void run(void) {
-		ACE_TRACE(ACE_TEXT("GResourceUser::run"));
-
-		int count = 0;
-		while(count++ < 5) {
-			int result = this->gmutex_.acquire();
-			ACE_ASSERT(result == 0);
-
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P| %t) has the mutex (count=%d)\n"), count));
-
-			// Access Global resource
-			ACE_OS::sleep(1);
-
-			result = this->gmutex_.release();
-			ACE_ASSERT(result == 0);
-			// Give other process a chance.
-			ACE_OS::sleep(1);
+	public:
+		GResourceUser(ACE_Process_Mutex & mutex) : gmutex_(mutex) {
+			ACE_TRACE(ACE_TEXT("GResourceUser::GResourceUser"));
 		}
-	}
-
-
-private:
-	ACE_Process_Mutex& gmutex_;
+		void run(void) {
+			ACE_TRACE(ACE_TEXT("GResourceUser::run"));
+			int count=0;
+			while(count++<5) {
+				int result=this->gmutex_.acquire();
+				ACE_ASSERT(result==0);
+				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P| %t) has the mutex (count=%d)\n"), count));
+				// Access Global resource
+				ACE_OS::sleep(1);
+				result = this->gmutex_.release();
+				ACE_ASSERT(result==0);
+				// Give other process a chance.
+				ACE_OS::sleep(1);
+			}
+		}
+	private:
+		ACE_Process_Mutex& gmutex_;
 };
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
@@ -70,6 +65,5 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		// Print Done for the parent only
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P| %t) Done (Parent).\n")));
 	}
-
-	return(0);
+	return EXIT_SUCCESS;
 }

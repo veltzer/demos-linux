@@ -4,6 +4,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -69,7 +71,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	}
 	//Wait for all the threads to exit before you let the main fall
 	//through and have the process exit.
-	for (unsigned int i = 0; i < n_threads; i++) {
+	for(unsigned int i=0;i<n_threads;i++) {
 		ACE_Thread::join(threadHandles[i]);
 	}
 	return EXIT_SUCCESS;

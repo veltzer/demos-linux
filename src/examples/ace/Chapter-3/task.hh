@@ -1,7 +1,9 @@
-// page05.html,v 1.10 2000/03/19 20:09:26 jcej Exp
-
 #ifndef TASK_H
 #define TASK_H
+
+/*
+ * Mark Veltzer
+ */
 
 #include<ace/Task.h>
 #include<ace/Barrier.h>

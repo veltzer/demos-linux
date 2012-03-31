@@ -3,13 +3,15 @@
 #include<ace/OS_NS_unistd.h>
 #include<ace/Task.h>
 #include<ace/Log_Msg.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-// Listing 1 code/ch13
-class CanceledTask : public ACE_Task<ACE_MT_SYNCH> {
+class CanceledTask:public ACE_Task<ACE_MT_SYNCH> {
 public:
 
 	virtual int svc(void) {
@@ -44,5 +46,5 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_OS::sleep(1);
 	ACE_Thread_Manager::instance()->cancel_task(&task);
 	task.wait();
-	return(0);
+	return EXIT_SUCCESS;
 }
