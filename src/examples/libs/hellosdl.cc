@@ -2,18 +2,17 @@
 #include<GL/gl.h>
 #include<GL/glu.h>
 #include<SDL/SDL.h>
-#include<stdlib.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs sdl gl glu
  *
- *	Mark Veltzer
- *
+ * Mark Veltzer
  */
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-const int SCREEN_BPP = 16;
+const int SCREEN_WIDTH=640;
+const int SCREEN_HEIGHT=480;
+const int SCREEN_BPP=16;
 
 static SDL_Surface *surface;
 
@@ -22,18 +21,15 @@ void Quit(int returnCode) {
 	exit(returnCode);
 }
 
-
 void handleKeyPress(SDL_keysym *keysym) {
-	switch (keysym->sym) {
-	case SDLK_ESCAPE:
-		Quit(0);
-		break;
-
-	default:
-		break;
+	switch(keysym->sym) {
+		case SDLK_ESCAPE:
+			Quit(0);
+			break;
+		default:
+			break;
 	}
 }
-
 
 int resizeWindow(int width, int height) {
 	if (height == 0) {
@@ -49,7 +45,6 @@ int resizeWindow(int width, int height) {
 	return(true);
 }
 
-
 int initGL() {
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -59,7 +54,6 @@ int initGL() {
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	return(true);
 }
-
 
 int drawGLScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -116,21 +110,19 @@ int main(int argc, char** argv, char** envp) {
 	initGL();
 	resizeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
 	drawGLScene();
-	bool done = false;
+	bool done=false;
 	while(!done) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
 			switch (event.type) {
-			case SDL_KEYDOWN:
-				handleKeyPress(&event.key.keysym);
-				break;
-
-			case SDL_QUIT:
-				done = true;
-				break;
-
-			default:
-				break;
+				case SDL_KEYDOWN:
+					handleKeyPress(&event.key.keysym);
+					break;
+				case SDL_QUIT:
+					done=true;
+					break;
+				default:
+					break;
 			}
 		}
 	}
