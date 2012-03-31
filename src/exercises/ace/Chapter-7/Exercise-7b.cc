@@ -239,10 +239,8 @@ int ReadMessage(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	return(type);
 }
 
-
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	MessageAgentProxy message;
-
 	// Save place for up to 100 messages. If we are not sure we may use malloc
 	// and have unlimited number.
 	ACE_Future<int> results[100];

@@ -98,7 +98,7 @@ public:
 	}
 };
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Listing 2 code/ch07
 	TemperatureQueryHandler *temperatureMonitor = new TemperatureQueryHandler();
 

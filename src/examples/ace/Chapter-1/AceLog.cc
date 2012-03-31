@@ -1,5 +1,6 @@
 #define ACE_NTRACE 0
 #include<ace/Log_Msg.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a basic example of using ACE_DEBUG and ACE_TRACE.
@@ -12,9 +13,7 @@
  * - you have to put your own newline at the end of ACE_DEBUG messages.
  *
  * Mark Veltzer
- */
-
-/*
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 void foo(void) {
@@ -22,11 +21,11 @@ void foo(void) {
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%IHowdy Pardner\n")));
 }
 
-int ACE_TMAIN(int, ACE_TCHAR **) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_TRACE(ACE_TEXT("main"));
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%IHi Mom\n")));
 	foo();
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%IGoodnight\n")));
 	foo();
-	return(0);
+	return EXIT_SUCCESS;
 }

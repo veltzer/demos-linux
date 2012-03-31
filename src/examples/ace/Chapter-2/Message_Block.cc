@@ -1,12 +1,7 @@
 #include<ace/OS_NS_stdio.h> // This is for snprintf
 #include<ace/Log_Msg.h> // This is for ACE_DEBUG
 #include<ace/Message_Block.h> // This is for ACE_Message_Block
-
-/*
- * Mark Veltzer
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This demo shows how to create message blocks, how to set message types, how to create
@@ -14,8 +9,13 @@
  *
  * This demo does not explain what ACE_NEW_RETURN is. See slides or a different example
  * for that...
+ *
+ * Mark Veltzer
+ *
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-int ACE_TMAIN(int, ACE_TCHAR **) {
+
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// This sections explains how to create a message block with some data in it
 	// It shows how to use the ACE_NEW_RETURN construct
 	// How to initialize a message block with constant size and how to write
@@ -123,5 +123,5 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("reference_count is --> %d\n"), mb2->reference_count()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb2->rd_ptr()));
-	return(0);
+	return EXIT_SUCCESS;
 }

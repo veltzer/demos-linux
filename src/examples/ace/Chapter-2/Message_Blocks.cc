@@ -4,20 +4,18 @@
 #include<ace/OS_NS_string.h>
 #include<ace/Log_Msg.h>
 #include<ace/Message_Block.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * Mark Veltzer
  *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-int ACE_TMAIN(int, ACE_TCHAR **) {
-	ACE_Message_Block *mb;
-
-	ACE_NEW_RETURN(mb, ACE_Message_Block(128), -1);
-
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+	ACE_Message_Block* mb;
+	ACE_NEW_RETURN(mb,ACE_Message_Block(128),-1);
 	const char *command1 = "<InitialDataPart>";
 	const char *command2 = "< More Data ...>";
-
 	// Use the pointer to insert the string
 	ACE_OS::sprintf(mb->wr_ptr(), command1);
 	// Move the wr_ptr() forward in the buffer by the amount of data we just put in.
@@ -34,5 +32,5 @@ int ACE_TMAIN(int, ACE_TCHAR **) {
 	// Send an error notification to the receiver.
 	mb->msg_type(ACE_Message_Block::MB_ERROR);
 	mb->release();
-	return(0);
+	return EXIT_SUCCESS;
 }

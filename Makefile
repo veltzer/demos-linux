@@ -217,8 +217,8 @@ check_ws:
 	-git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
-	-git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
-	-git grep "ACE_TMAIN" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
+	-@git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
+	-@git grep "ACE_TMAIN" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
 .PHONY: check_name
 check_name:
 	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'

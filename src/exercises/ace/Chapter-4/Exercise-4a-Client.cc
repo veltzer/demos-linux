@@ -50,7 +50,7 @@ class SocketHandler:public ACE_Task_Base {
 		int value;
 };
 
-int ACE_TMAIN(int,ACE_TCHAR**) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	SocketHandler handler[3];
 	for(int i=0;i<3;i++) {
 		handler[i].set_value(i);

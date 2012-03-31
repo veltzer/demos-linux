@@ -4,11 +4,14 @@
 #include<ace/SOCK_Connector.h>
 #include<ace/Log_Msg.h>
 #include<ace/Time_Value.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	/*
 	 * Here we will use the default ctor and the set()
 	 * method to configure it. After each set() we will
@@ -95,20 +98,14 @@ int ACE_TMAIN(int, ACE_TCHAR *[]) {
 		return(102);
 	}
 
-	// Listing 7 code/ch06
 	ssize_t bc;
 	ACE_Time_Value recvTimeout(0, 1);
-
-	if ((bc = status.recv(buf, sizeof(buf), &recvTimeout)) == -1) {
+	if((bc=status.recv(buf, sizeof(buf), &recvTimeout)) == -1) {
 		ACE_ERROR((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("recv")));
 		return(103);
 	}
-
 	log.send_n(buf, bc);
-	// Listing 7
-
 	status.close();
 	log.close();
-
-	return(0);
+	return EXIT_SUCCESS;
 }

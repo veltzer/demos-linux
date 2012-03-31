@@ -43,8 +43,8 @@ private:
 	long timerId_;
 	int currentInterval_;
 };
-// Listing 1
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Time_Value initialDelay(3);
 	ACE_Time_Value interval(5);
 

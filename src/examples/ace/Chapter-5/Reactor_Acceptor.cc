@@ -53,7 +53,7 @@ int ClientAcceptor::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// create the acceptor
 	ClientAcceptor acceptor;
 	// register the acceptor with the singleton reactor

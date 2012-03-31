@@ -89,8 +89,7 @@ int Client::handle_output(ACE_HANDLE) {
 	return(0);
 }
 
-
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	//ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
 	ACE_INET_Addr port_to_connect(8080, ACE_LOCALHOST);
 

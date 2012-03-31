@@ -151,7 +151,7 @@ class Client : public ACE_Task_Base {
 		ACE_INET_Addr addr_;
 };
 
-int ACE_TMAIN(int,ACE_TCHAR**) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_TP_Reactor sr;
 	ACE_Reactor new_reactor(& sr);
 	ACE_Reactor::instance(&new_reactor);

@@ -6,20 +6,21 @@
 #include<ace/SOCK_Acceptor.h>
 #include<ace/Reactor.h>
 #include<ace/Acceptor.h>
-
 #include"ClientService.hh"
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
 typedef ACE_Acceptor<ClientService, ACE_SOCK_ACCEPTOR> ClientAcceptor;
 
-int ClientService::open(void *p) {
-	if(super::open(p) == -1) {
+int ClientService::open(void* p) {
+	if(super::open(p)==-1) {
 		return(-1);
 	}
-
 	ACE_TCHAR peer_name[MAXHOSTNAMELEN];
 	ACE_INET_Addr peer_addr;
 	if((this->peer().get_remote_addr(peer_addr) == 0) && (peer_addr.addr_to_string(peer_name, MAXHOSTNAMELEN) == 0)) {
@@ -27,7 +28,6 @@ int ClientService::open(void *p) {
 	}
 	return(0);
 }
-
 
 int ClientService::handle_input(ACE_HANDLE) {
 	const size_t INPUT_SIZE = 4096;
@@ -68,7 +68,6 @@ int ClientService::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-
 int ClientService::handle_output(ACE_HANDLE) {
 	ACE_Message_Block *mb = 0;
 
@@ -90,7 +89,6 @@ int ClientService::handle_output(ACE_HANDLE) {
 	return((this->msg_queue()->is_empty()) ? -1 : 0);
 }
 
-
 int ClientService::handle_close(ACE_HANDLE h, ACE_Reactor_Mask mask) {
 	if(mask == ACE_Event_Handler::WRITE_MASK) {
 		return(0);
@@ -98,17 +96,12 @@ int ClientService::handle_close(ACE_HANDLE h, ACE_Reactor_Mask mask) {
 	return(super::handle_close(h, mask));
 }
 
-
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_listen("HAStatus");
-
 	ClientAcceptor acceptor;
-
 	if(acceptor.open(port_to_listen, ACE_Reactor::instance(), ACE_NONBLOCK) == -1) {
 		return(1);
 	}
-
 	ACE_Reactor::instance()->run_reactor_event_loop();
-
-	return(0);
+	return EXIT_SUCCESS;
 }
