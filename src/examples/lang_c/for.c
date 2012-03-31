@@ -1,6 +1,6 @@
 #include<stdio.h> // for printf(3)
 
-int main() {
+int main(int argc, char **argv, char **envp) {
 	int j=0;
 	while(j<100) {
 		printf("j is %d\n",j);

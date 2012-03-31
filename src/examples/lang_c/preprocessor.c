@@ -1,4 +1,5 @@
 #include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * An example showing how to use the preprocessor in order to avoid
@@ -21,9 +22,9 @@ double adddouble(double a,double b) {
 }
 */
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	float x=4.5f;
 	float y=3.2f;
 	printf("%f+%f=%f\n",x,y,addfloat(x,y));
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -1,6 +1,6 @@
 #include<stdio.h> // for printf(3)
 
-int main() {
+int main(int argc, char **argv, char **envp) {
 	long long ll=0;
 	long long back_value=0;
 	while(back_value==ll) {

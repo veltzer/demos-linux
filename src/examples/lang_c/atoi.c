@@ -7,7 +7,7 @@
  * 			Mark Veltzer
  */
 
-int main() {
+int main(int argc, char **argv, char **envp) {
 	const char* str="321";
 	printf("the value of the string is %d\n",atoi(str));
 	return 0;

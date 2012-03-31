@@ -8,7 +8,7 @@
  *	Mark Veltzer
  *
  */
-int main(void) {
+int main(int argc,char** argv,char** envp) {
 	std::vector<int> v(3);
 
 	v[0] = 5;

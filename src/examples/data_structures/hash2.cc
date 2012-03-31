@@ -1,6 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<search.h>
+#include<stdio.h> // for printf(3)
+#include<search.h> // for hsearch(3), ENTRY
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo of using the GNU C libraries hash table implementation
@@ -14,7 +14,8 @@ const char *data[] = { "alpha", "bravo", "charlie", "delta",
 	"quebec", "romeo", "sierra", "tango", "uniform",
 	"victor", "whisky", "x-ray", "yankee", "zulu"
 };
-int main() {
+
+int main(int argc,char** argv,char** envp) {
 	ENTRY e, *ep;
 	int i;
 

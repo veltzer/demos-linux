@@ -1,6 +1,13 @@
 #include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
-int main() {
+/*
+ * This is an example of the C trinary operator
+ *
+ * Mark Veltzer
+ */
+
+int main(int argc,char** argv, char** envp) {
 	int c=1;
 	int d=c==1 ? 4 : 5;
 	printf("d is %d\n",d);
@@ -11,5 +18,5 @@ int main() {
 		d=5;
 	}
 	*/
-	return 0;
+	return EXIT_SUCCESS;
 }

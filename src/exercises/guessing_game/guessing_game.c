@@ -1,7 +1,8 @@
-#include<stdio.h> // for printf(3), scanf(3)
-#include<stdlib.h> // for rand(3)
+#include<stdio.h> // for printf(3), scanf(3), perror(3)
+#include<stdlib.h> // for rand(3), EXIT_SUCCESS
+#include<errno.h> // for errno
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	int rand_number;
 	int cont=1;
 	while(cont) {
@@ -28,9 +29,10 @@ int main() {
 		printf("want to play more ? ");
 		int ret=scanf("%d",&cont);
 		if(ret!=1) {
+			int err=errno;
 			perror("scanf");
-			return -1;
+			return err;
 		}
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

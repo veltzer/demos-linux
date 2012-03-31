@@ -2,13 +2,14 @@
 // this must be defined if you are in a C++ context to get the constants
 #define __STDC_LIMIT_MACROS
 #include<stdint.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This shows how to define a long long constant and how to print long longs in linux.
  *
  *		Mark Veltzer
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc, char** argv, char** envp) {
 	unsigned long long l1 = 214748364899LL;
 
 	// this next line will not work (the LL is required...)
@@ -25,5 +26,5 @@ int main(int argc, char **argv, char **envp) {
 	fprintf(stderr, "sizeof(3.14f) is %d\n", sizeof(3.14f));
 	//float f=1.6676;
 	//double d=1.8988f;
-	return(0);
+	return EXIT_SUCCESS;
 }

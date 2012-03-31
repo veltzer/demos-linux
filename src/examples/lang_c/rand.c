@@ -1,7 +1,7 @@
 #include<stdio.h> // for printf(3)
-#include<stdlib.h> // for rand(3), srand(3)
+#include<stdlib.h> // for rand(3), srand(3), EXIT_SUCCESS
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	int seed;
 	int i;
 	printf("give me a seed :");
@@ -14,5 +14,5 @@ int main() {
 	for(i=0;i<10;i++) {
 		printf("rand gave me %d\n",rand());
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

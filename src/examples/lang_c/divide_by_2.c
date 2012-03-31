@@ -1,6 +1,6 @@
 #include<stdio.h> // for scanf(3), perror(3)
 
-int main() {
+int main(int argc, char **argv, char **envp) {
 	int num;
 	int ret=scanf("%d",&num);
 	if(ret!=1) {

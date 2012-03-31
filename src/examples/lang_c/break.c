@@ -8,7 +8,7 @@
  * 				Mark Veltzer
  */
 
-int main() {
+int main(int argc, char **argv, char **envp) {
 	/* without break */
 	int early_break=0;
 	int i;

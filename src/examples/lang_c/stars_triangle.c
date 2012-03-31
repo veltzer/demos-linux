@@ -1,7 +1,8 @@
 #include<stdio.h> // for scanf(3), putchar(3), perror(3)
 #include<unistd.h> // for sleep(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	int num;
 	int ret=scanf("%d",&num);
 	if(ret!=1) {
@@ -44,5 +45,5 @@ int main() {
 			usleep(100000);
 		}
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -1,7 +1,7 @@
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 
-int main() {
+int main(int argc,char** argv,char** envp) {
 	int i=5;
 	int& ri=i;
 	printf("i is %d, ri is %d\n",i,ri);
