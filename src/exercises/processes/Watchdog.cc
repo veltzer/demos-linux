@@ -5,8 +5,8 @@
 #include<unistd.h>
 #include<time.h>
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 struct itimerval timer;
 int gotusr1=0;
@@ -168,5 +168,5 @@ int main(int argc,char** argv,char** envp) {
 	while(true) {
 		pause();
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

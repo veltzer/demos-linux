@@ -4,8 +4,8 @@
 #include<sys/ipc.h>
 #include<sys/msg.h>
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 const int MSGSZ=1024;
 
@@ -80,8 +80,7 @@ int main(int argc,char** argv,char** envp) {
 		perror("msgget failed");
 		exit(errno);
 	}
-	switch (fork())
-	{
+	switch (fork()) {
 		case -1:
 			perror("Fork failed");
 			exit(errno);
@@ -92,5 +91,5 @@ int main(int argc,char** argv,char** envp) {
 			doParent(msqid, myID);
 			exit(0);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

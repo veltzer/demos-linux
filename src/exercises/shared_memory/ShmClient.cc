@@ -6,8 +6,8 @@
 #include<unistd.h>
 #include<time.h>
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 const int CLIENTMESSAGESIZE=1024;
 const int MAXMESSAGE=256;
@@ -20,8 +20,7 @@ struct data
 	char message[CLIENTMESSAGESIZE];
 };
 
-void doChild(int semid, struct data * smdata, int myID)
-{
+void doChild(int semid, struct data * smdata, int myID) {
 	char message[MAXMESSAGE];
 	int * messageSizePTR;
 	int * fromIDPTR;
@@ -172,5 +171,5 @@ int main(int argc,char** argv,char** envp)
 			doParent(semid, smdata, myID);
 			exit(0);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

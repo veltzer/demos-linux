@@ -8,9 +8,9 @@
 #include<unistd.h>
 #include<time.h>
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
 #include<strings.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
 	int on, got, brsock, rplysock, newsock;
@@ -98,5 +98,5 @@ int main(int argc,char** argv,char** envp) {
 	printf("\n");
 	close(rplysock);
 	close(brsock);
-	exit(0);
+	return EXIT_SUCCESS;
 }

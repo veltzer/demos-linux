@@ -1,4 +1,5 @@
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 #include"MyThread.hh"
 #include"us_helper.hh" // for CHECK_ZERO
@@ -55,5 +56,5 @@ int main(int argc,char** argv,char** envp) {
 	thr2.start();
 	thr1.join();
 	thr2.join();
-	return 0;
+	return EXIT_SUCCESS;
 }

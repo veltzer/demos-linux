@@ -5,13 +5,12 @@
 #include<fcntl.h>
 #include<unistd.h>
 #include<stdio.h>
-#include<stdlib.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 #include<string.h>
 
 const int MAXINDEXSIZE=128;
 
-struct index
-{
+struct index {
 	unsigned int ID;
 	char path[MAXPATHLEN];
 };
@@ -98,5 +97,5 @@ int main(int argc,char** argv,char** envp) {
 		perror("fcntl F_SETLK F_UNLK failed");
 		exit(errno);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -1,9 +1,9 @@
 #include"Phil.hh"
+#include<stdlib.h> // for EXIT_SUCCESS
 
 int semid;
 
-void think(int id)
-{
+void think(int id) {
 	int stime;
 	printf("Philosopher %d is busy thinking\n", id);
 	srand(time(0));
@@ -12,8 +12,7 @@ void think(int id)
 	printf("Philosopher %d finished thinking\n", id);
 }
 
-void eat(int id)
-{
+void eat(int id) {
 	int stime;
 	printf("Philosopher %d is busy eating\n", id);
 	srand(time(0));
@@ -22,8 +21,7 @@ void eat(int id)
 	printf("Philosopher %d finished eating\n", id);
 }
 
-void putForks(int id)
-{
+void putForks(int id) {
 	int next;
 	if(id == NPHIL-1)
 		next=0;
@@ -37,8 +35,7 @@ void putForks(int id)
 	sops[1].sem_num = next;
 	sops[1].sem_op = 1;
 	sops[1].sem_flg = 0;
-	if ( semop(semid, sops, 2) == -1 )
-	{
+	if ( semop(semid, sops, 2) == -1 ) {
 		perror("semop");
 		exit(errno);
 	}
@@ -60,49 +57,42 @@ void pickForks(int id)
 	sops[1].sem_num = next;
 	sops[1].sem_op = -1;
 	sops[1].sem_flg = 0;
-	if ( semop(semid, sops, 2) == -1 )
-	{
+	if ( semop(semid, sops, 2) == -1 ) {
 		perror("semop");
 		exit(errno);
 	}
 	printf("Philosopher %d finally picked the forks\n", id);
 }
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	key_t key;
 	int id;
-	if(argc != 2)
-	{
+	if(argc != 2) {
 		fprintf(stderr, "Usage: %s [0-%d]\n", argv[0], NPHIL-1);
 		exit(1);
 	}
 	if((argv[1][0] >= '0') && (argv[1][0] <='5') && (strlen(argv[1]) == 1))
 		id=atoi(argv[1]);
-	else
-	{
+	else {
 		fprintf(stderr, "bad argument %c, Argument must be numeric value between 0 and 5\n", argv[1][0]);
 		exit(1);
 	}
 
-	if ((key = ftok(KEYFILE, 'x')) == -1 )
-	{
+	if ((key = ftok(KEYFILE, 'x')) == -1 ) {
 		perror("ftok failed");
 		exit(errno);
 	}
 
-	if ((semid = semget(key, 0, 0)) == -1 )
-	{
+	if ((semid = semget(key, 0, 0)) == -1 ) {
 		perror("semget");
 		exit(errno);
 	}
 
-	while(1)
-	{
+	while(true) {
 		pickForks(id);
 		eat(id);
 		putForks(id);
 		think(id);
 	}
-	exit(0);
+	return EXIT_SUCCESS;
 }
