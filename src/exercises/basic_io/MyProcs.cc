@@ -6,8 +6,8 @@
 #include<unistd.h>
 #include<dirent.h>
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 void scanthedir(char* dirname) {
 	DIR* sdir=NULL;
@@ -63,5 +63,5 @@ int main(int argc,char** argv,char** envp) {
 	char dirname[MAXPATHLEN];
 	strcpy(dirname,"/proc");
 	scanthedir(dirname);
-	return 0;
+	return EXIT_SUCCESS;
 }

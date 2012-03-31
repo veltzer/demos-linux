@@ -2,7 +2,7 @@
 #include<sys/types.h> // for opendir(3), closedir(3), rewinddir(3)
 #include<dirent.h> // for opendir(3), readdir(3), closedir(3), rewinddir(3)
 
-#include<stdlib.h> // for qsort(3)
+#include<stdlib.h> // for qsort(3), EXIT_SUCCESS
 #include<string.h> // for strcasecmp(3), strncpy(3)
 
 #include<sys/types.h> // for stat(2), getpwuid(2), for getgrgid(2)
@@ -152,5 +152,5 @@ int main(int argc,char** argv,char** envp) {
 			arr[i]
 		);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

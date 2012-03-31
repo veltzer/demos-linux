@@ -6,13 +6,12 @@
 #include<unistd.h>
 #include<time.h>
 #include<stdio.h>
-#include<stdlib.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 const int MAXCLIENTS=10;
 const int CLIENTMESSAGESIZE=4096;
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	struct data
 	{
 		int readOffset;
@@ -76,5 +75,5 @@ int main(int argc,char** argv,char** envp)
 		perror("semctl IPC_RMID failed");
 		exit(errno);
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

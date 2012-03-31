@@ -2,6 +2,7 @@
 #include<sys/wait.h> // for waitpid(2)
 #include<unistd.h> // for close(2), dup(2), execl(3), fork(2)
 #include<stdio.h> // for perror(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 #include"us_helper.hh"
 
@@ -70,5 +71,5 @@ int main(int argc,char** argv,char** envp) {
 	int status;
 	CHECK_NOT_M1(waitpid(pid1,&status,0));
 	CHECK_NOT_M1(waitpid(pid2,&status,0));
-	return 0;
+	return EXIT_SUCCESS;
 }

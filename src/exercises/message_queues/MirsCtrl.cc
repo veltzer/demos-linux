@@ -5,8 +5,8 @@
 #include<signal.h>
 #include<unistd.h>
 #include<stdio.h>
-#include<stdlib.h>
 #include<time.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 const int MSGSZ=128;
 const int MAXQUEUE=32768;
@@ -67,8 +67,7 @@ void DoChild() {
 	}
 }
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	key_t key;
 	struct sigaction SigAction;
 	sigset_t emptymask;
@@ -205,5 +204,5 @@ int main(int argc,char** argv,char** envp)
 				}
 		}
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include"Phil.hh"
+#include<stdlib.h> // for EXIT_SUCCESS
 
 int semid;
 
@@ -13,33 +14,25 @@ void clean(int sig)
 	}
 }
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	int i;
 	key_t key;
 	signal(SIGINT,clean);
-
-	if ((key = ftok(KEYFILE, 'x')) == -1)
-	{
+	if ((key = ftok(KEYFILE, 'x')) == -1) {
 		perror("ftok failed");
 		exit(errno);
 	}
-
-	if ((semid = semget(key, NPHIL, IPC_CREAT | 0666)) < 0 )
-	{
+	if ((semid = semget(key, NPHIL, IPC_CREAT | 0666)) < 0 ) {
 		perror("semget");
 		exit(errno);
 	}
-
-	for(i=0; i<NPHIL; i++)
-	{
-		if (semctl(semid, i,SETVAL,1 ) < 0)
-		{
+	for(i=0; i<NPHIL; i++) {
+		if (semctl(semid, i,SETVAL,1 ) < 0) {
 			perror("semctl 1");
 			exit(errno);
 		}
 	}
-	while(1)
+	while(true)
 		pause();
-	exit(0);
+	return EXIT_SUCCESS;
 }
