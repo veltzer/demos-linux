@@ -221,7 +221,7 @@ check_main:
 	-git grep "ACE_TMAIN" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
 .PHONY: check_name
 check_name:
-	-git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_syn
 check_syn:
 	-git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'

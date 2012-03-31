@@ -2,8 +2,11 @@
 #include<ace/Message_Queue.h>
 #include<ace/Read_Buffer.h>
 #include<ace/Thread_Manager.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -11,13 +14,13 @@
 static ACE_Thread_Manager thr_mgr;
 
 // Make the queue be capable of being *very* large.
-static const long max_queue = LONG_MAX;
+static const long max_queue=LONG_MAX;
 
 // The consumer dequeues a message from the ACE_Message_Queue, writes
 // the message to the stderr stream, and deletes the message. The
 // producer sends a 0-sized message to inform the consumer to stop
 // reading and exit.
-static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
+static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep looping, reading a message out of the queue, until we
 	// timeout or get a message with a length == 0, which signals us to
 	// quit.
@@ -41,7 +44,6 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	}
 	return(0);
 }
-
 
 // The producer reads data from the stdin stream, creates a message,
 // and then queues the message in the message list, where it is
@@ -83,16 +85,14 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	return(0);
 }
 
-
-int ACE_TMAIN(int, ACE_TCHAR *[]) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Create a Message queue. This one is on the stack so we want
 	// to keep ourselves from returning from main...
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
-
-	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)&msg_queue, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if (thr_mgr.spawn(ACE_THR_FUNC(producer),(void*)&msg_queue,THR_NEW_LWP|THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);
 	}
 	// Wait for producer and consumer threads to exit.
 	thr_mgr.wait();
-	return(0);
+	return EXIT_SUCCESS;
 }

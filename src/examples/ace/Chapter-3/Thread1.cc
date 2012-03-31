@@ -4,6 +4,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
+ * Mark Veltzer
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
@@ -43,10 +45,10 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 	// create the data structures needed
 	ACE_thread_t* threads=new ACE_thread_t[thread_num];
-	ACE_hthread_t *threadHandles = new ACE_hthread_t[thread_num];
+	ACE_hthread_t* threadHandles=new ACE_hthread_t[thread_num];
 
 	//Spawn the worker threads
-	if (ACE_Thread::spawn_n(
+	if(ACE_Thread::spawn_n(
 		threads,//id's for each of the threads
 		thread_num,//number of threads to spawn
 		worker,//entry point for new thread
@@ -55,12 +57,12 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		ACE_DEFAULT_THREAD_PRIORITY,
 		NULL,
 		0,
-		threadHandles) != thread_num) {
+		threadHandles)!=thread_num) {
 			ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 	}
 	//Wait for all the threads to exit before you let the main fall through
 	//and have the process exit.
-	for (unsigned int i = 0; i < thread_num; i++) {
+	for(unsigned int i=0;i<thread_num;i++) {
 		ACE_Thread::join(threads[i]);
 	}
 	return EXIT_SUCCESS;
