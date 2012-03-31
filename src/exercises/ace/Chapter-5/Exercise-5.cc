@@ -1,6 +1,27 @@
+/*
+	This file is part of the linuxapi project.
+	Copyright (C) 2011, 2012 Mark Veltzer <mark.veltzer@gmail.com>
+
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
+
 #include<ace/Reactor.h>
 #include<ace/SOCK_Acceptor.h>
 #include<ace/Log_Msg.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -13,13 +34,13 @@
  */
 
 class Net_Handler : public ACE_Event_Handler {
-protected:
-	ACE_SOCK_Stream stream;
-public:
-	Net_Handler(ACE_SOCK_Stream & s);
-	virtual int handle_input(ACE_HANDLE handle);
-	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
-	virtual ACE_HANDLE get_handle(void) const;
+	protected:
+		ACE_SOCK_Stream stream;
+	public:
+		Net_Handler(ACE_SOCK_Stream & s);
+		virtual int handle_input(ACE_HANDLE handle);
+		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+		virtual ACE_HANDLE get_handle(void) const;
 };
 
 Net_Handler::Net_Handler(ACE_SOCK_Stream& s) : stream(s) {
@@ -31,11 +52,9 @@ Net_Handler::Net_Handler(ACE_SOCK_Stream& s) : stream(s) {
 	ACE_UNUSED_ARG(result);
 }
 
-
 ACE_HANDLE Net_Handler::get_handle(void) const {
 	return(this->stream.get_handle());
 }
-
 
 int Net_Handler::handle_input(ACE_HANDLE handle) {
 	// if Quit (and only this string) is detected in the message the close everything
@@ -77,7 +96,6 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 	}
 }
 
-
 int Net_Handler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	ACE_DEBUG((LM_DEBUG, "Net_Handler::handle_close handle=%d\n", handle));
 	// close the stream, kill the object and tell the reactor to
@@ -88,20 +106,19 @@ int Net_Handler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	return(0);
 }
 
-
 class Net_Listener : public ACE_Event_Handler {
-protected:
-	ACE_SOCK_Acceptor acceptor;
-public:
-	Net_Listener(int local_address);
-	~Net_Listener(void);
-	virtual int handle_input(ACE_HANDLE handle);
-	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
-	ACE_HANDLE get_handle(void) const;
+	protected:
+		ACE_SOCK_Acceptor acceptor;
+	public:
+		Net_Listener(int local_address);
+		~Net_Listener(void);
+		virtual int handle_input(ACE_HANDLE handle);
+		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+		ACE_HANDLE get_handle(void) const;
 
-	inline void close() {
-		this->acceptor.close();
-	}
+		inline void close() {
+			this->acceptor.close();
+		}
 };
 
 Net_Listener::Net_Listener(int local_address) {
@@ -147,7 +164,6 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 	return(0);
 }
 
-
 int Net_Listener::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_close handle = %d\n", handle));
 	this->acceptor.close();
@@ -155,24 +171,20 @@ int Net_Listener::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	return(0);
 }
 
-
-int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	int port = ACE_DEFAULT_SERVER_PORT;
-
 	if (argc > 1) {
 		port = atoi(argv[1]);
 	}
 	ACE_DEBUG((LM_DEBUG, "Listening to ports (%d %d)\n", port, port + 1));
 	Net_Listener *listener1 = new Net_Listener(port);
-
 	ACE_DEBUG((LM_DEBUG, "Have opened port (%d)\n", port));
 	port++;
 	Net_Listener *listener2 = new Net_Listener(port);
-
 	ACE_DEBUG((LM_DEBUG, "Have opened port (%d)\n", port));
 	ACE_Reactor::run_event_loop();
 	listener1->close();
 	listener2->close();
 	ACE_DEBUG((LM_DEBUG, "Program end\n"));
-	return(0);
+	return EXIT_SUCCESS;
 }

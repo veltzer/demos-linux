@@ -1,14 +1,34 @@
+/*
+	This file is part of the linuxapi project.
+	Copyright (C) 2011, 2012 Mark Veltzer <mark.veltzer@gmail.com>
+
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
+
 #include<ace/OS_NS_stdio.h> // for ACE_STDIN
 #include<ace/Message_Queue.h> // for the two message queues
 #include<ace/Read_Buffer.h> // for the read buffer
 #include<ace/Thread_Manager.h> // for the thread manager to manage everything
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
-EXTRA_CMDS=pkg-config --cflags --libs ACE
-*/
-
-/*
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
+ *
  * TODO:
+ *
  */
 
 // The consumer dequeues a message from the ACE_Message_Queue, writes
@@ -164,5 +184,5 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Wait for producer and consumers threads to exit.
 	thr_mgr.wait();
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) main ending\n")));
-	return(0);
+	return EXIT_SUCCESS;
 }

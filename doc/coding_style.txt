@@ -18,3 +18,10 @@
 - no tab and then newline
 - no three newlines in a row
 	* to keep code concise so that it could be shown easily.
+
+- protection of h files:
+	#ifndef _file_name_abs_h
+	#define _file_name_abs_h
+	...
+	#endif /* !_file_name_abs_h */
+	rationale: if it's good enough for GNU it's good enough for me
