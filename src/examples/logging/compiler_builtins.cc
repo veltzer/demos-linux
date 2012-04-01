@@ -72,7 +72,7 @@ class A {
 		}
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("Here is a print using the macro:\n");
 	PRINT_BUILTINS();
 	printf("Here is a print using the inline function:\n");

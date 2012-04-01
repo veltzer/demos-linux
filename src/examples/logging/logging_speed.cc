@@ -162,7 +162,7 @@ void* func(void*) {
 	return NULL;
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	print_scheduling_consts();
 	run_high_priority(func,NULL,90);
 	return EXIT_SUCCESS;

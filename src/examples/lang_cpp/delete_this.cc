@@ -62,7 +62,7 @@ class B {
 		}
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	A* a=new A();
 	a->doit();
 	// this is a problem since the next allocation is on the stack and not

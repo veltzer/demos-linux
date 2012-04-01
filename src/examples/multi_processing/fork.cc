@@ -68,8 +68,7 @@ void print_code(int code) {
 	}
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
 	pid_t child_pid = fork();
 	if (child_pid == -1) {

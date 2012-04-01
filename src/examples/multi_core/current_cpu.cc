@@ -34,7 +34,7 @@
 void print_cpu(int cpunum) {
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	pid_t pid=getpid();
 	printf("change my cpu using [taskset --cpu-list --pid [list] %d]\n",pid);
 	int cpunum=sched_getcpu();

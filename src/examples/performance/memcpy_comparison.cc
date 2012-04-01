@@ -78,7 +78,7 @@ void test_imp2() {
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 }
 
-int main(int argc, char **argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {
 		printf("usage: %s [loop] [size]\n",argv[0]);
 		return EXIT_FAILURE;

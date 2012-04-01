@@ -30,7 +30,7 @@
  * them.
  * Remmember that the number of online CPUs can change at any minute.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int ncpus;
 	CHECK_NOT_M1(ncpus=sysconf(_SC_NPROCESSORS_ONLN));
 	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",ncpus);

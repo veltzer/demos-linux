@@ -63,8 +63,7 @@ void long_task(void) {
 	*/
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("starting up...\n");
 
 	printf("lets get the cpu and numa node via getcpu(2)...\n");

@@ -33,7 +33,7 @@
  * This test explores how kmalloc behaves when given various
  * sizes to allocate
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename = "/dev/demo";
 	// file descriptor

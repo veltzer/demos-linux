@@ -43,7 +43,7 @@
  * TODO: make this example strace itself...
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("main started\n");
 	// this is the default type of locked (the "FAST" kind...) using the
 	// special initialisation syntax...

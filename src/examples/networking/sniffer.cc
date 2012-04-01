@@ -38,7 +38,7 @@
  * http://www.tenouk.com/Module42a.html
  */
 
-int main(int argc, char** argv,char** envp) {
+int main(int argc,char** argv,char** envp) {
 	// lets check that we are running as root
 	uid_t euid=geteuid();
 	if(euid!=0) {

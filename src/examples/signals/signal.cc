@@ -66,7 +66,7 @@ void registerto(int signum) {
 	TRACE("setup sighandler for %d,%s",signum,strsignal(signum));
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
 	registerto(SIGUSR1);
 	registerto(SIGUSR2);

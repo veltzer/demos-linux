@@ -114,8 +114,7 @@ void func() {
 	fprintf(stderr, "this is the continuation of the function\n");
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	for(int c=0;c<10;c++) {
 		//int ret=setjmp(env);
 		//error_data* p=(error_data*)ret;

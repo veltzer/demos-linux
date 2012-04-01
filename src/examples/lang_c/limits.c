@@ -21,7 +21,7 @@
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	long long ll=0;
 	long long back_value=0;
 	while(back_value==ll) {

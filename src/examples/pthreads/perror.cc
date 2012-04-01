@@ -62,8 +62,7 @@ void *worker2(void *p) {
 	return(NULL);
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	pthread_t thread1;
 	pthread_t thread2;
 	const int num = 2;

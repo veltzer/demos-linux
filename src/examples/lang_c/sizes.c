@@ -36,7 +36,7 @@
  */
 #define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type));
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	struct utsname buf;
 
 	CHECK_NOT_M1(uname(&buf));

@@ -46,7 +46,7 @@ long int get_number() {
 	return ret;
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("enter the first number: ");
 	long int num1=get_number();
 	printf("enter the second number: ");

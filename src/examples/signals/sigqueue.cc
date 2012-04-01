@@ -28,7 +28,7 @@
  * the sigqueue(2) interface.
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if (argc != 4) {
 		fprintf(stderr,"usage: %s [pid] [sig] [value]\n",argv[0]);
 		fprintf(stderr,"Info for real time signals follows:\n");

@@ -36,7 +36,7 @@
  * This is a tcp client demo.
  */
 
-int main(int argc,char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {
 		fprintf(stderr,"usage: %s [numthreads] [numrequests] [port]\n",argv[0]);
 		exit(EXIT_FAILURE);

@@ -39,7 +39,7 @@
  *
  * EXTRA_LIBS=-lrt
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const int BUFSIZE=1024;
 	int fd;
 	CHECK_NOT_M1(fd=open("/etc/passwd",O_RDONLY));

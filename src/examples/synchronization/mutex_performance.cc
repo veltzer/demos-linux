@@ -95,7 +95,7 @@ void* work(void* param) {
 	return NULL;
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("main started\n");
 	pthread_mutexattr_t attr;
 	key_t key;

@@ -33,7 +33,7 @@
  *
  * EXTRA_LIBS=-lncursesw
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	initscr();
 	cbreak();
 	noecho();

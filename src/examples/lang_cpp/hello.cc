@@ -25,7 +25,7 @@
  * A simple hello world application for C++.
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	std::cout << "Hello, World!" << std::endl;
 	return EXIT_SUCCESS;
 }

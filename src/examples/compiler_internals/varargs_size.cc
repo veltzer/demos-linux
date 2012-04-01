@@ -46,7 +46,7 @@ inline __attribute__((__gnu_inline__)) void trace(int first,...) {
 	printf("__builtin_va_arg_pack_len() says %d\n",i);
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	int i=7;
 	double d=3.14;
 	trace(i,i,i);

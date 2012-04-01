@@ -35,7 +35,7 @@
 
 const char* filename="/tmp/myunixsocket";
 
-int main(int argc,char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=1) {
 		fprintf(stderr,"usage: %s\n",argv[0]);
 		exit(EXIT_FAILURE);

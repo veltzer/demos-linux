@@ -31,7 +31,7 @@
 /*
  * This tests the get_free_pages driver
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename = "/dev/demo";
 	// file handle

@@ -28,7 +28,7 @@
  * will occur!).
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int a[10];
 	int num=1995;
 	printf("%p %p\n",a,&num);

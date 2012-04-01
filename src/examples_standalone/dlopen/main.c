@@ -23,7 +23,7 @@
 #include<errno.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	void *h = dlopen("libadd.so", RTLD_NOW);
 
 	if (h == NULL) {

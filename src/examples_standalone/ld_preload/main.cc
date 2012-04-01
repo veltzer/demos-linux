@@ -28,7 +28,7 @@
  * time!
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {
 		fprintf(stderr,"usage: main [x]\n");
 		return -1;

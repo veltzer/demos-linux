@@ -26,7 +26,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs gtk+-2.0
  *
  */
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	gtk_init(&argc, &argv);
 	GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_show(w);

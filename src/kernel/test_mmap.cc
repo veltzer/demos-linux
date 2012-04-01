@@ -60,7 +60,7 @@ void print_data(void *data, int size) {
 	free(pdata);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// the data pointer
 	void *data;
 	// another data pointer

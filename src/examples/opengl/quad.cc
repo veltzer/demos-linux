@@ -64,7 +64,7 @@ void DrawAQuad() {
 	glEnd();
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	dpy=XOpenDisplay(NULL);
 	if(dpy == NULL) {
 		printf("cannot connect to X server\n");

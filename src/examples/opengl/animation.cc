@@ -248,7 +248,7 @@ void CheckKeyboard() {
 }
 
 // MAIN PROGRAM
-int main(int argc, char** argv,char** envp) {
+int main(int argc,char** argv,char** envp) {
 	CreateWindow();
 	SetupGL();
 	InitTimeCounter();

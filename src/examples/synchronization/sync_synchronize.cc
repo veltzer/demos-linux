@@ -36,7 +36,7 @@
  *
  * EXTRA_LIBS=-lpthread
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("main started\n");
 	__sync_synchronize();
 	printf("main ended\n");

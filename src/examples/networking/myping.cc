@@ -38,7 +38,7 @@
  * http://www.tenouk.com/Module43a.html
  */
 
-int main(int argc, char** argv,char** envp) {
+int main(int argc,char** argv,char** envp) {
 	int s, i;
 	char buf[400];
 	struct ip *ip = (struct ip *)buf;

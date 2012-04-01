@@ -27,7 +27,7 @@
  * thing since NULL is actually 0.
  */
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	*(char *)0 = 0;
 	return EXIT_SUCCESS;
 }

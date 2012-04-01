@@ -78,7 +78,7 @@ static int codes[]={
 	IOCTL_LIST_PRINT,
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const char *filename="/dev/mod_list";
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_list");

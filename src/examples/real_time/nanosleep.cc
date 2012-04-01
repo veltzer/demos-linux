@@ -54,7 +54,7 @@
  *	and fix the example.
  * - use usleep and sleep also and compare the results to those of nanosleep.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const unsigned int repeats = 100;
 
 	for(unsigned int i=100;i<2000;i+=100) {

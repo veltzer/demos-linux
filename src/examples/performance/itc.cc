@@ -34,7 +34,7 @@ static inline unsigned long getstackpointer(void) {
 	return ret;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("stackpointer is %lu\n",getstackpointer());
 	sleep(1);
 	printf("stackpointer is %lu\n",getstackpointer());

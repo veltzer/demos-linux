@@ -110,7 +110,7 @@ void *worker(void *p) {
 	return(NULL);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("start");
 	const unsigned int num = 2;
 	pthread_t threads[num];

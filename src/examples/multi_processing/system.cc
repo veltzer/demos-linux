@@ -25,7 +25,7 @@
  * This examples demostrates how to parse the return code
  * from system(3)
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int res = system("/bin/ls /foo");
 
 	if (WIFSIGNALED(res)) {

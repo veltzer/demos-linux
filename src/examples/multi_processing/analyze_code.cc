@@ -28,7 +28,7 @@
  * an analysis of what the code means. Useful in case where you are not sure what
  * the status code means or as a demo of how to analyze such a code.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {
 		printf("usage: %s [status code]\n",argv[0]);
 		return -1;

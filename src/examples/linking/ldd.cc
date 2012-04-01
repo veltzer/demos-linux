@@ -37,7 +37,7 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data) {
 	return 0;
 }
 
-int main(int argc, char** argv,char** envp) {
+int main(int argc,char** argv,char** envp) {
 	dl_iterate_phdr(callback, NULL);
 	return EXIT_SUCCESS;
 }

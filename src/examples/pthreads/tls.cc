@@ -44,7 +44,7 @@ void id_dealloc(void* ptr) {
 	delete p;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("start");
 	CHECK_NOT_M1(pthread_key_create(&key_myid,id_dealloc));
 	const unsigned int num=4;

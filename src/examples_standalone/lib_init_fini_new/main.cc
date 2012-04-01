@@ -41,7 +41,7 @@ void *worker(void *p) {
 /*
  * This is an empty testing application
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("begin");
 	// fork so that we will see if the hooks are called
 	// for forked children too (constructors are not called, destructors are...)...

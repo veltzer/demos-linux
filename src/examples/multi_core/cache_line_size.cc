@@ -31,7 +31,7 @@
  * There are many other parameters you can get via the sysconf interface. Some hardware
  * related and some software. do 'getconf -a' on the cmdline to see them...
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int linesize;
 	CHECK_NOT_M1(linesize=sysconf(_SC_LEVEL1_DCACHE_LINESIZE));
 	printf("sysconf(_SC_LEVEL1_DCACHE_LINESIZE)=%d\n",linesize);

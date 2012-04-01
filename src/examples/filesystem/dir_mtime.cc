@@ -60,7 +60,7 @@ void show_mtime(const char* filename) {
 	printf("%s mtime: %s",filename,ctime(&buf.st_mtime));
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// lets prepare some variables...
 	mode_t mode_all=S_IRWXU | S_IRWXG | S_IRWXO;
 	char dirname2[PATH_MAX];

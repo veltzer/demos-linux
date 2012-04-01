@@ -105,7 +105,7 @@ void *mmap_alloc(unsigned int size) {
 	return(res);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// the size to allocate
 	const unsigned int size = 20200;
 	int ps1 = getpagesize();

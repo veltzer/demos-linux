@@ -29,7 +29,7 @@
  * EXTRA_LIBS=-lz
  *
  */
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	const char *source = "Merry had a little lamb";
 	unsigned long sourcelen = strlen(source);
 	unsigned long destlen = 100;

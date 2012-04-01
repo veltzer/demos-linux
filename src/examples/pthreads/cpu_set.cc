@@ -40,7 +40,7 @@ void print_cpu_set(cpu_set_t *p) {
 	}
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("number of cpus is %ld", sysconf(_SC_NPROCESSORS_ONLN));
 	cpu_set_t cpuset;
 	CPU_ZERO(&cpuset);

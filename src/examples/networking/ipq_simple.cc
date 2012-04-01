@@ -48,7 +48,7 @@ static void die(struct ipq_handle *h) {
 	exit(EXIT_FAILURE);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const int bufsize=2048;
 	int status;
 	unsigned char buf[bufsize];

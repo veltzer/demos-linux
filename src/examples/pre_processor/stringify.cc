@@ -30,7 +30,7 @@
 #define __stringify(x) __stringify_1(x)
 #define FOOBAR 2.2 .2
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("this is some " __stringify(FOOBAR) " string\n");
 	return EXIT_SUCCESS;
 }

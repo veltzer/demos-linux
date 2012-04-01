@@ -31,7 +31,7 @@
  * which is UNSIGNED. The idea here is the ability to return -1 and report errors
  * this way.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const size_t SIZE = 5;
 	const int BAD_FD = getdtablesize()+1;
 	char buf[SIZE];

@@ -51,7 +51,7 @@ unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 	return(diff);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	struct timeval tv_start, tv_end;
 
 	CHECK_NOT_M1(gettimeofday(&tv_start, NULL));

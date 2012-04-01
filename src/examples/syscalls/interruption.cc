@@ -43,7 +43,7 @@ static void sig_handler(int sig) {
 	//TRACE("end");
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// make sure we break out on receiving the SIGUSR1 signal...
 	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
 	CHECK_NOT_SIGT(signal(SIGUSR1, sig_handler),SIG_ERR);

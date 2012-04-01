@@ -42,7 +42,7 @@
  * 7. If you optimize your program (-O2) then the compiler makes some of your memory
  * access functions go away and so you don't segfault.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const char *other = "blabla";
 	const char *other2 = "blabla";
 	const char *foo = "bar";

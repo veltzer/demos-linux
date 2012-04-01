@@ -51,7 +51,7 @@ static inline void print_stats(void) {
 	printf("size is %ld, min_flt is %ld\n",myproc.rss, myproc.min_flt);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const unsigned int page_number = 2000;
 	int page_size=getpagesize();
 	char *p = (char *)malloc(page_size * page_number);

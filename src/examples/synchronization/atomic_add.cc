@@ -66,8 +66,7 @@ void *worker(void *p) {
 	return(NULL);
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	pthread_t threads[thread_num];
 	pthread_attr_t attrs[thread_num];
 	int ids[thread_num];
