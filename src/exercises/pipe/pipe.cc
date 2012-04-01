@@ -17,8 +17,6 @@
  * It executes ls which prints to the pipes write side.
  * When ls dies this process dies.
  * The line after execl doesn't get executed...
- *
- * 			Mark Veltzer
  */
 
 void doChildOne(int* fd) {

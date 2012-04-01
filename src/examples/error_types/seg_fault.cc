@@ -3,8 +3,6 @@
 
 /*
  * This is a demo of a segmentation fault created by calling a function badly.
- *
- * 		Mark Veltzer
  */
 
 void func() {
