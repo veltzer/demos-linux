@@ -1,19 +1,15 @@
 #include<stdio.h> // for printf(3)
-#include<omp.h> // for omp_*(3)
+#include<omp.h> // for omp_get_wtime(3), omp_get_thread_num(3), omp_get_num_procs(3), omp_get_max_threads(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is an example of a parallel block of code. The for loop is not parallel
  * here, it is the block containting the for loop that is parallel.
  *
- * 		Mark Veltzer
- *
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
 
 int main(int argc,char** argv,char** envp) {
-	int id;
-	double wtime;
 	printf("C/OpenMP demo\n");
 	printf("Number of processors available=%d\n",omp_get_num_procs());
 	printf("Number of threads=%d\n",omp_get_max_threads());
@@ -21,9 +17,10 @@ int main(int argc,char** argv,char** envp) {
 	/*
 	* Measure the time before we start
 	*/
-	wtime=omp_get_wtime();
+	double wtime=omp_get_wtime();
 
 	omp_set_num_threads(3);
+	int id;
 	#pragma omp parallel default(shared) private(id)
 	{
 		id=omp_get_thread_num();
@@ -37,7 +34,7 @@ int main(int argc,char** argv,char** envp) {
 	*/
 	wtime=omp_get_wtime()-wtime;
 	printf("\n");
-	printf("Normal end of execution.\n" );
+	printf("Normal end of execution.\n");
 	printf("Elapsed wall clock time=%f\n",wtime);
 	return EXIT_SUCCESS;
 }

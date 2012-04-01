@@ -7,8 +7,6 @@
  * which is a good thing since NULL (which is heavily used in C programs) has the
  * value 0.
  *
- * 				Mark Veltzer
- *
  * TODO:
  * - show that you can catch SIGSEGV and even continue running.
  */

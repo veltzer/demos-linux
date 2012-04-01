@@ -8,8 +8,6 @@
  * replace malloc, or call malloc. Your allocator would provice the standard malloc
  * functions (malloc,realloc,memalign) and would throw exceptions or returns nulls
  * if these are called after a certain stage.
- *
- * 			Mark Veltzer
  */
 
 #include<malloc.h> // for malloc(3) and the hooks

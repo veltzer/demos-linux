@@ -13,8 +13,6 @@
  * check the arguments passed to it for sanity. This is part of the philosophy of the GNU/Linux system.
  * The idea is that system programmers can take care of themselves and the APIs should be as fast
  * as possible to cater for good programmers.
- *
- * 		Mark Veltzer
  */
 struct timeval t1, t2;
 unsigned int loop;
