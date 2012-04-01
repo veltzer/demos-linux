@@ -1,3 +1,7 @@
+- names of files:
+	c, h: C
+	cc, hh: C++
+
 - includes:
 	#include<stdio.h> // for printf(3) 
 	* no space after the include keyword

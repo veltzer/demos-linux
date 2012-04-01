@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#ifndef __Stat_h
-#define __Stat_h
+#ifndef __stat_h
+#define __stat_h
 
 #include<stdio.h>
 #include<math.h>
@@ -139,4 +139,4 @@ class Stat {
 		}
 };
 
-#endif // __Stat_h
+#endif /* !__stat_h */
