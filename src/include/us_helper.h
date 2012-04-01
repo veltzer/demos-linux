@@ -213,6 +213,15 @@ static inline void check_not_sigt(sighandler_t t,const char *msg, sighandler_t e
 		exit(EXIT_FAILURE);
 	}
 }
+static inline void check_int(int t,const char *msg,int val,const char* base_file,const char* file,const int line) {
+	if(t!=val) {
+		fprintf(stderr,"command is %s\n",msg);
+		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
+		fprintf(stderr,"values is %d\n",t);
+		perror("error in system call");
+		exit(EXIT_FAILURE);
+	}
+}
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
@@ -223,6 +232,7 @@ static inline void check_not_sigt(sighandler_t t,const char *msg, sighandler_t e
 #define CHECK_ASSERT(v) check_assert(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_VOIDP(v,e) check_not_voidp(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_SIGT(v,e) check_not_sigt(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_INT(v,e) check_int(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
