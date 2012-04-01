@@ -22,7 +22,7 @@
 #include<sys/wait.h> // for waitpid(2)
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
 
-#include"us_helper.hh" // for TRACE()
+#include<us_helper.h> // for TRACE()
 
 /*
  * EXTRA_LIBS=-lpthread

@@ -26,7 +26,7 @@
 #include<stdio.h> // for snprintf(3), printf(3)
 #include<time.h> // for time(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 // the directory we will be creating...
 const char* dirname="tmpdir";

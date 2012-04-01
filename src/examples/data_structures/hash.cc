@@ -1,5 +1,5 @@
 #include<search.h> // for hcreate_r(3), hdestroy_r(3),
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include<stdio.h> // for perror(3)
 
 /*
@@ -45,19 +45,19 @@ const char* d1_val="veltzer";
 int main(int argc,char** argv,char** envp) {
 	if(hash_init()==0) {
 		perror("hash_init failed");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	printf("after init\n");
 	if(hash_put(d1_key,d1_val)==0) {
 		perror("hash_put failed");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	printf("after put\n");
 	const char* getval=hash_get(d1_key);
 	printf("got %s\n",getval);
 	if(hash_destroy()==0) {
 		perror("hash_destroy failed");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	return EXIT_SUCCESS;
 }

@@ -3,7 +3,7 @@
 #include<stdlib.h> // for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include<string.h> // for malloc(3)
 
-#include"us_helper.hh" // for micro_diff
+#include<us_helper.h> // for micro_diff
 
 /*
  * This example compares memcpy(3) to copy by loop...

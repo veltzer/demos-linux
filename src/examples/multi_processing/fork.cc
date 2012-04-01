@@ -2,10 +2,10 @@
 #include<stdio.h> // for fgets(3), perror(3)
 #include<sys/types.h> // for waitid(2)
 #include<sys/wait.h> // for waitid(2)
-#include<stdlib.h> // for exit(3), atoi(3)
+#include<stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<string.h> // for strsignal(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example explains how parents should wait for their children
@@ -16,6 +16,7 @@
  *
  * Mark Veltzer
  */
+
 void print_status(int status) {
 	if (WIFEXITED(status)) {
 		TRACE("child exited normally with status %d", WEXITSTATUS(status));
@@ -55,7 +56,7 @@ int main(int argc, char **argv, char **envp) {
 	pid_t child_pid = fork();
 	if (child_pid == -1) {
 		perror("could not fork");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if (child_pid == 0) {
 		bool selected = false;
@@ -63,8 +64,8 @@ int main(int argc, char **argv, char **envp) {
 		while(!selected) {
 			TRACE("this is the child");
 			TRACE("Please select what do you want to do:");
-			TRACE("1) exit(0)");
-			TRACE("2) exit(1)");
+			TRACE("1) exit(EXIT_SUCCESS)");
+			TRACE("2) exit(EXIT_FAILURE)");
 			TRACE("3) do SIGSEGV");
 			TRACE("- do 'kill -s SIGSTOP %d'", getpid());
 			TRACE("- do 'kill -s SIGCONT %d'", getpid());
@@ -72,7 +73,7 @@ int main(int argc, char **argv, char **envp) {
 			char *ret = fgets(str, 256, stdin);
 			if (ret != str) {
 				perror("could not get value");
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 			selection = atoi(str);
 			if ((selection >= 1) && (selection <= 3)) {
@@ -80,17 +81,17 @@ int main(int argc, char **argv, char **envp) {
 			}
 		}
 		switch (selection) {
-		case 1:
-			exit(0);
-			break;
+			case 1:
+				exit(EXIT_SUCCESS);
+				break;
 
-		case 2:
-			exit(1);
-			break;
+			case 2:
+				exit(EXIT_FAILURE);
+				break;
 
-		case 3:
-			*((char *)0) = 0;
-			break;
+			case 3:
+				*((char *)0) = 0;
+				break;
 		}
 	} else {
 		TRACE("this is the parent");
@@ -101,7 +102,7 @@ int main(int argc, char **argv, char **envp) {
 			int res = waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED);
 			if (res == -1) {
 				perror("could not waitid(2)");
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 			print_code(info.si_code);
 			print_status(info.si_status);

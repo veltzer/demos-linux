@@ -2,11 +2,11 @@
 #include<stdio.h> // for fgets(3), perror(3)
 #include<sys/types.h> // for waitid(2), getpid(2), getppid(2)
 #include<sys/wait.h> // for waitid(2)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<string.h> // for strsignal(3)
 #include<signal.h> // for kill(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example demostrates what happens when a processes father dies...
@@ -30,13 +30,13 @@ int main(int argc, char **argv, char **envp) {
 	pid_t child_pid = fork();
 	if (child_pid == -1) {
 		perror("could not fork");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if (child_pid == 0) {
 		pid_t gchild_pid = fork();
 		if (gchild_pid == -1) {
 			perror("could not fork");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		if (gchild_pid == 0) {
 			TRACE("this is the gchild, pid is %d",getpid());

@@ -3,7 +3,7 @@
 #include<termios.h> // for tcsetattr, tcgetattr
 #include<stdlib.h> // for EXIT_SUCCESS
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * Try to think of the next exercise: try to read just one character from

@@ -24,6 +24,7 @@
 #include<ace/SOCK_Stream.h>
 #include<ace/Message_Queue.h>
 #include<ace/OS_NS_unistd.h>
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -88,7 +89,7 @@ public:
 				ACE_DEBUG((LM_DEBUG, "Connection established with remote %s:%d\n", client_addr_.get_host_name(), client_addr_.get_port_number()));
 				// Handle the connection
 				handle_connection();
-				ACE_OS::exit(1);
+				ACE_OS::exit(EXIT_FAILURE);
 			}
 #endif /* TIMEOUT */
 		}
@@ -97,11 +98,12 @@ public:
 
 };
 
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv, char** envp) {
 	if (argc < 2) {
 		ACE_ERROR((LM_ERROR, "Usage %s <port_num>\n", argv[0]));
-		ACE_OS::exit(1);
+		ACE_OS::exit(EXIT_FAILURE);
 	}
 	Server server(ACE_OS::atoi(argv[1]));
 	server.accept_connections();
+	return EXIT_SUCCESS;
 }

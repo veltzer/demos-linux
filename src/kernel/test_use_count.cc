@@ -7,7 +7,7 @@
 
 #include"shared.h" // for ioctl numbers
 
-#include"us_helper.hh" // our user helper
+#include<us_helper.h> // our user helper
 
 /*
  * This is a simple test to see the use count of kernel modules

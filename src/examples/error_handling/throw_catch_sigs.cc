@@ -1,6 +1,6 @@
 #include<iostream> // for std::cerr, std::endl
 #include<signal.h> // for sigemptyset(2), sigaddset(2), sigprocmask(2), raise(3), kill(2)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include<stdio.h> // for perror(3)
 #include<errno.h> // for perror(3)
 #include<sys/types.h> // for kill(2), getpid(2)
@@ -27,12 +27,12 @@
  *	sigset_t old;
  *	if(sigprocmask(SIG_BLOCK,NULL,&old)==-1) {
  *		perror("problem with calling sigprocmask(2)");
- *		exit(1);
+ *		exit(EXIT_FAILURE);
  *	}
  *	int ret=sigismember(&old,SIGFPE);
  *	if(ret==-1) {
  *		perror("problem with calling sigismember(2)");
- *		exit(1);
+ *		exit(EXIT_FAILURE);
  *	}
  *	std::cerr << "ret is " << ret << std::endl;
  * }
@@ -53,7 +53,7 @@ static void unblock(int signum) {
 	sigaddset(&sigs, signum);
 	if (sigprocmask(SIG_UNBLOCK, &sigs, NULL) == -1) {
 		perror("problem with calling sigprocmask(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -100,7 +100,7 @@ static void doBadCode(int i) {
 		std::cerr << "Lets do a simulation of some bad code using raise(3)" << std::endl;
 		if (raise(SIGFPE) == -1) {
 			perror("problem with calling raise(2)");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		break;
 
@@ -111,7 +111,7 @@ static void doBadCode(int i) {
 		std::cerr << "Lets do a simulation of some bad code using kill(2)" << std::endl;
 		if (kill(getpid(), SIGFPE) == -1) {
 			perror("problem with calling kill(2)");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		break;
 	}
@@ -122,11 +122,11 @@ int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
 	if(signal(SIGFPE, SignalHandler) == SIG_ERR) {
 		perror("problem with calling signal(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if(signal(SIGSEGV, SignalHandler) == SIG_ERR) {
 		perror("problem with calling signal(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	for(int c=0;c<10;c++) {
 		std::cerr << "c is " << c << std::endl;

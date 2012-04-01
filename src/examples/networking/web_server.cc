@@ -11,7 +11,7 @@
 #include<pthread.h> // for pthread_create(3)
 #include<netinet/in.h> // for sockaddr_in
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * This is a demo of a simple echo socket server implementation in pure C in Linux

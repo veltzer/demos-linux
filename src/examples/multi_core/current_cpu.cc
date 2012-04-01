@@ -4,7 +4,7 @@
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is an example of a process that prints the CPU it is running on

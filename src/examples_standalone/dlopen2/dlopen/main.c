@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h>
-#include<dlfcn.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for fprintf(3), printf(3)
+#include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 int main(int argc, char **argv, char **envp) {
 	void *h = dlopen("libadd.so", RTLD_NOW);
@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **envp) {
 
 	if (!sym) {
 		fprintf(stderr, "func is not found\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	int (*f)(int, int);
 	f = ((int(*) (int, int))sym);

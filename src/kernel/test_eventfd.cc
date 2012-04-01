@@ -26,7 +26,7 @@
 #include<unistd.h> // for fork(2), close(2)
 #include<sys/ioctl.h> // for ioctl(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This tests eventfd code in the kernel...

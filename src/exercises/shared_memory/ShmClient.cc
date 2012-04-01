@@ -27,14 +27,13 @@
 #include<time.h>
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_SUCCESS
 
 const int CLIENTMESSAGESIZE=1024;
 const int MAXMESSAGE=256;
 const int MAXCLINTS=10;
 
-struct data
-{
+struct data {
 	int readOffset;
 	int writeOffset;
 	char message[CLIENTMESSAGESIZE];
@@ -55,7 +54,7 @@ void doChild(int semid, struct data * smdata, int myID) {
 		if ( semop(semid, sops, 1) == -1 )
 		{
 			perror("semop");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 		if (smdata[myID].readOffset != smdata[myID].writeOffset)
@@ -121,7 +120,7 @@ void doParent(int semid, struct data * smdata, int myID)
 		if ( semop(semid, sops, 1) == -1 )
 		{
 			perror("semop");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 		spaceLeft = CLIENTMESSAGESIZE - smdata[toID].writeOffset;
@@ -139,48 +138,40 @@ void doParent(int semid, struct data * smdata, int myID)
 	}
 }
 
-int main(int argc,char** argv,char** envp)
-{
+int main(int argc,char** argv,char** envp) {
 	struct data * smdata;
 	int shmid;
 	int semid;
 	key_t key;
 	int myID;
-	if (argc < 2)
-	{
+	if (argc < 2) {
 		fprintf(stderr, "Usage: %s MyID\n", argv[0]);
 		exit(errno);
 	}
 	myID = atoi(argv[1]);
-	if (myID >= MAXCLINTS || myID < 0)
-	{
+	if (myID >= MAXCLINTS || myID < 0) {
 		fprintf(stderr, "MyID must be 0-%d\n", MAXCLINTS);
 		exit(errno);
 	}
-	if ((key = ftok("/etc/passwd", 'x')) == -1)
-	{
+	if ((key = ftok("/etc/passwd", 'x')) == -1) {
 		perror("ftok failed");
 		exit(errno);
 	}
-	if ((semid = semget(key, 0, 0)) == -1)
-	{
+	if ((semid = semget(key, 0, 0)) == -1) {
 		perror("semget failed");
 		exit(errno);
 	}
-	if ((shmid = shmget(key, sizeof(smdata), 0)) < 0)
-	{
+	if ((shmid = shmget(key, sizeof(smdata), 0)) < 0) {
 		perror("shmget failed");
 		exit(errno);
 	}
-	if ((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1)
-	{
+	if ((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1) {
 		perror("shmat failed");
 		exit(errno);
 	}
 	smdata[myID].readOffset = 0;
 	smdata[myID].writeOffset = 0;
-	switch (fork())
-	{
+	switch (fork()) {
 		case -1:
 			perror("fork failed");
 			exit(errno);

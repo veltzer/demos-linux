@@ -1,7 +1,7 @@
 #include<stdio.h> // for printf(3), fprintf(3)
-#include<stdlib.h> // for srandom(3), exit(3)
+#include<stdlib.h> // for srandom(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
-#include"us_helper.hh" // for CHECK_NOT_NULL
+#include<us_helper.h> // for CHECK_NOT_NULL
 
 /*
  *	This is an example of a compiler barrier
@@ -71,7 +71,7 @@ bool stack_direction_up() {
 		return true;
 	}
 	fprintf(stderr,"strange stack you have here...\n");
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 FILE* outfile;

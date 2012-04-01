@@ -1,10 +1,10 @@
 #include<stdio.h> // for printf(3), fgets(3), perror(3)
 #include<unistd.h> // for sleep(3), getpagesize(2)
-#include<stdlib.h> // for malloc(3), atoi(3), exit(3)
+#include<stdlib.h> // for malloc(3), atoi(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<sys/mman.h> // for mlockall(2), munlockall(2)
 #include<malloc.h> // for malloc_stats(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example demostrates that malloc doesnt actually allocate
@@ -58,7 +58,7 @@ int main(int argc, char **argv, char **envp) {
 		char *r=fgets(buf,bufsize,stdin);
 		if(r==NULL) {
 			perror("could not read from the terminal");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		int result=atoi(buf);
 		switch(result) {
@@ -68,7 +68,7 @@ int main(int argc, char **argv, char **envp) {
 				r=fgets(buf,bufsize,stdin);
 				if(r==NULL) {
 					perror("could not read from the terminal");
-					exit(1);
+					exit(EXIT_FAILURE);
 				}
 				pagenum=atoi(buf);
 				for(unsigned int i = 0; i < pagenum; i++) {

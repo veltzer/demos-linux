@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example shows how you can write C functions in C++ code.

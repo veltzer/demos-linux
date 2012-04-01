@@ -2,7 +2,7 @@
 #include<linux/reboot.h> // for reboot(2)
 #include<sys/syscall.h> // for syscall(2), SYS_xxx definitions
 
-#include"us_helper.hh" // our user space helper
+#include<us_helper.h> // our user space helper
 
 /*
  * Example of how to reboot the system

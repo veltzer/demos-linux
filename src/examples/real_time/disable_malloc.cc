@@ -16,9 +16,9 @@
 //#define NDEBUG
 #include<assert.h> // for assert(3)
 #include<iostream> // for std::exception
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 static bool malloc_allowed=true;
 
@@ -66,7 +66,7 @@ void* my_malloc_hook(size_t size, const void *caller) {
 		// c alternative (termination)
 		//restore_hooks();
 		//TRACE("ERROR! Malloc is not allowed");
-		//exit(1);
+		//exit(EXIT_FAILURE);
 
 		// cpp alternative (exception throwing)
 		//restore_hooks();

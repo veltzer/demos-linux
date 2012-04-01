@@ -8,7 +8,7 @@
 #include<signal.h> // for siginterrupt(2)
 #include<limits.h> // for PATH_MAX
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file changes.

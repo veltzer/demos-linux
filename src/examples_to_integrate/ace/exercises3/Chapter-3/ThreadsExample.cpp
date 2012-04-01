@@ -1,5 +1,7 @@
-#include"ace/Thread.h"
-#include"ace/Synch.h"
+#include<ace/Thread.h>
+#include<ace/Synch.h>
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+
 static int number=0;
 static int seed = 0;
 static void*
@@ -18,7 +20,7 @@ worker(void *arg)
 int main(int argc, char *argv[])
 { if(argc<2)
     { ACE_DEBUG((LM_DEBUG,"Usage: %s <number of threads>\n", argv[0]));
-      ACE_OS::exit(1);
+      ACE_OS::exit(EXIT_FAILURE);
     }
   ACE_OS::srand(::seed);
 //setup the random number generator

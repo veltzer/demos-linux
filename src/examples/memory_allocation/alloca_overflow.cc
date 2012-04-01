@@ -4,7 +4,7 @@
 #include<sys/time.h> // for setrlimit(2)
 #include<sys/resource.h> // for setrlimit(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example shows how to allocate space on the stack using the alloca(3) function call.

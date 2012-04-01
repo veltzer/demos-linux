@@ -19,8 +19,8 @@
 */
 
 #include<stdio.h> // for printf(3)
-#include<unistd.h> // for write(2)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<unistd.h> // for write(2), _exit(2)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 int func(int a, int b) {
 	return(a + b);
@@ -35,10 +35,10 @@ void do_init(void) {
 
 int my_entry(int argc,char** argv,char** envp) {
 	/*
-	_exit(1);
+	_exit(EXIT_FAILURE);
 	int ret=write(1,"hello\n",6);
 	if(ret!=6) {
-		_exit(1);
+		_exit(EXIT_FAILURE);
 	}
 	//printf("hello from the lib...");
 	*/

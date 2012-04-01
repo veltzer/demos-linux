@@ -12,7 +12,7 @@
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
 #include<fcntl.h> // for open(2)
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * This is udp client demo that writes to a file anything it gets.

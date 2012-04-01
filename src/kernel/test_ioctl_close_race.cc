@@ -8,7 +8,7 @@
 
 #include"shared.h" // for ioctl numbers
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This application has two threads:

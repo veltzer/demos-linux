@@ -25,13 +25,12 @@
 #include<sys/msg.h>
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 const int MSGSZ=1024;
 
 // note we cannot declare msgbuf and get away with it
-typedef struct mymsgbuf
-{
+typedef struct mymsgbuf {
 	long mtype;
 	long fromID;
 	char mtext[MSGSZ];
@@ -86,11 +85,11 @@ int main(int argc,char** argv,char** envp) {
 	key_t key;
 	if(argc<2) {
 		fprintf(stderr, "Usage: %s MirsID\n", argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if((myID=atoi(argv[1]))<1) {
 		fprintf(stderr, "MirsID must be numeric positive greater than 0 and uniq (not checked)\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if((key=ftok("MirsClient",'x'))==-1) {
 		perror("ftok failed");

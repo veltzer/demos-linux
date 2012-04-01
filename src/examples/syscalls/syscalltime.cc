@@ -3,7 +3,7 @@
 #include<sys/syscall.h> // for syscall(2)
 #include<sys/time.h> // for gettimeofday(2)
 
-#include"us_helper.hh" // for micro_diff
+#include<us_helper.h> // for micro_diff
 
 /*
  * This demo times how long it takes to call a syscall.

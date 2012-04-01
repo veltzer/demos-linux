@@ -24,7 +24,7 @@
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 #define STRING_VERSION "1.23.56"
 #define NUMERIC_VERSION 1.23.56

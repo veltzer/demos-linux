@@ -5,7 +5,7 @@
 #include<unistd.h> // for sleep(3)
 #include<strings.h> // for bzero(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is an example of setting thread stack sizes

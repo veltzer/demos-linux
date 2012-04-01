@@ -19,7 +19,7 @@
 */
 
 #include"Phil.hh"
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 int semid;
 
@@ -89,13 +89,13 @@ int main(int argc,char** argv,char** envp) {
 	int id;
 	if(argc != 2) {
 		fprintf(stderr, "Usage: %s [0-%d]\n", argv[0], NPHIL-1);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if((argv[1][0] >= '0') && (argv[1][0] <='5') && (strlen(argv[1]) == 1))
 		id=atoi(argv[1]);
 	else {
 		fprintf(stderr, "bad argument %c, Argument must be numeric value between 0 and 5\n", argv[1][0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	if ((key = ftok(KEYFILE, 'x')) == -1 ) {

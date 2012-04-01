@@ -5,7 +5,7 @@
 #include<unistd.h>
 #include<cpufreq.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is a demo which shows how, on i386 platforms, to read the rdtsc

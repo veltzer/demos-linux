@@ -5,7 +5,7 @@
 #include<unistd.h> // for getpid(2)
 #include<stdio.h> // for fprintf(3)
 
-#include"us_helper.hh" // for my_system
+#include<us_helper.h> // for my_system
 
 /*
  * This example shows syslog basic usage. At the end it demostrates that the log

@@ -21,6 +21,7 @@
 #include<ace/Read_Buffer.h>
 #include<ace/Log_Msg.h>
 #include<ace/SOCK_Connector.h>
+#include<stdlib.h> // for EXIT_FAILURE
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -90,7 +91,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	if (argc < 2) {
 		ACE_DEBUG((LM_DEBUG, "Usage %s <port_number> [Final delay(sec)]\n", argv[0]));
 		ACE_DEBUG((LM_DEBUG, " (Final delay is useful for Exercise 5b)\n"));
-		ACE_OS::exit(1);
+		ACE_OS::exit(EXIT_FAILURE);
 	}
 	int port = ACE_OS::atoi(argv[1]);
 	if (argc > 1) {

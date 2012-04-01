@@ -1,10 +1,10 @@
-#include<stdlib.h> // for malloc(3)
+#include<stdlib.h> // for malloc(3), EXIT_SUCCESS, exit(3), EXIT_FAILURE
 #include<stdio.h> // for printf(3)
 #include<sys/time.h> // for getrusage(2)
 #include<sys/resource.h> // for getrusage(2)
 #include<strings.h> // for bzero(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is an example which shows how to monitor your own virtual memory using getrusage
@@ -42,7 +42,7 @@ int main(int argc,char** argv,char** envp) {
 		//bzero(buf,chunk_size);
 		if(buf==NULL) {
 			perror("error in malloc");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		show_vmem();
 	}

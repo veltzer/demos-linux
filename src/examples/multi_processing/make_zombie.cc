@@ -5,7 +5,7 @@
 #include<stdlib.h> // for exit(3)
 #include<string.h> // for strsignal(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example demostrates how processes become zombies in Linux...

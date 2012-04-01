@@ -5,7 +5,7 @@
 #include<stdlib.h> // for free(3), malloc(3)
 #include<pthread.h> // for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
 
-#include"us_helper.hh" // for micro_diff
+#include<us_helper.h> // for micro_diff
 
 /*
  * This demo shows that the performance of various syscalls.

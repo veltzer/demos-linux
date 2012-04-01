@@ -19,10 +19,10 @@
 */
 
 #include<dlfcn.h> // for dlopen(3), dlclose(3), dlerror(3)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE
 #include<stdio.h> // for fprintf(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * Static handle to the library and to the function
@@ -40,7 +40,7 @@ static void init(void) {
 	handle=dlopen(NULL, RTLD_LAZY);
 	if(handle==NULL) {
 		fprintf(stderr,"error in dlopen [%s]\n",dlerror());
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	// clear errors...
 	dlerror();
@@ -48,7 +48,7 @@ static void init(void) {
 	char* err=dlerror();
 	if(err!=NULL) {
 		fprintf(stderr,"error in dlsym [%s]\n",err);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 }

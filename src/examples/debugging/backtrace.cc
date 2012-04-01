@@ -1,9 +1,9 @@
 #include<execinfo.h> // for backtrace(3), backtrace_symbols(3), backtrace_symbols_fd(3)
 #include<signal.h> // for signal(2)
 #include<stdio.h> // for perror(3), fprintf(3)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This exapmle shows how to obtain a stack trace for various purposes (mostly
@@ -108,7 +108,7 @@ void trace_register(void) {
 	old_handler=signal(SIGSEGV, print_trace_sighandler);
 	if (old_handler == SIG_ERR) {
 		perror("could not register signal...");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	/*

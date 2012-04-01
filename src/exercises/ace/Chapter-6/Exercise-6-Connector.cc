@@ -26,6 +26,7 @@
 #include<ace/Log_Msg.h>
 #include<ace/SOCK_Connector.h>
 #include<ace/INET_Addr.h>
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -97,7 +98,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		ACE_DEBUG((LM_DEBUG, "Usage %s <hostname> <port_number> [Final delay(sec)]\n", argv[0]));
 		ACE_DEBUG((LM_DEBUG, "Where: <hostname> - may be localhost\n"));
 		ACE_DEBUG((LM_DEBUG, "Final delay - optional delay time before program end\n"));
-		ACE_OS::exit(1);
+		ACE_OS::exit(EXIT_FAILURE);
 	}
 	int port = ACE_OS::atoi(argv[2]);
 	if (argc > 2) {
@@ -127,4 +128,5 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	// Let the other program complete the processing
 	ACE_OS::sleep(FinalDelay);
 	client.close();
+	return EXIT_SUCCESS;
 }

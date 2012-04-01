@@ -1,11 +1,11 @@
-#include<stdio.h> // for printf,fprintf,perror
-#include<unistd.h> // for getpagesize,sysconf
-#include<malloc.h> // for valloc,memalign
-#include<stdlib.h> // for posix_memalign,malloc
-#include<sys/mman.h> // for mmap
-#include<string.h> // for memset
+#include<stdio.h> // for printf(3), fprintf(3), perror(3)
+#include<unistd.h> // for getpagesize(2), sysconf(3)
+#include<malloc.h> // for valloc(3), memalign(3)
+#include<stdlib.h> // for posix_memalign(3) , malloc(3), EXIT_SUCCESS, EXIT_FAILURE
+#include<sys/mman.h> // for mmap(2)
+#include<string.h> // for memset(3)
 
-#include"us_helper.hh" // for printproc
+#include<us_helper.h> // for printproc
 
 /*
  * This demo shows how to allocate memory which is PAGE_SIZE aligned...
@@ -25,14 +25,11 @@
  */
 
 // this next function takes an address and aligns it to page size
-
-
 inline void* align_address(void* addr) {
 	unsigned long uladdr=(unsigned long)addr;
 	int ps = getpagesize();
 	return (void*) (uladdr & ~(ps-1));
 }
-
 
 void *mem_align(unsigned int size) {
 	int ps = getpagesize();
@@ -41,11 +38,10 @@ void *mem_align(unsigned int size) {
 
 	if (res != 0) {
 		fprintf(stderr, "error with posix_memalign\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	return(ptr);
 }
-
 
 /*
  * This function works by allocating more memory than is actually required.
@@ -68,7 +64,6 @@ void *malloc_align(unsigned int size) {
 	return((void *)iptr);
 }
 
-
 /*
  * mmap anonymous allocation function
  */
@@ -87,11 +82,10 @@ void *mmap_alloc(unsigned int size) {
 	);
 	if (res == MAP_FAILED) {
 		perror("mmap failed");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	return(res);
 }
-
 
 int main(int argc, char **argv, char **envp) {
 	// the size to allocate
@@ -99,8 +93,6 @@ int main(int argc, char **argv, char **envp) {
 	int ps1 = getpagesize();
 	long ps2 = sysconf(_SC_PAGESIZE);
 	int ps = ps1;
-
-
 	printf("getpagesize() is %d\n", ps1);
 	printf("sysconf(_SC_PAGESIZE) is %ld\n", ps2);
 	void *pt1 = valloc(size);
@@ -119,7 +111,6 @@ int main(int argc, char **argv, char **envp) {
 	printf("pt4 is %p (%d)\n", pt4, (unsigned int)pt4 % ps);
 	printf("pt5 is %p (%d)\n", pt5, (unsigned int)pt5 % ps);
 	printproc(NULL);
-
 	void* ptr=(void*)main;
 	printf("ptr is %p\n",ptr);
 	printf("ptr aligned is %p\n",align_address(ptr));

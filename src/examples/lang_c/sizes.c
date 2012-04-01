@@ -6,7 +6,7 @@
 #include<stdbool.h> // for bool
 #include<stdlib.h> // for EXIT_SUCCESS
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * This is a demo showing the sizes of variables on the architecture

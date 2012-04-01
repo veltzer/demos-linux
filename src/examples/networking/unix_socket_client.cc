@@ -7,7 +7,7 @@
 #include<sys/un.h> // for sockaddr_un
 #include<string.h> // for strlen(3)
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * This is a unix socket client demo.

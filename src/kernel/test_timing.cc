@@ -8,7 +8,7 @@
 
 #include"shared.h"
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * A test that runs ioctl 0 with no data, sleeps for 1 second and then

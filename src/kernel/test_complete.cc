@@ -25,7 +25,7 @@
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 #include"shared.h" // for the ioctl codes
 

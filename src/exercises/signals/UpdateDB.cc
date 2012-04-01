@@ -28,7 +28,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 struct index {
 	unsigned int ID;
@@ -166,7 +166,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("blocking signals\n");
 	if(sigprocmask(SIG_BLOCK, &settoblock, &currentset)!=0) {
 		perror("cannot call sigprocmask");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	printf("doing critical 1\n");
 	critical1();
@@ -177,7 +177,7 @@ int main(int argc,char** argv,char** envp) {
 	cri2done = 1;
 	if(sigprocmask(SIG_SETMASK, &currentset, NULL)!=0) {
 		perror("cannot call sigprocmask");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	fprintf(stderr,"enabling signals\n");
 	return EXIT_SUCCESS;

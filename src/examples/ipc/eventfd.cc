@@ -4,7 +4,7 @@
 #include<stdio.h> // for fprintf(3), strtoull(3)
 #include<signal.h> // for siginterrupt(2), signal(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This program demos parent child communication via an event fd

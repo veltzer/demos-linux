@@ -229,8 +229,11 @@ check_include:
 .PHONY: check_name
 check_name:
 	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_exit
+check_exit:
+	-@git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name
+check_all: check_ws check_main check_ace_include check_include check_name check_exit
 
 # checks that dont pass
 .PHONY: check_syn

@@ -6,7 +6,7 @@
 #include<sys/time.h>
 #include<sys/resource.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example explores how to use thread priorities

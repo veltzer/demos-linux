@@ -33,7 +33,7 @@
 
 #include<math.h> // for log10(3), lround(3)
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * TODO:

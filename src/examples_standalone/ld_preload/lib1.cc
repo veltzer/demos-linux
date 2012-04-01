@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 extern "C" double sin(double x) {
 	TRACE("start");

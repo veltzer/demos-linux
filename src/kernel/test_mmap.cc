@@ -9,7 +9,7 @@
 
 #include"shared.h" // for the ioctl numbers
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is a test for the mmap demo:
@@ -62,7 +62,7 @@ int main(int argc, char **argv, char **envp) {
 	CHECK_NOT_M1(d = open(filename, O_RDWR));
 	//printproc();
 
-	CHECK_NOT_VAL(data = mmap(
+	CHECK_NOT_VOIDP(data = mmap(
 		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 		size, /* the size we need */
 		PROT_READ | PROT_WRITE, /* we want read AND write */
@@ -70,7 +70,7 @@ int main(int argc, char **argv, char **envp) {
 		d, /* file descriptor */
 		offset /* offset */
 		), MAP_FAILED);
-	CHECK_NOT_VAL(data2 = mmap(
+	CHECK_NOT_VOIDP(data2 = mmap(
 		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 		size, /* the size we need */
 		PROT_READ | PROT_WRITE, /* we want read AND write */

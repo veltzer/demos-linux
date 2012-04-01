@@ -5,7 +5,7 @@
 #include<stdio.h> // for perror(3)
 #include<errno.h> // for errno(3)
 
-#include"us_helper.hh" // our user space helper
+#include<us_helper.h> // our user space helper
 
 /*
  * This is an example of a calculator that you can break out of.
@@ -28,7 +28,7 @@ static void sig_handler(int sig) {
 int main(int argc, char **argv, char **envp) {
 	// make sure we break out on receiving the SIGUSR1 signal...
 	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
-	CHECK_NOT_VAL(signal(SIGUSR1, sig_handler),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGUSR1, sig_handler),SIG_ERR);
 	int ret;
 	printf("signal me with [kill -s SIGUSR1 %d]\n",getpid());
 	bool broken=false;

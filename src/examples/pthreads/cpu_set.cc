@@ -1,7 +1,7 @@
 #include<sched.h> // for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include<unistd.h> // for sysconf(3)
 
-#include"us_helper.hh" // for TRACE(), CHECK_ZERO()
+#include<us_helper.h> // for TRACE(), CHECK_ZERO()
 
 /*
  * This is a demo of how to use a cpu set

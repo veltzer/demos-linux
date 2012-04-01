@@ -6,7 +6,7 @@
 #include<sys/syscall.h> // for syscall(2)
 #include<strings.h> // for bzero(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This test shows how to test for bad stack state (distance from

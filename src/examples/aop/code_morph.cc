@@ -8,7 +8,7 @@
 #include<sys/mman.h> // for mprotect(2)
 #include<unistd.h> // for getpagesize(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is an example that shows that you cannot alter code, which is protected
@@ -74,7 +74,7 @@ int main(int argc,char** argv,char** envp) {
 	// call the function to see what it is doing...
 	function();
 	// lets install our own SIGSEGV signal handler so that we won't crash...
-	CHECK_NOT_VAL(signal(SIGSEGV,segv_handler),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGSEGV,segv_handler),SIG_ERR);
 	// find the cell where the number 'times' is writen
 	// if you are in gcc 4.5 then search for times-1
 	// if you are in gcc 4.4 then search for times

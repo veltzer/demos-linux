@@ -2,7 +2,7 @@
 #include<string.h>
 #include<search.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This demos how to use the has supplied with the standard C library...
