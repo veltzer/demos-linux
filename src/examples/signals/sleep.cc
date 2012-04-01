@@ -31,7 +31,7 @@
  * rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
  * rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
  * rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
- * nanosleep({5, 0}, 0xbf9db174)           = 0
+ * nanosleep({5, 0}, 0xbf9db174) = 0
  */
 
 int main(int argc,char** argv,char** envp) {
