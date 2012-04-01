@@ -211,29 +211,36 @@ todo:
 # checks which pass
 .PHONY: check_ws
 check_ws:
+	$(info doing [$@])
 	-@git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
+	$(info doing [$@])
 	-@git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
 	-@git grep "ACE_TMAIN" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
 .PHONY: check_ace_include
 check_ace_include:
+	$(info doing [$@])
 	-@git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
+	$(info doing [$@])
 	-@git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_name
 check_name:
-	-@git grep -L "Mark Veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(info doing [$@])
+	-@git grep -L "Mark Veltzer <mark.veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_exit
 check_exit:
+	$(info doing [$@])
 	-@git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_pgrep
 check_pgrep:
+	$(info doing [$@])
 	-@./scripts/pgrep.pl "\t " ".*\.cc" `find . -name "*.cc"`
 	-@./scripts/pgrep.pl " \t" ".*\.cc" `find . -name "*.cc"`
 .PHONY: check_all
