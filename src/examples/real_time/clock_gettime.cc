@@ -1,13 +1,10 @@
-#include<stdio.h>
-#include<string.h>
-#include<time.h>
-
-#include<us_helper.h>
+#include<stdio.h> // for printf(3), fflush(3)
+#include<time.h> // for clock_getres(2)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * Demo the clock_gettime usage
- *
- *	Mark Veltzer
  *
  * EXTRA_LIBS=-lrt
  */

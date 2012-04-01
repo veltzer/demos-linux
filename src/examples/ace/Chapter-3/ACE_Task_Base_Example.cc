@@ -17,8 +17,6 @@
  * - .wait() to wait for it to be over (returns error code).
  * - get your return values
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

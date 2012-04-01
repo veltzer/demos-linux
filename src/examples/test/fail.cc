@@ -1,11 +1,8 @@
 #include<sys/ioctl.h> // for ioctl(2)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This is a test to check my own us_helper.hh file.
- *
- *		Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

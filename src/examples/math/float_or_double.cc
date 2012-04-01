@@ -5,8 +5,6 @@
 /*
  * This is an example for all the folk wishing to do numerical applications and want to switch
  * between float and double at compile time instead of at run time.
- *
- *		Mark Veltzer
  */
 
 // first option - using floats...

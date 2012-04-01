@@ -23,8 +23,6 @@
  * entire content at once. On the other hand this could cause performance issues.
  * This needs to be checked. In any case the buffer of a single page size
  * as is used here seems too small for good performace on todays systems.
- *
- *		Mark Veltzer
  */
 
 void copy_file(const char* filein, const char* fileout) {

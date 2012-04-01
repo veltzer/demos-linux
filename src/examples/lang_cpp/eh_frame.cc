@@ -6,8 +6,6 @@
  *
  * TODO:
  *	What does this demo do ? try to find out and document it...
- *
- *		Mark Veltzer
  */
 
 class A {

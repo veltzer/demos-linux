@@ -14,8 +14,6 @@
  *	If you want to see more macros that the compiler provides just run:
  *	cpp -dM < /dev/null
  *
- *		Mark Veltzer
- *
  * EXTRA_SYSTEM=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
  */
 

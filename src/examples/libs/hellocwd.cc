@@ -1,8 +1,6 @@
 /*
  * This is a demo program showing how to use libcwd for C++ debug support...
  *
- *			Mark Veltzer
- *
  * EXTRA_LIBS=-lcwd
  */
 #define DEBUG

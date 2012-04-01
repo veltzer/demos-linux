@@ -1,17 +1,15 @@
-/*
- * ACE_ARGV examples not in a larger program. Sample code from The ACE
- * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
- *
- * Mark Veltzer
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
-
 #include<ace/os_include/os_netdb.h>
 #include<ace/OS_NS_string.h>
 #include<ace/Log_Msg.h>
 #include<ace/ARGV.h>
 #include<ace/Get_Opt.h>
+
+/*
+ * ACE_ARGV examples not in a larger program. Sample code from The ACE
+ * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
+ *
+ * EXTRA_CMDS=pkg-config --cflags --libs ACE
+ */
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 	static const ACE_TCHAR options[] = ACE_TEXT(":f:h:");

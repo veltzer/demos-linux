@@ -18,8 +18,6 @@
  * inlined. This is not so with the regular 'inline' keyword. Instead the
  * '__attribute__((__gnu_inline__))' or '__attribute__((__always_inline__))'
  * must be used.
- *
- *		Mark Veltzer
  */
 
 //inline __attribute__((__gnu_inline__)) void trace(int first, ...) {

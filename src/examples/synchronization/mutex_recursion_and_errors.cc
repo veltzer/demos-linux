@@ -27,9 +27,6 @@
  *	destroy function is creating an error (knowing that the lock is still taken one
  *	time).
  *
- *
- *			Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  *
  * TODO:

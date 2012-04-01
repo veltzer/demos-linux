@@ -14,8 +14,6 @@
  * that since a compiler barrier is only a compile time instruction about
  * code emittion.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 int main(int argc, char **argv, char **envp) {

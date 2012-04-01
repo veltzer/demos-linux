@@ -29,8 +29,6 @@
  * frequency is 600 MHz doesn't means that it ticks: 600,000,000 (600 million
  * times) per seconds exactly...
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lcpufreq
  */
 void long_task(void) {

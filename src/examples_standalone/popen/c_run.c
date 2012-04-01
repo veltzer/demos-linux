@@ -4,8 +4,6 @@
 
 /*
  * Example for using the shbang line to run C code
- *
- * Mark Veltzer
  */
 
 //#define DEBUG

@@ -5,8 +5,6 @@
  * This is a simple hello gtk program
  * EXTRA_CMDS=pkg-config --cflags --libs gtk+-2.0
  *
- *			Mark Veltzer
- *
  */
 int main(int argc, char** argv, char** envp) {
 	gtk_init(&argc, &argv);

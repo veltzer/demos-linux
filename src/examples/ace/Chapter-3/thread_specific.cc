@@ -10,8 +10,6 @@
 #include"thread_specific.hh"
 
 /*
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

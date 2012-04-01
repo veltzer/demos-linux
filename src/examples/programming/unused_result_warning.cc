@@ -15,8 +15,6 @@
  * see the discussion in:
  * http://stackoverflow.com/questions/3599160/unused-parameter-warnings-in-c-code
  * http://dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
- *
- *		Mark Veltzer
  */
 
 // this is how to use unused in a function declaration...

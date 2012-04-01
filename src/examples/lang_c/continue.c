@@ -5,8 +5,6 @@
  * does not. Which one is shorter? more maintanable? easier to read? easier
  * to change? Sometimes continue is just the right answer. In kernel coding even
  * more so...
- *
- * 				Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

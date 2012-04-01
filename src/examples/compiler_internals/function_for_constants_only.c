@@ -6,8 +6,6 @@
  * A quick check in the internet shows that a patch to have this in g++ is on the way.
  * Notice that the trick is to create a compile time error and is based on returning
  * a void* instead of an int.
- *
- *		Mark Veltzer
  */
 static inline int _sum(int i) {
 	return(i *(i + 1) / 2);

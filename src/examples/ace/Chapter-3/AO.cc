@@ -7,7 +7,6 @@
 #include<ace/Auto_Ptr.h>
 
 /*
- * Mark Veltzer
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

@@ -40,8 +40,6 @@
  * - have every process which closes the descriptor do
  * an ioctl(2) on it before closing notifying you. The same could be done
  * after fork(2) or dup(2). But why would you want that?
- *
- * Mark Veltzer
  */
 
 // file descriptor

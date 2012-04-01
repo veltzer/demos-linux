@@ -3,8 +3,6 @@
 
 /*
  * Sample code from The ACE Programmer's Guide,
- *
- * Mark Veltzer
  */
 
 struct SecurityContext {

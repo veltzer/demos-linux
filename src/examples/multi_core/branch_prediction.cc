@@ -26,8 +26,6 @@
  * - on the command line using time(1) this example runs the same with branch prediction and without.
  *	Modify this to have a marked effect on performance and measure itself so that I can show when
  *	this is effective.
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	int x=0;

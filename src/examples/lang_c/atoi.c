@@ -3,8 +3,6 @@
 
 /*
  * A simple example of using the atoi library function
- *
- * 			Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

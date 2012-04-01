@@ -10,8 +10,6 @@
 /*
  * This is an example of setting thread stack sizes
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  *
  * TODO:

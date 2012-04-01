@@ -3,8 +3,6 @@
 
 /*
  * This shows how to use the pre-processor to catenate stuff...
- *
- *		Mark Veltzer
  */
 
 #define catit(a,b) a ## b

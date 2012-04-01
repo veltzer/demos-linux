@@ -18,8 +18,6 @@
  * TODO:
  * - show that this example works the same even if you call pthread_detach.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 void set_thread_name(const char* newname) {

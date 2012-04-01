@@ -4,8 +4,6 @@
  * Compare the version that uses the 'break' keyword with the version that
  * does not. Which one is shorter? more maintanable? easier to read? easier
  * to change? Sometimes break is just the right answer.
- *
- * 				Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

@@ -7,8 +7,6 @@
 /*
  * This shows how to create threads with a certain affinity
  *
- *	Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 void print_cpu_set(cpu_set_t *p) {

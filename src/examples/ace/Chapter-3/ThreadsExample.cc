@@ -4,8 +4,6 @@
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

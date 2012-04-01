@@ -31,8 +31,6 @@
  * - catting files from the /proc folder (done in two ways in this example).
  * - top(1)
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lproc
  *
  */

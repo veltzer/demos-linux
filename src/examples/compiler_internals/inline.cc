@@ -17,8 +17,6 @@
  * means that when compiling without optimization inline is not guaranteed.
  * - always inline means always inline (even when compiling without optimization).
  * - gnu_inline depends on other flags and has an intermediate meaning.
- *
- *	Mark Veltzer
  */
 
 static inline int add1(int a, int b) {

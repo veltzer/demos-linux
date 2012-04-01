@@ -20,8 +20,6 @@
  * - these are all *compiler builtins*. They are not taken from any header
  * files. Compare this to using the glibc wrappers in a similar example
  * under glibc.
- *
- *	Mark Veltzer
  */
 
 int trace(const char *fmt, ...) {

@@ -10,8 +10,6 @@
  *
  * There are many other parameters you can get via the sysconf interface. Some hardware
  * related and some software. do 'getconf -a' on the cmdline to see them...
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	int linesize;

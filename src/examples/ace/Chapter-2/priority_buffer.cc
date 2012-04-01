@@ -11,8 +11,6 @@
  * the length of each line via the use of an ASX Message_Queue. It
  * illustrates how priorities can be used for ACE Message_Queues.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

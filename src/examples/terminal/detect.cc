@@ -6,8 +6,6 @@
 /*
  * This is an example of how to detect whether a file you are using is
  * a terminal or not and print it's name in case it is.
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	// lets take the file descriptor number from stdin which is usually

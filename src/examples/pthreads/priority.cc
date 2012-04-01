@@ -11,8 +11,6 @@
 /*
  * This example explores how to use thread priorities
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 

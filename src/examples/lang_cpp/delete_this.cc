@@ -14,8 +14,6 @@
  * allocated on the heap and not say, stack or data segment. In
  * that cause doing "delete this" may cause a segfault or maybe
  * even a silent bug which is worse at times.
- *
- *		Mark Veltzer
  */
 
 class A {

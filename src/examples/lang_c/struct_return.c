@@ -3,8 +3,6 @@
 
 /*
  * This is an attempt to return a struct from a function
- *
- * Mark Veltzer
  */
 
 typedef struct _foo {

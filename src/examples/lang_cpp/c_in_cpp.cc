@@ -18,8 +18,6 @@
  *
  * The assumption in this example is that it is compiled using a C++
  * compiler...
- *
- *		Mark Veltzer
  */
 
 /*

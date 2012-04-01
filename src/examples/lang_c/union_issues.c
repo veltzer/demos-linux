@@ -9,8 +9,6 @@
  * or fields which are not in structures...
  *
  * It also explores how to get offsets of fields in structures...
- *
- *		Mark Veltzer
  */
 
 // this next macro calculates the offset of a field from the structure

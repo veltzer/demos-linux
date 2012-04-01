@@ -6,8 +6,6 @@
  * make the other number (in this case 'num') materialize by taking a reference
  * to it then it will not materialize and a bug will not be seen (although a bug
  * will occur!).
- *
- * 			Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

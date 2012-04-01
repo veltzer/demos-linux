@@ -21,8 +21,6 @@
  * compiler to optimize this memory and never store the same string twice.
  * 7. If you optimize your program (-O2) then the compiler makes some of your memory
  * access functions go away and so you don't segfault.
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	const char *other = "blabla";

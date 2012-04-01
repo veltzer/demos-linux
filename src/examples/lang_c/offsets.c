@@ -10,8 +10,6 @@
  * In this example, since we are compiling to C we can use 0 freely.
  * Notice that with my macro, offsetof and __builtin_offsetof you can use the
  * "struct" prefix to the structure name or drop it.
- *
- *		Mark Veltzer
  */
 
 #define myoffsetof(structname,fieldname) ((char *)(&(((structname *)0)->fieldname)) - (char *)0)

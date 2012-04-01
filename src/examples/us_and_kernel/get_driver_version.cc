@@ -19,8 +19,6 @@
  * Get your hands on the source code of 'modinfo' and copy the relevant parts here.
  * (publish this in a blog for the interested parties...)
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-ldl
  */
 

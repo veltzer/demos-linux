@@ -22,8 +22,6 @@ MODULE_DESCRIPTION("Showing how IS_ERR_VALUE works");
  * using the ERR_PTR inline function.
  *
  * Have a look at $KERNEL_SOURCES/include/linux/err.h for more details.
- *
- * 		Mark Veltzer
  */
 
 static int __init mod_init(void) {

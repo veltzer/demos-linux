@@ -16,8 +16,6 @@
  *		your regular delete operator needs to know how to do the job
  *		both for arrays and for single elements (if you want arrays
  *		at all that is...).
- *
- *			Mark Veltzer
  */
 
 class A {

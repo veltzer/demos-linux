@@ -10,8 +10,6 @@
  * Note yet that read(2) return type is ssize_t which is SIGNED as opposed to size_t
  * which is UNSIGNED. The idea here is the ability to return -1 and report errors
  * this way.
- *
- * Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	const size_t SIZE = 5;

@@ -8,13 +8,9 @@
  * which examines this runs at a high priority then this should be a short
  * time indeed.
  *
- * Results:
- *
- *
  * TODO:
  * - remove the run high priority function from this code.
- *
- *		Mark Veltzer
+ * - show the results.
  *
  * EXTRA_LIBS=-lpthread
  */

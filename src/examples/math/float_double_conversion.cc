@@ -9,8 +9,6 @@
  *
  * Note:
  * Some of these lines will be caught if you add -Wconversion flag to gcc.
- *
- *		Mark Veltzer
  */
 
 /*

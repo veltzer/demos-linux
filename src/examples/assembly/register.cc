@@ -3,8 +3,6 @@
 
 /*
  * This is an example of getting a register on an i32 machine
- *
- * Mark Veltzer
  */
 
 static inline unsigned int getrdtsc() {

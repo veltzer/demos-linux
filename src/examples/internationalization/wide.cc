@@ -5,8 +5,6 @@
 
 /*
  * This example explores wide strings in GCC.
- *
- *		Mark Veltzer
  */
 #define WS(s) L ## s
 

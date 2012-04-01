@@ -7,8 +7,6 @@
  * differently according to the name by which it is called. This trick is used
  * heavily in Linux. Examples are the fgrep, grep and egrep triplet, the busybox
  * implementation and more.
- *
- * Mark Veltzer
  */
 
 int main(int argc, char** argv, char** envp) {

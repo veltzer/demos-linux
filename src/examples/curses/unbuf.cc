@@ -11,8 +11,6 @@
  * tools may be used to achieve the same goal
  * (system calls for instance).
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lncursesw
  */
 int main(int argc, char **argv, char **envp) {

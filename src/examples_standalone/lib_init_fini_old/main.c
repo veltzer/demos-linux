@@ -3,8 +3,6 @@
 
 /*
  * This is an empty testing application
- *
- * 		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	fprintf(stderr, "Hello, World!\n");

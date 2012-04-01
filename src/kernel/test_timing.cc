@@ -13,8 +13,6 @@
 /*
  * A test that runs ioctl 0 with no data, sleeps for 1 second and then
  * another ioctl 1 with no data.
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	// file to be used

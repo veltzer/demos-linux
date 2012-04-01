@@ -6,8 +6,6 @@
  * - note the care which is taken to keep the compiler from
  * inlining the foo function.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

@@ -5,8 +5,6 @@
  * This example shows how to quote strings in GCC
  * Stolen from the linux kernel.
  * This MUST be done in 2 levels...
- *
- *		Mark Veltzer
  */
 #define __stringify_1(x) # x
 #define __stringify(x) __stringify_1(x)

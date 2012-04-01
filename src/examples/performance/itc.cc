@@ -6,8 +6,6 @@
 
 /*
  * Demo for a performance counter on i64...
- *
- *		Mark Veltzer
  */
 
 static inline unsigned long getstackpointer(void) {

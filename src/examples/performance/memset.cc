@@ -18,8 +18,6 @@
  * - this example does not explore the inner workins of the wmemset function
  * (meanins whether it is implemented efficiently or not).
  *
- * Mark Veltzer
- *
  * TODO: find out how wmemset work and discuss it's efficiency.
  */
 

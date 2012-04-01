@@ -29,8 +29,6 @@
  * - The `assert' facility is designed for detecting _internal inconsistency_;
  * it is not suitable for reporting invalid input or improper usage to the
  * _user_ of the program.
- *
- *		Mark Veltzer
  */
 
 int main(int argc,char** argv,char** envp) {

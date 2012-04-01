@@ -5,8 +5,6 @@
 /*
  * EXTRA_LIBS=-lpq
  *
- *	Mark Veltzer
- *
  */
 void exit_nicely(PGconn *conn) {
 	PQfinish(conn);

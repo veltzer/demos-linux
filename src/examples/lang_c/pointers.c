@@ -4,8 +4,6 @@
  * This is showing pointer pointer stuff
  * The idea is to show that the compiler does NOT allow to convert
  * Foobar** to char**.
- *
- *		Mark Veltzer
  */
 void func(char **p) {
 }

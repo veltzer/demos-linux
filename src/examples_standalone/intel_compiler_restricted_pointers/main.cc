@@ -5,8 +5,6 @@
 
 /*
  * Same example the example for gcc but now for the Intel compiler...
- *
- *		Mark Veltzer
  */
 
 #define myrestrict restrict

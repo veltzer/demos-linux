@@ -4,8 +4,6 @@
 /*
  * This program demonstrates the use of the MTL (Matrix Template Library)
  *
- *			Mark Veltzer
- *
  * TODO:
  * - bring this example back to life (ubuntu doesn't seem to carry mtl-
  * maybe I will have to package it myself?!?)

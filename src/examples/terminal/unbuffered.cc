@@ -34,8 +34,6 @@
  *
  * This is an example of how to remove buffering from the terminal and read
  * characters one by one...
- *
- * Mark Veltzer
  */
 
 void set_noncannon(int desc) {

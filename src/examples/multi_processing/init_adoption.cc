@@ -22,8 +22,6 @@
  * - investigate how it is exactly that init does the things he does (is it the kernel as I
  * suspect that latches processes under the init process ?!? - if so, find the place
  * in the kernel that does this...).
- *
- *	Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

@@ -2,8 +2,6 @@
 
 /*
  * This example shows how to pass an array by reference in C
- *
- * 			Mark Veltzer
  */
 
 void print_array(double* ar,int size) {

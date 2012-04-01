@@ -7,10 +7,8 @@
 #include<X11/extensions/Xrandr.h>
 
 /*
- *	OpenGL example number 3...
- *	Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
- *
- *		Mark Veltzer
+ * OpenGL example number 3...
+ * Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Changing_the_Screen_Resolution
  *
  * EXTRA_LIBS=-lX11 -lXrandr
  */

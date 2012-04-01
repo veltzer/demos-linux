@@ -4,8 +4,6 @@
 
 /*
  * This example shows how to use the 'va_copy' function.
- *
- *		Mark Veltzer
  */
 void trace(const char *fmt, ...) {
 	va_list ap;

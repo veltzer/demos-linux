@@ -7,8 +7,6 @@
  * This demo is a pthread_cancel demo and was copied from the pthread_cancel
  * manpage.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  *
  * TODO:

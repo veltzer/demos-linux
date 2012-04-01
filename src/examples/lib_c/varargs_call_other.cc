@@ -15,8 +15,6 @@
  * is quite portable.
  * - We use the __attribute__ feature to make sure the compiler checks that
  * we are passing the arguments right (gcc feature).
- *
- *		Mark Veltzer
  */
 int trace(const char *fmt, ...) {
 	extern char *program_invocation_short_name;

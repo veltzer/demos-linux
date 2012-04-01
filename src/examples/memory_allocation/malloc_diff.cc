@@ -7,8 +7,6 @@
  * This application just prints malloc diffs for various malloc allocation.
  * The idea is to use this application as a way to analyze how malloc allocates
  * memory...
- *
- *		Mark Veltzer
  */
 
 /*

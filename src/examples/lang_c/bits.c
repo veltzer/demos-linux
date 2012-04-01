@@ -3,8 +3,6 @@
 
 /*
  * This is to check some assumptions on bit operations
- *
- *		Mark Veltzer
  */
 
 #define COMB(a, b) (a | b)
