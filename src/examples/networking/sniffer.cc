@@ -9,7 +9,7 @@
 #include<unistd.h> // for geteuid(2)
 #include<sys/types.h> // for geteuid(2)
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * An example of a sniffer

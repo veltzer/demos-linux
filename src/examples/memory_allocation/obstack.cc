@@ -3,7 +3,7 @@
 #include<sys/time.h> // for gettimeofday(2)
 #include<obstack.h> // for obstack_*(3)
 
-#include"us_helper.hh" // for my_system
+#include<us_helper.h> // for my_system
 
 /*
  * This example shows how to use obstacks...

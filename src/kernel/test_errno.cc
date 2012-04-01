@@ -26,7 +26,7 @@
 #include<sys/ioctl.h> // for ioctl(2)
 #include<errno.h> // for errno(3)
 
-#include"us_helper.hh" // our own helper for user space
+#include<us_helper.h> // our own helper for user space
 
 /*
  * This is an example which explores how user space experiences errors coming from the kernel.

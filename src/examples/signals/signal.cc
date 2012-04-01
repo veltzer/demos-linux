@@ -1,10 +1,10 @@
 #include<signal.h> // for signal(2)
 #include<stdio.h> // for perror(3)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include<unistd.h> // for pause(2), getpid(2)
 #include<sys/types.h> // for getpid(2)
 
-#include"us_helper.hh" // for TRACE
+#include<us_helper.h> // for TRACE
 
 /*
  * This is a simple example which shows how to do signal handling with the
@@ -39,11 +39,11 @@ int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
 	if (signal(SIGUSR1, sig_handler) == SIG_ERR) {
 		perror("problem with calling signal(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if (signal(SIGUSR2, sig_handler) == SIG_ERR) {
 		perror("problem with calling signal(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	TRACE("set up the sig handler");
 	TRACE("send me SIGUSR1 using [kill -s SIGUSR1 %d]",getpid());

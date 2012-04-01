@@ -18,8 +18,10 @@
 	02111-1307 USA.
 */
 
-#ifndef __us_helper_h
-#define __us_helper_h
+#ifndef __us_helper_hh
+#define __us_helper_hh
+
+/* THIS IS C FILE, NO C++ here */
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
@@ -41,6 +43,7 @@
 #include<errno.h> // for errno
 #include<sys/utsname.h> // for uname(2)
 #include<stdbool.h> // for bool
+#include<signal.h> // for sighandler_t
 
 /*
  * Stringify macros - helps you turn anything into a string
@@ -76,7 +79,6 @@ typedef unsigned long long ticks_t;
 
 static inline ticks_t getticks(void) {
 	unsigned int a, d;
-
 	asm volatile ("rdtsc" : "=a" (a), "=d" (d));
 	return(((ticks_t)a) | (((ticks_t)d) << 32));
 }
@@ -84,7 +86,7 @@ static inline ticks_t getticks(void) {
 static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	if (t2 < t1) {
 		fprintf(stderr, "ERROR: What's going on? t2<t1...\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	unsigned long long diff = (t2 - t1) / 1000;
 	unsigned long freq = cpufreq_get_freq_kernel(0);
@@ -92,12 +94,12 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 		fprintf(stderr, "ERROR: cpufreq_get_freq_kernel returned 0\n");
 		fprintf(stderr, "ERROR: this is probably a problem with your cpu governor setup\n");
 		fprintf(stderr, "ERROR: this happens on certain ubuntu systems\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	unsigned long mpart = freq / 1000;
 	if(mpart==0) {
 		fprintf(stderr, "ERROR: mpart is 0\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	//unsigned long mdiff=difft/freq;
 	unsigned long mdiff = diff / mpart;
@@ -123,7 +125,7 @@ static inline void check_zero(int val,const char* msg,const char* base_file,cons
 		} else {
 			fprintf(stderr,"error: %s\n",strerror(val));
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -136,7 +138,7 @@ static inline void check_not_m1(int val,const char* msg,const char* base_file,co
 		} else {
 			fprintf(stderr,"error: %s\n",strerror(val));
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 static inline void check_1(int val,const char* msg,const char* base_file,const char* file,const int line) {
@@ -148,7 +150,7 @@ static inline void check_1(int val,const char* msg,const char* base_file,const c
 		} else {
 			fprintf(stderr,"error: %s\n",strerror(val));
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 static inline void check_not_negative(int t, const char* msg,const char* base_file,const char* file,const int line) {
@@ -160,7 +162,7 @@ static inline void check_not_negative(int t, const char* msg,const char* base_fi
 		} else {
 			fprintf(stderr,"error: %s\n",strerror(t));
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 static inline void check_not_null(void* ptr, const char* msg,const char* base_file,const char* file,const int line) {
@@ -172,7 +174,7 @@ static inline void check_not_null(void* ptr, const char* msg,const char* base_fi
 		} else {
 			fprintf(stderr,"error: bad pointer\n");
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 static inline void check_oneoftwo(int v, const char* msg,int e1,int e2,const char* base_file,const char* file,const int line) {
@@ -184,7 +186,7 @@ static inline void check_oneoftwo(int v, const char* msg,int e1,int e2,const cha
 		} else {
 			fprintf(stderr,"error: %s\n",strerror(v));
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 static inline void check_assert(int t,const char* msg,const char* base_file,const char* file,const int line) {
@@ -192,28 +194,35 @@ static inline void check_assert(int t,const char* msg,const char* base_file,cons
 		fprintf(stderr,"command is %s\n",msg);
 		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
 		perror("error in system call");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
-#ifdef __cplusplus
-template<class T> inline void check_not_val(T t,const char *msg, T errval,const char* base_file,const char* file,const int line) {
-	if (t == errval) {
+static inline void check_not_voidp(void* t,const char *msg, void* errval,const char* base_file,const char* file,const int line) {
+	if(t==errval) {
 		fprintf(stderr,"command is %s\n",msg);
 		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
 		perror("error in system call");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
-#endif // __cplusplus
+static inline void check_not_sigt(sighandler_t t,const char *msg, sighandler_t errval,const char* base_file,const char* file,const int line) {
+	if(t==errval) {
+		fprintf(stderr,"command is %s\n",msg);
+		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
+		perror("error in system call");
+		exit(EXIT_FAILURE);
+	}
+}
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_1(v) check_1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_NEGATVIE(v) check_not_negative(v,__stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_NOT_NULL(v) check_not_null(v,__stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__)
-#define CHECK_NOT_VAL(v,e) check_not_val(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_ONEOFTWO(v,e1,e2) check_oneoftwo(v, __stringify(v),e1,e2,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_ASSERT(v) check_assert(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_NOT_VOIDP(v,e) check_not_voidp(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_NOT_SIGT(v,e) check_not_sigt(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
@@ -243,11 +252,11 @@ static inline void debug(const char *file, const char *function, int line, const
 	extern char *program_invocation_short_name;
 	const int BUFSIZE=1024;
 	char str[BUFSIZE];
+	va_list args;
 	pid_t pid = getpid();
 	pid_t tid = gettid();
 
 	snprintf(str, BUFSIZE, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
-	va_list args;
 	va_start(args, fmt);
 	vfprintf(stderr, str, args);
 	va_end(args);
@@ -263,13 +272,14 @@ static inline int printproc(const char *filter) {
 	pid_t pid = getpid();
 	const unsigned int cmd_size = 256;
 	char cmd[cmd_size];
+	int res;
 
 	if (filter == NULL) {
 		snprintf(cmd, cmd_size, "cat /proc/%d/maps", pid);
 	} else {
 		snprintf(cmd, cmd_size, "cat /proc/%d/maps | grep %s", pid, filter);
 	}
-	int res = system(cmd);
+	res=system(cmd);
 	//waitkey();
 	return(res);
 }
@@ -281,7 +291,7 @@ static inline void memcheck(void *buf, char val, unsigned int size) {
 	for (i = 0; i < size; i++) {
 		if (cbuf[i] != val) {
 			fprintf(stderr, "ERROR: value at %u is %c and not %c\n", i, cbuf[i], val);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -377,9 +387,9 @@ static inline void print_scheduling_info() {
 	//int pri = getpriority(PRIO_PROCESS, 0);
 	//printf("getpriority %d\n", tid, pri);
 	struct sched_param myparam;
+	int scheduler;
 	// 0 means current process
 	CHECK_NOT_M1(sched_getparam(0,&myparam));
-	int scheduler;
 	CHECK_NOT_M1(scheduler=sched_getscheduler(0));
 	printf("==================================\n");
 	printf("scheduling data for the current thread...\n");
@@ -399,7 +409,9 @@ static inline void print_scheduling_consts() {
 // a function to run another function in a high priority thread and wait for it to finish...
 // TODO: error checking in this function is bad.
 static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
+	int res;
 	struct sched_param myparam;
+	void* retval;
 	pthread_attr_t myattr;
 	pthread_t mythread;
 	//myparam.sched_priority = sched_get_priority_max(SCHED_FIFO);
@@ -408,14 +420,13 @@ static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
 	pthread_attr_setschedparam(&myattr, &myparam);
-	int res=pthread_create(&mythread, &myattr, func, val);
+	res=pthread_create(&mythread, &myattr, func, val);
 	if(res) {
 		errno=res;
 		perror("pthread_create");
 		printf("trying to create thread with prio %d failed, check ulimit -a...\n",myparam.sched_priority);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	void* retval;
 	pthread_join(mythread, &retval);
 	return retval;
 	//printf("thread joined and return val was %p\n",retval);
@@ -432,4 +443,4 @@ static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 	}
 }
 
-#endif // __us_helper_h
+#endif /* !__us_helper_hh */

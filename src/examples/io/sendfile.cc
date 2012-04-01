@@ -1,13 +1,13 @@
 #include<stdio.h> // for fprintf(3), perror(3)
 #include<errno.h> // for perror(3)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
 #include<sys/sendfile.h> // for senffile(2)
 #include<unistd.h> // getpagesize(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This demos shows how to use sendfile(2) to avoid copy to/from user space.
@@ -27,9 +27,8 @@
  *		Mark Veltzer
  */
 
-int copy_file(const char* filein, const char* fileout) {
+void copy_file(const char* filein, const char* fileout) {
 	size_t sendfile_bufsize=getpagesize();
-	int err_code=0;
 	int fdin,fdout;
 	CHECK_NOT_M1(fdin=open(filein, O_RDONLY, 0666));
 	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
@@ -43,19 +42,19 @@ int copy_file(const char* filein, const char* fileout) {
 	// ==0: that is ok - it is end of file
 	if(ret<0) {
 		perror("unable to send file");
-		err_code=1;
+		exit(EXIT_FAILURE);
 	}
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
-	return err_code;
 }
 
 int main(int argc, char **argv, char **envp) {
 	if(argc!=3) {
 		fprintf(stderr,"usage: %s [infile] [outfile]\n",argv[0]);
-		exit(1);
+		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	return copy_file(filein,fileout);
+	copy_file(filein,fileout);
+	return EXIT_SUCCESS;
 }

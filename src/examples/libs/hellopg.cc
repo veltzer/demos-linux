@@ -1,6 +1,6 @@
 #include<postgresql/libpq-fe.h>
 #include<stdio.h>
-#include<stdlib.h>
+#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 /*
  * EXTRA_LIBS=-lpq
@@ -10,7 +10,7 @@
  */
 void exit_nicely(PGconn *conn) {
 	PQfinish(conn);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 

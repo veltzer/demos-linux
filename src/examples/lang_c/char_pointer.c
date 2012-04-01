@@ -5,7 +5,7 @@
 #include<string.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This demo shows several different things:

@@ -11,7 +11,7 @@
 #include<pthread.h> // for pthread_create(3)
 #include<sys/un.h> // for sockaddr_un
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * This is a unix socket server demo.

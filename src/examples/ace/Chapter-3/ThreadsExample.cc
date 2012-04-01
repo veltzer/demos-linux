@@ -1,7 +1,7 @@
 #include<ace/Thread.h>
 #include<ace/Synch.h>
 #include<ace/Log_Msg.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
  * Mark Veltzer
@@ -47,7 +47,7 @@ static void* run_method(void* arg) {
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	if(argc<2) {
 		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n", argv[0]));
-		ACE_OS::exit(1);
+		ACE_OS::exit(EXIT_FAILURE);
 	}
 	//setup the random number generator
 	ACE_OS::srand(::seed);

@@ -2,7 +2,7 @@
 #include<sys/types.h> // for gettid(2), getpid(2)
 #include<unistd.h> // for getpid(2)
 
-#include"us_helper.hh" // for TRACE()
+#include<us_helper.h> // for TRACE()
 
 /*
 	This demo explored gettid() and getpid() issues on linux

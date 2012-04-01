@@ -4,7 +4,7 @@
 #include<stdio.h> // for perror(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is the first child

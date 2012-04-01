@@ -27,7 +27,7 @@
 #include<signal.h>
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_SUCCESS, exit(3)
 
 const int BUFSIZE=1024;
 
@@ -86,12 +86,12 @@ int main(int argc,char** argv,char** envp) {
 	alarm(2);
 	if(argc < 2) {
 		fprintf(stderr, "Usage: %s 1 or 2\n", argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	me = atoi(argv[1]);
 	if(me < 1 || me > 2) {
 		fprintf(stderr, "I said 1 or 2\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	switch(me) {
 		case 1:

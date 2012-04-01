@@ -4,7 +4,7 @@
 #include<pthread.h>
 #include<unistd.h> // for sysconf
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is a demo which shows atomic add using the

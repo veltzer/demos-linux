@@ -5,7 +5,7 @@
 #include<ace/Atomic_Op.h>
 #include<ace/Guard_T.h>
 #include<ace/RW_Mutex.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
  * This demonstration program verifies the functionality of the ACE_OS
@@ -43,7 +43,7 @@ static ACE_Thread_Manager thr_mgr;
 // Explain usage and exit.
 static void print_usage_and_die(void) {
 	ACE_DEBUG((LM_DEBUG, "usage: %n [-r n_readers] [-w n_writers] [-n iteration_count]\n"));
-	ACE_OS::exit(1);
+	ACE_OS::exit(EXIT_FAILURE);
 }
 
 // Parse the command-line arguments and set options.

@@ -7,7 +7,7 @@
 #endif // _GNU_SOURCE
 #include<sched.h> // for CPU_ZERO(3), CPU_SET(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is a demo for using pthread spin locks...

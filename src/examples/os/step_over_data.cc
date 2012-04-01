@@ -22,7 +22,7 @@
 #include<unistd.h> // for sysconf(3), getpid(2)
 #include<signal.h> // for signal(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example shows that the data segment is organized into pages. It shows
@@ -58,7 +58,7 @@ int main(int argc,char** argv,char** envp) {
 	waitkey(NULL);
 	// lets install our own SIGSEGV signal handler so that we could print the address we
 	// failed at...
-	CHECK_NOT_VAL(old_handler=signal(SIGSEGV,segv_handler),SIG_ERR);
+	CHECK_NOT_SIGT(old_handler=signal(SIGSEGV,segv_handler),SIG_ERR);
 	ptr=(char*)&a;
 	// the next line is really needed. If I leave it out then the seg fault happens much
 	// sooner since I'm stepping over stuff which is needed by the libc library for either

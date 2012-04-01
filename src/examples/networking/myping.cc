@@ -8,7 +8,7 @@
 #include<netinet/ip_icmp.h>
 #include<string.h>
 #include<arpa/inet.h>
-#include<stdlib.h> // for exit(3), atoi(3)
+#include<stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<unistd.h> // for close(2)
 
 /*
@@ -36,7 +36,7 @@ int main(int argc, char** argv,char** envp) {
 		printf("- saddress is the spoofed source address\n");
 		printf("- dstaddress is the target\n");
 		printf("- number is the number of packets to send, 100 is the default\n");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	/* If enough argument supplied */
 	if(argc==4)
@@ -50,17 +50,17 @@ int main(int argc, char** argv,char** envp) {
 		if((s = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0) {
 			perror("socket() error");
 			/* If something wrong, just exit */
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		/* socket options, tell the kernel we provide the IP structure */
 		if(setsockopt(s, IPPROTO_IP, IP_HDRINCL, &on, sizeof(on)) < 0) {
 			perror("setsockopt() for IP_HDRINCL error");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		if((hp = gethostbyname(argv[2])) == NULL) {
 			if((ip->ip_dst.s_addr = inet_addr(argv[2])) == -1) {
 				fprintf(stderr, "%s: Can't resolve, unknown host.\n", argv[2]);
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		} else
 			bcopy(hp->h_addr_list[0], &ip->ip_dst.s_addr, hp->h_length);
@@ -69,7 +69,7 @@ int main(int argc, char** argv,char** envp) {
 		if((hp2 = gethostbyname(argv[1])) == NULL) {
 			if((ip->ip_src.s_addr = inet_addr(argv[1])) == -1) {
 				fprintf(stderr, "%s: Can't resolve, unknown host\n", argv[1]);
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		} else
 			bcopy(hp2->h_addr_list[0], &ip->ip_src.s_addr, hp->h_length);

@@ -1,7 +1,7 @@
 #include<papi.h> // for PAPI_* functions
 #include<unistd.h> // for sleep(3)
 #include<stdio.h> // for printf(3), perror(3)
-#include<stdlib.h> // for exit(3), atoi(3)
+#include<stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<errno.h> // for perror(3)
 
 /*
@@ -17,7 +17,7 @@
 
 void handle_error(int val) {
 	perror("had an error");
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 long long dummy_work(int limit) {

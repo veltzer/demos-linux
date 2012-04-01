@@ -26,7 +26,7 @@
 #include<unistd.h>
 #include<sys/ioctl.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 #include"shared.h"
 
 /*

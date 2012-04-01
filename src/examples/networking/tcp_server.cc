@@ -12,7 +12,7 @@
 #include<netinet/in.h> // for sockaddr_in, inet_addr(3)
 #include<arpa/inet.h> // for inet_addr(3)
 
-#include"us_helper.hh" // our own helper
+#include<us_helper.h> // our own helper
 
 /*
  * This is a demo of a simple echo socket server implementation in pure C

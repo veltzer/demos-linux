@@ -1,12 +1,12 @@
 #include<stdio.h> // for printf(3), perror(3)
-#include<stdlib.h> // for malloc(3), free(3), exit(3)
+#include<stdlib.h> // for malloc(3), free(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<sys/mman.h> // for mprotect(2)
 #include<signal.h> // for sigaction(2)
 #include<malloc.h> // for memalign(3)
 #include<errno.h> // for errno
 #include<unistd.h> // for getpagesize(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is a demo of the use of mprotect(2) to protect your memory and thus try to
@@ -45,7 +45,7 @@ const void* mymalloc(unsigned int size,int protect) {
 		int val=mprotect(buf,size,PROT_READ);
 		if(val==-1) {
 			perror("error in mprotect");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		return buf;
 		/*
@@ -58,7 +58,7 @@ const void* mymalloc(unsigned int size,int protect) {
 		int val=mprotect(newaddress,sz,PROT_NONE);
 		if(!val) {
 			perror("error in mprotect");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		return newaddress;
 		*/

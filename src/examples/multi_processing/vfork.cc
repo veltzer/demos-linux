@@ -2,12 +2,12 @@
 #include<stdio.h> // for fgets(3), perror(3)
 #include<sys/types.h> // for waitid(2)
 #include<sys/wait.h> // for waitid(2)
-#include<stdlib.h> // for exit(3), atoi(3)
+#include<stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<string.h> // for strsignal(3)
 #include<sys/types.h> // for vfork(2)
 #include<unistd.h> // for vfork(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * An example of using vfork(2)
@@ -78,7 +78,7 @@ int main(int argc, char **argv, char **envp) {
 			int res = waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED);
 			if (res == -1) {
 				perror("could not waitid(2)");
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 			print_code(info.si_code);
 			print_status(info.si_status);

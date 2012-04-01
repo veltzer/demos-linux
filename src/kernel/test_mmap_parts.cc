@@ -30,7 +30,7 @@
 #include<sys/types.h>
 #include<unistd.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This test shows how you can do mmap via an ioctl...
@@ -76,7 +76,7 @@ int main(int argc, char **argv, char **envp) {
 	if (do_mmap_once) {
 		void *p;
 		klog_clear();
-		CHECK_NOT_VAL(p = mmap(
+		CHECK_NOT_VOIDP(p = mmap(
 			NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 			size, /* the size we need */
 			PROT_READ | PROT_WRITE, /* we want read AND write */
@@ -138,7 +138,7 @@ int main(int argc, char **argv, char **envp) {
 		const int number = 100000;
 		for (int i = 0; i < number; i++) {
 			void *p;
-			CHECK_NOT_VAL(p = mmap(
+			CHECK_NOT_VOIDP(p = mmap(
 				NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 				size, /* the size we need */
 				PROT_READ | PROT_WRITE, /* we want read AND write */

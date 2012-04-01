@@ -4,7 +4,7 @@
 #include<sys/ioctl.h> // for ioctl(2)
 #include<unistd.h> // for close(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is a demo of how to use the BUG() macro in the kernel to find bugs.

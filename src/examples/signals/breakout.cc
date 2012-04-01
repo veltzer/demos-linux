@@ -1,10 +1,10 @@
 #include<iostream>
 #include<signal.h>
-#include<stdlib.h>
 #include<string.h>
 #include<stdio.h>
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 
 /*
  * This demo demostrates how to cause a thread that is stuck in a long system call to
@@ -42,7 +42,7 @@ static void SignalHandlerUSR2(int sig) {
 	std::cerr << "handler: [" << strsignal(sig) << "]: " << counterUSR1 << " setting flag to " << flag << std::endl;
 	if (siginterrupt(SIGUSR1, flag) == -1) {
 		perror("problem with calling siginterrupt(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -50,11 +50,11 @@ int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
 	if (signal(SIGUSR1, SignalHandlerUSR1) == SIG_ERR) {
 		perror("problem with calling signal(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if (signal(SIGUSR2, SignalHandlerUSR2) == SIG_ERR) {
 		perror("problem with calling signal(2)");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	std::cerr << "main: set up the sig handler, lets start" << std::endl;
 	std::cerr << "send signals to me using:" << std::endl;

@@ -1,13 +1,13 @@
-#include<stdio.h>
+#include<stdio.h> // for perror(3)
 #include<sys/types.h>
 #include<sys/stat.h>
 #include<fcntl.h>
-#include<stdlib.h>
 #include<unistd.h>
 #include<sys/ioctl.h>
 #include<sys/wait.h>
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 
-#include"us_helper.hh"
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 #include"shared.h"
 
@@ -22,7 +22,7 @@ int get_number(void) {
 	char *res = fgets(str, 256, stdin);
 	if (res == NULL) {
 		perror("problem with fgets");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	return(atoi(str));
 }
@@ -44,7 +44,7 @@ int show_menu(void) {
 		char *res = fgets(str, 256, stdin);
 		if (res == NULL) {
 			perror("problem with fgets");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		selection=atoi(str);
 	}
@@ -83,5 +83,5 @@ int main(int argc, char **argv, char **envp) {
 	}
 	CHECK_NOT_M1(close(fd));
 	waitkey(NULL);
-	return(0);
+	return EXIT_SUCCESS;
 }

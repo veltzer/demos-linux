@@ -6,7 +6,7 @@
 #include<unistd.h> // for read(2), close(2)
 #include<stdlib.h> // for stof(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This demo shows how to get the uptime of the machine...

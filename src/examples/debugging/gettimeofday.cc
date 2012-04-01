@@ -3,7 +3,7 @@
 #include<sys/time.h>
 #include<unistd.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example shows how to use gettimeofday

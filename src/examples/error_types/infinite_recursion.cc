@@ -2,7 +2,7 @@
 #include<sys/time.h> // for getrusage(2)
 #include<sys/resource.h> // for getrusage(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This is an example of infinite recursion prevention using setting the stack size

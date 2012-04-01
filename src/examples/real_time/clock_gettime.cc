@@ -2,7 +2,7 @@
 #include<string.h>
 #include<time.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * Demo the clock_gettime usage

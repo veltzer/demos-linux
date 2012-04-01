@@ -3,7 +3,7 @@
 #include<sys/syscall.h> // for syscall(2)
 
 #define DO_DEBUG
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example explores the different ways of exiting a program...

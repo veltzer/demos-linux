@@ -1,6 +1,6 @@
 #include<stdio.h> // for printf(3)
 #include<search.h> // for hsearch(3), ENTRY
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 /*
  * This is a demo of using the GNU C libraries hash table implementation
@@ -29,7 +29,7 @@ int main(int argc,char** argv,char** envp) {
 		/* there should be no failures */
 		if(ep==NULL) {
 			fprintf(stderr, "entry failed\n");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 	for(int i=22;i<26;i++) {

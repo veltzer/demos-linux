@@ -3,7 +3,7 @@
 #include<sys/prctl.h> // for prctl(2)
 #include<unistd.h> // for sleep(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example creates a zombie thread.

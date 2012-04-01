@@ -11,13 +11,13 @@
 
 #include<stdio.h>
 #include<unistd.h>
-#include<stdlib.h>
 #include<string.h> // for memset(3)
 #include<sys/types.h> // for stat(2)
 #include<sys/stat.h> // for stat(2)
 #include<unistd.h> // for stat(2)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 // this is the position we will seek to...
 //const int pos=1024*1024;
@@ -33,22 +33,22 @@ int main(int argc, char **argv, char **envp) {
 	FILE *f = fopen(fname, "w");
 	if (f == NULL) {
 		perror("could not open file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ret = fseek(f, pos, SEEK_CUR);
 	if (ret == -1) {
 		perror("could not seek file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ret = fwrite(string, strlen(string), 1, f);
 	if (ret != 1) {
 		perror("could not write file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ret = fclose(f);
 	if (ret == -1) {
 		perror("could not close file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	struct stat stat_buf;
 	CHECK_NOT_M1(stat(fname, &stat_buf));
@@ -61,7 +61,7 @@ int main(int argc, char **argv, char **envp) {
 	f = fopen(fname, "r");
 	if (f == NULL) {
 		perror("could not open file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	const unsigned int buf_size=4096;
 	char buf[buf_size];
@@ -71,7 +71,7 @@ int main(int argc, char **argv, char **envp) {
 	ret = fread(buf, buf_size, 1, f);
 	if (ret != 1) {
 		perror("could not read file");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	fprintf(stderr,"checking that the buffer is full of 0's\n");
 	memcheck(buf,0,buf_size);

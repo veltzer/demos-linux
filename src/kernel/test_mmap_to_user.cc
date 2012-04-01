@@ -30,7 +30,7 @@
 #include<sys/types.h>
 #include<unistd.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 #include"shared.h"
 
 /*
@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **envp) {
 	if (do_single) {
 		// the size of data that we need
 		const unsigned int size = 1000000;
-		CHECK_NOT_VAL(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
+		CHECK_NOT_VOIDP(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
 		//printproc("demo");
 		//klog_show_clear();
 		waitkey(NULL);

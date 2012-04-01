@@ -3,7 +3,7 @@
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example shows how to use prctl to set/get the current process name.

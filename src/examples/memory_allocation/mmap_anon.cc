@@ -4,7 +4,7 @@
 #include<unistd.h> // for getpagesize(2)
 #include<assert.h> // for assert(3)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This application demonstrates the use of anonymous memory mappings to get
@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **envp) {
 
 	printproc(NULL);
 	print_stats();
-	CHECK_NOT_VAL(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0),MAP_FAILED);
+	CHECK_NOT_VOIDP(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0),MAP_FAILED);
 	printproc(NULL);
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {

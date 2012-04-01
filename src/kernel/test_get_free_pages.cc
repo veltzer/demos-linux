@@ -26,7 +26,7 @@
 #include<unistd.h>
 #include<sys/ioctl.h>
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This tests the get_free_pages driver

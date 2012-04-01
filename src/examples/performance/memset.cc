@@ -3,7 +3,7 @@
 #include<wchar.h> // for wmemset
 #include<stdlib.h> // for EXIT_SUCCESS
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This example explores the inner workings of memset...

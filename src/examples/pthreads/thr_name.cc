@@ -5,7 +5,7 @@
 #include<string.h> // for strncpy(3)
 #include<sys/prctl.h> // for prctl(2)
 
-#include"us_helper.hh"
+#include<us_helper.h>
 
 /*
  * This exapmles shows how to set thread names in Linux.

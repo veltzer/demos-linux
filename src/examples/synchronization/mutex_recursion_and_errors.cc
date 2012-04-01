@@ -6,7 +6,7 @@
 #include<sys/ipc.h> // for ftok(3), semget(3), semctl(3), semop(3)
 #include<sys/sem.h> // for semget(3), semctl(3), semop(3)
 
-#include"us_helper.hh" // for micro_diff, CHECK_ZERO
+#include<us_helper.h> // for micro_diff, CHECK_ZERO
 
 /*
  * This demo shows that the default pthread_mutex is non recursive, it boggs you in an

@@ -1,7 +1,7 @@
 #include<ace/Synch.h> // for the mutex
 #include<ace/Thread.h> // for thread functions
 #include<ace/Log_Msg.h> // for ACE_DEBUG
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
  * Mark Veltzer
@@ -37,7 +37,7 @@ static void * worker(void *arguments) {
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	if(argc<2) {
 		ACE_OS::printf("Usage: %s <number_of_threads> <number_of_iterations>\n",argv[0]);
-		ACE_OS::exit(1);
+		ACE_OS::exit(EXIT_FAILURE);
 	}
 	//Setup the arguments
 	Args arg(ACE_OS::atoi(argv[2]));

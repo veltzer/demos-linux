@@ -26,7 +26,7 @@
 #include<unistd.h>
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 const int MAXINDEXSIZE=128;
 
@@ -44,7 +44,7 @@ int main(int argc,char** argv,char** envp) {
 
 	if(argc < 2) {
 		fprintf(stderr, "Usage: %s file\n", argv[0]);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if ((fdindex = open("lpindex", O_RDWR|O_CREAT, 0666)) == -1) {
 		perror("open lpindex file failed");
@@ -75,7 +75,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	if(buffer.ID>0) {
 		fprintf(stderr, "Index table full. Retry print later");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	if(lseek(fdindex, sizeof(int) + currid * sizeof(buffer), SEEK_SET) == -1) {
 		perror("seek to nextid failed");

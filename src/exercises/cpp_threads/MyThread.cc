@@ -22,7 +22,7 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 #include"MyThread.hh"
-#include"us_helper.hh" // for CHECK_ZERO
+#include<us_helper.h> // for CHECK_ZERO
 
 /*
  * EXTRA_LIBS=-lpthread
@@ -48,7 +48,7 @@ void MyThread::join() {
 #include<iostream> // for std::cout, std::endl
 #include<unistd.h> // for sleep(3)
 
-#include"us_helper.hh" // for gettid()
+#include<us_helper.h> // for gettid()
 
 class ImpThread:public MyThread {
 	private:
