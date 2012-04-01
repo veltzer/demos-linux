@@ -1,17 +1,37 @@
-#include<signal.h> // for signal(2)
+/*
+	This file is part of the linuxapi project.
+	Copyright (C) 2011, 2012 Mark Veltzer <mark.veltzer@gmail.com>
+
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
+
+#include<signal.h> // for signal(2), psignal(3)
 #include<stdio.h> // for perror(3)
 #include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include<unistd.h> // for pause(2), getpid(2)
 #include<sys/types.h> // for getpid(2)
-
-#include<us_helper.h> // for TRACE
+#include<us_helper.h> // for TRACE(), CHECK_NOT_VAL()
+#include<string.h> // for strsignal(3)
 
 /*
  * This is a simple example which shows how to do signal handling with the
  * signal(2) syscall. Mind you that this is the old system call and there is a
  * better sigaction(2) syscall at your disposal.
  *
- * Things to note:
+ * NOTES:
  * - the same signal handler can be used for handling more than one signal.
  * - if you send a signal when the signal handler is active then it is not
  *	activated (meaning that the code that you write need not be re-entrant).
@@ -21,15 +41,17 @@
  *	mask of waiting signals so each waiting signal is either on or off.
  * - the pause(2) call can be used to block until a signal arrives an provide
  *	you with a non-busy wait loop on signals.
- *
- *		Mark Veltzer
+ * - if you get a signal while inside a signal handler, then the main thread
+ * (the one waiting on the pause(2) syscall) will not wake up until you deal
+ * with the second one.
  */
 
-static unsigned int counter = 0;
+static unsigned int counter=0;
 
 static void sig_handler(int sig) {
 	counter++;
-	TRACE("start %d handler, sig is %d",counter,sig);
+	psignal(sig,"this is a message");
+	TRACE("start %d handler, sig is %d, name is %s",counter,sig,strsignal(sig));
 	TRACE("sleeping for 10 seconds...");
 	sleep(10);
 	TRACE("end");
@@ -37,14 +59,8 @@ static void sig_handler(int sig) {
 
 int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
-	if (signal(SIGUSR1, sig_handler) == SIG_ERR) {
-		perror("problem with calling signal(2)");
-		exit(EXIT_FAILURE);
-	}
-	if (signal(SIGUSR2, sig_handler) == SIG_ERR) {
-		perror("problem with calling signal(2)");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_SIGT(signal(SIGUSR1, sig_handler),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGUSR2, sig_handler),SIG_ERR);
 	TRACE("set up the sig handler");
 	TRACE("send me SIGUSR1 using [kill -s SIGUSR1 %d]",getpid());
 	TRACE("send me SIGUSR2 using [kill -s SIGUSR2 %d]",getpid());
