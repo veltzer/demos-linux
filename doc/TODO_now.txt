@@ -1,3 +1,2 @@
-- turn us_helper.hh into us_helper.h and include it via <>.
 - make sure my header (in script/header) is on every file with an automatic test.
 - make sure EXIT_SUCCESS is everywhere.
