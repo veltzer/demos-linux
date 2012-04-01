@@ -20,6 +20,7 @@
 
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for TRACE()
 
 /*
  * This is a demo to show how sync_synchronize() is implemented...
@@ -37,8 +38,8 @@
  * EXTRA_LIBS=-lpthread
  */
 int main(int argc,char** argv,char** envp) {
-	printf("main started\n");
+	TRACE("start");
 	__sync_synchronize();
-	printf("main ended\n");
+	TRACE("end");
 	return EXIT_SUCCESS;
 }
