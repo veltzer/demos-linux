@@ -2,7 +2,7 @@
 #include<stdlib.h> // for atof(3), atoi(3)
 #include<math.h> // for pow(3)
 
-#include<Stat.h> // our own statistics gathering object
+#include<stat.hh> // our own statistics gathering object
 
 // this example explores the representational issues of the floating point
 // system in the mathematical co-processor.

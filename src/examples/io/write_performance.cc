@@ -5,8 +5,8 @@
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
 
-#include"us_helper.hh" // our own helper
-#include"Stat.h" // our own helper
+#include<us_helper.hh> // our own helper
+#include<stat.hh> // our own helper
 
 /*
  * This example explores the performance of the write system call...
