@@ -19,6 +19,7 @@
 */
 
 #include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example explores compiler builtins like:
