@@ -15,7 +15,6 @@
  * entity which may be a thread or a process. The reason that it says what is says is
  * mostly historical.
  *
- * 			Mark Veltzer
  * EXTRA_LIBS=-lpthread
  */
 

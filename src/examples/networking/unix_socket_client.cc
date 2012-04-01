@@ -11,8 +11,6 @@
 
 /*
  * This is a unix socket client demo.
- *
- * 			Mark Veltzer
  */
 
 const char* filename="/tmp/myunixsocket";

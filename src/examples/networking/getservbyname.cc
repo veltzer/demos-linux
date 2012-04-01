@@ -1,16 +1,15 @@
 #include<netdb.h> // for getservbyname(3)
-#include<stdio.h> // for printf(3)
-
-#include<us_helper.h> // our own helper
+#include<stdio.h> // for printf(3), fprintf(3)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include<us_helper.h> // for CHECK_NOT_NULL()
 
 /*
  * A simple example to demonstrate getservbyname(3)
- *
- * 			Mark Veltzer
  */
-int main(int argc, char** argv,char** envp) {
+
+int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {
-		printf("usage: %s [service-name] [protocol-name]\n",argv[0]);
+		fprintf(stderr, "usage: %s [service-name] [protocol-name]\n",argv[0]);
 		return EXIT_FAILURE;
 	}
 	// getservbyname() - opens the etc.services file and returns the

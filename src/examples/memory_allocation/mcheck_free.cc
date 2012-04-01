@@ -8,7 +8,6 @@
  * This means that if you activated mcheck your free(3) calls will run
  * some consistency check and you will catch the errors.
  *
- * 		Mark Veltzer
  */
 
 void myhandler(enum mcheck_status status) {

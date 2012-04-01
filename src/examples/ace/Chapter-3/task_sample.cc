@@ -58,9 +58,9 @@ int Task::close(u_long flags) {
  */
 int Task::svc(void) {
 	/*
-	 * All of the threads will block here until the last thread
-	 * arrives. They will all then be free to begin doing work.
-	 */
+	* All of the threads will block here until the last thread
+	* arrives. They will all then be free to begin doing work.
+	*/
 	this->barrier_->wait();
 	ACE_DEBUG((LM_DEBUG, "(%P|%t) Task 0x%x starts in thread %u\n",(void *)this,ACE_Thread::self()));
 	// Where we getq() the message
@@ -88,36 +88,36 @@ int Task::svc(void) {
 		// about what we're doing here
 		message_block = (ACE_Message_Block *)message;
 		/*
-		 * Since we left alone the ACE_Data_Block used by the
-		 * Message_Block we have chosen to use it to send arbitrary data
-		 * as well.
-		 */
+		* Since we left alone the ACE_Data_Block used by the
+		* Message_Block we have chosen to use it to send arbitrary data
+		* as well.
+		*/
 		const char *cp = message_block->rd_ptr();
 		// Don't forget to skip the NULL we inserted
 		message_block->rd_ptr(strlen(cp) + 1);
 		/*
-		 * Get the Unit_Of_Work pointer out of our specialized
-		 * Message_Block. Since the methods of interest are virtual, we
-		 * don't have to know what kind of work we're to do.
-		 */
+		* Get the Unit_Of_Work pointer out of our specialized
+		* Message_Block. Since the methods of interest are virtual, we
+		* don't have to know what kind of work we're to do.
+		*/
 		//unit_of_work = message_block->data();
 		/*
-		 * Invoke a couple of method calls on the object we constructed.
-		 */
+		* Invoke a couple of method calls on the object we constructed.
+		*/
 		//unit_of_work->who_am_i ();
 		//unit_of_work->what_am_i ();
 		ACE_DEBUG((LM_DEBUG, "(%P|%t) Block 0x%x contains (%s)\n", (void *)message, cp));
 		/*
-		 * Pretend that the work takes a little time to process. This
-		 * prevents one thread from getting all of the action. In a real
-		 * system you wouldn't need to do this since the work really
-		 * would take time to complete.
-		 */
+		* Pretend that the work takes a little time to process. This
+		* prevents one thread from getting all of the action. In a real
+		* system you wouldn't need to do this since the work really
+		* would take time to complete.
+		*/
 		ACE_OS::sleep(ACE_Time_Value(0, 5000));
 		/*
-		 * Release the message block and allow the unit of work to also go
-		 * away.
-		 */
+		* Release the message block and allow the unit of work to also go
+		* away.
+		*/
 		message->release();
 	}
 	return(0);

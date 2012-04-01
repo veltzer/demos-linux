@@ -1,8 +1,6 @@
 /*
  * An example of writing a merge sort algorithm using open mp.
  *
- * 			Mark Veltzer
- *
  * EXTRA_COMPILE_FLAGS=-fopenmp
  */
 

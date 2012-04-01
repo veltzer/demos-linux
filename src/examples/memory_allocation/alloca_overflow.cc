@@ -22,8 +22,6 @@
  * - even if you did not zero the memory you got from alloca you would still get a stack
  * violation exception since in ubuntu 6.10 and onwards a stack protector is
  * automatically enabled for any thread calling alloca.
- *
- * 	Mark Veltzer
  */
 
 void my_func(size_t size) {

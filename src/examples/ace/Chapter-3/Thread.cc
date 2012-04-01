@@ -14,8 +14,8 @@ static int seed=0;
 static void* worker(void *arg) {
 	ACE_UNUSED_ARG(arg);
 	ACE_DEBUG((LM_DEBUG, "Thread (%t) Created to do some work"));
-	::number++;
-	ACE_DEBUG((LM_DEBUG, " and number is %d\n", ::number));
+	number++;
+	ACE_DEBUG((LM_DEBUG, " and number is %d\n", number));
 
 	//Let the other guy go while I fall asleep for a random period of time
 	ACE_Thread::yield();

@@ -5,8 +5,6 @@
 /*
  * This example shows how to find out which libraries you are linked to.
  * Sort of a cheap ldd replacement.
- *
- * 		Mark Veltzer
  */
 static bool verbose=false;
 

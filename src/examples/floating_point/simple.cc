@@ -1,25 +1,25 @@
 #include<stdio.h> // for printf(3), snprintf(3)
 #include<stdlib.h> // for atof(3)
 
-// This example is very simple. It shows how a specific
-// integer value cannot be represented as float.
-//
-// Why was the specific value chosen (2^24+1)?
-// Because a floating point number on a 32 bit system is divided
-// into 1+7+24=32 bits:
-// 	1 bit for the sign
-// 	7 bits for the exponent
-// 	24 bits for the number
-// In regular number range (whole numbers) of small numbers only
-// the sign and number are used. So this means that the floating
-// point representation should start to mess up at the 2^24 point
-// (and -2^24).
-//
-// This test works on an intel 32 bit system. On other systems
-// your results may be different as the definition of int and float
-// may change or the math hardware may work slightly differently.
-//
-// 	Mark Veltzer
+/*
+ * This example is very simple. It shows how a specific
+ * integer value cannot be represented as float.
+ *
+ * Why was the specific value chosen (2^24+1)?
+ * Because a floating point number on a 32 bit system is divided
+ * into 1+7+24=32 bits:
+ * 1 bit for the sign
+ * 7 bits for the exponent
+ * 24 bits for the number
+ * In regular number range (whole numbers) of small numbers only
+ * the sign and number are used. So this means that the floating
+ * point representation should start to mess up at the 2^24 point
+ * (and -2^24).
+ *
+ * This test works on an intel 32 bit system. On other systems
+ * your results may be different as the definition of int and float
+ * may change or the math hardware may work slightly differently.
+ */
 
 int main(int argc,char** argv,char** envp) {
 	// example with built in compiler conversions

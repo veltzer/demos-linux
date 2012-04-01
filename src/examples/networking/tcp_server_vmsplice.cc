@@ -22,8 +22,6 @@
 /*
  * This is an example of using vmsplice to send mucho data to clients.
  *
- * 			Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 

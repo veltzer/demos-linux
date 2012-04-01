@@ -66,8 +66,8 @@ static void doBadCode(int i) {
 	char* p;
 	switch(i) {
 		/*
-		 * This is a standard FPE exception
-		 */
+		* This is a standard FPE exception
+		*/
 		case 0:
 			std::cerr << "before division by zero" << std::endl;
 			// turning x into float here would not work since it
@@ -78,16 +78,16 @@ static void doBadCode(int i) {
 			std::cerr << "this is never reached" << std::endl;
 			break;
 		/*
-		 * This is a segmentation fault using a straight illegal memory access
-		 */
+		* This is a segmentation fault using a straight illegal memory access
+		*/
 		case 1:
 			std::cerr << "Lets access some illegal memory address" << std::endl;
 			p=0;
 			p[0]=0;
 			break;
 		/*
-		 * This is a floating point exception by using raise(3)
-		 */
+		* This is a floating point exception by using raise(3)
+		*/
 		case 2:
 			std::cerr << "Lets do a simulation of some bad code using raise(3)" << std::endl;
 			if(raise(SIGFPE)==-1) {
@@ -96,8 +96,8 @@ static void doBadCode(int i) {
 			}
 			break;
 		/*
-		 * This is a floating point exception by using kill(2)
-		 */
+		* This is a floating point exception by using kill(2)
+		*/
 		case 3:
 			std::cerr << "Lets do a simulation of some bad code using kill(2)" << std::endl;
 			if(kill(getpid(),SIGFPE)==-1) {

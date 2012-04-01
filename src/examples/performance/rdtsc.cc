@@ -39,10 +39,10 @@ void long_task(void) {
 	sleep(1);
 
 	/*
-	 * const int count=1000000;
-	 * for(int i=0;i<count;i++) {
-	 * }
-	 */
+	* const int count=1000000;
+	* for(int i=0;i<count;i++) {
+	* }
+	*/
 }
 
 

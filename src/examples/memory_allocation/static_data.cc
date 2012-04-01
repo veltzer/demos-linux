@@ -11,8 +11,6 @@
  * - if you initialize the array to 0 (first example) then the binary is small.
  * - if you do not initialize the array (second example) then the binary is small.
  * - if you initialize the array to anything which is not 0 then the binary is large.
- *
- * 					Mark Veltzer
  */
 
 const unsigned int size=1000000;

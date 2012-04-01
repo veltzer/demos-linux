@@ -16,8 +16,6 @@
 
 /*
  * This is udp client demo that writes to a file anything it gets.
- *
- * 			Mark Veltzer
  */
 
 int main(int argc,char** argv, char** envp) {

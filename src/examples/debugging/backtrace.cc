@@ -32,19 +32,17 @@
  * since the underlying libc functions (backtrace_*) are allocating memory via malloc(3)
  * which may be corrupt at that point.
  *
- * Mark Veltzer
- *
  * EXTRA_LIBS=-rdynamic
  *
  * TODO:
- * 	- do cxx name demangling.
- * 	- move to registering the handler via sigaction and show how to specify it's own stack
- * 	and the effect of this on the result.
- * 	- show in another example what happens if we do a segfault inside a segfault handler.
- * 	- do the recommendations from the gilad ben yossef slide show:
- * 		pipe the data to another process standing by,
- * 		malloc and heap poisoning
- * 		and more.
+ * - do cxx name demangling.
+ * - move to registering the handler via sigaction and show how to specify it's own stack
+ * and the effect of this on the result.
+ * - show in another example what happens if we do a segfault inside a segfault handler.
+ * - do the recommendations from the gilad ben yossef slide show:
+ * pipe the data to another process standing by,
+ * malloc and heap poisoning
+ * and more.
  */
 
 /*
@@ -70,15 +68,15 @@ void print_trace(bool full) {
 	backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 
 	/*
-	 * strings=backtrace_symbols(buffer, nptrs);
-	 * if (strings == NULL) {
-	 *	perror("backtrace_symbols");
-	 *	exit(EXIT_FAILURE);
-	 * }
-	 * for(j=0;j<nptrs;j++)
-	 *	fprintf(stderr,"%s\n", strings[j]);
-	 * free(strings);
-	 */
+	* strings=backtrace_symbols(buffer, nptrs);
+	* if (strings == NULL) {
+	*	perror("backtrace_symbols");
+	*	exit(EXIT_FAILURE);
+	* }
+	* for(j=0;j<nptrs;j++)
+	*	fprintf(stderr,"%s\n", strings[j]);
+	* free(strings);
+	*/
 }
 
 // this is not really required since we are taking the address of this functino
@@ -112,9 +110,9 @@ void trace_register(void) {
 	}
 
 	/*
-	 * struct sigaction sa;
-	 * memset(sa,0,sizeof(struct sigaction));
-	 */
+	* struct sigaction sa;
+	* memset(sa,0,sizeof(struct sigaction));
+	*/
 }
 
 /*

@@ -40,8 +40,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_SOCK_Stream peer;
 
 	/*
-	 * Basic acceptor usage - No timeout
-	 */
+	* Basic acceptor usage - No timeout
+	*/
 // #define NO_TIMEOUT
 #ifdef NO_TIMEOUT
 	if(acceptor.accept(peer) == -1) {

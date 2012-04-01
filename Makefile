@@ -232,8 +232,12 @@ check_name:
 .PHONY: check_exit
 check_exit:
 	-@git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_pgrep
+check_pgrep:
+	./scripts/pgrep.pl "\t " ".*\.cc" `find . -name "*.cc"`
+	./scripts/pgrep.pl " \t" ".*\.cc" `find . -name "*.cc"`
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep
 
 # checks that dont pass
 .PHONY: check_syn

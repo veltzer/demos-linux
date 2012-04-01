@@ -25,8 +25,6 @@
  * the following command:
  * cat /proc/[pid]/stat | cut -f 19 -d " "
  * (see man 5 proc for more details...)
- *
- * 	Mark Veltzer
  */
 pid_t make_child(int nice_val) {
 	pid_t child_pid=fork();

@@ -11,8 +11,6 @@
 /*
  * This is a demo of the use of mprotect(2) to protect your memory and thus try to
  * find a memory violation.
- *
- * 				Mark Veltzer
  */
 
 #define HANDLE_SEGV
@@ -49,7 +47,7 @@ const void* mymalloc(unsigned int size,int protect) {
 		}
 		return buf;
 		/*
- 		// does not work for some reason
+		// does not work for some reason
 		int ps=getpagesize();
 		void* ret=malloc(ps+size);
 		int iret=(int)ret;
