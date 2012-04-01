@@ -53,7 +53,7 @@ static void *worker(void *p) {
 }
 
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	// first initialize the lock (no need for sharing between processes which
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");

@@ -40,7 +40,7 @@ public:
 	}
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	A a;
 	a.doit();
 	return EXIT_SUCCESS;

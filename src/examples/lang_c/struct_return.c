@@ -37,7 +37,7 @@ foo giveMeFoo(void) {
 	return(f);
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	foo f=giveMeFoo();
 	printf("f.a is %d\n",f.a);
 	printf("f.b is %d\n",f.b);

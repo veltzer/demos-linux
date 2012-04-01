@@ -35,7 +35,7 @@
  *
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int i=7;
 	int u=20;
 	int& j=i;

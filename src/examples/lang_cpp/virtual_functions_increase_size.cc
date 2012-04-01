@@ -57,7 +57,7 @@ class A2 {
 		}
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	std::cout << "sizeof(A1) is " << sizeof(A1) << std::endl;
 	std::cout << "sizeof(A2) is " << sizeof(A2) << std::endl;
 	A2 obj1(4),obj2(5);

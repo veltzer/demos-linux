@@ -47,7 +47,7 @@ void handler(int signum) {
 	cont=false;
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if (argc < 2) {
 		fprintf(stderr, "Usage: %s [series of numbers to send]\n", argv[0]);
 		exit(EXIT_FAILURE);

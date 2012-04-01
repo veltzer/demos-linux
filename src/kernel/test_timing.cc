@@ -34,7 +34,7 @@
  * A test that runs ioctl 0 with no data, sleeps for 1 second and then
  * another ioctl 1 with no data.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename = "/dev/mod_timing";
 	printf("Inserting the driver...\n");

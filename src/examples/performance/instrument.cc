@@ -55,8 +55,8 @@ extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) {
 	printf("exiting %p,%p\n",this_fn,call_site);
 }
 
-int main(int argc, char **argv, char **envp) __attribute__((no_instrument_function));
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) __attribute__((no_instrument_function));
+int main(int argc,char** argv,char** envp) {
 	long_task();
 	return EXIT_SUCCESS;
 }

@@ -178,7 +178,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 void print_message_function (void *ptr);
 unsigned char buf[128];
 
-int main ( int argc, char * argv[]) {
+int main(int argc,char** argv,char** envp) {
 	pthread_t thread1;
 	pthread_t thread2;
 	int ret;

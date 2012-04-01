@@ -64,7 +64,7 @@ static void SignalHandlerUSR2(int sig) {
 	}
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
 	if (signal(SIGUSR1, SignalHandlerUSR1) == SIG_ERR) {
 		perror("problem with calling signal(2)");

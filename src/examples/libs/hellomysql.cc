@@ -33,7 +33,7 @@
  *
  * EXTRA_LIBS=-lmysqlclient
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	MYSQL mysql;
 	MYSQL *ret0 = mysql_init(&mysql);
 	if (!ret0) {

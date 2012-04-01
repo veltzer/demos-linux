@@ -34,7 +34,7 @@ void print(const std::string& str) {
 	std::cout << str;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	Signal1<void, const std::string&> printer;
 	printer.connect(slot(print));
 	printer("Hello, World!\n");

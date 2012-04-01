@@ -38,13 +38,11 @@ void setErr(const char *msg) {
 	myMsg = msg;
 }
 
-
 void printErr(void) {
 	printf("ERROR: message was [%s]\n", myMsg);
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	setlocale(LC_ALL, "");
 
 	/*

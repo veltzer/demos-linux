@@ -17,7 +17,7 @@ worker(void *arg)
   return 0;
 }
 
-int main(int argc, char *argv[])
+int main(int argc,char** argv,char** envp) {
 { if(argc<2)
     { ACE_DEBUG((LM_DEBUG,"Usage: %s <number of threads>\n", argv[0]));
       ACE_OS::exit(EXIT_FAILURE);

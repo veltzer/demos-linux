@@ -28,7 +28,7 @@
  *
  * EXTRA_LIBS=-lbfd
  */
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	bfd_init();
 	bfd *b = bfd_openr("/bin/ls", NULL);
 	if (!b) {

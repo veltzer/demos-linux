@@ -85,7 +85,7 @@ const char* str_log[8]={
 	"LOG_DEBUG"
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	//print_syslog_numeric_values();
 	// the named
 	const char* myname="thisismyname";

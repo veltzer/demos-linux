@@ -96,7 +96,7 @@ static inline void print_state(pid_t pid) {
 	printf("pid is %d, state is %c\n",pid, myproc.state);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	pid_t child_pid;
 	int pipefd_c2p[2];
 	int pipefd_p2c[2];

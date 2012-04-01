@@ -25,7 +25,7 @@
  *
  * EXTRA_CMDS=pkg-config --libs --cflags libgnomeuimm-2.6
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	Glib::OptionContext context;
 	Gnome::Main app("gnome-hello", "0.1",
 		Gnome::UI::module_info_get(), argc, argv,

@@ -69,7 +69,7 @@ void my_print_process_name_from_proc() {
 	my_system("cat /proc/%d/comm",getpid());
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("start");
 	const char* newname="newpname";
 	my_print_process_name();

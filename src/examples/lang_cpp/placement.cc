@@ -97,7 +97,7 @@ public:
 	}
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	DEBUG("heap no arguments example");
 	A* a=new A();
 

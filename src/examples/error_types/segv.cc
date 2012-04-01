@@ -31,7 +31,7 @@
  * - show that you can catch SIGSEGV and even continue running.
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// lets show that the NULL constant is actually the number 0...
 	TRACE("NULL is %d",NULL);
 	char *p = 0;

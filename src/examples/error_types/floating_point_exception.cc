@@ -27,7 +27,7 @@
  * to fault, go to the OS, the OS sends a SIGFPE to your program, you can respond
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int i = 0;
 	int j = 1 / i;
 

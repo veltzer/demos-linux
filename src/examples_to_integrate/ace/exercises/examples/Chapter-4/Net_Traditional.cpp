@@ -9,7 +9,7 @@
 #include<arpa/inet.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 
-int main(int argc, char** argv,char** envp) {
+int main(int argc,char** argv,char** envp) {
 	int fd;
 	struct sockaddr_in srvr;
 	memset (&srvr, 0, sizeof(srvr));

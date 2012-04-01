@@ -27,7 +27,7 @@
 
 double add(double a,double b);
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("5.2+5.6 is %f\n",add(5.2,5.6));
 	return EXIT_SUCCESS;
 }

@@ -69,7 +69,7 @@ void gettid_cache_init() {
 	CHECK_NOT_M1(pthread_key_create(&tid_key,gettid_cache_delete));
 }
 
-int main(int argc, char **argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	struct timeval t1, t2;
 	const unsigned int loop=1000000;
 

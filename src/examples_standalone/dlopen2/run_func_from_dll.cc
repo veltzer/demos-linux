@@ -23,7 +23,7 @@
 #include<errno.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if (argc != 4) {
 		fprintf(stderr, "%s: usage: %s [library] [function] [value]\n", argv[0], argv[0]);
 		exit(-1);

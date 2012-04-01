@@ -64,7 +64,7 @@ void *worker(void *) {
 	return(NULL);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	set_thread_name("parent");
 	pthread_t thread;
 

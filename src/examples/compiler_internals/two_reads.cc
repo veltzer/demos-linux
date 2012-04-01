@@ -41,7 +41,7 @@ void __attribute__((noinline)) printit(int val) {
 	printf("val is %d\n",val);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	volatile int i=6;
 	int j=8;
 	int a;

@@ -35,7 +35,7 @@
  * _Bool is bool which is a built in type and true and false are built
  * ins.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("sizeof(_Bool) is %d\n",sizeof(_Bool));
 	printf("sizeof(bool) is %d\n",sizeof(bool));
 	printf("_Bool is really %s\n",__stringify(_Bool));

@@ -28,6 +28,7 @@
 
 class A {
 };
+
 class B {
 	public:
 		virtual void doit() {
@@ -35,7 +36,7 @@ class B {
 		}
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	A a;
 	B b;
 	std::cout << typeid(a).name() << std::endl;

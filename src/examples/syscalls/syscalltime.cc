@@ -35,7 +35,7 @@
  * Probably more on ARM processors.
  */
 
-int main(int argc, char **argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	struct timeval t1, t2;
 	const unsigned int loop=1000000;
 	printf("doing %d syscalls\n",loop);

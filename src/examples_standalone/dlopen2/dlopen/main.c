@@ -22,7 +22,7 @@
 #include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
 #include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	void *h = dlopen("libadd.so", RTLD_NOW);
 	void *sym = dlsym(h, "func");
 

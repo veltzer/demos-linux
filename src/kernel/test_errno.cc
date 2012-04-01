@@ -39,7 +39,7 @@
  *	value that kernel returned and errno for the thread doing the call will not change.
  * - Please recall that errno is a PER THREAD variable.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename = "/dev/drv_errno";
 	// file descriptor

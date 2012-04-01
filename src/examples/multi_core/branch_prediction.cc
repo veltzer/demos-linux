@@ -47,7 +47,7 @@
  *	Modify this to have a marked effect on performance and measure itself so that I can show when
  *	this is effective.
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int x=0;
 	long long sum=0;
 	//while(likely(x<100000000)) {

@@ -32,7 +32,7 @@ static void* worker(void *arg)
    }
  
 
-int main(int argc, char *argv[]){
+int main(int argc,char** argv,char** envp) {
 if ( argc < 2 )
     ACE_DEBUG((LM_DEBUG,"Usage: <program_name> <number of threads>\n"));
  

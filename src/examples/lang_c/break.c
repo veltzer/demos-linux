@@ -26,7 +26,7 @@
  * to change? Sometimes break is just the right answer.
  */
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	/* without break */
 	int early_break=0;
 	int i;

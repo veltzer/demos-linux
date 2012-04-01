@@ -116,7 +116,7 @@ void *function_close(void *p) {
 }
 
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const char *filename = "/dev/mod_ioctl_close_race";
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_ioctl_close_race");

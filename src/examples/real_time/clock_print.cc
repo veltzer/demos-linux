@@ -70,7 +70,7 @@ clock_data clocks[num_clocks] = {
 	},
 };
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	for(int i=0;i<num_clocks;i++) {
 		clockid_t clk_id=clocks[i].id;
 		struct timespec res,ts;

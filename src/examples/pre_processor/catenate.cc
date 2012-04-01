@@ -29,7 +29,7 @@
 #define __stringify_1(x) # x
 #define __stringify(x) __stringify_1(x)
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("This is the addition of %s and %s = %s\n",
 		__stringify(foo),
 		__stringify(bar),

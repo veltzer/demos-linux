@@ -65,7 +65,7 @@ void HelloWorld::on_button_clicked() {
 	std::cout << "Hello World" << std::endl;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	Gtk::Main kit(argc, argv);
 	HelloWorld helloworld;
 	//Shows the window and returns when it is closed.

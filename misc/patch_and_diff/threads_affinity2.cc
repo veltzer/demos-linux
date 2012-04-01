@@ -25,7 +25,7 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<unistd.h> // for sysconf(3)
 
-#include"us_helper.h"
+#include<us_helper.h>
 
 /*
  * This shows how to create threads with a certain affinity
@@ -53,7 +53,7 @@ void *worker(void *p) {
 	return(NULL);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
 	const int num = 10;
 	pthread_t threads[num];
@@ -62,7 +62,7 @@ int main(int argc, char **argv, char **envp) {
 	int ids[num];
 	void* rets[num];
 
-	fprintf(stderr, "main starting\n");
+	TRACE("started");
 	for (int i = 0; i < num; i++) {
 		ids[i] = i;
 		CPU_ZERO(cpu_sets + i);
@@ -72,10 +72,10 @@ int main(int argc, char **argv, char **envp) {
 		SCIG(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i), "pthread_attr_setaffinity_np");
 		SCIG(pthread_create(threads + i, attrs + i, worker, ids + i), "pthread_create");
 	}
-	fprintf(stderr, "main ended creating threads\n");
+	TRACE("created threads");
 	for (int i = 0; i < num; i++) {
 		SCIG(pthread_join(threads[i], rets + i), "pthread_join");
 	}
-	fprintf(stderr, "main ended\n");
+	TRACE("end");
 	return EXIT_SUCCESS;
 }

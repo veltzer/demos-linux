@@ -40,7 +40,7 @@ void apply(A& a,void (A::*method)()) {
 	(a.*method)();
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	A a;
 	a.val=7;
 	apply(a,&A::run);

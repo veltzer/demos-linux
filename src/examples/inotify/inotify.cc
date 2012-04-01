@@ -81,7 +81,7 @@ static void print_mask(uint32_t mask) {
 static int max_rec=0;
 static int max_len=0;
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	int fd;
 	const char* path="/tmp";
 	register_handler();

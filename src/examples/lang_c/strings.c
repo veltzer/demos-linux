@@ -25,7 +25,7 @@
  * This is a demo showing what happens if strings span more than one line
  */
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	// the next line will create a compile time warning or error in most modern
 	// compilers (earlier compilers allowed this).
 	//printf("this is a string

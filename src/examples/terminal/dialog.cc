@@ -32,7 +32,7 @@
  * TODO:
  * - you may want to write this ?!?
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	init_dialog(NULL, NULL);
 	end_dialog();
 	return EXIT_SUCCESS;

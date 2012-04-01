@@ -77,7 +77,7 @@ void print_code(int code) {
 
 int global_data=42;
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
 	pid_t child_pid;
 	CHECK_NOT_M1(child_pid=vfork());

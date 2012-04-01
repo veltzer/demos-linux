@@ -135,8 +135,7 @@ static void doBadCode(int i) {
 	}
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
 	if(signal(SIGFPE, SignalHandler) == SIG_ERR) {
 		perror("problem with calling signal(2)");

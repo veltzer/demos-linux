@@ -38,7 +38,7 @@
  * This is udp client demo that writes to a file anything it gets.
  */
 
-int main(int argc,char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {
 		fprintf(stderr,"usage: %s [host] [port] [file]\n",argv[0]);
 		exit(EXIT_FAILURE);

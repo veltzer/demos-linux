@@ -40,7 +40,7 @@ void print_counters(long long* arr,int num) {
 	}
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("starting up...\n");
 	int counters=PAPI_num_counters();
 	printf("PAPI_num_counters() returned %d\n",counters);

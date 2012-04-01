@@ -38,7 +38,7 @@
  *
  * EXTRA_LIBS=
  */
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {
 		fprintf(stderr,"usage: %s [filename] [bufsize] [count]\n",argv[0]);
 		return -1;

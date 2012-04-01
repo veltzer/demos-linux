@@ -38,7 +38,7 @@ void* worker(void* arg) {
 	return NULL;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("start");
 	const unsigned int num=4;
 	pthread_t threads[num];

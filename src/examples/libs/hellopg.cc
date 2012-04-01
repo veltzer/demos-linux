@@ -32,7 +32,7 @@ void exit_nicely(PGconn *conn) {
 }
 
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	char *pghost = (char *)"database";
 	char *pgport = NULL;
 	char *pgoptions = NULL;

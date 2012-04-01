@@ -57,7 +57,7 @@ static inline void print_stats(void) {
 	printf("size is %ld, min_flt is %ld\n",myproc.rss, myproc.min_flt);
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	const int size = 1024*1024;
 	void* p;
 	int flags=MAP_PRIVATE | MAP_ANONYMOUS;

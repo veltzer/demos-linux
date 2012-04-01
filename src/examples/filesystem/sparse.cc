@@ -44,7 +44,7 @@ const char *string = "hello";
 // this is the name of the file to be used
 const char *fname = "/tmp/my.sparse.file";
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// this will be used to check return values
 	int ret = 0;
 	FILE *f = fopen(fname, "w");

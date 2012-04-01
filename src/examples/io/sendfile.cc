@@ -66,7 +66,7 @@ void copy_file(const char* filein, const char* fileout) {
 	CHECK_NOT_M1(close(fdout));
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {
 		fprintf(stderr,"usage: %s [infile] [outfile]\n",argv[0]);
 		return EXIT_FAILURE;

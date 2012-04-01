@@ -57,8 +57,7 @@ void print_data(void *data, int size) {
 	free(pdata);
 }
 
-
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// size of the buffer we want
 	const int size = 1024 * 1024;
 	// file handle

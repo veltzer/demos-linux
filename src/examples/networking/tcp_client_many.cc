@@ -85,7 +85,7 @@ void* worker(void* arg) {
 	return NULL;
 }
 
-int main(int argc,char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	if(argc!=5) {
 		fprintf(stderr,"usage: %s [numthreads] [numrequests] [host] [port]\n",argv[0]);
 		exit(EXIT_FAILURE);

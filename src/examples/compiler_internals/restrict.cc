@@ -74,7 +74,7 @@ void add_temp(int* arr,int num, int* result) {
 	*result=temp;
 }
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc,char** argv,char** envp) {
 	// prepare a large array
 	const unsigned int array_size=1000000;
 	int* arr=new int[array_size];
