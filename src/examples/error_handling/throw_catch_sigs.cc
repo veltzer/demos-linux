@@ -1,3 +1,23 @@
+/*
+	This file is part of the linuxapi project.
+	Copyright (C) 2011, 2012 Mark Veltzer <mark.veltzer@gmail.com>
+
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
+
 #include<iostream> // for std::cerr, std::endl
 #include<signal.h> // for sigemptyset(2), sigaddset(2), sigprocmask(2), raise(3), kill(2)
 #include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
@@ -18,8 +38,6 @@
  * - if you want more than one signal cached then you should use the sigqueue(2) instead of the kill(2) interface and then you can also pass parameters to that handler (limit is according to ulimit).
  * - Only one signal is "cached" while you are blocking that signal (the kernel holds a mask of pending signals for you).
  * - I provided a SigQueue executable to allow you to do that. Use it to see the signals queued and the value that you provide cought by the process.
- *
- * 			Mark Veltzer
  */
 
 /*

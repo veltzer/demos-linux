@@ -1,26 +1,45 @@
+/*
+	This file is part of the linuxapi project.
+	Copyright (C) 2011, 2012 Mark Veltzer <mark.veltzer@gmail.com>
+
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
+
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
+
 #include<stdio.h> // for printf(3), snprintf(3)
 #include<stdlib.h> // for atof(3), atoi(3)
 #include<math.h> // for pow(3)
-
 #include<stat.hh> // our own statistics gathering object
 
-// this example explores the representational issues of the floating point
-// system in the mathematical co-processor.
-//
-// On a 32 bit system try the number 16777216 as the limit of presentation of
-// floating point...
-// Up to this number the floating point system representat integers precisely
-// using the mantisa. After this number it goes into using the exponent and therefor
-// becomes un-exact.
-//
-// Conclusions:
-// atof behaves differently from float=int.
-//
-// TODO:
-// - this program currently prints the output in gnuplot format but does not plot it on
-// the screen. Make it be self contained and call gnuplot correctly.
-//
-// 	Mark Veltzer
+/*
+ * this example explores the representational issues of the floating point
+ * system in the mathematical co-processor.
+ *
+ * On a 32 bit system try the number 16777216 as the limit of presentation of
+ * floating point...
+ * Up to this number the floating point system representat integers precisely
+ * using the mantisa. After this number it goes into using the exponent and therefor
+ * becomes un-exact.
+ *
+ * Conclusions:
+ * atof behaves differently from float=int.
+ *
+ * TODO:
+ * - this program currently prints the output in gnuplot format but does not plot it on
+ * the screen. Make it be self contained and call gnuplot correctly.
+ */
 
 #define DO_FLOAT
 //#define DO_DOUBLE
