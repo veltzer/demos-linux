@@ -21,7 +21,7 @@
 #include<stdio.h> // for printf(3)
 #include<pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
 
-#include<us_helper.h> // for CHECK_ZERO
+#include<us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
  * This example creates a pthread_mutex which is a futex, grabs it and releases
@@ -40,11 +40,12 @@
  *
  * EXTRA_LIBS=-lpthread
  *
- * TODO: make this example strace itself...
+ * TODO:
+ * - make this example strace itself...
  */
 
 int main(int argc,char** argv,char** envp) {
-	printf("main started\n");
+	TRACE("started");
 	// this is the default type of locked (the "FAST" kind...) using the
 	// special initialisation syntax...
 	//pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
@@ -58,12 +59,13 @@ int main(int argc,char** argv,char** envp) {
 	pthread_mutexattr_t attr;
 	CHECK_ZERO(pthread_mutexattr_init(&attr));
 	CHECK_ZERO(pthread_mutexattr_setpshared(&attr,PTHREAD_PROCESS_SHARED));
+	//CHECK_ZERO(pthread_mutexattr_setpshared(&attr,PTHREAD_PROCESS_PRIVATE));
 	CHECK_ZERO(pthread_mutex_init(&mutex,&attr));
 
 	CHECK_ZERO(pthread_mutex_lock(&mutex));
-	printf("mutex address is %p\n",&mutex);
+	TRACE("mutex address is %p",&mutex);
 	CHECK_ZERO(pthread_mutex_unlock(&mutex));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex));
-	printf("main ended\n");
+	TRACE("ended");
 	return EXIT_SUCCESS;
 }
