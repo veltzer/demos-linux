@@ -8,7 +8,8 @@
 /*
  * This example explores sparse files on a UNIX system.
  *
- * 			Mark Veltzer
+ * TODO:
+ * - use my CHECK macros here.
  */
 int main(int argc, char **argv, char **envp) {
 	const char *buf = "hello";

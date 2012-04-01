@@ -19,8 +19,8 @@ int main(int argc,char** argv,char** envp) {
 	printf("Number of threads=%d\n",omp_get_max_threads());
 
 	/*
-	 * Measure the time before we start
-	 */
+	* Measure the time before we start
+	*/
 	wtime=omp_get_wtime();
 
 	omp_set_num_threads(3);
@@ -33,8 +33,8 @@ int main(int argc,char** argv,char** envp) {
 		printf("This is process %d\n",id);
 	}
 	/*
-	 * Finish up by measuring the elapsed time.
-	 */
+	* Finish up by measuring the elapsed time.
+	*/
 	wtime=omp_get_wtime()-wtime;
 	printf("\n");
 	printf("Normal end of execution.\n" );

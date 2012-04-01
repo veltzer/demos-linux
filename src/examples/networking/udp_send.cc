@@ -16,8 +16,6 @@
 
 /*
  * This is udp client demo that sends a file to a udp port.
- *
- * 			Mark Veltzer
  */
 
 int main(int argc,char** argv, char** envp) {

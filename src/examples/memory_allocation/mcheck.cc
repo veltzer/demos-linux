@@ -5,8 +5,6 @@
 
 /*
  * This is a demo of using the mcheck feature of the GNU C standard library
- *
- * 		Mark Veltzer
  */
 
 void myhandler(enum mcheck_status status) {

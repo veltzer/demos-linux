@@ -30,8 +30,8 @@ int GetMessageType(char* data) {
 
 int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr) {
 	/*
-	 * Basic acceptor usage - No timeout
-	 */
+	* Basic acceptor usage - No timeout
+	*/
 #define NO_TIMEOUT
 #ifdef NO_TIMEOUT
 	if (acceptor->accept(*peer) == -1) {

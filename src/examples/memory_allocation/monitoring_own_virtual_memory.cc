@@ -11,8 +11,6 @@
  *
  * Note that if you do not zero the memory (see the bzero call below) then this program
  * works much faster and does not generate and page faults and the usage stays the same.
- *
- * 			Mark Veltzer
  */
 
 extern char etext, edata, end; /* The symbols must have some type, or "gcc -Wall" complains */

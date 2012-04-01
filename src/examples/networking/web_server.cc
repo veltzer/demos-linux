@@ -16,7 +16,6 @@
 /*
  * This is a demo of a simple echo socket server implementation in pure C in Linux
  *
- * 			Mark Veltzer
  * EXTRA_LIBS=-lpthread
  */
 

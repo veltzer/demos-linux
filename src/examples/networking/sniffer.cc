@@ -31,9 +31,9 @@ int main(int argc, char** argv,char** envp) {
 	int fd;
 	CHECK_NOT_M1(fd=socket(PF_INET, SOCK_RAW, IPPROTO_TCP));
 	/* single packets are usually not bigger than 8192 bytes but
-	 * depend on the media standard of the Network Access layer such as
-	 * Ethernet, Token Ring etc
-	 */
+	* depend on the media standard of the Network Access layer such as
+	* Ethernet, Token Ring etc
+	*/
 	const unsigned int length=8192;
 	char buffer[length];
 	//struct ipheader *ip = (struct ipheader *) buffer;
@@ -41,7 +41,7 @@ int main(int argc, char** argv,char** envp) {
 	while(read(fd, buffer, length) > 0) {
 		/* packet = data + ip header + tcp header */
 		/* Little Endian/Big Endian must be considered here */
-		 printf("Dump the packet: %s\n", buffer + sizeof(struct iphdr) + sizeof(struct tcphdr));
+		printf("Dump the packet: %s\n", buffer + sizeof(struct iphdr) + sizeof(struct tcphdr));
 	}
 	return EXIT_SUCCESS;
 }

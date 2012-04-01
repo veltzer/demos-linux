@@ -10,14 +10,12 @@
 #include<unistd.h> // for read(2), close(2), unlink(2)
 #include<pthread.h> // for pthread_create(3)
 #include<sys/un.h> // for sockaddr_un
-
 #include<us_helper.h> // our own helper
 
 /*
  * This is a unix socket server demo.
  * It is a simple echo server sending back anything that is send to it.
  *
- * 			Mark Veltzer
  * EXTRA_LIBS=-lpthread
  */
 

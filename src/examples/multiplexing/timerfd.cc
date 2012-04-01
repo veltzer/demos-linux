@@ -9,8 +9,6 @@
 /*
  * This example was stolen shamelessly from the timerfd_create(2) manpage.
  *
- * 	Mark Veltzer
- *
  * EXTRA_LIBS=-lrt
  */
 
@@ -52,9 +50,9 @@ int main(int argc, char** argv,char** envp) {
 	if (clock_gettime(CLOCK_REALTIME, &now) == -1)
 		handle_error("clock_gettime");
 	/*
-	 * Create a CLOCK_REALTIME absolute timer with initial
-	 * expiration and interval as specified in command line
-	 */
+	* Create a CLOCK_REALTIME absolute timer with initial
+	* expiration and interval as specified in command line
+	*/
 	new_value.it_value.tv_sec = now.tv_sec + atoi(argv[1]);
 	new_value.it_value.tv_nsec = now.tv_nsec;
 	if (argc == 2) {

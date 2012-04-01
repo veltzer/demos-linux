@@ -65,18 +65,18 @@ static void* producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	//
 	//=== ACE_Message_Block ======From: <ace/Message_Block.h> ===========================
 	/*
-	 * ACE_Message_Block (size_t size,
-	 * ACE_Message_Block::ACE_Message_Type type = MB_DATA,
-	 * ACE_Message_Block *cont = 0,
-	 * const char *data = 0, // Pointer to the data buffer
-	 * ACE_Allocator *allocator_strategy = 0,
-	 * ACE_Lock *locking_strategy = 0,
-	 * unsigned long priority = ACE_DEFAULT_MESSAGE_BLOCK_PRIORITY,
-	 * const ACE_Time_Value &execution_time = ACE_Time_Value::zero,
-	 * const ACE_Time_Value &deadline_time = ACE_Time_Value::max_time,
-	 * ACE_Allocator *data_block_allocator = 0,
-	 * ACE_Allocator *message_block_allocator = 0);
-	 */
+	* ACE_Message_Block (size_t size,
+	* ACE_Message_Block::ACE_Message_Type type = MB_DATA,
+	* ACE_Message_Block *cont = 0,
+	* const char *data = 0, // Pointer to the data buffer
+	* ACE_Allocator *allocator_strategy = 0,
+	* ACE_Lock *locking_strategy = 0,
+	* unsigned long priority = ACE_DEFAULT_MESSAGE_BLOCK_PRIORITY,
+	* const ACE_Time_Value &execution_time = ACE_Time_Value::zero,
+	* const ACE_Time_Value &deadline_time = ACE_Time_Value::max_time,
+	* ACE_Allocator *data_block_allocator = 0,
+	* ACE_Allocator *message_block_allocator = 0);
+	*/
 	//==============================================
 	ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 	// The following are methods for the queue (assuming using msg_queue):

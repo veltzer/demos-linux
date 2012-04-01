@@ -13,21 +13,21 @@
  */
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	/*
-	 * Here we will use the default ctor and the set()
-	 * method to configure it. After each set() we will
-	 * display the address as a string and then connect
-	 * to each respective server. We can reuse the addr
-	 * instance once connection has been established.
-	 *
-	 * // Listing 1 code/ch06
-	 * ACE_INET_Addr addr;
-	 * ...
-	 * addr.set ("HAStatus", ACE_LOCALHOST);
-	 * ...
-	 * addr.set ("HALog", ACE_LOCALHOST);
-	 * // Listing 1
-	 *
-	 */
+	* Here we will use the default ctor and the set()
+	* method to configure it. After each set() we will
+	* display the address as a string and then connect
+	* to each respective server. We can reuse the addr
+	* instance once connection has been established.
+	*
+	* // Listing 1 code/ch06
+	* ACE_INET_Addr addr;
+	* ...
+	* addr.set ("HAStatus", ACE_LOCALHOST);
+	* ...
+	* addr.set ("HALog", ACE_LOCALHOST);
+	* // Listing 1
+	*
+	*/
 
 	ACE_INET_Addr addr;
 	ACE_TCHAR peerAddress[64];
@@ -70,17 +70,17 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Listing 4
 
 	/*
-	 * We generally let the OS pick our local port number but
-	 * if you want, you can choose that also:
-	 * // Listing 5 code/ch06
-	 * ACE_SOCK_Connector logConnector;
-	 * ACE_INET_Addr local (4200, ACE_LOCALHOST);
-	 * if (logConnector.connect (log, addr, 0, local) == -1)
-	 * {
-	 * ...
-	 * // Listing 5
-	 * }
-	 */
+	* We generally let the OS pick our local port number but
+	* if you want, you can choose that also:
+	* // Listing 5 code/ch06
+	* ACE_SOCK_Connector logConnector;
+	* ACE_INET_Addr local (4200, ACE_LOCALHOST);
+	* if (logConnector.connect (log, addr, 0, local) == -1)
+	* {
+	* ...
+	* // Listing 5
+	* }
+	*/
 
 	char buf[64];
 

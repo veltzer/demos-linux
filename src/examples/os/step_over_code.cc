@@ -11,8 +11,6 @@
  * If you compile this example with optimizations then the final line
  * is necessary because otherwise the compiler will optimize out the entire
  * loop that writes over the code.
- *
- * 	Mark Veltzer
  */
 
 int myfunc(int lim) __attribute__((noinline));
