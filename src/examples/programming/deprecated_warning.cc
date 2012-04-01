@@ -8,8 +8,6 @@
  * There are many more attributes that you can attach to functions in order to
  * get more checks from the compiler at compile time and get better code. Check
  * 'info gcc' for more details.
- *
- *		Mark Veltzer
  */
 
 // this is how to use unused in a function declaration...

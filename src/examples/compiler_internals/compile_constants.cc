@@ -6,8 +6,6 @@
  * are known by the compiler in order to speed things up and
  * still present one API.
  *
- *		Mark Veltzer
- *
  * TODO:
  * - this example does not work. Fix it up.
  */

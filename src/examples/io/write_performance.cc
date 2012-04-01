@@ -16,8 +16,6 @@
  * the OS buffers are empty they are fast (memcpy to kernel) and when
  * they are full they block...
  *
- *	Mark Veltzer
- *
  * EXTRA_LIBS=
  */
 int main(int argc, char **argv, char **envp) {

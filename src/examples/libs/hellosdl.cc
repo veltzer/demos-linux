@@ -6,8 +6,6 @@
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs sdl gl glu
- *
- * Mark Veltzer
  */
 
 const int SCREEN_WIDTH=640;

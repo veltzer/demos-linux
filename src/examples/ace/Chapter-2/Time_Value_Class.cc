@@ -9,8 +9,6 @@
  * Where: 1200 means 20 minutes
  * 36000 means 10 hours
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

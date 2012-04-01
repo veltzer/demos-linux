@@ -3,8 +3,6 @@
 
 /*
  * This shows how to use preprocessor defines...
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 #ifdef __GNUC__

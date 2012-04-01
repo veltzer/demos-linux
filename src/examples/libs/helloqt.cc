@@ -6,8 +6,6 @@
  *
  * EXTRA_CMDS=pkg-config --cflags --libs QtGui
  *
- *	Mark Veltzer
- *
  */
 int main(int argc, char** argv, char** envp) {
 	QApplication app(argc, argv);

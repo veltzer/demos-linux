@@ -3,8 +3,6 @@
 
 /*
  * This is an example of the C trinary operator
- *
- * Mark Veltzer
  */
 
 int main(int argc,char** argv, char** envp) {

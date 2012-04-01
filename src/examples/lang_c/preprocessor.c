@@ -4,8 +4,6 @@
 /*
  * An example showing how to use the preprocessor in order to avoid
  * repetative code.
- *
- * 			Mark Veltzer
  */
 
 #define make_add(t) t add ## t(t a,t b) { return a+b; }

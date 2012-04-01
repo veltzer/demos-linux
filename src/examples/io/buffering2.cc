@@ -3,8 +3,6 @@
 
 /*
  * Example of buffering of stdout causing loss of messages...
- *
- * Mark Veltzer
  */
 
 int main(int argc,char** argv,char** envp) {

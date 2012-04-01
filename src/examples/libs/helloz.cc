@@ -8,8 +8,6 @@
  *
  * EXTRA_LIBS=-lz
  *
- *	Mark Veltzer
- *
  */
 int main(int argc, char** argv, char** envp) {
 	const char *source = "Merry had a little lamb";

@@ -13,8 +13,6 @@
  * The example uses the most complex interface waitid(2). You could,
  * ofcourse, alter it to use one of the simpler apis:
  * wait, waitpid, wait3, wait4...
- *
- * Mark Veltzer
  */
 
 void print_status(int status) {

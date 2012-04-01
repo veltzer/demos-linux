@@ -12,8 +12,6 @@
  * Tail_buffer-modified.cpp - insert the zeo length message into
  * the head of the queue.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

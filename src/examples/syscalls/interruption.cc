@@ -16,8 +16,6 @@
  * Take heed to look at errno RIGHT AFTER the scanf fails since
  * any call to other APIs may change it's value and so lose the
  * original value you want to look at.
- *
- *		Mark Veltzer
  */
 
 static void sig_handler(int sig) {

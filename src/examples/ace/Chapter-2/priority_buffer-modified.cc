@@ -14,8 +14,6 @@
  * insert priority but read from the tail.
  * we see that the high priority are read last.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

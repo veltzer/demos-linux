@@ -1,15 +1,13 @@
 #include<stdio.h> // for printf(3)
 #include<time.h> // for clock_getres(2)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- *	Print all clocks available on the system for a user space app...
- *	Notice that:
- *	- different clocks show different times.
- *	- different clocks have different resolutions.
- *
- *		Mark Veltzer
+ * Print all clocks available on the system for a user space app...
+ * Notice that:
+ * - different clocks show different times.
+ * - different clocks have different resolutions.
  *
  * EXTRA_LIBS=-lrt
  */

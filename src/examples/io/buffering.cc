@@ -6,8 +6,6 @@
  * This example shows the different buffering schemes of the standard
  * io files...
  *
- *	Mark Veltzer
- *
  * TODO:
  * - add a call to setbuf, setlinebuf to demo them.
  */

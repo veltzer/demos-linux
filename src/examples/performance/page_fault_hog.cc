@@ -6,8 +6,6 @@
 
 /*
  * This example creates lots of minor page faults...
- *
- *		Mark Veltzer
  */
 
 void minor_fault_hog_function() {

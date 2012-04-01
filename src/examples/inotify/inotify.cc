@@ -19,8 +19,6 @@
  * length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to save on short
  * file name lengths. And a single read can return more than one record but will always return
  * an even amount of records.
- *
- *		Mark Veltzer
  */
 
 // signal handling functions

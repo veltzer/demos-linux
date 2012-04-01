@@ -12,8 +12,6 @@
  * level.
  * - you have to put your own newline at the end of ACE_DEBUG messages.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 void foo(void) {

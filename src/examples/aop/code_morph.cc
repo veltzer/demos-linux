@@ -13,8 +13,6 @@
 /*
  * This is an example that shows that you cannot alter code, which is protected
  * via the MMU but you can do it if you mprotect it differently...
- *
- *		Mark Veltzer
  */
 
 const int times=10;

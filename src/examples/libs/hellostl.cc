@@ -4,9 +4,6 @@
 
 /*
  * This program demonstrates the use of STL (Standard Template Library).
- *
- *	Mark Veltzer
- *
  */
 int main(int argc,char** argv,char** envp) {
 	std::vector<int> v(3);

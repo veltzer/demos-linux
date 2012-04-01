@@ -11,8 +11,6 @@
  * Example of simple single threaded ace socket server.
  * Notice the hanlding of interruption
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

@@ -15,8 +15,6 @@
  * counting up in this specific compiler (g++ 4.4.3) since it saves one machine
  * instruction inside the loop.
  *
- * Mark Veltzer
- *
  * TODO:
  * - actually measure the time with a performance counter and see it.
  */

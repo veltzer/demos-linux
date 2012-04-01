@@ -4,8 +4,6 @@
 /*
  * This is trying to override the default gcc behaviour
  * for wide strings (overriding the definition of wchar_t).
- *
- *		Mark Veltzer
  */
 
 #define wchar_t char

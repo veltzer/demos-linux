@@ -4,8 +4,6 @@
 /*
  * This example is a simple wxWindows application.
  *
- *		Mark Veltzer
- *
  * EXTRA_CMDS=wx-config --cflags --libs
  */
 

@@ -8,8 +8,6 @@
 /*
  * A simple client program using ACE_Svc_Handler and ACE_Connector.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

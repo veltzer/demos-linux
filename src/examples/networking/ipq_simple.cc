@@ -12,8 +12,6 @@ extern "C" {
 /*
  * Example of a firewall in user space (man libipq).
  *
- *	Mark Veltzer
- *
  * In order to use this you must do:
  * #!/bin/sh
  * sudo modprobe iptable_filter

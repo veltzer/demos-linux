@@ -26,8 +26,6 @@
  *	safe' and on machines with a good rtc will use it. read more in the
  *	documentation.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lcpufreq
  *
  * TODO:

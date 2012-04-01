@@ -3,8 +3,6 @@
 
 /*
  * A simple hello world application for C++.
- *
- *		Mark Veltzer
  */
 
 int main(int argc, char **argv, char **envp) {

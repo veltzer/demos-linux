@@ -10,8 +10,6 @@
  * This demo does not explain what ACE_NEW_RETURN is. See slides or a different example
  * for that...
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

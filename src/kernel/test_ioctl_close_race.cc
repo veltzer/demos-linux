@@ -22,8 +22,6 @@
  *	- any new operations on this file descriptor are not allowed (bad file descriptor).
  *	- makes it easier to program in the kernel.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 

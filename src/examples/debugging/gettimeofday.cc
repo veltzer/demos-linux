@@ -8,8 +8,6 @@
 /*
  * This example shows how to use gettimeofday
  * This example also shows how accurate this method of measurement is...
- *
- *		Mark Veltzer
  */
 void print_timeval(struct timeval *tv, const char *name) {
 	printf("%s - sec is %lu\n", name, tv->tv_sec);

@@ -19,8 +19,6 @@
  * 3. print it out.
  * 4. unmap.
  * 5. close.
- *
- *			Mark Veltzer
  */
 
 bool do_play = false;

@@ -33,8 +33,6 @@
  * - show the number of voluntary context switches going up. Show this via proc
  * or via libproc.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 

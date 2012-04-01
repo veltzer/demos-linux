@@ -2,9 +2,7 @@
 #include<string.h>
 
 /*
- *	This is to test octal use in user space...
- *
- *		Mark Veltzer
+ * This is to test octal use in user space...
  */
 int main(int argc, char **argv, char **envp) {
 	int i = 0777;

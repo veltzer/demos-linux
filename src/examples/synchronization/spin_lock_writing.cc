@@ -12,8 +12,6 @@
 /*
  * This is an example of writing your own spin locks...
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 // this is the spin lock implementation (pthread "like")

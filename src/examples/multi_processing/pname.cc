@@ -20,7 +20,6 @@
  * directory, conditions that you find, time of day, argv[0], whatever...).
  * - set names of threads in a multi threaded application (will be in a separate demo).
  *
- *		Mark Veltzer
  * TODO:
  * - add a fork(2) to this demo and show that parent and child can have different names.
  */

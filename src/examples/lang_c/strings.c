@@ -3,8 +3,6 @@
 
 /*
  * This is a demo showing what happens if strings span more than one line
- *
- *		Mark Veltzer
  */
 
 int main(int argc, char** argv, char** envp) {

@@ -6,8 +6,6 @@
 /*
  * A stolen example from the gtkmm distribution. Slightly modified.
  *
- *	Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
  */
 

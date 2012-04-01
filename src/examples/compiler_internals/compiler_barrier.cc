@@ -53,8 +53,6 @@
  *	TODO:
  *	- make this program show the instructions that are emitted for main so
  *	that people could see the assembly code generated.
- *
- *		Mark Veltzer
  */
 
 // a small function to tell you if the stack direction is up or down...

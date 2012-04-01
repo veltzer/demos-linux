@@ -5,8 +5,6 @@
  * This is a demo that shows C++ allows to clobber variable names in serveral ways:
  * - inheritance.
  * - local parameters.
- *
- *		Mark Veltzer
  */
 
 class A {

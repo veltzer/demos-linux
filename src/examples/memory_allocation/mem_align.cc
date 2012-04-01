@@ -20,8 +20,6 @@
  * - posix_memalign (this is the one to use).
  * - malloc (if you don't have any of the others...).
  * - mmap anonymous pages (this is supposed to be quite effective...).
- *
- *		Mark Veltzer
  */
 
 // this next function takes an address and aligns it to page size

@@ -6,8 +6,6 @@
 /*
  * This is a standard pthread demo
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 void *worker(void *p) {

@@ -6,8 +6,6 @@
  * This example shows that private in C++ is protection only for compile time
  * and not for run time.
  *
- *		Mark Veltzer
- *
  * TODO:
  * - use run time type information in order to determine at runtime if a class has
  *	a virtual table or not and so simplify the 'setSecret' function even more.

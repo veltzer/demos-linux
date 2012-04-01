@@ -18,8 +18,6 @@
  *	notice that it has been signaled more than once since the sum of the
  *	childs passed values is passed to it.
  * - eventfd can be multiplexed using select, poll or epoll.
- *
- *		Mark Veltzer
  */
 
 volatile bool cont=true;

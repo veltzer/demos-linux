@@ -6,8 +6,6 @@
 /*
  * This is a demo of how to use a cpu set
  *
- *		Mark Veltzer
- *
  * TODO:
  * - move the print_cpu_set function into the shared code. find other uses
  * of it and eliminate them.

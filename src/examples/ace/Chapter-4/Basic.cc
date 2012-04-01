@@ -6,10 +6,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
+
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr srvr(50000, ACE_LOCALHOST);
 	ACE_SOCK_Connector connector;

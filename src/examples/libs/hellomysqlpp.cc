@@ -8,8 +8,6 @@
  * for mysql++ are written.
  * EXTRA_LIBS=-I/usr/include/mysql++ -I/usr/include/mysql -lmysqlpp
  *
- *			Mark Veltzer
- *
  */
 
 int main(int argc,char** argv, char** envp) {

@@ -7,8 +7,6 @@
  * This demos pthread mutex usage.
  * Note that these are actually futexes.
  *
- *	Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 

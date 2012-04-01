@@ -11,8 +11,6 @@
 /*
  * This demo shows how to get the uptime of the machine...
  * This is not very suitable for very delicate and precise timings but still.
- *
- *		Mark Veltzer
  */
 void uptime(float *time1, float *time2) {
 	// null the pointers

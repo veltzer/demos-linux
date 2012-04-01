@@ -14,8 +14,6 @@
  * you will see that the value of the register does go down from 100 to 1 (not
  * from 99 to 0 mind you). The compiler thinks that its better to count down
  * than up because of the shorter "compare to zero" at the end of the loop.
- *
- * 		Mark Veltzer
  */
 
 int main(int argc,char** argv,char** envp) {

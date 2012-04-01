@@ -4,8 +4,6 @@
 
 /*
  * This is a demo of using the GNU C libraries hash table implementation
- *
- * Mark Veltzer
  */
 
 const char *data[]={ "alpha", "bravo", "charlie", "delta",

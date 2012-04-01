@@ -6,11 +6,9 @@
 #include<locale.h>
 
 /*
- *	Curses example number 3...
+ * Curses example number 3...
  *
- *	This is an example of how to use wide characters in curses...
- *
- *		Mark Veltzer
+ * This is an example of how to use wide characters in curses...
  *
  * EXTRA_LIBS=-lncursesw
  */

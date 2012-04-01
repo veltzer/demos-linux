@@ -4,8 +4,6 @@
 
 /*
  * Demo the typeid function of C++, with RTTI
- *
- *		Mark Veltzer
  */
 
 class A {

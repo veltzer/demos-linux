@@ -6,8 +6,6 @@
  * on the object...
  * This is sometimes called a functor (object+method). You can find
  * similar approaches in boost's bind function.
- *
- *		Mark Veltzer
  */
 
 class A {

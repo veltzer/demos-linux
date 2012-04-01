@@ -13,8 +13,6 @@
  * This is a demo which shows that perror, errno etc all work on a thread
  * by thread level...
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 void *worker1(void *p) {

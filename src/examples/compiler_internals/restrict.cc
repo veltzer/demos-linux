@@ -24,8 +24,6 @@
  * under different versions of the myrestrict macro below...
  *
  * The difference in performance here is quite noticable...
- *
- *		Mark Veltzer
  */
 
 #define myrestrict __restrict

@@ -10,8 +10,6 @@
  * OpenGL example number 1...
  * Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_GLX_and_Xlib
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lX11 -lGL -lGLU
  */
 

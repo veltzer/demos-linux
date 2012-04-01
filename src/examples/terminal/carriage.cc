@@ -18,8 +18,6 @@
  *	to avoid the extra call to flush.
  *	- ofcouse, you can also use the curses library to do all of this which has a much
  *	richer API but does require some learning.
- *
- *		Mark Veltzer
  */
 int main(int argc, char **argv, char **envp) {
 	printf("stdout, no flush (bad updates)\n");

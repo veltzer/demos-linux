@@ -18,8 +18,6 @@
  * - have the function do some side effect. This has the same problems as above. Again,
  *	mutual recursion could have helped.
  * - have the function call itself several times. This saved the day for this example.
- *
- *		Mark Veltzer
  */
 
 void show_stack_size() {

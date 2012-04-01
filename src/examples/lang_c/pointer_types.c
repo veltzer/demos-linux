@@ -7,8 +7,6 @@
  * refer to different memory spaces...
  *
  * Regular software developers usually do not use these features...
- *
- *		Mark Veltzer
  */
 
 // this is taken from the kernel sources (include/linux/compiler.h)

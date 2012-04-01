@@ -13,8 +13,6 @@
  * it is running on (it also prints the name of the architecture).
  *
  * This is intended for a GNU/linux system.
- *
- *		Mark Veltzer
  */
 #define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type));
 

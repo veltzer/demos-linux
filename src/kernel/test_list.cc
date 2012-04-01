@@ -13,8 +13,6 @@
 
 /*
  * This is a test for in kernel lists
- *
- *		Mark Veltzer
  */
 int get_number(void) {
 	printf("please enter a number> ");

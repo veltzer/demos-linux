@@ -10,8 +10,6 @@
  * This is an example of how to read a character from the keyboard
  * in non-blocking mode...
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lncursesw
  */
 int main(int argc, char **argv, char **envp) {

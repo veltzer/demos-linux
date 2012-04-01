@@ -12,8 +12,6 @@
 /*
  * This is a demo for using pthread spin locks...
  *
- *	Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 FILE* pfile=stderr;

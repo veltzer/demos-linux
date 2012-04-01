@@ -23,8 +23,6 @@
  * 10 times more. In all other aspects all other types of locks (recursive, non
  * recursive, shared, non shared) perform about the same.
  *
- *			Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  *
  * TODO:

@@ -8,8 +8,6 @@
  * We will see that all of them (except the 5th) are activated.
  * ACE will activate the handle_timeout method when timer timeout arrives.
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 

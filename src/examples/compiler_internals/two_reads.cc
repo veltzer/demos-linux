@@ -11,8 +11,6 @@
  * Notice that the reads to the volatile are not optimized away
  * because the compiler treats the volatile with suspicion and
  * fears it may change value.
- *
- *		Mark Veltzer
  */
 
 void __attribute__((noinline)) print_address_of(int* ptr) {

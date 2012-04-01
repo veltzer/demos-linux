@@ -13,8 +13,6 @@
 	the code.
 
 	Compare the second loop to the first.
-
-		Mark Veltzer
 */
 
 int main(int argc,char** argv,char** envp) {

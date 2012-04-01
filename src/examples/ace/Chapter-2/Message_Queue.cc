@@ -4,8 +4,6 @@
 #include"Message_Receiver.hh"
 
 /*
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 int HA_CommandHandler::svc(void) {

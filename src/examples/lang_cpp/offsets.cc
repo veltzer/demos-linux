@@ -7,7 +7,6 @@
  * enough to understand that using 0 will mean that we use the NULL
  * object and not let us do anything with it including taking fields
  * or doing pointer arithmetic...
- *		Mark Veltzer
  */
 
 #define CppOffsetOf(className, FieldName) ((char *)(&(((className *)1)->FieldName)) - (char *)1)

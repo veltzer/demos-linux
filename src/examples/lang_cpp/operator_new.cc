@@ -24,8 +24,6 @@
  * delete [] arr2. doing "delete my_array" or an array allocated as
  * "myarray=new obj[x]" will result in the regular delete(void*) operator
  * being called.
- *
- *		Mark Veltzer
  */
 inline void *operator new(const unsigned int size) {
 	void *p = malloc(size);

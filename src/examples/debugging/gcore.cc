@@ -30,8 +30,6 @@
  * the process that I'm taking a photo of and the gcore process are siblings and not
  * parent-child. There is probably a way to make this work if we link with libgdb and call
  * gcore functionality directly from our code.
- *
- *		Mark Veltzer
  */
 int main(int argc,char** argv,char** envp) {
 #ifdef DO_FORK

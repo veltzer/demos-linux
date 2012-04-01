@@ -1,10 +1,6 @@
-/* This is a demo program for using C Gnome */
-
-/*
+/* This is a demo program for using C Gnome
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs libgnomeui-2.0
- *
- *			Mark Veltzer
- *
  */
 
 #include<gnome.h>

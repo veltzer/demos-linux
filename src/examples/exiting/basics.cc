@@ -20,8 +20,6 @@
  * child ending...
  * - show a pattern by which a C++ object can request to do cleanup work
  * on program termination.
- *
- *		Mark Veltzer
  */
 
 class A {

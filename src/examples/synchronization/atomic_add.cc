@@ -17,8 +17,6 @@
  * thread try to increment the counter at once. This is achieved by
  * using pthread barriers so this example is based on the pthread barriers example.
  *
- *		Mark Veltzer
- *
  * EXTRA_LIBS=-lpthread
  */
 pthread_barrier_t bar;

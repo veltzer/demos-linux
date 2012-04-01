@@ -12,8 +12,6 @@
  * - va_arg only returns promoted types (these are the widest possible types).
  * This means that if you want a char, get an int and cast it.
  * Same for float <-> double and the like.
- *
- *		Mark Veltzer
  */
 void trace(const char *fmt, ...) {
 	va_list ap;

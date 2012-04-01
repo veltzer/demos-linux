@@ -14,8 +14,6 @@
  * According to the Exercise there should be two consumers.
  * Hint: DO NOT ACTIVATE them from the producer. !!!
  *
- * Mark Veltzer
- *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
