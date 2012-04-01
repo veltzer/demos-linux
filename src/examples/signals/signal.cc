@@ -34,16 +34,20 @@
  * NOTES:
  * - the same signal handler can be used for handling more than one signal.
  * - if you send a signal when the signal handler is active then it is not
- *	activated (meaning that the code that you write need not be re-entrant).
+ * activated (meaning that the code that you write need not be re-entrant).
  * - the signal is remmember though and will be activated the first thing after
- *	the signal handler is over.
+ * the signal handler is over.
  * - the system does not remmember more than 1 signal. It actually has a bit
- *	mask of waiting signals so each waiting signal is either on or off.
+ * mask of waiting signals so each waiting signal is either on or off.
  * - the pause(2) call can be used to block until a signal arrives an provide
- *	you with a non-busy wait loop on signals.
+ * you with a non-busy wait loop on signals.
  * - if you get a signal while inside a signal handler, then the main thread
  * (the one waiting on the pause(2) syscall) will not wake up until you deal
  * with the second one.
+ * - if you use sigqueue to signal the process and use a real time signal
+ * (SIGRTMIN - SIGRTMAX) and register on them then you will get full guarantee
+ * of delivery (unless you congest the os rt signal queue that is - see ulimit
+ * -r for details).
  */
 
 static unsigned int counter=0;
@@ -57,17 +61,21 @@ static void sig_handler(int sig) {
 	TRACE("end");
 }
 
+void registerto(int signum) {
+	CHECK_NOT_SIGT(signal(signum, sig_handler),SIG_ERR);
+	TRACE("setup sighandler for %d,%s",signum,strsignal(signum));
+}
+
 int main(int argc, char **argv, char **envp) {
 	// set up the signal handler (only need to do this once)
-	CHECK_NOT_SIGT(signal(SIGUSR1, sig_handler),SIG_ERR);
-	CHECK_NOT_SIGT(signal(SIGUSR2, sig_handler),SIG_ERR);
-	TRACE("set up the sig handler");
-	TRACE("send me SIGUSR1 using [kill -s SIGUSR1 %d]",getpid());
-	TRACE("send me SIGUSR2 using [kill -s SIGUSR2 %d]",getpid());
+	registerto(SIGUSR1);
+	registerto(SIGUSR2);
+	registerto(SIGRTMIN);
+	TRACE("my pid is %d",getpid());
 	// This is a non busy wait loop which only wakes up when there
 	// are signals
 	while(true) {
-		int ret = pause();
+		int ret=pause();
 		TRACE("wakeup with %d",ret);
 	}
 	return EXIT_SUCCESS;
