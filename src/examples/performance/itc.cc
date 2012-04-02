@@ -31,7 +31,7 @@
 
 static inline unsigned long getstackpointer(void) {
 	unsigned long ret;
-	asm ("movl %%esp, %0" : "=r" (ret));
+	asm ("movl %%esp, %0":"=r" (ret));
 	return ret;
 }
 

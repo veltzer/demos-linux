@@ -174,22 +174,22 @@ TEST(
 	fullcompbar,
 	"official compiler barrier for gcc which is\
 	a statement telling the GNU assembler not to reorder around it",
-	asm volatile("" : : : "memory")
+	asm volatile("":::"memory")
 );
 TEST(
 	singvarbar,
 	"a single variable barrier",
-	asm volatile("" : "=g" (a) : : )
+	asm volatile("":"=g" (a)::)
 );
 TEST(
 	singvarbar2,
 	"a single variable barrier",
-	asm volatile("" : "=r" (a) : : )
+	asm volatile("":"=r" (a)::)
 );
 TEST(
 	singvarbar3,
 	"a single variable barrier",
-	asm volatile("" : "=r" (dummy) : : )
+	asm volatile("":"=r" (dummy)::)
 );
 TEST(
 	singvarvol,

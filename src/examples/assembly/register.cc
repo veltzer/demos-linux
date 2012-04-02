@@ -28,12 +28,12 @@
 
 static inline unsigned int getrdtsc() {
 	unsigned int val;
-	asm ("rdtsc" : "=val" (val));
+	asm ("rdtsc":"=val" (val));
 	return val;
 }
 static inline unsigned int getstackpointer() {
 	unsigned int val;
-	asm ("movl %%esp, %0" : "=r" (val));
+	asm ("movl %%esp, %0":"=r" (val));
 	return val;
 }
 

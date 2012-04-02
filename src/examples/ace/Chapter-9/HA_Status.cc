@@ -31,7 +31,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-class HA_Status : public ACE_Service_Object {
+class HA_Status:public ACE_Service_Object {
 public:
 	virtual int init(int argc, ACE_TCHAR *argv[]);
 

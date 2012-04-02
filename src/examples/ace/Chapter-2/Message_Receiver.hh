@@ -51,7 +51,7 @@ int HA_Device_Repository::update_device(int, char *) {
 
 class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 	public:
-		HA_CommandHandler(HA_Device_Repository & rep) : rep_(rep) {
+		HA_CommandHandler(HA_Device_Repository & rep):rep_(rep) {
 		}
 		virtual int svc();
 	private:

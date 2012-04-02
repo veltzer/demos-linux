@@ -89,7 +89,7 @@ class HA_CommandHandler:public ACE_Task_Base {
 		const int value;
 		const int attempts;
 	public:
-		HA_CommandHandler(SharedResource & sharedResource, const int value, const int attempts) : sharedResource(sharedResource), value(value), attempts(attempts) {
+		HA_CommandHandler(SharedResource & sharedResource, const int value, const int attempts):sharedResource(sharedResource),value(value),attempts(attempts) {
 		}
 		// The real body of the thread
 		virtual int svc(void) {
@@ -105,16 +105,16 @@ class HA_CommandHandler:public ACE_Task_Base {
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	SharedResource sharedResource(3);
-	HA_CommandHandler handler1(sharedResource, 0, 1000);
-	HA_CommandHandler handler2(sharedResource, 1, 1000);
-	HA_CommandHandler handler3(sharedResource, 2, 1000);
+	HA_CommandHandler handler1(sharedResource,0,1000);
+	HA_CommandHandler handler2(sharedResource,1,1000);
+	HA_CommandHandler handler3(sharedResource,2,1000);
 	handler1.activate();
 	handler2.activate();
 	handler3.activate();
 	handler1.wait();
 	handler2.wait();
 	handler3.wait();
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) LockedCounter=%d\n"), sharedResource.getLockedCounter()));
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) GeneralCounter=%d\n"), sharedResource.getAttemptCounter()));
+	ACE_DEBUG((LM_DEBUG,ACE_TEXT("(%t) LockedCounter=%d\n"),sharedResource.getLockedCounter()));
+	ACE_DEBUG((LM_DEBUG,ACE_TEXT("(%t) GeneralCounter=%d\n"),sharedResource.getAttemptCounter()));
 	return EXIT_SUCCESS;
 }

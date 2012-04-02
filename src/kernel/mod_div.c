@@ -139,9 +139,9 @@ long long __divdi3(long long divided, long long divisor) {
 /*
  #define udiv_qrnnd(q, r, n1, n0, d) \
  * __asm__ ("divl %4" \
- * : "=a" ((u32)(q)), \
+ * :"=a" ((u32)(q)), \
  * "=d" ((u32)(r)) \
- * : "0" ((u32)(n0)), \
+ * :"0" ((u32)(n0)), \
  * "1" ((u32)(n1)), \
  * "rm" ((u32)(d)))
  *

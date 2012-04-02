@@ -61,7 +61,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	} else if (expiration > (ACE_Time_Value::max_time - interval)) {
 		std::cout << "expiration + interval must be less than " << ACE_Time_Value::max_time.sec() << std::endl;
 	}
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("interval : %d seconds.\n"), interval.sec()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("interval: %d seconds.\n"), interval.sec()));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("expiration after: %d seconds.\n"), expiration.sec() - current_time.sec()));
 	return EXIT_SUCCESS;
 }

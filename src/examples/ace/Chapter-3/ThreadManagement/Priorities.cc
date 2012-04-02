@@ -31,7 +31,7 @@
 
 class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 	public:
-		HA_CommandHandler(const char *name) : name_(name) {
+		HA_CommandHandler(const char *name):name_(name) {
 		}
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) starting up %C\n"), name_));

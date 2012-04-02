@@ -19,31 +19,27 @@
 #define ACE_NTRACE 0
 #include<ace/streams.h>
 #include<ace/Log_Msg.h>
-void FunB ()
-{ ACE_TRACE(ACE_TEXT ("FunB"));
-  ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("DEBUG : pid=%P Line:%l File=%N\n")));
-  ACE_DEBUG ((LM_INFO  , ACE_TEXT ("INFO  : pid=%P Line:%l File=%N\n")));
-  ACE_DEBUG ((LM_NOTICE, ACE_TEXT ("NOTICE: pid=%P Line:%l File=%N\n")));
-  return;
+#include<stdlib.h> // for EXIT_SUCCESS
+
+void FunB() {
+	ACE_TRACE(ACE_TEXT ("FunB"));
+	ACE_DEBUG((LM_DEBUG,ACE_TEXT("DEBUG: pid=%P Line:%l File=%N\n")));
+	ACE_DEBUG((LM_INFO,ACE_TEXT("INFO: pid=%P Line:%l File=%N\n")));
+	ACE_DEBUG((LM_NOTICE,ACE_TEXT("NOTICE: pid=%P Line:%l File=%N\n")));
 }
 
-void FunA ()
-{ ACE_TRACE(ACE_TEXT ("FunA"));
-  ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("DEBUG : pid=%P Line:%l File=%N\n")));
-  ACE_DEBUG ((LM_INFO  , ACE_TEXT ("INFO  : pid=%P Line:%l File=%N\n")));
-  ACE_DEBUG ((LM_NOTICE, ACE_TEXT ("NOTICE: pid=%P Line:%l File=%N\n")));
-  FunB();
-  return;
+void FunA () {
+	ACE_TRACE(ACE_TEXT("FunA"));
+	ACE_DEBUG((LM_DEBUG,ACE_TEXT("DEBUG: pid=%P Line:%l File=%N\n")));
+	ACE_DEBUG((LM_INFO,ACE_TEXT("INFO: pid=%P Line:%l File=%N\n")));
+	ACE_DEBUG((LM_NOTICE,ACE_TEXT("NOTICE: pid=%P Line:%l File=%N\n")));
+	FunB();
 }
 
-int ACE_TMAIN (int, ACE_TCHAR *[])
-{ int i;
-  ACE_LOG_MSG->priority_mask(LM_DEBUG  | 
-                             LM_INFO   |
-                             LM_NOTICE |
-                             LM_TRACE  , ACE_Log_Msg::PROCESS);
-  ACE_TRACE(ACE_TEXT ("main"));
-  for (i = 0; i < 2 ; i++ )
-    FunA();
-  return 0;
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+	ACE_LOG_MSG->priority_mask(LM_DEBUG|LM_INFO|LM_NOTICE|LM_TRACE,ACE_Log_Msg::PROCESS);
+	ACE_TRACE(ACE_TEXT("main"));
+	for(int i=0;i<2;i++)
+		FunA();
+	return EXIT_SUCCESS;
 }

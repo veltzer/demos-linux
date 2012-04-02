@@ -35,7 +35,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-class Manager : public ACE_Process {
+class Manager:public ACE_Process {
 public:
 	Manager(const ACE_TCHAR * program_name) {
 		ACE_TRACE("Manager::Manager");

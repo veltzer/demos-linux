@@ -25,7 +25,7 @@
 #include<ace/SOCK_Stream.h>
 #include<ace/Thread.h>
 
-class Request_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
+class Request_Handler:public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
 	// = TITLE
 	// This class is the Svc_Handler used by <Acceptor>.
 	public:
