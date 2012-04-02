@@ -1,3 +1,4 @@
+- find two spaces in a row.
 - get ridd of perror.
 - get ridd of space at the begining of lines.
 - add a test to make sure that we include firstinclude.h
