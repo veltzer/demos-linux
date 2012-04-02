@@ -18,9 +18,11 @@
 	02111-1307 USA.
 */
 
-#include"task.hh"
+#include<firstinclude.h>
 #include<ace/Message_Block.h>
 #include<stdlib.h> // for EXIT_SUCCESS
+
+#include"task.hh"
 
 /*
  * EXTRA_CMDS=pkg-config --cflags --libs ACE

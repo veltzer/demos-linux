@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<syslog.h> // for openlog(3), syslog(3), closelog(3)
 #include<stdio.h> // for printf(3), fopen(3), fclose(3), fflush(3)
 #include<sys/time.h> // for gettimeofday(2)

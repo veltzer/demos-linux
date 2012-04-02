@@ -21,6 +21,7 @@
 #ifndef APG_CALLBACK2_H
 #define APG_CALLBACK2_H
 
+#include<firstinclude.h>
 #include<ace/OS_NS_time.h>
 #include<ace/streams.h>
 #include<ace/Log_Msg_Callback.h>

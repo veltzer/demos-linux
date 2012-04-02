@@ -1,3 +1,5 @@
+- get ridd of perror.
+- get ridd of space at the begining of lines.
 - add a test to make sure that we include firstinclude.h
 - add a test to make sure that all source files begin with my header.
 - make sure EXIT_SUCCESS is everywhere (how do I test this?!?).

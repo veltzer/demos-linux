@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<gtkmm/main.h> // for Gtk::Main
 #include<gtkmm/button.h> // for Gtk::Button
 #include<gtkmm/window.h> // for Gtk::Window

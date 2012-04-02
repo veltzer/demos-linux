@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/Synch.h> // for the mutex
 #include<ace/Thread.h> // for thread functions
 #include<ace/Log_Msg.h> // for ACE_DEBUG

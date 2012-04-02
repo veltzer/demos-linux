@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<log4cpp/Portability.hh>
 #include<log4cpp/Category.hh>
 #include<log4cpp/Appender.hh>

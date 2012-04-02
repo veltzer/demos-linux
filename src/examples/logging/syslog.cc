@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<syslog.h> // for openlog(3), syslog(3), closelog(3)
 #include<unistd.h> // for sleep(3)
 #include<stdarg.h> // for vsyslog(3)

@@ -21,6 +21,7 @@
 #ifndef __THREAD_SPECIFIC_H
 #define __THREAD_SPECIFIC_H
 
+#include<firstinclude.h>
 #include<ace/Guard_T.h>
 #include<ace/Thread_Mutex.h>
 

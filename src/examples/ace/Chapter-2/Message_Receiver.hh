@@ -21,6 +21,7 @@
 #ifndef __MESSAGE_RECEIVER_H_
 #define __MESSAGE_RECEIVER_H_
 
+#include<firstinclude.h>
 #include<ace/Log_Msg.h>
 #include<ace/Message_Block.h>
 #include<ace/SOCK_Stream.h>

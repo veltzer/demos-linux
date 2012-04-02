@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/Log_Msg.h> // for ACE_DEBUG and ACE_ERROR
 #include<ace/OS_NS_stdio.h> // for the printf function
 #include<ace/streams.h> // for C++ streams interface

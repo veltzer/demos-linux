@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/streams.h>
 #include<ace/Message_Queue.h>
 #include<ace/Read_Buffer.h>

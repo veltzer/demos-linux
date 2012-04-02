@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<iostream> // for std::cout, std::cerr, std::endl
 #include<mysql++.h> // for mysqlpp::*
 #include<stdlib.h> // for EXIT_SUCCESS

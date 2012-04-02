@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/OS_main.h>
 #include<ace/Thread.h>
 #include<ace/Thread_Manager.h>

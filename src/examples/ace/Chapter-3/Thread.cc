@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/Thread.h>
 #include<ace/Log_Msg.h>
 #include<ace/Synch.h>

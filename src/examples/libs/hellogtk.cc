@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<gtk/gtk.h> // for gtk_init(3), gtk_window_new(3), gtk_widget_show(3), gtk_main(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 

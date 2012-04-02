@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/OS_NS_string.h> // for ACE_OS::strlen,strcpy
 #include<ace/MMAP_Memory_Pool.h> // for the allocator
 #include<ace/Malloc_T.h> // for ACE_Malloc

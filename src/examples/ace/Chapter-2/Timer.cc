@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/Timer_Queue.h>
 #include<ace/Reactor.h>
 #include<stdlib.h> // for EXIT_SUCCESS
