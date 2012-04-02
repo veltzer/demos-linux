@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/types.h> // for socket(2)
 #include<sys/socket.h> // for socket(2)
 #include<stdio.h> // for printf(3), fprintf(3)

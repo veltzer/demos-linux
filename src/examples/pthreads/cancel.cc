@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<pthread.h> // for pthread_setcancelstate(3)
 #include<unistd.h> // for sleep(3)
 

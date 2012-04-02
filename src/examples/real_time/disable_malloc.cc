@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<malloc.h> // for malloc(3) and the hooks
 //#define NDEBUG
 #include<assert.h> // for assert(3)

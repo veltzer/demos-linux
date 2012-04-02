@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3), fflush(3)
 #include<time.h> // for clock_getres(2)
 #include<stdlib.h> // for EXIT_SUCCESS

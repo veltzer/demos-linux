@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<pthread.h> // for pthread_create, pthread_join
 #include<stdio.h> // for printf(3)
 #include<sys/types.h> // for getpid(2)

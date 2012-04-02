@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<pthread.h> // for pthread_spin_init/lock/unlock/destroy(3)
 
 #include<us_helper.h> // for TRACE()

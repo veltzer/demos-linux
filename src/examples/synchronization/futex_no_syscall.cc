@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
-
 #include<us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*

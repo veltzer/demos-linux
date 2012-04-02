@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/types.h> // for socket(2), recv(2), connect(2), send(2), open(2)
 #include<sys/stat.h> // for open(2)
 #include<sys/socket.h> // for socket(2), recv(2), connect(2), send(2), inet_addr(3)

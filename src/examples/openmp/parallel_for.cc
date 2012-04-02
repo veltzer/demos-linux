@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<cmath> // for std::sin
 #include<stdio.h> // for printf(3)
 #include<omp.h> // for #pragma omp parallel for

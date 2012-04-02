@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<unistd.h> // for fork(2), getpid(2), sleep(3), getppid(2)
 #include<stdio.h> // for fgets(3), perror(3)
 #include<sys/types.h> // for waitid(2), getpid(2), getppid(2)

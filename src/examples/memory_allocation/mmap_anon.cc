@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<string.h> // for memset(3)
 #include<sys/mman.h> // for mmap(2), munmap(2)

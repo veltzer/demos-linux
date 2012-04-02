@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3), fflush(3), setvbuf(3)
 #include<unistd.h> // for usleep(3)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This is an example of how to use the carriage return character

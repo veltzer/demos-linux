@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<signal.h> // for signal(2), psignal(3)
 #include<stdio.h> // for perror(3)
 #include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS

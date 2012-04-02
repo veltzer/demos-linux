@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<netdb.h> // for getservbyname(3)
 #include<stdio.h> // for printf(3), fprintf(3)
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
