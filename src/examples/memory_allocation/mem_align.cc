@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h> // for printf(3), fprintf(3), perror(3)
+#include<firstinclude.h>
+#include<stdio.h> // for printf(3), fprintf(3)
 #include<unistd.h> // for getpagesize(2), sysconf(3)
 #include<malloc.h> // for valloc(3), memalign(3)
-#include<stdlib.h> // for posix_memalign(3) , malloc(3), EXIT_SUCCESS, EXIT_FAILURE
+#include<stdlib.h> // for posix_memalign(3) , malloc(3), EXIT_SUCCESS
 #include<sys/mman.h> // for mmap(2)
 #include<string.h> // for memset(3)
-
-#include<us_helper.h> // for printproc
+#include<us_helper.h> // for printproc(), CHECK_ZERO(), CHECK_NOT_VOIDP()
 
 /*
  * This demo shows how to allocate memory which is PAGE_SIZE aligned...
@@ -52,12 +52,8 @@ inline void* align_address(void* addr) {
 void *mem_align(unsigned int size) {
 	int ps = getpagesize();
 	void *ptr;
-	int res = posix_memalign(&ptr, ps, size);
-
-	if (res != 0) {
-		fprintf(stderr, "error with posix_memalign\n");
-		exit(EXIT_FAILURE);
-	}
+	int res;
+	CHECK_ZERO(res=posix_memalign(&ptr, ps, size));
 	return(ptr);
 }
 
@@ -90,18 +86,15 @@ void *mmap_alloc(unsigned int size) {
 	int flags=MAP_ANONYMOUS;
 	flags|=MAP_PRIVATE;
 	//flags|=MAP_SHARED;
-	void *res = mmap(
+	void* res;
+	CHECK_NOT_VOIDP(res=mmap(
 		NULL,/* dont recommend address */
 		size,/* the size we need */
 		PROT_READ | PROT_WRITE,/* we want read AND write */
 		flags,
 		-1,/* we do not have a device or fd to allocate from */
 		0/* we dont need an offset as we don't have a file and are doing anon */
-	);
-	if (res == MAP_FAILED) {
-		perror("mmap failed");
-		exit(EXIT_FAILURE);
-	}
+	),MAP_FAILED);
 	return(res);
 }
 

@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdarg.h> // for va_start(3), va_end(3)
 #include<syslog.h> // for vsyslog(3)
 #include<stdio.h> // for fprintf(3), vfprintf(3)

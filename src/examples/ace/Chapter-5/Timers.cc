@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/config-all.h>
 #include<ace/OS_main.h>
 #include<ace/streams.h>

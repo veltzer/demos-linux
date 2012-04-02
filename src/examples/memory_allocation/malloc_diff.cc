@@ -18,16 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<stdlib.h> // for malloc(3)
-#include<assert.h> // for assert(3)
-
-#include<us_helper.h>
-
 /*
  * This application just prints malloc diffs for various malloc allocation.
  * The idea is to use this application as a way to analyze how malloc allocates
  * memory...
  */
+
+#include<firstinclude.h>
+#include<stdlib.h> // for malloc(3)
+#include<assert.h> // for assert(3)
 
 /*
  * This function guesses the next address that malloc(3) will allocate to your

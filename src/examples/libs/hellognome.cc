@@ -18,12 +18,14 @@
 	02111-1307 USA.
 */
 
-/* This is a demo program for using C Gnome
+#include<firstinclude.h>
+#include<gnome.h> // for gnome_init(3), gnome_app_new(3), gtk_widget_show(3), gtk_main(3)
+
+/*
+ * This is a demo program for using C Gnome
  *
  * EXTRA_CMDS=pkg-config --cflags --libs libgnomeui-2.0
  */
-
-#include<gnome.h>
 
 int main(int argc,char** argv,char** envp) {
 	gnome_init("mdi-test", "1.0", argc, argv);

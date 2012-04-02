@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<postgresql/libpq-fe.h>
 #include<stdio.h>
 #include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE

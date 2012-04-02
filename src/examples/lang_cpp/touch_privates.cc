@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
-
-#include<us_helper.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This example shows that private in C++ is protection only for compile time

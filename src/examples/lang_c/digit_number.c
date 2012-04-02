@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3), scanf(3), perror(3)
 #include<stdlib.h> // for exit(3), EXIT_SUCCESS
 

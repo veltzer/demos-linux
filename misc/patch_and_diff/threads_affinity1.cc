@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<pthread.h>
 #include<sched.h>
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<unistd.h> // for sysconf(3)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_ZERO()
 
 /*
  * This shows how to create threads with a certain affinity
@@ -64,13 +64,13 @@ int main(int argc,char** argv,char** envp) {
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
 		print_cpu_set(cpu_sets + i);
-		SCIG(pthread_attr_init(attrs + i), "pthread_attr_init");
-		SCIG(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i), "pthread_attr_setaffinity_np");
-		SCIG(pthread_create(threads + i, attrs + i, worker, ids + i), "pthread_create");
+		CHECK_ZERO(pthread_attr_init(attrs + i));
+		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
+		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	TRACE("created threads");
 	for (int i = 0; i < num; i++) {
-		SCIG(pthread_join(threads[i], rets + i), "pthread_join");
+		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("end");
 	return EXIT_SUCCESS;

@@ -18,11 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h>
-#include<string.h>
-#include<search.h>
-
-#include<us_helper.h>
+#include<firstinclude.h>
+#include<search.h> // for hcreate(3), hcreate_r(3), hdestroy_r(3), hdestroy(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This demos how to use the has supplied with the standard C library...
@@ -32,12 +31,12 @@
  */
 int main(int argc,char** argv,char** envp) {
 	//struct hsearch_data HTAB;
-	//SC(hcreate_r(50,&HTAB));
+	//CHECK_NOT_M1(hcreate_r(50,&HTAB));
 	// next function does not return any status...
 	//hdestroy_r(&HTAB);
 	CHECK_NOT_M1(hcreate(50));
 	// next function does not return any status...
 	hdestroy();
-	// TODO
+	// TODO: show more of the hash here
 	return EXIT_SUCCESS;
 }

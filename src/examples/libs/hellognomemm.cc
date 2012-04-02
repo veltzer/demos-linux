@@ -18,7 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<libgnomeuimm.h>
+#include<firstinclude.h>
+#include<libgnomeuimm.h> // for Glib::OptionContext(O), Gnome::Main(O), Gnome::UI::App(O)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
  * This is a demo program for using Gnome--

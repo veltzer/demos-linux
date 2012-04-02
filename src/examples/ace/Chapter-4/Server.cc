@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/os_include/os_netdb.h>
 #include<ace/OS_NS_errno.h>
 #include<ace/INET_Addr.h>

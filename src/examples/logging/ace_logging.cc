@@ -18,6 +18,11 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
+// the next define makes the trace work...
+#define ACE_NTRACE 1
+#include<ace/Log_Msg.h>
+
 /*
  * This demo shows the ACE logging facilities
  *
@@ -31,15 +36,10 @@
  *
  * note that ACE_NTRACE can be enabled/disabled on a per file basis and so can
  * only be enabled at compile time in modules that you want to debug...
- */
-
-// the next define makes the trace work...
-#define ACE_NTRACE 1
-#include<ace/Log_Msg.h>
-
-/*
+ *
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
+
 void bar(void) {
 	ACE_TRACE(ACE_TEXT("bar"));
 	ACE_DEBUG((LM_INFO, ACE_TEXT("%IMessage from bar\n")));

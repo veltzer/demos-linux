@@ -21,6 +21,7 @@
 #ifndef __CLIENT_H_
 #define __CLIENT_H_
 
+#include<firstinclude.h>
 #include<ace/Synch_Traits.h>
 #include<ace/Null_Condition.h>
 #include<ace/Null_Mutex.h>

@@ -18,13 +18,14 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3), fgets(3), perror(3)
 #include<unistd.h> // for sleep(3), getpagesize(2)
 #include<stdlib.h> // for malloc(3), atoi(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<sys/mman.h> // for mlockall(2), munlockall(2)
 #include<malloc.h> // for malloc_stats(3)
-
-#include<us_helper.h>
+#include<proc/readproc.h> // for look_up_our_self(3)
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 /*
  * This example demostrates that malloc doesnt actually allocate
@@ -83,11 +84,7 @@ int main(int argc,char** argv,char** envp) {
 			case 1:
 				// get page number from user...
 				printf("how many pages to touch ?\n");
-				r=fgets(buf,bufsize,stdin);
-				if(r==NULL) {
-					perror("could not read from the terminal");
-					exit(EXIT_FAILURE);
-				}
+				CHECK_NOT_NULL(r=fgets(buf,bufsize,stdin));
 				pagenum=atoi(buf);
 				for(unsigned int i = 0; i < pagenum; i++) {
 					p[page_counter * page_size] = 0;

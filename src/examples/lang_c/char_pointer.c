@@ -18,14 +18,10 @@
 	02111-1307 USA.
 */
 
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
-#endif // _GNU_SOURCE
-#include<stdio.h>
-#include<string.h>
+#include<firstinclude.h>
+#include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
-
-#include<us_helper.h>
+#include<us_helper.h> // for print_proc()
 
 /*
  * This demo shows several different things:

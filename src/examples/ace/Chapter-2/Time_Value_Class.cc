@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/ARGV.h>
 #include<ace/Get_Opt.h>
 #include<ace/ARGV.h>

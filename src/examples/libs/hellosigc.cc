@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<iostream>
 #include<string>
 #include<sigc++/signal_system.h>
