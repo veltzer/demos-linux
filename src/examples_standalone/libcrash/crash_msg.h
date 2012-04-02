@@ -21,6 +21,7 @@
 #ifndef CRASH_MSG_H_
 #define CRASH_MSG_H_
 
+#include<firstinclude.h>
 #include<sys/types.h>
 #include<time.h>
 #include<assert.h>

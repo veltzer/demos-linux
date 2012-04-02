@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#define _GNU_SOURCE
+#include<firstinclude.h>
 #include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>

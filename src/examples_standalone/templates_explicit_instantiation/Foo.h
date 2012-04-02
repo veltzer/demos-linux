@@ -21,6 +21,8 @@
 #ifndef __Foo_h
 #define __Foo_h
 
+#include<firstinclude.h>
+
 template<class T> class Foo {
 	protected:
 		T t;

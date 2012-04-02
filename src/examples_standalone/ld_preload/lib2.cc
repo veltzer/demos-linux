@@ -18,47 +18,36 @@
 	02111-1307 USA.
 */
 
-#include<dlfcn.h> // for dlopen(3), dlclose(3), dlerror(3)
-#include<stdlib.h> // for exit(3), EXIT_FAILURE
-#include<stdio.h> // for fprintf(3)
-
-#include<us_helper.h>
+#include<firstinclude.h>
+#include<dlfcn.h> // for dlopen(3), dlclose(3), dlsym(3)
+#include<us_helper.h> // TRACE()
 
 /*
 * Static handle to the library and to the function
 */
+
 static void* handle=NULL;
 static double (*psin)(double);
 
 /* Initialization function for this library
 * This function will load the real library using dlopen et al...
 */
-static void init(void) {
-	TRACE("in here");
+static void __attribute__((constructor)) init(void) {
+	TRACE("start");
 	//handle=dlopen("/lib/tls/i686/cmov/libm.so.6", RTLD_LAZY);
 	//handle=dlopen("/lib/libm-2.12.1.so", RTLD_LAZY);
-	handle=dlopen(NULL, RTLD_LAZY);
-	if(handle==NULL) {
-		fprintf(stderr,"error in dlopen [%s]\n",dlerror());
-		exit(EXIT_FAILURE);
-	}
-	// clear errors...
-	dlerror();
-	psin=(double(*)(double))dlsym(handle, "sin");
-	char* err=dlerror();
-	if(err!=NULL) {
-		fprintf(stderr,"error in dlsym [%s]\n",err);
-		exit(EXIT_FAILURE);
-	}
-
+	CHECK_NOT_NULL(handle=dlopen(NULL, RTLD_LAZY));
+	void* sym;
+	CHECK_NOT_NULL(sym=dlsym(handle,"sin"));
+	psin=(double(*)(double))sym;
+	TRACE("end");
 }
-void init(void) __attribute__((constructor));
 
-static void fini(void) {
-	TRACE("in here");
-	sc(dlclose(handle));
+static void __attribute__((destructor)) fini(void) {
+	TRACE("start");
+	CHECK_ZERO(dlclose(handle));
+	TRACE("end");
 }
-void fini(void) __attribute__((destructor));
 
 extern "C" double sin(double x) {
 	return psin(x)*2;

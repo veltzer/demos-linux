@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>
 #include<signal.h>
 #include<execinfo.h>
-#define __USE_GNU /* Needed to get REG_EIP from ucontext.h */
 #include<sys/types.h>
 #include<sys/syscall.h>
 #include<errno.h>
