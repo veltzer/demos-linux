@@ -29,8 +29,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block> SHARED_ALLOC;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>

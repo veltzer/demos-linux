@@ -30,8 +30,9 @@
 #include<us_helper.h>
 
 /*
- * This tests the get_free_pages driver
- */
+* This tests the get_free_pages driver
+*/
+
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename = "/dev/demo";

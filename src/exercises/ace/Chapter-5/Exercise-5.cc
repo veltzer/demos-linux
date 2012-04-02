@@ -25,14 +25,14 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 /*
- * This is the handler which follows the ACE_Event_Hanlder
- * pattern. Notice the overriding of handle_input and handle_close.
- * There are other handle_* events that you can implement...
- */
+* This is the handler which follows the ACE_Event_Hanlder
+* pattern. Notice the overriding of handle_input and handle_close.
+* There are other handle_* events that you can implement...
+*/
 
 class Net_Handler:public ACE_Event_Handler {
 	protected:

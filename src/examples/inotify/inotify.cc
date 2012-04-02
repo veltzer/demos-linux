@@ -31,15 +31,15 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This demo shows how to use the inotify(2) API to get notifications of file changes.
- * We use a signal to break out of the inotify loop. We could have used poll or an event
- * fd from other threads which would work out just fine.
- *
- * One of the weird things in terms of the inotify API is that it returns records of uneven
- * length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to save on short
- * file name lengths. And a single read can return more than one record but will always return
- * an even amount of records.
- */
+* This demo shows how to use the inotify(2) API to get notifications of file changes.
+* We use a signal to break out of the inotify loop. We could have used poll or an event
+* fd from other threads which would work out just fine.
+*
+* One of the weird things in terms of the inotify API is that it returns records of uneven
+* length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to save on short
+* file name lengths. And a single read can return more than one record but will always return
+* an even amount of records.
+*/
 
 // signal handling functions
 static bool stop=false;

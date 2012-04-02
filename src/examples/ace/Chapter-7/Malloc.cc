@@ -26,8 +26,8 @@
 #include<ace/Null_Mutex.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 #define FIXED_ADDRESS
 

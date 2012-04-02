@@ -25,8 +25,8 @@
 #include<string.h> // for strcpy(3)
 
 /*
- * This is a demo of using the mcheck feature of the GNU C standard library
- */
+* This is a demo of using the mcheck feature of the GNU C standard library
+*/
 
 void myhandler(enum mcheck_status status) {
 	printf("inside my handler, careful not to do something complicated here since the system is in a bad state as it is...\n");

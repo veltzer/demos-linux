@@ -25,8 +25,8 @@
 #include<ace/Process_Mutex.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Listing 1 code/ch10
 class GResourceUser {

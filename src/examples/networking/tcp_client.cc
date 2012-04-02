@@ -34,8 +34,8 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is a tcp client demo.
- */
+* This is a tcp client demo.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {

@@ -25,8 +25,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 //
 // options are: -f file FileName

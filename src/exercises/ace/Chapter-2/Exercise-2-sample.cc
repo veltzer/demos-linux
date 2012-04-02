@@ -29,14 +29,14 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Exercise 2
- * Please note this is NOT a running prgram.
- * The consumer is activated by the producer (see line 85)
- * According to the Exercise there should be two consumers.
- * Hint: DO NOT ACTIVATE them from the producer. !!!
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Exercise 2
+* Please note this is NOT a running prgram.
+* The consumer is activated by the producer (see line 85)
+* According to the Exercise there should be two consumers.
+* Hint: DO NOT ACTIVATE them from the producer. !!!
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;

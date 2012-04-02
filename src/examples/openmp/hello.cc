@@ -24,12 +24,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a minimal openmp program.
- * Notice that openmp automatically adjusts to the number of cores that you have.
- * You can ofcourse, change that (reduce or increase number of threads)
- *
- * EXTRA_COMPILE_FLAGS=-fopenmp
- */
+* This is a minimal openmp program.
+* Notice that openmp automatically adjusts to the number of cores that you have.
+* You can ofcourse, change that (reduce or increase number of threads)
+*
+* EXTRA_COMPILE_FLAGS=-fopenmp
+*/
 
 int main(int argc,char** argv,char** envp) {
 	#pragma omp parallel

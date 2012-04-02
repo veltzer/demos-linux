@@ -29,23 +29,23 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows that when you change a file in a directory then
- * the directories mtime changes.
- *
- * Notes:
- * - regular stat(2) time resolution is 1 second although modern linux
- * systems provide nano second support but via more fields in the stat
- * structure.
- * - that is why we sleep between the creation of the dir and the creation
- * of the file.
- * - note that if we add a file in a sub sub sub folder the times which are
- * affected are only those of the directory containting the change
- * (and not it's parent folders).
- * - this has ramifications for how to know if something changed in a folder.
- * if the folder has no subfolders then you can just look at it's time.
- * if it has subfolders you have to scan all the files and directories
- * (directories will do).
- */
+* This example shows that when you change a file in a directory then
+* the directories mtime changes.
+*
+* Notes:
+* - regular stat(2) time resolution is 1 second although modern linux
+* systems provide nano second support but via more fields in the stat
+* structure.
+* - that is why we sleep between the creation of the dir and the creation
+* of the file.
+* - note that if we add a file in a sub sub sub folder the times which are
+* affected are only those of the directory containting the change
+* (and not it's parent folders).
+* - this has ramifications for how to know if something changed in a folder.
+* if the folder has no subfolders then you can just look at it's time.
+* if it has subfolders you have to scan all the files and directories
+* (directories will do).
+*/
 
 // the directory we will be creating...
 const char* dirname="tmpdir";

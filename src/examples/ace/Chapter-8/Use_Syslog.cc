@@ -23,12 +23,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Notes:
- * - note the care which is taken to keep the compiler from
- * inlining the foo function.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Notes:
+* - note the care which is taken to keep the compiler from
+* inlining the foo function.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 void __attribute__((noinline)) foo(void) {
 	ACE_TRACE("foo");

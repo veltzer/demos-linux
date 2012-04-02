@@ -26,11 +26,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- *
- * TODO:
- *
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*
+* TODO:
+*
+*/
 
 // The consumer dequeues a message from the ACE_Message_Queue, writes
 // the message to the stderr stream, and deletes the message. The

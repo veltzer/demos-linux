@@ -23,10 +23,10 @@
 #include<string.h>
 
 /*
- * function to demangle name using the C++ API for doing so
- * There is no C API for demangling since C names do not get
- * mangled.
- */
+* function to demangle name using the C++ API for doing so
+* There is no C API for demangling since C names do not get
+* mangled.
+*/
 
 inline void error_demangle(
 	char* symbol,

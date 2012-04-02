@@ -29,11 +29,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Tail_buffer-modified.cpp - insert the zeo length message into
- * the head of the queue.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Tail_buffer-modified.cpp - insert the zeo length message into
+* the head of the queue.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;

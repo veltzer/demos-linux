@@ -24,11 +24,12 @@
 #include<stdlib.h>
 
 /*
- * This program demos the libbfd library which enabled you
- * to scan and manipulate object files in various formats
- *
- * EXTRA_LIBS=-lbfd
- */
+* This program demos the libbfd library which enabled you
+* to scan and manipulate object files in various formats
+*
+* EXTRA_LIBS=-lbfd
+*/
+
 int main(int argc,char** argv,char** envp) {
 	bfd_init();
 	bfd *b = bfd_openr("/bin/ls", NULL);

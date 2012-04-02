@@ -29,16 +29,16 @@
 #include<us_helper.h>
 
 /*
- * This is an example of setting thread stack sizes
- *
- * EXTRA_LIBS=-lpthread
- *
- * TODO:
- * - show number of page faults for this application.
- * First run a thread that allocates it's space in advance.
- * Then run a thread that does not.
- * show the info from /proc
- */
+* This is an example of setting thread stack sizes
+*
+* EXTRA_LIBS=-lpthread
+*
+* TODO:
+* - show number of page faults for this application.
+* First run a thread that allocates it's space in advance.
+* Then run a thread that does not.
+* show the info from /proc
+*/
 
 void ensure_space(unsigned int size) {
 	//int dummy;

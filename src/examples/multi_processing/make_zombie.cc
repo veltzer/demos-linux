@@ -29,32 +29,32 @@
 #include<us_helper.h>
 
 /*
- * This example demostrates how processes become zombies in Linux...
- *
- * How does a process become a zombie in Linux ?
- * - The parent creates the process.
- * - The process ends.
- * - The parent does not collect the processes return code using one of
- * the wait(2) family of functions.
- *
- * Note that if the parent dies then init(1) will actually serve as the
- * new parent for the child process (sort of adoption) and will clear the
- * child. So a zombie is always a process with a live parent (unless there
- * is a bug in init(1), ofcourse...).
- *
- * We show the status of the child in this application in two ways:
- * - using the ps command.
- * - using the libproc library.
- * - catting
- *
- * From the command line you can also see info about zombies using:
- * - ps(1) (done in this example).
- * - catting files from the /proc folder (done in two ways in this example).
- * - top(1)
- *
- * EXTRA_LIBS=-lproc
- *
- */
+* This example demostrates how processes become zombies in Linux...
+*
+* How does a process become a zombie in Linux ?
+* - The parent creates the process.
+* - The process ends.
+* - The parent does not collect the processes return code using one of
+* the wait(2) family of functions.
+*
+* Note that if the parent dies then init(1) will actually serve as the
+* new parent for the child process (sort of adoption) and will clear the
+* child. So a zombie is always a process with a live parent (unless there
+* is a bug in init(1), ofcourse...).
+*
+* We show the status of the child in this application in two ways:
+* - using the ps command.
+* - using the libproc library.
+* - catting
+*
+* From the command line you can also see info about zombies using:
+* - ps(1) (done in this example).
+* - catting files from the /proc folder (done in two ways in this example).
+* - top(1)
+*
+* EXTRA_LIBS=-lproc
+*
+*/
 void print_status(int status) {
 	if (WIFEXITED(status)) {
 		TRACE("child exited normally with status %d", WEXITSTATUS(status));

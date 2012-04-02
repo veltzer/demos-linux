@@ -27,19 +27,19 @@
 #include<us_helper.h> // for CHECK_ZERO, CHECK_NOT_M1, TRACE
 
 /*
- * This examples shows the effect of the nice scheduling system.
- *
- * It binds the process to a single core (for multi core systems).
- * It then forks two versions of heavy work each with a different nice level.
- * Then you can compare the work done by each of these.
- *
- * References:
- * man 2 nice
- *
- * TODO:
- * - make the printing look nicer so that it would be obvious that the child
- * and the parent are running in different speeds.
- */
+* This examples shows the effect of the nice scheduling system.
+*
+* It binds the process to a single core (for multi core systems).
+* It then forks two versions of heavy work each with a different nice level.
+* Then you can compare the work done by each of these.
+*
+* References:
+* man 2 nice
+*
+* TODO:
+* - make the printing look nicer so that it would be obvious that the child
+* and the parent are running in different speeds.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	// bind the entire process to a single CPU

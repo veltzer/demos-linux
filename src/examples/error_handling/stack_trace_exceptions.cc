@@ -26,28 +26,28 @@
 #include"demangle.hh"
 
 /*
- * This is a C++ example of how to create exceptions which contain a stack trace
- * of where they occured. This uses the backtrace function.
- * Notes:
- * - if you compile with -O2 you get less stack frames in the output
- * since some of the functions are inlined by the compiler.
- * - I added __attribute__((noinline)) to prevent the inlining to see more
- * stack traces. This made the stack frames visible but without the names.
- * If you want to see all stack frames then remove all optimization flags at
- * compile time.
- * - we drop two stack frames that don't interest
- * us (two functions that are above the 'main' function).
- * - yet another issue is C++ name mangling. You can either do that on the command
- * line using the 'c++filt(1)' tool or in the code by using the C++ library.
- * - the '-rdynamic' flag is needed if the 'backtrace_symbols' function is to
- * work and return symbols to you.
- *
- * EXTRA_LIBS=-rdynamic
- *
- * TODO:
- * - show how to see the two "nameless" stack frames in the middle (they are not currently seen).
- * - bring back the c++ demangling code (it was removed because it was crashing the app).
- */
+* This is a C++ example of how to create exceptions which contain a stack trace
+* of where they occured. This uses the backtrace function.
+* Notes:
+* - if you compile with -O2 you get less stack frames in the output
+* since some of the functions are inlined by the compiler.
+* - I added __attribute__((noinline)) to prevent the inlining to see more
+* stack traces. This made the stack frames visible but without the names.
+* If you want to see all stack frames then remove all optimization flags at
+* compile time.
+* - we drop two stack frames that don't interest
+* us (two functions that are above the 'main' function).
+* - yet another issue is C++ name mangling. You can either do that on the command
+* line using the 'c++filt(1)' tool or in the code by using the C++ library.
+* - the '-rdynamic' flag is needed if the 'backtrace_symbols' function is to
+* work and return symbols to you.
+*
+* EXTRA_LIBS=-rdynamic
+*
+* TODO:
+* - show how to see the two "nameless" stack frames in the middle (they are not currently seen).
+* - bring back the c++ demangling code (it was removed because it was crashing the app).
+*/
 
 class TracedException:public std::exception {
 private:

@@ -23,17 +23,17 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This program demonstrates the use of the MTL (Matrix Template Library)
- *
- * TODO:
- * - bring this example back to life (ubuntu doesn't seem to carry mtl-
- * maybe I will have to package it myself?!?)
- */
+* This program demonstrates the use of the MTL (Matrix Template Library)
+*
+* TODO:
+* - bring this example back to life (ubuntu doesn't seem to carry mtl-
+* maybe I will have to package it myself?!?)
+*/
 
 /*
- * using namespace mtl;
- * using namespace std;
- */
+* using namespace mtl;
+* using namespace std;
+*/
 int main(int argc,char** argv,char** envp) {
 	/*
 	* const int N=5;

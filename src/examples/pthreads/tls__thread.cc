@@ -23,10 +23,10 @@
 #include<us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
- * This is a demo of thread local storage using gcc __thread storage modifier.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a demo of thread local storage using gcc __thread storage modifier.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 __thread int myid;
 

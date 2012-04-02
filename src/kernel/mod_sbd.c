@@ -32,21 +32,21 @@ MODULE_DESCRIPTION("A simple demo of how to write a block device driver");
 MODULE_VERSION("1.4.0");
 
 /*
- * A sample, extra-simple block driver. Updated for kernel 2.6.31.
- *
- * (C) 2003 Eklektix, Inc.
- * (C) 2010 Pat Patterson <pat at superpat dot com>
- * Redistributable under the terms of the GNU GPL.
- * Changed by Mark Veltzer to match newer kernels, added comments and debug.
- *
- * References:
- * LDD3 - chapter on block device drivers.
- * http://lwn.net/Articles/58720/
- * http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/
- *
- * TODO:
- * - add a user space script that shows how to format, mount use and unmount the device.
- */
+* A sample, extra-simple block driver. Updated for kernel 2.6.31.
+*
+* (C) 2003 Eklektix, Inc.
+* (C) 2010 Pat Patterson <pat at superpat dot com>
+* Redistributable under the terms of the GNU GPL.
+* Changed by Mark Veltzer to match newer kernels, added comments and debug.
+*
+* References:
+* LDD3 - chapter on block device drivers.
+* http://lwn.net/Articles/58720/
+* http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/
+*
+* TODO:
+* - add a user space script that shows how to format, mount use and unmount the device.
+*/
 
 static int major_num = 0;
 module_param(major_num, int, 0);
@@ -58,19 +58,19 @@ static int debug = 0;
 static int dowork = 1;
 
 /*
- * We can tweak our hardware sector size, but the kernel talks to us
- * in terms of small sectors, always.
- */
+* We can tweak our hardware sector size, but the kernel talks to us
+* in terms of small sectors, always.
+*/
 #define KERNEL_SECTOR_SIZE 512
 
 /*
- * Our request queue.
- */
+* Our request queue.
+*/
 static struct request_queue *Queue;
 
 /*
- * The internal representation of our device.
- */
+* The internal representation of our device.
+*/
 static struct sbd_device {
 	unsigned long size;
 	spinlock_t lock;
@@ -79,9 +79,9 @@ static struct sbd_device {
 } Device;
 
 /*
- * This is our own helper function to handle a single read or write request. We obviously
- * do a memcpy since our device is very simple.
- */
+* This is our own helper function to handle a single read or write request. We obviously
+* do a memcpy since our device is very simple.
+*/
 static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 		unsigned long nsect, char *buffer, int write) {
 	unsigned long offset = sector * logical_block_size;
@@ -98,11 +98,11 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 }
 
 /*
- * Handle many I/O requests on the queue. This is a contract function with the kernel.
- * This is the function that will be called by the kernel for us to handle requests.
- * We pump the request queue here asking for requests. Each request is a structure with
- * all the data of the request (is it read or write, where from, how much,...).
- */
+* Handle many I/O requests on the queue. This is a contract function with the kernel.
+* This is the function that will be called by the kernel for us to handle requests.
+* We pump the request queue here asking for requests. Each request is a structure with
+* all the data of the request (is it read or write, where from, how much,...).
+*/
 
 // this is needed for newer kernels (2.6.38) that don't have 'blk_fs_request'...
 #define blk_fs_request(rq) ((rq)->cmd_type == REQ_TYPE_FS)
@@ -138,10 +138,10 @@ static void sbd_request(struct request_queue *q) {
 }
 
 /*
- * The HDIO_GETGEO ioctl is handled in blkdev_ioctl(), which
- * calls this. We need to implement getgeo, since we can't
- * use tools such as fdisk to partition the drive otherwise.
- */
+* The HDIO_GETGEO ioctl is handled in blkdev_ioctl(), which
+* calls this. We need to implement getgeo, since we can't
+* use tools such as fdisk to partition the drive otherwise.
+*/
 int sbd_getgeo(struct block_device * block_device, struct hd_geometry * geo) {
 	long size;
 
@@ -155,8 +155,8 @@ int sbd_getgeo(struct block_device * block_device, struct hd_geometry * geo) {
 }
 
 /*
- * The device operations structure.
- */
+* The device operations structure.
+*/
 static struct block_device_operations sbd_ops = {
 	.owner=THIS_MODULE,
 	.getgeo=sbd_getgeo

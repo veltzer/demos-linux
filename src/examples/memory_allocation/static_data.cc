@@ -25,14 +25,14 @@
 #include<us_helper.h> // for my_system
 
 /*
- * This example explores how static data (data segement) affects binary size
- * and speed
- *
- * Notes:
- * - if you initialize the array to 0 (first example) then the binary is small.
- * - if you do not initialize the array (second example) then the binary is small.
- * - if you initialize the array to anything which is not 0 then the binary is large.
- */
+* This example explores how static data (data segement) affects binary size
+* and speed
+*
+* Notes:
+* - if you initialize the array to 0 (first example) then the binary is small.
+* - if you do not initialize the array (second example) then the binary is small.
+* - if you initialize the array to anything which is not 0 then the binary is large.
+*/
 
 const unsigned int size=1000000;
 // first example

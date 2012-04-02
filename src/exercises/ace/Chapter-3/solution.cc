@@ -26,13 +26,13 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a solution to the exercise.
- *
- * Try to run this with "taskset 1" and more to see the difference in performance.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- *
- */
+* This is a solution to the exercise.
+*
+* Try to run this with "taskset 1" and more to see the difference in performance.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*
+*/
 
 const int numAttempts=10000;
 // should the threads yield one for the other ?

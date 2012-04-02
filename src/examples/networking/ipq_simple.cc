@@ -31,17 +31,17 @@ extern "C" {
 #include<string.h> // for strerror(3)
 
 /*
- * Example of a firewall in user space (man libipq).
- *
- * In order to use this you must do:
- * #!/bin/sh
- * sudo modprobe iptable_filter
- * sudo modprobe ip_queue
- * sudo iptables -A OUTPUT -j QUEUE
- * sudo ./ipq_simple
- *
- * EXTRA_LIBS=-lipq
- */
+* Example of a firewall in user space (man libipq).
+*
+* In order to use this you must do:
+* #!/bin/sh
+* sudo modprobe iptable_filter
+* sudo modprobe ip_queue
+* sudo iptables -A OUTPUT -j QUEUE
+* sudo ./ipq_simple
+*
+* EXTRA_LIBS=-lipq
+*/
 
 static void die(struct ipq_handle *h) {
 	ipq_perror("passer");

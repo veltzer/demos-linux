@@ -24,10 +24,10 @@
 #include<us_helper.h> // for CHECK_*, TRACE
 
 /*
- * This is a demo of thread local storage using the pthread API.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a demo of thread local storage using the pthread API.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 pthread_key_t key_myid;
 

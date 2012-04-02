@@ -29,9 +29,9 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This demo shows how to get the uptime of the machine...
- * This is not very suitable for very delicate and precise timings but still.
- */
+* This demo shows how to get the uptime of the machine...
+* This is not very suitable for very delicate and precise timings but still.
+*/
 void uptime(float *time1, float *time2) {
 	// null the pointers
 	*time1 = 0;

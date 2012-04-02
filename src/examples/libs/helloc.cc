@@ -23,8 +23,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a simple stdio hello world program
- */
+* This is a simple stdio hello world program
+*/
+
 int main(int argc,char** argv,char** envp) {
 	printf("Hello, World!\n");
 	return EXIT_SUCCESS;

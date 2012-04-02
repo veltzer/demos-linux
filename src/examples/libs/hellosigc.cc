@@ -24,10 +24,11 @@
 #include<sigc++/signal_system.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 
-/* This is a demo program for using the sigc++ signaling library
- *
- * EXTRA_LIBS=-I/usr/include/sigc++-1.0 -I/usr/lib/sigc++-1.0/include -lsigc -lpthread
- */
+/*
+* This is a demo program for using the sigc++ signaling library
+*
+* EXTRA_LIBS=-I/usr/include/sigc++-1.0 -I/usr/lib/sigc++-1.0/include -lsigc -lpthread
+*/
 
 using namespace SigC;
 

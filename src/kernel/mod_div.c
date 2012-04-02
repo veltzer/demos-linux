@@ -34,10 +34,10 @@ MODULE_DESCRIPTION("Driver that adds 64 bit integer arithmetic operations to the
 #include"shared.h" // for ioctl numbers
 
 /*
- * Why do you need this module?
- * Because on a 32 bit intel system you do not have long long operations for division.
- * Other operations work fine btw.
- */
+* Why do you need this module?
+* Because on a 32 bit intel system you do not have long long operations for division.
+* Other operations work fine btw.
+*/
 
 // static data
 static struct device* my_device;
@@ -45,8 +45,8 @@ static struct device* my_device;
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// the buffer which will be used for the transaction
 	buffer b;
@@ -84,8 +84,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 }
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.unlocked_ioctl = kern_unlocked_ioctll,
@@ -97,15 +97,15 @@ static struct file_operations my_fops = {
 #include<asm/div64.h>
 
 /*
- * The header above gave us functions as div_u64_rem. We can either use them directly or
- * we could define the functions under the names __udivdi3 __divdi3 which are the names that
- * gcc plants to be searched in case we want regular code like:
- * long long x=
- * long long y=
- * long long z=x/y
- * to work.
- * See the following code...
- */
+* The header above gave us functions as div_u64_rem. We can either use them directly or
+* we could define the functions under the names __udivdi3 __divdi3 which are the names that
+* gcc plants to be searched in case we want regular code like:
+* long long x=
+* long long y=
+* long long z=x/y
+* to work.
+* See the following code...
+*/
 
 unsigned long long __udivdi3(unsigned long long divided, unsigned long long divisor) {
 	unsigned int reminder;
@@ -125,42 +125,42 @@ long long __divdi3(long long divided, long long divisor) {
 }
 
 /* disregard the next section. It is documentation for myself since it took me quite a long
- * time to find the above and I want to preserve the road I got there by...
- */
+* time to find the above and I want to preserve the road I got there by...
+*/
 
 // this is where the 64 bit division magic starts...
 
 // and here is the division function:
 
 /*
- * 64bit division - for sync stuff..
- */
+* 64bit division - for sync stuff..
+*/
 
 /*
- #define udiv_qrnnd(q, r, n1, n0, d) \
- * __asm__ ("divl %4" \
- * :"=a" ((u32)(q)), \
- * "=d" ((u32)(r)) \
- * :"0" ((u32)(n0)), \
- * "1" ((u32)(n1)), \
- * "rm" ((u32)(d)))
- *
- #define u64_div(x,y,q) do {u32 __tmp; udiv_qrnnd(q, __tmp, (x)>>32, x, y);} while(0)
- #define u64_mod(x,y,r) do {u32 __tmp; udiv_qrnnd(__tmp, q, (x)>>32, x, y);} while(0)
- #define u64_divmod(x,y,q,r) udiv_qrnnd(q, r, (x)>>32, x, y)
- */
+#define udiv_qrnnd(q, r, n1, n0, d) \
+* __asm__ ("divl %4" \
+* :"=a" ((u32)(q)), \
+* "=d" ((u32)(r)) \
+* :"0" ((u32)(n0)), \
+* "1" ((u32)(n1)), \
+* "rm" ((u32)(d)))
+*
+#define u64_div(x,y,q) do {u32 __tmp; udiv_qrnnd(q, __tmp, (x)>>32, x, y);} while(0)
+#define u64_mod(x,y,r) do {u32 __tmp; udiv_qrnnd(__tmp, q, (x)>>32, x, y);} while(0)
+#define u64_divmod(x,y,q,r) udiv_qrnnd(q, r, (x)>>32, x, y)
+*/
 
 /*
- #define _FP_W_TYPE_SIZE 32
- #define _FP_W_TYPE unsigned int
- #define _FP_WS_TYPE signed int
- #define _FP_I_TYPE int
- *
- #include<math-emu/op-1.h>
- #include<math-emu/op-2.h>
- #include<math-emu/op-4.h>
- #include<math-emu/op-common.h>
- */
+#define _FP_W_TYPE_SIZE 32
+#define _FP_W_TYPE unsigned int
+#define _FP_WS_TYPE signed int
+#define _FP_I_TYPE int
+*
+#include<math-emu/op-1.h>
+#include<math-emu/op-2.h>
+#include<math-emu/op-4.h>
+#include<math-emu/op-common.h>
+*/
 // there is no such file for x86
 //#include<asm/sfp-machine.h>
 // creates compilation issues...

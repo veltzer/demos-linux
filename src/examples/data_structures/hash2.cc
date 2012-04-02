@@ -24,8 +24,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 /*
- * This is a demo of using the GNU C libraries hash table implementation
- */
+* This is a demo of using the GNU C libraries hash table implementation
+*/
 
 const char *data[]={ "alpha", "bravo", "charlie", "delta",
 	"echo", "foxtrot", "golf", "hotel", "india", "juliet",

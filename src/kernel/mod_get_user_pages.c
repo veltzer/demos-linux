@@ -31,10 +31,10 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("get_user_pages demo");
 
 /*
- *	This driver demostrates how to map user space (virtual space) to kernel space.
- *	You can either get it fragmented in pages, or if you really need to,
- *	use the MMU to map it to a single kernel side linear address...
- */
+*	This driver demostrates how to map user space (virtual space) to kernel space.
+*	You can either get it fragmented in pages, or if you really need to,
+*	use the MMU to map it to a single kernel side linear address...
+*/
 
 #include"shared.h"
 
@@ -54,8 +54,8 @@ static unsigned int nr_pages;
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 
 static inline void pages_unlock(void) {
 	unsigned int i;
@@ -242,8 +242,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 }
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.unlocked_ioctl = kern_unlocked_ioctll,

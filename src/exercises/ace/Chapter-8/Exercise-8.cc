@@ -25,8 +25,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
+
 void FunB() {
 	ACE_TRACE(ACE_TEXT("FunB"));
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("DEBUG: pid=%P Line:%l File=%N\n")));

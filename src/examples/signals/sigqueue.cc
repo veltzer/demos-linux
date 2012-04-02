@@ -25,9 +25,9 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This is a general command line utility to send signals via
- * the sigqueue(2) interface.
- */
+* This is a general command line utility to send signals via
+* the sigqueue(2) interface.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if (argc != 4) {

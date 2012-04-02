@@ -26,10 +26,10 @@
 #include<us_helper.h>
 
 /*
- * This example shows that the data segment is organized into pages. It shows
- * that if you step over data then you will only get seg faulted once you step
- * over the page boundary.
- */
+* This example shows that the data segment is organized into pages. It shows
+* that if you step over data then you will only get seg faulted once you step
+* over the page boundary.
+*/
 
 // a must be last...
 int a=1;
@@ -39,8 +39,8 @@ unsigned int page_size;
 sighandler_t old_handler;
 
 /*
- * This is a signal handler to handle the segmentation faults we will generate...
- */
+* This is a signal handler to handle the segmentation faults we will generate...
+*/
 void segv_handler(int sig) {
 	//printf("in segv handler\n");
 	printf("in segv handler: ptr=%p, offset is %d\n",ptr,int(ptr)%page_size);

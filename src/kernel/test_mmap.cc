@@ -33,14 +33,14 @@
 #include<us_helper.h>
 
 /*
- * This is a test for the mmap demo:
- * 0. open.
- * 1. allocate memory in kernel space and get pointer in used (mmap).
- * 2. ask kernel to manipulate the memory.
- * 3. print it out.
- * 4. unmap.
- * 5. close.
- */
+* This is a test for the mmap demo:
+* 0. open.
+* 1. allocate memory in kernel space and get pointer in used (mmap).
+* 2. ask kernel to manipulate the memory.
+* 3. print it out.
+* 4. unmap.
+* 5. close.
+*/
 
 bool do_play = false;
 bool do_stress = false;

@@ -25,8 +25,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 //Arguments that are to be passed to the worker thread are instances of this class.
 class Args {

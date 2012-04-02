@@ -26,8 +26,8 @@
 #include<ace/Log_Msg.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Specify that termination has not occured yet
 bool Termination = false;

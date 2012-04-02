@@ -27,18 +27,18 @@
 #include<us_helper.h>
 
 /*
- * This is a demo which shows atomic add using the
- * __sync_add_and_fetch gcc function.
- * see
- * http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html
- * for more details...
- *
- * The idea here is to try to break this function by having multiple
- * thread try to increment the counter at once. This is achieved by
- * using pthread barriers so this example is based on the pthread barriers example.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a demo which shows atomic add using the
+* __sync_add_and_fetch gcc function.
+* see
+* http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html
+* for more details...
+*
+* The idea here is to try to break this function by having multiple
+* thread try to increment the counter at once. This is achieved by
+* using pthread barriers so this example is based on the pthread barriers example.
+*
+* EXTRA_LIBS=-lpthread
+*/
 pthread_barrier_t bar;
 int counter = 0;
 const int wait_usecs = 0;

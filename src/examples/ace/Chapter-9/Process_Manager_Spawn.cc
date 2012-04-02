@@ -25,8 +25,8 @@
 #include<ace/Process_Manager.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 static const int NCHILDREN = 2;
 

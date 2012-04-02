@@ -28,9 +28,9 @@
 #include<us_helper.h>
 
 /*
- * This is an example of a process that prints the CPU it is running on
- * and lets you change the CPU that it is on.
- */
+* This is an example of a process that prints the CPU it is running on
+* and lets you change the CPU that it is on.
+*/
 
 void print_cpu(int cpunum) {
 }

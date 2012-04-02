@@ -22,12 +22,12 @@
 #include<stdio.h> // for printf(3)
 
 /*
- * This example shows how to step out of the array bounds, in this case
- * in order to step over some other variable. Note that if you do not
- * make the other number (in this case 'num') materialize by taking a reference
- * to it then it will not materialize and a bug will not be seen (although a bug
- * will occur!).
- */
+* This example shows how to step out of the array bounds, in this case
+* in order to step over some other variable. Note that if you do not
+* make the other number (in this case 'num') materialize by taking a reference
+* to it then it will not materialize and a bug will not be seen (although a bug
+* will occur!).
+*/
 
 int main(int argc,char** argv,char** envp) {
 	int a[10];

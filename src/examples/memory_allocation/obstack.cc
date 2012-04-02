@@ -27,20 +27,20 @@
 #include<us_helper.h> // for my_system
 
 /*
- * This example shows how to use obstacks...
- *
- * Notes:
- * - the obstack API is C so it can be used in both C and C++ apps.
- * - notice the speed of obstack compared to the speed of malloc.
- * because this is an uncontended case with just a single thread
- * then malloc and obstack perform roughly the same (malloc
- * on occasion a little slower...)
- *
- * TODO:
- * - add multi threading and releases to really show the difference
- * between obstacks and malloc.
- *
- */
+* This example shows how to use obstacks...
+*
+* Notes:
+* - the obstack API is C so it can be used in both C and C++ apps.
+* - notice the speed of obstack compared to the speed of malloc.
+* because this is an uncontended case with just a single thread
+* then malloc and obstack perform roughly the same (malloc
+* on occasion a little slower...)
+*
+* TODO:
+* - add multi threading and releases to really show the difference
+* between obstacks and malloc.
+*
+*/
 
 // these are needed so that obstacks would work fine...
 #define obstack_chunk_alloc xmalloc

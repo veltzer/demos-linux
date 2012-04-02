@@ -23,8 +23,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This demo shows how to print an unsigned long in a big hexa format...
- */
+* This demo shows how to print an unsigned long in a big hexa format...
+*/
+
 int main(int argc,char** argv,char** envp) {
 	unsigned long i = 0xabcd0123;
 	void* p = (void *)i;

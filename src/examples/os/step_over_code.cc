@@ -25,14 +25,14 @@
 #include<us_helper.h>
 
 /*
- * This example clearly shows that the code segment is protected against writing.
- * At least on Intel that is.
- *
- * Notes:
- * If you compile this example with optimizations then the final line
- * is necessary because otherwise the compiler will optimize out the entire
- * loop that writes over the code.
- */
+* This example clearly shows that the code segment is protected against writing.
+* At least on Intel that is.
+*
+* Notes:
+* If you compile this example with optimizations then the final line
+* is necessary because otherwise the compiler will optimize out the entire
+* loop that writes over the code.
+*/
 
 int myfunc(int lim) __attribute__((noinline));
 int myfunc(int lim) {

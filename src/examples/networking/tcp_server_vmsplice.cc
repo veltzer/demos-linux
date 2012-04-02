@@ -40,10 +40,10 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is an example of using vmsplice to send mucho data to clients.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is an example of using vmsplice to send mucho data to clients.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...

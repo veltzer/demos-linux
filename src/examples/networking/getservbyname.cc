@@ -25,8 +25,8 @@
 #include<us_helper.h> // for CHECK_NOT_NULL()
 
 /*
- * A simple example to demonstrate getservbyname(3)
- */
+* A simple example to demonstrate getservbyname(3)
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {

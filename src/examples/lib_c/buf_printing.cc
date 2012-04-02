@@ -24,8 +24,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example to show how best to print characters on the screen...
- */
+* This is an example to show how best to print characters on the screen...
+*/
+
 int main(int argc,char** argv,char** envp) {
 	for(int c=0;c<256;c++) {
 		if (isgraph(c)) {

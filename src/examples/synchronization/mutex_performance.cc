@@ -29,24 +29,22 @@
 #include<us_helper.h> // for micro_diff, CHECK_ZERO
 
 /*
- * This demo shows the difference between regular pthread mutex (which is a
- * futex) and an expensive one.
- *
- * The idea is a single thread application that just measures a million lock/unlock
- * operations on each type of lock. Simple and effective.
- *
- * We measure ALL kinds of semaphores and mutexes here.
- *
- * Results:
- * the main finding is that
- * regular lock/unlock costs about 90 nanos on modern hardware while SYSV IPC costs
- * 10 times more. In all other aspects all other types of locks (recursive, non
- * recursive, shared, non shared) perform about the same.
- *
- * EXTRA_LIBS=-lpthread
- *
- * TODO:
- */
+* This demo shows the difference between regular pthread mutex (which is a
+* futex) and an expensive one.
+*
+* The idea is a single thread application that just measures a million lock/unlock
+* operations on each type of lock. Simple and effective.
+*
+* We measure ALL kinds of semaphores and mutexes here.
+*
+* Results:
+* the main finding is that
+* regular lock/unlock costs about 90 nanos on modern hardware while SYSV IPC costs
+* 10 times more. In all other aspects all other types of locks (recursive, non
+* recursive, shared, non shared) perform about the same.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {
 	struct timeval t1, t2;

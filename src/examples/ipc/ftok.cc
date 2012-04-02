@@ -25,9 +25,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows that you actually need to point to a real existing file
- * name in order for ftok to succeed...
- */
+* This example shows that you actually need to point to a real existing file
+* name in order for ftok to succeed...
+*/
 
 int main(int argc,char** argv,char** envp) {
 	key_t k1=ftok("/tmp/no_such_file", 17);

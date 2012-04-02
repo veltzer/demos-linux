@@ -32,11 +32,13 @@
 #include<GL/glu.h>
 
 /*
- * OpenGL example number 2...
- * Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Programming_Animations_with_GLX_and_Xlib
- *
- * EXTRA_LIBS=-lX11 -lGL -lGLU
- */
+* OpenGL example number 2...
+* Taken from:
+* http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Programming_Animations_with_GLX_and_Xlib
+*
+* EXTRA_LIBS=-lX11 -lGL -lGLU
+*/
+
 // GLOBAL IDENTIFIERS
 Display* dpy;
 Window root,win;

@@ -28,12 +28,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This short program prints the contents of stdin to stdout sorted by
- * the length of each line via the use of an ASX Message_Queue. It
- * illustrates how priorities can be used for ACE Message_Queues.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* This short program prints the contents of stdin to stdout sorted by
+* the length of each line via the use of an ASX Message_Queue. It
+* illustrates how priorities can be used for ACE Message_Queues.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;

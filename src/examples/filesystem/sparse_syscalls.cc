@@ -27,11 +27,12 @@
 #include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 /*
- * This example explores sparse files on a UNIX system.
- *
- * TODO:
- * - use my CHECK macros here.
- */
+* This example explores sparse files on a UNIX system.
+*
+* TODO:
+* - use my CHECK macros here.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	const char *buf = "hello";
 	int fd = open("sparse_file", O_CREAT | O_RDWR, 0666);

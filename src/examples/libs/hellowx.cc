@@ -23,10 +23,10 @@
 #include<wx/frame.h>
 
 /*
- * This example is a simple wxWindows application.
- *
- * EXTRA_CMDS=wx-config --cflags --libs
- */
+* This example is a simple wxWindows application.
+*
+* EXTRA_CMDS=wx-config --cflags --libs
+*/
 
 class MyApp:public wxApp {
 	virtual bool OnInit(void);

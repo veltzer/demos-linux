@@ -28,8 +28,8 @@
 #include<us_helper.h> // for CHECK_VAL(), CHECK_NOT_M1()
 
 /*
- * This demo of signalfd was stolen shamelessly from the signalfd(2) manpage.
- */
+* This demo of signalfd was stolen shamelessly from the signalfd(2) manpage.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	printf("send a signal to me using [kill -s SIGINT %d]\n",getpid());

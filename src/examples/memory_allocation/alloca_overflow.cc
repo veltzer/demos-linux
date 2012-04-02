@@ -28,22 +28,22 @@
 #include<us_helper.h>
 
 /*
- * This example shows how to allocate space on the stack using the alloca(3) function call.
- * This function is actually inlined assembly that never fails and only increments the stack
- * pointer and so is VERY VERY VERY fast. On the other hand it has it's own issues.
- *
- * On a standard linux machine this test will fail when reaching about 10M of ram. If you want
- * more then you can use setrlimit with the stack size you want to get more or use ulimit(1)
- * on the command line before running your program.
- *
- * Notice that once you set a limit using ulimit(1) on the command line then using this program
- * would fail since the limit was already set and so cannot be made higher (ulimit security).
- *
- * Notes:
- * - even if you did not zero the memory you got from alloca you would still get a stack
- * violation exception since in ubuntu 6.10 and onwards a stack protector is
- * automatically enabled for any thread calling alloca.
- */
+* This example shows how to allocate space on the stack using the alloca(3) function call.
+* This function is actually inlined assembly that never fails and only increments the stack
+* pointer and so is VERY VERY VERY fast. On the other hand it has it's own issues.
+*
+* On a standard linux machine this test will fail when reaching about 10M of ram. If you want
+* more then you can use setrlimit with the stack size you want to get more or use ulimit(1)
+* on the command line before running your program.
+*
+* Notice that once you set a limit using ulimit(1) on the command line then using this program
+* would fail since the limit was already set and so cannot be made higher (ulimit security).
+*
+* Notes:
+* - even if you did not zero the memory you got from alloca you would still get a stack
+* violation exception since in ubuntu 6.10 and onwards a stack protector is
+* automatically enabled for any thread calling alloca.
+*/
 
 void my_func(size_t size) {
 	char* p=(char*)alloca(size);

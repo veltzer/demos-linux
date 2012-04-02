@@ -33,11 +33,11 @@
 #include<unistd.h> // for close(2)
 
 /*
- * An example of doing ICMP, in this case ping, in user space...
- *
- * References:
- * http://www.tenouk.com/Module43a.html
- */
+* An example of doing ICMP, in this case ping, in user space...
+*
+* References:
+* http://www.tenouk.com/Module43a.html
+*/
 
 int main(int argc,char** argv,char** envp) {
 	int s, i;

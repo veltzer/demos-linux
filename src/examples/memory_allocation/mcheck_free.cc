@@ -25,10 +25,10 @@
 #include<stdlib.h> // for malloc(3), free(3)
 
 /*
- * This example shows how mcheck helps to catch errors in free...
- * This means that if you activated mcheck your free(3) calls will run
- * some consistency check and you will catch the errors.
- */
+* This example shows how mcheck helps to catch errors in free...
+* This means that if you activated mcheck your free(3) calls will run
+* some consistency check and you will catch the errors.
+*/
 
 void myhandler(enum mcheck_status status) {
 	// inside my handler, careful not to do something complicated here since the system is in a bad state as it is...

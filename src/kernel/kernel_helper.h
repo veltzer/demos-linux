@@ -21,8 +21,6 @@
 #ifndef __kernel_helper_h
 #define __kernel_helper_h
 
-#include<firstinclude.h>
-
 // do we want debug information ?!?
 //#define DO_DEBUG
 // TODO - the macros here could (and should?!?) be turned into inline functions...

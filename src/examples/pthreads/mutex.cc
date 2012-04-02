@@ -25,11 +25,11 @@
 #include<us_helper.h>
 
 /*
- * This demos pthread mutex usage.
- * Note that these are actually futexes.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This demos pthread mutex usage.
+* Note that these are actually futexes.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 static pthread_mutex_t mylock;
 

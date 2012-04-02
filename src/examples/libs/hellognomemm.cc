@@ -23,10 +23,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo program for using Gnome--
- *
- * EXTRA_CMDS=pkg-config --libs --cflags libgnomeuimm-2.6
- */
+* This is a demo program for using Gnome--
+*
+* EXTRA_CMDS=pkg-config --libs --cflags libgnomeuimm-2.6
+*/
+
 int main(int argc,char** argv,char** envp) {
 	Glib::OptionContext context;
 	Gnome::Main app("gnome-hello", "0.1",

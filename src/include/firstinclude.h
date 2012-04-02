@@ -24,8 +24,8 @@
 /* THIS IS C FILE, NO C++ here */
 
 /*
- * This is the first file you should include
- */
+* This is the first file you should include
+*/
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH

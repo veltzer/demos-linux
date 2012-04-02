@@ -26,14 +26,14 @@
 #include<us_helper.h> // for micro_diff()
 
 /*
- * This demo times how long it takes to call a syscall.
- * It is a simple loop surrounded by gettimeofday.
- *
- * How long is it?
- * About 1/3 mic on a fast computer.
- * About 1.2 mic on my laptop.
- * Probably more on ARM processors.
- */
+* This demo times how long it takes to call a syscall.
+* It is a simple loop surrounded by gettimeofday.
+*
+* How long is it?
+* About 1/3 mic on a fast computer.
+* About 1.2 mic on my laptop.
+* Probably more on ARM processors.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	struct timeval t1, t2;

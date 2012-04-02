@@ -34,8 +34,8 @@
 #include<us_helper.h>
 
 /*
- * This test shows how you can do mmap via an ioctl...
- */
+* This test shows how you can do mmap via an ioctl...
+*/
 
 bool do_mmap_once = false;
 bool do_ioctl_once = false;

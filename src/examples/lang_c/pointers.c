@@ -22,10 +22,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is showing pointer pointer stuff
- * The idea is to show that the compiler does NOT allow to convert
- * Foobar** to char**.
- */
+* This is showing pointer pointer stuff
+* The idea is to show that the compiler does NOT allow to convert
+* Foobar** to char**.
+*/
+
 void func(char **p) {
 }
 

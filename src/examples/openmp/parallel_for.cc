@@ -25,10 +25,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * A demo calculating the sin table with openmp.
- *
- * EXTRA_COMPILE_FLAGS=-fopenmp
- */
+* A demo calculating the sin table with openmp.
+*
+* EXTRA_COMPILE_FLAGS=-fopenmp
+*/
 
 int main(int argc,char** argv,char** envp) {
 	const int size = 256;

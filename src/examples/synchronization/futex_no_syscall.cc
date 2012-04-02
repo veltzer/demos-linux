@@ -24,25 +24,25 @@
 #include<us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
- * This example creates a pthread_mutex which is a futex, grabs it and releases
- * it. Run it with strace to see that it does not call any system call.
- *
- * Notes:
- * - there is no syscall involved with this futex AT ALL! This is because this futex is private
- *	and therefore not robust. Futexes can be robust in which case you need to tell that at creation
- *	which will notify the kernel about this futex.
- *	by default futexes are private.
- *	This means that even creation of futexes is cheap.
- *
- * Problem:
- * - even if I create a process shared mutex the pthread library calls no syscall at mutex_init time!!!
- *	How can this be if the futex is robust?!? investigate...
- *
- * EXTRA_LIBS=-lpthread
- *
- * TODO:
- * - make this example strace itself...
- */
+* This example creates a pthread_mutex which is a futex, grabs it and releases
+* it. Run it with strace to see that it does not call any system call.
+*
+* Notes:
+* - there is no syscall involved with this futex AT ALL! This is because this futex is private
+*	and therefore not robust. Futexes can be robust in which case you need to tell that at creation
+*	which will notify the kernel about this futex.
+*	by default futexes are private.
+*	This means that even creation of futexes is cheap.
+*
+* Problem:
+* - even if I create a process shared mutex the pthread library calls no syscall at mutex_init time!!!
+*	How can this be if the futex is robust?!? investigate...
+*
+* EXTRA_LIBS=-lpthread
+*
+* TODO:
+* - make this example strace itself...
+*/
 
 int main(int argc,char** argv,char** envp) {
 	TRACE("started");

@@ -24,9 +24,9 @@
 #include<stdlib.h> // for malloc(3)
 
 /*
- * This is a simple example that spends lots of time in a function.
- * You can watch this with 'perf top' and enter the function with 's'.
- */
+* This is a simple example that spends lots of time in a function.
+* You can watch this with 'perf top' and enter the function with 's'.
+*/
 
 class A {
 	public:

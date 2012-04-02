@@ -28,16 +28,16 @@
 #include<us_helper.h>
 
 /*
- * This program shows how you can disable malloc completely so that you will be sure
- * that in the running phase of your real-time application you are not using the malloc
- * functions which are sometimes not O(1) bound...
- *
- * This example uses malloc hooks in the C library to disable malloc.
- * Another way to achieve this is for you write your own malloc allocator to completely
- * replace malloc, or call malloc. Your allocator would provice the standard malloc
- * functions (malloc,realloc,memalign) and would throw exceptions or returns nulls
- * if these are called after a certain stage.
- */
+* This program shows how you can disable malloc completely so that you will be sure
+* that in the running phase of your real-time application you are not using the malloc
+* functions which are sometimes not O(1) bound...
+*
+* This example uses malloc hooks in the C library to disable malloc.
+* Another way to achieve this is for you write your own malloc allocator to completely
+* replace malloc, or call malloc. Your allocator would provice the standard malloc
+* functions (malloc,realloc,memalign) and would throw exceptions or returns nulls
+* if these are called after a certain stage.
+*/
 
 static bool malloc_allowed=true;
 

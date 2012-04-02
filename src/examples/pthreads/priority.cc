@@ -30,10 +30,10 @@
 #include<us_helper.h>
 
 /*
- * This example explores how to use thread priorities
- *
- * EXTRA_LIBS=-lpthread
- */
+* This example explores how to use thread priorities
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 pthread_t hpt;
 pthread_t mpt;

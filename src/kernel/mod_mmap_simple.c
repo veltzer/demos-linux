@@ -36,9 +36,9 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Showing how to implement mmap");
 
 /*
- * Mmap is way by which your module may map memory into the address space of the process
- * that is using it. This is an example of how to do it.
- */
+* Mmap is way by which your module may map memory into the address space of the process
+* that is using it. This is an example of how to do it.
+*/
 static unsigned long addr;
 static void* vaddr;
 static unsigned int size;
@@ -50,8 +50,8 @@ static int ioctl_size;
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	//int i;
 	char str[256];
@@ -184,8 +184,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 }
 
 /*
- *	VMA ops
- */
+*	VMA ops
+*/
 void kern_vma_open(struct vm_area_struct *vma) {
 	PR_DEBUG("start");
 }
@@ -215,10 +215,10 @@ static struct vm_operations_struct kern_remap_vm_ops = {
 };
 
 /*
- *	This is the most basic mmap implementation. It does NOT work because
- *	you don't really state WHAT memory kernel side you are mapping to user
- *	space...
- */
+*	This is the most basic mmap implementation. It does NOT work because
+*	you don't really state WHAT memory kernel side you are mapping to user
+*	space...
+*/
 static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	unsigned int size, order, pg_num;
 	unsigned long addr, phys;
@@ -248,8 +248,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 }
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner=THIS_MODULE,
 	.unlocked_ioctl=kern_unlocked_ioctll,

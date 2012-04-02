@@ -35,10 +35,10 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is a demo of a simple echo socket server implementation in pure C in Linux
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a demo of a simple echo socket server implementation in pure C in Linux
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 //const unsigned int port=7000;
 const char* serv_name="http-alt";

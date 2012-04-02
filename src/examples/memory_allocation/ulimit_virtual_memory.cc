@@ -27,14 +27,14 @@
 #include<us_helper.h>
 
 /*
- * This example explores the use of limits. You can limit the size of your programs RAM
- * and crash long before you get into swapping (recommended).
- * Many more limits exist. Try to use as much of them as possible.
- * set setrlimit(2) for more details.
- *
- * You can ofcourse skip the setting of ulimit in the source code and use ulimit(1) on the
- * command line instead.
- */
+* This example explores the use of limits. You can limit the size of your programs RAM
+* and crash long before you get into swapping (recommended).
+* Many more limits exist. Try to use as much of them as possible.
+* set setrlimit(2) for more details.
+*
+* You can ofcourse skip the setting of ulimit in the source code and use ulimit(1) on the
+* command line instead.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	const int max_megs=50;

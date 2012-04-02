@@ -24,28 +24,28 @@
 #include<us_helper.h> // for my_system()
 
 /*
- * This example shows how you can write C functions in C++ code.
- * This seems trivial, right ?!? Just write regular functions
- * like:
- * =========== SNIP =========
- * int add(int a,int b) {
- *	return a+b;
- * }
- * =========== SNIP =========
- * But this is not what I mean....
- * I want the linkage to be C style...
- *
- * The assumption in this example is that it is compiled using a C++
- * compiler...
- */
+* This example shows how you can write C functions in C++ code.
+* This seems trivial, right ?!? Just write regular functions
+* like:
+* =========== SNIP =========
+* int add(int a,int b) {
+*	return a+b;
+* }
+* =========== SNIP =========
+* But this is not what I mean....
+* I want the linkage to be C style...
+*
+* The assumption in this example is that it is compiled using a C++
+* compiler...
+*/
 
 /*
- * The class here is just to make sure that this code does not get compiled by a C
- * compiler but rather by a C++ compiler.
- *
- * TODO:
- * Move to checking this using #ifdef cplusplus and #error.
- */
+* The class here is just to make sure that this code does not get compiled by a C
+* compiler but rather by a C++ compiler.
+*
+* TODO:
+* Move to checking this using #ifdef cplusplus and #error.
+*/
 class A {
 public:
 	int a;

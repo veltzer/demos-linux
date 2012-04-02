@@ -24,11 +24,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example of a parallel block of code. The for loop is not parallel
- * here, it is the block containting the for loop that is parallel.
- *
- * EXTRA_COMPILE_FLAGS=-fopenmp
- */
+* This is an example of a parallel block of code. The for loop is not parallel
+* here, it is the block containting the for loop that is parallel.
+*
+* EXTRA_COMPILE_FLAGS=-fopenmp
+*/
 
 int main(int argc,char** argv,char** envp) {
 	printf("C/OpenMP demo\n");

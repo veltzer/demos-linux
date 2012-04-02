@@ -26,11 +26,11 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- * This is a driver to walk the iomem list and see all the resources...
- *
- * Most of the code for this example is from:
- * $KERNEL_SOURCE/kernel/resource.c
- */
+* This is a driver to walk the iomem list and see all the resources...
+*
+* Most of the code for this example is from:
+* $KERNEL_SOURCE/kernel/resource.c
+*/
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

@@ -34,9 +34,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_LIBS=-llog4cpp
- *
- */
+* EXTRA_LIBS=-llog4cpp
+*/
+
 int main(int argc,char** argv,char** envp) {
 	log4cpp::SyslogAppender *syslogAppender = new log4cpp::SyslogAppender("syslog", "hellolog4cpp", LOG_USER);
 

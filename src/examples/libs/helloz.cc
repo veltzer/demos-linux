@@ -25,11 +25,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * A simple example of using the libz library.
- *
- * EXTRA_LIBS=-lz
- *
- */
+* A simple example of using the libz library.
+*
+* EXTRA_LIBS=-lz
+*/
+
 int main(int argc,char** argv,char** envp) {
 	const char *source = "Merry had a little lamb";
 	unsigned long sourcelen = strlen(source);

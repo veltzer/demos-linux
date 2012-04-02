@@ -25,22 +25,22 @@
 #include<stat.hh> // our own statistics gathering object
 
 /*
- * this example explores the representational issues of the floating point
- * system in the mathematical co-processor.
- *
- * On a 32 bit system try the number 16777216 as the limit of presentation of
- * floating point...
- * Up to this number the floating point system representat integers precisely
- * using the mantisa. After this number it goes into using the exponent and therefor
- * becomes un-exact.
- *
- * Conclusions:
- * atof behaves differently from float=int.
- *
- * TODO:
- * - this program currently prints the output in gnuplot format but does not plot it on
- * the screen. Make it be self contained and call gnuplot correctly.
- */
+* this example explores the representational issues of the floating point
+* system in the mathematical co-processor.
+*
+* On a 32 bit system try the number 16777216 as the limit of presentation of
+* floating point...
+* Up to this number the floating point system representat integers precisely
+* using the mantisa. After this number it goes into using the exponent and therefor
+* becomes un-exact.
+*
+* Conclusions:
+* atof behaves differently from float=int.
+*
+* TODO:
+* - this program currently prints the output in gnuplot format but does not plot it on
+* the screen. Make it be self contained and call gnuplot correctly.
+*/
 
 #define DO_FLOAT
 //#define DO_DOUBLE

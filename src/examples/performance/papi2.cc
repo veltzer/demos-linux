@@ -26,13 +26,13 @@
 #include<errno.h> // for perror(3)
 
 /*
- * Demo for using the PAPI performance counters library.
- *
- * References:
- * http://icl.cs.utk.edu/papi/index.html
- *
- * EXTRA_LIBS=-lpapi
- */
+* Demo for using the PAPI performance counters library.
+*
+* References:
+* http://icl.cs.utk.edu/papi/index.html
+*
+* EXTRA_LIBS=-lpapi
+*/
 
 void handle_error(int val) {
 	perror("had an error");

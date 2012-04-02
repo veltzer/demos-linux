@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example of writing data over the data segment.
- */
+* This is an example of writing data over the data segment.
+*/
 
 void do_something_with_an_integer(int val) {
 	printf("val is %d\n",val);

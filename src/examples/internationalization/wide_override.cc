@@ -23,9 +23,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is trying to override the default gcc behaviour
- * for wide strings (overriding the definition of wchar_t).
- */
+* This is trying to override the default gcc behaviour
+* for wide strings (overriding the definition of wchar_t).
+*/
 
 #define wchar_t char
 

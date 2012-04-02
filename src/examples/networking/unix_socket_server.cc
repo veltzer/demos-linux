@@ -34,11 +34,11 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is a unix socket server demo.
- * It is a simple echo server sending back anything that is send to it.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a unix socket server demo.
+* It is a simple echo server sending back anything that is send to it.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 const char* filename="/tmp/myunixsocket";
 

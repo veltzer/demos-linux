@@ -30,16 +30,17 @@
 #include<us_helper.h> // our own helper for user space
 
 /*
- * This is an example which explores how user space experiences errors coming from the kernel.
- *
- * Conclusions:
- * - If kernel returns a negative value (like most kernel code returns when there are errors)
- *	then user space will get -1 as a return value from the kernel function and errno will be
- *	set to the ** positive ** value of the error.
- * - If kernel returns a value which is greater or equal to 0 then user space will get the exact
- *	value that kernel returned and errno for the thread doing the call will not change.
- * - Please recall that errno is a PER THREAD variable.
- */
+* This is an example which explores how user space experiences errors coming from the kernel.
+*
+* Conclusions:
+* - If kernel returns a negative value (like most kernel code returns when there are errors)
+*	then user space will get -1 as a return value from the kernel function and errno will be
+*	set to the ** positive ** value of the error.
+* - If kernel returns a value which is greater or equal to 0 then user space will get the exact
+*	value that kernel returned and errno for the thread doing the call will not change.
+* - Please recall that errno is a PER THREAD variable.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename = "/dev/drv_errno";

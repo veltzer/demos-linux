@@ -28,22 +28,23 @@
 #include<us_helper.h>
 
 /*
- * This application demonstrates the use of anonymous memory mappings to get
- * memory from the operating system.
- * Notes:
- * - memory returned from mmap is on a page boundry (see the assert).
- * - you can set your own protection on the pages.
- * - you can even set your own address instead of the null that we pass -
- * although there are issues with that.
- * - you can use the memory like you would use any other.
- * - if you want to avoid page faults here are three options:
- *	- touch the memory (bzero, memset, ....).
- *	- mlock
- *	- MAP_POPULATE
- * - later you can use this memory as shared memory with another process.
- *
- * EXTRA_LIBS=-lproc
- */
+* This application demonstrates the use of anonymous memory mappings to get
+* memory from the operating system.
+* Notes:
+* - memory returned from mmap is on a page boundry (see the assert).
+* - you can set your own protection on the pages.
+* - you can even set your own address instead of the null that we pass -
+* although there are issues with that.
+* - you can use the memory like you would use any other.
+* - if you want to avoid page faults here are three options:
+*	- touch the memory (bzero, memset, ....).
+*	- mlock
+*	- MAP_POPULATE
+* - later you can use this memory as shared memory with another process.
+*
+* EXTRA_LIBS=-lproc
+*/
+
 // do you want to ask mmap to populate the page table ?
 static bool do_populate=true;
 // do you want to lock the memory after getting it ?

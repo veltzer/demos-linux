@@ -25,10 +25,11 @@
 #include<sys/wait.h> // for WIF(3)
 
 /*
- * This executable receives the status code (exit code) of some process and prints
- * an analysis of what the code means. Useful in case where you are not sure what
- * the status code means or as a demo of how to analyze such a code.
- */
+* This executable receives the status code (exit code) of some process and prints
+* an analysis of what the code means. Useful in case where you are not sure what
+* the status code means or as a demo of how to analyze such a code.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {
 		printf("usage: %s [status code]\n",argv[0]);

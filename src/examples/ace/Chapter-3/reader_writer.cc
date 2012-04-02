@@ -29,11 +29,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
- * This demonstration program verifies the functionality of the ACE_OS
- * implementation of readers/writer locks on Win32 and Posix pthreads.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* This demonstration program verifies the functionality of the ACE_OS
+* implementation of readers/writer locks on Win32 and Posix pthreads.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Default number of iterations.
 static int n_iterations = 1000;

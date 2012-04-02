@@ -28,8 +28,8 @@
 #include<ace/Service_Object.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class HA_Status:public ACE_Service_Object {
 public:

@@ -24,15 +24,15 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an expansion of the previous example showing how to use compiler builtins
- * and still enjoy the blessings of your own debugging facility.
- *
- * Notice:
- * - the use of pre-processor var args type of macro.
- * - the use of __attribute__((format)) for compile time type checking of arguments
- *	to the tracer.
- * - the use of vfprintf to finally log the results.
- */
+* This is an expansion of the previous example showing how to use compiler builtins
+* and still enjoy the blessings of your own debugging facility.
+*
+* Notice:
+* - the use of pre-processor var args type of macro.
+* - the use of __attribute__((format)) for compile time type checking of arguments
+*	to the tracer.
+* - the use of vfprintf to finally log the results.
+*/
 
 // log levels, ideas copied shamelessly from syslog(3)
 typedef enum _tracelevel {

@@ -30,19 +30,19 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Showing how IS_ERR_VALUE works");
 
 /*
- * This module shows that very high values of pointers (as unsigned longs) are
- * used to pass errors around in the kernel using the IS_ERR_VALUE macro.
- * This means that if there is a function that is supposed to return only an address
- * it will return a very high one and you would check whether it encountered an
- * error using this macro.
- * Same this goes for IS_ERR and real pointers (not unsigned longs).
- * You can also extract the exact error from the pointer using the PTR_ERR inline
- * function.
- * You can also see from this example how to create a pointer that embeds an error
- * using the ERR_PTR inline function.
- *
- * Have a look at $KERNEL_SOURCES/include/linux/err.h for more details.
- */
+* This module shows that very high values of pointers (as unsigned longs) are
+* used to pass errors around in the kernel using the IS_ERR_VALUE macro.
+* This means that if there is a function that is supposed to return only an address
+* it will return a very high one and you would check whether it encountered an
+* error using this macro.
+* Same this goes for IS_ERR and real pointers (not unsigned longs).
+* You can also extract the exact error from the pointer using the PTR_ERR inline
+* function.
+* You can also see from this example how to create a pointer that embeds an error
+* using the ERR_PTR inline function.
+*
+* Have a look at $KERNEL_SOURCES/include/linux/err.h for more details.
+*/
 
 static int __init mod_init(void) {
 	int i;

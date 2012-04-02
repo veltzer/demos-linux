@@ -26,9 +26,9 @@
 #include<us_helper.h>
 
 /*
- * This example shows how to use gettimeofday
- * This example also shows how accurate this method of measurement is...
- */
+* This example shows how to use gettimeofday
+* This example also shows how accurate this method of measurement is...
+*/
 void print_timeval(struct timeval *tv, const char *name) {
 	printf("%s - sec is %lu\n", name, tv->tv_sec);
 	printf("%s - usec is %lu\n", name, tv->tv_usec);

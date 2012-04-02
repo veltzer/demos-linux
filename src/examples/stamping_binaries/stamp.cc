@@ -26,23 +26,23 @@
 #include<us_helper.h>
 
 /*
- *	This example shows how to stamp binaries so that you will be able to know exactly who
- *	made them, when, on which machine, what version of software, from what source file and
- *	made what version was used.
- *	- to get the time stamp we use gcc's __DATE__ __TIME__ __FILE__ __LINE__ and related macros.
- *	- the demo also shows how to actually print the version from your program if you want to.
- *	- the demo shows how to stamp EACH compilation unit separately so that you will know what
- *		version of each individual object file is.
- *	- the demo shows how to put stuff in the stamp whether they be strings, numbers or whatever.
- *	- the demo actually demonstrates that the information got to the object or exe file using
- *		various techniques.
- *	- the demo also puts the md5 checksum of the source into the object file which could be used to perfectly ascertain from which exact source was this object produced.
- *
- *	If you want to see more macros that the compiler provides just run:
- *	cpp -dM < /dev/null
- *
- * EXTRA_SYSTEM=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
- */
+*	This example shows how to stamp binaries so that you will be able to know exactly who
+*	made them, when, on which machine, what version of software, from what source file and
+*	made what version was used.
+*	- to get the time stamp we use gcc's __DATE__ __TIME__ __FILE__ __LINE__ and related macros.
+*	- the demo also shows how to actually print the version from your program if you want to.
+*	- the demo shows how to stamp EACH compilation unit separately so that you will know what
+*		version of each individual object file is.
+*	- the demo shows how to put stuff in the stamp whether they be strings, numbers or whatever.
+*	- the demo actually demonstrates that the information got to the object or exe file using
+*		various techniques.
+*	- the demo also puts the md5 checksum of the source into the object file which could be used to perfectly ascertain from which exact source was this object produced.
+*
+*	If you want to see more macros that the compiler provides just run:
+*	cpp -dM < /dev/null
+*
+* EXTRA_SYSTEM=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
+*/
 
 #define STRING_VERSION "1.23.56"
 #define NUMERIC_VERSION 1.23.56

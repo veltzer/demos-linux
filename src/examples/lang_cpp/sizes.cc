@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example investigates the sizeof() of C++ object.
- */
+* This example investigates the sizeof() of C++ object.
+*/
 
 class A {
 	public:

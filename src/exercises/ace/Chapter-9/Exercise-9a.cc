@@ -35,8 +35,8 @@
 #include<ace/SOCK_Connector.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 #define NCHILDREN 2
 int MyIndex = -1;

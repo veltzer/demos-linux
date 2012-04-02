@@ -25,22 +25,22 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo of how to do a full tracer, with:
- * - compiler builtins (__FILE__).
- * - either stderr (via vfprintf) or syslog (via vsyslog).
- * - var args macro (...)
- * - backtracing (NOT DONE).
- * - indented messages (NOT DONE).
- *
- * In this example I use syslog defined priorities so as not to build a convesion
- * mechanism from my own priority levels to syslog priorities.
- *
- * TODO:
- * - add backtracing.
- * - add indentation.
- * - make all the logging go through one call to vsyslog.
- * - log to stderr instead of syslog.
- */
+* This is a demo of how to do a full tracer, with:
+* - compiler builtins (__FILE__).
+* - either stderr (via vfprintf) or syslog (via vsyslog).
+* - var args macro (...)
+* - backtracing (NOT DONE).
+* - indented messages (NOT DONE).
+*
+* In this example I use syslog defined priorities so as not to build a convesion
+* mechanism from my own priority levels to syslog priorities.
+*
+* TODO:
+* - add backtracing.
+* - add indentation.
+* - make all the logging go through one call to vsyslog.
+* - log to stderr instead of syslog.
+*/
 
 const bool log_stderr=true;
 

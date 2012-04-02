@@ -25,27 +25,27 @@
 #include"task.hh"
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 /*
- * Boring default constructor. Be sure our barrier_ is initialized in
- * case we get destructed before opened.
- */
+* Boring default constructor. Be sure our barrier_ is initialized in
+* case we get destructed before opened.
+*/
 Task::Task(void):barrier_(0) {
 	ACE_DEBUG((LM_DEBUG, "(%P|%t) Task ctor 0x%x\n", (void *)this));
 }
 
 /*
- * You'll see in the svc() method that when we get a shutdown request,
- * we always putq() it back into our message queue. The last thread in
- * the pool will do this also and result in there always being one
- * shutdown request left in the queue when we get here. Just to be
- * polite, we'll go ahead and get that message and release it.
- *
- * We also delete the barrier_ object we used to synch the svc()
- * methods.
- */
+* You'll see in the svc() method that when we get a shutdown request,
+* we always putq() it back into our message queue. The last thread in
+* the pool will do this also and result in there always being one
+* shutdown request left in the queue when we get here. Just to be
+* polite, we'll go ahead and get that message and release it.
+*
+* We also delete the barrier_ object we used to synch the svc()
+* methods.
+*/
 Task::~Task(void) {
 	ACE_DEBUG((LM_DEBUG, "(%P|%t) Task dtor 0x%x\n", (void *)this));
 	ACE_Message_Block *message;
@@ -55,28 +55,28 @@ Task::~Task(void) {
 }
 
 /*
- * The ACE_Barrier needs to know how many threads it will be working
- * for. For that reason, we have to put off it's construction until we
- * get here. We then pass the thread count through to our base class'
- * activate().
- */
+* The ACE_Barrier needs to know how many threads it will be working
+* for. For that reason, we have to put off it's construction until we
+* get here. We then pass the thread count through to our base class'
+* activate().
+*/
 int Task::start(int threads) {
 	barrier_=new ACE_Barrier(threads);
 	return(this->activate(THR_NEW_LWP, threads));
 }
 
 /*
- * We don't really do anything here but I wanted to provide a message
- * in the output.
- */
+* We don't really do anything here but I wanted to provide a message
+* in the output.
+*/
 int Task::close(u_long flags) {
 	ACE_DEBUG((LM_DEBUG, "(%P|%t) Task close 0x%x\n", (void *)this));
 	return(inherited::close(flags));
 }
 
 /*
- * Now the svc() method where everything interesting happens.
- */
+* Now the svc() method where everything interesting happens.
+*/
 int Task::svc(void) {
 	/*
 	* All of the threads will block here until the last thread

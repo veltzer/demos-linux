@@ -25,16 +25,16 @@
 #include<stdlib.h> // for atof(3)
 
 /*
- * This is an exploration of how to compiler coverts between float
- * double.
- *
- * Note:
- * Some of these lines will be caught if you add -Wconversion flag to gcc.
- */
+* This is an exploration of how to compiler coverts between float
+* double.
+*
+* Note:
+* Some of these lines will be caught if you add -Wconversion flag to gcc.
+*/
 
 /*
- * A regular float function...
- */
+* A regular float function...
+*/
 float my_float_func(float a, float b) {
 	// the next line will keep the compiler from optimizing away my function
 	// (damn smartass compiler...)
@@ -43,8 +43,8 @@ float my_float_func(float a, float b) {
 }
 float my_float_func(float a, float b) __attribute__((noinline));
 /*
- * A double precision function...
- */
+* A double precision function...
+*/
 double my_double_func(double a, double b) {
 	// the next line will keep the compiler from optimizing away my function
 	// (damn smartass compiler...)

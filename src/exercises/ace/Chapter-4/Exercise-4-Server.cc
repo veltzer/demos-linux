@@ -25,8 +25,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // An ACE_Read_Buffer pointing to STDIN
 static ACE_Read_Buffer rb(ACE_STDIN);

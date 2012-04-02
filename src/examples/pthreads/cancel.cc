@@ -25,16 +25,16 @@
 #include<us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
- * This demo is a pthread_cancel demo and was copied from the pthread_cancel
- * manpage.
- *
- * EXTRA_LIBS=-lpthread
- *
- * TODO:
- * - show that the cancellation happened in the middle of the sleep and that it was close
- * to the time that asked the cancellation.
- * - show what other functions instead of sleep can be used as cancellation points.
- */
+* This demo is a pthread_cancel demo and was copied from the pthread_cancel
+* manpage.
+*
+* EXTRA_LIBS=-lpthread
+*
+* TODO:
+* - show that the cancellation happened in the middle of the sleep and that it was close
+* to the time that asked the cancellation.
+* - show what other functions instead of sleep can be used as cancellation points.
+*/
 
 static void * thread_func(void *ignored_argument) {
 	/* Disable cancellation for a while, so that we don't

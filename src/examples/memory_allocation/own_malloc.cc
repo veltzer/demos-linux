@@ -22,19 +22,19 @@
 #include<stdlib.h> // for malloc(3), calloc(3), realloc(3), free(3)
 
 /*
- * This example shows how to correctly define your own malloc functions so that gcc will
- * work correctly with them.
- *
- * The use of the alloc_size attribute allows the compiled built in functions to know
- * the size of the object.
- *
- * use the mallocto know that the pointer returned by the functions is a new
- * pointer and therefore will not be equal to any pointer seen the in the past
- * (malloc and calloc should have it, realloc will not).
- *
- * Notes:
- * - show how the compiler uses the info in disassebly.
- */
+* This example shows how to correctly define your own malloc functions so that gcc will
+* work correctly with them.
+*
+* The use of the alloc_size attribute allows the compiled built in functions to know
+* the size of the object.
+*
+* use the mallocto know that the pointer returned by the functions is a new
+* pointer and therefore will not be equal to any pointer seen the in the past
+* (malloc and calloc should have it, realloc will not).
+*
+* Notes:
+* - show how the compiler uses the info in disassebly.
+*/
 
 void* my_calloc(size_t, size_t) __attribute__((alloc_size(1,2),malloc));
 void* my_realloc(void*,size_t) __attribute__((alloc_size(2)));

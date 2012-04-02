@@ -27,18 +27,18 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This program demos parent child communication via an event fd
- * This program was shamelssly stolen and modified from the eventfd
- * manpage
- *
- * Notes:
- * - the child may make several calls to write and the parent will only
- *	get one wakeup for these calls. This is because eventfd is made for
- *	signaling and two signals are just as good as one. The parent can
- *	notice that it has been signaled more than once since the sum of the
- *	childs passed values is passed to it.
- * - eventfd can be multiplexed using select, poll or epoll.
- */
+* This program demos parent child communication via an event fd
+* This program was shamelssly stolen and modified from the eventfd
+* manpage
+*
+* Notes:
+* - the child may make several calls to write and the parent will only
+*	get one wakeup for these calls. This is because eventfd is made for
+*	signaling and two signals are just as good as one. The parent can
+*	notice that it has been signaled more than once since the sum of the
+*	childs passed values is passed to it.
+* - eventfd can be multiplexed using select, poll or epoll.
+*/
 
 volatile bool cont=true;
 

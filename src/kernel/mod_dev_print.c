@@ -36,8 +36,8 @@ static struct device* my_device;
 // fops
 
 /*
- * The open implementation.
- */
+* The open implementation.
+*/
 static int kern_open(struct inode *inode, struct file *filp) {
 	// you can use dev_printk like you would printk only with the added device...
 	dev_printk(KERN_DEBUG,my_device,"this is my debug message");
@@ -53,8 +53,8 @@ static int kern_open(struct inode *inode, struct file *filp) {
 }
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.open=kern_open,

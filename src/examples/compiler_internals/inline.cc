@@ -23,22 +23,22 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example explores the different ways to inline a function.
- * There are three ways to do this:
- * - 'inline'.
- * - '__inline__'.
- * - '__attribute__((gnu_inline))'.
- * - '__attribute__((__gnu_inline__))'.
- * - '__attribute__((always_inline))'.
- * - '__attribute__((__always_inline__))'.
- *
- * NOTES:
- * - the three different methods do not mean the same thing.
- * - regular inline means inline for speed if speed is of the essense which
- * means that when compiling without optimization inline is not guaranteed.
- * - always inline means always inline (even when compiling without optimization).
- * - gnu_inline depends on other flags and has an intermediate meaning.
- */
+* This example explores the different ways to inline a function.
+* There are three ways to do this:
+* - 'inline'.
+* - '__inline__'.
+* - '__attribute__((gnu_inline))'.
+* - '__attribute__((__gnu_inline__))'.
+* - '__attribute__((always_inline))'.
+* - '__attribute__((__always_inline__))'.
+*
+* NOTES:
+* - the three different methods do not mean the same thing.
+* - regular inline means inline for speed if speed is of the essense which
+* means that when compiling without optimization inline is not guaranteed.
+* - always inline means always inline (even when compiling without optimization).
+* - gnu_inline depends on other flags and has an intermediate meaning.
+*/
 
 static inline int add1(int a, int b) {
 	return a+b;

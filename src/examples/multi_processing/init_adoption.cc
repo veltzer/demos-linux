@@ -30,20 +30,20 @@
 #include<us_helper.h>
 
 /*
- * This example demostrates what happens when a processes father dies...
- *
- * - Notice that the getppid() function returns different values because of the
- * adoption by the init(1) process.
- * - This example forks twice to show that there is no "grandparent adoption" and
- * that grandparents are not interested in their grandchildren.
- * - We need to wait a little to make sure that the parent dies - there is no synchroneous
- * way to get this info as far as I know...
- *
- * TODO:
- * - investigate how it is exactly that init does the things he does (is it the kernel as I
- * suspect that latches processes under the init process ?!? - if so, find the place
- * in the kernel that does this...).
- */
+* This example demostrates what happens when a processes father dies...
+*
+* - Notice that the getppid() function returns different values because of the
+* adoption by the init(1) process.
+* - This example forks twice to show that there is no "grandparent adoption" and
+* that grandparents are not interested in their grandchildren.
+* - We need to wait a little to make sure that the parent dies - there is no synchroneous
+* way to get this info as far as I know...
+*
+* TODO:
+* - investigate how it is exactly that init does the things he does (is it the kernel as I
+* suspect that latches processes under the init process ?!? - if so, find the place
+* in the kernel that does this...).
+*/
 
 int main(int argc,char** argv,char** envp) {
 	pid_t child_pid = fork();

@@ -23,13 +23,13 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo of how to write a function for which the user should not use
- * (deprecated).
- *
- * There are many more attributes that you can attach to functions in order to
- * get more checks from the compiler at compile time and get better code. Check
- * 'info gcc' for more details.
- */
+* This is a demo of how to write a function for which the user should not use
+* (deprecated).
+*
+* There are many more attributes that you can attach to functions in order to
+* get more checks from the compiler at compile time and get better code. Check
+* 'info gcc' for more details.
+*/
 
 // this is how to use unused in a function declaration...
 // this is the right place to put the __attribute__...

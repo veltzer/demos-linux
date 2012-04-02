@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo of a segmentation fault created by calling a function badly.
- */
+* This is a demo of a segmentation fault created by calling a function badly.
+*/
 
 void func() {
 	int i;

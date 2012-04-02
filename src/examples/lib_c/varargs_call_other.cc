@@ -24,19 +24,19 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to use the glibc varargs support to write a var
- * args function that calls another varargs function.
- *
- * Notes:
- * - we use the program_invocation_short_name which is an external name of
- * our own program. much like argv[0] only we don't need to pass argv until
- * the point we wish to use it.
- * - unlike the corresponding builtin va_* compiler internals we can use this
- * code on any system conforming to the 'stdarg' standard which means this
- * is quite portable.
- * - We use the __attribute__ feature to make sure the compiler checks that
- * we are passing the arguments right (gcc feature).
- */
+* This example shows how to use the glibc varargs support to write a var
+* args function that calls another varargs function.
+*
+* Notes:
+* - we use the program_invocation_short_name which is an external name of
+* our own program. much like argv[0] only we don't need to pass argv until
+* the point we wish to use it.
+* - unlike the corresponding builtin va_* compiler internals we can use this
+* code on any system conforming to the 'stdarg' standard which means this
+* is quite portable.
+* - We use the __attribute__ feature to make sure the compiler checks that
+* we are passing the arguments right (gcc feature).
+*/
 int trace(const char *fmt, ...) {
 	extern char *program_invocation_short_name;
 

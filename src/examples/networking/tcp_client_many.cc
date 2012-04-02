@@ -33,10 +33,10 @@
 #include<us_helper.h> // for CHECK_NOT_M1(), CHECK_ZERO()
 
 /*
- * This is a tcp client demo.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a tcp client demo.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 unsigned int numrequests;
 unsigned int port;

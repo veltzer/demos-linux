@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an attempt to return a struct from a function
- */
+* This is an attempt to return a struct from a function
+*/
 
 typedef struct _foo {
 	int a;

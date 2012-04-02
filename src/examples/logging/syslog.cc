@@ -29,39 +29,39 @@
 #include<us_helper.h> // for my_system
 
 /*
- * This example shows syslog basic usage. At the end it demostrates that the log
- * actually reached the system log.
- *
- * It seems that the openlog and closelog are not mandatory...
- * If you leave them out then you will not get your own name as the application
- * name and so you get defaults for parameters passed to openlog.
- *
- * How is syslog implemented? Either as a socket or udp socket. It is listening
- * on /dev/log as a udp socket and logs the messages sent to it.
- *
- * A question that is often raised is what is the performance of syslog compared to
- * printf to a file - the answer is faster since it is sending the data through the socket
- * and does not wait for it to be written to disk. Each call to syslog will actually
- * generate two different system calls: time(2) and then send(2). The time(2) call is
- * in order to log the time that the message was sent at (source time). Then the time
- * is formatted in the form of a date and sent, along with the data, to syslog.
- * You can see all of this if you strace(1) this example. There seems to be no way to
- * tell syslog(3) not to do this timing thing and just send the message.
- *
- * So how long does it take to call syslog? Two system calls worth (pretty long but
- * shorter than writing to a file).
- *
- * See a different example of how to use syslog as a general logging and tracing facility
- * using the vsyslog function.
- *
- * Notice the use of setlogmask in order to control which logs actually go to the log.
- *
- */
+* This example shows syslog basic usage. At the end it demostrates that the log
+* actually reached the system log.
+*
+* It seems that the openlog and closelog are not mandatory...
+* If you leave them out then you will not get your own name as the application
+* name and so you get defaults for parameters passed to openlog.
+*
+* How is syslog implemented? Either as a socket or udp socket. It is listening
+* on /dev/log as a udp socket and logs the messages sent to it.
+*
+* A question that is often raised is what is the performance of syslog compared to
+* printf to a file - the answer is faster since it is sending the data through the socket
+* and does not wait for it to be written to disk. Each call to syslog will actually
+* generate two different system calls: time(2) and then send(2). The time(2) call is
+* in order to log the time that the message was sent at (source time). Then the time
+* is formatted in the form of a date and sent, along with the data, to syslog.
+* You can see all of this if you strace(1) this example. There seems to be no way to
+* tell syslog(3) not to do this timing thing and just send the message.
+*
+* So how long does it take to call syslog? Two system calls worth (pretty long but
+* shorter than writing to a file).
+*
+* See a different example of how to use syslog as a general logging and tracing facility
+* using the vsyslog function.
+*
+* Notice the use of setlogmask in order to control which logs actually go to the log.
+*
+*/
 
 /*
- * this is a debug function for me to find out what the syslog constants for logging
- * levels are...
- */
+* this is a debug function for me to find out what the syslog constants for logging
+* levels are...
+*/
 #define PRINT_LEVEL(a) fprintf(stderr,# a " is %d\n",a);
 void print_syslog_numeric_values(void) {
 	PRINT_LEVEL(LOG_EMERG);

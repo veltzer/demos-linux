@@ -35,11 +35,11 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Showing how to use spin locks in the kernel");
 
 /*
- * For a full description of which types of spin locks to use where please refere
- * to Rusty Russel's "Unreliable Guide to Kernel Locking" which comes with the kernel
- * documentation within the kernel sources or here:
- * http://www.kernel.org/pub/linux/kernel/people/rusty/kernel-locking/index.html
- */
+* For a full description of which types of spin locks to use where please refere
+* to Rusty Russel's "Unreliable Guide to Kernel Locking" which comes with the kernel
+* documentation within the kernel sources or here:
+* http://www.kernel.org/pub/linux/kernel/people/rusty/kernel-locking/index.html
+*/
 
 // static data
 static struct device* my_device;
@@ -49,8 +49,8 @@ static spinlock_t *lock_t;
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	unsigned long flags;
 	PR_DEBUG("start");
@@ -80,8 +80,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.unlocked_ioctl = kern_unlocked_ioctll,

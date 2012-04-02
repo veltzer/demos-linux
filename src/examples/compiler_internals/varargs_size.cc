@@ -23,23 +23,23 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * The var args mechanism of C/C++ does not allow one to know exactly how many
- * arguments were passed.
- *
- * For example: the printf function assumes that the user has passed enough arguments
- * who'se type matches the % in the format string but it cannot ascertain it.
- *
- * Can we know how many var args were there quickly? Well, yes we could using a compile
- * time builtin compiler function called '__builtin_va_arg_pack_len'
- * Notes:
- * - the function returns the number of argument with disregard for their type.
- * This allows you to optimize a variadic API to use a non variadic version when that
- * version is not required.
- * - this builtin function can ONLY be used in a function that is GUARANTEED to be
- * inlined. This is not so with the regular 'inline' keyword. Instead the
- * '__attribute__((__gnu_inline__))' or '__attribute__((__always_inline__))'
- * must be used.
- */
+* The var args mechanism of C/C++ does not allow one to know exactly how many
+* arguments were passed.
+*
+* For example: the printf function assumes that the user has passed enough arguments
+* who'se type matches the % in the format string but it cannot ascertain it.
+*
+* Can we know how many var args were there quickly? Well, yes we could using a compile
+* time builtin compiler function called '__builtin_va_arg_pack_len'
+* Notes:
+* - the function returns the number of argument with disregard for their type.
+* This allows you to optimize a variadic API to use a non variadic version when that
+* version is not required.
+* - this builtin function can ONLY be used in a function that is GUARANTEED to be
+* inlined. This is not so with the regular 'inline' keyword. Instead the
+* '__attribute__((__gnu_inline__))' or '__attribute__((__always_inline__))'
+* must be used.
+*/
 
 //inline __attribute__((__gnu_inline__)) void trace(int first, ...) {
 inline __attribute__((__gnu_inline__)) void trace(int first,...) {

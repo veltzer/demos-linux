@@ -24,12 +24,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a mysql++ demo program
- * You need all of these folders added with -I because of how the h files
- * for mysql++ are written.
- * EXTRA_LIBS=-I/usr/include/mysql++ -I/usr/include/mysql -lmysqlpp
- *
- */
+* This is a mysql++ demo program
+* You need all of these folders added with -I because of how the h files
+* for mysql++ are written.
+*
+* EXTRA_LIBS=-I/usr/include/mysql++ -I/usr/include/mysql -lmysqlpp
+*/
 
 int main(int argc,char** argv,char** envp) {
 	// parameters are: schema, host, user, pass, use exceptions

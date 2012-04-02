@@ -25,12 +25,12 @@
 #include<us_helper.h> // for TRACE(), CHECK_ZERO()
 
 /*
- * This is a demo of how to use a cpu set
- *
- * TODO:
- * - move the print_cpu_set function into the shared code. find other uses
- * of it and eliminate them.
- */
+* This is a demo of how to use a cpu set
+*
+* TODO:
+* - move the print_cpu_set function into the shared code. find other uses
+* of it and eliminate them.
+*/
 void print_cpu_set(cpu_set_t *p) {
 	TRACE("CPU_COUNT is %d", CPU_COUNT(p));
 	TRACE("CPU_SETSIZE is %d", CPU_SETSIZE);

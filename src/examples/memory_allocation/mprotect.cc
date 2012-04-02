@@ -30,9 +30,9 @@
 #include<us_helper.h>
 
 /*
- * This is a demo of the use of mprotect(2) to protect your memory and thus try to
- * find a memory violation.
- */
+* This is a demo of the use of mprotect(2) to protect your memory and thus try to
+* find a memory violation.
+*/
 
 #define HANDLE_SEGV
 

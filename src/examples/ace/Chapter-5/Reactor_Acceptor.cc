@@ -27,10 +27,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to use a socket acceptor through a reactor
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* This example shows how to use a socket acceptor through a reactor
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class ClientAcceptor:public ACE_Event_Handler {
 	public:

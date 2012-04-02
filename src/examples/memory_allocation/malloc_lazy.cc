@@ -28,23 +28,23 @@
 #include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 /*
- * This example demostrates that malloc doesnt actually allocate
- * physical memory and that just touching the memory slowly allocates
- * it. It also demostrates:
- * - how to print your own memory usage via the libproc library.
- * - how to get the system page size (getpagesize(2)).
- * - how to use the mlockall(2) system call and it's effect on malloc.
- *
- * Notes:
- * - you have to have the right limits set in order to call mlockall. On a standard
- * Ubuntu system ulimit. A standard workaround in an ubuntu system like this is
- * to run the process as root (via sudo or the like...).
- *
- * You can also look at how this program is working using this:
- * while [[ true ]]; do ps -C malloc_lazy.exe -o comm,min_flt,rss; sleep 1;done
- *
- * EXTRA_LIBS=-lproc
- */
+* This example demostrates that malloc doesnt actually allocate
+* physical memory and that just touching the memory slowly allocates
+* it. It also demostrates:
+* - how to print your own memory usage via the libproc library.
+* - how to get the system page size (getpagesize(2)).
+* - how to use the mlockall(2) system call and it's effect on malloc.
+*
+* Notes:
+* - you have to have the right limits set in order to call mlockall. On a standard
+* Ubuntu system ulimit. A standard workaround in an ubuntu system like this is
+* to run the process as root (via sudo or the like...).
+*
+* You can also look at how this program is working using this:
+* while [[ true ]]; do ps -C malloc_lazy.exe -o comm,min_flt,rss; sleep 1;done
+*
+* EXTRA_LIBS=-lproc
+*/
 
 static inline void print_stats(void) {
 	proc_t myproc;
