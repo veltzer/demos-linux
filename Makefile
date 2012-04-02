@@ -249,6 +249,10 @@ check_firstinclude:
 .PHONY: check_all
 check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude
 
+.PHONY: check_dots
+check_dots:
+	$(info doing [$@])
+	-@git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
 # checks that dont pass
 .PHONY: check_syn
 check_syn:

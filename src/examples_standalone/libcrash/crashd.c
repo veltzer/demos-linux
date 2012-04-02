@@ -42,7 +42,7 @@ static char crash_msg_buf[CRASH_MAX_MSG_SIZE];
 static struct crash_message_struct * crash_msg = (struct crash_message_struct *)&crash_msg_buf;
 
 /* A simple compiler only memory barrier, both read and write */
-#define mb(x) asm volatile ("" : : : "memory")
+#define mb(x) asm volatile ("":::"memory")
 
 /* When this is set from SIGTERM signal handler it's
 * time to terminate.

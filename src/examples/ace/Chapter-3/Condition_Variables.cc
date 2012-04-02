@@ -54,7 +54,7 @@ class HA_CommandHandler:public ACE_Task_Base {
 		enum {
 			NUM_USES=10
 		};
-		HA_CommandHandler(HA_Device_Repository & rep, ACE_Condition_Thread_Mutex& wait, ACE_Thread_Mutex & mutex) : rep_(rep), waitCond_(wait), mutex_(mutex) {
+		HA_CommandHandler(HA_Device_Repository & rep, ACE_Condition_Thread_Mutex& wait, ACE_Thread_Mutex & mutex):rep_(rep), waitCond_(wait), mutex_(mutex) {
 		}
 		virtual int svc(void);
 	private:

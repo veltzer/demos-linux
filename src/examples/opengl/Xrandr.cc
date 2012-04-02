@@ -61,7 +61,7 @@ int main(int argc,char** argv,char** envp) {
 	// to store all possible frequencies...
 	short possible_frequencies[64][64];
 	for(int i = 0; i < num_sizes; i++) {
-		printf("%i : %i x %i (%immx%imm)", i, xrrs[i].width, xrrs[i].height, xrrs[i].mwidth, xrrs[i].mheight);
+		printf("%i: %i x %i (%immx%imm)", i, xrrs[i].width, xrrs[i].height, xrrs[i].mwidth, xrrs[i].mheight);
 		// print the rates of each size
 		int num_rates;
 		short* rates=XRRRates(dpy,0,i,&num_rates);
@@ -79,9 +79,9 @@ int main(int argc,char** argv,char** envp) {
 	Rotation original_rotation;
 	SizeID original_size_id=XRRConfigCurrentConfiguration(conf,&original_rotation);
 
-	printf("CURRENT SIZE ID : %i\n", original_size_id);
-	printf("CURRENT ROTATION : %i \n", original_rotation);
-	printf("CURRENT RATE : %i Hz\n\n", original_rate);
+	printf("CURRENT SIZE ID: %i\n", original_size_id);
+	printf("CURRENT ROTATION: %i \n", original_rotation);
+	printf("CURRENT RATE: %i Hz\n\n", original_rate);
 
 	assert(num_sizes>1);
 	//

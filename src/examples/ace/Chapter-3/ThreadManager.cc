@@ -48,7 +48,7 @@ class HA_CommandHandler:public ACE_Task_Base {
 		ExitHandler& eh_;
 		int val;
 	public:
-		HA_CommandHandler(ExitHandler & eh, int ival) : eh_(eh),val(ival) {
+		HA_CommandHandler(ExitHandler & eh, int ival):eh_(eh),val(ival) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) at HA_CommandHandler\n")));
 		}
 		virtual int svc(void) {

@@ -71,7 +71,7 @@ inline void error_demangle(
 			// no arguments.
 			snprintf(result_name, max_name, "%s()", begin_name);
 			snprintf(result_offset, max_offset, "%s", begin_offset);
-			//fprintf(stderr, "error demangle: %s : %s()+%s\n", symbol, begin_name, begin_offset);
+			//fprintf(stderr, "error demangle: %s: %s()+%s\n", symbol, begin_name, begin_offset);
 		}
 	} else {
 		// couldn't parse the line? print the whole line.

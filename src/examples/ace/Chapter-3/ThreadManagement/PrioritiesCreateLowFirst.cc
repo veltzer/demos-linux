@@ -29,7 +29,7 @@
  * EXTRA_CMDS=pkg-config --cflags --libs ACE
  */
 
-class HA_CommandHandler : public ACE_Task<ACE_MT_SYNCH> {
+class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 	public:
 		HA_CommandHandler(const char* name):name_(name) {
 		}

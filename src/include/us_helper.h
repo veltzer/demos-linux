@@ -79,7 +79,7 @@ typedef unsigned long long ticks_t;
 
 static inline ticks_t getticks(void) {
 	unsigned int a, d;
-	asm volatile ("rdtsc" : "=a" (a), "=d" (d));
+	asm volatile ("rdtsc":"=a" (a), "=d" (d));
 	return(((ticks_t)a) | (((ticks_t)d) << 32));
 }
 

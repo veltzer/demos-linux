@@ -60,9 +60,9 @@ private:
 	int status_result_;
 };
 
-class StatusUpdate : public ACE_Method_Request {
+class StatusUpdate:public ACE_Method_Request {
 public:
-	StatusUpdate(HA_ControllerAgent & controller, ACE_Future<int> &returnVal) : controller_(controller), returnVal_(returnVal) {
+	StatusUpdate(HA_ControllerAgent & controller, ACE_Future<int> &returnVal):controller_(controller), returnVal_(returnVal) {
 		ACE_TRACE(ACE_TEXT("StatusUpdate::StatusUpdate"));
 	}
 
@@ -81,7 +81,7 @@ private:
 	ACE_Future<int> returnVal_;
 };
 
-class ExitMethod : public ACE_Method_Request {
+class ExitMethod:public ACE_Method_Request {
 public:
 	virtual int call(void) {
 		// Cause exit.
@@ -89,7 +89,7 @@ public:
 	}
 };
 
-class Scheduler : public ACE_Task_Base {
+class Scheduler:public ACE_Task_Base {
 public:
 	Scheduler() {
 		ACE_TRACE(ACE_TEXT("Scheduler::Scheduler"));
@@ -149,25 +149,20 @@ private:
 	HA_ControllerAgent controller_;
 };
 
-class CompletionCallBack : public ACE_Future_Observer<int> {
-public:
-	CompletionCallBack(HA_ControllerAgentProxy & proxy)
-	: proxy_(proxy) {
-	}
-
-	virtual void update(const ACE_Future<int>& future) {
-		int result = 0;
-
-		((ACE_Future<int>)future).get(result);
-		ACE_DEBUG((LM_INFO, ACE_TEXT("(%t) New Status %d\n"), result));
-		if (result == 10) {
-			this->proxy_.exit();
+class CompletionCallBack:public ACE_Future_Observer<int> {
+	public:
+		CompletionCallBack(HA_ControllerAgentProxy & proxy):proxy_(proxy) {
 		}
-	}
-
-
-private:
-	HA_ControllerAgentProxy& proxy_;
+		virtual void update(const ACE_Future<int>& future) {
+			int result=0;
+			((ACE_Future<int>)future).get(result);
+			ACE_DEBUG((LM_INFO, ACE_TEXT("(%t) New Status %d\n"),result));
+			if(result==10) {
+				this->proxy_.exit();
+			}
+		}
+	private:
+		HA_ControllerAgentProxy& proxy_;
 };
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {

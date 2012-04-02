@@ -69,7 +69,7 @@ private:
 	int status_result_;
 };
 
-class MessageRequest : public ACE_Method_Request {
+class MessageRequest:public ACE_Method_Request {
 public:
 	MessageRequest(MessageAgent & message, ACE_Future<int> &returnVal)
 	: message_(message), returnVal_(returnVal) {
@@ -91,7 +91,7 @@ private:
 	ACE_Future<int> returnVal_;
 };
 
-class ExitMethod : public ACE_Method_Request {
+class ExitMethod:public ACE_Method_Request {
 public:
 	virtual int call(void) {
 		// Cause exit.

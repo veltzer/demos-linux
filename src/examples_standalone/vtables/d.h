@@ -18,6 +18,8 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
+
 class D {
 	public:
 		void foo(void);

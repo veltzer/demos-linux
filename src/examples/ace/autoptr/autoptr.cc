@@ -35,7 +35,7 @@ class A {
 	private:
 		const char *p;
 	public:
-		A(const char *ip) : p(ip) {
+		A(const char *ip):p(ip) {
 			std::cout << "in constructor of " << p << std::endl;
 		}
 	~A() {
