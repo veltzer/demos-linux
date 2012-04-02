@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/types.h> // for kill(2)
 #include<signal.h> // for kill(2)
 #include<unistd.h> // for sleep(3)

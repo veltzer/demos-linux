@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<iostream> // for std::cerr, std::endl
 #include<signal.h> // for signal(2)
 #include<unistd.h> // for pause(2), sleep(3)

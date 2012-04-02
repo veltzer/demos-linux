@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<errno.h>
 #include<signal.h>
 #include<time.h>

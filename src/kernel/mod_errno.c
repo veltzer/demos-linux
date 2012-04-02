@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 //#define DEBUG
 #include<linux/module.h> // for module_*, MODULE_*
 #include<linux/fs.h> // for fops definitions

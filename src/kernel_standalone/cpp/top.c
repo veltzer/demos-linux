@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<linux/module.h>
 
 MODULE_LICENSE("GPL");

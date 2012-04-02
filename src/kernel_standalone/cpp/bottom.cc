@@ -18,6 +18,8 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
+
 extern "C" {
 // functions that we need to supply
 int cpp_init();

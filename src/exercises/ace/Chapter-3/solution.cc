@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #define ACE_NTRACE 1
 #include<ace/Task.h> // for ACE_Task_Base
 #include<sched.h> // for sched_yield(2)

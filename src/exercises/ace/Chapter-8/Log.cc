@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/Log_Msg.h> // for ACE_DEBUG, ACE_LOG_MSG
 #include<stdlib.h> // for EXIT_SUCCESS
 

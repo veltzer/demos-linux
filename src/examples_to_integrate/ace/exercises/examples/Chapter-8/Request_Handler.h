@@ -21,6 +21,7 @@
 #ifndef __REQUEST_HANDLER_H_
 #define __REQUEST_HANDLER_H_
 
+#include<firstinclude.h>
 #include<ace/Svc_Handler.h>
 #include<ace/SOCK_Stream.h>
 #include<ace/Thread.h>

@@ -21,6 +21,7 @@
 #ifndef __CLIENTCONTEXT_H_
 #define __CLIENTCONTEXT_H_
 
+#include<firstinclude.h>
 #include<ace/Hash_Map_Manager.h>
 #include<ace/Synch.h>
 

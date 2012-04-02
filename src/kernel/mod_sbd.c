@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 //#define DEBUG
 #include<linux/module.h> // for the MODULE_* stuff
 #include<linux/hdreg.h> /* for geometry of hard drive */

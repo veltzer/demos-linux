@@ -23,9 +23,7 @@
 
 /* THIS IS C FILE, NO C++ here */
 
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
-#endif // _GNU_SOURCE
+#include<firstinclude.h>
 #include<sched.h> // for sched_getparam(2), sched_getscheduler(2), CPU_COUNT(3)
 #include<cpufreq.h> // for cpufreq_get_freq_kernel(2)
 #include<sys/prctl.h> // for prctl(2)

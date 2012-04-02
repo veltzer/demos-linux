@@ -21,6 +21,8 @@
 #ifndef __shared_h
 #define __shared_h
 
+#include<firstinclude.h>
+
 // randomly chosen
 #define DEMO_MAGIC					'd'
 

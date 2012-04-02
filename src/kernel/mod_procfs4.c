@@ -23,6 +23,7 @@
  * This program uses the seq_file library to manage the /proc file.
  */
 
+#include<firstinclude.h>
 #define DEBUG
 #include<linux/module.h> // for the MODULE_*
 #include<linux/printk.h> // for printk and the pr_* API

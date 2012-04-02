@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<linux/module.h> // for MODULE_*
 #include<linux/printk.h> // for pr_*
 

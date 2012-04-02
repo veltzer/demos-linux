@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/eventfd.h> // for eventfd(2)
 #include<stdio.h> // for printf(3)
 #include<sys/types.h> // for open(2)

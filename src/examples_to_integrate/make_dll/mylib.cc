@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<math.h> // for sin(3), cos(3)
 
 double myfunc(double arg) {
