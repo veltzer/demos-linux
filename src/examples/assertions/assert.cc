@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 //#define NDEBUG
 #include<assert.h> // for assert(3)
 #include<stdio.h> // for printf(3)

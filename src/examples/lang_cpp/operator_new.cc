@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include<firstinclude.h>
+#include<stdio.h> // for fprintf(3)
+#include<stdlib.h> // for malloc(3), EXIT_SUCCESS, free(3)
 
 /*
  * This explores how to override the new operator for the entire C++ environment.
@@ -45,6 +45,7 @@
  * "myarray=new obj[x]" will result in the regular delete(void*) operator
  * being called.
  */
+
 inline void *operator new(const unsigned int size) {
 	void *p = malloc(size);
 

@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/stat.h> // for mkdir(2), stat(2), open(2)
 #include<sys/types.h> // for mkdir(2), stat(2), open(2)
 #include<fcntl.h> // for open(2)

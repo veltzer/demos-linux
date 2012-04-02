@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#ifndef __us_helper_hh
-#define __us_helper_hh
+#ifndef __us_helper_h
+#define __us_helper_h
 
 /* THIS IS C FILE, NO C++ here */
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
 #endif // _GNU_SOURCE
-#include<sched.h> // for sched_getparam(2), sched_getscheduler(2)
+#include<sched.h> // for sched_getparam(2), sched_getscheduler(2), CPU_COUNT(3)
 #include<cpufreq.h> // for cpufreq_get_freq_kernel(2)
 #include<sys/prctl.h> // for prctl(2)
 #include<stdio.h> // for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
@@ -452,4 +452,4 @@ static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 	}
 }
 
-#endif /* !__us_helper_hh */
+#endif /* !__us_helper_h */

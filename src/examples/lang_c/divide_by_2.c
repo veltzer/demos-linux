@@ -18,16 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h> // for scanf(3), perror(3)
+#include<firstinclude.h>
+#include<stdio.h> // for scanf(3), printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_VAL()
 
 int main(int argc,char** argv,char** envp) {
 	int num;
-	int ret=scanf("%d",&num);
-	if(ret!=1) {
-		perror("scanf");
-		return -1;
-	}
+	int ret;
+	CHECK_INT(ret=scanf("%d",&num),1);
 	int i=0;
 	while(num/2>0) {
 		i++;

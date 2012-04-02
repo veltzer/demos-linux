@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<sys/time.h> // for getrusage(2)
 #include<sys/resource.h> // for getrusage(2)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This is an example of infinite recursion prevention using setting the stack size

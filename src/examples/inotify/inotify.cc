@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/inotify.h> // for inotify_init(2), inotify_add_watch(2)
 #include<stdio.h> // for printf(3)
 #include<unistd.h> // for read(2), close(2)
@@ -27,8 +28,7 @@
 #include<unistd.h> // for getpid(2)
 #include<signal.h> // for siginterrupt(2)
 #include<limits.h> // for PATH_MAX
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file changes.
