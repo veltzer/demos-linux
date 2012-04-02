@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/prctl.h> // for prctl(2)
 #include<string.h> // for strncpy(3)
 #include<sys/types.h> // for getpid(2)

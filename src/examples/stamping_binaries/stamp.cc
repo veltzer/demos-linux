@@ -18,6 +18,13 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
+#include<stdio.h> // for snprintf(3), printf(3)
+#include<time.h> // for strptime(3), mktime(3)
+#include<sys/types.h> // for getpid(2)
+#include<unistd.h> // for getpid(2)
+#include<us_helper.h>
+
 /*
  *	This example shows how to stamp binaries so that you will be able to know exactly who
  *	made them, when, on which machine, what version of software, from what source file and
@@ -36,13 +43,6 @@
  *
  * EXTRA_SYSTEM=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
  */
-
-#include<stdio.h> // for snprintf(3), printf(3)
-#include<time.h> // for strptime(3), mktime(3)
-#include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2)
-
-#include<us_helper.h>
 
 #define STRING_VERSION "1.23.56"
 #define NUMERIC_VERSION 1.23.56

@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<omp.h> // for openmp pragmas and functions
 #include<stdlib.h> // for random(3)

@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
 #include<sched.h> // for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include<unistd.h> // for sysconf(3)

@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 // libipq is not well adjusted for C++
 extern "C" {
 #include<libipq.h>

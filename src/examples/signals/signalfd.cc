@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/signalfd.h> // for signalfd(2)
 #include<signal.h> // for sigprocmask(2)
 #include<unistd.h> // for read(2), getpid(2)

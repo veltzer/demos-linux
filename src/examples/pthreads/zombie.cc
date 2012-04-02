@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<pthread.h> // for pthread_create(3)
 #include<string.h> // for strncpy(3)
 #include<sys/prctl.h> // for prctl(2)

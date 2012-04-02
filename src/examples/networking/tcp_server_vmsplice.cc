@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-//#define _GNU_SOURCE
+#include<firstinclude.h>
 #include<sys/uio.h> // for vmsplice(2), struct iovec
 #include<sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
 #include<sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)

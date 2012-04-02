@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<unistd.h> // for syscall(2), __NR_getpid
 #include<sys/syscall.h> // for syscall(2)
 #include<sys/time.h> // for gettimeofday(2)
-
-#include<us_helper.h> // for micro_diff
+#include<us_helper.h> // for micro_diff()
 
 /*
  * This demo times how long it takes to call a syscall.

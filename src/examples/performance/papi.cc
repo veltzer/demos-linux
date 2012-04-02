@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<unistd.h> // for sleep(3)
 #include<papi.h> // for PAPI_* functions
