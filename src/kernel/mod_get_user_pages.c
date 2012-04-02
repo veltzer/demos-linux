@@ -124,8 +124,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	PR_DEBUG("start with ioctl %u", cmd);
 	switch (cmd) {
 	/*
-	 *	This is asking the kernel to map the memory to kernel space.
-	 */
+	*	This is asking the kernel to map the memory to kernel space.
+	*/
 	case IOCTL_DEMO_MAP:
 		// get the data from the user
 		if (copy_from_user(&b, (void *)arg, sizeof(b))) {
@@ -143,13 +143,13 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("newsize is %u", newsize);
 
 		/*
-		 * // make sure that the user data is page aligned...
-		 * if(((unsigned int)b.pointer)%PAGE_SIZE!=0) {
-		 *	PR_ERROR("pointer is not page aligned");
-		 *	return -EFAULT;
-		 * }
-		 * PR_DEBUG("after modulu check");
-		 */
+		* // make sure that the user data is page aligned...
+		* if(((unsigned int)b.pointer)%PAGE_SIZE!=0) {
+		*	PR_ERROR("pointer is not page aligned");
+		*	return -EFAULT;
+		* }
+		* PR_DEBUG("after modulu check");
+		*/
 		// find the number of pages
 		nr_pages = (newsize - 1) / PAGE_SIZE + 1;
 		PR_DEBUG("nr_pages is %d", nr_pages);
@@ -204,9 +204,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		return(0);
 
 	/*
-	 *	This is asking the kernel to unmap the data
-	 *	No arguments are passed
-	 */
+	*	This is asking the kernel to unmap the data
+	*	No arguments are passed
+	*/
 	case IOCTL_DEMO_UNMAP:
 		// this function does NOT return an error code. Strange...:)
 		vunmap(vptr);
@@ -218,9 +218,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		return(0);
 
 	/*
-	 *	This is asking the kernel to read the data.
-	 *	No arguments are passed
-	 */
+	*	This is asking the kernel to read the data.
+	*	No arguments are passed
+	*/
 	case IOCTL_DEMO_READ:
 		cptr = (char *)ptr;
 		sloop = min(size, (unsigned int)10);
@@ -230,9 +230,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		}
 		return(0);
 	/*
-	 *	This is asking the kernel to write on our data
-	 *	argument is the constant which will be used...
-	 */
+	*	This is asking the kernel to write on our data
+	*	argument is the constant which will be used...
+	*/
 	case IOCTL_DEMO_WRITE:
 		memset(ptr, arg, size);
 		//pages_dirty();

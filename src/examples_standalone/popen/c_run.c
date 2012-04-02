@@ -23,8 +23,8 @@
 #include<unistd.h> // for close(2)
 
 /*
- * Example for using the shbang line to run C code
- */
+* Example for using the shbang line to run C code
+*/
 
 //#define DEBUG
 
@@ -40,8 +40,8 @@ void my_system(const char* cmd) {
 }
 
 /*
- * cut all but the first line in the file and return the temp file holding the result
- */
+* cut all but the first line in the file and return the temp file holding the result
+*/
 void cut_first_line(const char* filename,FILE* output) {
 	FILE* input=fopen(filename,"r");
 	if(input==NULL) {

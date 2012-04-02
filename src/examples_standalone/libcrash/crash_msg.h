@@ -35,9 +35,9 @@ struct crash_message_struct;
 #define CRASH_ANCILLARY_DATA_SIZE (CRASH_MAX_MSG_SIZE - sizeof(struct crash_message_struct))
 
 /* Dead man switch: we wait this many seconds since first being tickled
- * until we continue processing crash, whether full crash information
- * has been received or not
- * */
+* until we continue processing crash, whether full crash information
+* has been received or not
+* */
 #define READ_TIMEOUT (10)
 
 void crashd_main(char daemonise_flag, const char * progname, int pfd[]);

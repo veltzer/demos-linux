@@ -25,14 +25,14 @@
 #include<us_helper.h>
 
 /*
- * Static handle to the library and to the function
- */
+* Static handle to the library and to the function
+*/
 static void* handle=NULL;
 static double (*psin)(double);
 
 /* Initialization function for this library
- * This function will load the real library using dlopen et al...
- */
+* This function will load the real library using dlopen et al...
+*/
 static void init(void) {
 	TRACE("in here");
 	//handle=dlopen("/lib/tls/i686/cmov/libm.so.6", RTLD_LAZY);

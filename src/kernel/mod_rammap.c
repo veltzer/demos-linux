@@ -79,11 +79,11 @@ static int __init mod_init(void) {
 	capi_debug_address(physaddr);
 
 	/*
-	 * if (!request_mem_region(physaddr,size,)) {
-	 *	PR_ERROR("could not get the memory");
-	 *	return 1;
-	 * }
-	 */
+	* if (!request_mem_region(physaddr,size,)) {
+	*	PR_ERROR("could not get the memory");
+	*	return 1;
+	* }
+	*/
 	logical = ioremap(physaddr, size);
 	if (logical == NULL) {
 		PR_ERROR("could not ioremap");

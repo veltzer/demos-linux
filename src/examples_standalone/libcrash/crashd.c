@@ -37,7 +37,7 @@
 #include"crash_msg.h"
 
 /* The buffer holds the message + ancillary data, such as symbol stack traced
- * The pointer is used to cash the buffer to the header */
+* The pointer is used to cash the buffer to the header */
 static char crash_msg_buf[CRASH_MAX_MSG_SIZE];
 static struct crash_message_struct * crash_msg = (struct crash_message_struct *)&crash_msg_buf;
 
@@ -45,16 +45,16 @@ static struct crash_message_struct * crash_msg = (struct crash_message_struct *)
 #define mb(x) asm volatile ("" : : : "memory")
 
 /* When this is set from SIGTERM signal handler it's
- * time to terminate.
- *
- * NOTE: It's a very good idea to kill crashd before any process
- * relying on it for exception handling.
- */
+* time to terminate.
+*
+* NOTE: It's a very good idea to kill crashd before any process
+* relying on it for exception handling.
+*/
 static char terminate_flag = 0;
 
 /* When this is set from the SIGALRM signal handler
- * it means our time to read crash details is out
- */
+* it means our time to read crash details is out
+*/
 
 static char timeout_flag = 0;
 
@@ -154,8 +154,8 @@ static void inline do_reboot(void) {
 }
 
 /* Handle the crash data
- * This is just an example: it speqs the entire message to stderr in human readable form
- */
+* This is just an example: it speqs the entire message to stderr in human readable form
+*/
 static void handle_crash(void) {
 
 	int i;
@@ -219,13 +219,13 @@ static void alarm_sig_handler(int signal) {
 }
 
 /* Our very own fault handler.
- * If we ever got it it means something is very very wrong.
- * Trying to save debug info is useless. We probably got here
- * because of a fault when processing some crash. The chances
- * are very slim that we'll be able to save any meaningfull
- * data and we risk getting stuck instead of resetting the system,
- * so we just reboot
- */
+* If we ever got it it means something is very very wrong.
+* Trying to save debug info is useless. We probably got here
+* because of a fault when processing some crash. The chances
+* are very slim that we'll be able to save any meaningfull
+* data and we risk getting stuck instead of resetting the system,
+* so we just reboot
+*/
 static void fault_sig_handler(int signal) {
 
 	do_reboot();
@@ -234,8 +234,8 @@ static void fault_sig_handler(int signal) {
 
 
 /* Utility function to register a simple signal handler with no flags
- * (as opposed to signal(2))
- */
+* (as opposed to signal(2))
+*/
 static int register_signal(int signo, sighandler_t handler) {
 
 	struct sigaction act;
@@ -299,7 +299,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	ret = select(fd+1, &rfds, NULL, NULL, NULL);
 
 	/* Deal correctly with random harmless signals
-	 * Especially useful for when we run under debugger */
+	* Especially useful for when we run under debugger */
 	while(-1 == ret && EINTR == errno) {
 
 		mb();
@@ -314,8 +314,8 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	(void)alarm(READ_TIMEOUT);
 
 	/* This crazy loop reads the message in, possbly in several parts.
-	 * We continue when we're done or when it's time to leave.
-	 */
+	* We continue when we're done or when it's time to leave.
+	*/
 
 	do {
 
@@ -354,14 +354,14 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 bail_out:
 	/* Oy very... if we got here it means that the crash daemon has itself
-	 * encountered some error. We simply record it in the usuall format and
-	 * initaite a crash as normal.
-	 *
-	 * We don't bother with the backtrace symbols since there is only main here
-	 * but we do put a meaningful error message as ancillary data.
-	 *
-	 * Hope this never happens...
-	 */
+	* encountered some error. We simply record it in the usuall format and
+	* initaite a crash as normal.
+	*
+	* We don't bother with the backtrace symbols since there is only main here
+	* but we do put a meaningful error message as ancillary data.
+	*
+	* Hope this never happens...
+	*/
 
 	strncpy(crash_msg->process_name, progname, CRASH_MAX_PROCESS_NAME_SIZE-1);
 	crash_msg->process_id = getpid();

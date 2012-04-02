@@ -21,9 +21,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a simple application that creates a segmentation fault.
- * The kernel does not map address 0 on purpose to processes.
- */
+* This is a simple application that creates a segmentation fault.
+* The kernel does not map address 0 on purpose to processes.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	*(char*)0=0;

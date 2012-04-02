@@ -47,10 +47,10 @@ public:
 	~Task(void);
 
 	/*
-	 * I really wanted this to be called open() but that was already
-	 * claimed by the Task framework. start() will kick off our thread
-	 * pool for us.
-	 */
+	* I really wanted this to be called open() but that was already
+	* claimed by the Task framework. start() will kick off our thread
+	* pool for us.
+	*/
 	int start(int threads = 1);
 
 	virtual int svc(void);

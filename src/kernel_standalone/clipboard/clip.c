@@ -50,7 +50,7 @@ MODULE_DESCRIPTION("A proc/interrupt/clipboard example");
  * add makefile targets for insmod/rmmod etc.
  * improve the write method to write as much as it can and return what is written.
  * if two or more readers or writers are involved we will have race conditions. protect the clipboard
- * 	or allow just one reader/writer (but even then some protection would be required).
+ * or allow just one reader/writer (but even then some protection would be required).
  */
 
 static dev_t clipboard_dev;
@@ -147,7 +147,7 @@ ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff
 		// Can't write beyond the end of the device
 		return(-EIO);
 	}
-	 */
+	*/
 	if(copy_from_user(*offset+clipboard /* to */,user_buf /* from */,remaining_bytes)) {
 		return(-EFAULT);
 	} else {

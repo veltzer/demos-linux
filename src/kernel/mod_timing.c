@@ -32,8 +32,8 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- *	This driver shows how various timing delays are done in the kernel
- */
+*	This driver shows how various timing delays are done in the kernel
+*/
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -43,8 +43,8 @@ MODULE_DESCRIPTION("Modules for testing timing");
 static struct device* my_device;
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 // cycles_t is actually unsigned long long (look at arch/x86/include/asm/tsc.h).
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for register measurements...
@@ -94,10 +94,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_TIMING_JIFFIES:
 
 		/*
-		 *	This shows how to work with jiffies...
-		 *	It will demostrate the most important attribute of jiffies and that
-		 *	is that jiffies DO NOT change
-		 */
+		*	This shows how to work with jiffies...
+		*	It will demostrate the most important attribute of jiffies and that
+		*	is that jiffies DO NOT change
+		*/
 		j1 = jiffies;
 		udelay(arg);
 		//msleep(mic/1000);
@@ -117,9 +117,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 	case IOCTL_TIMING_EMPTY:
 		/*
-		 *	This syscall does nothing on purpose to enable timing
-		 *	from user space
-		 */
+		*	This syscall does nothing on purpose to enable timing
+		*	from user space
+		*/
 		return 0;
 	}
 	return(-EINVAL);
@@ -127,8 +127,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.unlocked_ioctl = kern_unlocked_ioctll,
