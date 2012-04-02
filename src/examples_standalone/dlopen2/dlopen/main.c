@@ -18,22 +18,20 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for fprintf(3), printf(3)
 #include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include<stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
-	void *h = dlopen("libadd.so", RTLD_NOW);
-	void *sym = dlsym(h, "func");
-
-	if (!sym) {
-		fprintf(stderr, "func is not found\n");
-		exit(EXIT_FAILURE);
-	}
+	void* h;
+	CHECK_NOT_NULL(h=dlopen("libadd.so", RTLD_NOW));
+	void* sym;
+	CHECK_NOT_NULL(sym=dlsym(h,"func"));
 	int (*f)(int, int);
-	f = ((int(*) (int, int))sym);
-	int result = f(2, 2);
-	printf("2+2 is %d\n", result);
-	dlclose(h);
+	f=((int(*)(int, int))sym);
+	int result=f(2,2);
+	printf("2+2 is %d\n",result);
+	CHECK_ZERO(dlclose(h));
 	return EXIT_SUCCESS;
 }

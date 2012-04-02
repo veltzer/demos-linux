@@ -18,6 +18,8 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
+
 class base {
 	protected:
 		int i;

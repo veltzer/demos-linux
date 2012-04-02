@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<us_helper.h> // for TRACE()
 
 void foo_init(void) {

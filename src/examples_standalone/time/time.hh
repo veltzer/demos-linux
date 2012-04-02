@@ -21,6 +21,8 @@
 #ifndef TIME_H
 #define TIME_H
 
+#include<firstinclude.h>
+
 class Time {
 	public:
 		void setTime(int hours, int minutes, int seconds);

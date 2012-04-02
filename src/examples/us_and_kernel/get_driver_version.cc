@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for perror(3), printf(3), snprintf(3)
 #include<sys/utsname.h> // for uname(2)
 #include<dlfcn.h> // for dlopen(3), dlclose(3)

@@ -18,10 +18,8 @@
 	02111-1307 USA.
 */
 
-/* _GNU_SOURCE is Needed to get REG_EIP from ucontext.h */
-#define _GNU_SOURCE
+#include<firstinclude.h>
 #include<ucontext.h>
-
 #include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>

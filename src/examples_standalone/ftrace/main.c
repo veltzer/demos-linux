@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdlib.h> // for EXIT_SUCCESS
 
 int call_func(int a, int b) {
@@ -27,5 +28,5 @@ int call_func(int a, int b) {
 int main(int argc,char** argv,char** envp) {
 	int res;
 	res = call_func(1, 1);
-	return(0);
+	return EXIT_SUCCESS;
 }

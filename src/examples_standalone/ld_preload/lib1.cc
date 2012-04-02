@@ -18,10 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<us_helper.h>
+#include<firstinclude.h>
+#include<us_helper.h> // for TRACE()
 
 extern "C" double sin(double x) {
 	TRACE("start");
+	double ret=x;
 	TRACE("end");
-	return(x);
+	return ret;
 }

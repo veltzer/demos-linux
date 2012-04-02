@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<unistd.h> // for fork(2), _exit(2)
 #include<sys/wait.h> // for waitpid(2)
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
-
 #include<us_helper.h> // for TRACE()
 
 /*

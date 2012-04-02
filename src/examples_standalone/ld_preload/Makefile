@@ -4,10 +4,10 @@ CXXFLAGS=-I../../include
 .PHONY: all
 all: $(ALL)
 
-mainlib2.exe: main.cc liblib2.so
-	g++ $(CXXFLAGS) -o $@ $< -L. -llib2
 mainlib1.exe: main.cc liblib1.so
 	g++ $(CXXFLAGS) -o $@ $< -L. -llib1
+mainlib2.exe: main.cc liblib2.so
+	g++ $(CXXFLAGS) -o $@ $< -L. -llib2
 main.exe: main.cc
 	g++ $(CXXFLAGS) -o $@ $< -lm
 liblib1.so: lib1.cc

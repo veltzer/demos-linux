@@ -18,6 +18,8 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
+
 int add(int a,int b) {
 	return a+b;
 }

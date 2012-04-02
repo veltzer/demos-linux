@@ -18,20 +18,19 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h>
-#include<string.h>
-//extern "C" {
-#include<dialog.h>
-//}
+#include<firstinclude.h>
+#include<dialog.h> // for init_dialog(3), end_dialog(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to use the dialog C library.
- *
- * EXTRA_LIBS=/usr/lib/libdialog.a -lncursesw
- *
- * TODO:
- * - you may want to write this ?!?
- */
+* This example shows how to use the dialog C library.
+*
+* EXTRA_LIBS=/usr/lib/libdialog.a -lncursesw
+*
+* TODO:
+* - you may want to write this ?!?
+*/
+
 int main(int argc,char** argv,char** envp) {
 	init_dialog(NULL, NULL);
 	end_dialog();

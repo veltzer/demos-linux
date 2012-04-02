@@ -18,10 +18,11 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for vprintf(3)
 #include<sys/time.h> // for gettimeofday(2)
-
-#include<us_helper.h> // for micro_diff
+#include<us_helper.h> // for micro_diff()
+#include<stdlib.h> // for EXIT_SUCCESS, random(3)
 
 /*
 * Same example the example for gcc but now for the Intel compiler...
@@ -105,5 +106,5 @@ int main(int argc,char** argv,char** envp) {
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
-	return(0);
+	return EXIT_SUCCESS;
 }

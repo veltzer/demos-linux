@@ -18,8 +18,13 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+
+/*
+* This is an example of how to print bold strings to the terminal.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	char c=27;
