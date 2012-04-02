@@ -26,10 +26,10 @@
 #include<us_helper.h> // for TRACE(), CHECK_ZERO()
 
 /*
- * This shows how to create threads with a certain affinity
- *
- * EXTRA_LIBS=-lpthread
- */
+* This shows how to create threads with a certain affinity
+*
+* EXTRA_LIBS=-lpthread
+*/
 void print_cpu_set(cpu_set_t *p) {
 	TRACE("CPU_COUNT is %d", CPU_COUNT(p));
 	TRACE("CPU_SETSIZE is %d", CPU_SETSIZE);

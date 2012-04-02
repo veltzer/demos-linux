@@ -24,8 +24,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to use the 'va_copy' function.
- */
+* This example shows how to use the 'va_copy' function.
+*/
 void trace(const char *fmt, ...) {
 	va_list ap;
 	int d;

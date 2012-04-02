@@ -23,11 +23,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example explores the funky eh_frame
- *
- * TODO:
- *	What does this demo do ? try to find out and document it...
- */
+* This example explores the funky eh_frame
+*
+* TODO:
+*	What does this demo do ? try to find out and document it...
+*/
 
 class A {
 public:

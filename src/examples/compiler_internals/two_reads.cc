@@ -23,16 +23,16 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows that two consecutive reads of the same value
- * are optimized away by the compiler.
- *
- * You can see this by building the disassembly file for this
- * example.
- *
- * Notice that the reads to the volatile are not optimized away
- * because the compiler treats the volatile with suspicion and
- * fears it may change value.
- */
+* This example shows that two consecutive reads of the same value
+* are optimized away by the compiler.
+*
+* You can see this by building the disassembly file for this
+* example.
+*
+* Notice that the reads to the volatile are not optimized away
+* because the compiler treats the volatile with suspicion and
+* fears it may change value.
+*/
 
 void __attribute__((noinline)) print_address_of(int* ptr) {
 	printf("ptr is %p\n",ptr);

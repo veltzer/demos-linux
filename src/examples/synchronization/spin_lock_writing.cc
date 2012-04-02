@@ -27,10 +27,10 @@
 #include<us_helper.h> // for CHECK_ZERO()
 
 /*
- * This is an example of writing your own spin locks...
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is an example of writing your own spin locks...
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 // this is the spin lock implementation (pthread "like")
 typedef struct _mypthread_spinlock_t {

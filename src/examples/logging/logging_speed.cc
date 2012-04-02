@@ -28,44 +28,44 @@
 #include<us_helper.h> // for micro_diff(3)
 
 /*
- * This example explores syslog speed as compared to writing to a simple file.
- *
- * Notes:
- * - every messsage that I'm sending to syslog or to file has a number in it. This
- *	has two reasons: the most important is for syslog to actually log the message
- *	since if syslog gets two identical messages it does not log the second. Instead
- *	it waits for sometime and then says that the previous message repeated so and so
- *	times. The second reason is to include the printf like formatting code in the
- *	measurements.
- * - the tested code runs in a high priority thread to make sure that we measure times
- *	correctly.
- * - the fwrite implementation is fast because it does buffering. Maybe you are ok with
- *	that (you may lose data if you crash) and in that case you can use it.
- *
- * Results:
- * - by default you will find that syslog is much much slower than write.
- *	Output for example from this program:
- *	=====================================
- *	doing 1000 syslogs
- *	time in micro of one syslog: 55.897000
- *	doing 1000 writes
- *	time in micro of one write: 0.330000
- *	=====================================
- *	This is because rsyslogd in ubuntu is synchroneous. Most syslogd implementations are
- *	like that.
- *
- * TODO:
- * - add three more test cases: open(2), write(2), close(2) with
- *	- standard flags.
- *	- O_ASYNC
- *	- O_SYNC
- * - add another test with syslog which writes to a sysfs file instead.
- * - add another test case of asynchroneous syslog (damn it! how do I configure that?!?).
- * - explain the results in the text above.
- * - do better stats (min, max, variance and more - max is the most important).
- *
- * EXTRA_LIBS=-lpthread
- */
+* This example explores syslog speed as compared to writing to a simple file.
+*
+* Notes:
+* - every messsage that I'm sending to syslog or to file has a number in it. This
+*	has two reasons: the most important is for syslog to actually log the message
+*	since if syslog gets two identical messages it does not log the second. Instead
+*	it waits for sometime and then says that the previous message repeated so and so
+*	times. The second reason is to include the printf like formatting code in the
+*	measurements.
+* - the tested code runs in a high priority thread to make sure that we measure times
+*	correctly.
+* - the fwrite implementation is fast because it does buffering. Maybe you are ok with
+*	that (you may lose data if you crash) and in that case you can use it.
+*
+* Results:
+* - by default you will find that syslog is much much slower than write.
+*	Output for example from this program:
+*	=====================================
+*	doing 1000 syslogs
+*	time in micro of one syslog: 55.897000
+*	doing 1000 writes
+*	time in micro of one write: 0.330000
+*	=====================================
+*	This is because rsyslogd in ubuntu is synchroneous. Most syslogd implementations are
+*	like that.
+*
+* TODO:
+* - add three more test cases: open(2), write(2), close(2) with
+*	- standard flags.
+*	- O_ASYNC
+*	- O_SYNC
+* - add another test with syslog which writes to a sysfs file instead.
+* - add another test case of asynchroneous syslog (damn it! how do I configure that?!?).
+* - explain the results in the text above.
+* - do better stats (min, max, variance and more - max is the most important).
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 // this emulates an async implementation
 //pthread_mutex_t fastmutex = PTHREAD_MUTEX_INITIALIZER;

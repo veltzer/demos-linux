@@ -27,8 +27,8 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- * This is a minimal module for showing the number of current online cpus
- */
+* This is a minimal module for showing the number of current online cpus
+*/
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

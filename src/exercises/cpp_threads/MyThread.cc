@@ -26,8 +26,8 @@
 #include<us_helper.h> // for CHECK_ZERO
 
 /*
- * EXTRA_LIBS=-lpthread
- */
+* EXTRA_LIBS=-lpthread
+*/
 
 void* MyThread::realsvc(void* arg) {
 	MyThread* t=(MyThread*)arg;

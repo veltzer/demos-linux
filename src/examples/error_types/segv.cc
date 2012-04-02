@@ -22,15 +22,15 @@
 #include<us_helper.h> // for TRACE()
 
 /*
- * This is a simple example causing a segmentation fault to be generated.
- *
- * The address "0" is not mapped into any regular processes virtual address space
- * which is a good thing since NULL (which is heavily used in C programs) has the
- * value 0.
- *
- * TODO:
- * - show that you can catch SIGSEGV and even continue running.
- */
+* This is a simple example causing a segmentation fault to be generated.
+*
+* The address "0" is not mapped into any regular processes virtual address space
+* which is a good thing since NULL (which is heavily used in C programs) has the
+* value 0.
+*
+* TODO:
+* - show that you can catch SIGSEGV and even continue running.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	// lets show that the NULL constant is actually the number 0...

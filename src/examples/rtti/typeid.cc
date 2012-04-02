@@ -24,8 +24,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Demo the typeid function of C++, with RTTI
- */
+* Demo the typeid function of C++, with RTTI
+*/
 
 class A {
 };

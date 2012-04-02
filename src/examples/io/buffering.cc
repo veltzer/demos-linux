@@ -24,12 +24,12 @@
 #include<stdio_ext.h> // for __flbf(3), __fbufsize(3)
 
 /*
- * This example shows the different buffering schemes of the standard
- * io files...
- *
- * TODO:
- * - add a call to setbuf, setlinebuf to demo them.
- */
+* This example shows the different buffering schemes of the standard
+* io files...
+*
+* TODO:
+* - add a call to setbuf, setlinebuf to demo them.
+*/
 void printBuff(FILE *s, const char *name) {
 	printf("stats for the [%s] stream\n", name);
 	bool isLineBuf = (__flbf(s) > 0);

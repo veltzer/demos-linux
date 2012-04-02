@@ -25,13 +25,13 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example investigates what happens if you call alloca(3) twice...
- *
- * Results:
- * - you can call alloca more than once.
- * - as a result you CANNOT free memory obtained by alloca(3).
- * - alloca rounds stuff up by 8 bytes or some such.
- */
+* This example investigates what happens if you call alloca(3) twice...
+*
+* Results:
+* - you can call alloca more than once.
+* - as a result you CANNOT free memory obtained by alloca(3).
+* - alloca rounds stuff up by 8 bytes or some such.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	for(int i=0;i<10;i++) {

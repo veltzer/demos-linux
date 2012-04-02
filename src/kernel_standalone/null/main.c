@@ -30,11 +30,11 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A simple implementation for something like /dev/null");
 
 /*
- * This is a module implementing something like /dev/null with hardcoded major number
- * It can optionally register itself both as a class and in /dev.
- * TODO:
- * - allocate the major and minors dynamically
- */
+* This is a module implementing something like /dev/null with hardcoded major number
+* It can optionally register itself both as a class and in /dev.
+* TODO:
+* - allocate the major and minors dynamically
+*/
 
 static int auto_register=1;
 module_param(auto_register, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);

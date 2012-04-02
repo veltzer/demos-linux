@@ -23,9 +23,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * An example showing how to use the preprocessor in order to avoid
- * repetative code.
- */
+* An example showing how to use the preprocessor in order to avoid
+* repetative code.
+*/
 
 #define make_add(t) t add ## t(t a,t b) { return a+b; }
 

@@ -27,19 +27,19 @@
 #include<string.h> // for memset(3)
 
 /*
- * This application tries to guess where the next malloc allocation would be...
- *
- * In order to analyze malloc performance take a look at the "mguess_allocated"
- * function.
- * - It seems that malloc always needs at least 4 bytes for internal
- * book keeping. This is where it keeps the size of the block which is allocated
- * (probably - well check it later...).
- * - It is also deducible that malloc always allocated on an 8 byte boundry.
- *
- * TODO:
- * - improve the guessing system to also handle free (get reports about them
- * and be able to guess even though there are calls to free(3)).
- */
+* This application tries to guess where the next malloc allocation would be...
+*
+* In order to analyze malloc performance take a look at the "mguess_allocated"
+* function.
+* - It seems that malloc always needs at least 4 bytes for internal
+* book keeping. This is where it keeps the size of the block which is allocated
+* (probably - well check it later...).
+* - It is also deducible that malloc always allocated on an 8 byte boundry.
+*
+* TODO:
+* - improve the guessing system to also handle free (get reports about them
+* and be able to guess even though there are calls to free(3)).
+*/
 
 static char* p;
 static bool debug=false;

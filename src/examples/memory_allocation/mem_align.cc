@@ -28,19 +28,19 @@
 #include<us_helper.h> // for printproc(), CHECK_ZERO(), CHECK_NOT_VOIDP()
 
 /*
- * This demo shows how to allocate memory which is PAGE_SIZE aligned...
- *
- * To get the page size of the system two ways are presented:
- * - getpagesize()
- * - sysconf(_SC_PAGESIZE)
- *
- * To get aligned memory 4 ways are presented:
- * - valloc (deprecated)
- * - memalign (deprecated)
- * - posix_memalign (this is the one to use).
- * - malloc (if you don't have any of the others...).
- * - mmap anonymous pages (this is supposed to be quite effective...).
- */
+* This demo shows how to allocate memory which is PAGE_SIZE aligned...
+*
+* To get the page size of the system two ways are presented:
+* - getpagesize()
+* - sysconf(_SC_PAGESIZE)
+*
+* To get aligned memory 4 ways are presented:
+* - valloc (deprecated)
+* - memalign (deprecated)
+* - posix_memalign (this is the one to use).
+* - malloc (if you don't have any of the others...).
+* - mmap anonymous pages (this is supposed to be quite effective...).
+*/
 
 // this next function takes an address and aligns it to page size
 inline void* align_address(void* addr) {
@@ -58,15 +58,15 @@ void *mem_align(unsigned int size) {
 }
 
 /*
- * This function works by allocating more memory than is actually required.
- * (One page more to be precise). Then asking malloc to allocate that memory
- * and allocating the aligned block that we need within the block allocated
- * by malloc...
- *
- * NOTE: you should also keep a hash table to release the memory since free
- * wants the ORIGINAL malloc returned pointer and not the rounded one. This
- * is not demonstrated in this example...
- */
+* This function works by allocating more memory than is actually required.
+* (One page more to be precise). Then asking malloc to allocate that memory
+* and allocating the aligned block that we need within the block allocated
+* by malloc...
+*
+* NOTE: you should also keep a hash table to release the memory since free
+* wants the ORIGINAL malloc returned pointer and not the rounded one. This
+* is not demonstrated in this example...
+*/
 void *malloc_align(unsigned int size) {
 	int ps = getpagesize();
 	int pages = size / ps + 1;
@@ -79,8 +79,8 @@ void *malloc_align(unsigned int size) {
 }
 
 /*
- * mmap anonymous allocation function
- */
+* mmap anonymous allocation function
+*/
 void *mmap_alloc(unsigned int size) {
 	/* we want anonymous mapping */
 	int flags=MAP_ANONYMOUS;

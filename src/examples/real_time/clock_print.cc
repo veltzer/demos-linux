@@ -25,13 +25,13 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Print all clocks available on the system for a user space app...
- * Notice that:
- * - different clocks show different times.
- * - different clocks have different resolutions.
- *
- * EXTRA_LIBS=-lrt
- */
+* Print all clocks available on the system for a user space app...
+* Notice that:
+* - different clocks show different times.
+* - different clocks have different resolutions.
+*
+* EXTRA_LIBS=-lrt
+*/
 
 typedef struct _clock_data {
 	const char name[256];

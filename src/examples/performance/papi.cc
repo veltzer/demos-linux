@@ -27,13 +27,13 @@
 //#include<us_helper.h>
 
 /*
- * Demo for using the PAPI performance counters library.
- *
- * References:
- * http://icl.cs.utk.edu/papi/index.html
- *
- * EXTRA_LIBS=-lpapi
- */
+* Demo for using the PAPI performance counters library.
+*
+* References:
+* http://icl.cs.utk.edu/papi/index.html
+*
+* EXTRA_LIBS=-lpapi
+*/
 
 void print_counters(long long* arr,int num) {
 	for(int i=0;i<num;i++) {

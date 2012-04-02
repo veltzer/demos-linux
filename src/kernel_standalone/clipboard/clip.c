@@ -19,11 +19,11 @@
 */
 
 /*
- * clipboard.c
- * Originally from Alessandro Rubini Linux Device Driver book.
- * Much messed with by Gilad Ben-Yossef.
- * Fixed up by Mark Veltzer for newer kernels and added features.
- */
+* clipboard.c
+* Originally from Alessandro Rubini Linux Device Driver book.
+* Much messed with by Gilad Ben-Yossef.
+* Fixed up by Mark Veltzer for newer kernels and added features.
+*/
 #include<firstinclude.h>
 #include<linux/module.h>		/* Module API */
 #include<linux/moduleparam.h>		/* Module parameters API */
@@ -42,17 +42,17 @@ MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("A proc/interrupt/clipboard example");
 
 /*
- * TODO:
- * We have only one wait queue which is bad if we have multiple clipboards.
- * We also have just one in-kernel buffer which is shared by all clipboard /dev/ devices.
- * store the clipboard itself in the device itself.
- * work with an ioctl that can trigger an interrupt.
- * write user space demos of how to work with this (do I need this ? won't cat and echo do ?).
- * add makefile targets for insmod/rmmod etc.
- * improve the write method to write as much as it can and return what is written.
- * if two or more readers or writers are involved we will have race conditions. protect the clipboard
- * or allow just one reader/writer (but even then some protection would be required).
- */
+* TODO:
+* We have only one wait queue which is bad if we have multiple clipboards.
+* We also have just one in-kernel buffer which is shared by all clipboard /dev/ devices.
+* store the clipboard itself in the device itself.
+* work with an ioctl that can trigger an interrupt.
+* write user space demos of how to work with this (do I need this ? won't cat and echo do ?).
+* add makefile targets for insmod/rmmod etc.
+* improve the write method to write as much as it can and return what is written.
+* if two or more readers or writers are involved we will have race conditions. protect the clipboard
+* or allow just one reader/writer (but even then some protection would be required).
+*/
 
 static dev_t clipboard_dev;
 static struct cdev* clipboard_cdev;
@@ -74,27 +74,27 @@ DECLARE_WAIT_QUEUE_HEAD(clipboard_write_wq);
 module_param(debug_param,uint,S_IRWXU);
 
 /*
- * Open the device. Optional.
- */
+* Open the device. Optional.
+*/
 int clipboard_open(struct inode* inode,struct file* filp) {
 	printk(KERN_DEBUG "device is open\n");
 	return 0;
 }
 
 /*
- * Release the device. Optional as well.
- */
+* Release the device. Optional as well.
+*/
 int clipboard_release(struct inode* inode,struct file* filp) {
 	printk(KERN_DEBUG "device is released\n");
 	return 0;
 }
 
 /*
- * Read from the clipboard. This does the real work. This method always goes to sleep
- * until woken up by the interrupt handler. When it is woken up it copies the data from the
- * clip board. There is no real locking on the clipboard status which is a problem. Fix this
- * sometime.
- */
+* Read from the clipboard. This does the real work. This method always goes to sleep
+* until woken up by the interrupt handler. When it is woken up it copies the data from the
+* clip board. There is no real locking on the clipboard status which is a problem. Fix this
+* sometime.
+*/
 ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff_t* offset) {
 	int remaining_bytes;
 	/* Number of bytes left to read in the open file */
@@ -121,20 +121,20 @@ ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff
 }
 
 /*
- * Writing to the clipboard. This simply copied the data from user space into the in-kernel buffer
- * using copy_from_user. If the clipboard is full we do not return 0 since this will cause the user
- * process to think that it had reached end of file. Instead, we put it to sleep and wait to be
- * woken up by a reader that has read from the clipboard. Then we check the size again since the
- * clipboard has chanced. Once we can write any positive amount we do the write and return the
- * number of bytes written to the user. Why don't we loop until we write the entire buffer of
- * the user (count bytes)? Well, we could do it but then we would not comply with the standard
- * UNIX semantics for write that state that we should write what we can NOW and return the number
- * of bytes written.
- *
- * A simpler approach would have been to just see if we have at least count bytes free in the
- * buffer and return an error if that is not the case. This is too simplistic and would break
- * lots of prefectly legal user space programs.
- */
+* Writing to the clipboard. This simply copied the data from user space into the in-kernel buffer
+* using copy_from_user. If the clipboard is full we do not return 0 since this will cause the user
+* process to think that it had reached end of file. Instead, we put it to sleep and wait to be
+* woken up by a reader that has read from the clipboard. Then we check the size again since the
+* clipboard has chanced. Once we can write any positive amount we do the write and return the
+* number of bytes written to the user. Why don't we loop until we write the entire buffer of
+* the user (count bytes)? Well, we could do it but then we would not comply with the standard
+* UNIX semantics for write that state that we should write what we can NOW and return the number
+* of bytes written.
+*
+* A simpler approach would have been to just see if we have at least count bytes free in the
+* buffer and return an error if that is not the case. This is too simplistic and would break
+* lots of prefectly legal user space programs.
+*/
 ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff_t* offset) {
 	int remaining_bytes=min(CLIPBOARD_SIZE-(*offset),(loff_t)count);
 	// clipboard is full, put the process to sleep
@@ -159,8 +159,8 @@ ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff
 }
 
 /*
- * proc file callback
- */
+* proc file callback
+*/
 
 int clipboard_proc_reader(char* page,char** start,off_t off,int count,int* eof,void* data) {
 	int len=0;
@@ -175,9 +175,9 @@ int clipboard_proc_reader(char* page,char** start,off_t off,int count,int* eof,v
 }
 
 /*
- * Interrupt callback
- * We say that it was our interrupt but really shouldn't.
- */
+* Interrupt callback
+* We say that it was our interrupt but really shouldn't.
+*/
 
 irqreturn_t clipboard_int_handler(int irq,void* dev) {
 	flag=1;
@@ -194,9 +194,10 @@ struct file_operations clipboard_fops={
 	.read=clipboard_read,
 	.write=clipboard_write
 };
+
 /*
- * Module housekeeping.
- */
+* Module housekeeping.
+*/
 static int clipboard_init(void) {
 	int ret=0;
 	struct proc_dir_entry* clipboard_proc_file;

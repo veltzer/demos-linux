@@ -23,9 +23,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a test for syslog(3) calls
- *
- */
+* This is a test for syslog(3) calls
+*
+*/
 
 int main(int argc,char** argv,char** envp) {
 	openlog(argv[0], LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);

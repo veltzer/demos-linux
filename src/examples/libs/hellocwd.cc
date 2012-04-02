@@ -27,10 +27,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo program showing how to use libcwd for C++ debug support...
- *
- * EXTRA_LIBS=-lcwd
- */
+* This is a demo program showing how to use libcwd for C++ debug support...
+*
+* EXTRA_LIBS=-lcwd
+*/
 
 // Define our own debug channel:
 namespace libcwd {

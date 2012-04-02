@@ -23,12 +23,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * watch these macros and see if you can figure out what they do...
- * we use '1' instead of '0' in these next lines because g++ is smart
- * enough to understand that using 0 will mean that we use the NULL
- * object and not let us do anything with it including taking fields
- * or doing pointer arithmetic...
- */
+* watch these macros and see if you can figure out what they do...
+* we use '1' instead of '0' in these next lines because g++ is smart
+* enough to understand that using 0 will mean that we use the NULL
+* object and not let us do anything with it including taking fields
+* or doing pointer arithmetic...
+*/
 
 #define CppOffsetOf(className, FieldName) ((char *)(&(((className *)1)->FieldName)) - (char *)1)
 #define CastOffsetOf(className, castName) ((char *)((castName *)((className *)1)) - (char *)((className *)1))

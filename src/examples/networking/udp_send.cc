@@ -36,8 +36,8 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is udp client demo that sends a file to a udp port.
- */
+* This is udp client demo that sends a file to a udp port.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {

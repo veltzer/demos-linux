@@ -26,11 +26,12 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This is a demo showing the sizes of variables on the architecture
- * it is running on (it also prints the name of the architecture).
- *
- * This is intended for a GNU/linux system.
- */
+* This is a demo showing the sizes of variables on the architecture
+* it is running on (it also prints the name of the architecture).
+*
+* This is intended for a GNU/linux system.
+*/
+
 #define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type));
 
 int main(int argc,char** argv,char** envp) {

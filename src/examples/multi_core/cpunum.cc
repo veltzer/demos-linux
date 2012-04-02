@@ -25,12 +25,13 @@
 #include<us_helper.h>
 
 /*
- * This is a simple example showing how to get the number of current cpus...
- * _SC_NPROCESSORS_CONF - means configured CPUs, not neccessarily working
- * _SC_NPROCESSORS_ONLN - means online CPUs. You may not have access to all of
- * them.
- * Remmember that the number of online CPUs can change at any minute.
- */
+* This is a simple example showing how to get the number of current cpus...
+* _SC_NPROCESSORS_CONF - means configured CPUs, not neccessarily working
+* _SC_NPROCESSORS_ONLN - means online CPUs. You may not have access to all of
+* them.
+* Remmember that the number of online CPUs can change at any minute.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	int ncpus;
 	CHECK_NOT_M1(ncpus=sysconf(_SC_NPROCESSORS_ONLN));

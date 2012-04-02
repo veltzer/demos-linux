@@ -23,23 +23,23 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a simple ACE_Task_Base showing how to create your own threads
- * in an OO fashion.
- *
- * Coding the thread:
- * - inherit from ACE_Task_Base
- * - create constructor for neccessary initialisation values.
- * - create methods that return the final return value.
- * - code the svc method. (what about it's return value?!?).
- *
- * Running the thread:
- * - create an instance of your class (supply neccessary arguments to constructor).
- * - .activate() to run the thread (returns error code).
- * - .wait() to wait for it to be over (returns error code).
- * - get your return values
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* This is a simple ACE_Task_Base showing how to create your own threads
+* in an OO fashion.
+*
+* Coding the thread:
+* - inherit from ACE_Task_Base
+* - create constructor for neccessary initialisation values.
+* - create methods that return the final return value.
+* - code the svc method. (what about it's return value?!?).
+*
+* Running the thread:
+* - create an instance of your class (supply neccessary arguments to constructor).
+* - .activate() to run the thread (returns error code).
+* - .wait() to wait for it to be over (returns error code).
+* - get your return values
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class MyThread:public ACE_Task_Base {
 	private:

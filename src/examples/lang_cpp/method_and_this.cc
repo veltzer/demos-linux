@@ -23,11 +23,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * An example of passing object and method and applying the method
- * on the object...
- * This is sometimes called a functor (object+method). You can find
- * similar approaches in boost's bind function.
- */
+* An example of passing object and method and applying the method
+* on the object...
+* This is sometimes called a functor (object+method). You can find
+* similar approaches in boost's bind function.
+*/
 
 class A {
 	public:

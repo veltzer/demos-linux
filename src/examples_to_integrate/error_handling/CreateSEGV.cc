@@ -22,8 +22,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * A simple program which creates a segmentation fault
- */
+* A simple program which creates a segmentation fault
+*/
 
 int main(int argc,char** argv,char** envp) {
 	char* p=0;

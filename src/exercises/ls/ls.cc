@@ -37,10 +37,10 @@
 #include<us_helper.h> // our own helper
 
 /*
- * TODO:
- * - print date
- * - print symlink.
- */
+* TODO:
+* - print date
+* - print symlink.
+*/
 
 static int strcmp_wrap(const void* pa,const void* pb) {
 	const char** ppa=(const char**)pa;

@@ -33,11 +33,11 @@
 #include<us_helper.h> // our own helper
 
 /*
- * An example of a sniffer
- *
- * References:
- * http://www.tenouk.com/Module42a.html
- */
+* An example of a sniffer
+*
+* References:
+* http://www.tenouk.com/Module42a.html
+*/
 
 int main(int argc,char** argv,char** envp) {
 	// lets check that we are running as root

@@ -24,11 +24,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows that you can create a single binary that will behave
- * differently according to the name by which it is called. This trick is used
- * heavily in Linux. Examples are the fgrep, grep and egrep triplet, the busybox
- * implementation and more.
- */
+* This example shows that you can create a single binary that will behave
+* differently according to the name by which it is called. This trick is used
+* heavily in Linux. Examples are the fgrep, grep and egrep triplet, the busybox
+* implementation and more.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if (strcmp(argv[0], "./add") == 0) {

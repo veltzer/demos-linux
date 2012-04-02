@@ -23,10 +23,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to quote strings in GCC
- * Stolen from the linux kernel.
- * This MUST be done in 2 levels...
- */
+* This example shows how to quote strings in GCC
+* Stolen from the linux kernel.
+* This MUST be done in 2 levels...
+*/
 #define __stringify_1(x) # x
 #define __stringify(x) __stringify_1(x)
 #define FOOBAR 2.2 .2

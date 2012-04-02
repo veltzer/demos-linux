@@ -26,8 +26,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This shows how to define a long long constant and how to print long longs in linux.
- */
+* This shows how to define a long long constant and how to print long longs in linux.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	unsigned long long l1 = 214748364899LL;
 

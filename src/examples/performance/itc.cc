@@ -26,8 +26,8 @@
 //#include<us_helper.h>
 
 /*
- * Demo for a performance counter on i64...
- */
+* Demo for a performance counter on i64...
+*/
 
 static inline unsigned long getstackpointer(void) {
 	unsigned long ret;

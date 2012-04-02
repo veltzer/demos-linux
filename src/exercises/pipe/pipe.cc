@@ -28,17 +28,17 @@
 #include<us_helper.h>
 
 /*
- * This is the first child
- * It closes it's own standrad output (which it inherited from the parent - usually
- * the console where the parent was run).
- * It then closes the side of the pipe that it is not going to use (the read side [0]).
- * This is done so that the other side will get SIGPIPE and eof when all is done.
- * It then duplicates the side of the pipe that it will use (the write side [1]) to its
- * standard output (that it will give to it's children in case of exec).
- * It executes ls which prints to the pipes write side.
- * When ls dies this process dies.
- * The line after execl doesn't get executed...
- */
+* This is the first child
+* It closes it's own standrad output (which it inherited from the parent - usually
+* the console where the parent was run).
+* It then closes the side of the pipe that it is not going to use (the read side [0]).
+* This is done so that the other side will get SIGPIPE and eof when all is done.
+* It then duplicates the side of the pipe that it will use (the write side [1]) to its
+* standard output (that it will give to it's children in case of exec).
+* It executes ls which prints to the pipes write side.
+* When ls dies this process dies.
+* The line after execl doesn't get executed...
+*/
 
 void doChildOne(int* fd) {
 	// close standard output
@@ -52,8 +52,8 @@ void doChildOne(int* fd) {
 }
 
 /*
- * Very similar to the above...
- */
+* Very similar to the above...
+*/
 
 void doChildTwo(int* fd) {
 	// close standard input

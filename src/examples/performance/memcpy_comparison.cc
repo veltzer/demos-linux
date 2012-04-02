@@ -27,14 +27,14 @@
 #include<us_helper.h> // for micro_diff
 
 /*
- * This example compares memcpy(3) to copy by loop...
- * As you can see memcpy is faster since it uses a specialized machine instruction to do the copying.
- * See the disassembly for more details.
- * If you uncomment the rand() code you will find that memcpy does not give you any slack: it does NOT
- * check the arguments passed to it for sanity. This is part of the philosophy of the GNU/Linux system.
- * The idea is that system programmers can take care of themselves and the APIs should be as fast
- * as possible to cater for good programmers.
- */
+* This example compares memcpy(3) to copy by loop...
+* As you can see memcpy is faster since it uses a specialized machine instruction to do the copying.
+* See the disassembly for more details.
+* If you uncomment the rand() code you will find that memcpy does not give you any slack: it does NOT
+* check the arguments passed to it for sanity. This is part of the philosophy of the GNU/Linux system.
+* The idea is that system programmers can take care of themselves and the APIs should be as fast
+* as possible to cater for good programmers.
+*/
 struct timeval t1, t2;
 unsigned int loop;
 unsigned int size;

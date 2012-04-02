@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * A simple hello world application for C++.
- */
+* A simple hello world application for C++.
+*/
 
 int main(int argc,char** argv,char** envp) {
 	std::cout << "Hello, World!" << std::endl;

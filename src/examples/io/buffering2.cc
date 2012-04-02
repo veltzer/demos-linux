@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Example of buffering of stdout causing loss of messages...
- */
+* Example of buffering of stdout causing loss of messages...
+*/
 
 int main(int argc,char** argv,char** envp) {
 	printf("stdout data");

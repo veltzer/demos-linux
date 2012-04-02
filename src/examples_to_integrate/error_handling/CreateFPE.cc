@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a simple example that creates a floating point exception
- */
+* This is a simple example that creates a floating point exception
+*/
 
 int main(int argc,char** argv,char** envp) {
 	int i=0;

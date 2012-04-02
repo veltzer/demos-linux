@@ -23,8 +23,8 @@
 #include<stdlib.h> // for atoi(3)
 
 /*
- * A simple example of using the atoi library function
- */
+* A simple example of using the atoi library function
+*/
 
 int main(int argc,char** argv,char** envp) {
 	const char* str="321";

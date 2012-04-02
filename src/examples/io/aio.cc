@@ -30,16 +30,17 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is an example of asynchroneous IO.
- *
- * Note that you must link with -lrt or this example will not work.
- *
- * References:
- * man aio.h
- * http://www.ibm.com/developerworks/linux/library/l-async/
- *
- * EXTRA_LIBS=-lrt
- */
+* This is an example of asynchroneous IO.
+*
+* Note that you must link with -lrt or this example will not work.
+*
+* References:
+* man aio.h
+* http://www.ibm.com/developerworks/linux/library/l-async/
+*
+* EXTRA_LIBS=-lrt
+*/
+
 int main(int argc,char** argv,char** envp) {
 	const int BUFSIZE=1024;
 	int fd;

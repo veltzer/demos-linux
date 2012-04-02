@@ -24,17 +24,17 @@
 #include<us_helper.h> // for TRACE()
 
 /*
- * This example examines the time it takes to lock and unlock a spin lock.
- * Since in this example the spin lock is never locked and since the thread
- * which examines this runs at a high priority then this should be a short
- * time indeed.
- *
- * TODO:
- * - remove the run high priority function from this code.
- * - show the results.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This example examines the time it takes to lock and unlock a spin lock.
+* Since in this example the spin lock is never locked and since the thread
+* which examines this runs at a high priority then this should be a short
+* time indeed.
+*
+* TODO:
+* - remove the run high priority function from this code.
+* - show the results.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 static pthread_spinlock_t mylock;
 

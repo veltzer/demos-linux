@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This shows how to use the pre-processor to catenate stuff...
- */
+* This shows how to use the pre-processor to catenate stuff...
+*/
 
 #define catit(a,b) a ## b
 #define __stringify_1(x) # x

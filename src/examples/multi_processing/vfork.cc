@@ -31,18 +31,18 @@
 #include<us_helper.h>
 
 /*
- * An example of using vfork(2)
- *
- * Notes:
- * - if you let the child return from main it will cause a problem.
- * - tracing seems to work fine and sleep(3) also.
- * - writing to the parent data does not seem to be harmful too.
- * - result: the return from the function in which vfork was called is the one
- * causing the segfault.
- * - the segfault seems to be in the parent not in the child. Need to check this
- * for sure.
- * - the results of using vfork incorrectly (not for exec) are indeed undefined as the manual page says.
- */
+* An example of using vfork(2)
+*
+* Notes:
+* - if you let the child return from main it will cause a problem.
+* - tracing seems to work fine and sleep(3) also.
+* - writing to the parent data does not seem to be harmful too.
+* - result: the return from the function in which vfork was called is the one
+* causing the segfault.
+* - the segfault seems to be in the parent not in the child. Need to check this
+* for sure.
+* - the results of using vfork incorrectly (not for exec) are indeed undefined as the manual page says.
+*/
 void print_status(int status) {
 	if (WIFEXITED(status)) {
 		TRACE("child exited normally with status %d", WEXITSTATUS(status));

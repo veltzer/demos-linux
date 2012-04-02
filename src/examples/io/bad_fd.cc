@@ -25,14 +25,15 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This is an example of what happens when you read from a bad fd.
- * The important thing to note is that you do not SEGFAULT. Technically
- * you called a syscall with the wrong parameter and what you get back
- * is an error.
- * Note yet that read(2) return type is ssize_t which is SIGNED as opposed to size_t
- * which is UNSIGNED. The idea here is the ability to return -1 and report errors
- * this way.
- */
+* This is an example of what happens when you read from a bad fd.
+* The important thing to note is that you do not SEGFAULT. Technically
+* you called a syscall with the wrong parameter and what you get back
+* is an error.
+* Note yet that read(2) return type is ssize_t which is SIGNED as opposed to size_t
+* which is UNSIGNED. The idea here is the ability to return -1 and report errors
+* this way.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	const size_t SIZE = 5;
 	const int BAD_FD = getdtablesize()+1;

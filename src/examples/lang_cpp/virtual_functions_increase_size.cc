@@ -24,8 +24,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows that a single virtual function in an object increases it's size.
- */
+* This example shows that a single virtual function in an object increases it's size.
+*/
 
 // A1 and A2 are exactly the same except the virtual in A2
 

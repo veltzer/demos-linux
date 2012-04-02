@@ -26,8 +26,8 @@
 #include<us_helper.h>
 
 /*
- * This example creates lots of minor page faults...
- */
+* This example creates lots of minor page faults...
+*/
 
 void minor_fault_hog_function() {
 	for(unsigned int i=0;i<1000000;i++) {

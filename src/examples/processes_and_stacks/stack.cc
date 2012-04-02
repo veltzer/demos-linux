@@ -26,13 +26,13 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This example shows the stack limitations of a regular program.
- *
- * Notes:
- * - this is why it's a bad idea to store stuff on the stack.
- * - note that without the memset there is no problem since the
- *	memory is not really allocated.
- */
+* This example shows the stack limitations of a regular program.
+*
+* Notes:
+* - this is why it's a bad idea to store stuff on the stack.
+* - note that without the memset there is no problem since the
+*	memory is not really allocated.
+*/
 
 // print the current limit for stack usage for the process
 void print_limit(void) {

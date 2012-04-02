@@ -25,10 +25,11 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * Demo the clock_gettime usage
- *
- * EXTRA_LIBS=-lrt
- */
+* Demo the clock_gettime usage
+*
+* EXTRA_LIBS=-lrt
+*/
+
 void print_timespec(const char *msg, struct timespec *ts) {
 	printf("%s %ld %ld\r", msg, ts->tv_sec, ts->tv_nsec);
 	fflush(stdout);

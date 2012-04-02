@@ -28,28 +28,28 @@
 #include<string.h> // for strsignal(3)
 
 /*
- * This is a simple example which shows how to do signal handling with the
- * signal(2) syscall. Mind you that this is the old system call and there is a
- * better sigaction(2) syscall at your disposal.
- *
- * NOTES:
- * - the same signal handler can be used for handling more than one signal.
- * - if you send a signal when the signal handler is active then it is not
- * activated (meaning that the code that you write need not be re-entrant).
- * - the signal is remmember though and will be activated the first thing after
- * the signal handler is over.
- * - the system does not remmember more than 1 signal. It actually has a bit
- * mask of waiting signals so each waiting signal is either on or off.
- * - the pause(2) call can be used to block until a signal arrives an provide
- * you with a non-busy wait loop on signals.
- * - if you get a signal while inside a signal handler, then the main thread
- * (the one waiting on the pause(2) syscall) will not wake up until you deal
- * with the second one.
- * - if you use sigqueue to signal the process and use a real time signal
- * (SIGRTMIN - SIGRTMAX) and register on them then you will get full guarantee
- * of delivery (unless you congest the os rt signal queue that is - see ulimit
- * -r for details).
- */
+* This is a simple example which shows how to do signal handling with the
+* signal(2) syscall. Mind you that this is the old system call and there is a
+* better sigaction(2) syscall at your disposal.
+*
+* NOTES:
+* - the same signal handler can be used for handling more than one signal.
+* - if you send a signal when the signal handler is active then it is not
+* activated (meaning that the code that you write need not be re-entrant).
+* - the signal is remmember though and will be activated the first thing after
+* the signal handler is over.
+* - the system does not remmember more than 1 signal. It actually has a bit
+* mask of waiting signals so each waiting signal is either on or off.
+* - the pause(2) call can be used to block until a signal arrives an provide
+* you with a non-busy wait loop on signals.
+* - if you get a signal while inside a signal handler, then the main thread
+* (the one waiting on the pause(2) syscall) will not wake up until you deal
+* with the second one.
+* - if you use sigqueue to signal the process and use a real time signal
+* (SIGRTMIN - SIGRTMAX) and register on them then you will get full guarantee
+* of delivery (unless you congest the os rt signal queue that is - see ulimit
+* -r for details).
+*/
 
 static unsigned int counter=0;
 

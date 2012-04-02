@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example of getting a register on an i32 machine
- */
+* This is an example of getting a register on an i32 machine
+*/
 
 static inline unsigned int getrdtsc() {
 	unsigned int val;

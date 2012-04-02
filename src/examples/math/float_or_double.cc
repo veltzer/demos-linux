@@ -24,9 +24,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example for all the folk wishing to do numerical applications and want to switch
- * between float and double at compile time instead of at run time.
- */
+* This is an example for all the folk wishing to do numerical applications and want to switch
+* between float and double at compile time instead of at run time.
+*/
 
 // first option - using floats...
 //#define USING_FLOATS
@@ -47,8 +47,8 @@ typedef double some_float;
 #endif
 
 /*
- * example of a type neutral function
- */
+* example of a type neutral function
+*/
 inline some_float add(some_float a, some_float b) {
 	return a+b;
 }

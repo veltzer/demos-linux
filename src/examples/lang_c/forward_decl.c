@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * An example of forward declaration of a function
- */
+* An example of forward declaration of a function
+*/
 
 double add(double a,double b);
 

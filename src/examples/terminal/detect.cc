@@ -25,9 +25,10 @@
 #include<us_helper.h> // for DEBUG()
 
 /*
- * This is an example of how to detect whether a file you are using is
- * a terminal or not and print it's name in case it is.
- */
+* This is an example of how to detect whether a file you are using is
+* a terminal or not and print it's name in case it is.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	// lets take the file descriptor number from stdin which is usually
 	// a terminal (unless you redirect it...)

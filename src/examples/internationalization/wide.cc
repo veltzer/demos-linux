@@ -25,8 +25,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example explores wide strings in GCC.
- */
+* This example explores wide strings in GCC.
+*/
 #define WS(s) L ## s
 
 int main(int argc,char** argv,char** envp) {

@@ -28,15 +28,15 @@
 #include<us_helper.h> // CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 /*
- * This is an example of a calculator that you can break out of.
- * Notice that this example is written as a single thread and you can
- * still break out at any time from this calculator.
- * The idea is to setup a signal handler as interrupting syscalls
- * (in this case we use SIGUSR1). When that signal is received
- * Take heed to look at errno RIGHT AFTER the scanf fails since
- * any call to other APIs may change it's value and so lose the
- * original value you want to look at.
- */
+* This is an example of a calculator that you can break out of.
+* Notice that this example is written as a single thread and you can
+* still break out at any time from this calculator.
+* The idea is to setup a signal handler as interrupting syscalls
+* (in this case we use SIGUSR1). When that signal is received
+* Take heed to look at errno RIGHT AFTER the scanf fails since
+* any call to other APIs may change it's value and so lose the
+* original value you want to look at.
+*/
 
 static void sig_handler(int sig) {
 	//TRACE("start handler, sig is %d",sig);

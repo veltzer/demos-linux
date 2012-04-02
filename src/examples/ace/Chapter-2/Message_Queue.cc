@@ -25,8 +25,8 @@
 #include"Message_Receiver.hh"
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 int HA_CommandHandler::svc(void) {
 	while(true) {
 		ACE_Message_Block *mb;

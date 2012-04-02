@@ -26,12 +26,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to eliminate lots of redundant C error checking
- * from your code when calling system calls or C APIs from C++ and turning
- * all of those errors into exceptions...
- *
- * Why is this good ? Explain the theory behind exceptions.
- */
+* This example shows how to eliminate lots of redundant C error checking
+* from your code when calling system calls or C APIs from C++ and turning
+* all of those errors into exceptions...
+*
+* Why is this good ? Explain the theory behind exceptions.
+*/
 
 // this is the non template approach
 int syscall(int val,int err_val) {

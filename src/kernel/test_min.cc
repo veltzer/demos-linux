@@ -23,8 +23,8 @@
 #include<us_helper.h> // for DEBUG()
 
 /*
- * The most minimal test for kernel space. Does nothing.
- */
+* The most minimal test for kernel space. Does nothing.
+*/
 int main(int argc,char** argv,char** envp) {
 	DEBUG("hello");
 	return EXIT_SUCCESS;

@@ -25,10 +25,10 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is a standard pthread demo
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a standard pthread demo
+*
+* EXTRA_LIBS=-lpthread
+*/
 void *worker(void *p) {
 	int num = *(int *)p;
 	TRACE("starting thread %d", num);

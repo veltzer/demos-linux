@@ -28,15 +28,15 @@
 #include<us_helper.h>
 
 /*
- * Demo for using the PAPI library for RDTSC.
- * This example also proves that RDTSC is exactly what the PAPI library
- * is using under the hood.
- *
- * References:
- * http://icl.cs.utk.edu/papi/index.html
- *
- * EXTRA_LIBS=-lpapi
- */
+* Demo for using the PAPI library for RDTSC.
+* This example also proves that RDTSC is exactly what the PAPI library
+* is using under the hood.
+*
+* References:
+* http://icl.cs.utk.edu/papi/index.html
+*
+* EXTRA_LIBS=-lpapi
+*/
 
 void handle_error(int val) {
 	perror("had an error");

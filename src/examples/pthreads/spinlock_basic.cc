@@ -25,13 +25,13 @@
 #include<us_helper.h> // for TRACE()
 
 /*
- * This is a demo for thread spin locks.
- * Run on any machine and you will see a problem in that they will block
- * each other. This blockage does not turn into a dead lock since the OS
- * will preempt them and eventually each will get it's turn.
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a demo for thread spin locks.
+* Run on any machine and you will see a problem in that they will block
+* each other. This blockage does not turn into a dead lock since the OS
+* will preempt them and eventually each will get it's turn.
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 static pthread_spinlock_t mylock;
 

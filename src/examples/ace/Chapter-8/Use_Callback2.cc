@@ -25,8 +25,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
+
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	Callback* callback=new Callback;
 	ACE_LOG_MSG->set_flags(ACE_Log_Msg::MSG_CALLBACK);

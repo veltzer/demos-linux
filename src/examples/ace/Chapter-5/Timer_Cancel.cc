@@ -26,10 +26,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Changing the interval and canceling
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Changing the interval and canceling
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class MyTimerHandler:public ACE_Event_Handler {
 	public:

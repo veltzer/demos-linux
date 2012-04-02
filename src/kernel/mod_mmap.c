@@ -32,15 +32,15 @@
 #include"kernel_helper.h" // our own helper
 
 /*
- * This is a driver that maps memory allocated by the kernel into user space.
- * The method is the regular mmap system call.
- *
- * This driver also shows you how to implement mmap via a regular ioctl call.
- *
- * TODO:
- * - show how to kfree my pointer when munmap is made
- * - separate the part of the driver that does the mmap via the ioctl call.
- */
+* This is a driver that maps memory allocated by the kernel into user space.
+* The method is the regular mmap system call.
+*
+* This driver also shows you how to implement mmap via a regular ioctl call.
+*
+* TODO:
+* - show how to kfree my pointer when munmap is made
+* - separate the part of the driver that does the mmap via the ioctl call.
+*/
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -64,8 +64,8 @@ static void* kaddr;
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	char str[256];
 	void* ptr;
@@ -189,8 +189,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 }
 
 /*
- * VMA ops
- */
+* VMA ops
+*/
 void kern_vma_open(struct vm_area_struct *vma) {
 	PR_DEBUG("start");
 }
@@ -222,26 +222,26 @@ static struct vm_operations_struct kern_remap_vm_ops = {
 };
 
 /*
- * This is the most basic mmap implementation. It does NOT work because
- * you don't really state WHAT memory kernel side you are mapping to user
- * space...
- */
+* This is the most basic mmap implementation. It does NOT work because
+* you don't really state WHAT memory kernel side you are mapping to user
+* space...
+*/
 
 /*
- * static int kern_mmap_simple(struct file *filp, struct vm_area_struct *vma) {
- *	return remap_pfn_range(
- *		vma, // vma
- *		vma->vm_start, // start
- *		vma->vm_pgoff, // page number
- *		vma->vm_end-vma->vm_start, // size
- *		vma->vm_page_prot // protection
- *	);
- * }
- */
+* static int kern_mmap_simple(struct file *filp, struct vm_area_struct *vma) {
+*	return remap_pfn_range(
+*		vma, // vma
+*		vma->vm_start, // start
+*		vma->vm_pgoff, // page number
+*		vma->vm_end-vma->vm_start, // size
+*		vma->vm_page_prot // protection
+*	);
+* }
+*/
 
 /*
- * The mmap implementation.
- */
+* The mmap implementation.
+*/
 static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 #ifdef DO_RESERVE
 	// for the reserve loop
@@ -320,8 +320,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner=THIS_MODULE,
 	.unlocked_ioctl=kern_unlocked_ioctll,

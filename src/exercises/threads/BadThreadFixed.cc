@@ -26,8 +26,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_LIBS=-lpthread
- */
+* EXTRA_LIBS=-lpthread
+*/
 
 void* PrintHello(void *threadid) {
 	int *id_ptr, taskid;

@@ -24,11 +24,12 @@
 #include<dlfcn.h> // for dlsym(3)
 
 /*
- * This example shows how to override a symbol like atoi. We define our own atoi
- * but also call the original implementation.
- *
- * EXTRA_LIBS=-ldl
- */
+* This example shows how to override a symbol like atoi. We define our own atoi
+* but also call the original implementation.
+*
+* EXTRA_LIBS=-ldl
+*/
+
 int (*p_atoi)(const char* nptr);
 
 void setup() __attribute__((constructor));

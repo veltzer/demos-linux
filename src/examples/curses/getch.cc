@@ -26,13 +26,14 @@
 #include<unistd.h>
 
 /*
- * Curses example number 1...
- *
- * This is an example of how to read a character from the keyboard
- * in non-blocking mode...
- *
- * EXTRA_LIBS=-lncursesw
- */
+* Curses example number 1...
+*
+* This is an example of how to read a character from the keyboard
+* in non-blocking mode...
+*
+* EXTRA_LIBS=-lncursesw
+*/
+
 int main(int argc,char** argv,char** envp) {
 	initscr();
 	cbreak();

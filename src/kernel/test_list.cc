@@ -33,8 +33,8 @@
 #include"shared.h"
 
 /*
- * This is a test for in kernel lists
- */
+* This is a test for in kernel lists
+*/
 int get_number(void) {
 	printf("please enter a number> ");
 	char str[256];

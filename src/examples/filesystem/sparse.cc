@@ -29,13 +29,13 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This program demostrates the concept of sparse files...
- * Notice the following facts:
- * - this behaviour depends on the underlying file system and some brain
- * dead filesystems (like DOS) will not do any sparse thing.
- * - this bahaviour is DEFAULT in linux and unix on major supported filesystems.
- * - other pages are full of 0's.
- */
+* This program demostrates the concept of sparse files...
+* Notice the following facts:
+* - this behaviour depends on the underlying file system and some brain
+* dead filesystems (like DOS) will not do any sparse thing.
+* - this bahaviour is DEFAULT in linux and unix on major supported filesystems.
+* - other pages are full of 0's.
+*/
 
 // this is the position we will seek to...
 //const int pos=1024*1024;

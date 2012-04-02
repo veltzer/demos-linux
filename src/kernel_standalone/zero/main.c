@@ -33,14 +33,14 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
 
 /*
- * This is an implementation of a kernel module which exposes a /dev/zero like
- * device to user space. Whenever someone reads from the device the buffer passed
- * to kernel gets filled with zeros.
- * If you want to see the real implementation in the kernel see:
- * $KERNEL_SOURCES/drivers/char/mem.c
- *
- * TODO:
- */
+* This is an implementation of a kernel module which exposes a /dev/zero like
+* device to user space. Whenever someone reads from the device the buffer passed
+* to kernel gets filled with zeros.
+* If you want to see the real implementation in the kernel see:
+* $KERNEL_SOURCES/drivers/char/mem.c
+*
+* TODO:
+*/
 
 // how many minors do we need ?
 const int MINOR_COUNT=1;

@@ -34,8 +34,8 @@
 #include<ace/Auto_Ptr.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 static const long max_queue = LONG_MAX;
 

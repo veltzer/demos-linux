@@ -32,8 +32,8 @@
 #include<ace/Log_Msg.h>
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class Manager:public ACE_Process {
 public:

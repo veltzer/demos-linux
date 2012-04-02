@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Example showing forgetting for initialization of members
- */
+* Example showing forgetting for initialization of members
+*/
 
 class A {
 	public:

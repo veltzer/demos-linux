@@ -28,8 +28,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // This file exists primarily to get code into the book to show different
 // ways to do the same thing. For complete context and explanation, please

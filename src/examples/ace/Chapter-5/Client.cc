@@ -27,10 +27,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * A simple client program using ACE_Svc_Handler and ACE_Connector.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* A simple client program using ACE_Svc_Handler and ACE_Connector.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 int Client::open(void* p) {
 	// Two seconds

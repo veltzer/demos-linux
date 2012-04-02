@@ -26,11 +26,11 @@
 #include<ace/Get_Opt.h>
 
 /*
- * ACE_ARGV examples not in a larger program. Sample code from The ACE
- * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* ACE_ARGV examples not in a larger program. Sample code from The ACE
+* Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 	static const ACE_TCHAR options[] = ACE_TEXT(":f:h:");

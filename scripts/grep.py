@@ -18,6 +18,8 @@ c=re.compile(sys.argv[1])
 cf=re.compile(sys.argv[2])
 folder=sys.argv[3]
 debug=False
+printOnlyFiles=True
+printedFiles=set()
 #debug=True
 
 for root,dirs,files in os.walk(folder):
@@ -30,4 +32,9 @@ for root,dirs,files in os.walk(folder):
 				print("doing file %s" % full)
 			for num,line in enumerate(open(full)):
 				for x in c.finditer(line):
-					print("%s, %s: %s" % (full,num,line[:-1]))
+					if printOnlyFiles:
+						if not full in printedFiles:
+							print full
+							printedFiles.add(full)
+					else:
+						print("%s, %s: %s" % (full,num,line[:-1]))

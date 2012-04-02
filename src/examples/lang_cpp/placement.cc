@@ -25,19 +25,19 @@
 #include<us_helper.h>
 
 /*
- *	This example shows how to use the C++ operator new placement
- *	operator.
- *
- *	Things we learn:
- *	1. How to write your own placement function.
- *	2. Regular constructor gets called after the placement.
- *	3. Releasing of space could be overridden too.
- *	4. This could be used for caching and real time considerations for instance.
- *	5. Even if you allocate an array the delete[] is NOT called so
- *		your regular delete operator needs to know how to do the job
- *		both for arrays and for single elements (if you want arrays
- *		at all that is...).
- */
+*	This example shows how to use the C++ operator new placement
+*	operator.
+*
+*	Things we learn:
+*	1. How to write your own placement function.
+*	2. Regular constructor gets called after the placement.
+*	3. Releasing of space could be overridden too.
+*	4. This could be used for caching and real time considerations for instance.
+*	5. Even if you allocate an array the delete[] is NOT called so
+*		your regular delete operator needs to know how to do the job
+*		both for arrays and for single elements (if you want arrays
+*		at all that is...).
+*/
 
 class A {
 public:

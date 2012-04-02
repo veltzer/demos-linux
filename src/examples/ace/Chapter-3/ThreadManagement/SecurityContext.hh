@@ -22,8 +22,8 @@
 #define __SECURITYCONTEXT_H_
 
 /*
- * Sample code from The ACE Programmer's Guide,
- */
+* Sample code from The ACE Programmer's Guide,
+*/
 
 #include<firstinclude.h>
 

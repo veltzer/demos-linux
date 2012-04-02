@@ -24,9 +24,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to find out which libraries you are linked to.
- * Sort of a cheap ldd replacement.
- */
+* This example shows how to find out which libraries you are linked to.
+* Sort of a cheap ldd replacement.
+*/
 static bool verbose=false;
 
 static int callback(struct dl_phdr_info *info, size_t size, void *data) {

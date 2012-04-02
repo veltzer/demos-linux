@@ -40,13 +40,13 @@ static void printStatus() {
 */
 
 /*
- * This method unblocks a signal so that it could be gotten again.
- * The important thing to understand is that in a signal handler for signal X
- * the same signal is blocked. This means that since we throw an exception from
- * a signal handler (which actually does a longjmp) then this situation will not
- * change and so we need to unblock the signal if we want to use C++ exception handling
- * or longjmp
- */
+* This method unblocks a signal so that it could be gotten again.
+* The important thing to understand is that in a signal handler for signal X
+* the same signal is blocked. This means that since we throw an exception from
+* a signal handler (which actually does a longjmp) then this situation will not
+* change and so we need to unblock the signal if we want to use C++ exception handling
+* or longjmp
+*/
 static void unblock(int signum) {
 	sigset_t sigs;
 	sigemptyset(&sigs);

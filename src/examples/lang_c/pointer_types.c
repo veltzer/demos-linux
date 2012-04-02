@@ -24,11 +24,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This demos how to use compiler attributes to make sure we don't mix pointers that
- * refer to different memory spaces...
- *
- * Regular software developers usually do not use these features...
- */
+* This demos how to use compiler attributes to make sure we don't mix pointers that
+* refer to different memory spaces...
+*
+* Regular software developers usually do not use these features...
+*/
 
 // this is taken from the kernel sources (include/linux/compiler.h)
 // currently this does not seem to work

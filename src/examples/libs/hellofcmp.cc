@@ -24,10 +24,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example showing how to use the libfcmp for floating point comparison.
- *
- * EXTRA_LIBS=-lfcmp
- */
+* This is an example showing how to use the libfcmp for floating point comparison.
+*
+* EXTRA_LIBS=-lfcmp
+*/
 
 int main(int argc,char** argv,char** envp) {
 	printf("first result is %d\n", fcmp(0.5, 0.7, 0.1));

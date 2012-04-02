@@ -32,15 +32,15 @@
 #include<us_helper.h>
 
 /*
- * This is an example that shows that you cannot alter code, which is protected
- * via the MMU but you can do it if you mprotect it differently...
- */
+* This is an example that shows that you cannot alter code, which is protected
+* via the MMU but you can do it if you mprotect it differently...
+*/
 
 const int times=10;
 
 /*
- * This is the function we want to morph...
- */
+* This is the function we want to morph...
+*/
 static void function(void) __attribute__ ((noinline));
 static void function(void) {
 	asm("");
@@ -51,16 +51,16 @@ static void function(void) {
 }
 
 /*
- * A function that translates an address to it's page boundary
- */
+* A function that translates an address to it's page boundary
+*/
 void* page_adr(void* adr) {
 	unsigned int iptr=(unsigned int)adr;
 	return (void*)(iptr-iptr%getpagesize());
 }
 
 /*
- * A function to dump a certain portion of the memory for debugging purposes...
- */
+* A function to dump a certain portion of the memory for debugging purposes...
+*/
 
 void debug(void* ptr) {
 	char* p=(char*)ptr;
@@ -70,9 +70,9 @@ void debug(void* ptr) {
 }
 
 /*
- * A function that scans a memory space and returns the pointer to a cell with a certain
- * value...
- */
+* A function that scans a memory space and returns the pointer to a cell with a certain
+* value...
+*/
 char* find_cell(void* ptr,char val) {
 	char* p=(char*)ptr;
 	while(*p!=val) {
@@ -82,8 +82,8 @@ char* find_cell(void* ptr,char val) {
 }
 
 /*
- * This is a signal handler to handle the segmentation faults we will generate...
- */
+* This is a signal handler to handle the segmentation faults we will generate...
+*/
 void segv_handler(int sig) {
 	fprintf(stderr,"in segv_handler, changing protection for the page...\n");
 	CHECK_NOT_M1(mprotect(page_adr((void*)function),getpagesize(),PROT_READ|PROT_WRITE|PROT_EXEC));

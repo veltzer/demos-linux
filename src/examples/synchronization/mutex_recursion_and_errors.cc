@@ -29,35 +29,35 @@
 #include<us_helper.h> // for micro_diff(), CHECK_ZERO()
 
 /*
- * This demo shows that the default pthread_mutex is non recursive, it boggs you in an
- * infinite look. This is the FAST kind of mutex that the pthread_mutex documentation
- * is talking about.
- *
- * Note: YOU MUST compile with -lpthread or you get very weird results with no error
- * checking for the locks.
- *
- * Results:
- * - destroying a lock that is already locked is an error. This is true for ANY
- *	type of lock.
- * - the default lock is indeed blocking if re acquired by the same thread.
- *	That is also why it is a little bit faster than regular mutexes (see the demo
- *	that shows the timings of various mutexes).
- * - the recusive lock does seem to count the number of times the lock is taken. You
- *	can see this by acquiring the lock 2 times, releasing it once and seeing that the
- *	destroy function is creating an error (knowing that the lock is still taken one
- *	time).
- *
- * EXTRA_LIBS=-lpthread
- *
- * TODO:
- * - make this example take command line arguments about which type of lock to create
- *	(fast, errorcheck or recursive) and which type of error to create
- *	(double acuisition, unlock without lock or destroy without unlock)
- * - investigate recursive mutexes and show that they indeed keep holding the lock
- *	after the following: lock, lock, unlock. The documentation seems to say that
- *	they do (count the number of lock and unlocks).
- *
- */
+* This demo shows that the default pthread_mutex is non recursive, it boggs you in an
+* infinite look. This is the FAST kind of mutex that the pthread_mutex documentation
+* is talking about.
+*
+* Note: YOU MUST compile with -lpthread or you get very weird results with no error
+* checking for the locks.
+*
+* Results:
+* - destroying a lock that is already locked is an error. This is true for ANY
+*	type of lock.
+* - the default lock is indeed blocking if re acquired by the same thread.
+*	That is also why it is a little bit faster than regular mutexes (see the demo
+*	that shows the timings of various mutexes).
+* - the recusive lock does seem to count the number of times the lock is taken. You
+*	can see this by acquiring the lock 2 times, releasing it once and seeing that the
+*	destroy function is creating an error (knowing that the lock is still taken one
+*	time).
+*
+* EXTRA_LIBS=-lpthread
+*
+* TODO:
+* - make this example take command line arguments about which type of lock to create
+*	(fast, errorcheck or recursive) and which type of error to create
+*	(double acuisition, unlock without lock or destroy without unlock)
+* - investigate recursive mutexes and show that they indeed keep holding the lock
+*	after the following: lock, lock, unlock. The documentation seems to say that
+*	they do (count the number of lock and unlocks).
+*
+*/
 
 int main(int argc,char** argv,char** envp) {
 	printf("main started\n");

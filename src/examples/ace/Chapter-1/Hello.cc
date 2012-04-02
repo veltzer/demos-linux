@@ -25,11 +25,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Short program demonstrates printing Hello World using the ACE environment
- * notice that both ACE_DEBUG and ACE_ERROR are going to stderr.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Short program demonstrates printing Hello World using the ACE environment
+* notice that both ACE_DEBUG and ACE_ERROR are going to stderr.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Notice the use of the ACE version of main
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {

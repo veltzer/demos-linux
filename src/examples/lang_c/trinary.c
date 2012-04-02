@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example of the C trinary operator
- */
+* This is an example of the C trinary operator
+*/
 
 int main(int argc,char** argv,char** envp) {
 	int c=1;

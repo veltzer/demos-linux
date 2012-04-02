@@ -31,8 +31,8 @@
 #include<us_helper.h> // our own helper
 
 /*
- * This is a unix socket client demo.
- */
+* This is a unix socket client demo.
+*/
 
 const char* filename="/tmp/myunixsocket";
 

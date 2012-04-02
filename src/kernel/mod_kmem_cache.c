@@ -30,20 +30,20 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("This demo is to show how to create kmem caches and use them");
 
 /*
- * Why would you need your own cache? Or, to put it another way, is kmalloc/kfree not enough ?!?
- * Well, it depends on what you are doing. If you are doing very infrequent allocations (say on
- * init and cleanup and maybe on open and close) then you should be fine with kmalloc/kfree. If,
- * on the other hand, you are allocating lots and lots of tiny objects (imagine the network stack
- * for a second) and releasing them very frequently, and you wish to be able to debug exactly
- * how many of those you are using at any point in time, then the cache is better suited to your needs.
- * The cache also gives you the guarantee that once you populate it you are not going to be surprised
- * by allocation functions failing.
- *
- * TODO:
- * - do the allocation and deallocation from the cache via ioctl and add a user
- *	space demo application that shows slabtop(1) and /proc/slabinfo as it is allocating
- *	and deallocating.
- */
+* Why would you need your own cache? Or, to put it another way, is kmalloc/kfree not enough ?!?
+* Well, it depends on what you are doing. If you are doing very infrequent allocations (say on
+* init and cleanup and maybe on open and close) then you should be fine with kmalloc/kfree. If,
+* on the other hand, you are allocating lots and lots of tiny objects (imagine the network stack
+* for a second) and releasing them very frequently, and you wish to be able to debug exactly
+* how many of those you are using at any point in time, then the cache is better suited to your needs.
+* The cache also gives you the guarantee that once you populate it you are not going to be surprised
+* by allocation functions failing.
+*
+* TODO:
+* - do the allocation and deallocation from the cache via ioctl and add a user
+*	space demo application that shows slabtop(1) and /proc/slabinfo as it is allocating
+*	and deallocating.
+*/
 
 // statics for this module
 static struct kmem_cache* cache_p=NULL;

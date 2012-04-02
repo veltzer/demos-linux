@@ -28,8 +28,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 const int BUFFER_SIZE = 1024;
 

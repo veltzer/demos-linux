@@ -27,12 +27,12 @@
 #include<locale.h>
 
 /*
- * Curses example number 3...
- *
- * This is an example of how to use wide characters in curses...
- *
- * EXTRA_LIBS=-lncursesw
- */
+* Curses example number 3...
+*
+* This is an example of how to use wide characters in curses...
+*
+* EXTRA_LIBS=-lncursesw
+*/
 
 static const char *myMsg = NULL;
 void setErr(const char *msg) {

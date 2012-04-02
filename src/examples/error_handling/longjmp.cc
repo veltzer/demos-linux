@@ -24,9 +24,9 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo of how to use the setjmp/longjmp in order to simulate exception
- * handling in C code.
- */
+* This is a demo of how to use the setjmp/longjmp in order to simulate exception
+* handling in C code.
+*/
 
 // This buffer saves the context of the jump. We need one for each unique
 // point we wish to jump to

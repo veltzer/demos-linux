@@ -23,18 +23,18 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows that private in C++ is protection only for compile time
- * and not for run time.
- *
- * TODO:
- * - use run time type information in order to determine at runtime if a class has
- *	a virtual table or not and so simplify the 'setSecret' function even more.
- */
+* This example shows that private in C++ is protection only for compile time
+* and not for run time.
+*
+* TODO:
+* - use run time type information in order to determine at runtime if a class has
+*	a virtual table or not and so simplify the 'setSecret' function even more.
+*/
 
 /*
- * This is supposed to be a class which does not allow access to it's secret private,
- * only through accessors...
- */
+* This is supposed to be a class which does not allow access to it's secret private,
+* only through accessors...
+*/
 class A {
 	private:
 		int secret;
@@ -50,8 +50,8 @@ class A {
 		}
 };
 /*
- * A similar class but with virtual methods...
- */
+* A similar class but with virtual methods...
+*/
 class B {
 	private:
 		int secret;
@@ -71,10 +71,10 @@ class B {
 };
 
 /*
- * This is the function that does the fiddling. It touches the object of your choice.
- * In this version you have to tell it whether or not the object passed to it has virtual
- * function or not.
- */
+* This is the function that does the fiddling. It touches the object of your choice.
+* In this version you have to tell it whether or not the object passed to it has virtual
+* function or not.
+*/
 void setSecret(void* a, int val, bool has_virt) {
 	int* p=(int*)a;
 	if(has_virt) {

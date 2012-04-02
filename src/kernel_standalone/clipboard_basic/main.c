@@ -50,24 +50,24 @@ static struct class *my_class;
 struct device* clipboard_device;
 
 /*
- * Open the device. Optional.
- */
+* Open the device. Optional.
+*/
 int clipboard_open(struct inode* inode,struct file* filp) {
 	pr_debug("device is open");
 	return 0;
 }
 
 /*
- * Release the device. Optional as well.
- */
+* Release the device. Optional as well.
+*/
 int clipboard_release(struct inode* inode,struct file* filp) {
 	pr_debug("device is released");
 	return 0;
 }
 
 /*
- * Simply copy data to the user buffer...
- */
+* Simply copy data to the user buffer...
+*/
 ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff_t* offset) {
 	int ret; // error code in case of error
 	int bytes_to_read;
@@ -90,8 +90,8 @@ ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff
 }
 
 /*
- * Simply copy the data from the user buffer...
- */
+* Simply copy the data from the user buffer...
+*/
 ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff_t* offset) {
 	int ret; // error code in case of error
 	int bytes_to_write=min(BUFFER_SIZE-(*offset),(loff_t)count);
@@ -126,8 +126,8 @@ struct file_operations clipboard_fops={
 };
 
 /*
- * Module housekeeping.
- */
+* Module housekeeping.
+*/
 static int __init clipboard_init(void) {
 	int ret; // error code to return in case of error
 	buffer=kmalloc(BUFFER_SIZE,GFP_KERNEL);

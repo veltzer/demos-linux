@@ -23,18 +23,18 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example of an object deallocating itself.
- * The idea is to put a "delete this" at the VERY END of some
- * method.
- * You cannot put this in the destructor since you will cause
- * an infinite regress.
- *
- * What are the problems with this approach ?!?
- * Well - "delete this" requires that the object in question was
- * allocated on the heap and not say, stack or data segment. In
- * that cause doing "delete this" may cause a segfault or maybe
- * even a silent bug which is worse at times.
- */
+* This is an example of an object deallocating itself.
+* The idea is to put a "delete this" at the VERY END of some
+* method.
+* You cannot put this in the destructor since you will cause
+* an infinite regress.
+*
+* What are the problems with this approach ?!?
+* Well - "delete this" requires that the object in question was
+* allocated on the heap and not say, stack or data segment. In
+* that cause doing "delete this" may cause a segfault or maybe
+* even a silent bug which is worse at times.
+*/
 
 class A {
 	private:

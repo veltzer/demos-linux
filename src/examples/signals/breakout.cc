@@ -28,16 +28,16 @@
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 
 /*
- * This demo demostrates how to cause a thread that is stuck in a long system call to
- * break out of it. The idea is to generate a signal and to define that signal as an
- * interrupt signal. This will not cause the system call to be restarted but rather
- * the system call (in this examples case read(2)) will return with an error(-1) and
- * the error code will be -EINTR. On receiving this the main thread will politely exit
- * (throw an exception ?!?).
- *
- * TODO:
- * - turn this into a pure C example.
- */
+* This demo demostrates how to cause a thread that is stuck in a long system call to
+* break out of it. The idea is to generate a signal and to define that signal as an
+* interrupt signal. This will not cause the system call to be restarted but rather
+* the system call (in this examples case read(2)) will return with an error(-1) and
+* the error code will be -EINTR. On receiving this the main thread will politely exit
+* (throw an exception ?!?).
+*
+* TODO:
+* - turn this into a pure C example.
+*/
 
 static int counterUSR1 = 0;
 static int counterUSR2 = 0;

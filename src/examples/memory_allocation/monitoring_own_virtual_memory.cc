@@ -28,11 +28,11 @@
 #include<us_helper.h>
 
 /*
- * This is an example which shows how to monitor your own virtual memory using getrusage
- *
- * Note that if you do not zero the memory (see the bzero call below) then this program
- * works much faster and does not generate and page faults and the usage stays the same.
- */
+* This is an example which shows how to monitor your own virtual memory using getrusage
+*
+* Note that if you do not zero the memory (see the bzero call below) then this program
+* works much faster and does not generate and page faults and the usage stays the same.
+*/
 
 extern char etext, edata, end; /* The symbols must have some type, or "gcc -Wall" complains */
 

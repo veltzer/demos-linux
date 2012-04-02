@@ -23,8 +23,8 @@
 #include<string.h>
 
 /*
- * This is to check some assumptions on bit operations
- */
+* This is to check some assumptions on bit operations
+*/
 
 #define COMB(a, b) (a | b)
 const unsigned int cone = 0x0000f000;

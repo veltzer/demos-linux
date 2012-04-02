@@ -26,11 +26,11 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Reactor examples
- * Timers & state data
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Reactor examples
+* Timers & state data
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class TemperatureSensor {
 	public:

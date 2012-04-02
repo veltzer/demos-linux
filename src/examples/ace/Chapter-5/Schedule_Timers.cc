@@ -26,13 +26,13 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Scheduling timers with the Reactor
- *
- * This example demostrates the scheduling of timers on a reactor and the ability
- * to handle signals at the same time with the same singleton reactor.
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Scheduling timers with the Reactor
+*
+* This example demostrates the scheduling of timers on a reactor and the ability
+* to handle signals at the same time with the same singleton reactor.
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // This is our timer handler which handles some periodic job in the system
 class MyTimerHandler:public ACE_Event_Handler {

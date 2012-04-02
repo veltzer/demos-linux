@@ -25,8 +25,8 @@
 #include<ace/Null_Mutex.h> // for ACE_Null_Mutex
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 typedef ACE_Malloc<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex> ALLOCATOR;
 typedef ACE_Malloc_LIFO_Iterator<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex> MALLOC_LIFO_ITERATOR;

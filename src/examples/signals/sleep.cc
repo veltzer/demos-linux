@@ -24,16 +24,16 @@
 #include<us_helper.h> // for CHECK_ZERO()
 
 /*
- * This is a simple example of calling sleep(3).
- * The idea is to demonstrate that sleep is made out of signal
- * handling functions. strace this executable to see exactly which.
- *
- * Here is the output:
- * rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
- * rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
- * rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
- * nanosleep({5, 0}, 0xbf9db174) = 0
- */
+* This is a simple example of calling sleep(3).
+* The idea is to demonstrate that sleep is made out of signal
+* handling functions. strace this executable to see exactly which.
+*
+* Here is the output:
+* rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
+* rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
+* rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+* nanosleep({5, 0}, 0xbf9db174) = 0
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {

@@ -24,8 +24,8 @@
 #include<stdio.h> // for perror(3)
 
 /*
- * This is a demo of using the GNU C libraries hash table implementation
- */
+* This is a demo of using the GNU C libraries hash table implementation
+*/
 
 // the hash table
 static hsearch_data HTAB;

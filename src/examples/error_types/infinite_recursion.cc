@@ -25,20 +25,20 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This is an example of infinite recursion prevention using setting the stack size
- *
- * Notes:
- * We really have to force the compilers hand into calling the function again and again
- * since we compiler this module in optimized mode.
- *
- * three ways to do this:
- * - put the noinline attribute on the function. This is no good since the compiler
- *	will respect this when other functions call this function but not when this function
- *	calls itself. We could have used this with mutual recursion.
- * - have the function do some side effect. This has the same problems as above. Again,
- *	mutual recursion could have helped.
- * - have the function call itself several times. This saved the day for this example.
- */
+* This is an example of infinite recursion prevention using setting the stack size
+*
+* Notes:
+* We really have to force the compilers hand into calling the function again and again
+* since we compiler this module in optimized mode.
+*
+* three ways to do this:
+* - put the noinline attribute on the function. This is no good since the compiler
+*	will respect this when other functions call this function but not when this function
+*	calls itself. We could have used this with mutual recursion.
+* - have the function do some side effect. This has the same problems as above. Again,
+*	mutual recursion could have helped.
+* - have the function call itself several times. This saved the day for this example.
+*/
 
 void show_stack_size() {
 	static unsigned int print_num=0;

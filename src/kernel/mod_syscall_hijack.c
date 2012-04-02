@@ -30,28 +30,26 @@ MODULE_DESCRIPTION("Module for finding the sys call table");
 #include"kernel_helper.h" // our own helper
 
 /*
- * This driver shows how to find the system call table.
- *
- * references:
- * http://downloads.securityfocus.com/downloads/scprint.tar.gz
- * http://www.epanastasi.com/?page_id=52
- * http://kerneltrap.org/node/5793
- * http://stackoverflow.com/questions/2103315/linux-kernel-system-call-hooking-example
- * http://rootkitanalytics.com/kernelland/syscall-hijack.php
- *
- * If you want to check that this module works then use this from the command line:
- * grep syscall_call /proc/kallsyms
- *
- * or
- *
- * grep sys_call_table /proc/kallsyms
- *
- * TODO:
- * - make finding the sys call table be dynamic and not with the current hard code
- *	address.
- * - how come I don't manage to do this with the set_memory_{rw},{x} etc? They are
- *	supposed to work. Check it out again.
- */
+* This driver shows how to find the system call table.
+*
+* references:
+* http://downloads.securityfocus.com/downloads/scprint.tar.gz
+* http://www.epanastasi.com/?page_id=52
+* http://kerneltrap.org/node/5793
+* http://stackoverflow.com/questions/2103315/linux-kernel-system-call-hooking-example
+* http://rootkitanalytics.com/kernelland/syscall-hijack.php
+*
+* If you want to check that this module works then use this from the command line:
+* grep syscall_call /proc/kallsyms
+* or
+* grep sys_call_table /proc/kallsyms
+*
+* TODO:
+* - make finding the sys call table be dynamic and not with the current hard code
+*	address.
+* - how come I don't manage to do this with the set_memory_{rw},{x} etc? They are
+*	supposed to work. Check it out again.
+*/
 
 // A function to align an address to a page boundary...
 inline unsigned long align_address(unsigned long addr) {

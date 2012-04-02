@@ -22,11 +22,11 @@
 #include<stdio.h> // for printf(3)
 
 /*
- * Compare the version that uses the 'continue' keyword with the version that
- * does not. Which one is shorter? more maintanable? easier to read? easier
- * to change? Sometimes continue is just the right answer. In kernel coding even
- * more so...
- */
+* Compare the version that uses the 'continue' keyword with the version that
+* does not. Which one is shorter? more maintanable? easier to read? easier
+* to change? Sometimes continue is just the right answer. In kernel coding even
+* more so...
+*/
 
 int main(int argc,char** argv,char** envp) {
 	/* without continue... */

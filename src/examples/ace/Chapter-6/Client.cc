@@ -26,8 +26,8 @@
 #include"Client.hh"
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 int Client::open(void *p) {
 	// Two seconds
 	ACE_Time_Value iter_delay(2);

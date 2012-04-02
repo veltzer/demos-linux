@@ -39,8 +39,8 @@ static struct device* my_device;
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	PR_DEBUG("start");
 	switch (cmd) {
@@ -67,8 +67,8 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned lo
 }
 
 /*
- * The release implementation.
- */
+* The release implementation.
+*/
 static int kern_release(struct inode *inode, struct file *filp) {
 	PR_INFO("start");
 	ssleep(2);
@@ -77,8 +77,8 @@ static int kern_release(struct inode *inode, struct file *filp) {
 }
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner=THIS_MODULE,
 	.release=kern_release,

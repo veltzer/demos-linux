@@ -31,8 +31,8 @@
 #include"thread_specific.hh"
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 // Static variables.
 ACE_MT(ACE_Thread_Mutex Errno::lock_);

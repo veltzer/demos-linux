@@ -26,12 +26,12 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Usage example: Time_Value_Class -e 36000 -i 1200
- * Where: 1200 means 20 minutes
- * 36000 means 10 hours
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* Usage example: Time_Value_Class -e 36000 -i 1200
+* Where: 1200 means 20 minutes
+* 36000 means 10 hours
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	const ACE_Time_Value max_interval(60*60); // 1 hour.

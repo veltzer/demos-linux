@@ -22,8 +22,8 @@
 #include<stdio.h> // for printf(3)
 
 /*
- * This example shows how to pass an array by reference in C
- */
+* This example shows how to pass an array by reference in C
+*/
 
 void print_array(double* ar,int size) {
 	int i;

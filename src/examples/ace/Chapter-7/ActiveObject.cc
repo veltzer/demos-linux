@@ -29,8 +29,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 class HA_ControllerAgent {
 	// Proxy to the HA_Controller that is on the network.

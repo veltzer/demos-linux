@@ -24,11 +24,12 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This demos how to use the has supplied with the standard C library...
- *
- * You can see documentation for these functions at
- * man hsearch or info libc under 'hsearch' or 'hash'.
- */
+* This demos how to use the has supplied with the standard C library...
+*
+* You can see documentation for these functions at
+* man hsearch or info libc under 'hsearch' or 'hash'.
+*/
+
 int main(int argc,char** argv,char** envp) {
 	//struct hsearch_data HTAB;
 	//CHECK_NOT_M1(hcreate_r(50,&HTAB));

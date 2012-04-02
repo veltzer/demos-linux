@@ -26,10 +26,10 @@
 #include<us_helper.h> // for CHECK_ZERO()
 
 /*
- * This is a demo for using pthread spin locks...
- *
- * EXTRA_LIBS=-lpthread
- */
+* This is a demo for using pthread spin locks...
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 FILE* pfile=stderr;
 const int loops=3;

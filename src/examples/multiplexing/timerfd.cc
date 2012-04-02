@@ -28,10 +28,10 @@
 #include<stdint.h> // for uint64_t
 
 /*
- * This example was stolen shamelessly from the timerfd_create(2) manpage.
- *
- * EXTRA_LIBS=-lrt
- */
+* This example was stolen shamelessly from the timerfd_create(2) manpage.
+*
+* EXTRA_LIBS=-lrt
+*/
 
 #define handle_error(msg) \
 	do { perror(msg); exit(EXIT_FAILURE); } while(0)

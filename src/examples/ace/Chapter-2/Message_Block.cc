@@ -25,14 +25,14 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This demo shows how to create message blocks, how to set message types, how to create
- * error or hangup message, how to populate message blocks in static or dynamic fashion
- *
- * This demo does not explain what ACE_NEW_RETURN is. See slides or a different example
- * for that...
- *
- * EXTRA_CMDS=pkg-config --cflags --libs ACE
- */
+* This demo shows how to create message blocks, how to set message types, how to create
+* error or hangup message, how to populate message blocks in static or dynamic fashion
+*
+* This demo does not explain what ACE_NEW_RETURN is. See slides or a different example
+* for that...
+*
+* EXTRA_CMDS=pkg-config --cflags --libs ACE
+*/
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// This sections explains how to create a message block with some data in it

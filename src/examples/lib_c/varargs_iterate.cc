@@ -24,16 +24,16 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to code a function that receives a variable
- * number of arguments and iterates them.
- *
- * This example was stolen shamelessly from the stdarg man page.
- *
- * Notes:
- * - va_arg only returns promoted types (these are the widest possible types).
- * This means that if you want a char, get an int and cast it.
- * Same for float <-> double and the like.
- */
+* This example shows how to code a function that receives a variable
+* number of arguments and iterates them.
+*
+* This example was stolen shamelessly from the stdarg man page.
+*
+* Notes:
+* - va_arg only returns promoted types (these are the widest possible types).
+* This means that if you want a char, get an int and cast it.
+* Same for float <-> double and the like.
+*/
 void trace(const char *fmt, ...) {
 	va_list ap;
 	int d;

@@ -29,20 +29,20 @@
 #include<us_helper.h> // for micro_diff
 
 /*
- * This demo shows that the performance of various syscalls.
- * we compare:
- * - gettimeofday(2). worst. always does it's thing and needs to read
- * the system time.
- * - gettid(2). intermediate. not cached.
- * - getpid(2). best since it is cached by glibc.
- * we also show the performance of gettid_cached which is a TLS cached version
- * of gettid and performs much better.
- *
- * How do I know that gcc actually calls getpid or gettid? I see it in the disassemly.
- * (gettimeofday is obviously called)
- *
- * EXTRA_LIBS=-lpthread
- */
+* This demo shows that the performance of various syscalls.
+* we compare:
+* - gettimeofday(2). worst. always does it's thing and needs to read
+* the system time.
+* - gettid(2). intermediate. not cached.
+* - getpid(2). best since it is cached by glibc.
+* we also show the performance of gettid_cached which is a TLS cached version
+* of gettid and performs much better.
+*
+* How do I know that gcc actually calls getpid or gettid? I see it in the disassemly.
+* (gettimeofday is obviously called)
+*
+* EXTRA_LIBS=-lpthread
+*/
 
 pthread_key_t tid_key;
 typedef struct _cached_tid {

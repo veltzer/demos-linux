@@ -30,20 +30,20 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This demos shows how to use sendfile(2) to avoid copy to/from user space.
- * The demo itself is just a simple version of cp(1)
- *
- * It seems that this demo doesn't run properly on 2.6.32 and should run
- * on 2.6.33 or later.
- * On 2.6.38 it works well.
- *
- * Notes:
- * - we send the data page by page and call sendfile(2) many times. This could
- * be avoided using fstat(2) after the open of the input file and sending the
- * entire content at once. On the other hand this could cause performance issues.
- * This needs to be checked. In any case the buffer of a single page size
- * as is used here seems too small for good performace on todays systems.
- */
+* This demos shows how to use sendfile(2) to avoid copy to/from user space.
+* The demo itself is just a simple version of cp(1)
+*
+* It seems that this demo doesn't run properly on 2.6.32 and should run
+* on 2.6.33 or later.
+* On 2.6.38 it works well.
+*
+* Notes:
+* - we send the data page by page and call sendfile(2) many times. This could
+* be avoided using fstat(2) after the open of the input file and sending the
+* entire content at once. On the other hand this could cause performance issues.
+* This needs to be checked. In any case the buffer of a single page size
+* as is used here seems too small for good performace on todays systems.
+*/
 
 void copy_file(const char* filein, const char* fileout) {
 	size_t sendfile_bufsize=getpagesize();

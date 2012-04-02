@@ -25,10 +25,10 @@
 #include<string.h> // for memcpy(3)
 
 /*
- * An example of writing a merge sort algorithm using open mp.
- *
- * EXTRA_COMPILE_FLAGS=-fopenmp
- */
+* An example of writing a merge sort algorithm using open mp.
+*
+* EXTRA_COMPILE_FLAGS=-fopenmp
+*/
 
 void mergesort(int* arr,unsigned int from,unsigned int to,int* scratch) {
 	if(from+1==to) {

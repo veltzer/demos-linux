@@ -19,24 +19,24 @@
 */
 
 /*
- * This application just prints malloc diffs for various malloc allocation.
- * The idea is to use this application as a way to analyze how malloc allocates
- * memory...
- */
+* This application just prints malloc diffs for various malloc allocation.
+* The idea is to use this application as a way to analyze how malloc allocates
+* memory...
+*/
 
 #include<firstinclude.h>
 #include<stdlib.h> // for malloc(3)
 #include<assert.h> // for assert(3)
 
 /*
- * This function guesses the next address that malloc(3) will allocate to your
- * code.
- *
- * This is the basic stuff:
- * - malloc needs at least 16 bytes per chunk.
- * - it also needs at least 3 bytes for it's own internal data.
- * - it will allocate on an 8 byte boundary.
- */
+* This function guesses the next address that malloc(3) will allocate to your
+* code.
+*
+* This is the basic stuff:
+* - malloc needs at least 16 bytes per chunk.
+* - it also needs at least 3 bytes for it's own internal data.
+* - it will allocate on an 8 byte boundary.
+*/
 
 void* guess_next_address(void* prev,unsigned int size) {
 	if(size<8) {

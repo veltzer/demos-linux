@@ -23,8 +23,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This shows how to use preprocessor defines...
- */
+* This shows how to use preprocessor defines...
+*/
 int main(int argc,char** argv,char** envp) {
 #ifdef __GNUC__
 	printf("This means we are in GNUC context\n");

@@ -23,10 +23,10 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is a demo that shows C++ allows to clobber variable names in serveral ways:
- * - inheritance.
- * - local parameters.
- */
+* This is a demo that shows C++ allows to clobber variable names in serveral ways:
+* - inheritance.
+* - local parameters.
+*/
 
 class A {
 	protected:

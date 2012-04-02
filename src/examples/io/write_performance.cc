@@ -29,13 +29,14 @@
 #include<stat.hh> // for Stat(O)
 
 /*
- * This example explores the performance of the write system call...
- *
- * The example is supposed to show that writes to /dev/null have
- * constant performance while writes to a file are different: when
- * the OS buffers are empty they are fast (memcpy to kernel) and when
- * they are full they block...
- */
+* This example explores the performance of the write system call...
+*
+* The example is supposed to show that writes to /dev/null have
+* constant performance while writes to a file are different: when
+* the OS buffers are empty they are fast (memcpy to kernel) and when
+* they are full they block...
+*/
+
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {
 		fprintf(stderr,"usage: %s [filename] [bufsize] [count]\n",argv[0]);
