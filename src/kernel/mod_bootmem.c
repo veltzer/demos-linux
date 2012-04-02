@@ -18,7 +18,6 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
 //#define DEBUG
 #include<linux/module.h> // for MODULE_* stuff
 #include<linux/bootmem.h> // for the bootmem function
