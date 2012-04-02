@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 //#define DEBUG
 #include<linux/module.h> // for MODULE_*
 #include<linux/device.h> // for dev_[warn|info|..]

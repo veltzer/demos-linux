@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #define ACE_TRACE 0
 #include<ace/Task.h>
 #include<stdlib.h> // for EXIT_SUCCESS

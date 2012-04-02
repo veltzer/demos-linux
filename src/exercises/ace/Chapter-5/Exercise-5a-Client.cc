@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/Read_Buffer.h>
 #include<ace/Log_Msg.h>
 #include<ace/SOCK_Connector.h>

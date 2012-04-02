@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 // We must replace Acceptor with Connector
 // #define ACE_NTRACE 0
 #include<ace/config-lite.h>

@@ -24,6 +24,7 @@
  * Much messed with by Gilad Ben-Yossef.
  * Fixed up by Mark Veltzer for newer kernels and added features.
  */
+#include<firstinclude.h>
 #include<linux/module.h>		/* Module API */
 #include<linux/moduleparam.h>		/* Module parameters API */
 #include<linux/kernel.h>		/* printk() */

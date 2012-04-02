@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<sys/types.h> // for opendir(3), closedir(3), rewinddir(3)
 #include<dirent.h> // for opendir(3), readdir(3), closedir(3), rewinddir(3)

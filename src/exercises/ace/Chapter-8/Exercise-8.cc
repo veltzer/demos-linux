@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #define ACE_NTRACE 1
 #include<ace/streams.h>
 #include<ace/Log_Msg.h>

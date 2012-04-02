@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/types.h> // for waitpid(2)
 #include<sys/wait.h> // for waitpid(2)
 #include<unistd.h> // for close(2), dup(2), execl(3), fork(2)

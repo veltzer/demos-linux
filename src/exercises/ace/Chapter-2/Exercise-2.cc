@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ace/OS_NS_stdio.h> // for ACE_STDIN
 #include<ace/Message_Queue.h> // for the two message queues
 #include<ace/Read_Buffer.h> // for the read buffer

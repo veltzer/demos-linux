@@ -21,6 +21,8 @@
 #ifndef __mylib_h
 #define __mylib_h
 
+#include<firstinclude.h>
+
 double myfunc(double);
 
 #endif // __mylib_h

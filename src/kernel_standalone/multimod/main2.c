@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<linux/module.h> // for MODULE_*, module_*
 
 #include"another_file.h" // our own API

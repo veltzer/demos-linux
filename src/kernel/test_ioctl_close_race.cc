@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for fprintf(3), fflush(3)
 #include<unistd.h> // for sleep(3), close(2)
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
