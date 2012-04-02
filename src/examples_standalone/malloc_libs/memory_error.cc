@@ -25,8 +25,8 @@
 #endif // DMALLOC
 
 /*
- * This test program simply simulates various memory errors
- */
+* This test program simply simulates various memory errors
+*/
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {

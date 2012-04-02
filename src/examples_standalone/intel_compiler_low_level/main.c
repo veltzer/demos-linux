@@ -22,8 +22,8 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows the synchronization primitives of the intel compiler
- */
+* This example shows the synchronization primitives of the intel compiler
+*/
 
 int main(int argc,char** argv,char** envp) {
 	// don't remove the prints, they make the disassembly easier to understand...

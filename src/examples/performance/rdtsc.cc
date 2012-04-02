@@ -28,35 +28,36 @@
 #include<us_helper.h>
 
 /*
- * This is a demo which shows how, on i386 platforms, to read the rdtsc
- * register in order to get a high precision timer. Mind you, you must
- * be running on a machine that does not do frequency scaling in order
- * for this to work...
- *
- * TODO:
- * - add reading of the cpu frequency.
- * - add diffing the two values.
- * - add measuring absolute time via the cpu frequency.
- *
- * If you compare the results of this test with the cpu frequency information
- * provided by the OS you will find a slight difference.
- *
- * Where does this difference come from?
- * The sleep(3) call which is called here is handled by the OS using the PIC
- * interrupt handler clock while the RDTSC register that we call is from the
- * CPU internal clock. This means that we are comparing two different clocks!
- * In addition to all of this setting the fact that the CPU reports that it's
- * frequency is 600 MHz doesn't means that it ticks: 600,000,000 (600 million
- * times) per seconds exactly...
- *
- * EXTRA_LIBS=-lcpufreq
- */
+* This is a demo which shows how, on i386 platforms, to read the rdtsc
+* register in order to get a high precision timer. Mind you, you must
+* be running on a machine that does not do frequency scaling in order
+* for this to work...
+*
+* TODO:
+* - add reading of the cpu frequency.
+* - add diffing the two values.
+* - add measuring absolute time via the cpu frequency.
+*
+* If you compare the results of this test with the cpu frequency information
+* provided by the OS you will find a slight difference.
+*
+* Where does this difference come from?
+* The sleep(3) call which is called here is handled by the OS using the PIC
+* interrupt handler clock while the RDTSC register that we call is from the
+* CPU internal clock. This means that we are comparing two different clocks!
+* In addition to all of this setting the fact that the CPU reports that it's
+* frequency is 600 MHz doesn't means that it ticks: 600,000,000 (600 million
+* times) per seconds exactly...
+*
+* EXTRA_LIBS=-lcpufreq
+*/
 void long_task(void) {
 //	const int sleep_time=100;
 //	usleep(sleep_time);
 	sleep(1);
-
 	/*
+	* This doesn't really work since the compiler eliminates
+	* the entire loop when optimizing...:)
 	* const int count=1000000;
 	* for(int i=0;i<count;i++) {
 	* }

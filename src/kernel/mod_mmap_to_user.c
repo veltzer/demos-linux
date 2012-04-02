@@ -36,12 +36,12 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Mmapping kernel allocated memory to user space");
 
 /*
- *	This is a driver that maps memory allocated by the kernel into user space.
- *	The method is a user driven ioctl.
- *	The device does not support the 'mmap' operation (as you can see from its
- *	ops table below) but rather does the equivalent of mmap from it's ioctl
- *	context.
- */
+*	This is a driver that maps memory allocated by the kernel into user space.
+*	The method is a user driven ioctl.
+*	The device does not support the 'mmap' operation (as you can see from its
+*	ops table below) but rather does the equivalent of mmap from it's ioctl
+*	context.
+*/
 
 // static data
 static struct device* my_device;
@@ -128,20 +128,20 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 }
 
 /*
- * static int unmap(unsigned long uadr,unsigned int size) {
- *	int res=do_munmap(current->mm,uadr,size);
- *	if(res) {
- *		PR_ERROR("PR_ERROR: unable to do_munmap");
- *	}
- * return res;
- * }
- */
+* static int unmap(unsigned long uadr,unsigned int size) {
+*	int res=do_munmap(current->mm,uadr,size);
+*	if(res) {
+*		PR_ERROR("PR_ERROR: unable to do_munmap");
+*	}
+* return res;
+* }
+*/
 
 // fops
 
 /*
- * This is the ioctl implementation.
- */
+* This is the ioctl implementation.
+*/
 static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
 	// for results from functions
 	int res;
@@ -149,9 +149,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	PR_DEBUG("start with cmd %d", cmd);
 	switch (cmd) {
 	/*
-	 *	Asking the kernel to mmap into user space.
-	 *	Only argument is size.
-	 */
+	*	Asking the kernel to mmap into user space.
+	*	Only argument is size.
+	*/
 	case IOCTL_DEMO_MAP:
 		PR_DEBUG("trying to mmap");
 		size = arg;
@@ -171,9 +171,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		return(uptr);
 
 	/*
-	 *	Asking the kernel to munmap user space.
-	 *	No arguments are required.
-	 */
+	*	Asking the kernel to munmap user space.
+	*	No arguments are required.
+	*/
 	case IOCTL_DEMO_UNMAP:
 		PR_DEBUG("trying to munmap");
 		res = do_munmap(current->mm, uptr, size);
@@ -190,9 +190,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		return(0);
 
 	/*
-	 *	Asking the kernel to write to the buffer.
-	 *	One argument which is the value to write.
-	 */
+	*	Asking the kernel to write to the buffer.
+	*	One argument which is the value to write.
+	*/
 	case IOCTL_DEMO_WRITE:
 		if (kptr == NULL) {
 			PR_ERROR("ERROR: kptr is NULL?!?");
@@ -202,9 +202,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		return(0);
 
 	/*
-	 *	Asking the kernel to check that the buffer is a certain value.
-	 *	One argument which is the value to check.
-	 */
+	*	Asking the kernel to check that the buffer is a certain value.
+	*	One argument which is the value to check.
+	*/
 	case IOCTL_DEMO_READ:
 		if (kptr == NULL) {
 			PR_ERROR("ERROR: kptr is NULL?!?");
@@ -213,9 +213,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		return(memcheck(kptr, arg, size));
 
 	/*
-	 *	Asking the kernel to copy the in kernel buffer to user space.
-	 *	One argument which is the pointer to the user space buffer.
-	 */
+	*	Asking the kernel to copy the in kernel buffer to user space.
+	*	One argument which is the pointer to the user space buffer.
+	*/
 	case IOCTL_DEMO_COPY:
 		if (kptr == NULL) {
 			PR_ERROR("ERROR: kptr is NULL?!?");
@@ -228,8 +228,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 
 
 /*
- *	VMA ops
- */
+*	VMA ops
+*/
 static void kern_vma_open(struct vm_area_struct *vma) {
 	PR_DEBUG("start");
 	PR_DEBUG("vma->start is %lu , %lx", vma->vm_start, vma->vm_start);
@@ -272,41 +272,41 @@ static struct vm_operations_struct kern_vm_ops = {
 };
 
 /*
- * The mmap implementation.
- */
+* The mmap implementation.
+*/
 static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	/*
-	 *	// size of memory to map
-	 *	unsigned int size;
-	 *	// for the physical address
-	 *	unsigned long phys;
-	 *	// for the starting page number
-	 *	unsigned int pg_num;
-	 *	// for return values
-	 *	int ret;
-	 *
-	 *	size=vma->vm_end-vma->vm_start;
-	 *	phys=virt_to_phys(kadr);
-	 *	pg_num=phys >> PAGE_SHIFT;
-	 *	PR_DEBUG("size is %d",size);
-	 *	PR_DEBUG("kadr is %p",kadr);
-	 *	PR_DEBUG("phys is %lx",phys);
-	 *	PR_DEBUG("pg_num is %d",pg_num);
-	 *	PR_DEBUG("vm_start is %lx",vma->vm_start);
-	 *	PR_DEBUG("vm_end is %lx",vma->vm_end);
-	 *	PR_DEBUG("vm_pgoff is %lx",vma->vm_pgoff);
-	 *	ret=remap_pfn_range(
-	 *		vma, // into which vma
-	 *		vma->vm_start, // where in the vma
-	 *		pg_num, // which starting physical page
-	 *		size, // how much to map (in bytes)
-	 *		vma->vm_page_prot // what protection to give
-	 *	);
-	 *	if(ret) {
-	 *		PR_ERROR("ERROR: could not remap_pfn_range");
-	 *		return ret;
-	 *	}
-	 */
+	*	// size of memory to map
+	*	unsigned int size;
+	*	// for the physical address
+	*	unsigned long phys;
+	*	// for the starting page number
+	*	unsigned int pg_num;
+	*	// for return values
+	*	int ret;
+	*
+	*	size=vma->vm_end-vma->vm_start;
+	*	phys=virt_to_phys(kadr);
+	*	pg_num=phys >> PAGE_SHIFT;
+	*	PR_DEBUG("size is %d",size);
+	*	PR_DEBUG("kadr is %p",kadr);
+	*	PR_DEBUG("phys is %lx",phys);
+	*	PR_DEBUG("pg_num is %d",pg_num);
+	*	PR_DEBUG("vm_start is %lx",vma->vm_start);
+	*	PR_DEBUG("vm_end is %lx",vma->vm_end);
+	*	PR_DEBUG("vm_pgoff is %lx",vma->vm_pgoff);
+	*	ret=remap_pfn_range(
+	*		vma, // into which vma
+	*		vma->vm_start, // where in the vma
+	*		pg_num, // which starting physical page
+	*		size, // how much to map (in bytes)
+	*		vma->vm_page_prot // what protection to give
+	*	);
+	*	if(ret) {
+	*		PR_ERROR("ERROR: could not remap_pfn_range");
+	*		return ret;
+	*	}
+	*/
 	// pointer for already allocated memory
 	void *kadr;
 
@@ -322,8 +322,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 }
 
 /*
- * The file operations structure.
- */
+* The file operations structure.
+*/
 static struct file_operations my_fops = {
 	.owner=THIS_MODULE,
 	.unlocked_ioctl=kern_unlocked_ioctll,

@@ -25,12 +25,12 @@
 #include<us_helper.h> // for TRACE()
 
 /*
- * EXTRA_LIBS=-lpthread
- */
+* EXTRA_LIBS=-lpthread
+*/
 
 /*
- * This is out thread function for when we'll do multi threading...
- */
+* This is out thread function for when we'll do multi threading...
+*/
 void *worker(void *p) {
 	TRACE("start");
 	sleep(1);
@@ -39,8 +39,8 @@ void *worker(void *p) {
 }
 
 /*
- * This is an empty testing application
- */
+* This is an empty testing application
+*/
 int main(int argc,char** argv,char** envp) {
 	TRACE("begin");
 	// fork so that we will see if the hooks are called

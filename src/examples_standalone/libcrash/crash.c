@@ -67,17 +67,17 @@ inline pid_t gettid(void) {
 }
 
 /* Get a backtrace from a signal handler.
- * array is place to put array
- * size is it's size
- * context is a pointer to the mysterious signal ahndler 3rd parameter with the registers
- * distance is the distance is calls from the signal handler
- *
- */
+* array is place to put array
+* size is it's size
+* context is a pointer to the mysterious signal ahndler 3rd parameter with the registers
+* distance is the distance is calls from the signal handler
+*
+*/
 inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_t * context, unsigned int distance) {
 
 	/* WARNING: If you ever remove the inline from the function prototype,
-	 * adjust this to match!!!
-	 */
+	* adjust this to match!!!
+	*/
 #define IP_STACK_FRAME_NUMBER (3)
 
 	unsigned int ret = backtrace(array, size);
@@ -86,21 +86,21 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 	assert(distance <= size);
 
 	/* OK, here is the tricky part:
-	 *
-	 * Linux signal handling on some archs works by the kernel replacing, in situ, the
-	 * return address of the faulting function on the faulting thread user space stack with
-	 * that of the Glibc signal unwind handling routine and coercing user space to just to
-	 * glibc signal handler preamble. Later the signal unwind handling routine undo this.
-	 *
-	 * What this means for us is that the backtrace we get is missing the single most important
-	 * bit of information: the addres of the faulting function.
-	 *
-	 * We get it back using the undocumented 3rs parameter to the signal handler call back
-	 * with used in it's SA_SIGINFO form which contains access to the registers kept during
-	 * the fault. We grab the IP from there and 'fix' the backtrace.
-	 *
-	 * This needs to be different per arch, of course.
-	 */
+	*
+	* Linux signal handling on some archs works by the kernel replacing, in situ, the
+	* return address of the faulting function on the faulting thread user space stack with
+	* that of the Glibc signal unwind handling routine and coercing user space to just to
+	* glibc signal handler preamble. Later the signal unwind handling routine undo this.
+	*
+	* What this means for us is that the backtrace we get is missing the single most important
+	* bit of information: the addres of the faulting function.
+	*
+	* We get it back using the undocumented 3rs parameter to the signal handler call back
+	* with used in it's SA_SIGINFO form which contains access to the registers kept during
+	* the fault. We grab the IP from there and 'fix' the backtrace.
+	*
+	* This needs to be different per arch, of course.
+	*/
 
 #ifdef __i386__
 	array[distance] = (void *)(context->uc_mcontext.gregs[REG_EIP]);
@@ -114,16 +114,16 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 
 
 /* The fault handler function.
- *
- * OK. The rules of the battle are those:
- *
- * 1. Can't use any function that relies on malloc and friends working as the malloc arena may be corrupt.
- * 2. Can only use a the POSIX.1-2003 list of async-safe functions.
- * 3. Some of the functions on the list are not always safe (like fork when atfork() is used),
- * so need to avoid these also.
- * 4. No locking allowed. We don't know in what state the process/thread was when the exception
- * occured.
- */
+*
+* OK. The rules of the battle are those:
+*
+* 1. Can't use any function that relies on malloc and friends working as the malloc arena may be corrupt.
+* 2. Can only use a the POSIX.1-2003 list of async-safe functions.
+* 3. Some of the functions on the list are not always safe (like fork when atfork() is used),
+* so need to avoid these also.
+* 4. No locking allowed. We don't know in what state the process/thread was when the exception
+* occured.
+*/
 void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 	int i, ret;
 
@@ -146,7 +146,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 			CRASH_MAX_BACKTRACE_DEPTH, context, 0);
 
 	/* Grab the kernel thread id. Because signal handler are shared between all
-	 * threads of the same process, this can only be doen in fault time. */
+	* threads of the same process, this can only be doen in fault time. */
 
 	g_crash_msg.thread_id = gettid();
 
@@ -175,19 +175,19 @@ retry_write:
 	ret = write(g_logfd, &g_crash_msg, sizeof(g_crash_msg));
 
 	/* If we got interrupt by a signal, retry the write.
-	 * This shouldn't really happen since we mask all signals
-	 * during the handler run via sigaction sa_mask field but
-	 * it can't hurt to test.
-	 *
-	 * It's useless to test for any other condition since we
-	 * can't do anything if we fail
-	 */
+	* This shouldn't really happen since we mask all signals
+	* during the handler run via sigaction sa_mask field but
+	* it can't hurt to test.
+	*
+	* It's useless to test for any other condition since we
+	* can't do anything if we fail
+	*/
 	if(ret && EINTR==errno) goto retry_write;
 
 	/* We use backtrace_symbols_fd rather then backtrace_symbols since
-	 * the latter uses malloc to allocate memory and if we got here
-	 * because of malloc arena curroption we'll double fault.
-	 */
+	* the latter uses malloc to allocate memory and if we got here
+	* because of malloc arena curroption we'll double fault.
+	*/
 	backtrace_symbols_fd(g_crash_msg.backtrace, g_crash_msg.num_backtrace_frames, g_logfd);
 
 	close(g_logfd);
@@ -209,11 +209,11 @@ int set_cloexec_flag (int desc, int value)
 	int oldflags = fcntl(desc, F_GETFD, 0);
 
 	/* If reading the flags failed, return error indication now. */
-	 if (oldflags < 0) {
-		 return oldflags;
-	 }
+	if (oldflags < 0) {
+		return oldflags;
+	}
 
-	 /* Set just the flag we want to set. */
+	/* Set just the flag we want to set. */
 	if (value != 0) {
 		oldflags |= FD_CLOEXEC;
 	} else {
@@ -225,9 +225,9 @@ int set_cloexec_flag (int desc, int value)
 }
 
 /* Registration function. Needs to be called once by each process (not thread)
- * process_name is argv[0] or whatever you'd like.
- * assert_buf_ptr needs to point to the 128 byte assert buffer.
- * */
+* process_name is argv[0] or whatever you'd like.
+* assert_buf_ptr needs to point to the 128 byte assert buffer.
+*/
 int register_crash_handler(const char * process_name, unsigned char * assert_buf_ptr)
 {
 	struct sigaction act;	/* Signal handler register struct */

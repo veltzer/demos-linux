@@ -24,8 +24,8 @@
 #include<us_helper.h> // for micro_diff
 
 /*
- * Same example the example for gcc but now for the Intel compiler...
- */
+* Same example the example for gcc but now for the Intel compiler...
+*/
 
 #define myrestrict restrict
 //#define myrestrict

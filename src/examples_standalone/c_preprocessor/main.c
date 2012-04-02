@@ -22,13 +22,13 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This is an example shows how to determine an include file at compile time
- * in a way which is dependant on compile time macros. You could do this using
- * #ifdef but the idea is that you do not want to change this could as you add
- * more include files.
- *
- * Stolen from compiler-gcc.h from the kernel.
- */
+* This is an example shows how to determine an include file at compile time
+* in a way which is dependant on compile time macros. You could do this using
+* #ifdef but the idea is that you do not want to change this could as you add
+* more include files.
+*
+* Stolen from compiler-gcc.h from the kernel.
+*/
 
 #define __quote(x) #x
 #define _myheader(y) __quote(header_##y.h)

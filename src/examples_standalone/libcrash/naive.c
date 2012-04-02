@@ -217,8 +217,8 @@ int main(int argc,char** argv,char** envp) {
 }
 
 /* This function generaters a fault.
- * We try to REALLY be nasty and screw things up bad.
- */
+* We try to REALLY be nasty and screw things up bad.
+*/
 
 void croak(void) {
 	int *ip = (int *) 17;
@@ -233,9 +233,9 @@ void croak(void) {
 }
 
 /* A filler function so that we'll have a meanigful stack.
- * The volatile int is used to keep the compiler from optimizing
- * this function away
- */
+* The volatile int is used to keep the compiler from optimizing
+* this function away
+*/
 
 void die(void) {
 	volatile int i= 12;

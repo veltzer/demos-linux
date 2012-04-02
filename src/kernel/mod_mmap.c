@@ -81,8 +81,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	PR_DEBUG("start");
 	switch (cmd) {
 		/*
-		 * Exploring VMA issues
-		 */
+		* Exploring VMA issues
+		*/
 		case IOCTL_MMAP_PRINT:
 			ptr = (void *)arg;
 			PR_DEBUG("ptr is %p", ptr);
@@ -99,8 +99,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return 0;
 
 		/*
-		 * This is asking the kernel to read the memory
-		 */
+		* This is asking the kernel to read the memory
+		*/
 		case IOCTL_MMAP_READ:
 			PR_DEBUG("starting to read");
 			memcpy(str, vaddr, 256);
@@ -109,17 +109,17 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return 0;
 
 		/*
-		 * This is asking the kernel to write the memory
-		 */
+		* This is asking the kernel to write the memory
+		*/
 		case IOCTL_MMAP_WRITE:
 			PR_DEBUG("starting to write");
 			memset(vaddr, arg, size);
 			return 0;
 
 		/*
-		 * This demos how to take the user space pointer and turn it
-		 * into a kernel space pointer
-		 */
+		* This demos how to take the user space pointer and turn it
+		* into a kernel space pointer
+		*/
 		case IOCTL_MMAP_WRITE_USER:
 			PR_DEBUG("starting to write using us pointer");
 			ptr = (void *)arg;
@@ -127,8 +127,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return 0;
 
 		/*
-		 * mmap a region
-		 */
+		* mmap a region
+		*/
 		case IOCTL_MMAP_MMAP:
 			PR_DEBUG("trying to mmap");
 			if (do_kmalloc) {
@@ -156,8 +156,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return(addr);
 
 		/*
-		 * unmap a region
-		 */
+		* unmap a region
+		*/
 		case IOCTL_MMAP_UNMAP:
 			PR_DEBUG("trying to unmap");
 			vma = find_vma(current->mm, addr);
@@ -177,8 +177,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return(ret);
 
 		/*
-		 * The the size of the region
-		 */
+		* The the size of the region
+		*/
 		case IOCTL_MMAP_SETSIZE:
 			PR_DEBUG("setting the size");
 			ioctl_size = arg;
@@ -256,8 +256,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	PR_DEBUG("size is %d", size);
 
 	/*
-	 * This code uses kmalloc
-	 */
+	* This code uses kmalloc
+	*/
 	if (do_kmalloc) {
 		// calculate number of pages needed
 		pages = size / PAGE_SIZE;
@@ -273,8 +273,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 #endif // DO_RESERVE
 	} else {
 		/*
-		 * This code used __get_free_pages
-		 */
+		* This code used __get_free_pages
+		*/
 		order = get_order(size);
 		addr = __get_free_pages(
 			GFP_KERNEL,

@@ -46,15 +46,15 @@
 #include<signal.h> // for sighandler_t
 
 /*
- * Stringify macros - helps you turn anything into a string
- * Need to explain how this works...
- */
+* Stringify macros - helps you turn anything into a string
+* Need to explain how this works...
+*/
 #define __stringify_1(x) # x
 #define __stringify(x) __stringify_1(x)
 
 /*
- * getting a thread id (glibc doesnt have this)
- */
+* getting a thread id (glibc doesnt have this)
+*/
 static inline pid_t gettid(void) {
 	return(syscall(SYS_gettid));
 }
@@ -72,8 +72,8 @@ static inline unsigned int min(unsigned int a, unsigned int b) {
 }
 
 /*
- * Functions which handle the RDTSC
- */
+* Functions which handle the RDTSC
+*/
 
 typedef unsigned long long ticks_t;
 
@@ -111,11 +111,10 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 }
 
 /*
- * A system call handler, will take care of all those pesky error values
- * and will throw an exception if any of them pops up.
- * I removed "throw new std::exception();" from the following functions.
- */
-// check functions start here
+* A system call handler, will take care of all those pesky error values
+* and will throw an exception if any of them pops up.
+* I removed "throw new std::exception();" from the following functions.
+*/
 static inline void check_zero(int val,const char* msg,const char* base_file,const char* file,const int line) {
 	if (val != 0) {
 		fprintf(stderr,"command is %s\n",msg);
@@ -331,10 +330,10 @@ static inline void print_stats(pid_t pid) {
 }
 
 /*
- * An enhanced system(3) version which also:
- * - accepts variable argument and does the substitution.
- * - checks for errors on return from system(3)
- */
+* An enhanced system(3) version which also:
+* - accepts variable argument and does the substitution.
+* - checks for errors on return from system(3)
+*/
 static inline void my_system(const char *fmt, ...) {
 	const unsigned int cmd_size=1024;
 	char str[cmd_size];

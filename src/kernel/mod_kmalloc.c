@@ -51,10 +51,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	PR_DEBUG("start");
 	switch (cmd) {
 	/*
-	 * kmalloc function.
-	 *
-	 * One argument which is the size to allocate
-	 */
+	* kmalloc function.
+	*
+	* One argument which is the size to allocate
+	*/
 	case IOCTL_DEMO_KMALLOC:
 		size = arg * PAGE_SIZE;
 		ptr = kmalloc(GFP_KERNEL, size);
@@ -72,10 +72,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		ptr = NULL;
 		return(0);
 	/*
-	 * __get_free_pages function.
-	 *
-	 * One argument which is the size to allocate
-	 */
+	* __get_free_pages function.
+	*
+	* One argument which is the size to allocate
+	*/
 	case IOCTL_DEMO_GET_FREE_PAGES:
 		size = arg * PAGE_SIZE;
 		addr = __get_free_pages(GFP_KERNEL, get_order(size));
@@ -93,8 +93,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		addr = -1;
 		return(0);
 	/*
-	 * PCI allocation function
-	 */
+	* PCI allocation function
+	*/
 	case IOCTL_DEMO_PCI_ALLOC_CONSISTENT:
 		size = arg * PAGE_SIZE;
 		ptr = pci_alloc_consistent(NULL, size, &dma_handle);

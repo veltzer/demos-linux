@@ -241,8 +241,10 @@ check_exit:
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	-@./scripts/pgrep.pl "\t " ".*\.cc" `find . -name "*.cc"`
-	-@./scripts/pgrep.pl " \t" ".*\.cc" `find . -name "*.cc"`
+	-@./scripts/grep.py "\\t | \\t|  |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src
+#-@./scripts/grep.py "^ |\\t | \\t|  |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src
+#-@./scripts/pgrep.pl "\t " ".*\.cc" `find . -name "*.cc"`
+#-@./scripts/pgrep.pl " \t" ".*\.cc" `find . -name "*.cc"`
 .PHONY: check_all
 check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep
 

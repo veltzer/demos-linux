@@ -164,8 +164,8 @@ static struct block_device_operations sbd_ops = {
 
 static int __init sbd_init(void) {
 	/*
-	 * Set up our internal device.
-	 */
+	* Set up our internal device.
+	*/
 	Device.size = nsectors * logical_block_size;
 	// setup a spin lock to be used for the device
 	spin_lock_init(&Device.lock);
@@ -174,23 +174,23 @@ static int __init sbd_init(void) {
 	if (Device.data == NULL)
 		return -ENOMEM;
 	/*
-	 * Get a request queue.
-	 */
+	* Get a request queue.
+	*/
 	Queue = blk_init_queue(sbd_request, &Device.lock);
 	if (Queue == NULL)
 		goto out_free;
 	blk_queue_logical_block_size(Queue, logical_block_size);
 	/*
-	 * Get registered.
-	 */
+	* Get registered.
+	*/
 	major_num = register_blkdev(major_num, "sbd");
 	if (major_num <= 0) {
 		printk(KERN_WARNING "sbd: unable to get major number\n");
 		goto out_queue;
 	}
 	/*
-	 * And the gendisk structure.
-	 */
+	* And the gendisk structure.
+	*/
 	Device.gd = alloc_disk(16);
 	if (!Device.gd)
 		goto out_unregister;

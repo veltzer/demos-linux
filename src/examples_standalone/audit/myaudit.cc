@@ -22,10 +22,10 @@
 #include<stdio.h>
 
 /*
- * This is a demo of how to use the auditing API of the GNU dynamic linker
- * See "man rtld-audit" for more details
- * Most of the code here was stolen and fixed from that manual entry...
- */
+* This is a demo of how to use the auditing API of the GNU dynamic linker
+* See "man rtld-audit" for more details
+* Most of the code here was stolen and fixed from that manual entry...
+*/
 
 unsigned int la_version(unsigned int version) {
 	printf("la_version(): %d\n", version);
