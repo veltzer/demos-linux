@@ -18,31 +18,17 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#ifndef __firstinclude_h
+#define __firstinclude_h
+
+/* THIS IS C FILE, NO C++ here */
 
 /*
- * This example explores the funky eh_frame
- *
- * TODO:
- *	What does this demo do ? try to find out and document it...
+ * This is the first file you should include
  */
 
-class A {
-public:
-	static void inner(void) {
-		printf("Hello\n");
-	}
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
+#endif // _GNU_SOURCE
 
-
-	void doit(void) {
-		inner();
-	}
-};
-
-int main(int argc,char** argv,char** envp) {
-	A a;
-	a.doit();
-	return EXIT_SUCCESS;
-}
+#endif /* !__firstinclude_h */

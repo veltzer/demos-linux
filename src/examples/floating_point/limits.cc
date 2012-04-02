@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<values.h> // for MAXINT, MININT, MAXFLOAT, MINFLOAT, MAXDOUBLE, MINDOUBLE
 #include<stdlib.h> // for EXIT_SUCCESS

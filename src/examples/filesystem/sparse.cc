@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for perror(3)
 #include<unistd.h>
 #include<string.h> // for memset(3)

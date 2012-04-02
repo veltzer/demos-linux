@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<iostream> // for std::cerr, std::endl
 #include<signal.h> // for sigemptyset(2), sigaddset(2), sigprocmask(2), raise(3), kill(2)
 #include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS

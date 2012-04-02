@@ -18,11 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-
-#include<us_helper.h>
+#include<firstinclude.h>
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for my_system()
 
 /*
  * This example shows how you can write C functions in C++ code.

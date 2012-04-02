@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<aio.h> // for aio_read(3), aio_suspend(3), aio_return(3)
 #include<strings.h> // for bzero(3)

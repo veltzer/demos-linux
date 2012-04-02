@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<string.h> // for strtok_r(3)
 #include<sys/types.h> // for open(2)
@@ -25,8 +26,7 @@
 #include<fcntl.h> // for open(2)
 #include<unistd.h> // for read(2), close(2)
 #include<stdlib.h> // for stof(3)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This demo shows how to get the uptime of the machine...

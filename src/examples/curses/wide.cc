@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<ncursesw/ncurses.h>
 #include<stdio.h>
 #include<stdlib.h>

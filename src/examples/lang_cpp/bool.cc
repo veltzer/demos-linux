@@ -18,10 +18,11 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<stdbool.h> // for bool, true and false
-
-#include<us_helper.h>
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for __stringify()
 
 /*
  * This is a demo of how to use the _Bool and stdbool.h headers for
@@ -32,6 +33,7 @@
  * _Bool is bool which is a built in type and true and false are built
  * ins.
  */
+
 int main(int argc,char** argv,char** envp) {
 	printf("sizeof(_Bool) is %d\n",sizeof(_Bool));
 	printf("sizeof(bool) is %d\n",sizeof(bool));

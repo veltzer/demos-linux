@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<sys/types.h> // for ftok(3)
 #include<sys/ipc.h> // for ftok(3)
 #include<stdio.h> // for printf(3)

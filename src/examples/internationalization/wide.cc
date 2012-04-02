@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for wprintf(3)
 #include<wchar.h> // for wprintf(3)
 #include<locale.h> // for setlocale(3)

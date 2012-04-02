@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3), fprintf(3)
 #include<strings.h> // for bzero(3)
 #include<stdlib.h> // for malloc(3), atoi(3)
 #include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
-
-#include<us_helper.h> // our own helper
-#include<stat.hh> // our own helper
+#include<us_helper.h> // for CHECK_NOT_M1()
+#include<stat.hh> // for Stat(O)
 
 /*
  * This example explores the performance of the write system call...
@@ -35,8 +35,6 @@
  * constant performance while writes to a file are different: when
  * the OS buffers are empty they are fast (memcpy to kernel) and when
  * they are full they block...
- *
- * EXTRA_LIBS=
  */
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {

@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<execinfo.h> // for backtrace(3), backtrace_symbols(3), backtrace_symbols_fd(3)
 #include<signal.h> // for signal(2)
 #include<stdio.h> // for perror(3), fprintf(3)
 #include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_SIGT()
 
 /*
  * This exapmle shows how to obtain a stack trace for various purposes (mostly
@@ -88,11 +88,7 @@ void print_trace(bool full) {
 	backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 
 	/*
-	* strings=backtrace_symbols(buffer, nptrs);
-	* if (strings == NULL) {
-	*	perror("backtrace_symbols");
-	*	exit(EXIT_FAILURE);
-	* }
+	* CHECK_NOT_NULL(strings=backtrace_symbols(buffer, nptrs));
 	* for(j=0;j<nptrs;j++)
 	*	fprintf(stderr,"%s\n", strings[j]);
 	* free(strings);
@@ -123,12 +119,7 @@ void print_trace_sighandler(int sig) {
  * Signal handler registration function
  */
 void trace_register(void) {
-	old_handler=signal(SIGSEGV, print_trace_sighandler);
-	if (old_handler == SIG_ERR) {
-		perror("could not register signal...");
-		exit(EXIT_FAILURE);
-	}
-
+	CHECK_NOT_SIGT(old_handler=signal(SIGSEGV, print_trace_sighandler),SIG_ERR);
 	/*
 	* struct sigaction sa;
 	* memset(sa,0,sizeof(struct sigaction));

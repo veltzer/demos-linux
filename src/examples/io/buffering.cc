@@ -18,6 +18,7 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for printf(3), remove(3), __flbf(3), __fbufsize(3), fclose(3)
 #include<stdlib.h> // for exit(3), EXIT_FAILURE
 #include<stdio_ext.h> // for __flbf(3), __fbufsize(3)

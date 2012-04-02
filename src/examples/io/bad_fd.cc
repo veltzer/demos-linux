@@ -18,9 +18,11 @@
 	02111-1307 USA.
 */
 
+#include<firstinclude.h>
 #include<stdio.h> // for perror(3)
 #include<unistd.h> // for read(2), getdtablesize(2)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This is an example of what happens when you read from a bad fd.
@@ -35,11 +37,6 @@ int main(int argc,char** argv,char** envp) {
 	const size_t SIZE = 5;
 	const int BAD_FD = getdtablesize()+1;
 	char buf[SIZE];
-	ssize_t s = read(BAD_FD, buf, SIZE);
-
-	if (s == -1) {
-		perror("read");
-		return(-1);
-	}
+	CHECK_NOT_M1(read(BAD_FD, buf, SIZE));
 	return EXIT_SUCCESS;
 }
