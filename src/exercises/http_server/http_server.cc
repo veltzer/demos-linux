@@ -19,32 +19,17 @@
 */
 
 #include<firstinclude.h>
-#include<sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
-#include<sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
-#include<strings.h> // for bzero(3)
-#include<stdio.h> // for perror(3), printf(3), atoi(3)
-#include<errno.h> // for errno
-#include<netdb.h> // for getservbyname(3)
-#include<arpa/inet.h> // for ntohs(3)
+#include<stdio.h> // for printf(3)
+#include<sys/epoll.h> // for epoll_create(2), epoll_ctl(2), epoll_wait(2)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include<sys/types.h> // for accept4(2)
+#include<sys/socket.h> // for accept4(2)
+#include<netinet/in.h> // for sockaddr_in
+#include<us_helper.h> // for CHECK_NOT_M1()
+#include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
 #include<unistd.h> // for read(2), close(2)
-#include<pthread.h> // for pthread_create(3)
-#include<netinet/in.h> // for sockaddr_in, inet_addr(3)
-#include<arpa/inet.h> // for inet_addr(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_NOT_NULL()
-
-/*
-* This is a demo of a simple echo socket server implementation in pure C
-* in Linux
-*
-* EXTRA_LIBS=-lpthread
-*/
-
-//const unsigned int port=7000;
-const char* serv_name="http-alt";
-const char* serv_proto="tcp";
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
@@ -58,35 +43,6 @@ int get_backlog() {
 	return atoi(buf);
 }
 
-void print_servent(struct servent* p_servent) {
-	printf("name is %s\n",p_servent->s_name);
-	printf("proto is %s\n",p_servent->s_proto);
-	printf("port is %d (network order its %d)\n",ntohs(p_servent->s_port),p_servent->s_port);
-}
-
-void *worker(void* arg) {
-	int fd=*((int*)arg);
-	TRACE("thread %d starting",gettid());
-	TRACE("thread %d got fd %d",gettid(),fd);
-	const unsigned int buflen=1024;
-	char buff[buflen];
-	char prbuff[buflen+1];
-	ssize_t res;
-	CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
-	snprintf(prbuff,res+1,"%s",buff);
-	TRACE("thread %d received %s",gettid(),prbuff);
-	while(res!=0) {
-		TRACE("thread %d sending %s",gettid(),buff);
-		CHECK_NOT_M1(send(fd,buff,res,0));
-		CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
-		snprintf(prbuff,res+1,"%s",buff);
-		TRACE("thread %d received %s",gettid(),prbuff);
-	}
-	CHECK_NOT_M1(close(fd));
-	TRACE("thread %d ending",gettid());
-	return NULL;
-}
-
 int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {
 		fprintf(stderr,"usage: %s [host] [port]\n",argv[0]);
@@ -95,11 +51,6 @@ int main(int argc,char** argv,char** envp) {
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);
 	printf("contact me at host %s port %d\n",host,port);
-
-	// lets get the port number using getservbyname(3)
-	//struct servent* p_servent;
-	//CHECK_NOT_NULL(p_servent=getservbyname(serv_name,serv_proto));
-	//print_servent(p_servent);
 
 	// lets open the socket
 	int sockfd;
@@ -131,16 +82,42 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(listen(sockfd,backlog));
 	printf("listen was successful\n");
 
+	// create the epoll fd
+	const unsigned int max_events=10;
+	int epollfd;
+	CHECK_NOT_M1(epollfd=epoll_create(max_events));
+
+	// add the listening socket to it
+	struct epoll_event ev;
+	ev.events=EPOLLIN;
+	ev.data.fd=sockfd;
+	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sockfd, &ev));
+
+	// go into the endless service loop
 	while(true) {
-		int fd;
-		struct sockaddr_in client;
-		socklen_t addrlen;
-		CHECK_NOT_M1(fd=accept(sockfd,(struct sockaddr *)&client,&addrlen));
-		printf("accepted fd %d\n",fd);
-		// spawn a thread to handle the connection to that client...
-		pthread_t thread;
-		int* p=new int(fd);
-		CHECK_ZERO(pthread_create(&thread, NULL, worker, p));
+		struct epoll_event events[max_events];
+		int nfds;
+		CHECK_NOT_M1(nfds=epoll_wait(epollfd, events, max_events, -1));
+		for(int n=0;n<nfds;n++) {
+			if(events[n].data.fd==sockfd) {
+				int conn_sock;
+				struct sockaddr_in local;
+				socklen_t addrlen;
+				CHECK_NOT_M1(conn_sock=accept4(sockfd,(struct sockaddr*)&local,&addrlen,SOCK_NONBLOCK));
+				struct epoll_event ev;
+				ev.events=EPOLLIN|EPOLLET;
+				ev.data.fd=conn_sock;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
+			} else {
+				TRACE("got activity on fd %d",events[n].data.fd);
+				const int buflen=1024;
+				char buffer[buflen];
+				int len;
+				int fd=events[n].data.fd;
+				CHECK_NOT_M1(len=read(fd,buffer,buflen));
+				CHECK_NOT_M1(write(fd,buffer,len));
+			}
+		}
 	}
 	return EXIT_SUCCESS;
 }
