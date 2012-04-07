@@ -113,110 +113,71 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 * and will throw an exception if any of them pops up.
 * I removed "throw new std::exception();" from the following functions.
 */
+static inline void handle_error(int val,const char* msg,const char* base_file,const char* file,const int line) {
+	int save_errno=errno;
+	fprintf(stderr,"command is %s\n",msg);
+	fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
+	if(save_errno!=0) {
+		perror("error in system call");
+	} else {
+		fprintf(stderr,"error: %s\n",strerror(val));
+	}
+	exit(EXIT_FAILURE);
+}
 static inline void check_zero(int val,const char* msg,const char* base_file,const char* file,const int line) {
 	if (val != 0) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: %s\n",strerror(val));
-		}
-		exit(EXIT_FAILURE);
+		handle_error(val,msg,base_file,file,line);
 	}
 }
 
 static inline void check_not_m1(int val,const char* msg,const char* base_file,const char* file,const int line) {
 	if (val ==-1 ) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: %s\n",strerror(val));
-		}
-		exit(EXIT_FAILURE);
+		handle_error(val,msg,base_file,file,line);
 	}
 }
 static inline void check_1(int val,const char* msg,const char* base_file,const char* file,const int line) {
 	if (val !=1 ) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: %s\n",strerror(val));
-		}
-		exit(EXIT_FAILURE);
+		handle_error(val,msg,base_file,file,line);
 	}
 }
-static inline void check_not_negative(int t, const char* msg,const char* base_file,const char* file,const int line) {
-	if(t<0) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: %s\n",strerror(t));
-		}
-		exit(EXIT_FAILURE);
+static inline void check_not_negative(int val, const char* msg,const char* base_file,const char* file,const int line) {
+	if(val<0) {
+		handle_error(val,msg,base_file,file,line);
 	}
 }
-static inline void check_not_null(void* ptr, const char* msg,const char* base_file,const char* file,const int line) {
-	if(ptr==NULL) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: bad pointer\n");
-		}
-		exit(EXIT_FAILURE);
+static inline void check_not_null(void* val, const char* msg,const char* base_file,const char* file,const int line) {
+	if(val==NULL) {
+		handle_error((int)val,msg,base_file,file,line);
 	}
 }
-static inline void check_oneoftwo(int v, const char* msg,int e1,int e2,const char* base_file,const char* file,const int line) {
-	if(v!=e1 && v!=e2) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		if(errno!=0) {
-			perror("error in system call");
-		} else {
-			fprintf(stderr,"error: %s\n",strerror(v));
-		}
-		exit(EXIT_FAILURE);
+static inline void check_oneoftwo(int val, const char* msg,int e1,int e2,const char* base_file,const char* file,const int line) {
+	if(val!=e1 && val!=e2) {
+		handle_error(val,msg,base_file,file,line);
 	}
 }
-static inline void check_assert(int t,const char* msg,const char* base_file,const char* file,const int line) {
-	if(!t) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		perror("error in system call");
-		exit(EXIT_FAILURE);
+static inline void check_assert(int val,const char* msg,const char* base_file,const char* file,const int line) {
+	if(!val) {
+		handle_error(val,msg,base_file,file,line);
 	}
 }
-static inline void check_not_voidp(void* t,const char *msg, void* errval,const char* base_file,const char* file,const int line) {
-	if(t==errval) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		perror("error in system call");
-		exit(EXIT_FAILURE);
+static inline void check_not_voidp(void* val,const char *msg, void* errval,const char* base_file,const char* file,const int line) {
+	if(val==errval) {
+		handle_error((int)val,msg,base_file,file,line);
 	}
 }
-static inline void check_not_sigt(sighandler_t t,const char *msg, sighandler_t errval,const char* base_file,const char* file,const int line) {
-	if(t==errval) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		perror("error in system call");
-		exit(EXIT_FAILURE);
+static inline void check_not_sigt(sighandler_t val,const char *msg, sighandler_t errval,const char* base_file,const char* file,const int line) {
+	if(val==errval) {
+		handle_error((int)val,msg,base_file,file,line);
 	}
 }
-static inline void check_int(int t,const char *msg,int val,const char* base_file,const char* file,const int line) {
-	if(t!=val) {
-		fprintf(stderr,"command is %s\n",msg);
-		fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
-		fprintf(stderr,"values is %d\n",t);
-		perror("error in system call");
-		exit(EXIT_FAILURE);
+static inline void check_int(int val,const char *msg,int expected,const char* base_file,const char* file,const int line) {
+	if(val!=expected) {
+		handle_error(val,msg,base_file,file,line);
+	}
+}
+static inline void check_in_range(int val,const char *msg,int min,int max,const char* base_file,const char* file,const int line) {
+	if(val<min || val>=max) {
+		handle_error(val,msg,base_file,file,line);
 	}
 }
 
@@ -230,6 +191,7 @@ static inline void check_int(int t,const char *msg,int val,const char* base_file
 #define CHECK_NOT_VOIDP(v,e) check_not_voidp(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_SIGT(v,e) check_not_sigt(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_INT(v,e) check_int(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_IN_RANGE(v,min,max) check_in_range(v, __stringify(v),min,max,__BASE_FILE__,__FUNCTION__,__LINE__);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
