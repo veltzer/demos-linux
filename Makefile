@@ -342,9 +342,13 @@ do_astyle: $(ALL_DEPS)
 	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=scripts/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 # I do not use uncrustify because it changes code that it already beautified...
 .PHONY: do_uncrustify
-do_uncrustify:
+do_uncrustify: $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+.PHONY: do_indent
+do_indent: $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)indent $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 
 # code measurements
 
