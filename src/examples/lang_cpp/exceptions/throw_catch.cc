@@ -23,7 +23,7 @@
 #include<stdlib.h> // for EXIT_SUCCESS
 
 /*
-* A simple hello world application for C++.
+* A simple demo of throwing an exception and catching it
 */
 
 int main(int argc,char** argv,char** envp) {
