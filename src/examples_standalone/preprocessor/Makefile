@@ -1,5 +1,6 @@
 # parameters for the makefile
 ALL:=defs_c.out defs_cc.out
+MAKEFILE:=Makefile
 
 # here we go...
 .PHONY: all
