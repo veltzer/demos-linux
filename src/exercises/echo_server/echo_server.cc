@@ -25,11 +25,28 @@
 #include<sys/types.h> // for accept4(2)
 #include<sys/socket.h> // for accept4(2)
 #include<netinet/in.h> // for sockaddr_in
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_IN_RANGE()
 #include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
-#include<unistd.h> // for read(2), close(2)
+#include<unistd.h> // for read(2), close(2), write(2)
+
+/*
+* This is a solution to the echo server exercise.
+*
+* NOTES:
+* - events arrive together. One epoll_wait can wake you up on multiple events on the same fd.
+* - EPOLLRDHUP is the event delivered when the other side hangs up.
+* - EPOLLOUT is the event delivered when writing is done. If we work edge triggered then
+* it will be delivered only once. We are supposed to check that the entire write is done.
+* - to stop polling on an fd you must first deregister it from epoll AND ONLY THEN close it (obvious).
+* - we are doing async IO here all over. This means that when you are notified that there is data you
+* to read fast (without blocking) and then you get to write fast.
+*
+* TODO:
+* - check what happens when we write large amounts of data to the output. Will the async write come up
+* short?
+*/
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
@@ -41,6 +58,59 @@ int get_backlog() {
 	CHECK_NOT_M1(read(fd, buf, size));
 	CHECK_NOT_M1(close(fd));
 	return atoi(buf);
+}
+
+void print_events(char* buffer, size_t size,uint32_t events) {
+	char* p=buffer;
+	int cursize=size;
+	if(events & EPOLLIN) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLIN "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLOUT) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLOUT "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLRDHUP) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLRDHUP "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLPRI) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLPRI "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLERR) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLERR "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLHUP) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLHUP "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLET) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLET "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
+	if(events & EPOLLONESHOT) {
+		size_t ret;
+		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLONESHOT "),1,cursize);
+		cursize-=ret;
+		p+=ret;
+	}
 }
 
 int main(int argc,char** argv,char** envp) {
@@ -105,17 +175,30 @@ int main(int argc,char** argv,char** envp) {
 				socklen_t addrlen;
 				CHECK_NOT_M1(conn_sock=accept4(sockfd,(struct sockaddr*)&local,&addrlen,SOCK_NONBLOCK));
 				struct epoll_event ev;
-				ev.events=EPOLLIN|EPOLLET;
+				ev.events=EPOLLIN|EPOLLET|EPOLLOUT|EPOLLRDHUP;
 				ev.data.fd=conn_sock;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
 			} else {
 				TRACE("got activity on fd %d",events[n].data.fd);
-				const int buflen=1024;
-				char buffer[buflen];
-				int len;
-				int fd=events[n].data.fd;
-				CHECK_NOT_M1(len=read(fd,buffer,buflen));
-				CHECK_NOT_M1(write(fd,buffer,len));
+				char printbuff[1024];
+				print_events(printbuff,1024,events[n].events);
+				TRACE("got events %s",printbuff);
+				if(events[n].events & EPOLLIN) {
+					const int buflen=1024;
+					char buffer[buflen];
+					ssize_t len;
+					int fd=events[n].data.fd;
+					CHECK_NOT_M1(len=read(fd,buffer,buflen));
+					ssize_t ret;
+					CHECK_NOT_M1(ret=write(fd,buffer,len));
+					TRACE("read %d bytes and wrote %d bytes",len,ret);
+				}
+				if(events[n].events & EPOLLRDHUP) {
+					int fd=events[n].data.fd;
+					TRACE("closing the fd %d",fd);
+					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL,fd,NULL));
+					CHECK_NOT_M1(close(fd));
+				}
 			}
 		}
 	}
