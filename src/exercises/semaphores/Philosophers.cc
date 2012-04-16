@@ -100,8 +100,9 @@ int main(int argc,char** argv,char** envp) {
 	}
 
 	if ((key = ftok(KEYFILE, 'x')) == -1 ) {
+		int local_errno=errno;
 		perror("ftok failed");
-		exit(errno);
+		exit(local_errno);
 	}
 
 	if ((semid = semget(key, 0, 0)) == -1 ) {
