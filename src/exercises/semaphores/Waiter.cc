@@ -20,39 +20,29 @@
 
 #include<firstinclude.h>
 #include"Phil.hh"
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, exit(3)
+#include<sys/types.h> // for semctl(2), ftok(3), semget(2)
+#include<sys/ipc.h> // for semctl(2), ftok(3), semget(2)
+#include<sys/sem.h> // for semctl(2), semget(2)
+#include<signal.h> // for signal(2)
+#include<us_helper.h> // for CHECK_NOT_M1()
 
-int semid;
+static int semid;
 
-void clean(int sig)
-{
-	int rc=semctl(semid,0,IPC_RMID,0);
-	if(rc) {
-		perror("error in semctl");
-		exit(errno);
-	} else {
-		exit(0);
-	}
+void clean(int sig) {
+	CHECK_NOT_M1(semctl(semid,0,IPC_RMID,0));
+	exit(0);
 }
 
 int main(int argc,char** argv,char** envp) {
-	int i;
+	CHECK_NOT_SIGT(signal(SIGINT,clean),SIG_ERR);
 	key_t key;
-	signal(SIGINT,clean);
-	if ((key = ftok(KEYFILE, 'x')) == -1) {
-		perror("ftok failed");
-		exit(errno);
+	CHECK_NOT_M1(key=ftok(KEYFILE,'x'));
+	CHECK_NOT_M1(semid=semget(key,NPHIL,IPC_CREAT | 0666));
+	for(int i=0;i<NPHIL;i++) {
+		CHECK_NOT_M1(semctl(semid,i,SETVAL,1));
 	}
-	if ((semid = semget(key, NPHIL, IPC_CREAT | 0666)) < 0 ) {
-		perror("semget");
-		exit(errno);
-	}
-	for(i=0; i<NPHIL; i++) {
-		if (semctl(semid, i,SETVAL,1 ) < 0) {
-			perror("semctl 1");
-			exit(errno);
-		}
-	}
+	// a non busy busy wait
 	while(true)
 		pause();
 	return EXIT_SUCCESS;
