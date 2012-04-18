@@ -3,10 +3,10 @@
 	iostat
 	ionice
 - show demos of splice, vmsplice and tee.
-- add multiplexing examples:
+- add more multiplexing examples:
 	select
 	poll
-	epoll
+	- and not just for TCP, for regular io too!
 - do demos of the following:
 	1 fallocate
 	2 fallocate

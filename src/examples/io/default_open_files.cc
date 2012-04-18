@@ -19,7 +19,7 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for printf(3), fileno(3)
+#include<stdio.h> // for printf(3), fileno(3), stdin, stdout, stderr
 #include<stdlib.h> // EXIT_SUCCESS
 #include<unistd.h> // getdtablesize(2), sysconf(3)
 #include<sys/resource.h> // for getrlimit(2)
@@ -27,6 +27,7 @@
 
 /*
 * This shows the default open files in linux.
+* Many ways to find this out...
 *
 * NOTES:
 * - getdtablesize() returns the MAXIMUM number of open files, not the current
@@ -44,6 +45,8 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(getrlimit(RLIMIT_NOFILE,&rlim));
 	printf("rlim_cur is %ld\n",rlim.rlim_cur);
 	printf("rlim_max is %ld\n",rlim.rlim_max);
-	printf("fileno(stdin) is %d",fileno(stdin));
+	printf("fileno(stdin) is %d\n",fileno(stdin));
+	printf("fileno(stdout) is %d\n",fileno(stdout));
+	printf("fileno(stderr) is %d\n",fileno(stderr));
 	return EXIT_SUCCESS;
 }
