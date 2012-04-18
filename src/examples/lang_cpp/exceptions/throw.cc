@@ -24,7 +24,7 @@
 
 /*
 * A simple demo of throwing an exception and not catching it
-* 
+*
 * This example shows that throwing an exception will terminate the running thread
 * and the program as a whole.
 */
