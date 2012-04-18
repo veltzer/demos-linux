@@ -17,3 +17,4 @@
 	2 truncate, ftruncate
 	2 msync
 - add more examples of aio.
+- add example of readahead(2)
