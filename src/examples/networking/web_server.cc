@@ -76,7 +76,16 @@ void *worker(void* arg) {
 	ssize_t ires;
 	CHECK_NOT_M1(ires=read(ifd,buff,buflen));
 	while(ires!=0) {
-		CHECK_NOT_M1(send(fd,buff,ires,0));
+		int offset=0;
+		char* pointer=buff;
+		int written=0;
+		while(written<ires) {
+			int size;
+			CHECK_NOT_M1(size=send(fd,pointer,ires-written,offset));
+			offset+=size;
+			pointer+=size;
+			written+=size;
+		}
 		CHECK_NOT_M1(ires=read(ifd,buff,buflen));
 	}
 	CHECK_NOT_M1(close(ifd));
