@@ -189,6 +189,7 @@ int main(int argc,char** argv,char** envp) {
 					ssize_t len;
 					int fd=events[n].data.fd;
 					CHECK_NOT_M1(len=read(fd,buffer,buflen));
+					// FIXME!
 					ssize_t ret;
 					CHECK_NOT_M1(ret=write(fd,buffer,len));
 					TRACE("read %d bytes and wrote %d bytes",len,ret);
