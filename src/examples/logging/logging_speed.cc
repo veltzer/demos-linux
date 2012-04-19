@@ -165,6 +165,6 @@ void* func(void*) {
 
 int main(int argc,char** argv,char** envp) {
 	print_scheduling_consts();
-	run_high_priority(func,NULL,90);
+	run_high_priority(func,NULL,STANDARD_HIGH_PRIORITY);
 	return EXIT_SUCCESS;
 }
