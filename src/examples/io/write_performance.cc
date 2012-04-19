@@ -31,7 +31,7 @@
 /*
 * This example explores the performance of the write system call...
 *
-* The example is supposed to show that writes to /dev/null have
+* The example is shows that writes to /dev/null have
 * constant performance while writes to a file are different: when
 * the OS buffers are empty they are fast (memcpy to kernel) and when
 * they are full they block...
@@ -48,9 +48,9 @@ int main(int argc,char** argv,char** envp) {
 	void* buf=malloc(bufsize);
 	int fd;
 	Stat s(
-		500, // bin number
-		1000,
-		1000
+		100, // bin number
+		10000, // bin size
+		50000 // mean
 	);
 	CHECK_NOT_M1(fd=open(filename,O_RDWR | O_CREAT,0666));
 	for(unsigned int i=0;i<count;i++) {
