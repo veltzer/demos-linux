@@ -206,9 +206,10 @@ debug:
 
 .PHONY: todo
 todo:
-	-@grep TODO $(CC_SRC)
+	-@grep TODO $(CC_SRC) $(C_SRC)
 
-# checks which pass
+# various checks
+
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
@@ -296,7 +297,8 @@ find_exercises:
 	-@find -type f -name "*_exercise.txt"
 
 # kernel section
-.PHOMY: kern_clean
+
+.PHONY: kern_clean
 kern_clean:
 	$(info doing [$@])
 	$(Q)-rm -rf $(KERNEL_DIR)/.tmp_versions
@@ -334,19 +336,19 @@ kern_reboot:
 kern_makeeasy:
 	sudo echo "%sudo ALL=NOPASSWD: ALL" >> /etc/sudoers
 
-# code beautifucation
+# code formatting
 
-.PHONY: do_astyle
-do_astyle: $(ALL_DEPS)
+.PHONY: format_astyle
+format_astyle: $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=scripts/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 # I do not use uncrustify because it changes code that it already beautified...
-.PHONY: do_uncrustify
-do_uncrustify: $(ALL_DEPS)
+.PHONY: format_uncrustify
+format_uncrustify: $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
-.PHONY: do_indent
-do_indent: $(ALL_DEPS)
+.PHONY: format_indent
+format_indent: $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)indent $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 
@@ -356,3 +358,7 @@ do_indent: $(ALL_DEPS)
 sloccount:
 	$(info doing [$@])
 	$(Q)sloccount .
+.PHONY: count_files
+count_files:
+	$(info doing [$@])
+	$(Q)find . -name "*.cc" -or -name "*.c" | wc -l
