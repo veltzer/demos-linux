@@ -29,10 +29,17 @@
 #include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
-#include<unistd.h> // for read(2), close(2), write(2)
+#include<unistd.h> // for read(2), close(2), write(2), getpid(3)
+#include<sys/signalfd.h> // for signalfd(2), signalfd_siginfo
+#include<signal.h> // for sigset_t, sigemptyset(3), sigaddset(3), sigprocmask(2)
+#include<string.h> // for strsignal(3)
+#include<assert.h> // for assert(3)
 
 /*
-* This is a solution to the echo server exercise.
+* This is an example of using the epoll(2) API to write an echo server using 
+* just a single thread. You can test it using telnet.
+*
+* The server also listens in on signal to enable clean shutdown of the server.
 *
 * NOTES:
 * - events arrive together. One epoll_wait can wake you up on multiple events on the same fd.
@@ -114,13 +121,12 @@ void print_events(char* buffer, size_t size,uint32_t events) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	if(argc!=3) {
-		fprintf(stderr,"usage: %s [host] [port]\n",argv[0]);
+	if(argc!=2) {
+		fprintf(stderr,"usage: %s [port]\n",argv[0]);
 		return EXIT_FAILURE;
 	}
-	const char* host=argv[1];
-	const unsigned int port=atoi(argv[2]);
-	printf("contact me at host %s port %d\n",host,port);
+	const unsigned int port=atoi(argv[1]);
+	printf("contact me using [telnet localhost %d]\n",port);
 
 	// lets open the socket
 	int sockfd;
@@ -136,17 +142,14 @@ int main(int argc,char** argv,char** envp) {
 	struct sockaddr_in server;
 	bzero(&server, sizeof(server));
 	server.sin_family=AF_INET;
-	//server.sin_addr.s_addr=inet_addr(host);
 	server.sin_addr.s_addr=INADDR_ANY;
-	//server.sin_addr.s_addr=0xff000000;
-	//server.sin_port=p_servent->s_port;
 	server.sin_port=htons(port);
 
 	// lets bind to the socket to the address
 	CHECK_NOT_M1(bind(sockfd,(struct sockaddr *)&server, sizeof(server)));
 	printf("bind was successful\n");
 
-	// lets listen in...
+	// lets listen in
 	int backlog=get_backlog();
 	printf("backlog is %d\n",backlog);
 	CHECK_NOT_M1(listen(sockfd,backlog));
@@ -158,10 +161,25 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(epollfd=epoll_create(max_events));
 
 	// add the listening socket to it
-	struct epoll_event ev;
-	ev.events=EPOLLIN;
-	ev.data.fd=sockfd;
-	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sockfd, &ev));
+	struct epoll_event sockev;
+	sockev.events=EPOLLIN;
+	sockev.data.fd=sockfd;
+	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sockfd, &sockev));
+
+	// add a signal fd to the mix
+	sigset_t mask;
+	sigemptyset(&mask);
+	sigaddset(&mask,SIGUSR1);
+	// make sure that the signals we want to handle do not go to their
+	// default handlers...
+	CHECK_NOT_M1(sigprocmask(SIG_BLOCK,&mask,NULL));
+	int sigfd;
+	CHECK_NOT_M1(sigfd=signalfd(-1,&mask,0));
+	printf("send SIGUSR1 to me to shut me down using [kill -s SIGUSR1 %d]\n",getpid());
+	struct epoll_event sigev;
+	sigev.events=EPOLLIN;
+	sigev.data.fd=sigfd;
+	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sigfd, &sigev));
 
 	// go into the endless service loop
 	while(true) {
@@ -178,30 +196,41 @@ int main(int argc,char** argv,char** envp) {
 				ev.events=EPOLLIN|EPOLLET|EPOLLOUT|EPOLLRDHUP;
 				ev.data.fd=conn_sock;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
-			} else {
-				TRACE("got activity on fd %d",events[n].data.fd);
-				char printbuff[1024];
-				print_events(printbuff,1024,events[n].events);
-				TRACE("got events %s",printbuff);
-				if(events[n].events & EPOLLIN) {
-					const int buflen=1024;
-					char buffer[buflen];
-					ssize_t len;
-					int fd=events[n].data.fd;
-					CHECK_NOT_M1(len=read(fd,buffer,buflen));
-					// TODO - need to handle short write
-					ssize_t ret;
-					CHECK_NOT_M1(ret=write(fd,buffer,len));
-					TRACE("read %d bytes and wrote %d bytes",len,ret);
-				}
-				if(events[n].events & EPOLLRDHUP) {
-					int fd=events[n].data.fd;
-					TRACE("closing the fd %d",fd);
-					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL,fd,NULL));
-					CHECK_NOT_M1(close(fd));
-				}
+				continue;
+			}
+			if(events[n].data.fd==sigfd) {
+				// we must read the data, otherwise we will be bothered with this signal again
+				// and again
+				struct signalfd_siginfo fdsi;
+				CHECK_INT(read(sigfd,&fdsi,sizeof(struct signalfd_siginfo)),sizeof(struct signalfd_siginfo));
+				printf("got signal %d (%s)\n",fdsi.ssi_signo,strsignal(fdsi.ssi_signo));
+				goto exit;
+			}
+			// this is regular IO handling
+			TRACE("got activity on fd %d",events[n].data.fd);
+			char printbuff[1024];
+			print_events(printbuff,1024,events[n].events);
+			TRACE("got events %s",printbuff);
+			if(events[n].events & EPOLLIN) {
+				const int buflen=1024;
+				char buffer[buflen];
+				ssize_t len;
+				int fd=events[n].data.fd;
+				CHECK_NOT_M1(len=read(fd,buffer,buflen));
+				ssize_t ret;
+				CHECK_NOT_M1(ret=write(fd,buffer,len));
+				// we really should not get blocked here
+				assert(ret==len);
+				TRACE("read %d bytes and wrote %d bytes",len,ret);
+			}
+			if(events[n].events & EPOLLRDHUP) {
+				int fd=events[n].data.fd;
+				TRACE("closing the fd %d",fd);
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL,fd,NULL));
+				CHECK_NOT_M1(close(fd));
 			}
 		}
 	}
+exit:
 	return EXIT_SUCCESS;
 }
