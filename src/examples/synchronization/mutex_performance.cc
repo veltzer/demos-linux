@@ -110,7 +110,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_ZERO(pthread_mutex_init(&mutex_recursive,&attr));
 	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_ERRORCHECK_NP));
 	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck,&attr));
-	run_high_priority(work,NULL,90);
+	run_high_priority(work,NULL,STANDARD_HIGH_PRIORITY);
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_fast));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_recursive));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_errorcheck));

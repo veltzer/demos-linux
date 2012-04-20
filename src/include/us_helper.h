@@ -400,6 +400,14 @@ static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
 	return retval;
 	//printf("thread joined and return val was %p\n",retval);
 }
+const int STANDARD_HIGH_PRIORITY=90;
+
+static inline void no_params(int argc,char** argv) {
+	if(argc>1) {
+		fprintf(stderr,"%s: usage: %s (without parameters)\n",argv[0],argv[0]);
+		exit(EXIT_FAILURE);
+	}
+}
 
 static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 	int j;

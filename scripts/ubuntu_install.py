@@ -33,6 +33,7 @@ packs=[
 	'sysprof',
 	'mutrace',
 	'iptraf',
+	'iotop',
 ]
 
 args=['sudo','apt-get','install']
