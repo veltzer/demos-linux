@@ -40,7 +40,7 @@
 *
 * Notes:
 * - notice that syscall(__NR_getpid) is a little faster than gettimeofday. Obviously - it doesn't need
-* to get the time in the kernel. 
+* to get the time in the kernel.
 * - notice that getpid() is MUCH faster than syscall(__NR_getpid) because it caches the pid in user
 * space. It does not get optimized out (checked the disassembly).
 *
