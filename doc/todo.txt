@@ -1,4 +1,4 @@
-- in advanced io talk about readahead(2) and show an example.
+- get more examples from http://www.linuxprogrammingblog.com/
 
 - write slides about room for optimization.
 - write slides about allocating memory fast.
