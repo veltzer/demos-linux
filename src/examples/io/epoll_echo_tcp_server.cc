@@ -36,7 +36,7 @@
 #include<assert.h> // for assert(3)
 
 /*
-* This is an example of using the epoll(2) API to write an echo server using 
+* This is an example of using the epoll(2) API to write an echo server using
 * just a single thread. You can test it using telnet.
 *
 * The server also listens in on signal to enable clean shutdown of the server.
