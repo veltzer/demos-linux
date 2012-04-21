@@ -20,14 +20,23 @@
 
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
-#include<limits.h> // for PATH_MAX
+#include<limits.h> // for PATH_MAX, _POSIX_PATH_MAX
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<unistd.h> // for pathconf(3), _PC_PATH_MAX
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This example shows all the different ways of accessing the maximum file length in Linux.
+* As you can see different APIs return different values. Actually, the limit in Linux is
+* much higher that 4096 (you can create folders that have an absolute path of more than 4096
+* bytes) but the macro is good enough to use in most cases.
 */
 
 int main(int argc,char** argv,char** envp) {
 	printf("PATH_MAX is %d\n",PATH_MAX);
+	printf("_POSIX_PATH_MAX is %d\n",_POSIX_PATH_MAX);
+	long path_max;
+	CHECK_NOT_M1(path_max=pathconf("/",_PC_PATH_MAX));
+	printf("pathconf(\"/\",_PC_PATH_MAX) is %ld\n",path_max);
 	return EXIT_SUCCESS;
 }
