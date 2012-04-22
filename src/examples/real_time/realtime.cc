@@ -19,24 +19,28 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
+#include<sched.h> // for sched_param, sched_setscheduler(2), SCHED_FIFO
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include<stdio.h> // for fprintf(3), printf(3)
 #include<us_helper.h> // for CHECK_NOT_M1()
-#include<sched.h> // for sched_setscheduler(2), sched_param
-#include<sys/types.h> // for pid_t
 
 /*
-* make a real time process return and be a regular process.
+* This is an example of a utility program to run any program under real time priority
 */
 
 int main(int argc,char** argv,char** envp) {
-	pid_t pid=0;
-	struct sched_param sp = { sched_priority:0 };
-	if(argc!=2) {
-		fprintf(stderr,"Usage: %s [pid]\n",argv[0]);
+	if(argc<3) {
+		fprintf(stderr,"usage: %s priority program [parameters...]\n",argv[0]);
 		return EXIT_FAILURE;
 	}
-	pid=atoi(argv[1]);
-	CHECK_NOT_M1(sched_setscheduler(pid, SCHED_OTHER, &sp));
+	struct sched_param sched;
+	sched.sched_priority=atoi(argv[1]);
+	if(sched.sched_priority>99) {
+		fprintf(stderr,"%s: priority must be between 0 - 99!\n",argv[0]);
+		return EXIT_FAILURE;
+	}
+	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &sched));
+	printf("%s: executing %s in realtime priority %d...\n",argv[0],argv[2],sched.sched_priority);
+	CHECK_NOT_M1(execvp(argv[2],&argv[2]));
 	return EXIT_SUCCESS;
 }

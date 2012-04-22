@@ -20,7 +20,7 @@
 
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
-#include<us_helper.h> // for CHECK_NOT_ZERO() 
+#include<us_helper.h> // for CHECK_NOT_ZERO()
 #include<unistd.h> // for confstr(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 
