@@ -177,6 +177,12 @@ static inline void check_int(int val,const char *msg,int expected,const char* ba
 }
 static inline void check_in_range(int val,const char *msg,int min,int max,const char* base_file,const char* file,const int line) {
 	if(val<min || val>=max) {
+		fprintf(stderr,"val is %d, min is %d, max is %d\n",val,min,max);
+		handle_error(val,msg,base_file,file,line);
+	}
+}
+static inline void check_positive(int val,const char* msg,const char* base_file,const char* file,const int line) {
+	if(val<=0) {
 		handle_error(val,msg,base_file,file,line);
 	}
 }
@@ -192,6 +198,7 @@ static inline void check_in_range(int val,const char *msg,int min,int max,const 
 #define CHECK_NOT_SIGT(v,e) check_not_sigt(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_INT(v,e) check_int(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_IN_RANGE(v,min,max) check_in_range(v, __stringify(v),min,max,__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_POSITIVE(v) check_positive(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 
 // kernel log handling functions
 static inline void klog_clear(void) {
