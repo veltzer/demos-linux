@@ -1,2 +1,3 @@
 Various links for linux API examples
 ====================================
+https://github.com/gby/hacks - various examples by Gilad Ben-Yossef
