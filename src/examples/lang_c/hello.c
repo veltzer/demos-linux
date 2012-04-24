@@ -22,6 +22,10 @@
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 
+/*
+* This is the most basic hello, world program for C
+*/
+
 // the arguments to main which are not used DO NOT
 // create a compilation error even with all warnings turned
 // on
