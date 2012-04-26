@@ -20,13 +20,12 @@
 
 #include<firstinclude.h>
 #include<unistd.h> // for fork(2)
-#include<stdio.h> // for fgets(3), perror(3)
+#include<stdio.h> // for fgets(3)
 #include<sys/types.h> // for waitid(2)
 #include<sys/wait.h> // for waitid(2)
 #include<stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<string.h> // for strsignal(3)
-
-#include<us_helper.h>
+#include<us_helper.h> // for TRACE(), CHECK_NOT_M1()
 
 /*
 * This example explains how parents should wait for their children
@@ -71,11 +70,8 @@ void print_code(int code) {
 
 int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
-	pid_t child_pid = fork();
-	if (child_pid == -1) {
-		perror("could not fork");
-		exit(EXIT_FAILURE);
-	}
+	pid_t child_pid;
+	CHECK_NOT_M1(child_pid=fork());
 	if (child_pid == 0) {
 		bool selected = false;
 		int selection;
@@ -88,11 +84,7 @@ int main(int argc,char** argv,char** envp) {
 			TRACE("- do 'kill -s SIGSTOP %d'", getpid());
 			TRACE("- do 'kill -s SIGCONT %d'", getpid());
 			char str[256];
-			char *ret = fgets(str, 256, stdin);
-			if (ret != str) {
-				perror("could not get value");
-				exit(EXIT_FAILURE);
-			}
+			CHECK_CHARP(fgets(str, 256, stdin),str);
 			selection = atoi(str);
 			if ((selection >= 1) && (selection <= 3)) {
 				selected = true;
@@ -117,11 +109,7 @@ int main(int argc,char** argv,char** envp) {
 		while(!over) {
 			TRACE("waiting for the child...");
 			siginfo_t info;
-			int res = waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED);
-			if (res == -1) {
-				perror("could not waitid(2)");
-				exit(EXIT_FAILURE);
-			}
+			CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
 			print_code(info.si_code);
 			print_status(info.si_status);
 			if ((info.si_code == CLD_EXITED) || (info.si_code == CLD_KILLED)) {

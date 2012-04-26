@@ -20,7 +20,6 @@
 
 #include<firstinclude.h>
 #include<stdio.h> // for fprintf(3)
-#include<errno.h> // for perror(3)
 #include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
