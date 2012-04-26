@@ -35,7 +35,7 @@ space with hooks.
 
 - there are TODO items in each demo to be done.
 
-- format the sources exactly the way I want (no "  " etc...).
+- format the sources exactly the way I want (no "\ \ " etc...).
 
 - remove unneeded include files.
 
