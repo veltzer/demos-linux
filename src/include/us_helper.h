@@ -179,6 +179,11 @@ static inline void check_int(int val,const char *msg,int expected,const char* ba
 		handle_error(val,msg,base_file,file,line);
 	}
 }
+static inline void check_charp(char* val,const char *msg,char* expected,const char* base_file,const char* file,const int line) {
+	if(val!=expected) {
+		handle_error(0,msg,base_file,file,line);
+	}
+}
 static inline void check_in_range(int val,const char *msg,int min,int max,const char* base_file,const char* file,const int line) {
 	if(val<min || val>=max) {
 		fprintf(stderr,"val is %d, min is %d, max is %d\n",val,min,max);
@@ -202,6 +207,7 @@ static inline void check_positive(int val,const char* msg,const char* base_file,
 #define CHECK_NOT_VOIDP(v,e) check_not_voidp(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_SIGT(v,e) check_not_sigt(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_INT(v,e) check_int(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_CHARP(v,e) check_charp(v, __stringify(v),e,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_IN_RANGE(v,min,max) check_in_range(v, __stringify(v),min,max,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_POSITIVE(v) check_positive(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 
