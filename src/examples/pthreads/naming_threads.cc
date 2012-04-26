@@ -19,17 +19,17 @@
 */
 
 #include<firstinclude.h>
-#include<pthread.h> // for pthread_create, pthread_join
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
 #include<stdio.h> // for printf(3)
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
 #include<string.h> // for strncpy(3)
 #include<sys/prctl.h> // for prctl(2)
 
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_ZERO()
 
 /*
-* This exapmles shows how to set thread names in Linux.
+* This exapmle shows how to set thread names in Linux.
 * The heart of the idea is to call prctl(2).
 * If you look at the documentation of prctl(2), it states that it only sets PROCESS
 * names, but this is actually wrong since it sets the name of the current schedualable
