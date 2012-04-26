@@ -129,7 +129,11 @@ static inline void check_zero(int val,const char* msg,const char* base_file,cons
 		handle_error(val,msg,base_file,file,line);
 	}
 }
-
+static inline void check_not_zero(int val,const char* msg,const char* base_file,const char* file,const int line) {
+	if (val == 0) {
+		handle_error(val,msg,base_file,file,line);
+	}
+}
 static inline void check_not_m1(int val,const char* msg,const char* base_file,const char* file,const int line) {
 	if (val ==-1 ) {
 		handle_error(val,msg,base_file,file,line);
@@ -188,6 +192,7 @@ static inline void check_positive(int val,const char* msg,const char* base_file,
 }
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
+#define CHECK_NOT_ZERO(v) check_not_zero(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_1(v) check_1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_NEGATVIE(v) check_not_negative(v,__stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__)

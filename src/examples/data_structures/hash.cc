@@ -19,9 +19,9 @@
 */
 
 #include<firstinclude.h>
-#include<search.h> // for hcreate_r(3), hdestroy_r(3),
-#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
-#include<stdio.h> // for perror(3)
+#include<search.h> // for hcreate_r(3), hdestroy_r(3), hsearch_r(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_ZERO()
 
 /*
 * This is a demo of using the GNU C libraries hash table implementation
@@ -51,6 +51,7 @@ const char* hash_get(const char* key) {
 		return (const char*)(ritem->data);
 	}
 }
+
 int hash_put(const char* key,const char* data) {
 	ENTRY item;
 	item.key=(char*)key;
@@ -58,25 +59,17 @@ int hash_put(const char* key,const char* data) {
 	ENTRY* ritem;
 	return hsearch_r(item,ENTER,&ritem,&HTAB);
 }
+
 const char* d1_key="mark";
 const char* d1_val="veltzer";
 
 int main(int argc,char** argv,char** envp) {
-	if(hash_init()==0) {
-		perror("hash_init failed");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_ZERO(hash_init());
 	printf("after init\n");
-	if(hash_put(d1_key,d1_val)==0) {
-		perror("hash_put failed");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_ZERO(hash_put(d1_key,d1_val));
 	printf("after put\n");
 	const char* getval=hash_get(d1_key);
 	printf("got %s\n",getval);
-	if(hash_destroy()==0) {
-		perror("hash_destroy failed");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_ZERO(hash_destroy());
 	return EXIT_SUCCESS;
 }
