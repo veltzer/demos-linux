@@ -23,6 +23,7 @@
 #include<limits.h> // for PATH_MAX, _POSIX_PATH_MAX
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<unistd.h> // for pathconf(3), _PC_PATH_MAX
+#include<sys/param.h> // for MAXPATHLEN
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
@@ -35,6 +36,7 @@
 int main(int argc,char** argv,char** envp) {
 	printf("PATH_MAX is %d\n",PATH_MAX);
 	printf("_POSIX_PATH_MAX is %d\n",_POSIX_PATH_MAX);
+	printf("MAXPATHLEN is %d\n",MAXPATHLEN);
 	long path_max;
 	CHECK_NOT_M1(path_max=pathconf("/",_PC_PATH_MAX));
 	printf("pathconf(\"/\",_PC_PATH_MAX) is %ld\n",path_max);

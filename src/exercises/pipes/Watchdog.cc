@@ -29,6 +29,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 struct itimerval timer;
 int pipefd[2];
@@ -40,10 +41,7 @@ int child1pid,child2pid;
 void sigIntHandler(int gotsig) {
 	kill(child1pid,SIGKILL);
 	kill(child2pid,SIGKILL);
-	if(unlink("np")==-1) {
-		perror("unlink fifo \"np\" failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(unlink("np"));
 	exit(0);
 }
 
@@ -75,11 +73,7 @@ void sigUsrxHandler(int gotsig) {
 			break;
 	}
 	if(gotusr1 && gotusr2) {
-		if(setitimer(ITIMER_REAL, & timer, NULL) == -1)
-		{
-			perror("setitimer failed");
-			exit(errno);
-		}
+		CHECK_NOT_M1(setitimer(ITIMER_REAL, & timer, NULL));
 		gotusr1 = gotusr2 = 0;
 	}
 }
@@ -93,37 +87,27 @@ void doChild(const char * chld)
 
 void startChild1()
 {
-	switch (child1pid = fork())
-	{
-		case -1:
-			perror("fork for child1 failed");
-			exit(errno);
-			break;
-		case 0:
-			close(pipefd[0]);
-			dup2(pipefd[1], 1);
-			close(pipefd[1]);
-			doChild("1");
-			exit(0);
-			break;
+	CHECK_NOT_M1(child1pid = fork());
+	// child
+	if(child1pid==0) {
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+		doChild("1");
+		exit(0);
 	}
 }
 
 void startChild2()
 {
-	switch (child2pid = fork())
-	{
-		case -1:
-			perror("fork for child2 failed");
-			exit(errno);
-			break;
-		case 0:
-			close(pipefd[1]);
-			dup2(pipefd[0], 0);
-			close(pipefd[0]);
-			doChild("2");
-			exit(0);
-			break;
+	CHECK_NOT_M1(child2pid = fork());
+	// child
+	if(child2pid==0) {
+		close(pipefd[1]);
+		dup2(pipefd[0], 0);
+		close(pipefd[0]);
+		doChild("2");
+		exit(0);
 	}
 }
 
@@ -150,47 +134,26 @@ int main(int argc,char** argv,char** envp) {
 	sigusr.sa_handler=sigUsrxHandler;
 	sigusr.sa_mask=emptyset;
 	sigusr.sa_flags=0;
-	if(sigaction(SIGUSR1,&sigusr,NULL)==-1) {
-		perror("sigaction SIGUSR1 failed");
-		exit(errno);
-	}
-	if(sigaction(SIGUSR2,&sigusr,NULL)==-1) {
-		perror("sigaction SIGUSR2 failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGUSR1,&sigusr,NULL));
+	CHECK_NOT_M1(sigaction(SIGUSR2,&sigusr,NULL));
 	sigchld.sa_handler=sigChildHandler;
 	sigchld.sa_mask=emptyset;
 	sigchld.sa_flags=0;
-	if(sigaction(SIGCHLD,&sigchld,NULL)==-1) {
-		perror("sigaction SIGCHLD failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGCHLD,&sigchld,NULL));
 	sigalrm.sa_handler=sigAlrmHandler;
 	sigalrm.sa_mask=emptyset;
 	sigalrm.sa_flags=0;
-	if(sigaction(SIGALRM,&sigalrm,NULL)==-1) {
-		perror("sigaction SIGALRM failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGALRM,&sigalrm,NULL));
 	sigint.sa_handler=sigIntHandler;
 	sigint.sa_mask=emptyset;
 	sigint.sa_flags=0;
-	if(sigaction(SIGINT,&sigint,NULL)==-1) {
-		perror("sigaction SIGINT failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGINT,&sigint,NULL));
 	timer.it_interval.tv_sec=5;
 	timer.it_interval.tv_usec=0;
 	timer.it_value.tv_sec=5;
 	timer.it_value.tv_usec=0;
-	if(setitimer(ITIMER_REAL,&timer,NULL) == -1) {
-		perror("setitimer failed");
-		exit(errno);
-	}
-	if(pipe(pipefd)==-1) {
-		perror("pipe request failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(setitimer(ITIMER_REAL,&timer,NULL));
+	CHECK_NOT_M1(pipe(pipefd));
 	startChild1();
 	startChild2();
 	while(true) {

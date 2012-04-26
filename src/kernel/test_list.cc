@@ -19,16 +19,14 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for perror(3)
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<unistd.h>
-#include<sys/ioctl.h>
-#include<sys/wait.h>
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
-
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include<stdio.h> // for printf(3), fgets(3)
+#include<unistd.h> // for close(2)
+#include<sys/ioctl.h> // for ioctl(2)
+#include<stdlib.h> // for EXIT_SUCCESS, atoi(3)
+#include<us_helper.h> // for CHECK_NOT_M1(), waitkey(), CHECK_NOT_NULL()
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
 
 #include"shared.h"
 
@@ -38,11 +36,7 @@
 int get_number(void) {
 	printf("please enter a number> ");
 	char str[256];
-	char *res = fgets(str, 256, stdin);
-	if (res == NULL) {
-		perror("problem with fgets");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_NULL(fgets(str, 256, stdin));
 	return(atoi(str));
 }
 
@@ -60,11 +54,7 @@ int show_menu(void) {
 		printf("6) exit\n");
 		printf("choice> ");
 		char str[256];
-		char *res = fgets(str, 256, stdin);
-		if (res == NULL) {
-			perror("problem with fgets");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_NOT_NULL(fgets(str, 256, stdin));
 		selection=atoi(str);
 	}
 	return selection;
