@@ -35,8 +35,8 @@ for automagicall usage:
 Usage
 ~~~~~
 
-Have your program link with libcrash.so.1  and call register_crash_handler() once 
-for each process (not thread):  
+Have your program link with libcrash.so.1 and call register_crash_handler() once 
+for each process (not thread):
  
 int register_crash_handler(
 		const char * process_name, 		/* Name of Process, such as argv[0] */

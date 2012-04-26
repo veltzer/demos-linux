@@ -213,7 +213,7 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	-@git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
@@ -242,7 +242,7 @@ check_exit:
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	-@./scripts/grep.py "^ |\\t | \\t|  |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
+	-@./scripts/grep.py "^ |\\t | \\t|\ \ |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
