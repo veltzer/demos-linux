@@ -19,16 +19,13 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<pthread.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-
-#include<us_helper.h>
+#include<stdio.h> // for fprintf(3), perror(3)
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<errno.h> // for errno
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<us_helper.h> // for CHECK_ZERO()
 
 /*
 * This is a demo which shows that perror, errno etc all work on a thread

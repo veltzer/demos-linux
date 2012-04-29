@@ -19,12 +19,12 @@
 */
 
 #include<firstinclude.h>
-#include<sys/types.h> // for socket(2), recv(2), connect(2), send(2), open(2)
+#include<sys/types.h> // for socket(2), recvfrom(2), connect(2), send(2), open(2)
 #include<sys/stat.h> // for open(2)
-#include<sys/socket.h> // for socket(2), recv(2), connect(2), send(2), inet_addr(3)
+#include<sys/socket.h> // for socket(2), recvfrom(2), connect(2), send(2), inet_addr(3)
 #include<strings.h> // for bzero(3)
-#include<stdio.h> // for printf(3), atoi(3), snprintf(3)
-#include<stdlib.h> // for exit(3)
+#include<stdio.h> // for fprintf(3), atoi(3), snprintf(3), printf(3)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include<unistd.h> // for close(2)
 #include<sys/un.h> // for sockaddr_un
 #include<string.h> // for strlen(3)
@@ -32,8 +32,7 @@
 #include<arpa/inet.h> // for inet_addr(3)
 #include<pthread.h> // for pthread_create(3), pthread_join(3)
 #include<fcntl.h> // for open(2)
-
-#include<us_helper.h> // our own helper
+#include<us_helper.h> // for TRACE(), CHECK_NOT_M1()
 
 /*
 * This is udp client demo that writes to a file anything it gets.
@@ -75,7 +74,7 @@ int main(int argc,char** argv,char** envp) {
 	struct sockaddr_in peer_addr;
 	socklen_t peer_len;
 
-	// lets recv
+	// lets recvfrom
 	unsigned int buflen=getpagesize();
 	char buf[buflen];
 	int ret;
@@ -98,10 +97,7 @@ int main(int argc,char** argv,char** envp) {
 		}
 		CHECK_NOT_M1(fsync(fd));
 	}
-	if(ret<0) {
-		perror("error in recvfrom");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(ret);
 	CHECK_NOT_M1(close(fd));
 	TRACE("closed the file");
 	CHECK_NOT_M1(close(sockfd));

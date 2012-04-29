@@ -34,6 +34,7 @@ packs=[
 	'mutrace',
 	'iptraf',
 	'iotop',
+	'libpcap-dev',
 ]
 
 args=['sudo','apt-get','install']

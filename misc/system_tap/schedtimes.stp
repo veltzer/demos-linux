@@ -13,7 +13,7 @@
 global RUNNING=0, QUEUED=1, SLEEPING=2
 
 global traced_pid
-global run_time, queued_time,  sleep_time, io_wait_time
+global run_time, queued_time, sleep_time, io_wait_time
 global pid_state, pid_names
 global previous_timestamp
 global io_wait_count
@@ -21,21 +21,21 @@ global io_wait_incremented
 
 function get_iowait:long(queue:long)
 {
-  return @cast(queue,"rq","kernel")->nr_iowait->counter;
+	return @cast(queue,"rq","kernel")->nr_iowait->counter;
 }
 
 probe kernel.trace("sched_switch") {
-  previous_pid = $prev->pid;
-  next_pid = $next->pid;
-  if (traced_pid) {
-    if (previous_pid != traced_pid) {
-      previous_pid = 0;
-    }
-    if (next_pid != traced_pid) {
-      next_pid = 0;
-    }
-  }
-  if (previous_pid) {
+	previous_pid = $prev->pid;
+	next_pid = $next->pid;
+	if (traced_pid) {
+		if (previous_pid != traced_pid) {
+			previous_pid = 0;
+		}
+		if (next_pid != traced_pid) {
+			next_pid = 0;
+		}
+	}
+	if (previous_pid) {
     if (!([previous_pid] in pid_state)) {
       //use this state as entry into state machine
       previous_timestamp[previous_pid] = gettimeofday_us();

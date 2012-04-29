@@ -19,11 +19,10 @@
 */
 
 #include<firstinclude.h>
-#include<pthread.h>
-#include<stdio.h>
-#include<unistd.h>
-#include<errno.h>
+#include<pthread.h> // for pthread_create(3), pthread_join(3), pthread_t
+#include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_ZERO()
 
 /*
 * EXTRA_LIBS=-lpthread
@@ -49,20 +48,12 @@ int main(int argc,char** argv,char** envp) {
 	}
 	// start all threads giving each it's input
 	for(int i=0;i<NUM_THREADS;i++) {
-		int rc=pthread_create(&threads[i],NULL,PrintHello,(void *)&t[i]);
-		if(rc) {
-			perror("could not create thread");
-			exit(errno);
-		}
+		CHECK_ZERO(pthread_create(&threads[i],NULL,PrintHello,(void *)&t[i]));
 	}
 	// wait for all threads to finish, order does not matter
 	for(int i=0;i<NUM_THREADS;i++) {
 		void* retval;
-		int rc=pthread_join(threads[i],&retval);
-		if(rc) {
-			perror("could not join thread");
-			exit(errno);
-		}
+		CHECK_ZERO(pthread_join(threads[i],&retval));
 		printf("thread %d returned value %d\n",i,(int)retval);
 	}
 	return EXIT_SUCCESS;

@@ -18,7 +18,6 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
 #include<linux/module.h>		/* Module API */
 #include<linux/moduleparam.h>		/* Module parameters API */
 #include<linux/slab.h>			/* Memory alloc functions */

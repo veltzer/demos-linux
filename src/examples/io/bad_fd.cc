@@ -19,7 +19,6 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for perror(3)
 #include<unistd.h> // for read(2), getdtablesize(2)
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<us_helper.h> // for CHECK_NOT_M1()

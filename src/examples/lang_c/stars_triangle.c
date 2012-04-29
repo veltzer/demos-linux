@@ -19,17 +19,14 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for scanf(3), putchar(3), perror(3)
-#include<unistd.h> // for sleep(3)
+#include<stdio.h> // for scanf(3), putchar(3), fflush(3)
+#include<unistd.h> // for usleep(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_INT()
 
 int main(int argc,char** argv,char** envp) {
 	int num;
-	int ret=scanf("%d",&num);
-	if(ret!=1) {
-		perror("scanf");
-		return -1;
-	}
+	CHECK_INT(scanf("%d",&num),1);
 	while(1) {
 		int i;
 		int u;

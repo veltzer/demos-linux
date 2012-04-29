@@ -18,12 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
 #include<linux/module.h> // for MODULE_*, module_*
 #include<linux/fs.h> // for fops
 #include<linux/device.h> // for class_create
 #include<linux/slab.h> // for kmalloc
-#include<asm/uaccess.h> // for copy_to_user, access_ok
+#include<linux/uaccess.h> // for copy_to_user, access_ok
 #include<linux/gfp.h> // for get_zeroed_page
 #include<linux/cdev.h> // for cdev_*
 #include<linux/sched.h> // for cond_resched
