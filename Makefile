@@ -213,7 +213,7 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	-@git grep -l "  " -- '*.h' '*.hh' '*.c' '*.cc'
+	-@git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
 	-@git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
@@ -242,11 +242,11 @@ check_exit:
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	-@./scripts/grep.py "^ |\\t | \\t|  |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
+	-@./scripts/grep.py "^ |\\t | \\t|\ \ |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	-@git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h
+	-@git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone
 .PHONY: check_all
 check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude
 

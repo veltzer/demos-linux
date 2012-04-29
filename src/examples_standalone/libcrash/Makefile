@@ -22,7 +22,7 @@ OBJDUMP	= $(CROSS_COMPILE)objdump
 CFLAGS	:= -Wall 
 LDFLAGS := 
 
-LIBS_CFLAGS  := $(CFLAGS)
+LIBS_CFLAGS := $(CFLAGS)
 LIBS_LDFLAGS := $(LDLAGS) -lrt -shared
 
 ifdef USE_THREADS
@@ -76,10 +76,10 @@ auto_test: libauto_crash.so.$(LIB_VERSION) auto_test.c crash.h crash_msg.h Makef
 	$(CC) auto_test.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o auto_test
 	
 naive_test: naive.c Makefile
-	$(CC) naive.c  $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o naive_test
+	$(CC) naive.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o naive_test
 	
 else 
-  
+
 tests: 
 	@echo Tests not built due to lack of thread support.
 endif

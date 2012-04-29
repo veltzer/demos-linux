@@ -19,15 +19,15 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for printf(3), fflush(3), fgets(3), perror(3)
+#include<stdio.h> // for printf(3), fflush(3), fgets(3)
 #include<sys/types.h> // for open(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
-#include<stdlib.h> // for atoi(3), EXIT_FAILURE, EXIT_SUCCESS, exit(3)
+#include<stdlib.h> // for atoi(3), EXIT_SUCCESS
 #include<unistd.h> // for close(3)
 #include<sys/ioctl.h> // for ioctl(2)
 
-#include<us_helper.h> // our own helper
+#include<us_helper.h> // for CHECK_CHARP(), CHECK_NOT_M1()
 
 #include"shared.h" // for ioctl numbers
 
@@ -51,16 +51,10 @@ int main(int argc,char** argv,char** envp) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");
 		fflush(stdout);
-		if (fgets(s1, len, stdin) != s1) {
-			perror("problem with fgets");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_CHARP(fgets(s1, len, stdin),s1);
 		printf("Please enter a number 2:");
 		fflush(stdout);
-		if (fgets(s2, len, stdin) != s2) {
-			perror("problem with fgets");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_CHARP(fgets(s2, len, stdin),s2);
 		buffer b;
 		b.u1 = atoi(s1);
 		b.u2 = atoi(s2);

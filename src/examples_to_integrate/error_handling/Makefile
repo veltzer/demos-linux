@@ -11,7 +11,7 @@ clean:
 	-rm -f $(PROGS)
 
 check:
-	-grep "  " `find . -name "*.cpp" -or -name "*.h"`
+	-grep "\ \ " `find . -name "*.cpp" -or -name "*.h"`
 
 check_files:
 	-find . -mindepth 2 -and -type f -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.h" -and -not -name "*.txt" -and -not -name "*.conf" -and -not -name "*.ini" -and -not -name "*.sample"

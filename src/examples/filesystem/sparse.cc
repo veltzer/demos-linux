@@ -19,14 +19,13 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for perror(3)
-#include<unistd.h>
+#include<stdio.h> // for fopen(3), fseek(3), fwrite(3), fclose(3), fprintf(3), fread(3)
 #include<string.h> // for memset(3)
 #include<sys/types.h> // for stat(2)
 #include<sys/stat.h> // for stat(2)
-#include<unistd.h> // for stat(2)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include<unistd.h> // for stat(2), unlink(2)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL(), memcheck(), my_system()
 
 /*
 * This program demostrates the concept of sparse files...
@@ -46,28 +45,11 @@ const char *string = "hello";
 const char *fname = "/tmp/my.sparse.file";
 
 int main(int argc,char** argv,char** envp) {
-	// this will be used to check return values
-	int ret = 0;
-	FILE *f = fopen(fname, "w");
-	if (f == NULL) {
-		perror("could not open file");
-		exit(EXIT_FAILURE);
-	}
-	ret = fseek(f, pos, SEEK_CUR);
-	if (ret == -1) {
-		perror("could not seek file");
-		exit(EXIT_FAILURE);
-	}
-	ret = fwrite(string, strlen(string), 1, f);
-	if (ret != 1) {
-		perror("could not write file");
-		exit(EXIT_FAILURE);
-	}
-	ret = fclose(f);
-	if (ret == -1) {
-		perror("could not close file");
-		exit(EXIT_FAILURE);
-	}
+	FILE* f;
+	CHECK_NOT_NULL(f=fopen(fname, "w"));
+	CHECK_NOT_M1(fseek(f, pos, SEEK_CUR));
+	CHECK_NOT_M1(fwrite(string, strlen(string), 1, f));
+	CHECK_NOT_M1(fclose(f));
 	struct stat stat_buf;
 	CHECK_NOT_M1(stat(fname, &stat_buf));
 	fprintf(stderr,"buf.size is %lu\n",stat_buf.st_size);
@@ -76,21 +58,13 @@ int main(int argc,char** argv,char** envp) {
 	my_system("ls -l %s",fname);
 	my_system("du -h %s",fname);
 	// now lets see that we can read from the file...
-	f = fopen(fname, "r");
-	if (f == NULL) {
-		perror("could not open file");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_NULL(f = fopen(fname, "r"));
 	const unsigned int buf_size=4096;
 	char buf[buf_size];
 	memset(buf,3,buf_size);
 	memcheck(buf,3,buf_size);
 
-	ret = fread(buf, buf_size, 1, f);
-	if (ret != 1) {
-		perror("could not read file");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_INT(fread(buf, buf_size, 1, f),1);
 	fprintf(stderr,"checking that the buffer is full of 0's\n");
 	memcheck(buf,0,buf_size);
 

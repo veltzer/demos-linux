@@ -89,10 +89,10 @@ came from (extra information?).
 do they conflict and where do they match.
 
 - profile how long it takes to setup a timer from user space.
-        (this is for the userspace guys - do an example).
+	(this is for the userspace guys - do an example).
 - show how to break from a blocking sys call in user space using a signal.
-        show how to do this using a timer thus turning each sys call to timed.
-        show that the wakeup is pretty near the expected time (rdtsc).
+	show how to do this using a timer thus turning each sys call to timed.
+	show that the wakeup is pretty near the expected time (rdtsc).
 - do example of fifo and priorities in pthreads.
 
 - add example of a process doing a fork and the child (or parent) giving themselves

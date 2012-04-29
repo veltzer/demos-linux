@@ -19,15 +19,13 @@
 */
 
 #include<firstinclude.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/ipc.h>
-#include<sys/shm.h>
-#include<sys/sem.h>
-#include<unistd.h>
-#include<time.h>
-#include<stdio.h>
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include<sys/types.h> // for ftok(3), semget(2), semctl(2), shmat(2)
+#include<sys/ipc.h> // for ftok(3), semget(2), semctl(2), shmget(2)
+#include<sys/shm.h> // for shmget(2), shmat(2)
+#include<sys/sem.h> // for semget(2), semctl(2)
+#include<stdio.h> // for printf(3), fgets(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_CHARP(), CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 const int MAXCLIENTS=10;
 const int CLIENTMESSAGESIZE=4096;
@@ -45,46 +43,21 @@ int main(int argc,char** argv,char** envp) {
 	int i;
 	char ans[10];
 
-	if ((key = ftok("/etc/passwd", 'x')) == -1) {
-		perror("ftok failed");
-		exit(errno);
-	}
-	if ((semid = semget(key, MAXCLIENTS, IPC_CREAT | 0666)) < 0 ) {
-		perror("semget");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(key = ftok("/etc/passwd", 'x'));
+	CHECK_NOT_M1(semid=semget(key, MAXCLIENTS, IPC_CREAT | 0666));
 	for(i=0; i<MAXCLIENTS; i++) {
-		if (semctl(semid, i, SETVAL, 0) < 0)
-		{
-			perror("semctl 0");
-			exit(errno);
-		}
+		CHECK_NOT_M1(semctl(semid, i, SETVAL, 0));
 	}
 	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLIENTS);
-	if((shmid = shmget(key, sizeof(struct data) * MAXCLIENTS, IPC_CREAT | 0666)) < 0) {
-		perror("shmget failed");
-		exit(errno);
-	}
-	if((smdata = (struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1) {
-		perror("shmat failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(shmid=shmget(key, sizeof(struct data) * MAXCLIENTS, IPC_CREAT | 0666));
+	CHECK_NOT_VOIDP(smdata = (struct data *)shmat(shmid, NULL, 0),(struct data *)-1);
 	for (i=0; i<MAXCLIENTS; i++) {
 		smdata[i].readOffset = 0;
 		smdata[i].writeOffset = 0;
 	}
 	printf("Hit <Enter> to finish\n");
-	char* res=fgets(ans, sizeof(ans), stdin);
-	if(res!=ans) {
-		perror("fgets failed");
-	}
-	if (shmctl(shmid, IPC_RMID, 0) == -1) {
-		perror("shmctl IPC_RMID failed");
-		exit(errno);
-	}
-	if (semctl(semid, 0, IPC_RMID, 0) == -1) {
-		perror("semctl IPC_RMID failed");
-		exit(errno);
-	}
+	CHECK_CHARP(fgets(ans, sizeof(ans), stdin),ans);
+	CHECK_NOT_M1(shmctl(shmid, IPC_RMID, 0));
+	CHECK_NOT_M1(semctl(semid, 0, IPC_RMID, 0));
 	return EXIT_SUCCESS;
 }

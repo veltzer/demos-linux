@@ -20,12 +20,11 @@
 
 #include<firstinclude.h>
 #include<signal.h> // for signal(2), psignal(3)
-#include<stdio.h> // for perror(3)
-#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS
 #include<unistd.h> // for pause(2), getpid(2)
 #include<sys/types.h> // for getpid(2)
-#include<us_helper.h> // for TRACE(), CHECK_NOT_VAL()
 #include<string.h> // for strsignal(3)
+#include<us_helper.h> // for TRACE(), CHECK_NOT_VAL()
 
 /*
 * This is a simple example which shows how to do signal handling with the

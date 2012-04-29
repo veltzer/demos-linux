@@ -19,18 +19,18 @@
 */
 
 #include<firstinclude.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/stat.h>
+#include<sys/stat.h> // for lstat(2)
 #include<sys/dir.h>
-#include<sys/param.h>
+#include<sys/param.h> // for MAXPATHLEN
 #include<unistd.h>
-#include<dirent.h>
-#include<stdio.h>
-#include<string.h>
+#include<sys/types.h> // for opendir(3), DIR, struct dirent
+#include<dirent.h> // for opendir(3), DIR, struct dirent
+#include<stdio.h> // for snprintf(3)
+#include<string.h> // for strcmp(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
-void scanthedir(char* dirname) {
+void scanthedir(const char* dirname) {
 	DIR* sdir=NULL;
 	DIR* fddir=NULL;
 	struct dirent* dircontent;
@@ -41,48 +41,34 @@ void scanthedir(char* dirname) {
 	char linkname[MAXPATHLEN];
 	char linktarget[MAXPATHLEN];
 	int linktargetsize;
-	if(!(sdir = opendir(dirname))) {
-		perror(dirname);
-		exit(errno);
-	}
+	CHECK_NOT_NULL(sdir = opendir(dirname));
 	while((dircontent=readdir(sdir))) {
 		if ((strcmp(dircontent->d_name, "." ) == 0)
 			|| strcmp(dircontent->d_name, "..") == 0)
 			continue;
-		sprintf(tmpdir, "%s/%s", dirname, dircontent->d_name);
-		if (lstat(tmpdir, & statbuf) == -1) {
-			perror(tmpdir);
-			exit(errno);
-		}
+		snprintf(tmpdir, MAXPATHLEN,"%s/%s", dirname, dircontent->d_name);
+		CHECK_NOT_M1(lstat(tmpdir, & statbuf));
 		if (S_ISDIR(statbuf.st_mode)) {
 			if (statbuf.st_uid == getuid()) {
-				sprintf(fddirname, "%s/fd", tmpdir);
+				snprintf(fddirname, MAXPATHLEN,"%s/fd", tmpdir);
 				printf("%s\n", dircontent->d_name);
-				if (!(fddir = opendir(fddirname))) {
-					perror(fddirname);
-					exit(errno);
-				}
+				CHECK_NOT_NULL(fddir = opendir(fddirname));
 				while((fddircontent = readdir(fddir))) {
 					if ((strcmp(fddircontent->d_name, "." ) == 0)
 						|| strcmp(fddircontent->d_name, "..") == 0)
 						continue;
-					sprintf(linkname, "%s/%s", fddirname, fddircontent->d_name);
-					if ((linktargetsize = readlink(linkname, linktarget, sizeof(linktarget))) == -1) {
-						perror("readlink failed");
-						exit(errno);
-					}
+					snprintf(linkname, MAXPATHLEN,"%s/%s", fddirname, fddircontent->d_name);
+					CHECK_NOT_M1(linktargetsize=readlink(linkname, linktarget, sizeof(linktarget)));
 					linktarget[linktargetsize] = '\0';
 					printf("\t%s --> %s\n", linkname, linktarget);
 				}
 			}
 		}
 	}
-	closedir(sdir);
+	CHECK_NOT_M1(closedir(sdir));
 }
 
 int main(int argc,char** argv,char** envp) {
-	char dirname[MAXPATHLEN];
-	strcpy(dirname,"/proc");
-	scanthedir(dirname);
+	scanthedir("/proc");
 	return EXIT_SUCCESS;
 }

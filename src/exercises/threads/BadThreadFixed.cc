@@ -19,11 +19,11 @@
 */
 
 #include<firstinclude.h>
-#include<pthread.h>
-#include<stdio.h>
-#include<unistd.h>
-#include<errno.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<pthread.h> // for pthread_create(3), pthread_join(3)
+#include<stdio.h> // for printf(3)
+#include<unistd.h> // for sleep(3)
+#include<stdlib.h> // for EXIT_SUCCESS, rand(3), srand(3)
+#include<us_helper.h> // for CHECK_ZERO()
 
 /*
 * EXTRA_LIBS=-lpthread
@@ -49,22 +49,13 @@ int main(int argc,char** argv,char** envp) {
 	srand(time(0));
 	for(int i=0;i<NUM_THREADS;i++) {
 		t[i]=i;
-		int rc = pthread_create(&threads[i], NULL, PrintHello,
-			(void *) & t[i]);
-		if(rc) {
-			perror("could not create thread");
-			exit(errno);
-		}
+		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *) & t[i]));
 	}
 	for(int i=0;i<NUM_THREADS;i++) {
 		stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
 		sleep(stime);
 		void* cretval;
-		int rc=pthread_join(threads[i],&cretval);
-		if(rc) {
-			perror("could not join thread");
-			exit(errno);
-		}
+		CHECK_ZERO(pthread_join(threads[i],&cretval));
 		retval[i]=(int)cretval;
 		printf("thread returned value %d\n",retval[i]);
 	}

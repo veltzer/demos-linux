@@ -19,20 +19,19 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for printf(3)
+#include<stdio.h> // for printf(3), scanf(3)
 #include<stdlib.h> // for rand(3), srand(3), EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_INT()
 
 int main(int argc,char** argv,char** envp) {
 	int seed;
 	int i;
-	printf("give me a seed :");
-	int ret=scanf("%d",&seed);
-	if(ret!=1) {
-		perror("scanf");
-		return -1;
-	}
+	printf("give me a seed: ");
+	CHECK_INT(scanf("%d",&seed),1);
+	// no error code for srand
 	srand(seed);
 	for(i=0;i<10;i++) {
+		// no error code for rand
 		printf("rand gave me %d\n",rand());
 	}
 	return EXIT_SUCCESS;

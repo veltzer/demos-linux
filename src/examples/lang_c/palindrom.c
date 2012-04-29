@@ -19,20 +19,16 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for printf(3), scanf(3)
+#include<stdio.h> // for printf(3), fgets(3)
 #include<string.h> // for strlen(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_NULL()
 
 int main(int argc,char** argv,char** envp) {
 	const int STRINGSIZE=30;
 	char mystring[STRINGSIZE];
 	printf("Give me a string to check: ");
-	//scanf("%s",mystring);
-	char* ret=fgets(mystring,STRINGSIZE,stdin);
-	if(ret==NULL) {
-		perror("error in fgets");
-		return -1;
-	}
+	CHECK_NOT_NULL(fgets(mystring,STRINGSIZE,stdin));
 	int len=strlen(mystring);
 	printf("len is %d\n",len);
 	int palindrom=1;
