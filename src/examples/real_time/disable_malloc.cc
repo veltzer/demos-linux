@@ -54,24 +54,30 @@ void* my_memalign_hook(size_t alignment, size_t size,const void *caller);
 void my_free_hook(void *ptr, const void *caller);
 
 static void save_hooks(void) {
+	/* FIXME - __XXXX_hook are deprecated...
 	old_malloc_hook=__malloc_hook;
 	old_realloc_hook=__realloc_hook;
 	old_memalign_hook=__memalign_hook;
 	old_free_hook=__free_hook;
+	*/
 }
 
 static void setup_hooks(void) {
+	/* FIXME - __XXXX_hook are deprecated...
 	__malloc_hook=my_malloc_hook;
 	__realloc_hook=my_realloc_hook;
 	__memalign_hook=my_memalign_hook;
 	__free_hook=my_free_hook;
+	*/
 }
 
 static void restore_hooks(void) {
+	/* FIXME - __XXXX_hook are deprecated...
 	__malloc_hook=old_malloc_hook;
 	__realloc_hook=old_realloc_hook;
 	__memalign_hook=old_memalign_hook;
 	__free_hook=old_free_hook;
+	*/
 }
 
 void* my_malloc_hook(size_t size, const void *caller) {
@@ -110,15 +116,19 @@ void my_free_hook(void *ptr, const void *caller) {
 	throw std::exception();
 }
 
+/* FIXME - __XXXX_hook are deprecated...
 static void my_init_hook(void) {
 	TRACE("start");
 	save_hooks();
 	setup_hooks();
 	TRACE("end");
 }
+*/
 
 /* Override initializing hook from the C library. */
+/* FIXME - __XXXX_hook are deprecated...
 void (*__malloc_initialize_hook) (void) = my_init_hook;
+*/
 
 void disable_malloc(void) {
 	malloc_allowed=false;
