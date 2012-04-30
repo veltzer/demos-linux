@@ -23,6 +23,7 @@
 #include<linux/fs.h> // for fops
 #include<linux/device.h> // for device_create
 #include<linux/moduleparam.h> // for module_param, MODULE_PARM_DESC...
+#include<linux/init.h> // for __init, __exit
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -62,7 +63,7 @@ static const struct file_operations null_fops = {
 static struct class *my_class;
 static struct device *my_device;
 
-static int null_init(void) {
+static int __init null_init(void) {
 	int err;
 	pr_info("start");
 	// this is registering the new device operations
@@ -100,7 +101,7 @@ err_nothing:
 	return err;
 }
 
-static void null_exit(void) {
+static void __exit null_exit(void) {
 	pr_info("start");
 	if(auto_register) {
 		device_destroy(my_class, MKDEV(NULL_MAJOR, NULL_MINOR));
