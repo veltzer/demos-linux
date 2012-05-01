@@ -21,13 +21,14 @@
 #include<firstinclude.h>
 #include"Phil.hh"
 #include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include<time.h> // for time(2)
 
 int semid;
 
 void think(int id) {
 	int stime;
 	printf("Philosopher %d is busy thinking\n", id);
-	srand(time(0));
+	srand(time(NULL));
 	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
 	sleep(stime);
 	printf("Philosopher %d finished thinking\n", id);
@@ -36,7 +37,7 @@ void think(int id) {
 void eat(int id) {
 	int stime;
 	printf("Philosopher %d is busy eating\n", id);
-	srand(time(0));
+	srand(time(NULL));
 	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
 	sleep(stime);
 	printf("Philosopher %d finished eating\n", id);
