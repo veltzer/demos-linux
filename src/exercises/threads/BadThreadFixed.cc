@@ -24,6 +24,7 @@
 #include<unistd.h> // for sleep(3)
 #include<stdlib.h> // for EXIT_SUCCESS, rand(3), srand(3)
 #include<us_helper.h> // for CHECK_ZERO()
+#include<time.h> // for time(2)
 
 /*
 * EXTRA_LIBS=-lpthread
@@ -46,7 +47,7 @@ int main(int argc,char** argv,char** envp) {
 	int t[NUM_THREADS];
 	int retval[NUM_THREADS];
 	int stime;
-	srand(time(0));
+	srand(time(NULL));
 	for(int i=0;i<NUM_THREADS;i++) {
 		t[i]=i;
 		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *) & t[i]));
