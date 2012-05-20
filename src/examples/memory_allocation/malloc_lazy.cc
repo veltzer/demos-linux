@@ -21,7 +21,7 @@
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3), fgets(3), perror(3)
 #include<unistd.h> // for sleep(3), getpagesize(2)
-#include<stdlib.h> // for malloc(3), atoi(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include<stdlib.h> // for malloc(3), atoi(3), EXIT_SUCCESS
 #include<sys/mman.h> // for mlockall(2), munlockall(2)
 #include<malloc.h> // for malloc_stats(3)
 #include<proc/readproc.h> // for look_up_our_self(3)
@@ -74,11 +74,8 @@ int main(int argc,char** argv,char** envp) {
 		printf("11) exit\n");
 		unsigned int bufsize=256;
 		char buf[bufsize];
-		char *r=fgets(buf,bufsize,stdin);
-		if(r==NULL) {
-			perror("could not read from the terminal");
-			exit(EXIT_FAILURE);
-		}
+		char *r;
+		CHECK_NOT_NULL(r=fgets(buf,bufsize,stdin));
 		int result=atoi(buf);
 		switch(result) {
 			case 1:
