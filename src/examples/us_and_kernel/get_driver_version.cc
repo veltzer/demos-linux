@@ -19,11 +19,11 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for perror(3), printf(3), snprintf(3)
+#include<stdio.h> // for printf(3), snprintf(3)
 #include<sys/utsname.h> // for uname(2)
 #include<dlfcn.h> // for dlopen(3), dlclose(3)
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include<us_helper.h> // for CHECK_NOT_M1
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 /*
 * This example shows how to extract the version number from a "ko" (kernel object)
@@ -44,11 +44,8 @@
 */
 
 void get_driver_version(const char *filename) {
-	void* handle = dlopen(filename, RTLD_LAZY);
-	if(handle==NULL) {
-		perror(dlerror());
-		exit(EXIT_FAILURE);
-	}
+	void* handle;
+       	CHECK_NOT_NULL(handle=dlopen(filename, RTLD_LAZY));
 	CHECK_NOT_M1(dlclose(handle));
 }
 
