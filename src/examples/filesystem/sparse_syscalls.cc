@@ -19,13 +19,11 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for perror(3)
 #include<sys/types.h> // for open(2), lseek(2)
 #include<sys/stat.h> // for open(2)
 #include<fcntl.h> // for open(2)
 #include<unistd.h> // for write(2), lseek(2), close(2)
 #include<stdlib.h> // for EXIT_SUCCESS
-
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*

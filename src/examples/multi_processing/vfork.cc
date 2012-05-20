@@ -20,7 +20,7 @@
 
 #include<firstinclude.h>
 #include<unistd.h> // for fork(2)
-#include<stdio.h> // for fgets(3), perror(3)
+#include<stdio.h> // for fgets(3)
 #include<sys/types.h> // for waitid(2)
 #include<sys/wait.h> // for waitid(2)
 #include<stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
