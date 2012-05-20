@@ -23,11 +23,11 @@
 #include<stdio.h> // for fgets(3), perror(3)
 #include<sys/types.h> // for waitid(2), getpid(2), getppid(2)
 #include<sys/wait.h> // for waitid(2)
-#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include<stdlib.h> // for EXIT_SUCCESS
 #include<string.h> // for strsignal(3)
 #include<signal.h> // for kill(2)
 
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This example demostrates what happens when a processes father dies...
@@ -46,17 +46,11 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	pid_t child_pid = fork();
-	if (child_pid == -1) {
-		perror("could not fork");
-		exit(EXIT_FAILURE);
-	}
+	pid_t child_pid;
+       	CHECK_NOT_M1(child_pid=fork());
 	if (child_pid == 0) {
-		pid_t gchild_pid = fork();
-		if (gchild_pid == -1) {
-			perror("could not fork");
-			exit(EXIT_FAILURE);
-		}
+		pid_t gchild_pid;
+	       	CHECK_NOT_M1(gchild_pid=fork());
 		if (gchild_pid == 0) {
 			TRACE("this is the gchild, pid is %d",getpid());
 			// lets show the parent pid...
