@@ -19,13 +19,12 @@
 */
 
 #include<firstinclude.h>
-#include<stdlib.h> // for malloc(3), EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include<stdlib.h> // for malloc(3), EXIT_SUCCESS
 #include<stdio.h> // for printf(3)
 #include<sys/time.h> // for getrusage(2)
 #include<sys/resource.h> // for getrusage(2)
 #include<strings.h> // for bzero(3)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 * This is an example which shows how to monitor your own virtual memory using getrusage
@@ -57,12 +56,7 @@ int main(int argc,char** argv,char** envp) {
 	const unsigned int num_chunks=50;
 	for(unsigned int i=0;i<num_chunks;i++) {
 		printf("trying to allocate block number %d\n",i);
-		char* buf=(char*)malloc(chunk_size);
-		//bzero(buf,chunk_size);
-		if(buf==NULL) {
-			perror("error in malloc");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_NOT_NULL(malloc(chunk_size));
 		show_vmem();
 	}
 	return EXIT_SUCCESS;
