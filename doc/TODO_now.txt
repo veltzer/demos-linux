@@ -1,4 +1,5 @@
 - get ridd of perror.
+- get ridd of errno.
 - make a script to update the README file with stats of this project.
 	(python preprocessor?). Run it whenever we release a version.
 - find two spaces in a row.
