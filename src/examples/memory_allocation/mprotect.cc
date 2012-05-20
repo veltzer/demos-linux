@@ -24,7 +24,6 @@
 #include<sys/mman.h> // for mprotect(2)
 #include<signal.h> // for sigaction(2)
 #include<malloc.h> // for memalign(3)
-#include<errno.h> // for errno
 #include<unistd.h> // for getpagesize(2)
 #include<us_helper.h> // for CHECK_NOT_M1()
 
