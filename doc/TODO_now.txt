@@ -1,6 +1,6 @@
+- get ridd of perror.
 - make a script to update the README file with stats of this project.
 	(python preprocessor?). Run it whenever we release a version.
 - find two spaces in a row.
-- get ridd of perror.
 - add a test to make sure that all source files begin with my header.
 - make sure EXIT_SUCCESS is everywhere (how do I test this?!?).
