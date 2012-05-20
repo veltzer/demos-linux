@@ -22,8 +22,7 @@
 #include<sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
 #include<sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
 #include<strings.h> // for bzero(3)
-#include<stdio.h> // for perror(3), printf(3), atoi(3)
-#include<errno.h> // for errno
+#include<stdio.h> // for printf(3), atoi(3)
 #include<netdb.h> // for getservbyname(3)
 #include<arpa/inet.h> // for ntohs(3)
 #include<sys/stat.h> // for open(2)

@@ -19,12 +19,11 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for printf(3), perror(3)
-#include<stdlib.h> // for exit(3), malloc(3), EXIT_SUCCESS, EXIT_FAILURE
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for malloc(3), EXIT_SUCCESS
 #include<sys/time.h> // for setrlimit(2)
 #include<sys/resource.h> // for setrlimit(2)
-
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 * This example explores the use of limits. You can limit the size of your programs RAM
@@ -44,11 +43,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(setrlimit(RLIMIT_AS,&rlim));
 	int d=0;
 	while(true) {
-		void* m=malloc(1024*1024);
-		if(m==NULL) {
-			printf("Oh oh, no memory for me\n");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_NOT_NULL(malloc(1024*1024));
 		printf("managed to allocate %d megs\n",d);
 		d++;
 	}
