@@ -28,7 +28,7 @@
 #include<sys/types.h> // for vfork(2)
 #include<unistd.h> // for vfork(2)
 
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * An example of using vfork(2)
@@ -94,11 +94,7 @@ int main(int argc,char** argv,char** envp) {
 		while(!over) {
 			TRACE("waiting for the child...");
 			siginfo_t info;
-			int res = waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED);
-			if (res == -1) {
-				perror("could not waitid(2)");
-				exit(EXIT_FAILURE);
-			}
+		       	CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
 			print_code(info.si_code);
 			print_status(info.si_status);
 			if ((info.si_code == CLD_EXITED) || (info.si_code == CLD_KILLED)) {
