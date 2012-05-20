@@ -19,24 +19,21 @@
 */
 
 #include<firstinclude.h>
-#include<iostream>
-#include<signal.h>
-#include<string.h>
-#include<stdio.h>
+#include<signal.h> // for siginterrupt(3)
+#include<string.h> // for strsignal(3)
+#include<stdio.h> // for fprintf(3)
 #include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include<unistd.h> // for getpid(2), read(2)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_SIGT(), TRACE()
 
 /*
 * This demo demostrates how to cause a thread that is stuck in a long system call to
 * break out of it. The idea is to generate a signal and to define that signal as an
 * interrupt signal. This will not cause the system call to be restarted but rather
 * the system call (in this examples case read(2)) will return with an error(-1) and
-* the error code will be -EINTR. On receiving this the main thread will politely exit
+* the error code will be -EINTR. On receiving this the main thread will politely end
 * (throw an exception ?!?).
-*
-* TODO:
-* - turn this into a pure C example.
 */
 
 static int counterUSR1 = 0;
@@ -45,49 +42,37 @@ static int flag = 0;
 
 static void SignalHandlerUSR1(int sig) {
 	counterUSR1++;
-	std::cerr << "handler: [" << strsignal(sig) << "]: " << counterUSR1 << " starting" << std::endl;
+	fprintf(stderr,"handler [%s]: %d starting\n",strsignal(sig),counterUSR1);
 }
-
 
 static void SignalHandlerUSR2(int sig) {
 	counterUSR2++;
-	std::cerr << "handler: [" << strsignal(sig) << "]: " << counterUSR1 << " starting" << std::endl;
+	fprintf(stderr,"handler [%s]: %d starting\n",strsignal(sig),counterUSR2);
 	// reverse the flag
 	if (flag == 0) {
 		flag = 1;
 	} else {
 		flag = 0;
 	}
-	std::cerr << "handler: [" << strsignal(sig) << "]: " << counterUSR1 << " setting flag to " << flag << std::endl;
-	if (siginterrupt(SIGUSR1, flag) == -1) {
-		perror("problem with calling siginterrupt(2)");
-		exit(EXIT_FAILURE);
-	}
+	fprintf(stderr,"handler [%s]: %d setting flag to %d\n",strsignal(sig),counterUSR2,flag);
+	CHECK_NOT_M1(siginterrupt(SIGUSR1, flag));
 }
 
 int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
-	if (signal(SIGUSR1, SignalHandlerUSR1) == SIG_ERR) {
-		perror("problem with calling signal(2)");
-		exit(EXIT_FAILURE);
-	}
-	if (signal(SIGUSR2, SignalHandlerUSR2) == SIG_ERR) {
-		perror("problem with calling signal(2)");
-		exit(EXIT_FAILURE);
-	}
-	std::cerr << "main: set up the sig handler, lets start" << std::endl;
-	std::cerr << "send signals to me using:" << std::endl;
-	std::cerr << "kill -s SIGUSR1 " << getpid() << std::endl;
+	CHECK_NOT_SIGT(signal(SIGUSR1, SignalHandlerUSR1),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGUSR2, SignalHandlerUSR2),SIG_ERR);
+	TRACE("set up the sig handler, lets start");
+	TRACE("send signals to me using:");
+	TRACE("kill -s SIGUSR1 %d",getpid());
 	// This is a non busy wait loop which only wakes up when there
 	// are signals
-	const int size = 256;
-	char buf[size];
 	while(true) {
-		std::cerr << "main: before read" << std::endl;
-		if (read(fileno(stdin), buf, size) == -1) {
-			perror("main: error in read(2)");
-		}
-		std::cerr << "main: after read" << std::endl;
+		TRACE("before read");
+		const int size = 256;
+		char buf[size];
+		CHECK_NOT_M1(read(fileno(stdin), buf, size));
+		TRACE("after read");
 	}
 	return EXIT_SUCCESS;
 }
