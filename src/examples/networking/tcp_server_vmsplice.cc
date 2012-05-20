@@ -23,8 +23,7 @@
 #include<sys/types.h> // for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
 #include<sys/socket.h> // for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
 #include<strings.h> // for bzero(3)
-#include<stdio.h> // for perror(3), printf(3), atoi(3)
-#include<errno.h> // for errno
+#include<stdio.h> // for printf(3), atoi(3)
 #include<netdb.h> // for getservbyname(3)
 #include<arpa/inet.h> // for ntohs(3)
 #include<sys/stat.h> // for open(2)
@@ -34,10 +33,10 @@
 #include<netinet/in.h> // for sockaddr_in, inet_addr(3)
 #include<arpa/inet.h> // for inet_addr(3)
 #include<sys/mman.h> // for mmap(2)
-#include<stdlib.h> // for rand(3)
+#include<stdlib.h> // for rand(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<assert.h> // for assert(3)
 
-#include<us_helper.h> // our own helper
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_NOT_VOIDP()
 
 /*
 * This is an example of using vmsplice to send mucho data to clients.
@@ -48,10 +47,10 @@
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
 	const char* filename = "/proc/sys/net/core/somaxconn";
+	int fd;
+	CHECK_NOT_M1(fd=open(filename, O_RDONLY));
 	const unsigned int size = 256;
 	char buf[size];
-	int fd;
-	CHECK_NOT_M1(fd = open(filename, O_RDONLY));
 	CHECK_NOT_M1(read(fd, buf, size));
 	CHECK_NOT_M1(close(fd));
 	return atoi(buf);
@@ -103,10 +102,7 @@ void *worker(void* arg) {
 		}
 		assert(ret==0);
 	}
-	if(bytes<0) {
-		perror("error has occured");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(bytes);
 	CHECK_NOT_M1(close(fd));
 	TRACE("thread %d ending",gettid());
 	return NULL;
