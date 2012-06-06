@@ -40,6 +40,7 @@ MODULE_DESCRIPTION("This demo is to show how to create kmem caches and use them"
 * by allocation functions failing.
 *
 * TODO:
+* - the cache does not appear in /proc/slabinfo. Check it out.
 * - do the allocation and deallocation from the cache via ioctl and add a user
 *	space demo application that shows slabtop(1) and /proc/slabinfo as it is allocating
 *	and deallocating.
@@ -53,8 +54,8 @@ static void* p=NULL;
 static int __init kmem_init(void) {
 	PR_INFO("start");
 	cache_p = kmem_cache_create(
-		"mark.veltzer",// name of cache (will appear in slabtop(1), /proc/slabinfo and more.
-		10,// size to allocate in advance
+		"veltzer",// name of cache (will appear in slabtop(1), /proc/slabinfo and more.
+		100,// size of objects in cache
 		0,// alignment
 		SLAB_HWCACHE_ALIGN | SLAB_DEBUG_OBJECTS,// flags (look at the docs, will you ?)
 		NULL// ctor/dtor to be called when each element is allocated or deallocated
@@ -69,6 +70,7 @@ static int __init kmem_init(void) {
 		kmem_cache_destroy(cache_p);
 		return(-ENOMEM);
 	}
+	//mempool_create(number,mempool_alloc_slab, mempool_free_slab, drbd_request_cache);
 	PR_INFO("end");
 	return(0);
 }
