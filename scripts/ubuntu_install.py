@@ -35,6 +35,8 @@ packs=[
 	'iptraf',
 	'iotop',
 	'libpcap-dev',
+	'libasound2-doc',
+	'libasound2-dev',
 ]
 
 args=['sudo','apt-get','install']
