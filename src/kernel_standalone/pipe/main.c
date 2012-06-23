@@ -304,7 +304,7 @@ static int pipe_release(struct inode* inode,struct file* filp) {
 	if(filp->f_mode & FMODE_WRITE) {
 		pipe->writers--;
 		// wake up readers since they may want to end if there
-		// are no more writers...	
+		// are no more writers...
 		pipe_wake_readers(pipe);
 	}
 	pipe_unlock(pipe);
