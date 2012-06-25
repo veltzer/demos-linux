@@ -52,9 +52,9 @@
 int main(int argc,char** argv,char** envp) {
 	int x=0;
 	long long sum=0;
-	//while(likely(x<100000000)) {
+	while(likely(x<1000000000)) {
 	// mispredict on purpose...
-	while(unlikely(x<100000000)) {
+	//while(unlikely(x<1000000000)) {
 		// to force the compiler to actually DO the loop.
 		// moving this line to sum+=x will actually mean that the compiler
 		// will calculate the whole loop in advance!!!

@@ -25,7 +25,17 @@
 
 /*
 * This is a simple example that spends lots of time in a function.
-* You can watch this with 'perf top' and enter the function with 's'.
+* You can watch this with 'sudo perf top' and enter the function with 's'.
+*
+* Notes:
+* - you need the sudo since perf works by hardware events and support for them in the kernel.
+* - you can avoid root with:
+*	Consider tweaking /proc/sys/kernel/perf_event_paranoid:
+*	-1 - Not paranoid at all
+*	0 - Disallow raw tracepoint access for unpriv
+*	1 - Disallow cpu events for unpriv
+*	2 - Disallow kernel profiling for unpriv
+* - if you strip the executable you will not get the function names.
 */
 
 class A {
