@@ -24,16 +24,12 @@
 #include<unistd.h> // for sleep(3)
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
-
-#include<us_helper.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is an example of a process that prints the CPU it is running on
 * and lets you change the CPU that it is on.
 */
-
-void print_cpu(int cpunum) {
-}
 
 int main(int argc,char** argv,char** envp) {
 	pid_t pid=getpid();

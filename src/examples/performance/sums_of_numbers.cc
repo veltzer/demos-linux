@@ -62,5 +62,11 @@ int main(int argc,char** argv,char** envp) {
 		sum+=i;
 	}
 	printf("sum is %d\n", sum);
+	// this loop will not be optimized away...
+	sum=0;
+	for(int i=0;i<100;i++) {
+		sum+=i*i;
+	}
+	printf("sum is %d\n",sum);
 	return EXIT_SUCCESS;
 }
