@@ -26,6 +26,8 @@
 * This example shows how to pad a structure to cache line size
 */
 
+const unsigned int cache_line_size=64;
+
 typedef struct _barestruct {
 	int field1;
 	char foo;
@@ -34,8 +36,18 @@ typedef struct _barestruct {
 typedef struct _mystruct {
 	int field1;
 	char foo;
-	char padding[64-sizeof(barestruct)];
+	char padding[cache_line_size-sizeof(barestruct)];
 } mystruct;
+
+/*
+* This does not work...
+#include<stddef.h> // for offsetof(3)
+typedef struct _mystruct2 {
+	int field1;
+	char foo;
+	char padding[64-__builtin_offsetof(_mystruct2,foo)];
+} mystruct2;
+*/
 
 int main(int argc,char** argv,char** envp) {
 	printf("sizeof(barestruct)=%d\n",sizeof(barestruct));
