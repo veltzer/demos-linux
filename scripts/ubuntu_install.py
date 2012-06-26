@@ -37,6 +37,7 @@ packs=[
 	'libpcap-dev',
 	'libasound2-doc',
 	'libasound2-dev',
+	'numactl',
 ]
 
 args=['sudo','apt-get','install']
