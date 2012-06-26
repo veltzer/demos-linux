@@ -66,12 +66,15 @@ int main(int argc,char** argv,char** envp) {
 		case METHOD_MALLOC:
 			char* mp;
 			CHECK_NOT_NULL(mp=(char*)malloc(size));
-			mincore_pointer=mp+pagesize-(unsigned long)mp%pagesize;
-			memset_size=size-(unsigned long)mp%pagesize;
+			CHECK_NOT_NULL(malloc(10));
+			//mincore_pointer=mp+pagesize-(unsigned long)mp%pagesize;
+			mincore_pointer=mp-(unsigned long)mp%pagesize;
+			//memset_size=size-(unsigned long)mp%pagesize;
+			memset_size=size+pagesize;
 			free_pointer=(void*)mp;
 			break;
 	}
-	memset(mincore_pointer,0,memset_size);
+	//memset(mincore_pointer,0,memset_size);
 	CHECK_NOT_M1(mincore(mincore_pointer,memset_size,vec));
 	free(free_pointer);
 	// print the vector
