@@ -151,8 +151,8 @@ TEST(
 );
 TEST(
 	machbar,
-	"This is a MACHINE memory barrier and not a compiler barrier. It does not\
-	act as a compiler barrier but. This does not work.\
+	"This is a full barrier which is both a MACHINE memory barrier\
+	and a compiler barrier. It should work.\
 	the next macro actually inlines a machine instruction...",
 	__sync_synchronize()
 );
@@ -166,8 +166,10 @@ TEST(
 );
 TEST(
 	funccall,
-	"calling extern function which works on some compilers because a function is a natural compiler barrier\
-	but not so in gcc which is very aggressive on optimization...",
+	"calling extern function works on some compilers and some functions\
+	because a function is a natural compiler barrier\
+	but watch out for functions annotated with certain annotations\
+	or inlined functions",
 	srandom(5)
 );
 TEST(
