@@ -60,9 +60,12 @@ void copy_file(const char* filein, const char* fileout) {
 	// ==0: that is ok - it is end of file
 	// -1: error
 	while((ret=splice(fdin,0,pipe_fds[1],0,splice_size,SPLICE_F_MOVE))>0) {
-		CHECK_NOT_M1(splice(pipe_fds[0],0,fdout,0,splice_size,SPLICE_F_MOVE));
+		// TODO: handle short splices...
+		CHECK_NOT_M1(splice(pipe_fds[0],0,fdout,0,ret,SPLICE_F_MOVE));
 	}
 	CHECK_NOT_M1(ret);
+	CHECK_NOT_M1(close(pipe_fds[0]));
+	CHECK_NOT_M1(close(pipe_fds[1]));
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
 }
