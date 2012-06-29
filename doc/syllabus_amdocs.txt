@@ -3,8 +3,9 @@ order:
 	real time design patterns. (1 day)
 	linux systems programming. (2 days)
 	effective (2 days)
-	optimizing linux performace (3 days)
 	linux networking (3 days)
+	
+	optimizing linux performace (3 days)
 ====================================
 = first part - Multi core - 2 days =
 ====================================
