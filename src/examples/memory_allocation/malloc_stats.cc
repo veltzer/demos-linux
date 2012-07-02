@@ -19,25 +19,19 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include<us_helper.h> // for CHECK_NOT_M1()
-#include<sched.h> // for sched_setscheduler(2), sched_param
-#include<sys/types.h> // for pid_t
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<malloc.h> // for malloc_stats(3)
 
 /*
-* make a real time process return and be a regular process.
+* This example shows the use of the malloc_stats(3) function.
+* In order to make it interesting it first does some multi threading
+* work with some memory allocations to make the pools/arenas appear.
+*
+* TODO:
+* - do multi threading and show malloc_stats
 */
 
 int main(int argc,char** argv,char** envp) {
-	if(argc<2) {
-		fprintf(stderr,"Usage: %s [pid]...\n",argv[0]);
-		return EXIT_FAILURE;
-	}
-	for(int i=1;i<argc;i++) {
-		struct sched_param sp = { sched_priority:0 };
-		pid_t pid=atoi(argv[i]);
-		CHECK_NOT_M1(sched_setscheduler(pid, SCHED_OTHER, &sp));
-	}
+	malloc_stats();
 	return EXIT_SUCCESS;
 }
