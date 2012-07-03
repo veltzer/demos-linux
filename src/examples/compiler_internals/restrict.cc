@@ -42,21 +42,10 @@
 * it in a register.
 *
 * If you want to see this in action create a disassembled version of this code
-* under different versions of the myrestrict macro below...
+* under different versions of the __restrict macro below...
 *
 * The difference in performance here is quite noticable...
 */
-
-#define myrestrict __restrict
-//#define myrestrict
-
-void add_restrict(int* myrestrict arr,int num, int* myrestrict result) __attribute__ ((noinline));
-void add_restrict(int* myrestrict arr,int num, int* myrestrict result) {
-	*result=0;
-	for(int i=0;i<num;i++) {
-		*result+=arr[i];
-	}
-}
 
 void add_no_restrict(int* arr,int num, int* result) __attribute__ ((noinline));
 void add_no_restrict(int* arr,int num, int* result) {
@@ -73,6 +62,14 @@ void add_temp(int* arr,int num, int* result) {
 		temp+=arr[i];
 	}
 	*result=temp;
+}
+
+void add_restrict(int* __restrict arr,int num, int* __restrict result) __attribute__ ((noinline));
+void add_restrict(int* __restrict arr,int num, int* __restrict result) {
+	*result=0;
+	for(int i=0;i<num;i++) {
+		*result+=arr[i];
+	}
 }
 
 int main(int argc,char** argv,char** envp) {
@@ -93,19 +90,18 @@ int main(int argc,char** argv,char** envp) {
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+	printf("doing %d temp calls\n",loop);
+	gettimeofday(&t1, NULL);
+	for(unsigned int i=0;i<loop;i++) {
+		add_temp(arr,array_size,&res);
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 
 	printf("doing %d restrict calls\n",loop);
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0;i<loop;i++) {
 		add_restrict(arr,array_size,&res);
-	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
-
-	printf("doing %d temp calls\n",loop);
-	gettimeofday(&t1, NULL);
-	for(unsigned int i=0;i<loop;i++) {
-		add_temp(arr,array_size,&res);
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
