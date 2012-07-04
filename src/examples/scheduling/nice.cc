@@ -27,6 +27,7 @@
 #include<sys/mman.h> // for shm_open(3), shm_unlink(3)
 #include<sys/stat.h> // for shm_open(3), shm_unlink(3)
 #include<fcntl.h> // for shm_open(3), shm_unlink(3)
+#include<stdlib.h> // for EXIT_SUCCESS, atoi(3), EXIT_FAILURE
 
 /*
 * This examples shows the effect of the nice scheduling system.
@@ -48,17 +49,22 @@ void make_child(const int niceval,int* prog) {
 		return;
 	}
 	CHECK_NOT_M1(nice(niceval));
-	float sum;
+	float sum=0;
 	for(unsigned int i=0;i<100000000;i++) {
 		for(unsigned int j=0;j<10000000;j++) {
 			sum+=j;
 		}
+		asm volatile("":::"memory");
 		*prog=*prog+1;
 	}
+	exit(sum);
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int niceval=5;
+	if(argc<2) {
+		fprintf(stderr,"%s: usage: %s [nicevals] [niceval] ...\n",argv[0],argv[0]);
+		return EXIT_FAILURE;
+	}
 	const char* shm_name="shared_mem";
 	// bind the entire process to a single CPU (cpu 0)
 	// lets get our pid (no error for getpid)
@@ -68,7 +74,8 @@ int main(int argc,char** argv,char** envp) {
 	CPU_SET(0,&onecore);
 	CHECK_NOT_M1(sched_setaffinity(mypid,sizeof(onecore),&onecore));
 	// put this in shared memory
-	CHECK_NOT_M1(shm_unlink(shm_name));
+	// don't check the return address in case it's the first time we run this software
+	shm_unlink(shm_name);
 	int smfd;
 	CHECK_NOT_M1(smfd=shm_open(shm_name,O_CREAT|O_RDWR,0));
 	// we have to set the size otherwise it will not work
@@ -83,15 +90,19 @@ int main(int argc,char** argv,char** envp) {
 		0/* offset: from the begining of the file */
 	),MAP_FAILED);
 	int* iptr=(int*)ptr;
-	*(iptr+0)=0;
-	*(iptr+1)=0;
 	// lets fork...
-	make_child(niceval+1,iptr+0);
-	make_child(niceval,iptr+1);
+	for(int i=1;i<argc;i++) {
+		*(iptr+i-1)=0;
+		make_child(atoi(argv[i]),iptr+i-1);
+	}
 	int loop=0;
 	while(true) {
 		__sync_synchronize();
-		printf("%d: prog1/2 is %d/%d\r",loop,*(iptr+0),*(iptr+1));
+		printf("iteration %d: progress: ",loop);
+		for(int i=1;i<argc;i++) {
+			printf("%d, ",*(iptr+i-1));
+		}
+		printf("\r");
 		fflush(stdout);
 		sleep(1);
 		loop++;
