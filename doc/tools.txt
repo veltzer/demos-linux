@@ -106,3 +106,10 @@ mysql:
 programming:
 	cdecl
 	lint (various sorts)
+
+elf tools:
+	nm
+	ldd
+	objdump
+	pldd
+	readelf
