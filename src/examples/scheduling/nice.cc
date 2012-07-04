@@ -19,12 +19,14 @@
 */
 
 #include<firstinclude.h>
-#include<unistd.h> // for nice(2), fork(2)
-#include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2)
+#include<sys/types.h> // for getpid(2), ftruncate(2)
+#include<unistd.h> // for getpid(2), sleep(3), nice(2), fork(2), ftruncate(2)
 #include<sched.h> // for sched_setaffinity(2), CPU_ZERO(3), CPU_SET(3)
-
-#include<us_helper.h> // for CHECK_ZERO, CHECK_NOT_M1, TRACE
+#include<stdio.h> // for printf(3), fflush(3)
+#include<us_helper.h> // for CHECK_ZERO(), CHECK_NOT_M1(), TRACE()
+#include<sys/mman.h> // for shm_open(3), shm_unlink(3)
+#include<sys/stat.h> // for shm_open(3), shm_unlink(3)
+#include<fcntl.h> // for shm_open(3), shm_unlink(3)
 
 /*
 * This examples shows the effect of the nice scheduling system.
@@ -33,35 +35,67 @@
 * It then forks two versions of heavy work each with a different nice level.
 * Then you can compare the work done by each of these.
 *
+* EXTRA_LIBS=-lrt
+*
 * References:
 * man 2 nice
-*
-* TODO:
-* - make the printing look nicer so that it would be obvious that the child
-* and the parent are running in different speeds.
 */
 
+void make_child(const int niceval,int* prog) {
+	pid_t pid;
+	CHECK_NOT_M1(pid=fork());
+	if(pid!=0) { // parent
+		return;
+	}
+	CHECK_NOT_M1(nice(niceval));
+	float sum;
+	for(unsigned int i=0;i<100000000;i++) {
+		for(unsigned int j=0;j<10000000;j++) {
+			sum+=j;
+		}
+		*prog=*prog+1;
+	}
+}
+
 int main(int argc,char** argv,char** envp) {
-	// bind the entire process to a single CPU
+	const int niceval=5;
+	const char* shm_name="shared_mem";
+	// bind the entire process to a single CPU (cpu 0)
 	// lets get our pid (no error for getpid)
 	pid_t mypid=getpid();
 	cpu_set_t onecore;
 	CPU_ZERO(&onecore);
 	CPU_SET(0,&onecore);
 	CHECK_NOT_M1(sched_setaffinity(mypid,sizeof(onecore),&onecore));
+	// put this in shared memory
+	CHECK_NOT_M1(shm_unlink(shm_name));
+	int smfd;
+	CHECK_NOT_M1(smfd=shm_open(shm_name,O_CREAT|O_RDWR,0));
+	// we have to set the size otherwise it will not work
+	CHECK_NOT_M1(ftruncate(smfd,getpagesize()));
+	void* ptr;
+	CHECK_NOT_VOIDP(ptr=mmap(
+		NULL,/* addr: dont recommend address */
+		getpagesize(),/* size: the size of the file */
+		PROT_READ|PROT_WRITE,/* prot: we just want read */
+		MAP_SHARED, /* flags: PRIVATE or SHARED ** MUST** be specified */
+		smfd,/* fd: our file descriptor */
+		0/* offset: from the begining of the file */
+	),MAP_FAILED);
+	int* iptr=(int*)ptr;
+	*(iptr+0)=0;
+	*(iptr+1)=0;
 	// lets fork...
-	pid_t pid;
-	CHECK_NOT_M1(pid=fork());
-	if(pid==0) {
-		// child
-		CHECK_NOT_M1(nice(5));
+	make_child(niceval+1,iptr+0);
+	make_child(niceval,iptr+1);
+	int loop=0;
+	while(true) {
+		__sync_synchronize();
+		printf("%d: prog1/2 is %d/%d\r",loop,*(iptr+0),*(iptr+1));
+		fflush(stdout);
+		sleep(1);
+		loop++;
 	}
-	float sum;
-	for(unsigned int i=0;i<100000000;i++) {
-		for(unsigned int j=0;j<100000000;j++) {
-			sum+=j;
-		}
-		TRACE("i is %d",i);
-	}
+	CHECK_NOT_M1(shm_unlink(shm_name));
 	return EXIT_SUCCESS;
 }
