@@ -24,14 +24,14 @@
 #include<fcntl.h> // for open(2)
 
 #include<stdio.h> // for printf(3)
-#include<stdlib.h> // for exit(3)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
 * This program errors on purpose.
 */
 
-//#define CHECK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(1);}
-#define CHECK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(1);}
+//#define CHECK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(EXIT_FAILURE);}
+#define CHECK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(EXIT_FAILURE);}
 
 int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(open("thisfiledoesnotexist",O_RDONLY));

@@ -104,7 +104,7 @@ int main(int argc,char** argv,char** envp) {
 	size_t size=atoi(argv[2]);
 	void* buf1=malloc(size);
 	void* buf2=(char*)malloc(size);
-	
+
 	/*
 	if(rand()<RAND_MAX) {
 		buf1=NULL;
