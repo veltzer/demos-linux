@@ -21,6 +21,7 @@
 #include<firstinclude.h>
 #include<iostream> // for std::cout, std::endl
 #include<list> // for std::list<T>, std::list<T>::iterator
+#include<vector> // for std::list<T>, std::list<T>::iterator
 #include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE;
 
 int main(int argc,char** argv,char** envp) {
@@ -31,17 +32,20 @@ int main(int argc,char** argv,char** envp) {
 	int size=atoi(argv[1]);
 	int postoact=atoi(argv[2]);
 	int postoremove=atoi(argv[3]);
-	std::list<int> l;
+	//std::list<int> l;
+	std::vector<int> l;
 	for(int i=0;i<size;i++) {
 		l.push_back(i);
 	}
 
 	// remove an element in a position already passed
-	std::list<int>::iterator i;
+	//std::list<int>::iterator i;
+	std::vector<int>::iterator i;
 	int counter=0;
 	for(i=l.begin();i!=l.end();i++) {
 		if(counter==postoact) {
-			l.remove(postoremove);
+			//l.remove(postoremove);
+			l.erase(l.begin()+postoremove);
 		}
 		std::cout << "visiting " << *i << std::endl;
 		counter++;
