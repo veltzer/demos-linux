@@ -31,9 +31,9 @@
 *
 * NOTES:
 * - the address passed to mincore(2) should be on a page boundary. That
-*   is why posix_memalign(3) is used.
+* is why posix_memalign(3) is used.
 * - if you remove the memset the pages are not there. If you add the memset
-*   then the pages are there.
+* then the pages are there.
 */
 
 enum Method {

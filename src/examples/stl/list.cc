@@ -19,32 +19,23 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for perror(3)
-#include<stdlib.h> // for exit(3), posix_memalign(3), EXIT_FAILURE, EXIT_SUCCESS
-#include<unistd.h> // for getpagesize(2)
-#include<sys/mman.h> // for mprotect(2)
-
-// this code simulates a memory corruption
-void bad_code(void* precious_data) {
-	char* p=(char*)precious_data;
-	p[0]=5;
-}
-
-void protect_me(void* precious_data,size_t len) {
-	if(mprotect(precious_data,len,PROT_READ)==-1) {
-		perror("mprotect");
-		exit(EXIT_FAILURE);
-	}
-}
+#include<iostream> // for std::cout, std::endl
+#include<list> // for std::list<T>, std::list<T>::iterator
+#include<stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
-	void* precious_data;
-	const unsigned int size=8192;
-	if(posix_memalign(&precious_data,getpagesize(),size)==-1) {
-		perror("posix_memalign");
-		exit(EXIT_FAILURE);
-	}
-	protect_me(precious_data,size);
-	bad_code(precious_data);
+	std::list<int> l;
+	l.push_back(0); // Insert a new element at the end
+	l.push_front(0); // Insert a new element at the beginning
+	l.insert(++l.begin(),2); // Insert "2" before position of first argument
+					// (Place before second argument)
+	l.push_back(5);
+	l.push_back(6);
+
+	// lets iterate and print
+	std::list<int>::iterator i;
+	for(i=l.begin();i!=l.end();i++)
+		std::cout << *i << " ";
+	std::cout << std::endl;
 	return EXIT_SUCCESS;
 }
