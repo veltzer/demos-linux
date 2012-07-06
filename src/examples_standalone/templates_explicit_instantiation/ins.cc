@@ -19,7 +19,6 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.hh"
 #include"Foo.tt"
 
 /*
