@@ -18,18 +18,14 @@
 	02111-1307 USA.
 */
 
-#ifndef __Foo_h
-#define __Foo_h
+#ifndef __Foo_tt
+#define __Foo_tt
 
 #include<firstinclude.h>
+#include"Foo.hh"
 
-template<class T> class Foo {
-	protected:
-		T t;
-	public:
-		void setT(T it) {
-			t = it;
-		}
-};
+template<class T> void Foo<T>::setT(T it) {
+	t=it;
+}
 
-#endif // __Foo_h
+#endif // __Foo_tt
