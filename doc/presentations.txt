@@ -1,0 +1,33 @@
+types of context switches and how to avoid them:
+	1. calling a syscall
+		a. avoid it.
+		b. call better APIs (readv vs read).
+		c. do smarter io (multiplexing and more).
+		d. use futexes instead of semaphores and any APIS
+			which reduce context switches.
+	2. schedulingq/pre-emption context switches
+		a. increase your priority or decreate your opponents.
+		b. tune the linux scehduler (/proc/sys/kernel/sched_*)
+		c. compile the linux kernel to server mode pre-emption.
+	3. interrupts from hardware
+		a. affine them to some other CPU.
+		b. mitigate them.
+tmpfs and ramfs on linux.
+posix access control on linux.
+	http://www.suse.de/~agruen/acl/linux-acls/online/
+malloc in linux.
+	replacing malloc
+	hooking malloc
+	malloc performance
+	allocating memory via other means:
+		obstacks
+		mmap
+		sbrk
+		other libraries
+The linux network stack.
+Road to async (better APIs, Multiplexing, Async IO, Multi threading/processing).
+types of locks (from no locking to locking).
+boost.
+stl.
+finish the pthread presentation.
+finish the effective C++ presentation.
