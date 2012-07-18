@@ -200,7 +200,7 @@ static inline void check_positive(int val,const char* msg,const char* base_file,
 #define CHECK_NOT_ZERO(v) check_not_zero(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_1(v) check_1(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);
-#define CHECK_NOT_NEGATVIE(v) check_not_negative(v,__stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__)
+#define CHECK_NOT_NEGATIVE(v) check_not_negative(v,__stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_NOT_NULL(v) check_not_null(v,__stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_ONEOFTWO(v,e1,e2) check_oneoftwo(v, __stringify(v),e1,e2,__BASE_FILE__,__FUNCTION__,__LINE__);
 #define CHECK_ASSERT(v) check_assert(v, __stringify(v),__BASE_FILE__,__FUNCTION__,__LINE__);

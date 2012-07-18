@@ -19,13 +19,26 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
 
 /*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
+* This example explores the sizeof structures.
+*
+* This example shows that:
+* - the size of an empty structure is 0 in C (in C++ it's actually 1 to make it an object).
+* - just one character does NOT pad the size to 4 or something.
 */
 
-template class Foo<int>;
+typedef struct _empty {
+} empty;
+
+typedef struct _onechar {
+	char mychar;
+} onechar;
+
+int main(int argc,char** argv,char** envp) {
+	printf("sizeof(empty) is %d\n",sizeof(empty));
+	printf("sizeof(onechar) is %d\n",sizeof(onechar));
+	return EXIT_SUCCESS;
+}

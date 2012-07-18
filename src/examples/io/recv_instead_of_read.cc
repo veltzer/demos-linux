@@ -19,13 +19,27 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<sys/types.h> // for recv(2), open(2)
+#include<sys/socket.h> // for recv(2)
+#include<stdio.h> // for printf(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
+* This example shows that recv(2) cannot be used instead of read for regular
+* disk based IO. The error returned is ENOTSOCK.
 */
 
-template class Foo<int>;
+int main(int argc,char** argv,char** envp) {
+	const char* file="/etc/passwd";
+	int fd;
+	CHECK_NOT_M1(fd=open(file,O_RDONLY));
+	const int bufsize=256;
+	char buf[bufsize];
+	int readBytes;
+	CHECK_NOT_M1(readBytes=recv(fd,buf,bufsize,0));
+	CHECK_NOT_M1(close(fd));
+	return EXIT_SUCCESS;
+}

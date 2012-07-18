@@ -95,9 +95,11 @@ int main(int argc,char** argv,char** envp) {
 	// lets install our own SIGSEGV signal handler so that we won't crash...
 	CHECK_NOT_SIGT(signal(SIGSEGV,segv_handler),SIG_ERR);
 	// find the cell where the number 'times' is writen
+	// if you are in gcc 4.6 then search for times
 	// if you are in gcc 4.5 then search for times-1
 	// if you are in gcc 4.4 then search for times
-	char* p=find_cell((void*)function,times-1);
+	// p has to be volatile or else the assignment to it will not happen
+	volatile char* p=find_cell((void*)function,times);
 	fprintf(stderr,"address of function is %p\n",function);
 	fprintf(stderr,"address of p is %p\n",p);
 	//fprintf(stderr,"*function is %c\n",*(char*)function);

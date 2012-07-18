@@ -19,7 +19,7 @@
 */
 
 #include<firstinclude.h>
-#include<stdlib.h> // for malloc(3), EXIT_SUCCESS
+#include<stdlib.h> // for malloc(3), EXIT_SUCCESS, free(3)
 #include<stdio.h> // for printf(3)
 #include<sys/time.h> // for getrusage(2)
 #include<sys/resource.h> // for getrusage(2)
@@ -53,10 +53,24 @@ void show_vmem() {
 int main(int argc,char** argv,char** envp) {
 	// size of each chunk (10M in this example)
 	const size_t chunk_size=10*1024*1024;
-	const unsigned int num_chunks=50;
+	const unsigned int num_chunks=10;
+	void* arr[num_chunks];
+	// lets allocate the memory
 	for(unsigned int i=0;i<num_chunks;i++) {
-		printf("trying to allocate block number %d\n",i);
-		CHECK_NOT_NULL(malloc(chunk_size));
+		printf("allocating block number %d\n",i);
+		CHECK_NOT_NULL(arr[i]=malloc(chunk_size));
+		show_vmem();
+	}
+	// lets touch the memory
+	for(unsigned int i=0;i<num_chunks;i++) {
+		printf("touching block number %d\n",i);
+		bzero(arr[i],chunk_size);
+		show_vmem();
+	}
+	// lets release the memory
+	for(unsigned int i=0;i<num_chunks;i++) {
+		printf("freeing block number %d\n",i);
+		free(arr[i]);
 		show_vmem();
 	}
 	return EXIT_SUCCESS;

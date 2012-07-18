@@ -70,9 +70,9 @@ static int pipes_count=8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
 // this size of pipe performs very well! (3.0 G/s)
-//static int pipe_size=PAGE_SIZE*100;
+static int pipe_size=PAGE_SIZE*1000;
 // this one doesnt...
-static int pipe_size=PAGE_SIZE;
+//static int pipe_size=PAGE_SIZE;
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
@@ -303,8 +303,9 @@ static int pipe_release(struct inode* inode,struct file* filp) {
 	}
 	if(filp->f_mode & FMODE_WRITE) {
 		pipe->writers--;
-		// wake up readers which wait - only needed if the spin lock is not used
-		//pipe_wake_readers(pipe);
+		// wake up readers since they may want to end if there
+		// are no more writers...
+		pipe_wake_readers(pipe);
 	}
 	pipe_unlock(pipe);
 	return 0;

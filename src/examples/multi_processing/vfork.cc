@@ -94,7 +94,7 @@ int main(int argc,char** argv,char** envp) {
 		while(!over) {
 			TRACE("waiting for the child...");
 			siginfo_t info;
-		       	CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
+			CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
 			print_code(info.si_code);
 			print_status(info.si_status);
 			if ((info.si_code == CLD_EXITED) || (info.si_code == CLD_KILLED)) {

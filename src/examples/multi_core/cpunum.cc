@@ -21,8 +21,8 @@
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<unistd.h> // for sysconf(3)
-
-#include<us_helper.h>
+#include<sys/sysinfo.h> // for get_nprocs_conf(3), get_nprocs(3)
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is a simple example showing how to get the number of current cpus...
@@ -38,5 +38,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",ncpus);
 	CHECK_NOT_M1(ncpus=sysconf(_SC_NPROCESSORS_CONF));
 	printf("sysconf(_SC_NPROCESSORS_CONF)=%d\n",ncpus);
+	printf("get_nprocs_conf()=%d\n",get_nprocs_conf());
+	printf("get_nprocs()=%d\n",get_nprocs());
 	return EXIT_SUCCESS;
 }

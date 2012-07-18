@@ -19,13 +19,16 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<sys/types.h> // for open(2)
+#include<sys/stat.h> // for open(2)
+#include<fcntl.h> // for open(2)
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
+* This program errors on purpose.
 */
 
-template class Foo<int>;
+int main(int argc,char** argv,char** envp) {
+	CHECK_NOT_M1(open("thisfiledoesnotexist",O_RDONLY));
+	return EXIT_SUCCESS;
+}

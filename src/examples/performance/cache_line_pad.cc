@@ -19,13 +19,38 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdio.h> // for printf(3)
 
 /*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
+* This example shows how to pad a structure to cache line size
 */
 
-template class Foo<int>;
+const unsigned int cache_line_size=64;
+
+typedef struct _barestruct {
+	int field1;
+	char foo;
+} barestruct;
+
+typedef struct _mystruct {
+	int field1;
+	char foo;
+	char padding[cache_line_size-sizeof(barestruct)];
+} mystruct;
+
+/*
+* This does not work...
+#include<stddef.h> // for offsetof(3)
+typedef struct _mystruct2 {
+	int field1;
+	char foo;
+	char padding[64-__builtin_offsetof(_mystruct2,foo)];
+} mystruct2;
+*/
+
+int main(int argc,char** argv,char** envp) {
+	printf("sizeof(barestruct)=%d\n",sizeof(barestruct));
+	printf("sizeof(mystruct)=%d\n",sizeof(mystruct));
+	return EXIT_SUCCESS;
+}

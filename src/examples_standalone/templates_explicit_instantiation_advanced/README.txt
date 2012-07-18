@@ -1,3 +1,3 @@
-This example shows template storage issues.
-
-It shows how to implement the explicit template instantiation scheme for templates.
+This example shows the most advanced used of templates:
+separating interface and implementation of templates with explicit
+instantiation.

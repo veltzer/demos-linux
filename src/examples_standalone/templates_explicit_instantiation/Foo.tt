@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
+#ifndef __Foo_tt
+#define __Foo_tt
+
 #include<firstinclude.h>
-#include"Foo.tt"
+#include"Foo.hh"
 
-/*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
-*/
+template<class T> void Foo<T>::setT(T it) {
+	t=it;
+}
 
-template class Foo<int>;
+#endif // __Foo_tt
