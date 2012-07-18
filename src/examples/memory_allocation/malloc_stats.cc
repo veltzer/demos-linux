@@ -19,29 +19,47 @@
 */
 
 #include<firstinclude.h>
+#include<stdlib.h> // for EXIT_SUCCESS, atoi(3)
+#include<malloc.h> // for malloc_stats(3)
 #include<pthread.h> // for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
 #include<unistd.h> // for sleep(3)
+#include<stdio.h> // for fprintf(3)
 #include<us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
-* This is a standard pthread demo
+* This example shows the use of the malloc_stats(3) function.
+* In order to make it interesting it first does some multi threading
+* work with some memory allocations to make the pools/arenas appear.
 *
 * EXTRA_LIBS=-lpthread
 */
+
 void *worker(void *p) {
 	int num = *(int *)p;
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
 	int* pointer=(int*)&t;
 	TRACE("pthread_self is %d",*pointer);
-	sleep(60);
+	// lets allocate and deallocate memory...
+	const unsigned int size=1000;
+	void* arr[size];
+	for(unsigned int i=0;i<size;i++) {
+		arr[i]=malloc(size);
+	}
+	for(unsigned int i=0;i<size;i++) {
+		free(arr[i]);
+	}
 	TRACE("ending thread %d", num);
 	return(NULL);
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int num = 10;
-	pthread_t threads[num];
+	if(argc!=2) {
+		fprintf(stderr,"usage: %s [num_threads]\n",argv[0]);
+		return -1;
+	}
+	const int num = atoi(argv[1]);
+	pthread_t* threads=new pthread_t[num];
 	int ids[num];
 	void* rets[num];
 
@@ -55,5 +73,6 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");
+	malloc_stats();
 	return EXIT_SUCCESS;
 }

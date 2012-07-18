@@ -19,7 +19,8 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.h"
+#include<stdlib.h> // for EXIT_SUCCESS
+#include"Foo.hh"
 
 /*
 * This code does IMPLICIT instantiation of Foo<int>
@@ -29,4 +30,8 @@
 void bar() {
 	Foo<int> f;
 	f.setT(5);
+}
+
+int main(int argc,char** argv,char** envp) {
+	return EXIT_SUCCESS;
 }

@@ -51,6 +51,9 @@
 * times) per seconds exactly...
 *
 * EXTRA_LIBS=-lcpufreq
+*
+* TODO:
+* - on multi core the RDTSC reports twice as long. Fix this...
 */
 void long_task(void) {
 //	const int sleep_time=100;

@@ -23,26 +23,23 @@
 #include<sys/time.h> // for gettimeofday(2)
 #include<stdlib.h> // for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include<string.h> // for malloc(3)
-
-#include<us_helper.h> // for micro_diff
+#include<us_helper.h> // for micro_diff(), CHECK_NOT_M1()
 
 /*
 * This example compares memcpy(3) to copy by loop...
 * As you can see memcpy is faster since it uses a specialized machine instruction to do the copying.
+* Actually glibc has an implementation adjusted for each cpu and switches the
+* memcpy function pointer to the right implementation at initialization time.
 * See the disassembly for more details.
 * If you uncomment the rand() code you will find that memcpy does not give you any slack: it does NOT
 * check the arguments passed to it for sanity. This is part of the philosophy of the GNU/Linux system.
 * The idea is that system programmers can take care of themselves and the APIs should be as fast
 * as possible to cater for good programmers.
 */
-struct timeval t1, t2;
-unsigned int loop;
-unsigned int size;
-char* buf1;
-char* buf2;
 
-void test_memcpy() {
-	printf("doing %d memcpy\n",loop);
+void test_memcpy(void* buf1,const void* buf2,size_t size,unsigned int loop) {
+	printf("doing %d real memcpy\n",loop);
+	struct timeval t1, t2;
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for(unsigned int i=0;i<loop;i++) {
 		memcpy(buf1,buf2,size);
@@ -51,8 +48,24 @@ void test_memcpy() {
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 }
 
-void test_imp1() {
+void test_char(void* buf1,const void* buf2,size_t size,unsigned int loop) {
+	printf("doing %d copy char by char\n",loop);
+	struct timeval t1, t2;
+	char* bbuf1=(char*)buf1;
+	const char* bbuf2=(const char*)buf2;
+	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+	for(unsigned int i = 0;i < loop;i++) {
+		for(unsigned int j=0;j<size;j++) {
+			bbuf1[j]=bbuf2[j];
+		}
+	}
+	CHECK_NOT_M1(gettimeofday(&t2, NULL));
+	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+}
+
+void test_imp1(void* buf1,const void* buf2,size_t size,unsigned int loop) {
 	printf("doing %d copy int by int (implementation I)\n",loop);
+	struct timeval t1, t2;
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for(unsigned int i = 0;i < loop;i++) {
 		for(unsigned int j=0;j<size/sizeof(int);j++) {
@@ -63,8 +76,9 @@ void test_imp1() {
 	printf("time in micro of one op: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 }
 
-void test_imp2() {
+void test_imp2(void* buf1,const void* buf2,size_t size,unsigned int loop) {
 	printf("doing %d copy int by int (implementation II)\n",loop);
+	struct timeval t1, t2;
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
 	for(unsigned int i=0;i<loop;i++) {
 		int* pbuf1=(int*)buf1;
@@ -82,25 +96,23 @@ void test_imp2() {
 int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {
 		printf("usage: %s [loop] [size]\n",argv[0]);
+		printf("usage: example is 10000 50000\n");
 		return EXIT_FAILURE;
 	}
 
-	loop=atoi(argv[1]);
-	size=atoi(argv[2]);
+	unsigned int loop=atoi(argv[1]);
+	size_t size=atoi(argv[2]);
+	void* buf1=malloc(size);
+	void* buf2=(char*)malloc(size);
+
 	/*
 	if(rand()<RAND_MAX) {
 		buf1=NULL;
 	}
 	*/
-	buf1=(char*)malloc(size);
-	buf2=(char*)malloc(size);
-
-	test_memcpy();
-	test_imp1();
-	test_imp2();
-	test_memcpy();
-	test_imp1();
-	test_imp2();
-
+	test_memcpy(buf1,buf2,size,loop);
+	test_char(buf1,buf2,size,loop);
+	test_imp1(buf1,buf2,size,loop);
+	test_imp2(buf1,buf2,size,loop);
 	return EXIT_SUCCESS;
 }

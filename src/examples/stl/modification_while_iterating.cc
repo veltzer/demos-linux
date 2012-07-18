@@ -19,25 +19,36 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include<us_helper.h> // for CHECK_NOT_M1()
-#include<sched.h> // for sched_setscheduler(2), sched_param
-#include<sys/types.h> // for pid_t
-
-/*
-* make a real time process return and be a regular process.
-*/
+#include<iostream> // for std::cout, std::endl
+#include<list> // for std::list<T>, std::list<T>::iterator
+#include<vector> // for std::list<T>, std::list<T>::iterator
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE;
 
 int main(int argc,char** argv,char** envp) {
-	if(argc<2) {
-		fprintf(stderr,"Usage: %s [pid]...\n",argv[0]);
+	if(argc!=4) {
+		std::cerr << argv[0] << ": usage " << argv[0] << " [size] [postoact] [postoremove]" << std::endl;
 		return EXIT_FAILURE;
 	}
-	for(int i=1;i<argc;i++) {
-		struct sched_param sp = { sched_priority:0 };
-		pid_t pid=atoi(argv[i]);
-		CHECK_NOT_M1(sched_setscheduler(pid, SCHED_OTHER, &sp));
+	int size=atoi(argv[1]);
+	int postoact=atoi(argv[2]);
+	int postoremove=atoi(argv[3]);
+	//std::list<int> l;
+	std::vector<int> l;
+	for(int i=0;i<size;i++) {
+		l.push_back(i);
+	}
+
+	// remove an element in a position already passed
+	//std::list<int>::iterator i;
+	std::vector<int>::iterator i;
+	int counter=0;
+	for(i=l.begin();i!=l.end();i++) {
+		if(counter==postoact) {
+			//l.remove(postoremove);
+			l.erase(l.begin()+postoremove);
+		}
+		std::cout << "visiting " << *i << std::endl;
+		counter++;
 	}
 	return EXIT_SUCCESS;
 }

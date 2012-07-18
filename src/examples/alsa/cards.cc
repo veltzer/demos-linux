@@ -20,29 +20,35 @@
 
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
-#include<sched.h> // for sched_getcpu(2)
-#include<unistd.h> // for sleep(3)
-#include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<alsa/asoundlib.h> // for snd_card_next(3), snd_config_update_free_global(3)
+#include<us_helper.h>
 
 /*
-* This is an example of a process that prints the CPU it is running on
-* and lets you change the CPU that it is on.
+* Counts how many sound cards ALSA finds in the system.
+* EXTRA_LIBS=-lasound
 */
 
-int main(int argc,char** argv,char** envp) {
-	pid_t pid=getpid();
-	printf("change my cpu using [taskset --cpu-list --pid [list] %d]\n",pid);
-	int cpunum=sched_getcpu();
-	printf("sched_getcpu() says I'm running on core %d\n",cpunum);
+int main(int argc, char** argv,char** envp) {
+	int totalCards=0;
+	int cardNum=-1;
 	while(true) {
-		int newcpunum=sched_getcpu();
-		if(cpunum!=newcpunum) {
-			cpunum=newcpunum;
-			printf("I've switched to running on core %d\n",cpunum);
-		}
-		sleep(3);
+		// Get next sound card's card number. When "cardNum" == -1, then ALSA
+		// fetches the first card, otherwise pass the previous card
+		CHECK_NOT_NEGATIVE(snd_card_next(&cardNum));
+		// No more cards? ALSA sets "cardNum" to -1 if so
+		if(cardNum==-1)
+			break;
+		char* name=NULL;
+		snd_card_get_name(cardNum,&name);
+		printf("found card with id %d and name [%s]\n",cardNum,name);
+		// Another card found, so bump the count
+		totalCards++;
 	}
+	printf("ALSA found %i cards\n", totalCards);
+	// ALSA allocates some mem to load its config file when we call
+	// snd_card_next. Now that we're done getting the info, let's tell ALSA
+	// to unload the info and free up that mem
+	snd_config_update_free_global();
 	return EXIT_SUCCESS;
 }

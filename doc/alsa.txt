@@ -1,0 +1,5 @@
+links for alsa:
+	http://home.roadrunner.com/~jgglatt/tech/linuxapi.htm
+	file:///usr/share/doc/libasound2-doc/html/index.html
+	http://alsamodular.sourceforge.net/alsa_programming_howto.html
+	http://www.linuxjournal.com/article/6735

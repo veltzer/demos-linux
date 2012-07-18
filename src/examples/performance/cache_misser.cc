@@ -19,13 +19,27 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<stdlib.h> // for malloc(3), EXIT_SUCCESS, rand(3)
+#include<stdio.h> // for printf(3)
 
 /*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
+* This is a sample which misses the cache on purpose...
+*
+* test this with:
+* perf stat -e cache-misses ./src/examples/performance/cache_misser.exe
 */
 
-template class Foo<int>;
+int main(int argc,char** argv,char** envp) {
+	const unsigned int size=1024*1024*100; // 100M buffer
+	char* p=(char*)malloc(size);
+	for(unsigned int i=0;i<size;i++) {
+		p[i]=i%256;
+	}
+	long long sum=0;
+	for(unsigned int i=0;i<100000000;i++) {
+		int pos=rand()%size;
+		sum+=p[pos];
+	}
+	printf("sum is %lld\n",sum);
+	return EXIT_SUCCESS;
+}

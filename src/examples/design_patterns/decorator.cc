@@ -19,13 +19,46 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<iostream> // for std::cout, std::endl
 
 /*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
+* This example shows the decorator pattern implemented in C++.
 */
 
-template class Foo<int>;
+class Base {
+	public:
+		virtual void act(void) {
+			std::cout << "in Base" << std::endl;
+		}
+};
+class Derived1:public Base {
+	private:
+		Base& base;
+	public:
+		Derived1(Base& ibase):base(ibase) {
+		}
+		virtual void act(void) {
+			base.act();
+			std::cout << "in Derived1" << std::endl;
+		}
+};
+class Derived2:public Base {
+	private:
+		Base& base;
+	public:
+		Derived2(Base& ibase):base(ibase) {
+		}
+		virtual void act(void) {
+			base.act();
+			std::cout << "in Derived2" << std::endl;
+		}
+};
+
+int main(int argc,char** argv,char** envp) {
+	Base base;
+	Derived1 derived1(base);
+	Derived2 derived2(derived1);
+	derived2.act();
+	return EXIT_SUCCESS;
+}

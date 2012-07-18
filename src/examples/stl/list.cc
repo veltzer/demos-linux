@@ -19,13 +19,23 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.tt"
+#include<iostream> // for std::cout, std::endl
+#include<list> // for std::list<T>, std::list<T>::iterator
+#include<stdlib.h> // for EXIT_SUCCESS
 
-/*
-* This is the explicit instantiation file.
-* Even though it is compiled with flags that imply no
-* implicit instantiation, the code here explicitly causes
-* the templates to be compiled.
-*/
+int main(int argc,char** argv,char** envp) {
+	std::list<int> l;
+	l.push_back(0); // Insert a new element at the end
+	l.push_front(0); // Insert a new element at the beginning
+	l.insert(++l.begin(),2); // Insert "2" before position of first argument
+					// (Place before second argument)
+	l.push_back(5);
+	l.push_back(6);
 
-template class Foo<int>;
+	// lets iterate and print
+	std::list<int>::iterator i;
+	for(i=l.begin();i!=l.end();i++)
+		std::cout << *i << " ";
+	std::cout << std::endl;
+	return EXIT_SUCCESS;
+}

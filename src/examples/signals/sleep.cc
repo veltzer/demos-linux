@@ -33,6 +33,9 @@
 * rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
 * rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
 * nanosleep({5, 0}, 0xbf9db174) = 0
+*
+* TODO:
+* make this program strace itself...
 */
 
 int main(int argc,char** argv,char** envp) {

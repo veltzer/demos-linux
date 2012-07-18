@@ -21,8 +21,7 @@
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3), fprintf(3)
 #include<stdlib.h> // for srandom(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
-
-#include<us_helper.h> // for CHECK_NOT_NULL
+#include<us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 *	This is an example of a compiler barrier
@@ -151,8 +150,8 @@ TEST(
 );
 TEST(
 	machbar,
-	"This is a MACHINE memory barrier and not a compiler barrier. It does not\
-	act as a compiler barrier but. This does not work.\
+	"This is a full barrier which is both a MACHINE memory barrier\
+	and a compiler barrier. It should work.\
 	the next macro actually inlines a machine instruction...",
 	__sync_synchronize()
 );
@@ -166,8 +165,10 @@ TEST(
 );
 TEST(
 	funccall,
-	"calling extern function which works on some compilers because a function is a natural compiler barrier\
-	but not so in gcc which is very aggressive on optimization...",
+	"calling extern function works on some compilers and some functions\
+	because a function is a natural compiler barrier\
+	but watch out for functions annotated with certain annotations\
+	or inlined functions",
 	srandom(5)
 );
 TEST(
