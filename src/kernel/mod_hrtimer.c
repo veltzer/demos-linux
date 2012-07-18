@@ -20,48 +20,49 @@
 
 //#define DEBUG
 #include<linux/module.h> // for MODULE_*, module_*
-#include<linux/timer.h> // for setup_timer, mod_timer, del_timer
+#include<linux/hrtimer.h> // for hrtimer_init, hrtimer_stat, hrtimer_cancel
+#include<linux/ktime.h> // for ktime_set
 
 //#define DO_DEBUG
 #include"kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Demo of the regular linux kernel timer API");
+MODULE_DESCRIPTION("Demo of the high resolution timer API");
 
 /*
-* This module shows how to use timers (non-hi-res) in the linux kernel.
+* This module shows how to use hi res timers in the linux kernel.
 *
 * References:
 * http://www.ibm.com/developerworks/linux/library/l-timers-list/
 */
 
-static struct timer_list my_timer;
+#define MS_TO_NS(x) (x*1E6L)
 
-static void my_timer_callback(unsigned long data) {
-	printk("my_timer_callback called (%ld).\n",jiffies);
+static struct hrtimer hr_timer;
+
+static enum hrtimer_restart my_hrtimer_callback(struct hrtimer* timer) {
+	printk("my_hrtimer_callback called (%ld).\n",jiffies);
+	return HRTIMER_NORESTART;
 }
 
 static int __init mod_init(void) {
-	int ret;
-	printk("Timer module installing\n");
-	setup_timer(&my_timer,my_timer_callback,0);
-	printk("Starting timer to fire in 200ms (%ld)\n",jiffies);
-	ret=mod_timer(&my_timer,jiffies+msecs_to_jiffies(200));
-	if(ret) {
-		printk("Error in mod_timer\n");
-		return ret;
-	}
+	ktime_t ktime;
+	unsigned long delay_in_ms=200L;
+	printk("HR Timer module installing\n");
+	ktime=ktime_set(0,MS_TO_NS(delay_in_ms));
+	hrtimer_init(&hr_timer,CLOCK_MONOTONIC,HRTIMER_MODE_REL);
+	hr_timer.function=&my_hrtimer_callback;
+	printk("Starting timer to fire in %ldms (%ld)\n",delay_in_ms,jiffies);
+	hrtimer_start(&hr_timer,ktime,HRTIMER_MODE_REL);
 	return 0;
 }
 
 static void __exit mod_exit(void) {
 	int ret;
-	ret=del_timer(&my_timer);
-	if(ret) {
-		printk("The timer is still in use...\n");
-	}
-	printk("Timer module uninstalling\n");
+	ret=hrtimer_cancel(&hr_timer);
+	if (ret) printk("The timer was still in use...\n");
+	printk("HR Timer module uninstalling\n");
 }
 
 module_init(mod_init);
