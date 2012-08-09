@@ -1,5 +1,12 @@
 Syllabus for Linux real time programming: 2 days (estimated)
 ============================================================
+Prerequisitites:
+================
+C programming (C++ if C++ issues are to be discussed)
+UNIX API familiarity
+
+Topics:
+=======
 Definitions
 	What is realtime?
 	Near real time scenarios
@@ -58,8 +65,10 @@ Real time and memory allocation
 	kernel memory allocation
 Real time and scheduling
 	Scheduling real time threads
-	user space threads vs kernel threads and IRQ handlers
+	user space threads vs kernel threads vs IRQ handlers
+	Real time threads can hurt your system
 	debugging your threads pre-emption
+	examining interrupts and thread priorities
 Real time and signals
 	What is signal handling?
 	The problems of traditional signal handling
