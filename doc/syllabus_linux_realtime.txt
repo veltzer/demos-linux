@@ -1,0 +1,89 @@
+Syllabus for Linux real time programming: 2 days (estimated)
+============================================================
+Definitions
+	What is realtime?
+	Near real time scenarios
+	Traditional real time operating systems
+	Deficiencies in traditional real time operating systems
+	Where latency comes from
+Linux and real time
+	Is Linux real time?
+	The real time patch
+	real time APIs in Linux
+Real time and being fast
+	The importance of knowing the systems APIs (memcpy, etc)
+	Intel libraries for Linux
+	Writing assembly in Linux
+Real time and the operating system
+	cost of a system calls
+	"do many" system calls (readv, writev,...)
+	multiplexing IO in Linux
+	asynchroneous IO in Linux
+	avoiding system calls (caching, getpid, gettid and more)
+	virtual memory, page faults and their cost.
+	avoiding pagefaults
+	avoiding swap
+	shared memory and how it's implemented
+	cost of DSOs
+Real time and locking
+	How are locks implemented?
+	spinlocks
+	futexes
+	readers/writer lock
+	RCU
+	lock free data structures
+Real time and devices
+	Talking to devices in Linux
+	Regular IO performance for devices (read,write)
+	ioctl
+	mmap
+Real time and clocks
+	What are hardware clocks?
+	high resultion times in Linux.
+	nanosleep
+	multiplexing clocks and other events
+Real time and files
+	cost of reading files
+	cost of writing files
+	cost of seeking files
+	cost of deleting files
+	cost of many files in a folder
+	using tmpfs/ramfs as an alternative
+Real time and memory allocation
+	performance of malloc
+	mlock
+	obstacks
+	mmap
+	other memory allocators
+	kernel memory allocation
+Real time and scheduling
+	Scheduling real time threads
+	user space threads vs kernel threads and IRQ handlers
+	debugging your threads pre-emption
+Real time and signals
+	What is signal handling?
+	The problems of traditional signal handling
+	RT signals in Linux
+	eventfd as alternative to RT signals
+	performance of pipes
+Real time and measurements
+	gettimeofday
+	problems with gettimeofday
+	performance counters intro
+	perf
+	doing it on your own (RDTSC, PAPI)
+	measuring embedded Linux latency
+	measuring latency using external methods (oscilloscope, logic analyzer)
+	kernel profiling
+Real time and logging
+	cost of syslog
+	cost of writing to files
+	alternatives to both using shared memory
+Real time and design
+	Designing a real time Linux system - intro
+	CPU affinity for threads and processes.
+	CPU affinity for interrupt handlers and kernel threads.
+Real time and the hardware
+	hardware built for real time
+	IO busses and real time
+	problems caused by the hardware (Self monitoring IRQs and the like)
