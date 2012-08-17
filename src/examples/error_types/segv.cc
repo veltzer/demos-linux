@@ -19,6 +19,7 @@
 */
 
 #include<firstinclude.h>
+#include<unistd.h> // for EXIT_SUCCESS
 #include<us_helper.h> // for TRACE()
 
 /*
