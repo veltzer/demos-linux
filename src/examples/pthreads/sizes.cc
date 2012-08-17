@@ -48,7 +48,7 @@ void ensure_space(unsigned int size) {
 }
 
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int *)p;
 	ensure_space((num+1)*100*1024);
 	fprintf(stderr, "starting thread %d\n", num);
 	sleep(100);
@@ -57,7 +57,7 @@ void *worker(void *p) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int num = 10;
+	const int num=10;
 	pthread_t threads[num];
 	pthread_attr_t attrs[num];
 	int ids[num];
@@ -65,7 +65,7 @@ int main(int argc,char** argv,char** envp) {
 
 	fprintf(stderr, "main starting\n");
 	for(int i=0;i<num;i++) {
-		ids[i] = i;
+		ids[i]=i;
 		CHECK_ZERO(pthread_attr_init(attrs+i));
 		CHECK_ZERO(pthread_attr_setstacksize(attrs+i,(i+1)*1024*1024));
 		CHECK_ZERO(pthread_create(threads + i, attrs+i, worker, ids + i));

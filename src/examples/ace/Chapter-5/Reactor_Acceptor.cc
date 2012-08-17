@@ -39,7 +39,7 @@ class ClientAcceptor:public ACE_Event_Handler {
 
 		virtual ACE_HANDLE get_handle(void) const;
 
-		virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+		virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 
 	protected:
 		ACE_SOCK_Acceptor m_acceptor;

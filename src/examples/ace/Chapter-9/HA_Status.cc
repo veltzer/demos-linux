@@ -41,7 +41,7 @@ private:
 
 
 int HA_Status::init(int argc, ACE_TCHAR *argv[]) { // Do ACE_Get_Opt and get conf file name, read out the sections and print the names.
-	static const ACE_TCHAR options[] = ACE_TEXT(":f:");
+	static const ACE_TCHAR options[]=ACE_TEXT(":f:");
 
 	ACE_Get_Opt cmd_opts(argc, argv, options);
 
@@ -51,7 +51,7 @@ int HA_Status::init(int argc, ACE_TCHAR *argv[]) { // Do ACE_Get_Opt and get con
 	int option;
 	ACE_TCHAR config_file[MAXPATHLEN];
 	ACE_OS::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
-	while((option = cmd_opts()) != EOF) {
+	while((option=cmd_opts()) != EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);

@@ -43,7 +43,7 @@ class GResourceUser {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P| %t) has the mutex (count=%d)\n"), count));
 				// Access Global resource
 				ACE_OS::sleep(1);
-				result = this->gmutex_.release();
+				result=this->gmutex_.release();
 				ACE_ASSERT(result==0);
 				// Give other process a chance.
 				ACE_OS::sleep(1);
@@ -69,8 +69,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		options.command_line(ACE_TEXT("%s a"), argv[0]);
 		ACE_Process processa, processb;
 
-		pid_t pida = processa.spawn(options);
-		pid_t pidb = processb.spawn(options);
+		pid_t pida=processa.spawn(options);
+		pid_t pidb=processb.spawn(options);
 
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Spawned processes; pids %d:%d\n"), pida, pidb));
 

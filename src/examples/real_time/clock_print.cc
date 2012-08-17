@@ -38,9 +38,9 @@ typedef struct _clock_data {
 	clockid_t id;
 } clock_data;
 
-const int num_clocks = 7;
+const int num_clocks=7;
 // these clock ids are taken from /usr/include/bits/time.h...
-clock_data clocks[num_clocks] = {
+clock_data clocks[num_clocks]={
 	{
 		"CLOCK_REALTIME",
 		CLOCK_REALTIME

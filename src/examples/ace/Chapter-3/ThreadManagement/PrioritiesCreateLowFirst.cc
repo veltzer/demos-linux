@@ -36,7 +36,7 @@ class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) starting up %C\n"), name_));
 			ACE_OS::sleep(2);
-			ACE_Message_Block *mb = 0;
+			ACE_Message_Block *mb=0;
 			while(this->getq(mb)!=-1) {
 				if(mb->msg_type()==ACE_Message_Block::MB_BREAK) {
 					mb->release();
@@ -56,7 +56,7 @@ class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 				sleep(1);
 			}
 			// Simulate compute bound task.
-			for (int i = 0; i < 100; i++) {
+			for (int i=0; i < 100; i++) {
 				sleep(1);
 			}
 		}
@@ -81,8 +81,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Message_Block mb;
 	for(int i=0;i<20;i++) {
 		ACE_Message_Block *mb_hp, *mb_lp;
-		mb_hp = mb.clone();
-		mb_lp = mb.clone();
+		mb_hp=mb.clone();
+		mb_lp=mb.clone();
 		hp_handler.putq(mb_hp);
 		lp_handler.putq(mb_lp);
 	}

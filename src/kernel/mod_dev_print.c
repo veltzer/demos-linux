@@ -55,8 +55,8 @@ static int kern_open(struct inode *inode, struct file *filp) {
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
+static struct file_operations my_fops={
+	.owner=THIS_MODULE,
 	.open=kern_open,
 };
 

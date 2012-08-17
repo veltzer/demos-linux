@@ -152,9 +152,9 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context)
 		);
 
 	/* Get the backtrace. */
-	num_frames = backtrace(frames, MAX_FRAMES);
+	num_frames=backtrace(frames, MAX_FRAMES);
 
-	symbols = backtrace_symbols(frames, num_frames);
+	symbols=backtrace_symbols(frames, num_frames);
 
 	if(symbols) {
 		for(i=0; i< num_frames; i++) {
@@ -186,14 +186,14 @@ int main(int argc,char** argv,char** envp) {
 
 	/* Prepare a sigaction struct for exception handler registrations */
 	memset(&act, 0, sizeof (act));
-	act.sa_sigaction = fault_handler;
+	act.sa_sigaction=fault_handler;
 	/* No signals during handler run, please */
 	sigfillset (&act.sa_mask);
 	/* We want the 3 parameter form of the handler with the siginfo_t addtional data */
-	act.sa_flags = SA_SIGINFO;
+	act.sa_flags=SA_SIGINFO;
 
 	/* Register the handler for all exception signals. */
-	ret = sigaction (SIGSEGV, &act, NULL);
+	ret=sigaction (SIGSEGV, &act, NULL);
 	ret |= sigaction (SIGILL, &act, NULL);
 	ret |= sigaction (SIGFPE, &act, NULL);
 	ret |= sigaction (SIGBUS, &act, NULL);
@@ -221,7 +221,7 @@ int main(int argc,char** argv,char** envp) {
 */
 
 void croak(void) {
-	int *ip = (int *) 17;
+	int *ip=(int *) 17;
 	/* Do a simple system that fails so that errno has some interesting
 	* value to check
 	*/
@@ -229,7 +229,7 @@ void croak(void) {
 	/* Try to put 7 in address 17. This is an illegal memory access.
 	* Sit back and watch the fire works...
 	*/
-	*ip = 7;
+	*ip=7;
 }
 
 /* A filler function so that we'll have a meanigful stack.

@@ -42,7 +42,7 @@ class HA_Device_Repository {
 			return(this->owner_);
 		}
 		void set_owner(ACE_Task_Base *owner) {
-			this->owner_ = owner;
+			this->owner_=owner;
 		}
 		int update_device(int device_id);
 	private:

@@ -40,7 +40,7 @@ class Employee:public Person {
 int main(int argc,char** argv,char** envp) {
 	Person person;
 	Employee employee;
-	Person *ptr = &employee;
+	Person *ptr=&employee;
 	// The string returned by typeid::name is implementation-defined
 	std::cout << typeid(person).name() << std::endl; // Person (statically known at compile-time)
 	std::cout << typeid(employee).name() << std::endl; // Employee (statically known at compile-time)

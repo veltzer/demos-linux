@@ -46,13 +46,13 @@ class HA_Device_Repository {
 class HA_CommandHandler:public ACE_Task_Base {
 	public:
 		enum {
-			NUM_USES = 10
+			NUM_USES=10
 		};
 		HA_CommandHandler(HA_Device_Repository & rep):rep_(rep) {
 		}
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Handler Thread running\n")));
-			for (int i = 0; i < NUM_USES; i++) {
+			for (int i=0; i < NUM_USES; i++) {
 				this->rep_.update_device(i);
 			}
 			return(0);

@@ -43,7 +43,7 @@
 
 int main(int argc,char** argv,char** envp) {
 	// file to be used
-	const char *filename = "/dev/drv_errno";
+	const char *filename="/dev/drv_errno";
 	// file descriptor
 	int d;
 	// hold results of syscalls and errnos
@@ -52,12 +52,12 @@ int main(int argc,char** argv,char** envp) {
 	const int def_errno=2005;
 
 	printf("Starting, errno at start is %d\n",def_errno);
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 
-	for (int i = -10; i < 10; i++) {
-		errno = def_errno;
-		res = ioctl(d, 0, i);
-		myerrno = errno;
+	for (int i=-10; i < 10; i++) {
+		errno=def_errno;
+		res=ioctl(d, 0, i);
+		myerrno=errno;
 		printf("kernel returned %d, I got %d and errno is %d\n", i, res, myerrno);
 	}
 	CHECK_NOT_M1(close(d));

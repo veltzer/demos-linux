@@ -36,16 +36,16 @@
 */
 
 // Default number of iterations.
-static int n_iterations = 1000;
+static int n_iterations=1000;
 
 // Default number of loops.
-static int n_loops = 100;
+static int n_loops=100;
 
 // Default number of readers.
-static int n_readers = 6;
+static int n_readers=6;
 
 // Default number of writers.
-static int n_writers = 2;
+static int n_writers=2;
 
 // Thread id of last writer.
 static ACE_thread_t shared_thr_id;
@@ -69,19 +69,19 @@ static void print_usage_and_die(void) {
 static void parse_args(int argc,ACE_TCHAR** argv) {
 	ACE_Get_Opt get_opt(argc, argv, ACE_TEXT("r:w:n:l:"));
 	int c;
-	while((c = get_opt())!=-1) {
+	while((c=get_opt())!=-1) {
 		switch (c) {
 			case 'r':
-				n_readers = ACE_OS::atoi(get_opt.opt_arg());
+				n_readers=ACE_OS::atoi(get_opt.opt_arg());
 				break;
 			case 'w':
-				n_writers = ACE_OS::atoi(get_opt.opt_arg());
+				n_writers=ACE_OS::atoi(get_opt.opt_arg());
 				break;
 			case 'n':
-				n_iterations = ACE_OS::atoi(get_opt.opt_arg());
+				n_iterations=ACE_OS::atoi(get_opt.opt_arg());
 				break;
 			case 'l':
-				n_loops = ACE_OS::atoi(get_opt.opt_arg());
+				n_loops=ACE_OS::atoi(get_opt.opt_arg());
 				break;
 			default:
 				print_usage_and_die();
@@ -95,7 +95,7 @@ static void parse_args(int argc,ACE_TCHAR** argv) {
 static void *reader(void *) {
 	ACE_DEBUG((LM_DEBUG, "(%t) reader starting\n"));
 
-	for(int iterations = 1; iterations <= n_iterations; iterations++) {
+	for(int iterations=1; iterations <= n_iterations; iterations++) {
 		ACE_Read_Guard<ACE_RW_Mutex> g(rw_mutex);
 
 		++current_readers;
@@ -104,9 +104,9 @@ static void *reader(void *) {
 			ACE_DEBUG((LM_DEBUG, "(%t) writers found!!!\n"));
 		}
 
-		ACE_thread_t thr_id = shared_thr_id;
+		ACE_thread_t thr_id=shared_thr_id;
 
-		for(int loop = 1; loop <= n_loops; loop++) {
+		for(int loop=1; loop <= n_loops; loop++) {
 			ACE_Thread::yield();
 
 			if(ACE_OS::thr_equal(shared_thr_id, thr_id) == 0) {
@@ -153,9 +153,9 @@ static void *writer(void *) {
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_LOG_MSG->open(argv[0]);
 	parse_args(argc, argv);
-	current_readers = 0;
+	current_readers=0;
 	// Possibly already done
-	current_writers = 0;
+	current_writers=0;
 	// Possibly already done
 	ACE_DEBUG((LM_DEBUG, "(%t) main thread starting\n"));
 	// Spawn off threads.

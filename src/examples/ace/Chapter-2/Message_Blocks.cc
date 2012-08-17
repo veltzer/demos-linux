@@ -34,8 +34,8 @@
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Message_Block* mb;
 	ACE_NEW_RETURN(mb,ACE_Message_Block(128),-1);
-	const char *command1 = "<InitialDataPart>";
-	const char *command2 = "< More Data ...>";
+	const char *command1="<InitialDataPart>";
+	const char *command2="< More Data ...>";
 	// Use the pointer to insert the string
 	ACE_OS::sprintf(mb->wr_ptr(), command1);
 	// Move the wr_ptr() forward in the buffer by the amount of data we just put in.

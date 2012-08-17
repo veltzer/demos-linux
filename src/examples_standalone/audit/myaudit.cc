@@ -34,8 +34,8 @@ unsigned int la_version(unsigned int version) {
 }
 
 char* la_objsearch(const char *name, uintptr_t *cookie, unsigned int flag) {
-	printf("la_objsearch(): name = %s; cookie = %p", name, cookie);
-	printf("; flag = %s\n",
+	printf("la_objsearch(): name=%s; cookie=%p", name, cookie);
+	printf("; flag=%s\n",
 	(flag == LA_SER_ORIG) ? "LA_SER_ORIG" :
 	(flag == LA_SER_LIBPATH) ? "LA_SER_LIBPATH" :
 	(flag == LA_SER_RUNPATH) ? "LA_SER_RUNPATH" :
@@ -47,7 +47,7 @@ char* la_objsearch(const char *name, uintptr_t *cookie, unsigned int flag) {
 }
 
 void la_activity (uintptr_t *cookie, unsigned int flag) {
-	printf("la_activity(): cookie = %p; flag = %s\n", cookie,
+	printf("la_activity(): cookie=%p; flag=%s\n", cookie,
 	(flag == LA_ACT_CONSISTENT) ? "LA_ACT_CONSISTENT" :
 	(flag == LA_ACT_ADD) ? "LA_ACT_ADD" :
 	(flag == LA_ACT_DELETE) ? "LA_ACT_DELETE" :
@@ -55,7 +55,7 @@ void la_activity (uintptr_t *cookie, unsigned int flag) {
 }
 
 unsigned int la_objopen(struct link_map *map, Lmid_t lmid, uintptr_t *cookie) {
-	printf("la_objopen(): loading \"%s\"; lmid = %s; cookie=%p\n",
+	printf("la_objopen(): loading \"%s\"; lmid=%s; cookie=%p\n",
 	map->l_name,
 	(lmid == LM_ID_BASE) ? "LM_ID_BASE" :
 	(lmid == LM_ID_NEWLM) ? "LM_ID_NEWLM" :
@@ -74,18 +74,18 @@ void la_preinit(uintptr_t *cookie) {
 }
 
 uintptr_t la_symbind32(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook, uintptr_t *defcook, unsigned int *flags, const char *symname) {
-	printf("la_symbind32(): symname = %s; sym->st_value = %x\n",
+	printf("la_symbind32(): symname=%s; sym->st_value=%x\n",
 		symname, sym->st_value);
-	printf("ndx = %d; flags = 0x%x", ndx, *flags);
-	printf("; refcook = %p; defcook = %p\n", refcook, defcook);
+	printf("ndx=%d; flags=0x%x", ndx, *flags);
+	printf("; refcook=%p; defcook=%p\n", refcook, defcook);
 	return sym->st_value;
 }
 
 uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook, uintptr_t *defcook, unsigned int *flags, const char *symname) {
-	printf("la_symbind64(): symname = %s; sym->st_value = %llx\n",
+	printf("la_symbind64(): symname=%s; sym->st_value=%llx\n",
 		symname, sym->st_value);
-	printf("ndx = %d; flags = 0x%x", ndx, *flags);
-	printf("; refcook = %p; defcook = %p\n", refcook, defcook);
+	printf("ndx=%d; flags=0x%x", ndx, *flags);
+	printf("; refcook=%p; defcook=%p\n", refcook, defcook);
 	return sym->st_value;
 }
 

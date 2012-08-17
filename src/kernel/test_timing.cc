@@ -37,7 +37,7 @@
 */
 int main(int argc,char** argv,char** envp) {
 	// file to be used
-	const char *filename = "/dev/mod_timing";
+	const char *filename="/dev/mod_timing";
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_timing");
 	my_system("sudo insmod ./mod_timing.ko");
@@ -46,7 +46,7 @@ int main(int argc,char** argv,char** envp) {
 	int d;
 
 	printf("Starting\n");
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 
 	printf("showing cpus and their frequencies\n");
 	klog_clear();
@@ -67,7 +67,7 @@ int main(int argc,char** argv,char** envp) {
 	const unsigned int loop=1000000;
 	printf("doing %d syscalls\n",loop);
 	gettimeofday(&t1, NULL);
-	for (unsigned int i = 0;i < loop;i++) {
+	for (unsigned int i=0;i < loop;i++) {
 		CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_EMPTY, NULL));
 	}
 	gettimeofday(&t2, NULL);

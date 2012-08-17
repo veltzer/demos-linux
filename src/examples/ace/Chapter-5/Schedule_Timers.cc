@@ -37,8 +37,8 @@
 // This is our timer handler which handles some periodic job in the system
 class MyTimerHandler:public ACE_Event_Handler {
 	public:
-		int handle_timeout(const ACE_Time_Value& current_time, const void * = 0) {
-			time_t epoch = ((timespec_t)current_time).tv_sec;
+		int handle_timeout(const ACE_Time_Value& current_time,const void* =0) {
+			time_t epoch=((timespec_t)current_time).tv_sec;
 			ACE_DEBUG((LM_INFO, ACE_TEXT("handle_timeout: %s\n"), ACE_OS::ctime(&epoch)));
 			return(0);
 		}
@@ -68,11 +68,11 @@ class SigintHandler:public ACE_Event_Handler {
 // then it simply goes into the reactor main loop.
 // it relies on the someone (in this case the signal hanlder) to stop it...
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
-	MyTimerHandler *timer = new MyTimerHandler();
+	MyTimerHandler *timer=new MyTimerHandler();
 	ACE_Time_Value initialDelay(3);
 	ACE_Time_Value interval(5);
 	ACE_Reactor::instance()->schedule_timer(timer, 0, initialDelay, interval);
-	SigintHandler *handleExit = new SigintHandler();
+	SigintHandler *handleExit=new SigintHandler();
 	ACE_Reactor::instance()->register_handler(SIGINT, handleExit);
 	ACE_DEBUG((LM_INFO, ACE_TEXT("Pressing 3 times on ^c will stop execution\n")));
 	ACE_Reactor::instance()->run_reactor_event_loop();

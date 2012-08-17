@@ -39,7 +39,7 @@
 /* The buffer holds the message + ancillary data, such as symbol stack traced
 * The pointer is used to cash the buffer to the header */
 static char crash_msg_buf[CRASH_MAX_MSG_SIZE];
-static struct crash_message_struct * crash_msg = (struct crash_message_struct *)&crash_msg_buf;
+static struct crash_message_struct * crash_msg=(struct crash_message_struct *)&crash_msg_buf;
 
 /* A simple compiler only memory barrier, both read and write */
 #define mb(x) asm volatile ("":::"memory")
@@ -50,13 +50,13 @@ static struct crash_message_struct * crash_msg = (struct crash_message_struct *)
 * NOTE: It's a very good idea to kill crashd before any process
 * relying on it for exception handling.
 */
-static char terminate_flag = 0;
+static char terminate_flag=0;
 
 /* When this is set from the SIGALRM signal handler
 * it means our time to read crash details is out
 */
 
-static char timeout_flag = 0;
+static char timeout_flag=0;
 
 /* This translates a signal code into a readable string */
 static inline char * code2str(int code, int signal) {
@@ -137,8 +137,8 @@ static void inline do_reboot(void) {
 
 #ifdef NDEBUG
 
-	char * reboot_argv[] = { "reboot", NULL};
-	char * reboot_env[] = {NULL};
+	char * reboot_argv[]={ "reboot", NULL};
+	char * reboot_env[]={NULL};
 
 	execve("/sbin/reboot", reboot_argv, reboot_env);
 
@@ -205,7 +205,7 @@ static void handle_crash(void) {
 
 static void term_sig_handler(int signal) {
 
-	terminate_flag = 1;
+	terminate_flag=1;
 	mb();
 	return;
 }
@@ -213,7 +213,7 @@ static void term_sig_handler(int signal) {
 /* Timeout reading crash data */
 static void alarm_sig_handler(int signal) {
 
-	timeout_flag = 1;
+	timeout_flag=1;
 	mb();
 	return;
 }
@@ -241,9 +241,9 @@ static int register_signal(int signo, sighandler_t handler) {
 	struct sigaction act;
 
 	memset(&act, 0, sizeof (act));
-	act.sa_handler = handler;
+	act.sa_handler=handler;
 	sigemptyset (&act.sa_mask);
-	act.sa_flags = 0;
+	act.sa_flags=0;
 
 	return sigaction (signo, &act, NULL);
 }
@@ -252,42 +252,42 @@ static int register_signal(int signo, sighandler_t handler) {
 void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 {
 	int ret, fd;
-	char * p = crash_msg_buf;
-	int remaining_bytes = CRASH_MAX_MSG_SIZE;
+	char * p=crash_msg_buf;
+	int remaining_bytes=CRASH_MAX_MSG_SIZE;
 	fd_set rfds;
 
-	ret = fork();
+	ret=fork();
 
 	if(ret) {
 		return;
 	} else {
 		close(pfd[1]);
-		fd = pfd[0];
+		fd=pfd[0];
 	}
 
 	/* This forks again, closing stdin/out/err and loose our TTY, if asked to. */
 	if(daemonise_flag) {
-		ret = daemon(0, 1);
+		ret=daemon(0, 1);
 		if(-1==ret) goto bail_out;
 	}
 
 	/* Register all signal handlers for timeout, kill and fault */
-	ret = register_signal(SIGTERM, term_sig_handler);
+	ret=register_signal(SIGTERM, term_sig_handler);
 	if(-1 == ret) goto bail_out;
 
-	ret = register_signal(SIGALRM, alarm_sig_handler);
+	ret=register_signal(SIGALRM, alarm_sig_handler);
 	if(-1 == ret) goto bail_out;
 
-	ret = register_signal(SIGSEGV, fault_sig_handler);
+	ret=register_signal(SIGSEGV, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
 
-	ret = register_signal(SIGILL, fault_sig_handler);
+	ret=register_signal(SIGILL, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
 
-	ret = register_signal(SIGFPE, fault_sig_handler);
+	ret=register_signal(SIGFPE, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
 
-	ret = register_signal(SIGBUS, fault_sig_handler);
+	ret=register_signal(SIGBUS, fault_sig_handler);
 	if(-1 == ret) goto bail_out;
 
 
@@ -296,7 +296,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	FD_ZERO(&rfds);
 	FD_SET(fd, &rfds);
 
-	ret = select(fd+1, &rfds, NULL, NULL, NULL);
+	ret=select(fd+1, &rfds, NULL, NULL, NULL);
 
 	/* Deal correctly with random harmless signals
 	* Especially useful for when we run under debugger */
@@ -305,7 +305,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 		mb();
 		if(terminate_flag) exit(0);
 
-		ret = select(fd+1, &rfds, NULL, NULL, NULL);
+		ret=select(fd+1, &rfds, NULL, NULL, NULL);
 	}
 
 	if(-1==ret) goto bail_out;
@@ -319,7 +319,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 	do {
 
-		ret = read(fd, p, remaining_bytes);
+		ret=read(fd, p, remaining_bytes);
 
 		/* We need to exit if the end closed the pipe or if we asked to terminate */
 		if((0 == ret) || terminate_flag) {
@@ -343,7 +343,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	assert(CRASH_MSG_MAGIC == crash_msg->magic);
 
 	/* Make sure the process name has an ending NULL */
-	crash_msg->process_name[CRASH_MAX_PROCESS_NAME_SIZE-1] = '\0';
+	crash_msg->process_name[CRASH_MAX_PROCESS_NAME_SIZE-1]='\0';
 
 	close(fd);
 
@@ -364,9 +364,9 @@ bail_out:
 	*/
 
 	strncpy(crash_msg->process_name, progname, CRASH_MAX_PROCESS_NAME_SIZE-1);
-	crash_msg->process_id = getpid();
-	crash_msg->thread_id = getpid();
-	crash_msg->handler_errno = errno;
+	crash_msg->process_id=getpid();
+	crash_msg->thread_id=getpid();
+	crash_msg->handler_errno=errno;
 	clock_gettime(CLOCK_REALTIME, &crash_msg->timestamp);
 	crash_msg->num_backtrace_frames=backtrace(crash_msg->backtrace, CRASH_MAX_BACKTRACE_DEPTH);
 	snprintf(crash_msg->ancillary_data, CRASH_ANCILLARY_DATA_SIZE-1,

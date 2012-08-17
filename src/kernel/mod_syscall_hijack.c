@@ -116,7 +116,7 @@ static void my_func(void) {
 		unsigned long *p=(unsigned long*)ptr;
 		if((p[__NR_open]==ptr_sys_open) &&
 			(p[__NR_close]==ptr_sys_close)) {
-			sctable = (unsigned long **)p;
+			sctable=(unsigned long **)p;
 			INFO("The address of the system call table is: 0x%p\n",&sctable[0]);
 			break;
 		}
@@ -145,7 +145,7 @@ static void func(void) {
 
 			INFO(" -> matching detected at %p", ptr);
 			// The pointers must point to kernel code section...
-			for(i = 0; i < 4 ;i++)
+			for(i=0; i < 4 ;i++)
 			{
 				arr[i]=*(ptr+i);
 
@@ -189,7 +189,7 @@ static void func2(void) {
 	for(ptr=start_ptr;ptr<end_ptr;ptr+=sizeof(void*)) {
 		unsigned long *p=(unsigned long*)ptr;
 		if (p[__NR_close] == (unsigned long) sys_close){
-			sctable = (unsigned long **)p;
+			sctable=(unsigned long **)p;
 			INFO("The address of the system call table is: 0x%p",&sctable[0]);
 			for(z=0;z<256;z++) //this max number of the system calls should be set
 			INFO("The address of %d system call is 0x%p\n",z, sctable[z]);

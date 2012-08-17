@@ -127,7 +127,7 @@ static void my_init_hook(void) {
 
 /* Override initializing hook from the C library. */
 /* FIXME - __XXXX_hook are deprecated...
-void (*__malloc_initialize_hook) (void) = my_init_hook;
+void (*__malloc_initialize_hook) (void)=my_init_hook;
 */
 
 void disable_malloc(void) {

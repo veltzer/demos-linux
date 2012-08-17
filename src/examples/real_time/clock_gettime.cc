@@ -37,7 +37,7 @@ void print_timespec(const char *msg, struct timespec *ts) {
 
 int main(int argc,char** argv,char** envp) {
 	//clockid_t clk_id=CLOCK_REALTIME;
-	clockid_t clk_id = CLOCK_MONOTONIC;
+	clockid_t clk_id=CLOCK_MONOTONIC;
 	struct timespec res;
 
 	CHECK_NOT_M1(clock_getres(clk_id, &res));

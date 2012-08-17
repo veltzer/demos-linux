@@ -35,36 +35,36 @@ inline void error_demangle(
 	char* result_offset,
 	unsigned int max_offset
 ) {
-	char *begin_name = NULL, *begin_offset = NULL, *end_offset = NULL;
+	char *begin_name=NULL, *begin_offset=NULL, *end_offset=NULL;
 
 	// find parentheses and +address offset surrounding the mangled name:
 	// ./module(function+0x15c) [0x8048a6d]
-	for(char *p = symbol; *p; ++p)
+	for(char *p=symbol; *p; ++p)
 	{
 		if (*p == '(')
-			begin_name = p;
+			begin_name=p;
 		else if (*p == '+')
-			begin_offset = p;
+			begin_offset=p;
 		else if (*p == ')' && begin_offset) {
-			end_offset = p;
+			end_offset=p;
 			break;
 		}
 	}
 	if (begin_name && begin_offset && end_offset && begin_name < begin_offset)
 	{
-		*begin_name++ = '\0';
-		*begin_offset++ = '\0';
-		*end_offset = '\0';
+		*begin_name++='\0';
+		*begin_offset++='\0';
+		*end_offset='\0';
 		// mangled name is now in [begin_name, begin_offset) and caller
 		// offset in [begin_offset, end_offset). now apply
 		// __cxa_demangle():
 		// allocate string which will be filled with the demangled function name
-		size_t funcnamesize = 256;
-		char* funcname = (char*)malloc(funcnamesize);
+		size_t funcnamesize=256;
+		char* funcname=(char*)malloc(funcnamesize);
 		int status;
-		char* ret = abi::__cxa_demangle(begin_name,funcname,&funcnamesize, &status);
+		char* ret=abi::__cxa_demangle(begin_name,funcname,&funcnamesize, &status);
 		if (status == 0) {
-			funcname = ret; // use possibly realloc()-ed string
+			funcname=ret; // use possibly realloc()-ed string
 			strncpy(result_name,ret,max_name);
 			strncpy(result_offset,begin_offset,max_offset);
 		}

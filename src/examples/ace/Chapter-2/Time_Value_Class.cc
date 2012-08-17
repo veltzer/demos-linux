@@ -35,14 +35,14 @@
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	const ACE_Time_Value max_interval(60*60); // 1 hour.
-	//ACE_Time_Value expiration = ACE_OS::gettimeofday();
+	//ACE_Time_Value expiration=ACE_OS::gettimeofday();
 	ACE_Time_Value expiration;
 	ACE_Time_Value interval;
-	ACE_Time_Value current_time = expiration;
+	ACE_Time_Value current_time=expiration;
 
 	ACE_Get_Opt opt(argc, argv, "e:i:");
 
-	for (int c; (c = opt()) != -1;) {
+	for (int c; (c=opt()) != -1;) {
 		switch (c) {
 		case 'e':
 			// Arithmetic operation
@@ -51,7 +51,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 		case 'i':
 			// Assignment
-			interval = ACE_Time_Value(atoi(opt.opt_arg()));
+			interval=ACE_Time_Value(atoi(opt.opt_arg()));
 			break;
 		}
 	}

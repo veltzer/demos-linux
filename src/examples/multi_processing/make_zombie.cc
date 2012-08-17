@@ -104,7 +104,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_ZERO(pipe(pipefd_c2p));
 	CHECK_ZERO(pipe(pipefd_p2c));
 
-	CHECK_NOT_M1(child_pid = fork());
+	CHECK_NOT_M1(child_pid=fork());
 	// the child
 	if (child_pid == 0) {
 		set_process_name("child");

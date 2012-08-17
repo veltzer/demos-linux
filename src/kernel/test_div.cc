@@ -37,16 +37,16 @@
 */
 int main(int argc,char** argv,char** envp) {
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 	// file descriptor
 	int fd;
 	// size of strings
-	const unsigned int len = 256;
+	const unsigned int len=256;
 	// two strings to get the data
 	char s1[len];
 	char s2[len];
 
-	CHECK_NOT_M1(fd = open(filename, O_RDWR));
+	CHECK_NOT_M1(fd=open(filename, O_RDWR));
 	while(true) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");
@@ -56,10 +56,10 @@ int main(int argc,char** argv,char** envp) {
 		fflush(stdout);
 		CHECK_CHARP(fgets(s2, len, stdin),s2);
 		buffer b;
-		b.u1 = atoi(s1);
-		b.u2 = atoi(s2);
-		b.d1 = atoi(s1);
-		b.d2 = atoi(s2);
+		b.u1=atoi(s1);
+		b.u2=atoi(s2);
+		b.d1=atoi(s1);
+		b.d2=atoi(s2);
 		klog_clear();
 		CHECK_NOT_M1(ioctl(fd, IOCTL_DIV_DOOPS, &b));
 		klog_show_clear();

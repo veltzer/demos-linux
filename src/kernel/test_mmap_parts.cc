@@ -37,38 +37,38 @@
 * This test shows how you can do mmap via an ioctl...
 */
 
-bool do_mmap_once = false;
-bool do_ioctl_once = false;
-bool do_ioctl_once_write = false;
-bool do_stress_ioctl = false;
-bool do_stress_mmap = true;
+bool do_mmap_once=false;
+bool do_ioctl_once=false;
+bool do_ioctl_once_write=false;
+bool do_stress_ioctl=false;
+bool do_stress_mmap=true;
 
 void print_data(void *data, int size) {
 	int msize;
 
 	if (size < 256) {
-		msize = size;
+		msize=size;
 	} else {
-		msize = 256;
+		msize=256;
 	}
-	char *pdata = (char *)malloc(msize);
+	char *pdata=(char *)malloc(msize);
 	strncpy(pdata, (char *)data, msize - 1);
-	pdata[msize - 1] = '\0';
+	pdata[msize - 1]='\0';
 	fprintf(stderr, "data is [%s]\n", pdata);
 	free(pdata);
 }
 
 int main(int argc,char** argv,char** envp) {
 	// size of the buffer we want
-	const int size = 1024 * 1024;
+	const int size=1024 * 1024;
 	// file handle
 	int d;
 	// result integer
 	int res;
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 
 	//printf("setting the size to %d\n",size);
 	//CHECK_NOT_M1(res=ioctl(d,6,size));
@@ -76,7 +76,7 @@ int main(int argc,char** argv,char** envp) {
 	if (do_mmap_once) {
 		void *p;
 		klog_clear();
-		CHECK_NOT_VOIDP(p = mmap(
+		CHECK_NOT_VOIDP(p=mmap(
 			NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 			size, /* the size we need */
 			PROT_READ | PROT_WRITE, /* we want read AND write */
@@ -96,14 +96,14 @@ int main(int argc,char** argv,char** envp) {
 		printproc("demo");
 		klog_clear();
 		// trying to map memory
-		CHECK_NOT_M1(res = ioctl(d, 4, NULL));
-		void *p = (void *)res;
+		CHECK_NOT_M1(res=ioctl(d, 4, NULL));
+		void *p=(void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		klog_clear();
 		// trying to unmap memory
-		CHECK_NOT_M1(res = ioctl(d, 5, NULL));
+		CHECK_NOT_M1(res=ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
@@ -111,34 +111,34 @@ int main(int argc,char** argv,char** envp) {
 		printproc("demo");
 		klog_clear();
 		// trying to map memory
-		CHECK_NOT_M1(res = ioctl(d, 4, NULL));
-		void *p = (void *)res;
+		CHECK_NOT_M1(res=ioctl(d, 4, NULL));
+		void *p=(void *)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
 		memset(p, 0, size);
 		klog_clear();
 		// trying to unmap memory
-		CHECK_NOT_M1(res = ioctl(d, 5, NULL));
+		CHECK_NOT_M1(res=ioctl(d, 5, NULL));
 		klog_show();
 		printproc("demo");
 	}
 	if (do_stress_ioctl) {
-		const int number = 10;
-		for (int i = 0; i < number; i++) {
+		const int number=10;
+		for (int i=0; i < number; i++) {
 			// trying to map memory
-			CHECK_NOT_M1(res = ioctl(d, 4, NULL));
-			void *p = (void *)res;
+			CHECK_NOT_M1(res=ioctl(d, 4, NULL));
+			void *p=(void *)res;
 			printf("the pointer I got is %p\n", p);
 			// trying to unmap memory
-			CHECK_NOT_M1(res = ioctl(d, 5, NULL));
+			CHECK_NOT_M1(res=ioctl(d, 5, NULL));
 		}
 	}
 	if (do_stress_mmap) {
-		const int number = 100000;
-		for (int i = 0; i < number; i++) {
+		const int number=100000;
+		for (int i=0; i < number; i++) {
 			void *p;
-			CHECK_NOT_VOIDP(p = mmap(
+			CHECK_NOT_VOIDP(p=mmap(
 				NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 				size, /* the size we need */
 				PROT_READ | PROT_WRITE, /* we want read AND write */

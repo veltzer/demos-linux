@@ -36,10 +36,10 @@ class Errno
 {
 public:
 	int error (void) { return this->errno_; }
-	void error (int i) { this->errno_ = i; }
+	void error (int i) { this->errno_=i; }
 
 	int line (void) { return this->lineno_; }
-	void line (int l) { this->lineno_ = l; }
+	void line (int l) { this->lineno_=l; }
 
 	// Errno::flags_ is a static variable, so we've got to protect it
 	// with a mutex since it isn't kept in thread-specific storage.
@@ -50,11 +50,11 @@ public:
 
 	void flags(int f) {
 		ACE_GUARD(ACE_Thread_Mutex, ace_mon, Errno::lock_);
-		Errno::flags_ = f;
+		Errno::flags_=f;
 	}
 
 private:
-	// = errno_ and lineno_ will be thread-specific data so they don't
+	//=errno_ and lineno_ will be thread-specific data so they don't
 	// need a lock.
 	int errno_;
 	int lineno_;

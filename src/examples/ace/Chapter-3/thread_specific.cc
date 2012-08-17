@@ -48,7 +48,7 @@ typedef ACE_TSS_Guard<ACE_Thread_Mutex> GUARD;
 
 extern "C" void
 cleanup(void *ptr) {
-	ACE_DEBUG((LM_DEBUG, "(%t) in cleanup, ptr = %x\n", ptr));
+	ACE_DEBUG((LM_DEBUG, "(%t) in cleanup, ptr=%x\n", ptr));
 
 	delete reinterpret_cast<char *>(ptr);
 }
@@ -74,10 +74,10 @@ static void* worker(void* c) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keycreate"));
 		}
 		ACE_NEW_RETURN(ip, int, 0);
-		ACE_DEBUG((LM_DEBUG, "(%t) in worker 1, key = %d, ip = %x\n", key, ip));
+		ACE_DEBUG((LM_DEBUG, "(%t) in worker 1, key=%d, ip=%x\n", key, ip));
 		{
 			// tmp is workaround for gcc strict aliasing warning.
-			void *tmp = reinterpret_cast<void *>(ip);
+			void *tmp=reinterpret_cast<void *>(ip);
 
 			if(ACE_Thread::setspecific(key, tmp) == -1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
@@ -110,7 +110,7 @@ static void* worker(void* c) {
 			ACE_GUARD_RETURN(ACE_Thread_Mutex, ace_mon, printf_lock, 0);
 			// Print the thread id portably.
 			ACE_OS::printf("(%t)", handle);
-			ACE_OS::printf(" errno = %d, lineno = %d, flags = %d\n",
+			ACE_OS::printf(" errno=%d, lineno=%d, flags=%d\n",
 				tss_error->error(),
 				tss_error->line(),
 				tss_error->flags()
@@ -121,7 +121,7 @@ static void* worker(void* c) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keycreate"));
 		}
 		ACE_NEW_RETURN(ip, int, 0);
-		ACE_DEBUG((LM_DEBUG, "(%t) in worker 2, key = %d, ip = %x\n", key, ip));
+		ACE_DEBUG((LM_DEBUG, "(%t) in worker 2, key=%d, ip=%x\n", key, ip));
 		{
 			// Tmp is workaround for GCC strict aliasing warning.
 			void *tmp(reinterpret_cast<void *>(ip));
@@ -145,7 +145,7 @@ static void* worker(void* c) {
 }
 
 extern "C" void handler(int signum) {
-	ACE_DEBUG((LM_DEBUG, "signal = %S\n", signum));
+	ACE_DEBUG((LM_DEBUG, "signal=%S\n", signum));
 	ACE_Thread_Manager::instance()->exit(0);
 }
 

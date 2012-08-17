@@ -36,7 +36,7 @@ class HA_ControllerAgent {
 public:
 	HA_ControllerAgent() {
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgent::HA_ControllerAgent"));
-		status_result_ = 1;
+		status_result_=1;
 	}
 
 
@@ -171,8 +171,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Future<int> results[10];
 	CompletionCallBack cb(controller);
 
-	for (int i = 0; i < 10; i++) {
-		results[i] = controller.status_update();
+	for (int i=0; i < 10; i++) {
+		results[i]=controller.status_update();
 		results[i].attach(&cb);
 	}
 

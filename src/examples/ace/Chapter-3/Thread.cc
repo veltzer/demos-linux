@@ -50,12 +50,12 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	if(argc<2) {
 		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n",argv[0]));
 	}
-	int n_threads = ACE_OS::atoi(argv[1]);
+	int n_threads=ACE_OS::atoi(argv[1]);
 	//Setup the random number generator
 	ACE_OS::srand(::seed);
 	// create the data structures needed
 	ACE_thread_t* threads=new ACE_thread_t[n_threads];
-	//ACE_hthread_t *threadHandles = new ACE_hthread_t[n_threads];
+	//ACE_hthread_t *threadHandles=new ACE_hthread_t[n_threads];
 	//Spawn off n_threads number of threads
 	for(int i=0;i<n_threads;i++) {
 		if(ACE_Thread::spawn(
@@ -70,7 +70,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Wait for all the threads to exit before you let the main fall through
 	// and have the process exit. This way of using join is non-portable
 	// and may not work on a system using pthreads.
-	int check_count = 0;
+	int check_count=0;
 	// sleep(30);
 	while(ACE_Thread::join(threads[check_count],NULL,NULL) == 0) {
 		check_count++;

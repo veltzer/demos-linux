@@ -44,7 +44,7 @@ class ClientAcceptor:public ACE_Event_Handler {
 			return(this->acceptor_.get_handle());
 		}
 		// Called when a connection is ready to accept.
-		virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+		virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 		// Called when this handler is removed from the ACE_Reactor.
 		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
 	protected:
@@ -62,9 +62,9 @@ class ClientService:public ACE_Event_Handler {
 			return(this->sock_.get_handle());
 		}
 		// Called when input is available from the client.
-		virtual int handle_input(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+		virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 		// Called when output is possible.
-		virtual int handle_output(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+		virtual int handle_output(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 		// Called when this handler is removed from the ACE_Reactor.
 		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
 	protected:
@@ -175,7 +175,7 @@ int ClientService::handle_close(ACE_HANDLE, ACE_Reactor_Mask mask) {
 	if(mask==ACE_Event_Handler::WRITE_MASK) {
 		return(0);
 	}
-	mask = ACE_Event_Handler::ALL_EVENTS_MASK | ACE_Event_Handler::DONT_CALL;
+	mask=ACE_Event_Handler::ALL_EVENTS_MASK | ACE_Event_Handler::DONT_CALL;
 	this->reactor()->remove_handler(this, mask);
 	this->sock_.close();
 	this->output_queue_.flush();
@@ -187,7 +187,7 @@ class LoopStopper:public ACE_Event_Handler {
 	public:
 		LoopStopper(int signum=SIGINT);
 		// Called when object is signaled by OS.
-		virtual int handle_signal(int signum, siginfo_t * = 0, ucontext_t * = 0);
+		virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0);
 };
 
 LoopStopper::LoopStopper(int signum) {
@@ -203,9 +203,9 @@ class LogSwitcher:public ACE_Event_Handler {
 	public:
 		LogSwitcher(int on_sig, int off_sig);
 		// Called when object is signaled by OS.
-		virtual int handle_signal(int signum, siginfo_t * = 0, ucontext_t * = 0);
+		virtual int handle_signal(int signum,siginfo_t* =0, ucontext_t* =0);
 		// Called when an exceptional event occurs.
-		virtual int handle_exception(ACE_HANDLE fd = ACE_INVALID_HANDLE);
+		virtual int handle_exception(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 	private:
 		LogSwitcher() {
 		}

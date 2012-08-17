@@ -117,7 +117,7 @@ ssize_t clipboard_write(struct file* filp,const char* user_buf,size_t count,loff
 /* our file operations structure that gathers all the ops */
 
 struct file_operations clipboard_fops={
-	.owner = THIS_MODULE,
+	.owner=THIS_MODULE,
 	.open=clipboard_open,
 	.release=clipboard_release,
 	.read=clipboard_read,

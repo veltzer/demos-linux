@@ -72,7 +72,7 @@ int main(int argc,char** argv,char** envp) {
 		_exit(0);
 	}
 	// lets do some multi-threading work to see how multi-threading is affecting all this...
-	const int num = 2;
+	const int num=2;
 	pthread_t threads[num];
 	int ids[num];
 	void* rets[num];
@@ -83,7 +83,7 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_ZERO(pthread_create(threads+i,NULL,worker,ids+i));
 	}
 	TRACE("created threads");
-	for (int i = 0; i < num; i++) {
+	for (int i=0; i < num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("end");

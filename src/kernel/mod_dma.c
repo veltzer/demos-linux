@@ -65,12 +65,12 @@ static int __init mod_init(void) {
 	bool stop;
 #endif // DO_INC
 #ifdef DO_ONE
-	const unsigned int size = 1024 * 1024 * 24;
+	const unsigned int size=1024 * 1024 * 24;
 #endif // DO_ONE
 	PR_DEBUG("start");
 #ifdef DO_LOOP
-	for (i = 0; i < 1000; i++) {
-		vptr = dma_alloc_coherent(NULL, size, &device_addr, GFP_KERNEL | GFP_DMA);
+	for (i=0; i < 1000; i++) {
+		vptr=dma_alloc_coherent(NULL, size, &device_addr, GFP_KERNEL | GFP_DMA);
 		if(vptr==NULL) {
 			printk("ERROR! could not allocate memory");
 		} else {
@@ -79,7 +79,7 @@ static int __init mod_init(void) {
 	}
 #endif // DO_LOOP
 #ifdef DO_ONE
-	vptr = dma_alloc_coherent(NULL, size, &device_addr, GFP_KERNEL | GFP_DMA);
+	vptr=dma_alloc_coherent(NULL, size, &device_addr, GFP_KERNEL | GFP_DMA);
 	if(vptr!=NULL) {
 		printk("vptr is %p\n", vptr);
 		printk("size is %d\n", size);
@@ -94,9 +94,9 @@ static int __init mod_init(void) {
 	size=1024*512; // half a meg
 	stop=false;
 	while(!stop) {
-		//vptr = dma_alloc_coherent(NULL, size, &device_addr, GFP_DMA);
-		//vptr = kmalloc(size,GFP_DMA);
-		vptr = kmalloc(size,GFP_KERNEL);
+		//vptr=dma_alloc_coherent(NULL, size, &device_addr, GFP_DMA);
+		//vptr=kmalloc(size,GFP_DMA);
+		vptr=kmalloc(size,GFP_KERNEL);
 		if(vptr!=NULL) {
 			printk("vptr is %p\n", vptr);
 			printk("size is %d\n", size);

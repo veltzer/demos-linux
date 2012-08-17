@@ -63,10 +63,10 @@ FILE* pfile=stderr;
 const int loops=3;
 mypthread_spinlock_t lock;
 int counter=0;
-const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
+const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
 
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int *)p;
 	fprintf(pfile, "starting thread %d\n", num);
 	int success=0;
 	while(success<loops) {

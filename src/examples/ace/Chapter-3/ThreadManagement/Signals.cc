@@ -44,11 +44,11 @@ class SignalableTask:public ACE_Task<ACE_MT_SYNCH> {
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Starting thread\n")));
 			while(true) {
-				ACE_Message_Block *mb = 0;
+				ACE_Message_Block *mb=0;
 				ACE_Time_Value tv(0, 1000);
 
 				tv += ACE_OS::time(0);
-				int result = this->getq(mb, &tv);
+				int result=this->getq(mb, &tv);
 				if ((result == -1) && (errno == EWOULDBLOCK)) {
 					continue;
 				} else {

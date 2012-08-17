@@ -63,7 +63,7 @@ static int kern_release(struct inode *inode, struct file *filp) {
 static struct file_operations my_fops={
 	.owner=THIS_MODULE,
 	.open=kern_open,
-	.release = kern_release,
+	.release=kern_release,
 };
 
 #include"device.inc"

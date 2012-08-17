@@ -107,13 +107,13 @@ int Task::svc(void) {
 		// Cast the pointer to our specialized Message_Block. We could
 		// have done this at the getq() call but I wanted to be explicit
 		// about what we're doing here
-		message_block = (ACE_Message_Block *)message;
+		message_block=(ACE_Message_Block *)message;
 		/*
 		* Since we left alone the ACE_Data_Block used by the
 		* Message_Block we have chosen to use it to send arbitrary data
 		* as well.
 		*/
-		const char *cp = message_block->rd_ptr();
+		const char *cp=message_block->rd_ptr();
 		// Don't forget to skip the NULL we inserted
 		message_block->rd_ptr(strlen(cp) + 1);
 		/*
@@ -121,7 +121,7 @@ int Task::svc(void) {
 		* Message_Block. Since the methods of interest are virtual, we
 		* don't have to know what kind of work we're to do.
 		*/
-		//unit_of_work = message_block->data();
+		//unit_of_work=message_block->data();
 		/*
 		* Invoke a couple of method calls on the object we constructed.
 		*/

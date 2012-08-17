@@ -30,8 +30,8 @@ int main(int argc,char** argv,char** envp) {
 	void* sym;
 	CHECK_NOT_NULL(sym=dlsym(h,"func"));
 	int (*f)(int, int);
-	f = ((int(*) (int, int))sym);
-	int result = f(2, 2);
+	f=((int(*) (int, int))sym);
+	int result=f(2, 2);
 	printf("2+2 is %d\n", result);
 	CHECK_ZERO(dlclose(h));
 	return EXIT_SUCCESS;

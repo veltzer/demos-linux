@@ -79,7 +79,7 @@ static int kern_release(struct inode *inode, struct file *filp) {
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
+static struct file_operations my_fops={
 	.owner=THIS_MODULE,
 	.release=kern_release,
 	.unlocked_ioctl=kern_unlocked_ioctl,

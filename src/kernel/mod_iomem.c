@@ -47,7 +47,7 @@ static int __init mod_init(void) {
 			8, (unsigned long long)rp->end
 		);
 		// advance to the next resource...
-		rp = rp->sibling;
+		rp=rp->sibling;
 	}
 	return(0);
 }

@@ -57,17 +57,17 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	const unsigned int repeats = 100;
+	const unsigned int repeats=100;
 
 	for(unsigned int i=100;i<2000;i+=100) {
 		unsigned long sum=0;
 		for(unsigned int j=0;j<repeats;j++) {
-			ticks_t start = getticks();
+			ticks_t start=getticks();
 			timespec t;
-			t.tv_sec = 0;
-			t.tv_nsec = 1000 * i;
+			t.tv_sec=0;
+			t.tv_nsec=1000 * i;
 			nanosleep(&t, NULL);
-			ticks_t end = getticks();
+			ticks_t end=getticks();
 			sum += get_mic_diff(start, end);
 		}
 		printf("time expired for usleep of %u micros is %lu diff is %lu\n", i, sum / repeats, sum / repeats - i);

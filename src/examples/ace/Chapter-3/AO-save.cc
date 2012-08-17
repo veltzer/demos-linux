@@ -38,7 +38,7 @@ class HA_ControllerAgent {
 		HA_ControllerAgent() {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::HA_ControllerAgent"));
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - Entered HA_ControllerAgent\n")));
-			status_result_ = 1;
+			status_result_=1;
 		}
 		int status_update(void) {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));
@@ -144,7 +144,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Future<int> results[10];
 	ACE_DEBUG((LM_DEBUG,ACE_TEXT("%N - Activating the controller.status_update\n")));
 	for(int i=0;i<1;i++) {
-		results[i] = controller.status_update();
+		results[i]=controller.status_update();
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - We simulate doing other work by sleep(5)\n")));
 	ACE_OS::sleep(5);
@@ -153,7 +153,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - After the sleep we are going to get the results\n")));
 	// Get results...
 	for(int j=0;j<1;j++) {
-		int result = 0;
+		int result=0;
 		results[j].get(result);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - New status_update %d\n"), result));
 	}

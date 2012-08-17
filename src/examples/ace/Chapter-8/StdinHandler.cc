@@ -33,7 +33,7 @@ typedef ACE_Stream<ACE_MT_SYNCH> MT_Stream;
 typedef ACE_Module<ACE_MT_SYNCH> MT_Module;
 typedef ACE_Task<ACE_MT_SYNCH> MT_Task;
 
-static int ProducerData = 0;
+static int ProducerData=0;
 class Consumer:public MT_Task {
 public:
 	// Initialize Consumer.
@@ -45,7 +45,7 @@ public:
 
 	// Enqueue the message on the Message_Queue
 	// for subsequent processing in <svc>.
-	virtual int put(ACE_Message_Block *mb, ACE_Time_Value *tv = 0) {
+	virtual int put(ACE_Message_Block *mb, ACE_Time_Value *tv=0) {
 		// <putq> is inherited from class Task.
 		return(putq(mb, tv));
 	}
@@ -81,7 +81,7 @@ int Producer::svc(void) {
 		// Allocate a new message.
 		ACE_NEW_RETURN(mb, ACE_Message_Block(BUFSIZ), -1);
 		// Keep reading stdin, until we reach EOF.
-		ssize_t n = ACE_OS::read(ACE_STDIN, mb->wr_ptr(), mb->size());
+		ssize_t n=ACE_OS::read(ACE_STDIN, mb->wr_ptr(), mb->size());
 		if(n <= 0) {
 			// Send shutdown message to other thread and exit.
 			mb->length(0);
@@ -98,7 +98,7 @@ int Producer::svc(void) {
 }
 
 int Consumer::svc(void) {
-	ACE_Message_Block *mb = 0;
+	ACE_Message_Block *mb=0;
 	// Keep looping, reading a message from the queue,
 	// until we get a 0 length message, then quit.
 	while(true) {
@@ -125,7 +125,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Stream after <push>’s complete.
 	stream.push(new MT_Module("Consumer", new Consumer));
 	stream.push(new MT_Module("Producer", new Producer));
-	ProducerData = 1;
+	ProducerData=1;
 	stream.push(new MT_Module("Producer1", new Producer));
 	// Barrier synchronization: wait for
 	// the threads, to exit, then exit the main thread.

@@ -45,11 +45,11 @@
 // file descriptor to access the device with...
 int d;
 
-const bool do_stack_test = true;
-const bool do_valloc_test = true;
-const bool do_dataseg_test = true;
-const bool do_malloc_test = true;
-const bool do_stacks_test = true;
+const bool do_stack_test=true;
+const bool do_valloc_test=true;
+const bool do_dataseg_test=true;
+const bool do_malloc_test=true;
+const bool do_stacks_test=true;
 
 static void show_data(char *data, unsigned int size) {
 	printf("data is [");
@@ -62,9 +62,9 @@ static void show_data(char *data, unsigned int size) {
 
 static void do_test(char *data, unsigned int size, const char *name) {
 	printf("starting test named [%s]\n", name);
-	int PAGE_SIZE = getpagesize();
-	unsigned int adr = (unsigned int)data;
-	bool aligned = (adr % PAGE_SIZE == 0);
+	int PAGE_SIZE=getpagesize();
+	unsigned int adr=(unsigned int)data;
+	bool aligned=(adr % PAGE_SIZE == 0);
 	if (aligned) {
 		printf("data %p is page aligned\n", data);
 	} else {
@@ -78,8 +78,8 @@ static void do_test(char *data, unsigned int size, const char *name) {
 	memset(data, 'a', size);
 	show_data(data, size);
 	BufferStruct b;
-	b.size = size;
-	b.pointer = data;
+	b.size=size;
+	b.pointer=data;
 	//klog_clear();
 	CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_MAP, &b));
 	//klog_show();
@@ -101,23 +101,23 @@ static void do_test(char *data, unsigned int size, const char *name) {
 }
 
 
-const int csize = 64000;
+const int csize=64000;
 static char data_ds[csize];
 int main(int argc,char** argv,char** envp) {
 	// file name of the device
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	if (do_stack_test) {
 		char data[csize + getpagesize() * 10];
 		do_test(data, csize, "stack");
 	}
 	if (do_valloc_test) {
-		char *data = (char *)valloc(csize);
+		char *data=(char *)valloc(csize);
 		do_test(data, csize, "valloc");
 	}
 	if (do_malloc_test) {
-		char *data = (char *)malloc(csize);
+		char *data=(char *)malloc(csize);
 		do_test(data, csize, "malloc");
 	}
 	if (do_dataseg_test) {

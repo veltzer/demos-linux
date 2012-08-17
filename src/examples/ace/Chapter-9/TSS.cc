@@ -51,7 +51,7 @@ class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 			return(0);
 		}
 		int handle_requests(void) {
-			ACE_thread_t *tid = (ACE_thread_t *)this->tss_ctx_->get_attribute("thread_id");
+			ACE_thread_t *tid=(ACE_thread_t *)this->tss_ctx_->get_attribute("thread_id");
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Received TSS TID: %u \n"), *tid));
 			// do work.
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Doing some work for thread %t\n")));

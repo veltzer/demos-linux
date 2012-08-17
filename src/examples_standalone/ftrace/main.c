@@ -27,6 +27,6 @@ int call_func(int a, int b) {
 
 int main(int argc,char** argv,char** envp) {
 	int res;
-	res = call_func(1, 1);
+	res=call_func(1, 1);
 	return EXIT_SUCCESS;
 }

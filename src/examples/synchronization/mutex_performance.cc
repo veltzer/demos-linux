@@ -51,7 +51,7 @@ void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {
 	const unsigned int loop=1000000;
 	printf("running test [%s]\n",name);
 	gettimeofday(&t1, NULL);
-	for(unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i < loop;i++) {
 		if(mutex) {
 			CHECK_ZERO(pthread_mutex_lock(mutex));
 			CHECK_ZERO(pthread_mutex_unlock(mutex));
@@ -62,13 +62,13 @@ void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {
 		}
 		if(semid!=-1) {
 			struct sembuf sops;
-			sops.sem_num = 0;
-			sops.sem_op = 1;
-			sops.sem_flg = 0;
+			sops.sem_num=0;
+			sops.sem_op=1;
+			sops.sem_flg=0;
 			CHECK_NOT_M1(semop(semid, &sops, 1));
-			sops.sem_num = 0;
-			sops.sem_op = -1;
-			sops.sem_flg = 0;
+			sops.sem_num=0;
+			sops.sem_op=-1;
+			sops.sem_flg=0;
 			CHECK_NOT_M1(semop(semid, &sops, 1));
 		}
 	}
@@ -97,8 +97,8 @@ int main(int argc,char** argv,char** envp) {
 	printf("main started\n");
 	pthread_mutexattr_t attr;
 	key_t key;
-	CHECK_NOT_M1(key = ftok("/etc/passwd", 'x'));
-	CHECK_NOT_M1(semid = semget(key, 1, IPC_CREAT | 0666));
+	CHECK_NOT_M1(key=ftok("/etc/passwd", 'x'));
+	CHECK_NOT_M1(semid=semget(key, 1, IPC_CREAT | 0666));
 	CHECK_NOT_M1(semctl(semid,0,SETVAL,1));
 
 	CHECK_ZERO(sem_init(&sem_nonshared,0,1));

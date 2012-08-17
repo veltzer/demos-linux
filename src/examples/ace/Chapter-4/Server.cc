@@ -67,14 +67,14 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 			peer_addr.addr_to_string(peer_name, MAXHOSTNAMELEN);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
 			char buffer[4096];
-			ssize_t bytes_received = peer.recv(buffer, sizeof(buffer));
+			ssize_t bytes_received=peer.recv(buffer, sizeof(buffer));
 			// IMPORTANT NOTICE: do not allow 0 here since it is the end
 			// of file...
 			while(bytes_received>0) {
 				if (peer.send(buffer, bytes_received) == -1) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) error in send")));
 				}
-				bytes_received = peer.recv(buffer, sizeof(buffer));
+				bytes_received=peer.recv(buffer, sizeof(buffer));
 			}
 			// lets show a nice message if we are interrupted while reading...
 			if (bytes_received == -1) {

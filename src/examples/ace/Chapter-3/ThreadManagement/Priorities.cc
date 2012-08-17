@@ -76,8 +76,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Message_Block mb;
 	for(int i=0;i<100;i++) {
 		ACE_Message_Block *mb_hp, *mb_lp;
-		mb_hp = mb.clone();
-		mb_lp = mb.clone();
+		mb_hp=mb.clone();
+		mb_lp=mb.clone();
 		hp_handler.putq(mb_hp);
 		lp_handler.putq(mb_lp);
 	}

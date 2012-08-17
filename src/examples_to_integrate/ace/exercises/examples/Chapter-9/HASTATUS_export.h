@@ -48,7 +48,7 @@
 #define HASTATUS_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK)
 #endif /* HASTATUS_HAS_DLL == 1 */
 
-// Set HASTATUS_NTRACE = 0 to turn on library specific tracing even if
+// Set HASTATUS_NTRACE=0 to turn on library specific tracing even if
 // tracing is turned off for ACE.
 #define HASTATUS_NTRACE 0 // Eytan carmiel was here
 #if !defined (HASTATUS_NTRACE)

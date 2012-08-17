@@ -41,19 +41,19 @@ class MyTime_Handler:public ACE_Event_Handler {
 	public:
 		//Method which is called back by the Reactor when timeout occurs.
 		virtual int handle_timeout(const ACE_Time_Value& tv, const void *arg) {
-			long current_count = long(arg);
+			long current_count=long(arg);
 
 			// assert that we are not getting the 5'th timer
 			ACE_ASSERT(current_count != 5);
 			// assert that we are getting them in order
 			ACE_ASSERT(current_count > last_arrived);
-			last_arrived = current_count;
+			last_arrived=current_count;
 			ACE_DEBUG((LM_DEBUG, "%t %d: Timer #%d timed out at %d!\n", count, current_count, tv.sec()));
 			// If all timers done then set done flag
 			count++;
 			sleep(3);
 			if (count == NUMBER_TIMERS - 1) {
-				done = true;
+				done=true;
 			}
 			// Keep yourself registered with the Reactor.
 			return(0);
@@ -63,10 +63,10 @@ class MyTime_Handler:public ACE_Event_Handler {
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%t: main thread starting\n")));
 	ACE_Reactor reactor;
-	MyTime_Handler *th = new MyTime_Handler;
+	MyTime_Handler *th=new MyTime_Handler;
 	int timer_id[NUMBER_TIMERS];
-	for (int i = 0; i < NUMBER_TIMERS; i++) {
-		timer_id[i] = reactor.schedule_timer(
+	for (int i=0; i < NUMBER_TIMERS; i++) {
+		timer_id[i]=reactor.schedule_timer(
 			th,
 			(const void *)i,// argument sent to handle_timeout()
 			ACE_Time_Value(2 * i + 1)// set timer to go off with delay

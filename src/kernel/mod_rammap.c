@@ -31,13 +31,13 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("module which prints out the ram map");
 
 // static data
-static unsigned int physaddr = 0x32000000;
-static unsigned int size = 170 * 1024 * 1024;
+static unsigned int physaddr=0x32000000;
+static unsigned int size=170 * 1024 * 1024;
 static void* logical;
 
 // our own functions
 static void capi_print_addressinfo(void *logical_adr) {
-	struct page *page = virt_to_page(logical_adr);
+	struct page *page=virt_to_page(logical_adr);
 
 	if (page == NULL) {
 		PR_INFO("unable to translate address %p to page", logical_adr);
@@ -63,9 +63,9 @@ static void capi_print_addressinfo(void *logical_adr) {
 }
 
 static void capi_debug_address(unsigned int phys) {
-	void* logical = __va(phys);
-	void* logical2 = phys_to_virt(phys);
-	unsigned int phys2 = __pa(logical);
+	void* logical=__va(phys);
+	void* logical2=phys_to_virt(phys);
+	unsigned int phys2=__pa(logical);
 
 	PR_INFO("phys is %u", phys);
 	PR_INFO("logical is %p", logical);
@@ -84,7 +84,7 @@ static int __init mod_init(void) {
 	*	return 1;
 	* }
 	*/
-	logical = ioremap(physaddr, size);
+	logical=ioremap(physaddr, size);
 	if (logical == NULL) {
 		PR_ERROR("could not ioremap");
 		release_mem_region(physaddr, size);

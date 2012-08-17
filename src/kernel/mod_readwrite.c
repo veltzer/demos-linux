@@ -37,17 +37,17 @@ static int __init read_file(char *filename) {
 	char buf[1];
 	loff_t pos;
 
-	mm_segment_t old_fs = get_fs();
+	mm_segment_t old_fs=get_fs();
 
 	set_fs(KERNEL_DS);
 
-	filp = filp_open(filename, O_RDONLY, 0);
+	filp=filp_open(filename, O_RDONLY, 0);
 	if (IS_ERR(filp)) {
 		PR_ERROR("could not read file %s", filename);
 		return(-EFAULT);
 	}
 	//PR_DEBUG("debug message");
-	pos = 0;
+	pos=0;
 	while(vfs_read(filp, buf, 1, &pos) == 1) {
 		printk("%c", buf[0]);
 	}
@@ -62,19 +62,19 @@ static int __init read_file(char *filename) {
 
 static int __init write_file(char *filename, char *data) {
 	struct file* filp;
-	loff_t pos = 0;
+	loff_t pos=0;
 	unsigned int len;
 
-	mm_segment_t old_fs = get_fs();
+	mm_segment_t old_fs=get_fs();
 
 	set_fs(KERNEL_DS);
 
-	filp = filp_open(filename, O_WRONLY | O_CREAT, 0644);
+	filp=filp_open(filename, O_WRONLY | O_CREAT, 0644);
 	if (IS_ERR(filp)) {
 		PR_ERROR("cannot open file %s for writing", filename);
 		return(-EFAULT);
 	}
-	len = strlen(data);
+	len=strlen(data);
 	if (vfs_write(filp, data, len, &pos) != len) {
 		PR_ERROR("could not write");
 		return(-EFAULT);
