@@ -35,7 +35,7 @@ int main(int argc,char** argv,char** envp) {
 		printf("usage: %s [status code]\n",argv[0]);
 		return -1;
 	}
-	int res = atoi(argv[1]);
+	int res=atoi(argv[1]);
 	printf("analyzing code %d\n",res);
 
 	if (WIFSIGNALED(res)) {
@@ -43,7 +43,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	if (WIFEXITED(res)) {
 		printf("Child was NOT killed by OS.\n");
-		int return_code = WEXITSTATUS(res);
+		int return_code=WEXITSTATUS(res);
 		if (return_code) {
 			printf("Child exited successfully but reported error %d\n", return_code);
 		} else {

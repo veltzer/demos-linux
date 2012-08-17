@@ -243,7 +243,7 @@ check_exit:
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	-@./scripts/grep.py "^ |\\t | \\t|\ \ |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
+	-@./scripts/grep.py "\\n\\n\\n| = |^ |\\t | \\t|\ \ |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
@@ -347,7 +347,8 @@ format_astyle: $(ALL_DEPS)
 .PHONY: format_uncrustify
 format_uncrustify: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	#$(Q)uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(Q)uncrustify -c scripts/uncrustify.cfg --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
 	$(info doing [$@])

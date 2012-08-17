@@ -50,14 +50,14 @@
 int fd, fd2;
 
 void *function_empty(void *p) {
-	bool over = false;
-	int counter = 0;
+	bool over=false;
+	int counter=0;
 	int errors=0;
 	while(!over) {
 		counter++;
 		bool err;
 		// ioctl to do nothing...
-		int res = ioctl(fd, IOCTL_RACE_EMPTY, NULL);
+		int res=ioctl(fd, IOCTL_RACE_EMPTY, NULL);
 		if (res == -1) {
 			err=true;
 			errors++;
@@ -67,9 +67,9 @@ void *function_empty(void *p) {
 		if (counter % 10000 == 0) {
 			char c;
 			if (err) {
-				c = 'E';
+				c='E';
 			} else {
-				c = '.';
+				c='.';
 			}
 			fprintf(stdout, "%c", c);
 			fflush(stdout);
@@ -118,7 +118,7 @@ void *function_close(void *p) {
 
 
 int main(int argc,char** argv,char** envp) {
-	const char *filename = "/dev/mod_ioctl_close_race";
+	const char *filename="/dev/mod_ioctl_close_race";
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_ioctl_close_race");
 	my_system("sudo insmod ./mod_ioctl_close_race.ko");

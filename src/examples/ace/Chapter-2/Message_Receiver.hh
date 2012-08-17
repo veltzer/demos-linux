@@ -67,7 +67,7 @@ class Message_Receiver:public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
 		}
 		ACE_Message_Block *shut_down_message(void);
 		virtual int handle_input(ACE_HANDLE fd);
-		virtual int handle_close(ACE_HANDLE = ACE_INVALID_HANDLE, ACE_Reactor_Mask = ACE_Event_Handler::ALL_EVENTS_MASK) {
+		virtual int handle_close(ACE_HANDLE=ACE_INVALID_HANDLE, ACE_Reactor_Mask=ACE_Event_Handler::ALL_EVENTS_MASK) {
 			this->peer().close();
 			delete this;
 			return(0);

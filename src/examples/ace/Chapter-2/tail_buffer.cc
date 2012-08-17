@@ -49,7 +49,7 @@ static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		if (msg_queue->dequeue_tail(mb) == -1) {
 			break;
 		}
-		size_t length = mb->length();
+		size_t length=mb->length();
 
 		if (length > 0) {
 			ACE_OS::puts(mb->rd_ptr());
@@ -75,7 +75,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep reading stdin, until we reach EOF.
 	while(true) {
 		// Allocate a new buffer.
-		char* buffer = rb.read('\n');
+		char* buffer=rb.read('\n');
 		ACE_Message_Block *mb;
 		if (buffer == 0) {
 			// Send a 0-sized shutdown message to the other thread and exit

@@ -29,7 +29,7 @@
 */
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
-	static const ACE_TCHAR options[] = ACE_TEXT(":f:");
+	static const ACE_TCHAR options[]=ACE_TEXT(":f:");
 
 	ACE_Get_Opt cmd_opts(argc, argv, options, 1, 0, ACE_Get_Opt::PERMUTE_ARGS, 1);
 
@@ -40,7 +40,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	int option;
 	ACE_TCHAR config_file[MAXPATHLEN];
 	ACE_OS_String::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
-	while((option = cmd_opts()) != EOF) {
+	while((option=cmd_opts()) != EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS_String::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);

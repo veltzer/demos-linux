@@ -90,7 +90,7 @@ int main(int argc,char** argv,char** envp) {
 		sleep(10);
 	} else {
 		TRACE("this is the parent");
-		bool over = false;
+		bool over=false;
 		while(!over) {
 			TRACE("waiting for the child...");
 			siginfo_t info;
@@ -98,7 +98,7 @@ int main(int argc,char** argv,char** envp) {
 			print_code(info.si_code);
 			print_status(info.si_status);
 			if ((info.si_code == CLD_EXITED) || (info.si_code == CLD_KILLED)) {
-				over = true;
+				over=true;
 			}
 		}
 	}

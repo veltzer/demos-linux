@@ -49,10 +49,10 @@
 static struct crash_message_struct g_crash_msg;
 
 /* Pipe file descriptor to crashd */
-static int g_logfd = -1;
+static int g_logfd=-1;
 
 /* Pointer to global assert info, supplied during registration */
-static unsigned char * g_assert_buf_ptr = NULL;
+static unsigned char * g_assert_buf_ptr=NULL;
 
 #ifdef USE_THREADS
 /* Spinlock protecting access to the fault handler in multi-threaded setups */
@@ -78,7 +78,7 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 	*/
 #define IP_STACK_FRAME_NUMBER (3)
 
-	unsigned int ret = backtrace(array, size);
+	unsigned int ret=backtrace(array, size);
 	distance += IP_STACK_FRAME_NUMBER;
 
 	assert(distance <= size);
@@ -101,11 +101,11 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 	*/
 
 #ifdef __i386__
-	array[distance] = (void *)(context->uc_mcontext.gregs[REG_EIP]);
+	array[distance]=(void *)(context->uc_mcontext.gregs[REG_EIP]);
 #endif /* __i386__ */
 
 #ifdef __PPC__
-	array[distance] = (void *)(context->uc_mcontext.regs->nip);
+	array[distance]=(void *)(context->uc_mcontext.regs->nip);
 #endif /* __PPC__ */
 	return ret;
 }
@@ -127,7 +127,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 
 #ifdef USE_THREADS
 
-	ret = pthread_spin_trylock(&g_thread_lock);
+	ret=pthread_spin_trylock(&g_thread_lock);
 	if (EBUSY == ret) {
 		/* Think of the following as an async-signal safe super sched_yield that
 		* yields even to threads with lower real-time priority */
@@ -140,37 +140,37 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 
 	/* Get the backtrace. See signal_backtrace for the parameters */
 
-	g_crash_msg.num_backtrace_frames = signal_backtrace(g_crash_msg.backtrace,
+	g_crash_msg.num_backtrace_frames=signal_backtrace(g_crash_msg.backtrace,
 			CRASH_MAX_BACKTRACE_DEPTH, context, 0);
 
 	/* Grab the kernel thread id. Because signal handler are shared between all
 	* threads of the same process, this can only be doen in fault time. */
 
-	g_crash_msg.thread_id = gettid();
+	g_crash_msg.thread_id=gettid();
 
 	/* Grab the signal number */
-	g_crash_msg.signal_number = signal;
+	g_crash_msg.signal_number=signal;
 
 	/* Grab time stamp */
 	clock_gettime(CLOCK_REALTIME, &g_crash_msg.timestamp);
 
 	/* Copy the assert buffer without using strings.h fucntions. */
 	for(i=0; i< CRASH_ASSERT_BUFFER_SIZE; ++i) {
-		g_crash_msg.assert_buffer[i] = *(g_assert_buf_ptr++);
+		g_crash_msg.assert_buffer[i]=*(g_assert_buf_ptr++);
 	}
 
 	if (siginfo) /* No reasons for this to be NULL, but still... */
 	{
 		/* See description of these in crash_msg.h */
-		g_crash_msg.signal_code = siginfo->si_code;
-		g_crash_msg.fault_address = siginfo->si_addr;
-		g_crash_msg.signal_errno = siginfo->si_errno;
-		g_crash_msg.handler_errno = errno;
+		g_crash_msg.signal_code=siginfo->si_code;
+		g_crash_msg.fault_address=siginfo->si_addr;
+		g_crash_msg.signal_errno=siginfo->si_errno;
+		g_crash_msg.handler_errno=errno;
 	}
 
 retry_write:
 
-	ret = write(g_logfd, &g_crash_msg, sizeof(g_crash_msg));
+	ret=write(g_logfd, &g_crash_msg, sizeof(g_crash_msg));
 
 	/* If we got interrupt by a signal, retry the write.
 	* This shouldn't really happen since we mask all signals
@@ -204,7 +204,7 @@ retry_write:
 
 int set_cloexec_flag (int desc, int value)
 {
-	int oldflags = fcntl(desc, F_GETFD, 0);
+	int oldflags=fcntl(desc, F_GETFD, 0);
 
 	/* If reading the flags failed, return error indication now. */
 	if (oldflags < 0) {
@@ -226,46 +226,45 @@ int set_cloexec_flag (int desc, int value)
 * process_name is argv[0] or whatever you'd like.
 * assert_buf_ptr needs to point to the 128 byte assert buffer.
 */
-int register_crash_handler(const char * process_name, unsigned char * assert_buf_ptr)
-{
-	struct sigaction act;	/* Signal handler register struct */
-	int ret;				/* Return value for various calls */
-	int pfd[2];			/* Pipe file descriptor array */
+int register_crash_handler(const char* process_name,unsigned char* assert_buf_ptr) {
+	struct sigaction act; /* Signal handler register struct */
+	int ret; /* Return value for various calls */
+	int pfd[2]; /* Pipe file descriptor array */
 
 	/* See ahead about these two: */
 	void * dummy_trace_array[1];
 	unsigned int dummy_trace_size;
 
-	assert(sizeof(g_crash_msg) <= CRASH_MAX_MSG_SIZE);
+	assert(sizeof(g_crash_msg)<=CRASH_MAX_MSG_SIZE);
 
 	if(!process_name || !assert_buf_ptr) {
 		return EINVAL;
 	}
 	#ifdef USE_THREADS
-	ret = pthread_spin_init(&g_thread_lock, 0);
+	ret=pthread_spin_init(&g_thread_lock, 0);
 	if(ret) {
 		return ret;
 	}
 	#endif /* USE_THREADS */
 	/* If we're called again (perhaps after a fork() ), the pipe is already open.
 	* That's just fine with us */
-	if(-1 == g_logfd) {
+	if(-1==g_logfd) {
 		/* Grab us a pipe to communicate with our crash daemon */
-		ret = pipe(pfd);
-		if(-1 == ret) {
+		ret=pipe(pfd);
+		if(-1==ret) {
 			return errno;
 		}
-		g_logfd = pfd[1]; /* Grab the write end of the pipe */
+		g_logfd=pfd[1]; /* Grab the write end of the pipe */
 
 		/* If the caller program execs, we want the pipe to close,
 		* because it's not likely a random program will have the
 		* right signal handler set to use the crash daemon. */
-		ret = set_cloexec_flag(g_logfd, 1);
-		if(-1 == ret) {
+		ret=set_cloexec_flag(g_logfd,1);
+		if(-1==ret) {
 			return errno;
 		}
 		/* Set our daemon up */
-		crashd_main(1, process_name, pfd);
+		crashd_main(1,process_name,pfd);
 		close(pfd[0]);
 	}
 	/* This requires some explaining:
@@ -280,32 +279,30 @@ int register_crash_handler(const char * process_name, unsigned char * assert_buf
 	* We therefore give these a dummy call here during registration to assure that the library
 	* gets loaded where it's safe to malloc.
 	*/
-	dummy_trace_size = backtrace(dummy_trace_array, 1);
-	backtrace_symbols_fd (dummy_trace_array, dummy_trace_size, -1);
+	dummy_trace_size=backtrace(dummy_trace_array, 1);
+	backtrace_symbols_fd(dummy_trace_array, dummy_trace_size,-1);
 
 	/* This data we can already grab during registration, not need to wait for crash */
-	g_crash_msg.magic = CRASH_MSG_MAGIC;
+	g_crash_msg.magic=CRASH_MSG_MAGIC;
 	memcpy(g_crash_msg.process_name, process_name, strnlen(process_name, CRASH_MAX_PROCESS_NAME_SIZE)+1);
-	g_crash_msg.process_id = getpid();
+	g_crash_msg.process_id=getpid();
 
-	g_assert_buf_ptr = assert_buf_ptr;
+	g_assert_buf_ptr=assert_buf_ptr;
 
 	/* Prepare a sigaction struct for exception handler registrations */
-	memset(&act, 0, sizeof (act));
-	act.sa_sigaction = fault_handler;
+	memset(&act,0,sizeof(act));
+	act.sa_sigaction=fault_handler;
 	/* No signals during handler run, please */
-	sigfillset (&act.sa_mask);
+	sigfillset(&act.sa_mask);
 	/* We want the 3 parameter form of the handler with the siginfo_t addtional data */
-	act.sa_flags = SA_SIGINFO;
-
+	act.sa_flags=SA_SIGINFO;
 
 	/* Register the handler for all exception signals. */
-	ret = sigaction (SIGSEGV, &act, NULL);
-	ret |= sigaction (SIGILL, &act, NULL);
-	ret |= sigaction (SIGFPE, &act, NULL);
-	ret |= sigaction (SIGBUS, &act, NULL);
-	ret |= sigaction (SIGQUIT, &act, NULL);
-
+	ret=sigaction(SIGSEGV,&act,NULL);
+	ret|=sigaction(SIGILL,&act,NULL);
+	ret|=sigaction(SIGFPE,&act,NULL);
+	ret|=sigaction(SIGBUS,&act,NULL);
+	ret|=sigaction(SIGQUIT,&act,NULL);
 
 	return ret;
 }

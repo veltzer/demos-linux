@@ -55,8 +55,8 @@ pid_t make_child(int nice_val) {
 		// child process
 		// set our own nice level to the required level...
 		CHECK_NOT_M1(nice(nice_val));
-		pid_t mypid = getpid();
-		int i = 0;
+		pid_t mypid=getpid();
+		int i=0;
 		while(true) {
 			if (i % 10000000 == 0) {
 				printf("pid %d, counter %d, nice %d\n", mypid, i, nice_val);

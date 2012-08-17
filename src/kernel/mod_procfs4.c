@@ -112,7 +112,7 @@ static int my_open(struct inode *inode, struct file *file) {
 /*
 * This structure gathers "functions" that manage the /proc file
 */
-static struct file_operations my_file_ops = {
+static struct file_operations my_file_ops={
 	.owner=THIS_MODULE,
 	.open=my_open,
 	.read=seq_read,
@@ -125,9 +125,9 @@ static struct file_operations my_file_ops = {
 */
 int init_module(void) {
 	struct proc_dir_entry *entry;
-	entry = create_proc_entry(PROC_NAME, 0, NULL);
+	entry=create_proc_entry(PROC_NAME, 0, NULL);
 	if (entry) {
-		entry->proc_fops = &my_file_ops;
+		entry->proc_fops=&my_file_ops;
 	}
 	pr_info(KBUILD_MODNAME " loaded successfully");
 	return 0;

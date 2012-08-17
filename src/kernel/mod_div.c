@@ -64,14 +64,14 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			PR_INFO("b.u2 is %llu", b.u2);
 			PR_INFO("b.d1 is %lld", b.d1);
 			PR_INFO("b.d2 is %lld", b.d2);
-			b.udiv = b.u1 / b.u2;
-			b.umul = b.u1 * b.u2;
-			b.uadd = b.u1 + b.u2;
-			b.usub = b.u1 - b.u2;
-			b.ddiv = b.d1 / b.d2;
-			b.dmul = b.d1 * b.d2;
-			b.dadd = b.d1 + b.d2;
-			b.dsub = b.d1 - b.d2;
+			b.udiv=b.u1 / b.u2;
+			b.umul=b.u1 * b.u2;
+			b.uadd=b.u1 + b.u2;
+			b.usub=b.u1 - b.u2;
+			b.ddiv=b.d1 / b.d2;
+			b.dmul=b.d1 * b.d2;
+			b.dadd=b.d1 + b.d2;
+			b.dsub=b.d1 - b.d2;
 			// copy the data back to the user
 			if(copy_to_user((void *)arg, &b, sizeof(b))) {
 				PR_ERROR("problem with copy_to_user");
@@ -86,9 +86,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_unlocked_ioctll,
+static struct file_operations my_fops={
+	.owner=THIS_MODULE,
+	.unlocked_ioctl=kern_unlocked_ioctll,
 };
 
 #include"device.inc"

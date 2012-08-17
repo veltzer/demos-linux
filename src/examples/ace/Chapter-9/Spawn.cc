@@ -48,7 +48,7 @@ public:
 
 		// Spawn the new process; prepare() hook is called first.
 		ACE_Process_Options options;
-		pid_t pid = this->spawn(options);
+		pid_t pid=this->spawn(options);
 		if (pid == ACE_INVALID_PID) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("spawn")), -1);
 		}
@@ -73,11 +73,11 @@ private:
 		}
 
 		char buf[1024];
-		ssize_t length = 0;
+		ssize_t length=0;
 
 		// Read the contents of the error stream written by the child and print it out.
-		while((length = ACE_OS::read(this->outputfd_, buf, sizeof(buf) - 1)) > 0) {
-			buf[length] = 0;
+		while((length=ACE_OS::read(this->outputfd_, buf, sizeof(buf) - 1)) > 0) {
+			buf[length]=0;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), buf));
 		}
 
@@ -107,7 +107,7 @@ private:
 		ACE_TRACE("Manager::setStdHandles");
 
 		ACE_OS::unlink("output.dat");
-		this->outputfd_ = ACE_OS::open("output.dat", O_RDWR | O_CREAT);
+		this->outputfd_=ACE_OS::open("output.dat", O_RDWR | O_CREAT);
 		return(options.set_handles(ACE_STDIN, ACE_STDOUT, this->outputfd_));
 	}
 
@@ -121,7 +121,7 @@ private:
 #if !defined (ACE_LACKS_PWD_FUNCTIONS)
 	int setUserID(ACE_Process_Options& options) {
 		ACE_TRACE("Manager::setUserID");
-		passwd *pw = ACE_OS::getpwnam("nobody");
+		passwd *pw=ACE_OS::getpwnam("nobody");
 		if (pw == 0) {
 			return(-1);
 		}
@@ -165,7 +165,7 @@ public:
 	void showWho(void) {
 		ACE_TRACE("Slave::showWho");
 #if !defined (ACE_LACKS_PWD_FUNCTIONS)
-//	passwd *pw = ::getpwuid (ACE_OS::geteuid ());
+//	passwd *pw=::getpwuid (ACE_OS::geteuid ());
 //	ACE_DEBUG ((LM_INFO, ACE_TEXT ("(%P) Running this process as:%s\n"), pw->pw_name));
 #endif
 	}
@@ -174,12 +174,12 @@ public:
 	ACE_TCHAR *readLine(ACE_TCHAR *str) {
 		ACE_TRACE("Slave::readLine");
 
-		int i = 0;
+		int i=0;
 		while(true) {
-			ssize_t retval = ACE_OS::read(ACE_STDIN, &str[i], 1);
+			ssize_t retval=ACE_OS::read(ACE_STDIN, &str[i], 1);
 			if (retval > 0) {
 				if (str[i] == '\n') {
-					str[++i] = 0;
+					str[++i]=0;
 					return(str);
 				}
 				i++;

@@ -37,7 +37,7 @@ class HA_ControllerAgent {
 	public:
 		HA_ControllerAgent() {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::HA_ControllerAgent"));
-			status_result_ = 1;
+			status_result_=1;
 		}
 		int status_update(void) {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));

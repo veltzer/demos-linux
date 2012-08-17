@@ -37,17 +37,17 @@ public:
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) starting up \n")));
 
 		// Cache our ACE_Thread_Manager pointer.
-		ACE_Thread_Manager *mgr = this->thr_mgr();
+		ACE_Thread_Manager *mgr=this->thr_mgr();
 		while(true) {
 			if (mgr->testcancel(mgr->thr_self())) {
 				return(0);
 			}
 
-			ACE_Message_Block *mb = 0;
+			ACE_Message_Block *mb=0;
 			ACE_Time_Value tv(0, 1000);
 
 			tv += ACE_OS::time(0);
-			int result = this->getq(mb, &tv);
+			int result=this->getq(mb, &tv);
 			if ((result == -1) && (errno == EWOULDBLOCK)) {
 				continue;
 			} else {

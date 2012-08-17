@@ -38,8 +38,8 @@ static struct device* my_device;
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
+static struct file_operations my_fops={
+	.owner=THIS_MODULE,
 };
 
 #include"device.inc"

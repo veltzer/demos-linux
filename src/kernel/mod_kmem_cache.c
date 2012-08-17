@@ -53,7 +53,7 @@ static void* p=NULL;
 // our own functions
 static int __init kmem_init(void) {
 	PR_INFO("start");
-	cache_p = kmem_cache_create(
+	cache_p=kmem_cache_create(
 		"veltzer",// name of cache (will appear in slabtop(1), /proc/slabinfo and more.
 		100,// size of objects in cache
 		0,// alignment
@@ -63,7 +63,7 @@ static int __init kmem_init(void) {
 	if (cache_p == NULL) {
 		return(-ENOMEM);
 	}
-	p = kmem_cache_alloc(cache_p, GFP_KERNEL);
+	p=kmem_cache_alloc(cache_p, GFP_KERNEL);
 	if (p == NULL) {
 		// there is not too much that we can do here
 		PR_ERROR("Cannot allocate memory");

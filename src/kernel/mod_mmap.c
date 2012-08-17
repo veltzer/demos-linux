@@ -55,7 +55,7 @@ static unsigned int size;
 static unsigned int pg_num;
 static unsigned long phys;
 static unsigned int pages;
-static bool do_kmalloc = true;
+static bool do_kmalloc=true;
 static struct device* my_device;
 static unsigned long addr;
 static int ioctl_size;
@@ -84,16 +84,16 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		* Exploring VMA issues
 		*/
 		case IOCTL_MMAP_PRINT:
-			ptr = (void *)arg;
+			ptr=(void *)arg;
 			PR_DEBUG("ptr is %p", ptr);
-			vma = find_vma(current->mm, arg);
+			vma=find_vma(current->mm, arg);
 			PR_DEBUG("vma is %p", vma);
-			diff = arg - vma->vm_start;
+			diff=arg - vma->vm_start;
 			PR_DEBUG("diff is %d", diff);
-			private = (unsigned long)vma->vm_private_data;
+			private=(unsigned long)vma->vm_private_data;
 			PR_DEBUG("private (ul) is %lu", private);
 			PR_DEBUG("private (p) is %p", (void *)private);
-			adjusted = private + diff;
+			adjusted=private + diff;
 			PR_DEBUG("adjusted (ul) is %lu", adjusted);
 			PR_DEBUG("adjusted (p) is %p", (void *)adjusted);
 			return 0;
@@ -104,7 +104,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		case IOCTL_MMAP_READ:
 			PR_DEBUG("starting to read");
 			memcpy(str, vaddr, 256);
-			str[255] = '\0';
+			str[255]='\0';
 			PR_DEBUG("data is %s", str);
 			return 0;
 
@@ -122,7 +122,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		*/
 		case IOCTL_MMAP_WRITE_USER:
 			PR_DEBUG("starting to write using us pointer");
-			ptr = (void *)arg;
+			ptr=(void *)arg;
 			PR_DEBUG("ptr is %p", ptr);
 			return 0;
 
@@ -132,16 +132,16 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		case IOCTL_MMAP_MMAP:
 			PR_DEBUG("trying to mmap");
 			if (do_kmalloc) {
-				kaddr = kmalloc(ioctl_size, GFP_KERNEL);
+				kaddr=kmalloc(ioctl_size, GFP_KERNEL);
 			} else {
-				order = get_order(ioctl_size);
-				kaddr = (void *)__get_free_pages(GFP_KERNEL, order);
+				order=get_order(ioctl_size);
+				kaddr=(void *)__get_free_pages(GFP_KERNEL, order);
 			}
-			mm = current->mm;
-			flags = MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
+			mm=current->mm;
+			flags=MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
 			flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
 			down_write(&mm->mmap_sem);
-			addr = do_mmap_pgoff(
+			addr=do_mmap_pgoff(
 				filp, /* file pointer */
 				(unsigned long)kaddr, /* address - this is the buffer we kmalloc'ed */
 				ioctl_size, /* size */
@@ -160,18 +160,18 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		*/
 		case IOCTL_MMAP_UNMAP:
 			PR_DEBUG("trying to unmap");
-			vma = find_vma(current->mm, addr);
-			kernel_addr = vma->vm_private_data;
-			size = vma->vm_end - vma->vm_start;
+			vma=find_vma(current->mm, addr);
+			kernel_addr=vma->vm_private_data;
+			size=vma->vm_end - vma->vm_start;
 			PR_DEBUG("deduced kernel_addr is %p", kernel_addr);
 			PR_DEBUG("deduced size is (d) %d", size);
 			PR_DEBUG("real size is (d) %d", ioctl_size);
 			PR_DEBUG("real kaddr is (p) %p", kaddr);
-			ret = do_munmap(current->mm, addr, ioctl_size);
+			ret=do_munmap(current->mm, addr, ioctl_size);
 			if (do_kmalloc) {
 				kfree(kernel_addr);
 			} else {
-				order = get_order(size);
+				order=get_order(size);
 				free_pages((unsigned long)kernel_addr, order);
 			}
 			return(ret);
@@ -181,7 +181,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		*/
 		case IOCTL_MMAP_SETSIZE:
 			PR_DEBUG("setting the size");
-			ioctl_size = arg;
+			ioctl_size=arg;
 			PR_DEBUG("size is %d", ioctl_size);
 			return 0;
 	}
@@ -199,8 +199,8 @@ void kern_vma_close(struct vm_area_struct *vma) {
 #ifdef DO_FREE
 	unsigned int order;
 #endif // DO_FREE
-	unsigned int size = vma->vm_end - vma->vm_start;
-	void* addr = vma->vm_private_data;
+	unsigned int size=vma->vm_end - vma->vm_start;
+	void* addr=vma->vm_private_data;
 	PR_DEBUG("start");
 	PR_DEBUG("pointer as long is %lu", vma->vm_start);
 	PR_DEBUG("pointer as pointer is %p", (void *)(vma->vm_start));
@@ -210,13 +210,13 @@ void kern_vma_close(struct vm_area_struct *vma) {
 	if (do_kmalloc) {
 		kfree(addr);
 	} else {
-		order = get_order(size);
+		order=get_order(size);
 		free_pages((unsigned long)addr, order);
 	}
 #endif // DO_FREE
 }
 
-static struct vm_operations_struct kern_remap_vm_ops = {
+static struct vm_operations_struct kern_remap_vm_ops={
 	.open=kern_vma_open,
 	.close=kern_vma_close,
 };
@@ -250,9 +250,9 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	// for return values
 	int ret;
 	// for __get_user_pages
-	int order = 0;
+	int order=0;
 	PR_DEBUG("start");
-	size = vma->vm_end - vma->vm_start;
+	size=vma->vm_end - vma->vm_start;
 	PR_DEBUG("size is %d", size);
 
 	/*
@@ -260,14 +260,14 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	*/
 	if (do_kmalloc) {
 		// calculate number of pages needed
-		pages = size / PAGE_SIZE;
+		pages=size / PAGE_SIZE;
 		if (size % PAGE_SIZE > 0) {
 			pages++;
 		}
-		vaddr = kmalloc(size, GFP_KERNEL);
+		vaddr=kmalloc(size, GFP_KERNEL);
 #ifdef DO_RESERVE
 		// reserve the pages
-		for (i = 0; i < pages * PAGE_SIZE; i += PAGE_SIZE) {
+		for (i=0; i < pages * PAGE_SIZE; i += PAGE_SIZE) {
 			SetPageReserved(virt_to_page(((unsigned long)vaddr) + i));
 		}
 #endif // DO_RESERVE
@@ -275,19 +275,19 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 		/*
 		* This code used __get_free_pages
 		*/
-		order = get_order(size);
-		addr = __get_free_pages(
+		order=get_order(size);
+		addr=__get_free_pages(
 			GFP_KERNEL,
 			order
 		);
-		vaddr = (void *)addr;
+		vaddr=(void *)addr;
 		PR_DEBUG("addr is %lx", addr);
 		PR_DEBUG("order is %d", order);
 	}
 	PR_DEBUG("vaddr is %p", vaddr);
 	//memset(vaddr,'a',size);
-	phys = virt_to_phys(vaddr);
-	pg_num = phys >> PAGE_SHIFT;
+	phys=virt_to_phys(vaddr);
+	pg_num=phys >> PAGE_SHIFT;
 	PR_DEBUG("phys is %lx", phys);
 	PR_DEBUG("pg_num is %d", pg_num);
 	//PR_DEBUG("pp is %p",pp);
@@ -295,7 +295,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	PR_DEBUG("vm_start is %lx", vma->vm_start);
 	PR_DEBUG("vm_end is %lx", vma->vm_end);
 	PR_DEBUG("vm_pgoff is %lx", vma->vm_pgoff);
-	ret = remap_pfn_range(
+	ret=remap_pfn_range(
 		vma,
 		vma->vm_start,
 		pg_num,
@@ -312,8 +312,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 		return(ret);
 	}
 	//memset(vaddr,'b',size);
-	vma->vm_private_data = vaddr;
-	vma->vm_ops = &kern_remap_vm_ops;
+	vma->vm_private_data=vaddr;
+	vma->vm_ops=&kern_remap_vm_ops;
 	kern_vma_open(vma);
 	return(0);
 }
@@ -322,7 +322,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
+static struct file_operations my_fops={
 	.owner=THIS_MODULE,
 	.unlocked_ioctl=kern_unlocked_ioctll,
 	.mmap=kern_mmap,

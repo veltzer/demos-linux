@@ -73,7 +73,7 @@ int main(int argc,char** argv,char** envp) {
 	pid_t child_pid;
 	CHECK_NOT_M1(child_pid=fork());
 	if (child_pid == 0) {
-		bool selected = false;
+		bool selected=false;
 		int selection;
 		while(!selected) {
 			TRACE("this is the child");
@@ -85,9 +85,9 @@ int main(int argc,char** argv,char** envp) {
 			TRACE("- do 'kill -s SIGCONT %d'", getpid());
 			char str[256];
 			CHECK_CHARP(fgets(str, 256, stdin),str);
-			selection = atoi(str);
+			selection=atoi(str);
 			if ((selection >= 1) && (selection <= 3)) {
-				selected = true;
+				selected=true;
 			}
 		}
 		switch (selection) {
@@ -100,12 +100,12 @@ int main(int argc,char** argv,char** envp) {
 				break;
 
 			case 3:
-				*((char *)0) = 0;
+				*((char *)0)=0;
 				break;
 		}
 	} else {
 		TRACE("this is the parent");
-		bool over = false;
+		bool over=false;
 		while(!over) {
 			TRACE("waiting for the child...");
 			siginfo_t info;
@@ -113,7 +113,7 @@ int main(int argc,char** argv,char** envp) {
 			print_code(info.si_code);
 			print_status(info.si_status);
 			if ((info.si_code == CLD_EXITED) || (info.si_code == CLD_KILLED)) {
-				over = true;
+				over=true;
 			}
 		}
 	}

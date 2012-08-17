@@ -44,24 +44,24 @@ const int timeout=10000;
 
 void *wait_function(void *p) {
 	fprintf(stderr,"wait thread started\n");
-	ticks_t t1 = getticks();
+	ticks_t t1=getticks();
 	// wait thread going to sleep
 	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
-	ticks_t t2 = getticks();
+	ticks_t t2=getticks();
 	fprintf(stderr,"took %d micros\n",get_mic_diff(t1, t2));
 	return(NULL);
 }
 
 int main(int argc,char** argv,char** envp) {
 	// file to be used
-	const char *filename = "/dev/mod_complete";
+	const char *filename="/dev/mod_complete";
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_complete");
 	my_system("sudo insmod ./mod_complete.ko");
 	my_system("sudo chmod 666 %s",filename);
 
 	// we are the in the parent of the threads - connect to the device
-	CHECK_NOT_M1(fd = open(filename, O_RDWR));
+	CHECK_NOT_M1(fd=open(filename, O_RDWR));
 	// initialize the completion
 	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_INIT, NULL));
 

@@ -40,7 +40,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ssize_t bc;
 	char buf[64];
 	peer.send_n("uptime\n", 7);
-	bc = peer.recv(buf, sizeof(buf));
+	bc=peer.recv(buf, sizeof(buf));
 	ACE_OS::write(ACE_STDOUT, buf, bc);
 	peer.close();
 	return EXIT_SUCCESS;

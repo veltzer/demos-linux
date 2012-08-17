@@ -37,7 +37,7 @@ pid_t timerTask(int initialDelay, int interval, timerTask_t task) {
 	if((initialDelay < 1) && (interval < 1)) {
 		return(-1);
 	}
-	pid_t pid = ACE_OS::fork();
+	pid_t pid=ACE_OS::fork();
 	if(pid < 0) {
 		return(-1);
 	}
@@ -58,7 +58,7 @@ pid_t timerTask(int initialDelay, int interval, timerTask_t task) {
 }
 
 void foo() {
-	time_t now = ACE_OS::time(0);
+	time_t now=ACE_OS::time(0);
 	cerr << "The time is " << ACE_OS::ctime(&now) << endl;
 }
 
@@ -67,7 +67,7 @@ void programMainLoop(void) {
 }
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
-	pid_t timerId = timerTask(3, 5, foo);
+	pid_t timerId=timerTask(3, 5, foo);
 	programMainLoop();
 	ACE_OS::kill(timerId, SIGINT);
 	return EXIT_SUCCESS;

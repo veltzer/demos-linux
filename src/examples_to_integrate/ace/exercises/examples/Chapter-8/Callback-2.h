@@ -33,14 +33,14 @@ class Callback:public ACE_Log_Msg_Callback {
 	public:
 		void log(ACE_Log_Record &log_record) {
 			cerr << "Log Message Received:" << endl;
-			unsigned long msg_severity = log_record.type ();
-			ACE_Log_Priority prio = static_cast<ACE_Log_Priority> (msg_severity);
-			const ACE_TCHAR *prio_name = ACE_Log_Record::priority_name (prio);
+			unsigned long msg_severity=log_record.type ();
+			ACE_Log_Priority prio=static_cast<ACE_Log_Priority> (msg_severity);
+			const ACE_TCHAR *prio_name=ACE_Log_Record::priority_name (prio);
 			cerr << "\tType: "
 				<< ACE_TEXT_ALWAYS_CHAR (prio_name)
 				<< endl;
 			cerr << "\tLength: " << log_record.length () << endl;
-			const time_t epoch = log_record.time_stamp ().sec ();
+			const time_t epoch=log_record.time_stamp ().sec ();
 			cerr << "\tTime_Stamp: "
 				<< ACE_TEXT_ALWAYS_CHAR (ACE_OS::ctime (&epoch))
 				<< flush;

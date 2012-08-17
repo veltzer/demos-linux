@@ -50,8 +50,8 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	PR_DEBUG("start");
 	switch (cmd) {
 		case IOCTL_EVENTFD_SIGNAL:
-			fd = (int)arg;
-			fp = eventfd_fget(fd);
+			fd=(int)arg;
+			fp=eventfd_fget(fd);
 			if (fp == NULL) {
 				PR_DEBUG("bad file descriptor");
 				return(-EINVAL);
@@ -65,9 +65,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_unlocked_ioctll,
+static struct file_operations my_fops={
+	.owner=THIS_MODULE,
+	.unlocked_ioctl=kern_unlocked_ioctll,
 };
 
 #include"device.inc"

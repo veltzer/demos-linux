@@ -28,7 +28,7 @@
 * EXTRA_CMDS=pkg-config --cflags --libs ACE
 */
 
-static const int NCHILDREN = 2;
+static const int NCHILDREN=2;
 
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	if (argc > 1) {
@@ -37,7 +37,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	} else {
 		// Running as a parent.
 		// Get the processwide process manager.
-		ACE_Process_Manager *pm = ACE_Process_Manager::instance();
+		ACE_Process_Manager *pm=ACE_Process_Manager::instance();
 
 		// Specify the options for the new processes
 		// to be spawned.

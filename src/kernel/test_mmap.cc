@@ -42,21 +42,21 @@
 * 5. close.
 */
 
-bool do_play = false;
-bool do_stress = false;
-bool do_vma = true;
+bool do_play=false;
+bool do_stress=false;
+bool do_vma=true;
 
 void print_data(void *data, int size) {
 	int msize;
 
 	if (size < 256) {
-		msize = size;
+		msize=size;
 	} else {
-		msize = 256;
+		msize=256;
 	}
-	char *pdata = (char *)malloc(msize);
+	char *pdata=(char *)malloc(msize);
 	strncpy(pdata, (char *)data, msize - 1);
-	pdata[msize - 1] = '\0';
+	pdata[msize - 1]='\0';
 	fprintf(stderr, "data is [%s]\n", pdata);
 	free(pdata);
 }
@@ -67,21 +67,21 @@ int main(int argc,char** argv,char** envp) {
 	// another data pointer
 	void *data2;
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 	// file descriptor
 	int d;
 	// flags
-	const int flags = MAP_PRIVATE | MAP_POPULATE;
+	const int flags=MAP_PRIVATE | MAP_POPULATE;
 	// the size of data that we need
-	const int size = 1000000;
+	const int size=1000000;
 	// at what offset
-	const int offset = 0;
+	const int offset=0;
 
 	fprintf(stderr, "Asking the kernel to open the handle\n");
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	//printproc();
 
-	CHECK_NOT_VOIDP(data = mmap(
+	CHECK_NOT_VOIDP(data=mmap(
 		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 		size, /* the size we need */
 		PROT_READ | PROT_WRITE, /* we want read AND write */
@@ -89,7 +89,7 @@ int main(int argc,char** argv,char** envp) {
 		d, /* file descriptor */
 		offset /* offset */
 		), MAP_FAILED);
-	CHECK_NOT_VOIDP(data2 = mmap(
+	CHECK_NOT_VOIDP(data2=mmap(
 		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 		size, /* the size we need */
 		PROT_READ | PROT_WRITE, /* we want read AND write */
@@ -107,7 +107,7 @@ int main(int argc,char** argv,char** envp) {
 	print_data(data, size);
 
 	if (do_play) {
-		for (char i = 'a'; i < 'z'; i += 2) {
+		for (char i='a'; i < 'z'; i += 2) {
 			fprintf(stderr, "Setting memory to ['%c']\n", i);
 			memset(data, i, size);
 			print_data(data, size);
@@ -125,7 +125,7 @@ int main(int argc,char** argv,char** envp) {
 		}
 	}
 	if (do_stress) {
-		for (char i = 'a'; i < 'z'; i += 2) {
+		for (char i='a'; i < 'z'; i += 2) {
 			memset(data, i, size);
 			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_READ, NULL));
 			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_WRITE, i + 1));
@@ -134,7 +134,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	if (do_vma) {
 		CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_PRINT, data));
-		void *p = (void *)((char *)data + size / 2);
+		void *p=(void *)((char *)data + size / 2);
 		CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_PRINT, p));
 		waitkey(NULL);
 	}

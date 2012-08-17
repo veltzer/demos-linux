@@ -60,7 +60,7 @@ public:
 static A *a;
 
 int cpp_init() {
-	a = new A();
+	a=new A();
 
 	return(0);
 }

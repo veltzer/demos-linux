@@ -36,16 +36,16 @@ static int __init mod_init(void) {
 	unsigned long addr;
 	int i;
 	/* lets allocate the pages */
-	const int size = 10000;
+	const int size=10000;
 
-	order = get_order(size);
-	addr = __get_free_pages(
+	order=get_order(size);
+	addr=__get_free_pages(
 		GFP_KERNEL,
 		order
 	);
 	/* lets manipulate the memory */
-	for (i = 0; i < size; i++) {
-		((char *)addr)[i] = 0;
+	for (i=0; i < size; i++) {
+		((char *)addr)[i]=0;
 	}
 	/* lets release the memory */
 	free_pages(addr, order);

@@ -86,21 +86,21 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 		fprintf(stderr, "ERROR: What's going on? t2<t1...\n");
 		exit(EXIT_FAILURE);
 	}
-	unsigned long long diff = (t2 - t1) / 1000;
-	unsigned long freq = cpufreq_get_freq_kernel(0);
+	unsigned long long diff=(t2 - t1) / 1000;
+	unsigned long freq=cpufreq_get_freq_kernel(0);
 	if(freq==0) {
 		fprintf(stderr, "ERROR: cpufreq_get_freq_kernel returned 0\n");
 		fprintf(stderr, "ERROR: this is probably a problem with your cpu governor setup\n");
 		fprintf(stderr, "ERROR: this happens on certain ubuntu systems\n");
 		exit(EXIT_FAILURE);
 	}
-	unsigned long mpart = freq / 1000;
+	unsigned long mpart=freq / 1000;
 	if(mpart==0) {
 		fprintf(stderr, "ERROR: mpart is 0\n");
 		exit(EXIT_FAILURE);
 	}
 	//unsigned long mdiff=difft/freq;
-	unsigned long mdiff = diff / mpart;
+	unsigned long mdiff=diff / mpart;
 	//fprintf(stdout,"diff is %llu\n",diff);
 	//fprintf(stdout,"freq is %lu\n",freq);
 	//fprintf(stdout,"mpart is %lu\n",mpart);
@@ -240,8 +240,8 @@ static inline void debug(const char *file, const char *function, int line, const
 	const int BUFSIZE=1024;
 	char str[BUFSIZE];
 	va_list args;
-	pid_t pid = getpid();
-	pid_t tid = gettid();
+	pid_t pid=getpid();
+	pid_t tid=gettid();
 
 	snprintf(str, BUFSIZE, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
 	va_start(args, fmt);
@@ -256,8 +256,8 @@ void debug(const char *file, const char *function, int line, const char *fmt, ..
 #define TRACE(fmt, args...) debug(__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 
 static inline int printproc(const char *filter) {
-	pid_t pid = getpid();
-	const unsigned int cmd_size = 256;
+	pid_t pid=getpid();
+	const unsigned int cmd_size=256;
 	char cmd[cmd_size];
 	int res;
 
@@ -272,10 +272,10 @@ static inline int printproc(const char *filter) {
 }
 
 static inline void memcheck(void *buf, char val, unsigned int size) {
-	char *cbuf = (char *)buf;
+	char *cbuf=(char *)buf;
 	unsigned int i;
 
-	for (i = 0; i < size; i++) {
+	for (i=0; i < size; i++) {
 		if (cbuf[i] != val) {
 			fprintf(stderr, "ERROR: value at %u is %c and not %c\n", i, cbuf[i], val);
 			exit(EXIT_FAILURE);
@@ -371,7 +371,7 @@ static const char* schedulers[]={
 };
 static inline void print_scheduling_info() {
 	// 0 means the calling thread, process or process group
-	//int pri = getpriority(PRIO_PROCESS, 0);
+	//int pri=getpriority(PRIO_PROCESS, 0);
 	//printf("getpriority %d\n", tid, pri);
 	struct sched_param myparam;
 	int scheduler;
@@ -401,8 +401,8 @@ static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
 	void* retval;
 	pthread_attr_t myattr;
 	pthread_t mythread;
-	//myparam.sched_priority = sched_get_priority_max(SCHED_FIFO);
-	myparam.sched_priority = prio;
+	//myparam.sched_priority=sched_get_priority_max(SCHED_FIFO);
+	myparam.sched_priority=prio;
 	pthread_attr_init(&myattr);
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
@@ -431,7 +431,7 @@ static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 	int j;
 	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
 	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
-	for (j = 0; j < CPU_SETSIZE; j++) {
+	for (j=0; j < CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
 			fprintf(pfile,"\tCPU %d\n", j);
 		}

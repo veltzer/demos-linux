@@ -46,9 +46,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_unlocked_ioctll,
+static struct file_operations my_fops={
+	.owner=THIS_MODULE,
+	.unlocked_ioctl=kern_unlocked_ioctll,
 };
 
 #include"device.inc"

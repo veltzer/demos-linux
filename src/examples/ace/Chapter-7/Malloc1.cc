@@ -40,7 +40,7 @@ class Record {
 	public:
 		Record(int id1, int id2, char *name)
 			: id1_(id1), id2_(id2), name_(0) {
-			size_t len = ACE_OS::strlen(name) + 1;
+			size_t len=ACE_OS::strlen(name) + 1;
 			this->name_=reinterpret_cast<char *>(g_allocator->malloc(len));
 			ACE_OS::strcpy(this->name_, name);
 		}
@@ -62,7 +62,7 @@ void showRecords() {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("The following records were found:\n")));
 	MALLOC_LIFO_ITERATOR iter(*g_allocator);
 	for(void* temp=0;iter.next(temp)!=0;iter.advance()) {
-		Record *record = reinterpret_cast<Record *>(temp);
+		Record *record=reinterpret_cast<Record *>(temp);
 		ACE_DEBUG((LM_DEBUG,
 			ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"),
 			record->name(),
@@ -75,14 +75,14 @@ int addRecords() {
 	for(int i=0;i<10;i++) {
 		char buf[64];
 		ACE_OS::sprintf(buf, "%s:%d", "Record", i);
-		void *memory = g_allocator->malloc(sizeof(Record));
+		void *memory=g_allocator->malloc(sizeof(Record));
 		if (memory == 0) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
 				ACE_TEXT("Unable to malloc")),
 				-1);
 		}
 		// Allocate and place record
-		Record *newRecord = new(memory) Record(i, i + 1, buf);
+		Record *newRecord=new(memory) Record(i, i + 1, buf);
 		ACE_UNUSED_ARG(newRecord);
 		if (g_allocator->bind(buf, newRecord) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),

@@ -35,11 +35,11 @@
 
 int main(int argc,char** argv,char** envp) {
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 	// file handle
 	int d;
 
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	CHECK_NOT_M1(close(d));
 	return(0);
 }

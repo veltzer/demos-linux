@@ -31,10 +31,10 @@
 */
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
-	ACE_HANDLE srcHandle = ACE_OS::open(argv[1], O_RDONLY);
-	ACE_ASSERT(srcHandle != ACE_INVALID_HANDLE);
-	ACE_Mem_Map srcMap(srcHandle, static_cast<size_t>(-1), PROT_READ, ACE_MAP_PRIVATE);
-	ACE_ASSERT(srcMap.addr() != 0);
+	ACE_HANDLE srcHandle=ACE_OS::open(argv[1],O_RDONLY);
+	ACE_ASSERT(srcHandle!=ACE_INVALID_HANDLE);
+	ACE_Mem_Map srcMap(srcHandle,static_cast<size_t>(-1),PROT_READ,ACE_MAP_PRIVATE);
+	ACE_ASSERT(srcMap.addr()!=0);
 	ACE_Mem_Map destMap(argv[2],
 		srcMap.size(),
 		O_RDWR | O_CREAT,
@@ -42,8 +42,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		PROT_RDWR,
 		ACE_MAP_SHARED
 	);
-	ACE_ASSERT(destMap.addr() != 0);
-	ACE_OS::memcpy(destMap.addr(), srcMap.addr(), srcMap.size());
+	ACE_ASSERT(destMap.addr()!=0);
+	ACE_OS::memcpy(destMap.addr(),srcMap.addr(),srcMap.size());
 	destMap.sync();
 	srcMap.close();
 	destMap.close();

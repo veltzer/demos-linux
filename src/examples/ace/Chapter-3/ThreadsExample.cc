@@ -71,9 +71,9 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	//setup the random number generator
 	ACE_OS::srand(::seed);
 	//number of threads to spawn
-	unsigned int n_threads = ACE_OS::atoi(argv[1]);
-	ACE_thread_t* threadID = new ACE_thread_t[n_threads + 1];
-	ACE_hthread_t* threadHandles = new ACE_hthread_t[n_threads + 1];
+	unsigned int n_threads=ACE_OS::atoi(argv[1]);
+	ACE_thread_t* threadID=new ACE_thread_t[n_threads + 1];
+	ACE_hthread_t* threadHandles=new ACE_hthread_t[n_threads + 1];
 	//spawn n_threads
 	if(ACE_Thread::spawn_n(
 			threadID, //id's for each of the threads

@@ -39,7 +39,7 @@ int HA_CommandHandler::svc(void) {
 		} else {
 			// Get header pointer, then move past header to payload.
 			/*
-			DeviceCommandHeader *dch = (DeviceCommandHeader *)mb->rd_ptr();
+			DeviceCommandHeader *dch=(DeviceCommandHeader *)mb->rd_ptr();
 			mb->rd_ptr(sizeof(DeviceCommandHeader));
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d with ") ACE_TEXT("command payload of:\n%s"), dch->deviceId_, mb->rd_ptr())); this->rep_.update_device(dch->deviceId_, mb->rd_ptr());
 			*/
@@ -63,7 +63,7 @@ ACE_Message_Block *Message_Receiver::shut_down_message(void) {
 
 
 int Message_Receiver::read_header(DeviceCommandHeader *dch) {
-	ssize_t result = this->peer().recv_n(dch, sizeof(DeviceCommandHeader));
+	ssize_t result=this->peer().recv_n(dch, sizeof(DeviceCommandHeader));
 
 	if (result <= 0) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Recieve Failure")), -1);
@@ -73,7 +73,7 @@ int Message_Receiver::read_header(DeviceCommandHeader *dch) {
 
 
 int Message_Receiver::copy_payload(ACE_Message_Block *mb, int payload_length) {
-	ssize_t result = this->peer().recv_n(mb->wr_ptr(), payload_length);
+	ssize_t result=this->peer().recv_n(mb->wr_ptr(), payload_length);
 
 	if (result <= 0) {
 		mb->release();
@@ -139,7 +139,7 @@ private:
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	report_usage(argc, argv);
 
-	u_short port = ACE_OS::atoi(argv[1]);
+	u_short port=ACE_OS::atoi(argv[1]);
 
 	HA_Device_Repository rep;
 	HA_CommandHandler handler(rep);

@@ -46,7 +46,7 @@ int Client::open(void* p) {
 
 int Client::handle_input(ACE_HANDLE) {
 	char buf[64];
-	ssize_t recv_cnt = this->peer().recv(buf, sizeof(buf) - 1);
+	ssize_t recv_cnt=this->peer().recv(buf, sizeof(buf) - 1);
 
 	if(recv_cnt > 0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%.*C"), static_cast<int>(recv_cnt), buf));
@@ -67,7 +67,7 @@ int Client::handle_timeout(const ACE_Time_Value&, const void *) {
 	}
 	ACE_Message_Block *mb;
 	ACE_NEW_RETURN(mb, ACE_Message_Block(128), -1);
-	int nbytes = ACE_OS::sprintf (mb->wr_ptr(), "Iteration %d\n", this->iterations_);
+	int nbytes=ACE_OS::sprintf (mb->wr_ptr(), "Iteration %d\n", this->iterations_);
 	ACE_ASSERT(nbytes > 0);
 	mb->wr_ptr(static_cast<size_t>(nbytes));
 	this->putq(mb);
@@ -78,7 +78,7 @@ int Client::handle_output(ACE_HANDLE) {
 	ACE_Message_Block *mb;
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
 	while(-1!=this->getq(mb, &nowait)) {
-		ssize_t send_cnt = this->peer().send(mb->rd_ptr(), mb->length());
+		ssize_t send_cnt=this->peer().send(mb->rd_ptr(), mb->length());
 		if(send_cnt == -1) {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")));
 		} else {
@@ -102,7 +102,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
 	ACE_Connector<Client, ACE_SOCK_CONNECTOR> connector;
 	Client client;
-	Client *pc = &client;
+	Client *pc=&client;
 	if(connector.connect(pc, port_to_connect) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("connect")), 1);
 	}

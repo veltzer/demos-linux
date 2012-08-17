@@ -35,7 +35,7 @@ char buf[128];
 int main(int argc,char** argv,char** envp) {
 	pthread_t thread1;
 	pthread_t thread2;
-	int ret = 0;
+	int ret=0;
 
 	/* Prepare asser buffer */
 	strcat(buf, (char *)"We're doomed!");
@@ -44,7 +44,7 @@ int main(int argc,char** argv,char** envp) {
 	fflush(NULL);
 
 	/* register */
-	ret = register_crash_handler(argv[0],(unsigned char *)&buf);
+	ret=register_crash_handler(argv[0],(unsigned char *)&buf);
 	assert(ret==0);
 
 	/* create two threads and let them race */
@@ -86,14 +86,14 @@ void * kill_memalign(size_t alignment, size_t size, const void *caller) {
 */
 
 void croak(void) {
-	int *ip = (int *) 17;
-	char * p = sbrk(0);
+	int *ip=(int *) 17;
+	char * p=sbrk(0);
 
 	/* try to catch implicit malloc calls */
-	__malloc_hook = kill_malloc;
-	__realloc_hook = kill_realloc;
-	__free_hook = kill_free;
-	__memalign_hook = kill_memalign;
+	__malloc_hook=kill_malloc;
+	__realloc_hook=kill_realloc;
+	__free_hook=kill_free;
+	__memalign_hook=kill_memalign;
 
 	/* Corrupt the malloc arena as a real fault would do.
 	*/
@@ -107,7 +107,7 @@ void croak(void) {
 	/* Try to put 7 in address 17. This is an illegal memory access.
 	* Sit back and watch the fire works...
 	*/
-	*ip = 7;
+	*ip=7;
 }
 
 /* A filler function so that we'll have a meanigful stack.

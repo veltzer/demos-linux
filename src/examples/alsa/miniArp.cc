@@ -56,13 +56,13 @@ snd_seq_t *open_seq() {
 		exit(EXIT_FAILURE);
 	}
 	snd_seq_set_client_name(seq_handle, "miniArp");
-	if ((port_out_id = snd_seq_create_simple_port(seq_handle, "miniArp",
+	if ((port_out_id=snd_seq_create_simple_port(seq_handle, "miniArp",
 		SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ,
 		SND_SEQ_PORT_TYPE_APPLICATION)) < 0) {
 		fprintf(stderr, "Error creating sequencer port.\n");
 		exit(EXIT_FAILURE);
 	}
-	if ((port_in_id = snd_seq_create_simple_port(seq_handle, "miniArp",
+	if ((port_in_id=snd_seq_create_simple_port(seq_handle, "miniArp",
 		SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE,
 		SND_SEQ_PORT_TYPE_APPLICATION)) < 0) {
 		fprintf(stderr, "Error creating sequencer port.\n");
@@ -74,7 +74,7 @@ snd_seq_t *open_seq() {
 void set_tempo() {
 	snd_seq_queue_tempo_t *queue_tempo;
 	snd_seq_queue_tempo_malloc(&queue_tempo);
-	tempo = (int)(6e7 / ((double)bpm * (double)TICKS_PER_QUARTER) * (double)TICKS_PER_QUARTER);
+	tempo=(int)(6e7 / ((double)bpm * (double)TICKS_PER_QUARTER) * (double)TICKS_PER_QUARTER);
 	snd_seq_queue_tempo_set_tempo(queue_tempo, tempo);
 	snd_seq_queue_tempo_set_ppq(queue_tempo, TICKS_PER_QUARTER);
 	snd_seq_set_queue_tempo(seq_handle, queue_id, queue_tempo);
@@ -86,13 +86,13 @@ snd_seq_tick_time_t get_tick() {
 	snd_seq_tick_time_t current_tick;
 	snd_seq_queue_status_malloc(&status);
 	snd_seq_get_queue_status(seq_handle, queue_id, status);
-	current_tick = snd_seq_queue_status_get_tick_time(status);
+	current_tick=snd_seq_queue_status_get_tick_time(status);
 	snd_seq_queue_status_free(status);
 	return(current_tick);
 }
 
 void init_queue() {
-	queue_id = snd_seq_alloc_queue(seq_handle);
+	queue_id=snd_seq_alloc_queue(seq_handle);
 	snd_seq_set_client_pool_output(seq_handle, (seq_len<<1) + 4);
 }
 
@@ -108,8 +108,8 @@ void clear_queue() {
 void arpeggio() {
 	snd_seq_event_t ev;
 	double dt;
-	for (int l1 = 0; l1 < seq_len; l1++) {
-		dt = (l1 % 2 == 0) ? (double)swing / 16384.0 : -(double)swing / 16384.0;
+	for (int l1=0; l1 < seq_len; l1++) {
+		dt=(l1 % 2 == 0) ? (double)swing / 16384.0 : -(double)swing / 16384.0;
 		snd_seq_ev_clear(&ev);
 		snd_seq_ev_set_note(&ev, 0, sequence[2][l1] + transpose, 127, sequence[1][l1]);
 		snd_seq_ev_schedule_tick(&ev, queue_id, 0, tick);
@@ -119,7 +119,7 @@ void arpeggio() {
 		tick += (int)((double)sequence[0][l1] * (1.0 + dt));
 	}
 	snd_seq_ev_clear(&ev);
-	ev.type = SND_SEQ_EVENT_ECHO;
+	ev.type=SND_SEQ_EVENT_ECHO;
 	snd_seq_ev_schedule_tick(&ev, queue_id, 0, tick);
 	snd_seq_ev_set_dest(&ev, snd_seq_client_id(seq_handle), port_in_id);
 	snd_seq_event_output_direct(seq_handle, &ev);
@@ -135,13 +135,13 @@ void midi_action() {
 				break;
 			case SND_SEQ_EVENT_NOTEON:
 				clear_queue();
-				transpose = ev->data.note.note - 60;
-				tick = get_tick();
+				transpose=ev->data.note.note - 60;
+				tick=get_tick();
 				arpeggio();
 				break;
 			case SND_SEQ_EVENT_CONTROLLER:
 				if (ev->data.control.param == 1) {
-					bpm = (int)((double)bpm0 * (1.0 + (double)ev->data.control.value / 127.0));
+					bpm=(int)((double)bpm0 * (1.0 + (double)ev->data.control.value / 127.0));
 					set_tempo();
 				}
 				break;
@@ -157,39 +157,39 @@ void parse_sequence() {
 	FILE *f;
 	char c;
 	unsigned int pos=0;
-	if (!(f = fopen(seq_filename, "r"))) {
+	if (!(f=fopen(seq_filename, "r"))) {
 		fprintf(stderr, "Couldn't open sequence file %s\n", seq_filename);
 		exit(EXIT_FAILURE);
 	}
-	seq_len = 0;
-	while((c = fgetc(f))!=EOF) {
+	seq_len=0;
+	while((c=fgetc(f))!=EOF) {
 		pos++;
 		switch (c) {
 			case 'c':
-				sequence[2][seq_len] = 0; break;
+				sequence[2][seq_len]=0; break;
 			case 'd':
-				sequence[2][seq_len] = 2; break;
+				sequence[2][seq_len]=2; break;
 			case 'e':
-				sequence[2][seq_len] = 4; break;
+				sequence[2][seq_len]=4; break;
 			case 'f':
-				sequence[2][seq_len] = 5; break;
+				sequence[2][seq_len]=5; break;
 			case 'g':
-				sequence[2][seq_len] = 7; break;
+				sequence[2][seq_len]=7; break;
 			case 'a':
-				sequence[2][seq_len] = 9; break;
+				sequence[2][seq_len]=9; break;
 			case 'h':
-				sequence[2][seq_len] = 11; break;
+				sequence[2][seq_len]=11; break;
 		}
-		c = fgetc(f); pos++;
+		c=fgetc(f); pos++;
 		if(c==EOF) {
 			break;
 		}
 		if (c == '#') {
 			sequence[2][seq_len]++;
-			c = fgetc(f); pos++;
+			c=fgetc(f); pos++;
 		}
 		sequence[2][seq_len] += 12 * atoi(&c);
-		c = fgetc(f); pos++;
+		c=fgetc(f); pos++;
 		if(c==EOF) {
 			break;
 		}
@@ -197,8 +197,8 @@ void parse_sequence() {
 			fprintf(stderr,"error: atoi(&c)==0 with c=%s, pos=%u\n",&c,pos);
 			exit(EXIT_FAILURE);
 		}
-		sequence[1][seq_len] = TICKS_PER_QUARTER / atoi(&c);
-		c = fgetc(f); pos++;
+		sequence[1][seq_len]=TICKS_PER_QUARTER / atoi(&c);
+		c=fgetc(f); pos++;
 		if(c==EOF) {
 			break;
 		}
@@ -206,7 +206,7 @@ void parse_sequence() {
 			fprintf(stderr,"error: atoi(&c)==0 with c=%s, pos=%u\n",&c,pos);
 			exit(EXIT_FAILURE);
 		}
-		sequence[0][seq_len] = TICKS_PER_QUARTER / atoi(&c);
+		sequence[0][seq_len]=TICKS_PER_QUARTER / atoi(&c);
 		seq_len++;
 	}
 	fclose(f);
@@ -232,14 +232,14 @@ int main(int argc,char** argv,char** envp) {
 	bpm=bpm0;
 	strcpy(seq_filename, argv[2]);
 	parse_sequence();
-	seq_handle = open_seq();
+	seq_handle=open_seq();
 	init_queue();
 	set_tempo();
 	arpeggio();
 	snd_seq_start_queue(seq_handle, queue_id, NULL);
 	snd_seq_drain_output(seq_handle);
-	npfd = snd_seq_poll_descriptors_count(seq_handle, POLLIN);
-	pfd = (struct pollfd *)alloca(npfd * sizeof(struct pollfd));
+	npfd=snd_seq_poll_descriptors_count(seq_handle, POLLIN);
+	pfd=(struct pollfd *)alloca(npfd * sizeof(struct pollfd));
 	snd_seq_poll_descriptors(seq_handle, pfd, npfd, POLLIN);
 	transpose=0;
 	swing=0;
@@ -249,7 +249,7 @@ int main(int argc,char** argv,char** envp) {
 	arpeggio();
 	while (true) {
 		if (poll(pfd, npfd, 100000) > 0) {
-			for (int i = 0; i < npfd; i++) {
+			for (int i=0; i < npfd; i++) {
 				if (pfd[i].revents > 0) midi_action();
 			}
 		}

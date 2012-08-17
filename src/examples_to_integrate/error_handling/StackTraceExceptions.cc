@@ -38,8 +38,8 @@ class TracedException:public std::exception
 		char** symbols;
 	public:
 		TracedException() {
-			nSize = backtrace(array,size);
-			symbols = backtrace_symbols(array,nSize);
+			nSize=backtrace(array,size);
+			symbols=backtrace_symbols(array,nSize);
 		}
 		// TODO: need to C++'ize the next two methods
 		void release() {

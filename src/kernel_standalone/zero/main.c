@@ -91,7 +91,7 @@ int release_zero(struct inode* inode,struct file* file) {
 }
 
 // this is the operations table
-static const struct file_operations zero_fops = {
+static const struct file_operations zero_fops={
 	.open=open_zero,
 	.read=read_zero,
 	.release=release_zero,

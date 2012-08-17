@@ -31,7 +31,7 @@
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;
 // Make the queue be capable of being *very* large.
-static const long max_queue = LONG_MAX;
+static const long max_queue=LONG_MAX;
 
 // The consumer dequeues a message from the ACE_Message_Queue, writes
 // the message to the stderr stream, and deletes the message. The
@@ -47,7 +47,7 @@ static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue) {
 		if (msg_queue->dequeue_head(mb) == -1) {
 			break;
 		}
-		size_t length = mb->length();
+		size_t length=mb->length();
 		if (length > 0) {
 			ACE_OS::puts(mb->rd_ptr());
 		}

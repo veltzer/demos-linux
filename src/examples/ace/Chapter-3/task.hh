@@ -52,11 +52,11 @@ public:
 	* claimed by the Task framework. start() will kick off our thread
 	* pool for us.
 	*/
-	int start(int threads = 1);
+	int start(int threads=1);
 
 	virtual int svc(void);
 
-	virtual int close(u_long flags = 0);
+	virtual int close(u_long flags=0);
 
 protected:
 	ACE_Barrier *barrier_;

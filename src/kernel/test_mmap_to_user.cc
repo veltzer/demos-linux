@@ -45,29 +45,29 @@
 
 //const bool do_single=true;
 //const bool do_stress=false;
-const bool do_single = false;
-const bool do_stress = true;
-const unsigned int count = 10000;
+const bool do_single=false;
+const bool do_stress=true;
+const unsigned int count=10000;
 
 int main(int argc,char** argv,char** envp) {
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 	// file descriptor
-	int d = -1;
+	int d=-1;
 	// user space pointer
-	void *ptr = NULL;
+	void *ptr=NULL;
 
 	//klog_clear();
 
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	//printproc("demo");
 	//klog_show_clear();
 	waitkey(NULL);
 
 	if (do_single) {
 		// the size of data that we need
-		const unsigned int size = 1000000;
-		CHECK_NOT_VOIDP(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
+		const unsigned int size=1000000;
+		CHECK_NOT_VOIDP(ptr=(void *)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
 		//printproc("demo");
 		//klog_show_clear();
 		waitkey(NULL);
@@ -86,11 +86,11 @@ int main(int argc,char** argv,char** envp) {
 	}
 	if (do_stress) {
 		do_prog_init();
-		for (unsigned int i = 0; i < count; i++) {
+		for (unsigned int i=0; i < count; i++) {
 			do_prog(i, 10, count);
-			unsigned int size = (i % 1000 + 1) * 4096;
-			char c = i % 20 + 'a';
-			CHECK_NOT_NULL(ptr = (void *)ioctl(d, IOCTL_DEMO_MAP, size));
+			unsigned int size=(i % 1000 + 1) * 4096;
+			char c=i % 20 + 'a';
+			CHECK_NOT_NULL(ptr=(void *)ioctl(d, IOCTL_DEMO_MAP, size));
 			// set the buffer to c
 			memset(ptr, c, size);
 			// get buffer from user space

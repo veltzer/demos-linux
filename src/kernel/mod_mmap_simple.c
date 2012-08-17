@@ -42,7 +42,7 @@ MODULE_DESCRIPTION("Showing how to implement mmap");
 static unsigned long addr;
 static void* vaddr;
 static unsigned int size;
-static bool do_kmalloc = false;
+static bool do_kmalloc=false;
 static struct device* my_device;
 static unsigned long addr;
 static int ioctl_size;
@@ -72,16 +72,16 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*	Exploring VMA issues
 	*/
 	case IOCTL_MMAP_PRINT:
-		ptr = (void *)arg;
+		ptr=(void *)arg;
 		PR_DEBUG("ptr is %p", ptr);
-		vma = find_vma(current->mm, arg);
+		vma=find_vma(current->mm, arg);
 		PR_DEBUG("vma is %p", vma);
-		diff = arg - vma->vm_start;
+		diff=arg - vma->vm_start;
 		PR_DEBUG("diff is %d", diff);
-		private = (unsigned long)vma->vm_private_data;
+		private=(unsigned long)vma->vm_private_data;
 		PR_DEBUG("private (ul) is %lu", private);
 		PR_DEBUG("private (p) is %p", (void *)private);
-		adjusted = private + diff;
+		adjusted=private + diff;
 		PR_DEBUG("adjusted (ul) is %lu", adjusted);
 		PR_DEBUG("adjusted (p) is %p", (void *)adjusted);
 		return 0;
@@ -92,7 +92,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_MMAP_READ:
 		PR_DEBUG("starting to read");
 		memcpy(str, vaddr, 256);
-		str[255] = '\0';
+		str[255]='\0';
 		PR_DEBUG("data is %s", str);
 		return 0;
 
@@ -110,7 +110,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*/
 	case IOCTL_MMAP_WRITE_USER:
 		PR_DEBUG("starting to write using us pointer");
-		ptr = (void *)arg;
+		ptr=(void *)arg;
 		PR_DEBUG("ptr is %p", ptr);
 		return 0;
 
@@ -128,14 +128,14 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		*	kaddr=(void*)__get_free_pages(GFP_KERNEL,order);
 		* }
 		*/
-		mm = current->mm;
-		flags = MAP_POPULATE | MAP_SHARED;
+		mm=current->mm;
+		flags=MAP_POPULATE | MAP_SHARED;
 		flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
 		// must hold process memory map semaphore because next function will change memory
 		// layout for the process. This also means that this code must be in a path that can
 		// sleep.
 		down_write(&mm->mmap_sem);
-		addr = do_mmap_pgoff(
+		addr=do_mmap_pgoff(
 			filp,/* file pointer */
 			0,/* recommended use space address */
 			ioctl_size,/* size */
@@ -155,18 +155,18 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*/
 	case IOCTL_MMAP_UNMAP:
 		PR_DEBUG("trying to unmap");
-		vma = find_vma(current->mm, addr);
-		kernel_addr = vma->vm_private_data;
-		size = vma->vm_end - vma->vm_start;
+		vma=find_vma(current->mm, addr);
+		kernel_addr=vma->vm_private_data;
+		size=vma->vm_end - vma->vm_start;
 		PR_DEBUG("deduced kernel_addr is %p", kernel_addr);
 		PR_DEBUG("deduced size is (d) %d", size);
 		PR_DEBUG("real size is (d) %d", ioctl_size);
 		PR_DEBUG("real kaddr is (p) %p", kaddr);
-		ret = do_munmap(current->mm, addr, ioctl_size);
+		ret=do_munmap(current->mm, addr, ioctl_size);
 		if (do_kmalloc) {
 			kfree(kernel_addr);
 		} else {
-			order = get_order(size);
+			order=get_order(size);
 			free_pages((unsigned long)kernel_addr, order);
 		}
 		return(ret);
@@ -176,7 +176,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*/
 	case IOCTL_MMAP_SETSIZE:
 		PR_DEBUG("setting the size");
-		ioctl_size = arg;
+		ioctl_size=arg;
 		PR_DEBUG("size is %d", ioctl_size);
 		return 0;
 	}
@@ -191,9 +191,9 @@ void kern_vma_open(struct vm_area_struct *vma) {
 }
 
 void kern_vma_close(struct vm_area_struct *vma) {
-	unsigned int size = vma->vm_end - vma->vm_start;
+	unsigned int size=vma->vm_end - vma->vm_start;
 	unsigned int order;
-	void* addr = vma->vm_private_data;
+	void* addr=vma->vm_private_data;
 
 	PR_DEBUG("start");
 	PR_DEBUG("pointer as long is %lu", vma->vm_start);
@@ -203,15 +203,15 @@ void kern_vma_close(struct vm_area_struct *vma) {
 	if (do_kmalloc) {
 		kfree(addr);
 	} else {
-		order = get_order(size);
+		order=get_order(size);
 		free_pages((unsigned int)addr, order);
 	}
 }
 
 
-static struct vm_operations_struct kern_remap_vm_ops = {
+static struct vm_operations_struct kern_remap_vm_ops={
 	.open=kern_vma_open,
-	.close = kern_vma_close,
+	.close=kern_vma_close,
 };
 
 /*
@@ -225,12 +225,12 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	void* kaddr;
 
 	PR_DEBUG("start");
-	size = vma->vm_end - vma->vm_start;
-	order = get_order(size);
-	addr = __get_free_pages(GFP_KERNEL, order);
-	kaddr = (void *)addr;
-	phys = virt_to_phys(vaddr);
-	pg_num = phys >> PAGE_SHIFT;
+	size=vma->vm_end - vma->vm_start;
+	order=get_order(size);
+	addr=__get_free_pages(GFP_KERNEL, order);
+	kaddr=(void *)addr;
+	phys=virt_to_phys(vaddr);
+	pg_num=phys >> PAGE_SHIFT;
 	if(remap_pfn_range(
 		vma,// vma
 		vma->vm_start,// start
@@ -241,8 +241,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 		PR_DEBUG("error path");
 		return(-EAGAIN);
 	}
-	vma->vm_ops = &kern_remap_vm_ops;
-	vma->vm_private_data = kaddr;
+	vma->vm_ops=&kern_remap_vm_ops;
+	vma->vm_private_data=kaddr;
 	kern_vma_open(vma);
 	return(0);
 }
@@ -250,7 +250,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
+static struct file_operations my_fops={
 	.owner=THIS_MODULE,
 	.unlocked_ioctl=kern_unlocked_ioctll,
 	.mmap=kern_mmap,

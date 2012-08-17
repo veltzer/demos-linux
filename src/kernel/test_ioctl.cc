@@ -32,16 +32,16 @@
 * cmd and no data and then closes the device
 */
 int main(int argc,char** argv,char** envp) {
-	int ioctl_num = 0;
+	int ioctl_num=0;
 
 	if (argc > 1) {
-		ioctl_num = atoi(argv[1]);
+		ioctl_num=atoi(argv[1]);
 	}
 	// file to be used
-	const char *filename = "/dev/demo";
+	const char *filename="/dev/demo";
 	// file descriptor
 	int d;
-	CHECK_NOT_M1(d = open(filename, O_RDWR));
+	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	CHECK_NOT_M1(ioctl(d, ioctl_num, NULL));
 	CHECK_NOT_M1(close(d));
 	return(0);

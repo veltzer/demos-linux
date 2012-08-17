@@ -34,7 +34,7 @@
 * This is a simple test to see the use count of kernel modules
 */
 int main(int argc,char** argv,char** envp) {
-	const char *filename = "/dev/mod_use_count";
+	const char *filename="/dev/mod_use_count";
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_use_count");
 	my_system("sudo insmod ./mod_use_count.ko");
@@ -44,8 +44,8 @@ int main(int argc,char** argv,char** envp) {
 	int fd;
 	int fd2;
 	while(true) {
-		CHECK_NOT_M1(fd = open(filename, O_RDWR));
-		CHECK_NOT_M1(fd2 = open(filename, O_RDWR));
+		CHECK_NOT_M1(fd=open(filename, O_RDWR));
+		CHECK_NOT_M1(fd2=open(filename, O_RDWR));
 		usleep(1000000);
 		//sleep(1);
 		CHECK_NOT_M1(close(fd));

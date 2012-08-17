@@ -32,7 +32,7 @@
 class Follower {
 public:
 	Follower(ACE_Thread_Mutex & leader_lock):cond_(leader_lock) {
-		owner_ = ACE_Thread::self();
+		owner_=ACE_Thread::self();
 	}
 
 
@@ -66,7 +66,7 @@ public:
 	virtual int svc(void);
 
 	void shut_down(void) {
-		shutdown_ = 1;
+		shutdown_=1;
 	}
 
 
@@ -83,7 +83,7 @@ private:
 
 	void leader_active(ACE_thread_t leader) {
 		ACE_TRACE(ACE_TEXT("LF_ThreadPool::leader_active"));
-		this->current_leader_ = leader;
+		this->current_leader_=leader;
 	}
 
 
@@ -108,7 +108,7 @@ int LF_ThreadPool::svc(void) {
 	while(!done()) {
 		// Block until this thread is the leader.
 		become_leader();
-		ACE_Message_Block *mb = 0;
+		ACE_Message_Block *mb=0;
 		ACE_Time_Value tv(LONG_TIME);
 
 		tv += ACE_OS::gettimeofday();
@@ -130,7 +130,7 @@ int LF_ThreadPool::become_leader(void) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::become_leader"));
 	ACE_GUARD_RETURN(ACE_Thread_Mutex, leader_mon, this->leader_lock_, -1);
 	if(leader_active()) {
-		Follower *fw = make_follower();
+		Follower *fw=make_follower();
 		// Wait until told to do so.
 		while(leader_active()) {
 			fw->wait();
@@ -186,7 +186,7 @@ void LF_ThreadPool::process_message(ACE_Message_Block *mb) {
 }
 
 
-long LF_ThreadPool::LONG_TIME = 5L;
+long LF_ThreadPool::LONG_TIME=5L;
 
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	LF_ThreadPool tp;

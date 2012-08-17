@@ -82,13 +82,13 @@ int main(int argc,char** argv,char** envp) {
 		int arg=0;
 		int ioctl_code=codes[choice];
 		if (ioctl_code == IOCTL_LIST_ADD) {
-			arg = get_number();
+			arg=get_number();
 		}
 		klog_clear();
 		CHECK_NOT_M1(ioctl(fd,ioctl_code,arg));
 		klog_show_clear();
 		//waitkey(NULL);
-		choice = show_menu();
+		choice=show_menu();
 	}
 	CHECK_NOT_M1(close(fd));
 	waitkey(NULL);

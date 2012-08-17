@@ -54,7 +54,7 @@ class HA_CommandHandler:public ACE_Task_Base {
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) starting up\n")));
 			thr_mgr()->at_exit(eh_);
-			//int *a = new int(val);
+			//int *a=new int(val);
 			eh_.setA(val);
 			// Do something.
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) simulating some work\n")));

@@ -86,10 +86,10 @@ MODULE_DESCRIPTION("demonstrate the use of kernel module parameters");
 * These should all have default values otherwise you should assume that they
 * are junk.
 */
-static short int myshort = 1;
-static int myint = 420;
-static long int mylong = 9999;
-static char *mystring = "blah";
+static short int myshort=1;
+static int myint=420;
+static long int mylong=9999;
+static char *mystring="blah";
 
 /*
 * Each parameter needs to be declared using the following syntax:

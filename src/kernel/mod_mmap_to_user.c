@@ -45,13 +45,13 @@ MODULE_DESCRIPTION("Mmapping kernel allocated memory to user space");
 
 // static data
 static struct device* my_device;
-static bool do_kmalloc = true;
+static bool do_kmalloc=true;
 // This is the kernel space pointer, this is all the kernel needs to know
-static void *kptr = NULL;
+static void *kptr=NULL;
 // for the size we get from user space
-static unsigned int size = -1;
+static unsigned int size=-1;
 // for the pointer we return to user space
-static unsigned long uptr = -1;
+static unsigned long uptr=-1;
 
 // do we want to use kmalloc or get_free_pages ?
 static void *alloc_mem(unsigned int size) {
@@ -62,10 +62,10 @@ static void *alloc_mem(unsigned int size) {
 
 	PR_DEBUG("start");
 	if (do_kmalloc) {
-		kaddr = kmalloc(size, GFP_KERNEL);
+		kaddr=kmalloc(size, GFP_KERNEL);
 	} else {
-		order = get_order(size);
-		kaddr = (void *)__get_free_pages(GFP_KERNEL, order);
+		order=get_order(size);
+		kaddr=(void *)__get_free_pages(GFP_KERNEL, order);
 	}
 	if (((unsigned int)kaddr) % PAGE_SIZE != 0) {
 		return(NULL);
@@ -82,7 +82,7 @@ static void free_mem(void *kptr, unsigned int size) {
 		// kfree does not return error code
 		kfree(kptr);
 	} else {
-		order = get_order(size);
+		order=get_order(size);
 		// free pages does not return error code
 		free_pages((unsigned long)kptr, order);
 	}
@@ -101,15 +101,15 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 	// print some debug info...
 	PR_DEBUG("size is (d) %d", size);
 
-	mm = current->mm;
+	mm=current->mm;
 	// must NOT add MAP_LOCKED to the flags (it causes a hang)
-	flags = MAP_POPULATE | MAP_SHARED;
+	flags=MAP_POPULATE | MAP_SHARED;
 	//flags=MAP_POPULATE|MAP_PRIVATE;
 	flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
 	down_write(&mm->mmap_sem);
-	oldval = filp->private_data;
-	filp->private_data = kptr;
-	uptr = do_mmap_pgoff(
+	oldval=filp->private_data;
+	filp->private_data=kptr;
+	uptr=do_mmap_pgoff(
 		filp,/* file pointer for which filp->mmap will be called */
 		0,/* address - this is the address we recommend for user space - best not to ... */
 		size,/* size */
@@ -117,7 +117,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 		flags,/* flags */
 		0/* pg offset */
 	);
-	filp->private_data = oldval;
+	filp->private_data=oldval;
 	up_write(&mm->mmap_sem);
 	if (IS_ERR_VALUE(uptr)) {
 		PR_ERROR("ERROR: problem calling do_mmap_pgoff");
@@ -154,14 +154,14 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*/
 	case IOCTL_DEMO_MAP:
 		PR_DEBUG("trying to mmap");
-		size = arg;
-		kptr = alloc_mem(size);
+		size=arg;
+		kptr=alloc_mem(size);
 		if (kptr == NULL) {
 			PR_ERROR("ERROR: could not allocate memory");
 			return(-EFAULT);
 		}
 		PR_DEBUG("After alloc_mem with kptr=%p", kptr);
-		uptr = map_to_user(filp, kptr, size);
+		uptr=map_to_user(filp, kptr, size);
 		if (IS_ERR_VALUE(uptr)) {
 			PR_ERROR("ERROR: quiting on process of mmaping");
 			return(-EFAULT);
@@ -176,7 +176,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*/
 	case IOCTL_DEMO_UNMAP:
 		PR_DEBUG("trying to munmap");
-		res = do_munmap(current->mm, uptr, size);
+		res=do_munmap(current->mm, uptr, size);
 		if (res) {
 			return(res);
 		}
@@ -184,9 +184,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		free_mem(kptr, size);
 		PR_DEBUG("Successful exit");
 		// so we won't accidentaly use these pointers
-		kptr = NULL;
-		size = -1;
-		uptr = -1;
+		kptr=NULL;
+		size=-1;
+		uptr=-1;
 		return(0);
 
 	/*
@@ -245,27 +245,27 @@ static void kern_vma_close(struct vm_area_struct *vma) {
 
 // on error should return VM_FAULT_SIGBUS
 static int kern_vma_fault(struct vm_area_struct *vma, struct vm_fault *vmf) {
-	struct page *page = NULL;
+	struct page *page=NULL;
 	// kernel side address
 	void *kaddr;
 	// offset at which user wants the page...
 	unsigned long offset;
 
 	PR_DEBUG("start");
-	offset = (unsigned long)vmf->virtual_address - vma->vm_start;
-	kaddr = vma->vm_private_data;
+	offset=(unsigned long)vmf->virtual_address - vma->vm_start;
+	kaddr=vma->vm_private_data;
 	kaddr += offset;
-	page = virt_to_page(kaddr);
+	page=virt_to_page(kaddr);
 	if (page == NULL) {
 		PR_ERROR("couldnt find page");
 		return(VM_FAULT_SIGBUS);
 	}
 	get_page(page);
-	vmf->page = page;
+	vmf->page=page;
 	return(0);
 }
 
-static struct vm_operations_struct kern_vm_ops = {
+static struct vm_operations_struct kern_vm_ops={
 	.open=kern_vma_open,
 	.close=kern_vma_close,
 	.fault=kern_vma_fault,
@@ -311,11 +311,11 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 	void *kadr;
 
 	PR_DEBUG("start");
-	kadr = filp->private_data;
+	kadr=filp->private_data;
 	vma->vm_flags |= VM_RESERVED;
 
-	vma->vm_private_data = kadr;
-	vma->vm_ops = &kern_vm_ops;
+	vma->vm_private_data=kadr;
+	vma->vm_ops=&kern_vm_ops;
 	kern_vma_open(vma);
 	PR_DEBUG("all ok from mmap. returning");
 	return(0);
@@ -324,7 +324,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
+static struct file_operations my_fops={
 	.owner=THIS_MODULE,
 	.unlocked_ioctl=kern_unlocked_ioctll,
 	.mmap=kern_mmap,

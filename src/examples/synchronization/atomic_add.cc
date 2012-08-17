@@ -40,13 +40,13 @@
 * EXTRA_LIBS=-lpthread
 */
 pthread_barrier_t bar;
-int counter = 0;
-const int wait_usecs = 0;
-//FILE *pfile = stdout;
+int counter=0;
+const int wait_usecs=0;
+//FILE *pfile=stdout;
 FILE* pfile=stderr;
 const int attempts=10000000;
-const int thread_num = 10;
-const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
+const int thread_num=10;
+const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
 
 void *worker(void *p) {
 	int num=*(int*)p;
@@ -54,9 +54,9 @@ void *worker(void *p) {
 	fprintf(pfile,"starting thread %d\n", num);
 	for(int i=0;i<attempts;i++) {
 		int ret;
-		CHECK_ONEOFTWO(ret = pthread_barrier_wait(&bar),0, PTHREAD_BARRIER_SERIAL_THREAD);
+		CHECK_ONEOFTWO(ret=pthread_barrier_wait(&bar),0, PTHREAD_BARRIER_SERIAL_THREAD);
 		//fprintf(pfile, "thread %d got %d from pthread_barrier_wait\n", num, ret);
-		//int b = __sync_add_and_fetch(&counter, 1);
+		//int b=__sync_add_and_fetch(&counter, 1);
 		__sync_add_and_fetch(&counter, 1);
 		//fprintf(pfile, "thread %d got %d from counter\n", num, b);
 		usleep(wait_usecs);

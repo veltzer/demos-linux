@@ -33,8 +33,8 @@
 */
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
-	static const ACE_TCHAR options[] = ACE_TEXT(":f:h:");
-	static const ACE_TCHAR cmdline[] = ACE_TEXT("-f /home/managed.cfg -h $HOSTNAME");
+	static const ACE_TCHAR options[]=ACE_TEXT(":f:h:");
+	static const ACE_TCHAR cmdline[]=ACE_TEXT("-f /home/managed.cfg -h $HOSTNAME");
 
 	ACE_ARGV cmdline_args(cmdline);
 	ACE_Get_Opt cmd_opts(cmdline_args.argc(), cmdline_args.argv(), options, 0);
@@ -46,7 +46,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 
 	ACE_OS_String::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
 	ACE_OS_String::strcpy(hostname, ACE_TEXT("not set"));
-	while((option = cmd_opts())!=EOF) {
+	while((option=cmd_opts())!=EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS_String::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);

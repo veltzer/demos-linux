@@ -49,17 +49,17 @@ int ClientService::open(void* p) {
 }
 
 int ClientService::handle_input(ACE_HANDLE) {
-	const size_t INPUT_SIZE = 4096;
+	const size_t INPUT_SIZE=4096;
 	char buffer[INPUT_SIZE];
 	ssize_t recv_cnt, send_cnt;
 
-	recv_cnt = this->peer().recv(buffer, sizeof(buffer));
+	recv_cnt=this->peer().recv(buffer, sizeof(buffer));
 	if(recv_cnt <= 0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection closed\n")));
 		return(-1);
 	}
 
-	send_cnt = this->peer().send(buffer, static_cast<size_t>(recv_cnt));
+	send_cnt=this->peer().send(buffer, static_cast<size_t>(recv_cnt));
 	if(send_cnt == recv_cnt) {
 		return(0);
 	}
@@ -67,13 +67,13 @@ int ClientService::handle_input(ACE_HANDLE) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")), 0);
 	}
 	if(send_cnt == -1) {
-		send_cnt = 0;
+		send_cnt=0;
 	}
-	ACE_Message_Block *mb = 0;
-	size_t remaining = static_cast<size_t>((recv_cnt - send_cnt));
+	ACE_Message_Block *mb=0;
+	size_t remaining=static_cast<size_t>((recv_cnt - send_cnt));
 	ACE_NEW_RETURN(mb, ACE_Message_Block(remaining), -1);
 	mb->copy(&buffer[send_cnt], remaining);
-	int output_off = this->msg_queue()->is_empty();
+	int output_off=this->msg_queue()->is_empty();
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
 
 	if(this->putq(mb, &nowait) == -1) {
@@ -88,12 +88,12 @@ int ClientService::handle_input(ACE_HANDLE) {
 }
 
 int ClientService::handle_output(ACE_HANDLE) {
-	ACE_Message_Block *mb = 0;
+	ACE_Message_Block *mb=0;
 
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
 
 	while(-1!=this->getq(mb, &nowait)) {
-		ssize_t send_cnt = this->peer().send(mb->rd_ptr(), mb->length());
+		ssize_t send_cnt=this->peer().send(mb->rd_ptr(), mb->length());
 		if(send_cnt == -1) {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")));
 		} else {

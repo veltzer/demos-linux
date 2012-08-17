@@ -43,9 +43,9 @@ static struct device* my_device;
 // this is the size of the buffer
 static unsigned int size;
 // this is the kernel space pointer (matches user)
-static void *ptr = NULL;
+static void *ptr=NULL;
 // this is the kernel space pointer (we got from vmap)
-static void *vptr = NULL;
+static void *vptr=NULL;
 // will store page data as they are mapped...
 static struct page **pages;
 // will store the numer of pages required...
@@ -61,7 +61,7 @@ static inline void pages_unlock(void) {
 	unsigned int i;
 
 	// unlock the pages
-	for (i = 0; i < nr_pages; i++) {
+	for (i=0; i < nr_pages; i++) {
 		unlock_page(pages[i]);
 	}
 }
@@ -70,7 +70,7 @@ static inline void pages_lock(void) {
 	unsigned int i;
 
 	// unlock the pages
-	for (i = 0; i < nr_pages; i++) {
+	for (i=0; i < nr_pages; i++) {
 		lock_page(pages[i]);
 	}
 }
@@ -79,7 +79,7 @@ static inline void pages_dirty(void) {
 	unsigned int i;
 
 	// set the pages as dirty
-	for (i = 0; i < nr_pages; i++) {
+	for (i=0; i < nr_pages; i++) {
 		SetPageDirty(pages[i]);
 	}
 }
@@ -88,7 +88,7 @@ static inline void pages_unmap(void) {
 	unsigned int i;
 
 	// set the pages as dirty
-	for (i = 0; i < nr_pages; i++) {
+	for (i=0; i < nr_pages; i++) {
 		if (!PageReserved(pages[i])) {
 			SetPageDirty(pages[i]);
 		}
@@ -100,7 +100,7 @@ static inline void pages_reserve(void) {
 	unsigned int i;
 
 	// set the pages as reserved
-	for (i = 0; i < nr_pages; i++) {
+	for (i=0; i < nr_pages; i++) {
 		SetPageReserved(pages[i]);
 	}
 }
@@ -133,10 +133,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			return(-EFAULT);
 		}
 		PR_DEBUG("after copy");
-		bpointer = (unsigned int)b.pointer;
-		offset = bpointer % PAGE_SIZE;
-		aligned = bpointer - offset;
-		newsize = b.size + offset;
+		bpointer=(unsigned int)b.pointer;
+		offset=bpointer % PAGE_SIZE;
+		aligned=bpointer - offset;
+		newsize=b.size + offset;
 		PR_DEBUG("bpointer is %x", bpointer);
 		PR_DEBUG("offset is %u", offset);
 		PR_DEBUG("aligned is %x", aligned);
@@ -151,10 +151,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		* PR_DEBUG("after modulu check");
 		*/
 		// find the number of pages
-		nr_pages = (newsize - 1) / PAGE_SIZE + 1;
+		nr_pages=(newsize - 1) / PAGE_SIZE + 1;
 		PR_DEBUG("nr_pages is %d", nr_pages);
 		// alocate page structures...
-		if ((pages = kmalloc(nr_pages * sizeof(struct page *), GFP_KERNEL)) == NULL) {
+		if ((pages=kmalloc(nr_pages * sizeof(struct page *), GFP_KERNEL)) == NULL) {
 			PR_ERROR("could not allocate page structs");
 			return(-ENOMEM);
 		}
@@ -162,7 +162,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		// get user pages and fault them in
 		down_write(&current->mm->mmap_sem);
 		// rw==READ means read from drive, write into memory area
-		res = get_user_pages(
+		res=get_user_pages(
 			current,
 			current->mm,
 			aligned,
@@ -172,7 +172,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			pages,
 			NULL
 		);
-		vma = find_vma(current->mm, bpointer);
+		vma=find_vma(current->mm, bpointer);
 		vma->vm_flags |= VM_DONTCOPY;
 		up_write(&current->mm->mmap_sem);
 		PR_DEBUG("after get_user_pages res is %d", res);
@@ -186,18 +186,18 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		//pages_reserve();
 		//pages_unlock();
 		// map the pages to kernel space...
-		vptr = vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
+		vptr=vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
 		if (vptr == NULL) {
 			PR_ERROR("could not get_user_pages. res was %d", res);
 			kfree(pages);
 			return(-EFAULT);
 		}
-		ptr = vptr + offset;
-		size = b.size;
+		ptr=vptr + offset;
+		size=b.size;
 		PR_DEBUG("after vmap - vptr is %p", vptr);
 		// free the pages
 		kfree(pages);
-		pages = NULL;
+		pages=NULL;
 		PR_DEBUG("after freeing the pages");
 		// were dont! return with success
 		PR_DEBUG("success - on the way out");
@@ -210,10 +210,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_DEMO_UNMAP:
 		// this function does NOT return an error code. Strange...:)
 		vunmap(vptr);
-		vptr = NULL;
-		ptr = NULL;
-		size = 0;
-		nr_pages = 0;
+		vptr=NULL;
+		ptr=NULL;
+		size=0;
+		nr_pages=0;
 		pages_unmap();
 		return(0);
 
@@ -222,10 +222,10 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*	No arguments are passed
 	*/
 	case IOCTL_DEMO_READ:
-		cptr = (char *)ptr;
-		sloop = min(size, (unsigned int)10);
+		cptr=(char *)ptr;
+		sloop=min(size, (unsigned int)10);
 		PR_DEBUG("sloop is %d", sloop);
-		for (i = 0; i < sloop; i++) {
+		for (i=0; i < sloop; i++) {
 			PR_DEBUG("value of %d is %c", i, cptr[i]);
 		}
 		return(0);
@@ -244,9 +244,9 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
-	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_unlocked_ioctll,
+static struct file_operations my_fops={
+	.owner=THIS_MODULE,
+	.unlocked_ioctl=kern_unlocked_ioctll,
 };
 
 #include"device.inc"
