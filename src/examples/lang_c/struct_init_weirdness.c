@@ -42,44 +42,44 @@ typedef struct _a {
 
 int main(int argc,char** argv,char** envp) {
 	a a0;
-	a a1 = {};
-	a a2 = {0};
-	a a3 = {5};
-	a a4 = {6,7,8};
-	a a5 = { .k=9 };
-	a a6 = { j:10 };
+	a a1={};
+	a a2={0};
+	a a3={5};
+	a a4={6,7,8};
+	a a5={ .k=9 };
+	a a6={ j:10 };
 	a a7;
 
-	printf("a0.i = %d \n", a0.i);
-	printf("a0.j = %d \n", a0.j);
-	printf("a0.k = %d \n", a0.k);
+	printf("a0.i=%d \n", a0.i);
+	printf("a0.j=%d \n", a0.j);
+	printf("a0.k=%d \n", a0.k);
 
-	printf("a1.i = %d \n", a1.i);
-	printf("a1.j = %d \n", a1.j);
-	printf("a1.k = %d \n", a1.k);
+	printf("a1.i=%d \n", a1.i);
+	printf("a1.j=%d \n", a1.j);
+	printf("a1.k=%d \n", a1.k);
 
-	printf("a2.i = %d \n", a2.i);
-	printf("a2.j = %d \n", a2.j);
-	printf("a2.k = %d \n", a2.k);
+	printf("a2.i=%d \n", a2.i);
+	printf("a2.j=%d \n", a2.j);
+	printf("a2.k=%d \n", a2.k);
 
-	printf("a3.i = %d \n", a3.i);
-	printf("a3.j = %d \n", a3.j);
-	printf("a3.k = %d \n", a3.k);
+	printf("a3.i=%d \n", a3.i);
+	printf("a3.j=%d \n", a3.j);
+	printf("a3.k=%d \n", a3.k);
 
-	printf("a4.i = %d \n", a4.i);
-	printf("a4.j = %d \n", a4.j);
-	printf("a4.k = %d \n", a4.k);
+	printf("a4.i=%d \n", a4.i);
+	printf("a4.j=%d \n", a4.j);
+	printf("a4.k=%d \n", a4.k);
 
-	printf("a5.i = %d \n", a5.i);
-	printf("a5.j = %d \n", a5.j);
-	printf("a5.k = %d \n", a5.k);
+	printf("a5.i=%d \n", a5.i);
+	printf("a5.j=%d \n", a5.j);
+	printf("a5.k=%d \n", a5.k);
 
-	printf("a6.i = %d \n", a6.i);
-	printf("a6.j = %d \n", a6.j);
-	printf("a6.k = %d \n", a6.k);
+	printf("a6.i=%d \n", a6.i);
+	printf("a6.j=%d \n", a6.j);
+	printf("a6.k=%d \n", a6.k);
 
-	printf("a7.i = %d \n", a7.i);
-	printf("a7.j = %d \n", a7.j);
-	printf("a7.k = %d \n", a7.k);
+	printf("a7.i=%d \n", a7.i);
+	printf("a7.j=%d \n", a7.j);
+	printf("a7.k=%d \n", a7.k);
 	return EXIT_SUCCESS;
 }

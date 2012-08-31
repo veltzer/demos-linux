@@ -29,7 +29,7 @@
 * EXTRA_LIBS=-lpthread
 */
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
 	int* pointer=(int*)&t;
@@ -40,18 +40,18 @@ void *worker(void *p) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int num = 10;
+	const int num=10;
 	pthread_t threads[num];
 	int ids[num];
 	void* rets[num];
 
 	TRACE("main starting");
 	for(int i=0;i<num;i++) {
-		ids[i] = i;
+		ids[i]=i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("main ended creating threads");
-	for (int i = 0; i < num; i++) {
+	for (int i=0; i < num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");

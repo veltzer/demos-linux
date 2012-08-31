@@ -43,22 +43,22 @@ class A {
 public:
 	float val;
 	A(void) {
-		val = -7.6;
+		val=-7.6;
 	}
 
 
 	A(double ival) {
-		val = ival;
+		val=ival;
 	}
 
 
 	void *operator new(size_t size, double val) {
 		std::cerr << "in new operator" << std::endl;
 		std::cerr << "size is " << size << std::endl;
-		void *pointer = malloc(size);
+		void *pointer=malloc(size);
 		std::cerr << "pointer is " << pointer << std::endl;
-		A *p = (A *)pointer;
-		p->val = val;
+		A *p=(A *)pointer;
+		p->val=val;
 		return(pointer);
 	}
 
@@ -68,7 +68,7 @@ public:
 	void *operator new[] (const unsigned int size) {
 		std::cerr << "in new[] operator" << std::endl;
 		std::cerr << "size is " << size << std::endl;
-		void *pointer = malloc(size);
+		void *pointer=malloc(size);
 		std::cerr << "pointer is " << pointer << std::endl;
 		return(pointer);
 	}
@@ -85,7 +85,7 @@ public:
 	void *operator new(size_t size) {
 		std::cerr << "in new operator" << std::endl;
 		std::cerr << "size is " << size << std::endl;
-		void *pointer = malloc(size);
+		void *pointer=malloc(size);
 		std::cerr << "pointer is " << pointer << std::endl;
 		return(pointer);
 	}
@@ -111,7 +111,7 @@ int main(int argc,char** argv,char** envp) {
 	delete b;
 
 	DEBUG("many heap no arguments example");
-	const unsigned int num_objs = 5;
+	const unsigned int num_objs=5;
 	A* e=new A[num_objs];
 	for(unsigned int i=0;i<num_objs;i++) {
 		std::cerr << i << " " << "e->val is " << e[i].val << std::endl;

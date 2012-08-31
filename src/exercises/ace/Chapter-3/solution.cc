@@ -53,8 +53,8 @@ class SharedResource {
 		int numThreads;
 	public:
 		SharedResource(int inumThreads) {
-			LockedCounter = 0;
-			AttemptCounter = 0;
+			LockedCounter=0;
+			AttemptCounter=0;
 			numThreads=inumThreads;
 		}
 
@@ -72,7 +72,7 @@ class SharedResource {
 		// This method only attempts an increase and returns whether the
 		// attempt succeeded or not.
 		bool attemptIncreaseValue(int value) {
-			bool result = false;
+			bool result=false;
 
 			if(debug) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) waiting for lock\n")));
@@ -88,7 +88,7 @@ class SharedResource {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
 				}
 				LockedCounter++;
-				result = true;
+				result=true;
 			}
 			mutex.release();
 			if(debug) {

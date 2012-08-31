@@ -52,9 +52,9 @@ void handleKeyPress(SDL_keysym *keysym) {
 
 int resizeWindow(int width, int height) {
 	if (height == 0) {
-		height = 1;
+		height=1;
 	}
-	GLfloat ratio = (GLfloat)width / (GLfloat)height;
+	GLfloat ratio=(GLfloat)width / (GLfloat)height;
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -104,12 +104,12 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
 		Quit(1);
 	}
-	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
+	const SDL_VideoInfo *videoInfo=SDL_GetVideoInfo();
 	if (!videoInfo) {
 		fprintf(stderr, "Video query failed: %s\n", SDL_GetError());
 		Quit(1);
 	}
-	int videoFlags = SDL_OPENGL; /* Enable OpenGL in SDL */
+	int videoFlags=SDL_OPENGL; /* Enable OpenGL in SDL */
 	videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
 	if (videoInfo->hw_available) {
 		videoFlags |= SDL_HWSURFACE;
@@ -120,7 +120,7 @@ int main(int argc,char** argv,char** envp) {
 		videoFlags |= SDL_HWACCEL;
 	}
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	surface = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, videoFlags);
+	surface=SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, videoFlags);
 	if (!surface) {
 		fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
 		Quit(1);

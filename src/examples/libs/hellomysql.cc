@@ -37,21 +37,21 @@
 
 int main(int argc,char** argv,char** envp) {
 	MYSQL mysql;
-	MYSQL *ret0 = mysql_init(&mysql);
+	MYSQL *ret0=mysql_init(&mysql);
 	if (!ret0) {
 		std::cerr << "init failed" << std::endl;
 		std::cerr << mysql_error(&mysql) << std::endl;
 		return EXIT_FAILURE;
 	}
 	std::cout << "after init" << std::endl;
-	MYSQL *ret1 = mysql_real_connect(&mysql, "database", "master", "master", "mysql", 0, NULL, 0);
+	MYSQL *ret1=mysql_real_connect(&mysql, "database", "master", "master", "mysql", 0, NULL, 0);
 	if (!ret1) {
 		std::cerr << "connect failed" << std::endl;
 		std::cerr << mysql_error(&mysql) << std::endl;
 		return EXIT_FAILURE;
 	}
 	std::cout << "after connect" << std::endl;
-	const char *info = mysql_get_server_info(&mysql);
+	const char *info=mysql_get_server_info(&mysql);
 	if (!info) {
 		std::cerr << "get_server_info failed" << std::endl;
 		std::cerr << mysql_error(&mysql) << std::endl;

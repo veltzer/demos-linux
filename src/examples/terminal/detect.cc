@@ -32,7 +32,7 @@
 int main(int argc,char** argv,char** envp) {
 	// lets take the file descriptor number from stdin which is usually
 	// a terminal (unless you redirect it...)
-	int filedes = fileno(stdin);
+	int filedes=fileno(stdin);
 
 	if (isatty(filedes)) {
 		DEBUG("it is a terminal with name [%s]", ttyname(filedes));

@@ -49,9 +49,9 @@ static void handler(int sig, siginfo_t *si, void *unused) {
 }
 static void register_handler() {
 	struct sigaction sa;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_flags=SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_sigaction = handler;
+	sa.sa_sigaction=handler;
 	CHECK_NOT_M1(sigaction(SIGUSR1, &sa, NULL));
 }
 // print an inotify mask in readable form

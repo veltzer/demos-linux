@@ -46,7 +46,7 @@ unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 			}
 		}
 	}
-	unsigned long diff = (tv2->tv_sec - tv1->tv_sec) * 1000;
+	unsigned long diff=(tv2->tv_sec - tv1->tv_sec) * 1000;
 	diff += (tv2->tv_usec - tv1->tv_usec) / 1000;
 	return(diff);
 }
@@ -59,7 +59,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(gettimeofday(&tv_end, NULL));
 	print_timeval(&tv_start, "start");
 	print_timeval(&tv_end, "end");
-	unsigned long diff = diff_timeval_in_micro(&tv_start, &tv_end);
+	unsigned long diff=diff_timeval_in_micro(&tv_start, &tv_end);
 	printf("diff is %lu\n", diff);
 	return EXIT_SUCCESS;
 }

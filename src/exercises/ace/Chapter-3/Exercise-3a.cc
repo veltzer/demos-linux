@@ -42,7 +42,7 @@ class HA_ControllerAgent {
 		HA_ControllerAgent() {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::HA_ControllerAgent"));
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Entered HA_ControllerAgent\n")));
-			status_result_ = 1;
+			status_result_=1;
 		}
 		int status_update(void) {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));
@@ -171,7 +171,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 	// Get results...
 	for(int j=0;j<counter;j++) {
-		int result = 0;
+		int result=0;
 		results[j].get(result);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("New status_update %d\n"), result));
 	}

@@ -51,12 +51,12 @@ void putForks(int id) {
 		next=id+1;
 	printf("Philosopher %d is replacing the forks\n", id);
 	struct sembuf sops[2];
-	sops[0].sem_num = id;
-	sops[0].sem_op = 1;
-	sops[0].sem_flg = 0;
-	sops[1].sem_num = next;
-	sops[1].sem_op = 1;
-	sops[1].sem_flg = 0;
+	sops[0].sem_num=id;
+	sops[0].sem_op=1;
+	sops[0].sem_flg=0;
+	sops[1].sem_num=next;
+	sops[1].sem_op=1;
+	sops[1].sem_flg=0;
 	if ( semop(semid, sops, 2) == -1 ) {
 		perror("semop");
 		exit(errno);
@@ -70,15 +70,15 @@ void pickForks(int id)
 	if(id == NPHIL-1)
 		next=0;
 	else
-		next = id+1;
+		next=id+1;
 	printf("Philosopher %d is trying to pick up the forks\n", id);
 	struct sembuf sops[2];
-	sops[0].sem_num = id;
-	sops[0].sem_op = -1;
-	sops[0].sem_flg = 0;
-	sops[1].sem_num = next;
-	sops[1].sem_op = -1;
-	sops[1].sem_flg = 0;
+	sops[0].sem_num=id;
+	sops[0].sem_op=-1;
+	sops[0].sem_flg=0;
+	sops[1].sem_num=next;
+	sops[1].sem_op=-1;
+	sops[1].sem_flg=0;
 	if ( semop(semid, sops, 2) == -1 ) {
 		perror("semop");
 		exit(errno);
@@ -100,13 +100,13 @@ int main(int argc,char** argv,char** envp) {
 		exit(EXIT_FAILURE);
 	}
 
-	if ((key = ftok(KEYFILE, 'x')) == -1 ) {
+	if ((key=ftok(KEYFILE, 'x')) == -1 ) {
 		int local_errno=errno;
 		perror("ftok failed");
 		exit(local_errno);
 	}
 
-	if ((semid = semget(key, 0, 0)) == -1 ) {
+	if ((semid=semget(key, 0, 0)) == -1 ) {
 		perror("semget");
 		exit(errno);
 	}

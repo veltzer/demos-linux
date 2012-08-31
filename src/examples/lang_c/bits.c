@@ -27,8 +27,8 @@
 */
 
 #define COMB(a, b) (a | b)
-const unsigned int cone = 0x0000f000;
-const unsigned int ctwo = 0x0000f001;
+const unsigned int cone=0x0000f000;
+const unsigned int ctwo=0x0000f001;
 
 #define one 0x00010000
 #define two 0x706

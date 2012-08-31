@@ -50,8 +50,8 @@ void doParent(int msqid, long myID)
 		if(ret!=SsubscriberID) {
 			perror("fgets(3)");
 		}
-		sbuf.mtype = atoi(SsubscriberID);
-		sbuf.fromID = myID;
+		sbuf.mtype=atoi(SsubscriberID);
+		sbuf.fromID=myID;
 		printf("Message to %ld: ", sbuf.mtype);
 		ret=fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin);
 		if(ret!=SsubscriberID) {
@@ -70,12 +70,12 @@ void doChild(int msqid, long myID)
 	message_buf rbuf;
 	int msgsize;
 	while(true) {
-		if((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0)) == -1)
+		if((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0)) == -1)
 		{
 			perror("msgrcv failed");
 			exit(errno);
 		}
-		rbuf.mtext[msgsize-sizeof(long)] = '\0'; // string was sent without null char.
+		rbuf.mtext[msgsize-sizeof(long)]='\0'; // string was sent without null char.
 		printf("Message from: %ld -> %s", rbuf.fromID, rbuf.mtext);
 	}
 }

@@ -47,7 +47,7 @@ void critical1() {
 	char lpindexFname[MAXNAMLEN];
 	struct stat buff;
 	sprintf(lpindexFname, "/tmp/lpindex.%d", getpid());
-	if ((fdindex = open(lpindexFname, O_RDWR|O_CREAT, 0666)) == -1)
+	if ((fdindex=open(lpindexFname, O_RDWR|O_CREAT, 0666)) == -1)
 	{
 		perror("open lpindex file failed");
 		exit(errno);
@@ -57,14 +57,14 @@ void critical1() {
 		exit(errno);
 	}
 	if (buff.st_size == 0) {
-		currid = 0;
+		currid=0;
 		if (write(fdindex, & currid, sizeof(currid)) == -1)
 		{
 			perror("write initialize file failed");
 			exit(errno);
 		}
-		buffer.ID = 0;
-		buffer.path[0] = '\0';
+		buffer.ID=0;
+		buffer.path[0]='\0';
 		if (write(fdindex, & buffer, sizeof(buffer)) == -1)
 		{
 			perror("write initialize 2 failed");
@@ -75,12 +75,12 @@ void critical1() {
 		perror("read nextid failed");
 		exit(errno);
 	}
-	if ((bufsize = read(fdindex, &buffer, sizeof(buffer))) == -1) {
+	if ((bufsize=read(fdindex, &buffer, sizeof(buffer))) == -1) {
 		perror("read verify failed");
 		exit(0);
 	}
 	while(buffer.ID == 0 && bufsize > 0) {
-		if ((bufsize = read(fdindex, &buffer, sizeof(buffer))) == -1)
+		if ((bufsize=read(fdindex, &buffer, sizeof(buffer))) == -1)
 		{
 			perror("read verify failed");
 			exit(0);
@@ -96,7 +96,7 @@ void critical2() {
 		perror("unable to revert to clear job ID");
 		exit(errno);
 	}
-	buffer.ID = 0;
+	buffer.ID=0;
 	if (write(fdindex, & buffer, sizeof(buffer)) == -1) {
 		perror("Unable to clear job ID");
 		exit(errno);
@@ -109,7 +109,7 @@ void sigint(int gotsig) {
 	char pathname[MAXPATHLEN];
 	struct stat statbuf;
 	char strPID[10];
-	if (!(sdir = opendir("/tmp"))) {
+	if (!(sdir=opendir("/tmp"))) {
 		perror("opendir /tmp failed");
 		exit(errno);
 	}
@@ -152,8 +152,8 @@ int main(int argc,char** argv,char** envp) {
 	sigaddset(&settoblock, SIGQUIT);
 	sigaddset(&settoblock, SIGABRT);
 	sigaddset(&settoblock, SIGTERM);
-	act.sa_handler = sigint;
-	act.sa_mask = settoblock;
+	act.sa_handler=sigint;
+	act.sa_mask=settoblock;
 	if (sigaction(SIGINT,&act, NULL) == -1 ||
 		sigaction(SIGQUIT, &act, NULL) == -1 ||
 		sigaction(SIGABRT, &act, NULL) == -1 ||
@@ -163,7 +163,7 @@ int main(int argc,char** argv,char** envp) {
 		exit(errno);
 	}
 
-	cri1done = cri2done = 0;
+	cri1done=cri2done=0;
 	printf("blocking signals\n");
 	if(sigprocmask(SIG_BLOCK, &settoblock, &currentset)!=0) {
 		perror("cannot call sigprocmask");
@@ -171,11 +171,11 @@ int main(int argc,char** argv,char** envp) {
 	}
 	printf("doing critical 1\n");
 	critical1();
-	cri1done = 1;
+	cri1done=1;
 	sleep(15);
 	printf("doing critical 2\n");
 	critical2();
-	cri2done = 1;
+	cri2done=1;
 	if(sigprocmask(SIG_SETMASK, &currentset, NULL)!=0) {
 		perror("cannot call sigprocmask");
 		exit(EXIT_FAILURE);

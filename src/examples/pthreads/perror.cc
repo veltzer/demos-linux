@@ -36,15 +36,15 @@
 void *worker1(void *p) {
 	fprintf(stderr, "worker1 starting thread\n");
 	fprintf(stderr, "test 1: with no error\n");
-	int err = errno;
+	int err=errno;
 	fprintf(stderr, "errno is %d (%s)\n", err, strerror(err));
 	fprintf(stderr, "test 2: doing something illegal\n");
 	open("/etc/nonexistant", O_RDWR);
-	err = errno;
+	err=errno;
 	fprintf(stderr, "errno is %d (%s)\n", err, strerror(err));
 	fprintf(stderr, "test 3: setting error myself\n");
-	errno = 3;
-	err = 3;
+	errno=3;
+	err=3;
 	perror("msg from perror");
 	fprintf(stderr, "errno is %d (%s)\n", err, strerror(err));
 	fprintf(stderr, "worker1 ending thread\n");
@@ -63,7 +63,7 @@ void *worker2(void *p) {
 int main(int argc,char** argv,char** envp) {
 	pthread_t thread1;
 	pthread_t thread2;
-	const int num = 2;
+	const int num=2;
 	int ids[num];
 	void* rets[num];
 

@@ -30,8 +30,8 @@
 
 void* PrintHello(void *threadid) {
 	int *id_ptr, taskid;
-	id_ptr = (int *) threadid;
-	taskid = *id_ptr;
+	id_ptr=(int *) threadid;
+	taskid=*id_ptr;
 	printf("Thread %d says hello\n",taskid);
 	return (void *)(taskid*2);
 	// another option would be to call
