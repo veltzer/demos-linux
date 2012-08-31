@@ -188,7 +188,7 @@ public:
 	CatchSignal(int isignum):signum(isignum) {
 	}
 	virtual ~CatchSignal() {}
-	virtual int handle_signal(int signum, siginfo_t *=0, ucontext_t *=0) {
+	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
 		ACE_TRACE(ACE_TEXT("CatchSignal::handle_signal"));
 		// Make sure the right handler was called back.
 		ACE_ASSERT(signum == this->signum);
