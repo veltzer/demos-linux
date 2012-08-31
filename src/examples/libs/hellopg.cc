@@ -33,11 +33,11 @@ void exit_nicely(PGconn* conn) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	char* pghost="database";
-	char* pgport=NULL;
-	char* pgoptions=NULL;
-	char* pgtty=NULL;
-	char* dbName="thumbnail";
+	const char* pghost="database";
+	const char* pgport=NULL;
+	const char* pgoptions=NULL;
+	const char* pgtty=NULL;
+	const char* dbName="thumbnail";
 
 	PGconn* conn=PQsetdb(pghost,pgport,pgoptions,pgtty,dbName);
 	if (PQstatus(conn)==CONNECTION_BAD) {
