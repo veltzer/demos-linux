@@ -56,7 +56,7 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, p));
 	}
 	TRACE("created threads, now joining...");
-	for (unsigned int i = 0; i < num; i++) {
+	for (unsigned int i=0; i < num; i++) {
 		CHECK_ZERO(pthread_join(threads[i],NULL));
 	}
 	TRACE("end");

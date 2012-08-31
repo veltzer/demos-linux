@@ -46,7 +46,7 @@ int main(int argc,char** argv,char** envp) {
 	{
 		id=omp_get_thread_num();
 		for(double i=1; i<10; i++) {
-			printf(" i = %f, i*i = %f, %d\n", i, i*i,id);
+			printf(" i=%f, i*i=%f, %d\n", i, i*i,id);
 		};
 		printf("This is process %d\n",id);
 	}

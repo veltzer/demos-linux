@@ -33,19 +33,19 @@
 */
 void printBuff(FILE *s, const char *name) {
 	printf("stats for the [%s] stream\n", name);
-	bool isLineBuf = (__flbf(s) > 0);
+	bool isLineBuf=(__flbf(s) > 0);
 	if (isLineBuf) {
 		printf("stream is line buffered\n");
 	} else {
 		printf("stream is not line buffered\n");
-		size_t bufSize = __fbufsize(s);
+		size_t bufSize=__fbufsize(s);
 		printf("size of buffer is %d\n", bufSize);
 	}
 }
 
 int main(int argc,char** argv,char** envp) {
-	const char *writeFileName = "/tmp/newfile.txt";
-	const char *readFileName = "/etc/passwd";
+	const char *writeFileName="/tmp/newfile.txt";
+	const char *readFileName="/etc/passwd";
 
 	printBuff(stdin, "stdin");
 	printBuff(stdout, "stdout");

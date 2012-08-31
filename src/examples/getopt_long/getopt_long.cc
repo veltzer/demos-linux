@@ -31,11 +31,11 @@
 
 int main(int argc,char** argv,char** envp) {
 	int c;
-	int digit_optind = 0;
+	int digit_optind=0;
 	while(true) {
-		int this_option_optind = optind ? optind : 1;
-		int option_index = 0;
-		static struct option long_options[] = {
+		int this_option_optind=optind ? optind : 1;
+		int option_index=0;
+		static struct option long_options[]={
 			{"add", 1, 0, 0},
 			{"append", 0, 0, 0},
 			{"delete", 1, 0, 0},
@@ -44,7 +44,7 @@ int main(int argc,char** argv,char** envp) {
 			{"file", 1, 0, 0},
 			{0, 0, 0, 0}
 		};
-		c = getopt_long(argc, argv, "abc:d:012", long_options, &option_index);
+		c=getopt_long(argc, argv, "abc:d:012", long_options, &option_index);
 		if (c == -1)
 			break;
 		switch (c) {
@@ -59,7 +59,7 @@ int main(int argc,char** argv,char** envp) {
 			case '2':
 				if (digit_optind != 0 && digit_optind != this_option_optind)
 				printf("digits occur in two different argv-elements.\n");
-				digit_optind = this_option_optind;
+				digit_optind=this_option_optind;
 				printf("option %c\n", c);
 				break;
 			case 'a':

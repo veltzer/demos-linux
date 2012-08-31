@@ -46,10 +46,10 @@
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename = "/proc/sys/net/core/somaxconn";
+	const char* filename="/proc/sys/net/core/somaxconn";
 	int fd;
 	CHECK_NOT_M1(fd=open(filename, O_RDONLY));
-	const unsigned int size = 256;
+	const unsigned int size=256;
 	char buf[size];
 	CHECK_NOT_M1(read(fd, buf, size));
 	CHECK_NOT_M1(close(fd));

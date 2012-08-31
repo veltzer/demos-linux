@@ -43,17 +43,17 @@ int main(int argc,char** argv,char** envp) {
 	int i;
 	char ans[10];
 
-	CHECK_NOT_M1(key = ftok("/etc/passwd", 'x'));
+	CHECK_NOT_M1(key=ftok("/etc/passwd", 'x'));
 	CHECK_NOT_M1(semid=semget(key, MAXCLIENTS, IPC_CREAT | 0666));
 	for(i=0; i<MAXCLIENTS; i++) {
 		CHECK_NOT_M1(semctl(semid, i, SETVAL, 0));
 	}
 	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLIENTS);
 	CHECK_NOT_M1(shmid=shmget(key, sizeof(struct data) * MAXCLIENTS, IPC_CREAT | 0666));
-	CHECK_NOT_VOIDP(smdata = (struct data *)shmat(shmid, NULL, 0),(struct data *)-1);
+	CHECK_NOT_VOIDP(smdata=(struct data *)shmat(shmid, NULL, 0),(struct data *)-1);
 	for (i=0; i<MAXCLIENTS; i++) {
-		smdata[i].readOffset = 0;
-		smdata[i].writeOffset = 0;
+		smdata[i].readOffset=0;
+		smdata[i].writeOffset=0;
 	}
 	printf("Hit <Enter> to finish\n");
 	CHECK_CHARP(fgets(ans, sizeof(ans), stdin),ans);

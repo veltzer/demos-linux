@@ -36,7 +36,7 @@
 
 Display* dpy;
 Window root;
-GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+GLint att[]={ GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
 XVisualInfo* vi;
 Colormap cmap;
 XSetWindowAttributes swa;
@@ -71,20 +71,20 @@ int main(int argc,char** argv,char** envp) {
 		printf("cannot connect to X server\n");
 		exit(0);
 	}
-	root = DefaultRootWindow(dpy);
-	vi = glXChooseVisual(dpy, 0, att);
+	root=DefaultRootWindow(dpy);
+	vi=glXChooseVisual(dpy, 0, att);
 	if(vi == NULL) {
 		printf("no appropriate visual found\n");
 		exit(0);
 	}
 	//printf("tvisual %p selected\n", (void *)vi->visualid); }/* %p creates hexadecimal output like in glxinfo */
-	cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
-	swa.colormap = cmap;
-	swa.event_mask = ExposureMask | KeyPressMask;
-	win = XCreateWindow(dpy, root, 0, 0, 600, 600, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
+	cmap=XCreateColormap(dpy, root, vi->visual, AllocNone);
+	swa.colormap=cmap;
+	swa.event_mask=ExposureMask | KeyPressMask;
+	win=XCreateWindow(dpy, root, 0, 0, 600, 600, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 	XMapWindow(dpy, win);
 	XStoreName(dpy, win, "VERY SIMPLE APPLICATION");
-	glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
+	glc=glXCreateContext(dpy, vi, NULL, GL_TRUE);
 	glXMakeCurrent(dpy, win, glc);
 	glEnable(GL_DEPTH_TEST);
 	while(true) {

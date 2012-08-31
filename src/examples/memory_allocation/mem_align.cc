@@ -45,12 +45,12 @@
 // this next function takes an address and aligns it to page size
 inline void* align_address(void* addr) {
 	unsigned long uladdr=(unsigned long)addr;
-	int ps = getpagesize();
+	int ps=getpagesize();
 	return (void*) (uladdr & ~(ps-1));
 }
 
 void *mem_align(unsigned int size) {
-	int ps = getpagesize();
+	int ps=getpagesize();
 	void *ptr;
 	int res;
 	CHECK_ZERO(res=posix_memalign(&ptr, ps, size));
@@ -68,13 +68,13 @@ void *mem_align(unsigned int size) {
 * is not demonstrated in this example...
 */
 void *malloc_align(unsigned int size) {
-	int ps = getpagesize();
-	int pages = size / ps + 1;
-	int new_size = pages * ps;
-	void* ptr = malloc(new_size);
-	unsigned int iptr = (unsigned int)ptr;
+	int ps=getpagesize();
+	int pages=size / ps + 1;
+	int new_size=pages * ps;
+	void* ptr=malloc(new_size);
+	unsigned int iptr=(unsigned int)ptr;
 
-	iptr = (iptr / ps + 1) * ps;
+	iptr=(iptr / ps + 1) * ps;
 	return((void *)iptr);
 }
 
@@ -100,17 +100,17 @@ void *mmap_alloc(unsigned int size) {
 
 int main(int argc,char** argv,char** envp) {
 	// the size to allocate
-	const unsigned int size = 20200;
-	int ps1 = getpagesize();
-	long ps2 = sysconf(_SC_PAGESIZE);
-	int ps = ps1;
+	const unsigned int size=20200;
+	int ps1=getpagesize();
+	long ps2=sysconf(_SC_PAGESIZE);
+	int ps=ps1;
 	printf("getpagesize() is %d\n", ps1);
 	printf("sysconf(_SC_PAGESIZE) is %ld\n", ps2);
-	void *pt1 = valloc(size);
-	void *pt2 = memalign(ps, size);
-	void *pt3 = mem_align(size);
-	void *pt4 = malloc_align(size);
-	void *pt5 = mmap_alloc(size);
+	void *pt1=valloc(size);
+	void *pt2=memalign(ps, size);
+	void *pt3=mem_align(size);
+	void *pt4=malloc_align(size);
+	void *pt5=mmap_alloc(size);
 	memset(pt1, 0, size);
 	memset(pt2, 0, size);
 	memset(pt3, 0, size);

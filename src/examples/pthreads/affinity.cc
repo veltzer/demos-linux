@@ -41,15 +41,15 @@ void print_cpu_set(cpu_set_t *p) {
 }
 
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	TRACE("ending thread %d", num);
 	return(NULL);
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
-	const int num = 10;
+	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int num=10;
 	pthread_t threads[num];
 	pthread_attr_t attrs[num];
 	cpu_set_t cpu_sets[num];
@@ -57,7 +57,7 @@ int main(int argc,char** argv,char** envp) {
 
 	TRACE("main starting");
 	for(int i=0;i<num;i++) {
-		ids[i] = i;
+		ids[i]=i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
 		print_cpu_set(cpu_sets + i);

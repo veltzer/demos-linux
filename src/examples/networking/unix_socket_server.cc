@@ -43,11 +43,11 @@ const char* filename="/tmp/myunixsocket";
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename = "/proc/sys/net/core/somaxconn";
-	const unsigned int size = 256;
+	const char* filename="/proc/sys/net/core/somaxconn";
+	const unsigned int size=256;
 	char buf[size];
 	int fd;
-	CHECK_NOT_M1(fd = open(filename, O_RDONLY));
+	CHECK_NOT_M1(fd=open(filename, O_RDONLY));
 	CHECK_NOT_M1(read(fd, buf, size));
 	CHECK_NOT_M1(close(fd));
 	return atoi(buf);

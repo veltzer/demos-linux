@@ -35,7 +35,7 @@
 class SocketHandler:public ACE_Task_Base {
 	public:
 		void set_value(int ivalue) {
-			value = ivalue;
+			value=ivalue;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Setting value %d\n"), value));
 		}
 		virtual int svc(void) {
@@ -52,9 +52,9 @@ class SocketHandler:public ACE_Task_Base {
 				ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Client connect")), 1);
 			}
 			while(true) {
-				bc = peer.recv(buf, sizeof(buf));
+				bc=peer.recv(buf, sizeof(buf));
 				peer.send_n("OK", 3, 0);
-				buf[bc] = 0;
+				buf[bc]=0;
 				if (!ACE_OS::strcmp(buf, "End")) {
 					printf("Client: <%d> End\n", value);
 					peer.close();

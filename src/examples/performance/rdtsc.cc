@@ -80,11 +80,11 @@ int main(int argc,char** argv,char** envp) {
 	printf("sched_getcpu() is %d\n", sched_getcpu());
 
 	printf("starting a sleep of 1 second...\n");
-	ticks_t start = getticks();
+	ticks_t start=getticks();
 	sleep(1);
-	ticks_t end = getticks();
+	ticks_t end=getticks();
 	printf("finished...\n");
-	ticks_t diff = end - start;
+	ticks_t diff=end - start;
 	printf("start RDTSC is %llu\n", start);
 	printf("end RDTSC is %llu\n", end);
 	printf("diff RDTSC is %llu\n", diff);
@@ -98,17 +98,17 @@ int main(int argc,char** argv,char** envp) {
 	printf("sysconf(_SC_CLK_TCK) is %ld\n", sysconf(_SC_CLK_TCK));
 
 	// this one requires parsing
-	const char *cmd = "cat /proc/cpuinfo | grep MH";
+	const char *cmd="cat /proc/cpuinfo | grep MH";
 	printf("going to do command [%s]\n", cmd);
 	CHECK_NOT_M1(system(cmd));
 
 	// this one requires root (sudo)
-	const char *cmd2 = "sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq";
+	const char *cmd2="sudo cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq";
 	printf("going to do command [%s]\n", cmd2);
 	CHECK_NOT_M1(system(cmd2));
 
 	// this one is ok for everyone
-	const char *cmd3 = "cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
+	const char *cmd3="cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
 	printf("going to do command [%s]\n", cmd3);
 	CHECK_NOT_M1(system(cmd3));
 

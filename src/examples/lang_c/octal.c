@@ -27,7 +27,7 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	int i = 0777;
+	int i=0777;
 
 	printf("i is %d\n", i);
 	return(0);

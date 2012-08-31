@@ -44,7 +44,7 @@ int trace(const char *fmt, ...) {
 	va_list ap;
 	va_start(ap,fmt);
 	int ret;
-	ret = vprintf(fmt, ap);
+	ret=vprintf(fmt, ap);
 	va_end(ap);
 	return(ret);
 }

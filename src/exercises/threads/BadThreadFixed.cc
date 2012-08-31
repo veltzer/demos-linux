@@ -32,11 +32,11 @@
 
 void* PrintHello(void *threadid) {
 	int *id_ptr, taskid;
-	id_ptr = (int *) threadid;
+	id_ptr=(int *) threadid;
 	int stime;
 	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
 	sleep(stime);
-	taskid = *id_ptr;
+	taskid=*id_ptr;
 	printf("Thread %d says hello\n", taskid);
 	return threadid;
 }

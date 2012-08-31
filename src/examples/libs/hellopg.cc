@@ -20,49 +20,47 @@
 
 #include<firstinclude.h>
 #include<postgresql/libpq-fe.h>
-#include<stdio.h>
+#include<stdio.h> // for fprintf(3), printf(3)
 #include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 /*
 * EXTRA_LIBS=-lpq
 */
 
-void exit_nicely(PGconn *conn) {
+void exit_nicely(PGconn* conn) {
 	PQfinish(conn);
 	exit(EXIT_FAILURE);
 }
 
-
 int main(int argc,char** argv,char** envp) {
-	char *pghost = (char *)"database";
-	char *pgport = NULL;
-	char *pgoptions = NULL;
-	char *pgtty = NULL;
-	char *dbName = (char *)"thumbnail";
+	char* pghost="database";
+	char* pgport=NULL;
+	char* pgoptions=NULL;
+	char* pgtty=NULL;
+	char* dbName="thumbnail";
 
-	PGconn *conn = PQsetdb(pghost, pgport, pgoptions, pgtty, dbName);
-
-	if (PQstatus(conn) == CONNECTION_BAD) {
-		fprintf(stderr, "Connection to database '%s' failed.\n", dbName);
-		fprintf(stderr, "%s", PQerrorMessage(conn));
+	PGconn* conn=PQsetdb(pghost,pgport,pgoptions,pgtty,dbName);
+	if (PQstatus(conn)==CONNECTION_BAD) {
+		fprintf(stderr,"Connection to database '%s' failed.\n",dbName);
+		fprintf(stderr,"%s",PQerrorMessage(conn));
 		exit_nicely(conn);
 	}
 
-	PGresult *res = PQexec(conn, "BEGIN");
-	if (!res || (PQresultStatus(res) != PGRES_COMMAND_OK)) {
-		fprintf(stderr, "BEGIN command failed\n");
+	PGresult* res=PQexec(conn,"BEGIN");
+	if (!res || (PQresultStatus(res)!=PGRES_COMMAND_OK)) {
+		fprintf(stderr,"BEGIN command failed\n");
 		PQclear(res);
 		exit_nicely(conn);
 	}
 	PQclear(res);
-	res = PQexec(conn, "DECLARE mycursor CURSOR FOR select * from item");
+	res=PQexec(conn, "DECLARE mycursor CURSOR FOR select * from item");
 	if (!res || (PQresultStatus(res) != PGRES_COMMAND_OK)) {
 		fprintf(stderr, "DECLARE CURSOR command failed\n");
 		PQclear(res);
 		exit_nicely(conn);
 	}
 	PQclear(res);
-	res = PQexec(conn, "FETCH ALL in mycursor");
+	res=PQexec(conn, "FETCH ALL in mycursor");
 	if (!res || (PQresultStatus(res) != PGRES_TUPLES_OK)) {
 		fprintf(stderr, "FETCH ALL command didn't return tuples properly\n");
 		PQclear(res);
@@ -80,9 +78,9 @@ int main(int argc,char** argv,char** envp) {
 		printf("\n");
 	}
 	PQclear(res);
-	res = PQexec(conn, "CLOSE mycursor");
+	res=PQexec(conn,"CLOSE mycursor");
 	PQclear(res);
-	res = PQexec(conn, "COMMIT");
+	res=PQexec(conn,"COMMIT");
 	PQclear(res);
 	PQfinish(conn);
 	return EXIT_SUCCESS;

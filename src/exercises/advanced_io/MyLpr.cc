@@ -47,24 +47,24 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "Usage: %s file\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	if ((fdindex = open("lpindex", O_RDWR|O_CREAT, 0666)) == -1) {
+	if ((fdindex=open("lpindex", O_RDWR|O_CREAT, 0666)) == -1) {
 		perror("open lpindex file failed");
 		exit(errno);
 	}
-	lplock.l_type = F_WRLCK;
-	lplock.l_whence = SEEK_SET;
-	lplock.l_start = 0;
-	lplock.l_len = 0;
+	lplock.l_type=F_WRLCK;
+	lplock.l_whence=SEEK_SET;
+	lplock.l_start=0;
+	lplock.l_len=0;
 	if (fcntl(fdindex, F_SETLKW, & lplock) == -1) {
 		perror("fcntl F_SETLK WriteLock failed");
 		exit(errno);
 	}
-	if ((buffersize = read(fdindex, & currid, sizeof(int))) == -1) {
+	if ((buffersize=read(fdindex, & currid, sizeof(int))) == -1) {
 		perror("read nextid failed");
 		exit(errno);
 	}
 	if (buffersize == 0 || currid > MAXINDEXSIZE) {
-		currid = 0;
+		currid=0;
 	}
 	if (lseek(fdindex, sizeof(int) + currid * sizeof(buffer), SEEK_SET) == -1) {
 		perror("seek to nextid failed");
@@ -98,7 +98,7 @@ int main(int argc,char** argv,char** envp) {
 		perror("write nextid failed");
 		exit(errno);
 	}
-	lplock.l_type = F_UNLCK;
+	lplock.l_type=F_UNLCK;
 	if (fcntl(fdindex, F_SETLK, & lplock) == -1) {
 		perror("fcntl F_SETLK F_UNLK failed");
 		exit(errno);

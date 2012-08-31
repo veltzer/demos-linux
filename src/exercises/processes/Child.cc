@@ -30,7 +30,7 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "Usage: %s 1 or 2\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	int me = atoi(argv[1]);
+	int me=atoi(argv[1]);
 	if (me < 0 || me > 2) {
 		fprintf(stderr, "I said 1 or 2\n");
 		exit(EXIT_FAILURE);
