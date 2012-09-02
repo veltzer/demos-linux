@@ -44,6 +44,11 @@
 *	1 - Disallow cpu events for unpriv
 *	2 - Disallow kernel profiling for unpriv
 * - if you strip the executable you will not get the function names.
+*
+* TODO:
+* - enable to ensure, from the source code of this example, that this example
+* will be compiled with debug info regardless of how the other examples
+* are compiled.
 */
 
 class A {
