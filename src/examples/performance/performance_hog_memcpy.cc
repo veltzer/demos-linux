@@ -19,14 +19,21 @@
 */
 
 #include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<iostream> // for std::cout, std::endl
+#include<string.h> // for memcpy(3)
+#include<stdlib.h> // for malloc(3)
 
 /*
 * This is a simple example that spends lots of time in a function.
 * You can watch this with 'sudo perf top' and enter the function with 's'.
+* If you want annotated sources then stand at the root where you are
+* running.
 *
 * make sure you compile this with debug info if you want to see
 * perf annotate the machine code with your code.
+*
+* The reason that the function whose performance we want to measure is
+* wrapped in a C++ class is to see how well perf handles C++ demangling.
 *
 * Notes:
 * - you need the sudo since perf works by hardware events and support for them in the kernel.
@@ -42,25 +49,22 @@
 class A {
 	public:
 		// the function is not inlined on purpose so it would show up in profilers
-		// like 'perf(1)'...
-		//static void performance_hog_function2() {
-		static void performance_hog_function_cpu() __attribute__((noinline)) {
-			float sum=0;
+		// use this example to see that the actual memcpy(3) function
+		// is tuned to the cpu you are running on...
+		static void performance_hog_function(char* buf1,char* buf2,unsigned int size) __attribute__((noinline)) {
 			for(unsigned int i=0;i<1000000;i++) {
-				for(unsigned int j=0;j<500000;j++) {
-					sum+=i*j;
+				for(unsigned int j=0;j<1000000;j++) {
+					memcpy(buf1,buf2,size);
 				}
-				A::inner_loop(&sum,i);
 			}
-		}
-		static void inner_loop(float* sum,int i) __attribute__((noinline)) {
-			for(unsigned int j=0;j<1000000;j++) {
-				*sum+=i*j;
-			}
+
 		}
 };
 
 int main(int argc,char** argv,char** envp) {
-	A::performance_hog_function_cpu();
+	const unsigned int size=1024*1024;
+	char* buf1=(char*)malloc(size);
+	char* buf2=(char*)malloc(size);
+	A::performance_hog_function(buf1,buf2,size);
 	return EXIT_SUCCESS;
 }
