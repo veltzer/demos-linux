@@ -36,9 +36,9 @@
 * (throw an exception ?!?).
 */
 
-static int counterUSR1 = 0;
-static int counterUSR2 = 0;
-static int flag = 0;
+static int counterUSR1=0;
+static int counterUSR2=0;
+static int flag=0;
 
 static void SignalHandlerUSR1(int sig) {
 	counterUSR1++;
@@ -50,9 +50,9 @@ static void SignalHandlerUSR2(int sig) {
 	fprintf(stderr,"handler [%s]: %d starting\n",strsignal(sig),counterUSR2);
 	// reverse the flag
 	if (flag == 0) {
-		flag = 1;
+		flag=1;
 	} else {
-		flag = 0;
+		flag=0;
 	}
 	fprintf(stderr,"handler [%s]: %d setting flag to %d\n",strsignal(sig),counterUSR2,flag);
 	CHECK_NOT_M1(siginterrupt(SIGUSR1, flag));
@@ -69,7 +69,7 @@ int main(int argc,char** argv,char** envp) {
 	// are signals
 	while(true) {
 		TRACE("before read");
-		const int size = 256;
+		const int size=256;
 		char buf[size];
 		CHECK_NOT_M1(read(fileno(stdin), buf, size));
 		TRACE("after read");

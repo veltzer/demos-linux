@@ -37,9 +37,9 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr,"SIGRTMAX is %d\n",SIGRTMAX);
 		return EXIT_FAILURE;
 	}
-	int pid = atoi(argv[1]);
-	int sig = atoi(argv[2]);
-	int val = atoi(argv[3]);
+	int pid=atoi(argv[1]);
+	int sig=atoi(argv[2]);
+	int val=atoi(argv[3]);
 	union sigval sval;
 	sval.sival_int=val;
 	CHECK_NOT_M1(sigqueue(pid,sig,sval));

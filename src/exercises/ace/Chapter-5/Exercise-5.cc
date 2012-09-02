@@ -48,7 +48,7 @@ Net_Handler::Net_Handler(ACE_SOCK_Stream& s):stream(s) {
 	// set the reactor that we are connected to
 	this->reactor(ACE_Reactor::instance());
 	// register outselves as handlers for that reactor
-	int result = this->reactor()->register_handler(this, READ_MASK);
+	int result=this->reactor()->register_handler(this, READ_MASK);
 	ACE_ASSERT(result == 0);
 	ACE_UNUSED_ARG(result);
 }
@@ -60,15 +60,15 @@ ACE_HANDLE Net_Handler::get_handle(void) const {
 int Net_Handler::handle_input(ACE_HANDLE handle) {
 	// if Quit (and only this string) is detected in the message the close everything
 	char message[BUFSIZ];
-	int result = this->stream.recv(message, sizeof(message));
+	int result=this->stream.recv(message, sizeof(message));
 
 	if (result > 0) {
-		message[result] = 0;
+		message[result]=0;
 		// Trim CR and LF (in case of telnet)
 		while(true) {
-			char value = message[result - 1];
+			char value=message[result - 1];
 			if ((value == 10) || (value == 13)) {
-				message[--result] = 0;
+				message[--result]=0;
 			} else {
 				break;
 			}
@@ -92,7 +92,7 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 		return(0);
 	} else {
 		// what state is this ?!?
-		ACE_DEBUG((LM_DEBUG, "Problems in receiving data, result = %d", result));
+		ACE_DEBUG((LM_DEBUG, "Problems in receiving data, result=%d", result));
 		return(-1);
 	}
 }
@@ -123,9 +123,9 @@ class Net_Listener:public ACE_Event_Handler {
 };
 
 Net_Listener::Net_Listener(int local_address) {
-	acceptor = ACE_INET_Addr(local_address, ACE_LOCALHOST);
+	acceptor=ACE_INET_Addr(local_address, ACE_LOCALHOST);
 	this->reactor(ACE_Reactor::instance());
-	int result = this->reactor()->register_handler(this, ACE_Event_Handler::ACCEPT_MASK);
+	int result=this->reactor()->register_handler(this, ACE_Event_Handler::ACCEPT_MASK);
 	ACE_ASSERT(result == 0);
 	ACE_UNUSED_ARG(result);
 }
@@ -141,7 +141,7 @@ ACE_HANDLE Net_Listener::get_handle(void) const {
 
 
 int Net_Listener::handle_input(ACE_HANDLE handle) {
-	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_input handle = %d\n", handle));
+	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_input handle=%d\n", handle));
 	ACE_INET_Addr remote_address;
 	ACE_SOCK_Stream stream;
 	// Try to find out if the implementation of the reactor that we are
@@ -149,9 +149,9 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 	// created handle. This is because the newly created handle will
 	// inherit the properties of the listen handle, including its event
 	// associations.
-	int reset_new_handle = this->reactor()->uses_event_associations();
+	int reset_new_handle=this->reactor()->uses_event_associations();
 	// reset new handler
-	int result = this->acceptor.accept(stream,
+	int result=this->acceptor.accept(stream,
 		&remote_address,
 		0, // timeout
 		1, // restart
@@ -166,22 +166,22 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 }
 
 int Net_Listener::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
-	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_close handle = %d\n", handle));
+	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_close handle=%d\n", handle));
 	this->acceptor.close();
 	delete this;
 	return(0);
 }
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
-	int port = ACE_DEFAULT_SERVER_PORT;
+	int port=ACE_DEFAULT_SERVER_PORT;
 	if (argc > 1) {
-		port = atoi(argv[1]);
+		port=atoi(argv[1]);
 	}
 	ACE_DEBUG((LM_DEBUG, "Listening to ports (%d %d)\n", port, port + 1));
-	Net_Listener *listener1 = new Net_Listener(port);
+	Net_Listener *listener1=new Net_Listener(port);
 	ACE_DEBUG((LM_DEBUG, "Have opened port (%d)\n", port));
 	port++;
-	Net_Listener *listener2 = new Net_Listener(port);
+	Net_Listener *listener2=new Net_Listener(port);
 	ACE_DEBUG((LM_DEBUG, "Have opened port (%d)\n", port));
 	ACE_Reactor::run_event_loop();
 	listener1->close();

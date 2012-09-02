@@ -36,7 +36,7 @@ int main(int argc,char** argv,char** envp) {
 	mysqlpp::Connection con("myworld", "localhost", "mark", "", true);
 	mysqlpp::Query query=con.query("select id,name from TbOrganization order by id");
 	mysqlpp::StoreQueryResult res=query.store();
-	unsigned int j = 0;
+	unsigned int j=0;
 	std::cout << "Records Found: " << res.size() << std::endl;
 	for(mysqlpp::StoreQueryResult::iterator i=res.begin();i!=res.end();i++) {
 		mysqlpp::Row row=*i;

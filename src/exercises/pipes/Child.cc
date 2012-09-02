@@ -50,9 +50,9 @@ void do1() {
 		}
 	}
 	fprintf(stderr, "np opend now read\n");
-	while((rcount = read(npfd, buffer, sizeof(buffer))) > 0 || errno == EINTR) {
+	while((rcount=read(npfd, buffer, sizeof(buffer))) > 0 || errno == EINTR) {
 		if(errno!=EINTR) {
-			buffer[rcount] = '\0';
+			buffer[rcount]='\0';
 			ssize_t ret=write(1, buffer, strlen(buffer));
 			if(ret!=(ssize_t)strlen(buffer)) {
 				perror("did not write fully");
@@ -77,9 +77,9 @@ int main(int argc,char** argv,char** envp) {
 	struct sigaction sigalrm;
 	sigset_t emptyset;
 	sigemptyset(&emptyset);
-	sigalrm.sa_handler = sigalrmHandler;
-	sigalrm.sa_mask = emptyset;
-	sigalrm.sa_flags = 0;
+	sigalrm.sa_handler=sigalrmHandler;
+	sigalrm.sa_mask=emptyset;
+	sigalrm.sa_flags=0;
 	if(sigaction(SIGALRM, & sigalrm, NULL) == -1) {
 		perror("sigaction SIGUSR1 failed");
 		exit(errno);
@@ -89,18 +89,18 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "Usage: %s 1 or 2\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	me = atoi(argv[1]);
+	me=atoi(argv[1]);
 	if(me < 1 || me > 2) {
 		fprintf(stderr, "I said 1 or 2\n");
 		exit(EXIT_FAILURE);
 	}
 	switch(me) {
 		case 1:
-			sigme = SIGUSR1;
+			sigme=SIGUSR1;
 			do1();
 			break;
 		case 2:
-			sigme = SIGUSR2;
+			sigme=SIGUSR2;
 			do2();
 			break;
 	}

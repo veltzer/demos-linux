@@ -113,3 +113,4 @@ elf tools:
 	objdump
 	pldd
 	readelf
+	chrpath

@@ -97,8 +97,8 @@ FILE* outfile;
 #define TEST(shortname,desc,code)\
 void test_ ## shortname() __attribute__((noinline));\
 void test_ ## shortname(volatile int& val_before,volatile int& val_after,int& dummy) {\
-	int a = 0;\
-	int u = 0;\
+	int a=0;\
+	int u=0;\
 	const int CORRECT_VAL=2000;\
 	const int WRONG_VAL=3200;\
 	/* p will point to a but the compiler does not know it.*/\
@@ -111,7 +111,7 @@ void test_ ## shortname(volatile int& val_before,volatile int& val_after,int& du
 	/* this taking of the address of a to have the compiler actually store */\
 	/* a on the stack at all! If we don't do this the compiler will treat */\
 	/* a as a register for the entire scope of this function! */\
-	int *pa = &a;\
+	int *pa=&a;\
 	/* this printing is essential to keep the compiler from telling us */\
 	/* that 'pa' is an unused variable... */\
 	fprintf(outfile,"pa is %p\n", pa);\
@@ -123,7 +123,7 @@ void test_ ## shortname(volatile int& val_before,volatile int& val_after,int& du
 		a+=a;\
 	}\
 	asm("nop");\
-	*p = CORRECT_VAL;\
+	*p=CORRECT_VAL;\
 	val_before=a;\
 	code;\
 	val_after=a;\
@@ -200,7 +200,7 @@ TEST(
 TEST(
 	singvarvol2,
 	"attempt to use volatile to barrier the compiler",
-	{ int y = a; *(volatile int*)&a = y; }
+	{ int y=a; *(volatile int*)&a=y; }
 );
 TEST(
 	atomicop,

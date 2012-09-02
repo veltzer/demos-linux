@@ -44,15 +44,15 @@ long ListenPort;
 
 class SignalableTask:public ACE_Task<ACE_MT_SYNCH> {
 public:
-	virtual int handle_signal(int signum, siginfo_t * = 0, ucontext_t * = 0) {
+	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
 		if (signum == SIGUSR1) {
 			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S signal\n"), signum));
-			MyIndex = 0;
+			MyIndex=0;
 			handle_alert();
 		}
 		if (signum == SIGUSR2) {
 			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S signal\n"), signum));
-			MyIndex = 1;
+			MyIndex=1;
 			handle_alert();
 		}
 		return(0);
@@ -69,7 +69,7 @@ void SignalableTask::handle_alert() {
 int DoAccept(long ReceivePort, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr, ACE_SOCK_Acceptor *acceptor) {
 	ACE_Time_Value timeout(10, 0);
 
-	ACE_INET_Addr address_to_listen = ACE_INET_Addr(ReceivePort, ACE_LOCALHOST);
+	ACE_INET_Addr address_to_listen=ACE_INET_Addr(ReceivePort, ACE_LOCALHOST);
 
 	if (acceptor->open(address_to_listen, 1) == -1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
@@ -129,16 +129,16 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 			ACE_OS::sleep(1);
 		}
 
-		ListenPort = atoi(argv[MyIndex + 1]);
+		ListenPort=atoi(argv[MyIndex + 1]);
 
-		ACE_INET_Addr address_to_listen = ACE_INET_Addr(ListenPort, ACE_LOCALHOST);
+		ACE_INET_Addr address_to_listen=ACE_INET_Addr(ListenPort, ACE_LOCALHOST);
 		ACE_OS::sleep(1);
 		if (-1 == connector.connect(peer, address_to_listen, &timeout)) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%p\n"), ACE_TEXT("(%P|%t) Client %d connect"), MyIndex + 1));
 			return(1);
 		}
 		sprintf(buffer, "I'm Child %d This is My Message.", MyIndex + 1);
-		size_t size = ACE_OS::strlen(buffer);
+		size_t size=ACE_OS::strlen(buffer);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Child %d sending: <%s>\n"), MyIndex + 1, buffer));
 		peer.send_n(buffer, size, 0);
 		// Get Acknowledge
@@ -147,7 +147,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Child %d is terminating.\n"), MyIndex + 1));
 	} else {
 		// Running as a parent.
-		ACE_Process_Manager *pm = ACE_Process_Manager::instance();
+		ACE_Process_Manager *pm=ACE_Process_Manager::instance();
 		// Get the processwide process manager.
 		ACE_SOCK_Stream peer[2];
 		ACE_INET_Addr peer_addr[2];
@@ -167,8 +167,8 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		ACE_OS::kill(pids[1], SIGUSR2);
 
 		// Wait for the child we just terminated.
-		long ListenPort1 = atoi(argv[1]);
-		long ListenPort2 = atoi(argv[2]);
+		long ListenPort1=atoi(argv[1]);
+		long ListenPort2=atoi(argv[2]);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Parent Ports are: %d %d\n"), ListenPort1, ListenPort2));
 		// Do the messaging with 1st Process
 		DoAccept(ListenPort1, &peer[0], &peer_addr[0], &acceptor[0]);

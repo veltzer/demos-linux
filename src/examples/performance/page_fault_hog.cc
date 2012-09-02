@@ -32,9 +32,9 @@
 void minor_fault_hog_function() {
 	for(unsigned int i=0;i<1000000;i++) {
 		int flags=MAP_PRIVATE | MAP_ANONYMOUS;
-		const unsigned int size = 1024*1024;
+		const unsigned int size=1024*1024;
 		void* p;
-		CHECK_NOT_NULL(p = mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0));
+		CHECK_NOT_NULL(p=mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0));
 		//memset(p, 0, size);
 		for(unsigned int j=0;j<size;j+=2) {
 			((char*)p)[j]=j;

@@ -49,11 +49,11 @@ class NameTwochar {
 	char c2;
 };
 class NameOnevirt {
-	virtual void doit(void) = 0;
+	virtual void doit(void)=0;
 };
 class NameTwovirt {
-	virtual void doother(void) = 0;
-	virtual void dothat(void) = 0;
+	virtual void doother(void)=0;
+	virtual void dothat(void)=0;
 };
 class NameSimpleInherit:public NameOnevirt {
 };
@@ -63,13 +63,13 @@ class NameMultInherit:public NameOnevirt, public NameTwovirt {
 };
 class NameOneVirtOneField {
 public:
-	virtual void doit(void) = 0;
+	virtual void doit(void)=0;
 
 	int x;
 };
 class NameOneVirtTwoField {
 public:
-	virtual void doother(void) = 0;
+	virtual void doother(void)=0;
 
 	int m;
 	int y;

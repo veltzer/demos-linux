@@ -37,16 +37,16 @@
 static void print_elapsed_time(void) {
 	static struct timespec start;
 	struct timespec curr;
-	static int first_call = 1;
+	static int first_call=1;
 	int secs, nsecs;
 
 	if (first_call) {
-		first_call = 0;
+		first_call=0;
 		CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &start));
 	}
 	CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &curr));
-	secs = curr.tv_sec - start.tv_sec;
-	nsecs = curr.tv_nsec - start.tv_nsec;
+	secs=curr.tv_sec - start.tv_sec;
+	nsecs=curr.tv_nsec - start.tv_nsec;
 	if (nsecs < 0) {
 		secs--;
 		nsecs += 1000000000;
@@ -67,11 +67,11 @@ int main(int argc,char** argv,char** envp) {
 	*/
 	struct itimerspec new_value;
 	uint64_t max_exp;
-	new_value.it_value.tv_sec = now.tv_sec + atoi(argv[1]);
-	new_value.it_value.tv_nsec = now.tv_nsec;
-	new_value.it_interval.tv_sec = atoi(argv[2]);
-	max_exp = atoi(argv[3]);
-	new_value.it_interval.tv_nsec = 0;
+	new_value.it_value.tv_sec=now.tv_sec + atoi(argv[1]);
+	new_value.it_value.tv_nsec=now.tv_nsec;
+	new_value.it_interval.tv_sec=atoi(argv[2]);
+	max_exp=atoi(argv[3]);
+	new_value.it_interval.tv_nsec=0;
 
 	int fd;
 	CHECK_NOT_M1(fd=timerfd_create(CLOCK_REALTIME, 0));

@@ -35,7 +35,7 @@
 */
 
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
 	int* pointer=(int*)&t;
@@ -58,18 +58,18 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr,"usage: %s [num_threads]\n",argv[0]);
 		return -1;
 	}
-	const int num = atoi(argv[1]);
+	const int num=atoi(argv[1]);
 	pthread_t* threads=new pthread_t[num];
 	int ids[num];
 	void* rets[num];
 
 	TRACE("main starting");
 	for(int i=0;i<num;i++) {
-		ids[i] = i;
+		ids[i]=i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("main ended creating threads");
-	for (int i = 0; i < num; i++) {
+	for (int i=0; i < num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");

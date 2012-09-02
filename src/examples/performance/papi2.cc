@@ -52,7 +52,7 @@ long long dummy_work(int limit) {
 
 int main(int argc,char** argv,char** envp) {
 	const unsigned int NUM_EVENTS=2;
-	int Events[NUM_EVENTS] = {PAPI_TOT_INS, PAPI_TOT_CYC};
+	int Events[NUM_EVENTS]={PAPI_TOT_INS, PAPI_TOT_CYC};
 	long_long values[NUM_EVENTS];
 	/* Start counting events */
 	if (PAPI_start_counters(Events, NUM_EVENTS) != PAPI_OK)

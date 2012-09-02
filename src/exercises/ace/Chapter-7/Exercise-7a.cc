@@ -60,8 +60,8 @@ class Record {
 int PrintMessages(SHARED_ALLOC *shared, int index) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("The following records were found in storage %d:\n"), index + 1));
 	MALLOC_LIFO_RECORD record(*shared);
-	for (void *temp = 0; record.next(temp) != 0; record.advance()) {
-		Record *record = reinterpret_cast<Record *>(temp);
+	for (void *temp=0; record.next(temp) != 0; record.advance()) {
+		Record *record=reinterpret_cast<Record *>(temp);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), record->name()));
 	}
 	return(0);
@@ -128,7 +128,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
 		}
 	} else {
 		ACE_MMAP_Memory_Pool_Options option0(0, ACE_MMAP_Memory_Pool_Options::NEVER_FIXED);
-		for (int i = 0; i < 3; i++) {
+		for (int i=0; i < 3; i++) {
 			//ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("%C\n"), StoreName[i]));
 			ACE_NEW_RETURN(shared[i], SHARED_ALLOC(StoreName[i], StoreName[i], &option0), -1);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i, shared[i]->base_addr()));
@@ -136,25 +136,25 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
 		char buffer[100];
 		int type=1;
 		while(type) {
-			type = GetMessageType(buffer);
+			type=GetMessageType(buffer);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Buffer: <%C>\n"), buffer));
 			switch (type) {
 				case 0:
 					continue;
 				case 1:
-					index = 0;
+					index=0;
 					break;
 				case 2:
-					index = 0;
+					index=0;
 					break;
 				case 3:
-					index = 1;
+					index=1;
 					break;
 				case 4:
-					index = 1;
+					index=1;
 					break;
 				default:
-					index = 2;
+					index=2;
 			}
 			StoreMessages(shared[index], buffer);
 		}

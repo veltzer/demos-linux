@@ -34,20 +34,20 @@
 */
 void uptime(float *time1, float *time2) {
 	// null the pointers
-	*time1 = 0;
-	*time2 = 0;
+	*time1=0;
+	*time2=0;
 	// read the data from the /proc/uptime virtual file...
-	const char* filename = "/proc/uptime";
-	const unsigned int size = 256;
+	const char* filename="/proc/uptime";
+	const unsigned int size=256;
 	char buf[size];
 	int d, res;
-	CHECK_NOT_M1(d = open(filename, O_RDONLY));
-	CHECK_NOT_M1(res = read(d, buf, size));
+	CHECK_NOT_M1(d=open(filename, O_RDONLY));
+	CHECK_NOT_M1(res=read(d, buf, size));
 	char *saveptr;
-	char *ptr = strtok_r(buf, " ", &saveptr);
-	*time1 = atof(ptr);
-	ptr = strtok_r(NULL, " ", &saveptr);
-	*time2 = atof(ptr);
+	char *ptr=strtok_r(buf, " ", &saveptr);
+	*time1=atof(ptr);
+	ptr=strtok_r(NULL, " ", &saveptr);
+	*time2=atof(ptr);
 	CHECK_NOT_M1(close(d));
 }
 

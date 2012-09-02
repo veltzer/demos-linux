@@ -59,13 +59,13 @@ int main(int argc,char** argv,char** envp) {
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
 	CHECK_ZERO(pthread_mutex_init(&mylock,NULL));
-	const unsigned int num = 2;
+	const unsigned int num=2;
 	pthread_t threads[num];
 	unsigned int ids[num];
 	void* rets[num];
 	TRACE("starting threads...");
 	for(unsigned int i=0;i<num;i++) {
-		ids[i] = i;
+		ids[i]=i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("finished creating threads, joining them...");

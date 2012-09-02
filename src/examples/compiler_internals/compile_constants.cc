@@ -52,7 +52,7 @@ static __attribute__((__always_inline__)) int sum(int i) {
 }
 
 void fake_manipulate_int(int *ip) {
-	*ip = atoi("100");
+	*ip=atoi("100");
 }
 
 int main(int argc,char** argv,char** envp) {

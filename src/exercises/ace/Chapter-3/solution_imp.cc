@@ -95,7 +95,7 @@ class HA_CommandHandler:public ACE_Task_Base {
 		// The real body of the thread
 		virtual int svc(void) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Handler Thread running\n")));
-			for (int i = 0; i < attempts; i++) {
+			for (int i=0; i < attempts; i++) {
 				sharedResource.get(value);
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) running\n")));
 				sharedResource.release(value);

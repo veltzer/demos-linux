@@ -34,9 +34,9 @@
 * EXTRA_LIBS=-lncursesw
 */
 
-static const char *myMsg = NULL;
+static const char *myMsg=NULL;
 void setErr(const char *msg) {
-	myMsg = msg;
+	myMsg=msg;
 }
 
 void printErr(void) {
@@ -56,22 +56,22 @@ int main(int argc,char** argv,char** envp) {
 	cbreak();
 	noecho();
 	//const wchar_t* string=L"מרק";
-	bool stop = false;
+	bool stop=false;
 	while(!stop) {
 		wint_t c;
 		int res;
-		res = get_wch(&c);
+		res=get_wch(&c);
 		if (res == ERR) {
-			stop = true;
+			stop=true;
 			setErr("could not get_wch");
 			continue;
 		}
 		//printw("%d ",c);
 		wchar_t str[10];
 		swprintf(str, 10, L"%lc", c);
-		res = addwstr(str);
+		res=addwstr(str);
 		if (res == ERR) {
-			stop = true;
+			stop=true;
 			setErr("could not addwstr");
 			continue;
 		}

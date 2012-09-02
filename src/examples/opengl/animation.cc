@@ -56,12 +56,12 @@ XSetWindowAttributes swa;
 XWindowAttributes wa;
 XEvent xev;
 
-float TimeCounter, LastFrameTimeCounter, DT, prevTime = 0.0, FPS;
+float TimeCounter, LastFrameTimeCounter, DT, prevTime=0.0, FPS;
 struct timeval tv,tv0;
 int Frame=1,FramesPerFPS;
 
 GLfloat rotation_matrix[16];
-float rot_z_vel = 50.0, rot_y_vel = 30.0;
+float rot_z_vel=50.0, rot_y_vel=30.0;
 
 // DRAW A CUBE
 void DrawCube(float size) {
@@ -120,7 +120,7 @@ void ExposeFunc() {
 	// RESIZE VIEWPORT
 	XGetWindowAttributes(dpy, win, &wa);
 	glViewport(0, 0, wa.width, wa.height);
-	aspect_ratio = (float)(wa.width) / (float)(wa.height);
+	aspect_ratio=(float)(wa.width) / (float)(wa.height);
 	// SETUP PROJECTION & MODELVIEW
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -152,22 +152,22 @@ void ExposeFunc() {
 
 // CREATE A GL CAPABLE WINDOW
 void CreateWindow() {
-	if((dpy = XOpenDisplay(NULL)) == NULL) {
+	if((dpy=XOpenDisplay(NULL)) == NULL) {
 		printf("\n\tcannot connect to x server\n\n");
 		exit(0);
 	}
 	root=DefaultRootWindow(dpy);
-	if((vi = glXChooseVisual(dpy, 0, att)) == NULL) {
+	if((vi=glXChooseVisual(dpy, 0, att)) == NULL) {
 		printf("\n\tno matching visual\n\n");
 		exit(0);
 	}
-	if((cmap = XCreateColormap(dpy, root, vi->visual, AllocNone)) == 0) {
+	if((cmap=XCreateColormap(dpy, root, vi->visual, AllocNone)) == 0) {
 		printf("\n\tcannot create colormap\n\n");
 		exit(0);
 	}
 	swa.event_mask=KeyPressMask;
 	swa.colormap=cmap;
-	win = XCreateWindow(dpy, root, 0, 0, 700, 700, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
+	win=XCreateWindow(dpy, root, 0, 0, 700, 700, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 	XStoreName(dpy, win, "OpenGL Animation");
 	XMapWindow(dpy, win);
 }
@@ -177,7 +177,7 @@ void SetupGL() {
 	char font_string[128];
 	XFontStruct* font_struct;
 	// CREATE GL CONTEXT AND MAKE IT CURRENT
-	if((glc = glXCreateContext(dpy, vi, NULL, GL_TRUE)) == NULL) {
+	if((glc=glXCreateContext(dpy, vi, NULL, GL_TRUE)) == NULL) {
 		printf("\n\tcannot create gl context\n\n");
 		exit(0);
 	}
@@ -185,9 +185,9 @@ void SetupGL() {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.00, 0.00, 0.40, 1.00);
 	// FIND A FONT
-	for(int font_size = 14; font_size < 32; font_size += 2) {
+	for(int font_size=14; font_size < 32; font_size += 2) {
 		sprintf(font_string, "-adobe-courier-*-r-normal--%i-*", font_size);
-		font_struct = XLoadQueryFont(dpy, font_string);
+		font_struct=XLoadQueryFont(dpy, font_string);
 		if(font_struct != NULL) {
 			glXUseXFont(font_struct->fid, 32, 192, 32);
 			break;
@@ -215,8 +215,8 @@ void UpdateTimeCounter() {
 void CalculateFPS() {
 	Frame++;
 	if((Frame%FramesPerFPS) == 0) {
-		FPS = ((float)(FramesPerFPS)) / (TimeCounter-prevTime);
-		prevTime = TimeCounter;
+		FPS=((float)(FramesPerFPS)) / (TimeCounter-prevTime);
+		prevTime=TimeCounter;
 	}
 }
 
@@ -243,8 +243,8 @@ void CheckKeyboard() {
 		} else if(strncmp(key_string, "Down", 4) == 0) {
 			rot_y_vel += 200.0*DT;
 		} else if(strncmp(key_string, "F1", 2) == 0) {
-			rot_y_vel = 0.0;
-			rot_z_vel = 0.0;
+			rot_y_vel=0.0;
+			rot_z_vel=0.0;
 		} else if(strncmp(key_string, "Escape", 5) == 0) {
 			ExitProgram();
 		}

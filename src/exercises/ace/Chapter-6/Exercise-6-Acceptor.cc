@@ -31,7 +31,7 @@
 * EXTRA_CMDS=pkg-config --cflags --libs ACE
 */
 
-const int BUFFER_SIZE = 1024;
+const int BUFFER_SIZE=1024;
 
 class Server {
 private:
@@ -50,11 +50,11 @@ public:
 		static char message[BUFFER_SIZE + 1];
 		// Save some more space than being read
 		while(true) {
-			int byte_count = 0;
-			if ((byte_count = new_stream_.recv(message, BUFFER_SIZE)) == -1) {
+			int byte_count=0;
+			if ((byte_count=new_stream_.recv(message, BUFFER_SIZE)) == -1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "Error in recv"));
 			} else {
-				message[byte_count] = 0;
+				message[byte_count]=0;
 				ACE_DEBUG((LM_DEBUG, "%s \n", message));
 			}
 			if (!ACE_OS::strcmp(message, "Quit")) {

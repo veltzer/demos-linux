@@ -46,7 +46,7 @@ void sigchildHandler(int gotsig)
 {
 	pid_t pid;
 	int status;
-	while((pid = wait3(&status, WNOHANG, NULL)) > 0)
+	while((pid=wait3(&status, WNOHANG, NULL)) > 0)
 	{
 		if(WIFEXITED(status))
 			printf("Child %d exited. Status: %d\n",pid,WEXITSTATUS(status));
@@ -63,11 +63,11 @@ void watchsigHandler(int gotsig)
 	switch (gotsig)
 	{
 		case SIGUSR1:
-			gotusr1 = 1;
+			gotusr1=1;
 			printf("%s: TTL from 1\n", stime);
 			break;
 		case SIGUSR2:
-			gotusr2 = 1;
+			gotusr2=1;
 			printf("%s: TTL from 2\n", stime);
 			break;
 	}
@@ -78,7 +78,7 @@ void watchsigHandler(int gotsig)
 			perror("setitimer failed");
 			exit(errno);
 		}
-		gotusr1 = gotusr2 = 0;
+		gotusr1=gotusr2=0;
 	}
 }
 
@@ -98,7 +98,7 @@ void doChild2()
 
 void startChild1()
 {
-	switch (child1pid = fork())
+	switch (child1pid=fork())
 	{
 		case -1:
 			perror("fork for child1 failed");
@@ -113,7 +113,7 @@ void startChild1()
 
 void startChild2()
 {
-	switch (child2pid = fork())
+	switch (child2pid=fork())
 	{
 		case -1:
 			perror("fork for child2 failed");
@@ -176,10 +176,10 @@ int main(int argc,char** argv,char** envp) {
 		perror("sigaction SIGINT failed");
 		exit(errno);
 	}
-	timer.it_interval.tv_sec = 5;
-	timer.it_interval.tv_usec = 0;
-	timer.it_value.tv_sec = 5;
-	timer.it_value.tv_usec = 0;
+	timer.it_interval.tv_sec=5;
+	timer.it_interval.tv_usec=0;
+	timer.it_value.tv_sec=5;
+	timer.it_value.tv_usec=0;
 	if(setitimer(ITIMER_REAL, & timer, NULL) == -1) {
 		perror("setitimer failed");
 		exit(errno);

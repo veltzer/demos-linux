@@ -55,7 +55,7 @@ int main(int argc,char** argv,char** envp) {
 	// this is not allowed in C
 	//float* x={ 5, 3, 2, 1 };
 	// but this is...
-	float x[] = { 5, 3, 2, 1 };
+	float x[]={ 5, 3, 2, 1 };
 	printf("size of x is %d\n",sizeof(x));
 	return EXIT_SUCCESS;
 }

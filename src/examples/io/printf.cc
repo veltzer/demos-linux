@@ -27,8 +27,8 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	unsigned long i = 0xabcd0123;
-	void* p = (void *)i;
+	unsigned long i=0xabcd0123;
+	void* p=(void *)i;
 	char* cp=(char*)i;
 
 	printf("void* printed as '%%p' is %p\n", p);

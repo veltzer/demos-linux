@@ -87,8 +87,8 @@ static void doBadCode(int i) {
 		std::cerr << "before division by zero" << std::endl;
 		// turning x into float here would not work since it
 		// will not cause an exception
-		x = 0;
-		y = 1 / x;
+		x=0;
+		y=1 / x;
 		std::cerr << "y is " << y << std::endl;
 		std::cerr << "this is never reached" << std::endl;
 		break;
@@ -98,8 +98,8 @@ static void doBadCode(int i) {
 	*/
 	case 1:
 		std::cerr << "Lets access some illegal memory address" << std::endl;
-		p = 0;
-		p[0] = 0;
+		p=0;
+		p[0]=0;
 		break;
 
 	/*

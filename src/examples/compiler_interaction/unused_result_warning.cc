@@ -48,8 +48,8 @@ int add(int a, int b) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int a = 5;
-	const int b = 5;
+	const int a=5;
+	const int b=5;
 
 	// the next line will produce a compile time error
 	//add(5,6);

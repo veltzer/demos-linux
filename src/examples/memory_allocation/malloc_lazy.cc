@@ -53,9 +53,9 @@ static inline void print_stats(void) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	const unsigned int page_number = 2000;
+	const unsigned int page_number=2000;
 	int page_size=getpagesize();
-	char *p = (char *)malloc(page_size * page_number);
+	char *p=(char *)malloc(page_size * page_number);
 	unsigned int page_counter=0;
 	bool over=false;
 	unsigned int pagenum;
@@ -83,28 +83,28 @@ int main(int argc,char** argv,char** envp) {
 				printf("how many pages to touch ?\n");
 				CHECK_NOT_NULL(r=fgets(buf,bufsize,stdin));
 				pagenum=atoi(buf);
-				for(unsigned int i = 0; i < pagenum; i++) {
-					p[page_counter * page_size] = 0;
+				for(unsigned int i=0; i < pagenum; i++) {
+					p[page_counter * page_size]=0;
 					page_counter++;
 				}
 				print_stats();
 				break;
 			case 2:
-				for(unsigned int i = 0; i < page_number; i++) {
-					p[i * page_size] = 0;
+				for(unsigned int i=0; i < page_number; i++) {
+					p[i * page_size]=0;
 				}
 				print_stats();
 				break;
 			case 3:
-				p = (char *)malloc(page_size * page_number);
+				p=(char *)malloc(page_size * page_number);
 				print_stats();
 				break;
 			case 4:
-				p = (char *)calloc(page_size , page_number);
+				p=(char *)calloc(page_size , page_number);
 				print_stats();
 				break;
 			case 5:
-				p = (char *)malloc(page_size * page_number);
+				p=(char *)malloc(page_size * page_number);
 				memset(p,5,page_size*page_number);
 				print_stats();
 				break;

@@ -33,8 +33,8 @@
 * EXTRA_CMDS=pkg-config --cflags --libs ACE
 */
 
-const int SIZE_BUF = 128;
-const int NO_ITERATIONS = 5;
+const int SIZE_BUF=128;
+const int NO_ITERATIONS=5;
 
 class Client {
 public:
@@ -76,7 +76,7 @@ int GetMessageType(char *data) {
 
 	// read a single line from stdin
 	// Allocate a new buffer.
-	char *buffer = rb.read('\n');
+	char *buffer=rb.read('\n');
 
 	// return message type zero when EOF is reached
 	if (buffer == 0) {
@@ -93,7 +93,7 @@ int GetMessageType(char *data) {
 
 
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
-	int FinalDelay = 4;
+	int FinalDelay=4;
 
 	if (argc < 2) {
 		ACE_DEBUG((LM_DEBUG, "Usage %s <hostname> <port_number> [Final delay(sec)]\n", argv[0]));
@@ -101,22 +101,22 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		ACE_DEBUG((LM_DEBUG, "Final delay - optional delay time before program end\n"));
 		ACE_OS::exit(EXIT_FAILURE);
 	}
-	int port = ACE_OS::atoi(argv[2]);
+	int port=ACE_OS::atoi(argv[2]);
 	if (argc > 2) {
-		int value = ACE_OS::atoi(argv[3]);
+		int value=ACE_OS::atoi(argv[3]);
 		if (value > FinalDelay) {
-			FinalDelay = value;
+			FinalDelay=value;
 		}
 	}
 
 	Client client(argv[1], port);
 
 	client.connect_to_server();
-	int type = 1;
+	int type=1;
 	char buffer[100];
 
 	while(type) {
-		type = GetMessageType(buffer);
+		type=GetMessageType(buffer);
 //		ACE_DEBUG((LM_DEBUG,"%s\n", buffer));
 		if (client.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "send_n"), 0);

@@ -47,7 +47,7 @@
 */
 
 inline void *operator new(const unsigned int size) {
-	void *p = malloc(size);
+	void *p=malloc(size);
 
 	fprintf(stderr, "in operator new with size=%d,p=%p\n", size, p);
 	return(p);
@@ -61,7 +61,7 @@ inline void operator delete(void *p) {
 
 
 inline void *operator new(const unsigned int size, const unsigned int type) {
-	void *p = malloc(size);
+	void *p=malloc(size);
 
 	fprintf(stderr, "in operator new with size=%d,type=%d,p=%p\n", size, type, p);
 	return(p);
@@ -69,7 +69,7 @@ inline void *operator new(const unsigned int size, const unsigned int type) {
 
 
 inline void *operator new[] (const unsigned int size) {
-	void *p = malloc(size);
+	void *p=malloc(size);
 
 	fprintf(stderr, "in operator new[] with size=%d, p=%p\n", size, p);
 	return(p);
@@ -83,7 +83,7 @@ inline void operator delete[] (void *p) {
 
 
 inline void *operator new[] (const unsigned int size, const unsigned int type) {
-	void *p = malloc(size);
+	void *p=malloc(size);
 
 	fprintf(stderr, "in operator new[] with size=%d,type=%d,p=%p\n", size, type, p);
 	return(p);
@@ -101,15 +101,15 @@ typedef struct _myobj {
 } myobj;
 
 int main(int argc,char** argv,char** envp) {
-	myobj *obj1 = new myobj;
+	myobj *obj1=new myobj;
 
 	delete obj1;
-	myobj* obj2 = new(17) myobj;
+	myobj* obj2=new(17) myobj;
 	delete obj2;
-	myobj* arr1 = new myobj[60];
+	myobj* arr1=new myobj[60];
 
 	delete [] arr1;
-	myobj *arr2 = new(17) myobj[60];
+	myobj *arr2=new(17) myobj[60];
 	delete [] arr2;
 	return EXIT_SUCCESS;
 }
