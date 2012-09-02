@@ -76,7 +76,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("time is %s\n", __TIME__);
 	struct tm tm;
 	CHECK_NOT_NULL(strptime(__DATE__ " " __TIME__, "%b %d %Y %H:%M:%S", &tm));
-	time_t t = mktime(&tm);
+	time_t t=mktime(&tm);
 	printf("t is %lu\n", t);
 
 	const unsigned int len=1024;

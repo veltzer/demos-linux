@@ -66,19 +66,19 @@ void DoChild() {
 		if(msgCtlBuf.msg_cbytes + MSGSZ+sizeof(long) >= msgCtlBuf.msg_qbytes)
 		{
 			// try to empty all queues. find the one with most messages and report it.
-			biggestQueueSize = 0;
+			biggestQueueSize=0;
 			for(i=1; i<MAXQUEUE; i++)
 			{
-				currentQueueSize = 0;
-				while((msgsize = msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
+				currentQueueSize=0;
+				while((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
 					i, IPC_NOWAIT|MSG_NOERROR))!=-1)
 				{
 					currentQueueSize += msgsize;
 				}
 				if(currentQueueSize > biggestQueueSize)
 				{
-					biggestQueueSize = currentQueueSize;
-					biggestQID = i;
+					biggestQueueSize=currentQueueSize;
+					biggestQID=i;
 				}
 			}
 			printf("\n\nAll Queues cleared.\nBiggest queue was %d containing %d bytes.",
@@ -95,9 +95,9 @@ int main(int argc,char** argv,char** envp) {
 	int rc;
 
 	sigemptyset(&emptymask);
-	SigAction.sa_handler = TerminateChild;
-	SigAction.sa_mask = emptymask;
-	SigAction.sa_flags = 0;
+	SigAction.sa_handler=TerminateChild;
+	SigAction.sa_mask=emptymask;
+	SigAction.sa_flags=0;
 	if(sigaction(SIGINT, &SigAction, NULL) == -1)
 	{
 		perror("sigaction");
@@ -128,7 +128,7 @@ int main(int argc,char** argv,char** envp) {
 		perror("msgget failed");
 		exit(errno);
 	}
-	switch (childPID = fork())
+	switch (childPID=fork())
 	{
 		case -1:
 			perror("fork failed");
@@ -158,22 +158,22 @@ int main(int argc,char** argv,char** envp) {
 					perror("msgctl: msgctl failed");
 					exit(errno);
 				}
-				fprintf(stderr, "msg_perm.uid = %d\n", msgCtlBuf.msg_perm.uid);
-				fprintf(stderr, "msg_perm.gid = %d\n", msgCtlBuf.msg_perm.gid);
-				fprintf(stderr, "msg_perm.cuid = %d\n", msgCtlBuf.msg_perm.cuid);
-				fprintf(stderr, "msg_perm.cgid = %d\n", msgCtlBuf.msg_perm.cgid);
-				fprintf(stderr, "msg_perm.mode = %#o, ", msgCtlBuf.msg_perm.mode);
-				fprintf(stderr, "access permissions = %#o\n", msgCtlBuf.msg_perm.mode & 0777);
-				fprintf(stderr, "msg_cbytes = %ld\n", msgCtlBuf .msg_cbytes);
-				fprintf(stderr, "msg_qbytes = %ld\n", msgCtlBuf.msg_qbytes);
-				fprintf(stderr, "msg_qnum = %ld\n", msgCtlBuf.msg_qnum);
-				fprintf(stderr, "msg_lspid = %d\n", msgCtlBuf.msg_lspid);
-				fprintf(stderr, "msg_lrpid = %d\n", msgCtlBuf.msg_lrpid);
-				fprintf(stderr, "msg_stime = %s", msgCtlBuf.msg_stime ?
+				fprintf(stderr, "msg_perm.uid=%d\n", msgCtlBuf.msg_perm.uid);
+				fprintf(stderr, "msg_perm.gid=%d\n", msgCtlBuf.msg_perm.gid);
+				fprintf(stderr, "msg_perm.cuid=%d\n", msgCtlBuf.msg_perm.cuid);
+				fprintf(stderr, "msg_perm.cgid=%d\n", msgCtlBuf.msg_perm.cgid);
+				fprintf(stderr, "msg_perm.mode=%#o, ", msgCtlBuf.msg_perm.mode);
+				fprintf(stderr, "access permissions=%#o\n", msgCtlBuf.msg_perm.mode & 0777);
+				fprintf(stderr, "msg_cbytes=%ld\n", msgCtlBuf .msg_cbytes);
+				fprintf(stderr, "msg_qbytes=%ld\n", msgCtlBuf.msg_qbytes);
+				fprintf(stderr, "msg_qnum=%ld\n", msgCtlBuf.msg_qnum);
+				fprintf(stderr, "msg_lspid=%d\n", msgCtlBuf.msg_lspid);
+				fprintf(stderr, "msg_lrpid=%d\n", msgCtlBuf.msg_lrpid);
+				fprintf(stderr, "msg_stime=%s", msgCtlBuf.msg_stime ?
 					ctime(&msgCtlBuf.msg_stime):"Not Set\n");
-				fprintf(stderr, "msg_rtime = %s", msgCtlBuf.msg_rtime ?
+				fprintf(stderr, "msg_rtime=%s", msgCtlBuf.msg_rtime ?
 					ctime(&msgCtlBuf.msg_rtime):"Not Set\n");
-				fprintf(stderr, "msg_ctime = %s", ctime(&msgCtlBuf.msg_ctime));
+				fprintf(stderr, "msg_ctime=%s", ctime(&msgCtlBuf.msg_ctime));
 				break;
 			case 2:
 				rc=kill(childPID, SIGKILL);

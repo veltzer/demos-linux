@@ -36,7 +36,7 @@
 int main(int argc,char** argv,char** envp) {
 	// lets show that the NULL constant is actually the number 0...
 	TRACE("NULL is %d",NULL);
-	char *p = 0;
-	p[0] = 0;
+	char *p=0;
+	p[0]=0;
 	return EXIT_SUCCESS;
 }

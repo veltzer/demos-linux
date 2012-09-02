@@ -37,7 +37,7 @@
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;
 // Make the queue be capable of being *very* large.
-static const long max_queue = LONG_MAX;
+static const long max_queue=LONG_MAX;
 
 ACE_Message_Queue<ACE_MT_SYNCH> msg_queue1(max_queue);
 
@@ -46,13 +46,13 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue);
 
 ACE_Reactor reactor; // Reactor
 
-static int done = 0; // Termination state of both consumers
+static int done=0; // Termination state of both consumers
 
 class MyTime_Handler:public ACE_Event_Handler {
 public:
 	//Method which is called back by the Reactor when timeout occurs.
 	virtual int handle_timeout(const ACE_Time_Value& tv, const void *arg) {
-		long argument = long(arg);
+		long argument=long(arg);
 
 		// ACE_DEBUG ((LM_DEBUG, "Timer timed out at %d! arg=%d\n", tv.sec(), argument));
 		// Activate the consumer
@@ -88,7 +88,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	if (msg_queue->dequeue_head(mb) == -1) {
 		return(0);
 	}
-	size_t length = mb->length();
+	size_t length=mb->length();
 	// Skip the type and delay
 	mb->rd_ptr(mb->rd_ptr() + Message_Offset);
 	if (length > 0) {
@@ -115,7 +115,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 // there is no more data to read. The consumer uses this as a flag to
 // know when to exit.
 static void *producer() {
-	MyTime_Handler *th = new MyTime_Handler;
+	MyTime_Handler *th=new MyTime_Handler;
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("producer: thread=%t Line:%l\n")));
 	ACE_Read_Buffer rb(ACE_STDIN);
@@ -128,7 +128,7 @@ static void *producer() {
 		int timer_id;
 		int type;
 		float delay;
-		static float AbsoluteDelay = 0.0;
+		static float AbsoluteDelay=0.0;
 		if (buffer == 0) {
 			// Send a 0-sized shutdown message to the other thread and exit.
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
@@ -162,7 +162,7 @@ static void *producer() {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue1 in handle_timeout()
-				timer_id = reactor.schedule_timer(th, (const void *)1, ACE_Time_Value(AbsoluteDelay));
+				timer_id=reactor.schedule_timer(th, (const void *)1, ACE_Time_Value(AbsoluteDelay));
 				// ACE_DEBUG ((LM_DEBUG , "case1: timer id=%d\n", timer_id));
 				break;
 
@@ -172,7 +172,7 @@ static void *producer() {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue1 in handle_timeout()
-				timer_id = reactor.schedule_timer(th, (const void *)1, ACE_Time_Value(AbsoluteDelay));
+				timer_id=reactor.schedule_timer(th, (const void *)1, ACE_Time_Value(AbsoluteDelay));
 				// ACE_DEBUG ((LM_DEBUG , "case2: timer id=%d\n", timer_id));
 				break;
 
@@ -182,7 +182,7 @@ static void *producer() {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue2 in handle_timeout()
-				timer_id = reactor.schedule_timer(th, (const void *)2, ACE_Time_Value(AbsoluteDelay));
+				timer_id=reactor.schedule_timer(th, (const void *)2, ACE_Time_Value(AbsoluteDelay));
 				// ACE_DEBUG ((LM_DEBUG , "case3: timer id=%d\n", timer_id));
 				break;
 
@@ -192,7 +192,7 @@ static void *producer() {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue2 in handle_timeout()
-				timer_id = reactor.schedule_timer(th, (const void *)2, ACE_Time_Value(AbsoluteDelay));
+				timer_id=reactor.schedule_timer(th, (const void *)2, ACE_Time_Value(AbsoluteDelay));
 				ACE_DEBUG((LM_DEBUG, "case4: timer id=%d\n", timer_id));
 				break;
 

@@ -37,7 +37,7 @@
 * EXTRA_CMDS=pkg-config --cflags --libs ACE
 */
 
-static const long max_queue = LONG_MAX;
+static const long max_queue=LONG_MAX;
 
 ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
 int ReadMessage(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue);
@@ -46,7 +46,7 @@ class MessageAgent { // Proxy to the MessageAgent that is on the network.
 public:
 	MessageAgent() {
 		ACE_TRACE(ACE_TEXT("MessageAgent::MessageAgentAgent"));
-		status_result_ = 1;
+		status_result_=1;
 	}
 
 
@@ -191,7 +191,7 @@ int SendMessage(char* buffer,int type) {
 	// ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("SendMessage Line:%l\n")));
 	ACE_Message_Block *mb;
 	// get message size
-	size_t size = ACE_OS::strlen(buffer);
+	size_t size=ACE_OS::strlen(buffer);
 
 	// Allocate a new message, but have it "borrow" its memory from the buffer.
 	//ACE_NEW_RETURN (mb, ACE_Message_Block (size+1, ACE_Message_Block::MB_DATA, 0, buffer), 0);
@@ -247,8 +247,8 @@ int ReadMessage(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	if (msg_queue->dequeue_head(mb) == -1) {
 		return(1);
 	}
-	int length = ACE_Utils::truncate_cast<int> (mb->length());
-	int type = mb->msg_type();
+	int length=ACE_Utils::truncate_cast<int> (mb->length());
+	int type=mb->msg_type();
 	if (length > 0) {
 		ACE_DEBUG((LM_DEBUG, "(%d)-<%s>\n", type, mb->rd_ptr()));
 	}
@@ -269,12 +269,12 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 	CompletionCallBack cb(message);
 
-	int i = -1;
-	// Set a value just initializing the while loop. It will terminate when EOF will generate type = 0
-	int type = 1;
+	int i=-1;
+	// Set a value just initializing the while loop. It will terminate when EOF will generate type=0
+	int type=1;
 
 	while(type) {
-		type = GetMessageType(buffer);
+		type=GetMessageType(buffer);
 		if (!type) {
 			break;
 		}
@@ -284,7 +284,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		// Increment index before being used, therefore we do not need
 		// to decrease outside the loop if there is a need for that
 		i++;
-		results[i] = message.status_update();
+		results[i]=message.status_update();
 		results[i].attach(&cb);
 	}
 

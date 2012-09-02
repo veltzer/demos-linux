@@ -82,11 +82,11 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	}
 #endif /* NO_TIMEOUT */
 	while(type != 0) {
-		type = GetMessageType(buffer);
+		type=GetMessageType(buffer);
 		// if type is not 0 (EOF) then write it to the client
 		if (type != 0) {
-			size_t size = ACE_OS::strlen(buffer);
-			buffer[size++] = '\n';
+			size_t size=ACE_OS::strlen(buffer);
+			buffer[size++]='\n';
 			peer.send_n(buffer, size, 0);
 			peer.recv(buffer, sizeof(buffer));
 		}

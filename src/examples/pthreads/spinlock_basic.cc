@@ -53,12 +53,12 @@ int main(int argc,char** argv,char** envp) {
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
 	CHECK_ZERO(pthread_spin_init(&mylock, 0));
-	const int num = 2;
+	const int num=2;
 	pthread_t threads[num];
 	int ids[num];
 	TRACE("starting threads...");
 	for(int i=0;i<num;i++) {
-		ids[i] = i;
+		ids[i]=i;
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("finished creating threads, joining them...");

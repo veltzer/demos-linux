@@ -55,10 +55,10 @@ int main(int argc,char** argv,char** envp) {
 	*/
 	const unsigned int length=8192;
 	char buffer[length];
-	//struct ipheader *ip = (struct ipheader *) buffer;
-	//struct udpheader *udp = (struct udpheader *) (buffer + sizeof(struct ipheader));
+	//struct ipheader *ip=(struct ipheader *) buffer;
+	//struct udpheader *udp=(struct udpheader *) (buffer + sizeof(struct ipheader));
 	while(read(fd, buffer, length) > 0) {
-		/* packet = data + ip header + tcp header */
+		/* packet=data + ip header + tcp header */
 		/* Little Endian/Big Endian must be considered here */
 		printf("Dump the packet: %s\n", buffer + sizeof(struct iphdr) + sizeof(struct tcphdr));
 	}

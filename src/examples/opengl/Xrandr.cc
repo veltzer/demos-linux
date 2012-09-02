@@ -60,13 +60,13 @@ int main(int argc,char** argv,char** envp) {
 	//
 	// to store all possible frequencies...
 	short possible_frequencies[64][64];
-	for(int i = 0; i < num_sizes; i++) {
+	for(int i=0; i < num_sizes; i++) {
 		printf("%i: %i x %i (%immx%imm)", i, xrrs[i].width, xrrs[i].height, xrrs[i].mwidth, xrrs[i].mheight);
 		// print the rates of each size
 		int num_rates;
 		short* rates=XRRRates(dpy,0,i,&num_rates);
 		for(int j=0;j<num_rates;j++) {
-			possible_frequencies[i][j] = rates[j];
+			possible_frequencies[i][j]=rates[j];
 			printf(" %i", rates[j]);
 		}
 	}

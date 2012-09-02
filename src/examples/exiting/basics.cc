@@ -65,8 +65,8 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(atexit(my_atexit));
 	const unsigned int code=5;
 	A a(5);
-	char * line = NULL;
-	size_t len = 0;
+	char * line=NULL;
+	size_t len=0;
 	//printf("a value is %d\n",a.getVal());
 	bool over=false;
 	while(!over) {

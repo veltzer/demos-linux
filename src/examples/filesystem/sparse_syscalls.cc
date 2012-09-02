@@ -34,7 +34,7 @@ int main(int argc,char** argv,char** envp) {
 	int fd;
 	CHECK_NOT_M1(fd=open("sparse_file", O_CREAT | O_RDWR, 0666));
 	CHECK_NOT_M1(lseek(fd, 1000000, SEEK_CUR));
-	const char *buf = "hello";
+	const char *buf="hello";
 	CHECK_NOT_M1(write(fd,buf,strlen(buf)));
 	CHECK_NOT_M1(close(fd));
 	return EXIT_SUCCESS;

@@ -33,7 +33,7 @@ int main(int argc,char** argv,char** envp) {
 	Gnome::Main app("gnome-hello", "0.1",
 		Gnome::UI::module_info_get(), argc, argv,
 		context);
-	Gnome::UI::App *a = new Gnome::UI::App("foo", "bar");
+	Gnome::UI::App *a=new Gnome::UI::App("foo", "bar");
 	a->show();
 	app.run();
 	return EXIT_SUCCESS;

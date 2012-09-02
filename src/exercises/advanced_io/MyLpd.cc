@@ -44,22 +44,22 @@ int main(int argc,char** argv,char** envp) {
 	struct flock lplock;
 	struct stat buff;
 
-	CHECK_NOT_M1((fdindex = open("lpindex", O_RDWR|O_CREAT, 0666)));
-	lplock.l_type = F_WRLCK;
-	lplock.l_whence = SEEK_SET;
-	lplock.l_start = 0;
-	lplock.l_len = 0;
+	CHECK_NOT_M1((fdindex=open("lpindex", O_RDWR|O_CREAT, 0666)));
+	lplock.l_type=F_WRLCK;
+	lplock.l_whence=SEEK_SET;
+	lplock.l_start=0;
+	lplock.l_len=0;
 	CHECK_NOT_M1(fcntl(fdindex, F_SETLKW, & lplock));
 	CHECK_NOT_M1(fstat(fdindex, & buff));
 	if (buff.st_size == 0) {
-		currid = 0;
+		currid=0;
 		CHECK_NOT_M1(write(fdindex, & currid, sizeof(currid)));
-		buffer.ID = 0;
-		buffer.path[0] = '\0';
+		buffer.ID=0;
+		buffer.path[0]='\0';
 		CHECK_NOT_M1(write(fdindex, & buffer, sizeof(buffer)));
 	}
 	CHECK_NOT_M1(read(fdindex, & currid, sizeof(int)));
-	CHECK_NOT_M1((bufsize = read(fdindex, &buffer, sizeof(buffer))));
+	CHECK_NOT_M1((bufsize=read(fdindex, &buffer, sizeof(buffer))));
 	while(buffer.ID == 0 && bufsize > 0)
 	{
 		CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));
@@ -69,9 +69,9 @@ int main(int argc,char** argv,char** envp) {
 		printf("Now printing job: %d file: %s\n", buffer.ID, buffer.path);
 	}
 	CHECK_NOT_M1(lseek(fdindex, -1 * sizeof(buffer), SEEK_CUR));
-	buffer.ID = 0;
+	buffer.ID=0;
 	CHECK_NOT_M1(write(fdindex, & buffer, sizeof(buffer)));
-	lplock.l_type = F_UNLCK;
+	lplock.l_type=F_UNLCK;
 	CHECK_NOT_M1(fcntl(fdindex, F_SETLK, & lplock));
 	return EXIT_SUCCESS;
 }

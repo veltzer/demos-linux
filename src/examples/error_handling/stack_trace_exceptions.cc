@@ -54,15 +54,15 @@ private:
 	// how many frames to drop from the stack frame
 	// setting this to 0 will show you functions above 'main'
 	// that you are probably not interested in
-	static const int drop_frames = 2;
-	static const int size = 25;
+	static const int drop_frames=2;
+	static const int size=25;
 	void* array[size];
 	int nSize;
 	char** symbols;
 public:
 	TracedException() {
-		nSize = backtrace(array, size);
-		symbols = backtrace_symbols(array, nSize);
+		nSize=backtrace(array, size);
+		symbols=backtrace_symbols(array, nSize);
 	}
 
 
@@ -73,7 +73,7 @@ public:
 
 	void print() {
 		for(int i=nSize-drop_frames-1;i>=0;i--) {
-			char *symbol = symbols[i];
+			char *symbol=symbols[i];
 			std::cerr
 				<< symbol << ","
 				<< std::endl;

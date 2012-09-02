@@ -79,10 +79,10 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_SOCK_Acceptor acceptor[3];
 	ACE_INET_Addr peer_addr[3];
 	ACE_SOCK_Stream peer[3];
-	int type = 1;
+	int type=1;
 	char buffer[4096];
 	for(int i=0;i<3;i++) {
-		port_to_listen[i] = ACE_INET_Addr(50000 + i, ACE_LOCALHOST);
+		port_to_listen[i]=ACE_INET_Addr(50000 + i, ACE_LOCALHOST);
 		if (acceptor[i].open(port_to_listen[i], 1) == -1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 		}
@@ -92,17 +92,17 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	}
 	int i;
 	while(type!=0) {
-		type = GetMessageType(buffer);
+		type=GetMessageType(buffer);
 		if (type) {
-			size_t size = ACE_OS::strlen(buffer);
-			buffer[size++] = '\n';
+			size_t size=ACE_OS::strlen(buffer);
+			buffer[size++]='\n';
 			if((type == 1) || (type == 2)) {
-				i = 0;
+				i=0;
 			} else {
 				if ((type == 3) || (type == 4)) {
-					i = 1;
+					i=1;
 				} else {
-					i = 2;
+					i=2;
 				}
 			}
 			peer[i].send_n(buffer, size, 0);

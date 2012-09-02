@@ -40,9 +40,9 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	const char *other = "blabla";
-	const char *other2 = "blabla";
-	const char *foo = "bar";
+	const char *other="blabla";
+	const char *other2="blabla";
+	const char *foo="bar";
 
 	printproc(NULL);
 
@@ -51,7 +51,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("other2 is %p\n", other2);
 
 	// this does NOT generate a compile error!
-	foo = other;
+	foo=other;
 
 	printf("foo is %p\n", foo);
 	printf("other is %p\n", other);
@@ -63,10 +63,10 @@ int main(int argc,char** argv,char** envp) {
 	printf("foo[2] is %c\n", foo[2]);
 
 	// now lets manipulathe the data. The casting is neccessary to avoid compile error.
-	char *p = (char *)foo;
+	char *p=(char *)foo;
 	printf("p is %p\n", p);
 	//sprintf(p,"hello");
-	p[2] = 'y';
+	p[2]='y';
 	printf("p is %s\n", p);
 	printf("foo is %s\n", foo);
 	printf("foo[2] is %c\n", foo[2]);

@@ -35,7 +35,7 @@
 // Global thread manager.
 static ACE_Thread_Manager thr_mgr;
 // Make the queue be capable of being *very* large.
-static const long max_queue = LONG_MAX;
+static const long max_queue=LONG_MAX;
 
 ACE_Message_Queue<ACE_MT_SYNCH> msg_queue1(max_queue);
 
@@ -56,7 +56,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		if (msg_queue->dequeue_head(mb) == -1) {
 			break;
 		}
-		size_t length = mb->length();
+		size_t length=mb->length();
 		if (mb->msg_type() == 5) {
 			ACE_DEBUG((LM_DEBUG, "Special Message: <%s> type: %d\n", mb->rd_ptr() + 2, mb->msg_type()));
 			// Change the message type 4 and re-send
@@ -94,7 +94,7 @@ static void *producer() {
 	// Keep reading stdin, until we reach EOF.
 	while(true) {
 		// Allocate a new buffer.
-		char* buffer = rb.read('\n');
+		char* buffer=rb.read('\n');
 		ACE_Message_Block *mb;
 		if (buffer == 0) {
 			// Send a 0-sized shutdown message to the other thread and exit.
@@ -116,7 +116,7 @@ static void *producer() {
 			mb->wr_ptr(rb.size());
 			// ACE_DEBUG ((LM_DEBUG, "enqueueing message of size %d\n", size));
 			// Get message type into c variable
-			char c = *buffer;
+			char c=*buffer;
 			switch (c) {
 			case '1':
 				ACE_DEBUG((LM_DEBUG, "case1: <%c>\n", c));

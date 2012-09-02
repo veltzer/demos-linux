@@ -54,7 +54,7 @@ void test_char(void* buf1,const void* buf2,size_t size,unsigned int loop) {
 	char* bbuf1=(char*)buf1;
 	const char* bbuf2=(const char*)buf2;
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for(unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i < loop;i++) {
 		for(unsigned int j=0;j<size;j++) {
 			bbuf1[j]=bbuf2[j];
 		}
@@ -67,7 +67,7 @@ void test_imp1(void* buf1,const void* buf2,size_t size,unsigned int loop) {
 	printf("doing %d copy int by int (implementation I)\n",loop);
 	struct timeval t1, t2;
 	CHECK_NOT_M1(gettimeofday(&t1, NULL));
-	for(unsigned int i = 0;i < loop;i++) {
+	for(unsigned int i=0;i < loop;i++) {
 		for(unsigned int j=0;j<size/sizeof(int);j++) {
 			((int*)buf1)[j]=((int*)buf2)[j];
 		}

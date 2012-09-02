@@ -85,7 +85,7 @@ static void *producer(ProducerData* pdata) {
 	// Keep reading stdin, until we reach EOF.
 	while(true) {
 		// Allocate a new buffer.
-		char* buffer = rb.read('\n');
+		char* buffer=rb.read('\n');
 		if (buffer == NULL) {
 			// create a special hangup kmessage
 			ACE_DEBUG((LM_ERROR, "(%t) producer sending hangup message\n"));
@@ -93,10 +93,10 @@ static void *producer(ProducerData* pdata) {
 			ACE_NEW_RETURN(mb1, ACE_Message_Block(0, ACE_Message_Block::MB_HANGUP), NULL);
 			mb2=mb1->duplicate();
 			// send the special message to both of the threads
-			if (pdata->msg_queue1->enqueue_tail(mb1) == -1) {
+			if(pdata->msg_queue1->enqueue_tail(mb1) == -1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
-			if (pdata->msg_queue2->enqueue_tail(mb2) == -1) {
+			if(pdata->msg_queue2->enqueue_tail(mb2) == -1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
@@ -112,7 +112,7 @@ static void *producer(ProducerData* pdata) {
 			//mb->wr_ptr(rb.size());
 			// ACE_DEBUG ((LM_DEBUG, "enqueueing message of size %d\n", size));
 			// Get message type into c variable
-			char c = *buffer;
+			char c=*buffer;
 			switch (c) {
 			case '1':
 				// Enqueue in tail queue1

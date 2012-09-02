@@ -61,9 +61,9 @@ int cpp_style_add(int a, int b) {
 // notice that you can still write C code in this function...
 extern "C" int c_style_add(int a, int b) {
 	// the next line will produce an error
-	A *obj = new A();
+	A *obj=new A();
 
-	obj->a = 0;
+	obj->a=0;
 	return(a + b + obj->a);
 }
 

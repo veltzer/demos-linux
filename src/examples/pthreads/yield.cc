@@ -113,7 +113,7 @@ void *worker(void *p) {
 
 int main(int argc,char** argv,char** envp) {
 	TRACE("start");
-	const unsigned int num = 2;
+	const unsigned int num=2;
 	pthread_t threads[num];
 #ifdef DO_BARRIER
 	CHECK_ZERO(pthread_barrier_init(&barrier,NULL,num));

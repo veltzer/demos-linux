@@ -34,8 +34,8 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	const size_t SIZE = 5;
-	const int BAD_FD = getdtablesize()+1;
+	const size_t SIZE=5;
+	const int BAD_FD=getdtablesize()+1;
 	char buf[SIZE];
 	CHECK_NOT_M1(read(BAD_FD, buf, SIZE));
 	return EXIT_SUCCESS;

@@ -48,7 +48,7 @@ enum {
 };
 
 bool MyApp::OnInit(void) {
-	MyFrame *frame = new MyFrame(_T("Hello World"), wxPoint(50, 50), wxSize(450, 350));
+	MyFrame *frame=new MyFrame(_T("Hello World"), wxPoint(50, 50), wxSize(450, 350));
 
 	frame->Connect(ID_Quit, wxEVT_COMMAND_MENU_SELECTED,
 		(wxObjectEventFunction) & MyFrame::OnQuit);
@@ -63,9 +63,9 @@ bool MyApp::OnInit(void) {
 
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size):wxFrame((wxFrame *)NULL, -1, title, pos, size) {
 	// create menubar
-	wxMenuBar *menuBar = new wxMenuBar;
+	wxMenuBar *menuBar=new wxMenuBar;
 	// create menu
-	wxMenu *menuFile = new wxMenu;
+	wxMenu *menuFile=new wxMenu;
 
 	// append menu entries
 	menuFile->Append(ID_About, _T("&About..."));

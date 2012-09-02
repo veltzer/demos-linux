@@ -38,11 +38,11 @@
 
 // this is the position we will seek to...
 //const int pos=1024*1024;
-const int pos = 1000000;
+const int pos=1000000;
 // this is the string to be printed into the file
-const char *string = "hello";
+const char *string="hello";
 // this is the name of the file to be used
-const char *fname = "/tmp/my.sparse.file";
+const char *fname="/tmp/my.sparse.file";
 
 int main(int argc,char** argv,char** envp) {
 	FILE* f;
@@ -58,7 +58,7 @@ int main(int argc,char** argv,char** envp) {
 	my_system("ls -l %s",fname);
 	my_system("du -h %s",fname);
 	// now lets see that we can read from the file...
-	CHECK_NOT_NULL(f = fopen(fname, "r"));
+	CHECK_NOT_NULL(f=fopen(fname, "r"));
 	const unsigned int buf_size=4096;
 	char buf[buf_size];
 	memset(buf,3,buf_size);

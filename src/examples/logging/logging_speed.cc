@@ -68,7 +68,7 @@
 */
 
 // this emulates an async implementation
-//pthread_mutex_t fastmutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t fastmutex=PTHREAD_MUTEX_INITIALIZER;
 const unsigned int buffer_size=1024;
 char buffer[buffer_size];
 inline void my_syslog(const char* fmt,...) {
@@ -98,7 +98,7 @@ void* func(void*) {
 	printf("doing %d syslogs\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
-	for(unsigned int i = 0; i < number; i++) {
+	for(unsigned int i=0; i < number; i++) {
 		syslog(LOG_ERR,"this is a message %d", i);
 	}
 	// end timing...
@@ -115,7 +115,7 @@ void* func(void*) {
 	printf("doing %d writes\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
-	for(unsigned int i = 0; i < number; i++) {
+	for(unsigned int i=0; i < number; i++) {
 		fprintf(f,"this is a message %d", i);
 		fflush(f);
 	}
@@ -133,7 +133,7 @@ void* func(void*) {
 	printf("doing %d writes\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
-	for(unsigned int i = 0; i < number; i++) {
+	for(unsigned int i=0; i < number; i++) {
 		fprintf(f,"this is a message %d", i);
 	}
 	// end timing...
@@ -150,7 +150,7 @@ void* func(void*) {
 	printf("doing %d fastlogs\n",number);
 	// start timing...
 	gettimeofday(&t1, NULL);
-	for(unsigned int i = 0; i < number; i++) {
+	for(unsigned int i=0; i < number; i++) {
 		my_syslog("this is a message %d", i);
 	}
 	// end timing...
