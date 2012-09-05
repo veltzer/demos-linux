@@ -49,6 +49,9 @@
 * - enable to ensure, from the source code of this example, that this example
 * will be compiled with debug info regardless of how the other examples
 * are compiled.
+*
+* This is to make sure I can see annotation.
+* EXTRA_COMPILE_FLAGS=-g3
 */
 
 class A {
