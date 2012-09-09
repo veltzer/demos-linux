@@ -21,7 +21,8 @@
 #include<firstinclude.h>
 #include<iostream> // for std::cout, std::endl
 #include<string.h> // for memcpy(3)
-#include<stdlib.h> // for malloc(3)
+#include<stdlib.h> // for malloc(3), exit(3)
+#include<unistd.h> // for _exit(2)
 
 /*
 * This is a simple example that spends lots of time in a function.
@@ -46,6 +47,12 @@ class A {
 		static void performance_hog_function_cpu() __attribute__((noinline)) {
 			float sum=0;
 			for(unsigned int i=0;i<100;i++) {
+				// lets _exit on purpose to see if gprof
+				// output is there...
+				if(i==50) {
+					//_exit(-1);
+					exit(-1);
+				}
 				for(unsigned int j=0;j<500000;j++) {
 					sum+=i*j;
 				}
