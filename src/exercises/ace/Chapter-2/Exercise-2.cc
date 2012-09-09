@@ -24,6 +24,7 @@
 #include<ace/Read_Buffer.h> // for the read buffer
 #include<ace/Thread_Manager.h> // for the thread manager to manage everything
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for gettid()
 
 /*
 * EXTRA_CMDS=pkg-config --cflags --libs ACE
@@ -46,6 +47,7 @@ static void *consumer(ConsumerData* pdata) {
 	// Keep looping, reading a message out of the queue, until we
 	// timeout or get a message with a length == 0, which signals us to quit.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) consumer %d starting\n"),pdata->id));
+	printf("my tid is %d\n",gettid());
 	while(true) {
 		ACE_Message_Block *mb;
 		if (pdata->msg_queue->dequeue_head(mb) == -1) {
@@ -58,7 +60,7 @@ static void *consumer(ConsumerData* pdata) {
 			break;
 		} else {
 			// the +1 is to avoid the type
-			ACE_DEBUG((LM_ERROR, "(%t) consumer %d got message %s\n",pdata->id, mb->rd_ptr()+1));
+			ACE_DEBUG((LM_ERROR, "(%t) consumer %d got message %s with size %d and length %d\n",pdata->id, mb->rd_ptr()+1,mb->size(),mb->length()));
 			ACE_Allocator::instance()->free(mb->rd_ptr());
 			mb->release();
 		}
@@ -80,6 +82,7 @@ typedef struct {
 
 static void *producer(ProducerData* pdata) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) producer starting\n")));
+	printf("my tid is %d\n",gettid());
 	ACE_Read_Buffer rb(ACE_STDIN);
 
 	// Keep reading stdin, until we reach EOF.
@@ -159,6 +162,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Thread_Manager thr_mgr;
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) main starting\n")));
+	// non portable code - watch out!!
+	printf("my tid is %d\n",gettid());
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue1;
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue2;
 
