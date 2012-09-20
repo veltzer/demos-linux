@@ -36,7 +36,7 @@
 
 const int numAttempts=10000;
 // should the threads yield one for the other ?
-const bool yield=true;
+const bool yield=false;
 // should we write debug messages ?
 const bool debug=false;
 
