@@ -38,7 +38,7 @@ class HA_ControllerAgent {
 		HA_ControllerAgent() {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::HA_ControllerAgent"));
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Entered HA_ControllerAgent\n")));
-			status_result_=1;
+			status_result_=0;
 		}
 		int status_update(void) {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::status_update"));
@@ -51,7 +51,8 @@ class HA_ControllerAgent {
 		int next_result_id(void) {
 			ACE_TRACE(ACE_TEXT("HA_ControllerAgent::next_cmd_id"));
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Entered next_result_id\n")));
-			return(status_result_++);
+			status_result_++;
+			return(status_result_);
 		}
 		int status_result_;
 };
