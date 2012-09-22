@@ -53,6 +53,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		ACE_Time_Value(0),
 		ACE_Time_Value(10)
 	);
+    ACE_Reactor::instance()->
 	ACE_Reactor::instance()->schedule_timer(
 		handler2,
 		handler2,
