@@ -313,7 +313,7 @@ int LogSwitcher::handle_exception(ACE_HANDLE) {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 	//ACE_INET_Addr port_to_listen("HAStatus");
-	const unsigned int port=8080;
+	const unsigned int port=8081;
 	ACE_INET_Addr port_to_listen(port);
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connect to me using localhost:%d\n"), port));
 
