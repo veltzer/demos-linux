@@ -57,7 +57,7 @@ class LoopStopper:public ACE_Event_Handler {
 
 class LogSwitcher:public ACE_Event_Handler {
 	private:
-		int on_sig_;  // Signal to turn logging on
+		int on_sig_; // Signal to turn logging on
 		int off_sig_; // Signal to turn logging off
 		int on_off_; // 1 == turn on, 0 == turn off
 	public:
