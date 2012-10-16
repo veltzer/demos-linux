@@ -194,10 +194,10 @@ int main(int argc,char** argv,char** envp) {
 
 	/* Register the handler for all exception signals. */
 	ret=sigaction (SIGSEGV, &act, NULL);
-	ret |= sigaction (SIGILL, &act, NULL);
-	ret |= sigaction (SIGFPE, &act, NULL);
-	ret |= sigaction (SIGBUS, &act, NULL);
-	ret |= sigaction (SIGQUIT, &act, NULL);
+	ret|=sigaction (SIGILL, &act, NULL);
+	ret|=sigaction (SIGFPE, &act, NULL);
+	ret|=sigaction (SIGBUS, &act, NULL);
+	ret|=sigaction (SIGQUIT, &act, NULL);
 
 	printf("Starting first run\n");
 	fflush(NULL);
@@ -238,8 +238,8 @@ void croak(void) {
 */
 
 void die(void) {
-	volatile int i= 12;
-	croak ();
+	volatile int i=12;
+	croak();
 	i++;
 	return;
 }

@@ -41,11 +41,11 @@ inline void error_demangle(
 	// find parentheses and +address offset surrounding the mangled name:
 	// ./module(function+0x15c) [0x8048a6d]
 	for (char *p=symbol; *p; ++p) {
-		if (*p == '(') {
+		if (*p=='(') {
 			begin_name=p;
-		} else if (*p == '+') {
+		} else if (*p=='+') {
 			begin_offset=p;
-		} else if (*p == ')' && begin_offset) {
+		} else if (*p==')' && begin_offset) {
 			end_offset=p;
 			break;
 		}
@@ -62,7 +62,7 @@ inline void error_demangle(
 		char* funcname=(char *)malloc(funcnamesize);
 		int status;
 		char* ret=abi::__cxa_demangle(begin_name, funcname, &funcnamesize, &status);
-		if (status == 0) {
+		if (status==0) {
 			// use possibly realloc()-ed string
 			funcname=ret;
 			strncpy(result_name, ret, max_name);

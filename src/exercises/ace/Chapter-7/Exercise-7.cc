@@ -67,7 +67,7 @@ int PrintMessages(SHARED_ALLOC *shared) {
 	{
 		MALLOC_LIFO_RECORD record(*shared);
 
-		for(void *temp=0; record.next(temp) != 0; record.advance()) {
+		for(void *temp=0; record.next(temp)!=0; record.advance()) {
 			Record *record=reinterpret_cast<Record *>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), record->name()));
 		}
@@ -79,13 +79,13 @@ int PrintMessages(SHARED_ALLOC *shared) {
 int StoreMessages(SHARED_ALLOC *shared, char *buf) {
 	void *memory=shared->malloc(sizeof(Record));
 
-	if (memory == 0) {
+	if (memory==0) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Unable to malloc")), -1);
 	}
 
 	// Allocate and place record
 	Record *newRecord=new(memory) Record(shared, buf);
-	if (shared->bind(buf, newRecord) == -1) {
+	if (shared->bind(buf, newRecord)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("bind failed")), -1);
 	}
 	return(0);
@@ -100,7 +100,7 @@ int GetMessageType(char *data) {
 	// Allocate a new buffer.
 	char *buffer=rb.read('\n');
 
-	if (buffer == 0) {
+	if (buffer==0) {
 		// return message type zero when EOF is reached
 		// Return 0 as message type
 		return(0);

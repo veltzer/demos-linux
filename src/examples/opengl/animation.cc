@@ -152,16 +152,16 @@ void ExposeFunc() {
 
 // CREATE A GL CAPABLE WINDOW
 void CreateWindow() {
-	if((dpy=XOpenDisplay(NULL)) == NULL) {
+	if((dpy=XOpenDisplay(NULL))==NULL) {
 		printf("\n\tcannot connect to x server\n\n");
 		exit(0);
 	}
 	root=DefaultRootWindow(dpy);
-	if((vi=glXChooseVisual(dpy, 0, att)) == NULL) {
+	if((vi=glXChooseVisual(dpy, 0, att))==NULL) {
 		printf("\n\tno matching visual\n\n");
 		exit(0);
 	}
-	if((cmap=XCreateColormap(dpy, root, vi->visual, AllocNone)) == 0) {
+	if((cmap=XCreateColormap(dpy, root, vi->visual, AllocNone))==0) {
 		printf("\n\tcannot create colormap\n\n");
 		exit(0);
 	}
@@ -177,7 +177,7 @@ void SetupGL() {
 	char font_string[128];
 	XFontStruct* font_struct;
 	// CREATE GL CONTEXT AND MAKE IT CURRENT
-	if((glc=glXCreateContext(dpy, vi, NULL, GL_TRUE)) == NULL) {
+	if((glc=glXCreateContext(dpy, vi, NULL, GL_TRUE))==NULL) {
 		printf("\n\tcannot create gl context\n\n");
 		exit(0);
 	}
@@ -185,10 +185,10 @@ void SetupGL() {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.00, 0.00, 0.40, 1.00);
 	// FIND A FONT
-	for(int font_size=14; font_size < 32; font_size += 2) {
+	for(int font_size=14; font_size < 32; font_size+=2) {
 		sprintf(font_string, "-adobe-courier-*-r-normal--%i-*", font_size);
 		font_struct=XLoadQueryFont(dpy, font_string);
-		if(font_struct != NULL) {
+		if(font_struct!=NULL) {
 			glXUseXFont(font_struct->fid, 32, 192, 32);
 			break;
 		}
@@ -214,7 +214,7 @@ void UpdateTimeCounter() {
 
 void CalculateFPS() {
 	Frame++;
-	if((Frame%FramesPerFPS) == 0) {
+	if((Frame%FramesPerFPS)==0) {
 		FPS=((float)(FramesPerFPS)) / (TimeCounter-prevTime);
 		prevTime=TimeCounter;
 	}
@@ -234,18 +234,18 @@ void CheckKeyboard() {
 	/* FIXME: XKeysymToString is deprecated
 	if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
 		char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
-		if(strncmp(key_string, "Left", 4) == 0) {
-			rot_z_vel -= 200.0*DT;
-		} else if(strncmp(key_string, "Right", 5) == 0) {
-			rot_z_vel += 200.0*DT;
-		} else if(strncmp(key_string, "Up", 2) == 0) {
-			rot_y_vel -= 200.0*DT;
-		} else if(strncmp(key_string, "Down", 4) == 0) {
-			rot_y_vel += 200.0*DT;
-		} else if(strncmp(key_string, "F1", 2) == 0) {
+		if(strncmp(key_string, "Left", 4)==0) {
+			rot_z_vel-=200.0*DT;
+		} else if(strncmp(key_string, "Right", 5)==0) {
+			rot_z_vel+=200.0*DT;
+		} else if(strncmp(key_string, "Up", 2)==0) {
+			rot_y_vel-=200.0*DT;
+		} else if(strncmp(key_string, "Down", 4)==0) {
+			rot_y_vel+=200.0*DT;
+		} else if(strncmp(key_string, "F1", 2)==0) {
 			rot_y_vel=0.0;
 			rot_z_vel=0.0;
-		} else if(strncmp(key_string, "Escape", 5) == 0) {
+		} else if(strncmp(key_string, "Escape", 5)==0) {
 			ExitProgram();
 		}
 	}

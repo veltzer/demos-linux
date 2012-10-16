@@ -101,7 +101,7 @@ pid_t run_in_process(void (*f)(void)) {
 	pid_t pid;
 
 	CHECK_NOT_M1(pid=fork());
-	if (pid == 0) {
+	if (pid==0) {
 		f();
 		exit(0);
 	} else {

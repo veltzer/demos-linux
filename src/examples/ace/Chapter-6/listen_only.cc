@@ -36,7 +36,7 @@
 class ClientService:public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> {
 	public:
 		typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> super;
-		virtual int open(void* =0);
+		virtual int open(void* =NULL);
 };
 
 int ClientService::open(void* p) {

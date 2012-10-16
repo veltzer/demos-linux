@@ -39,7 +39,7 @@ class DeathHandler:public ACE_Event_Handler {
 		virtual int handle_exit(ACE_Process *process) {
 			ACE_TRACE(ACE_TEXT("DeathHandler::handle_exit"));
 			ACE_DEBUG ((LM_DEBUG, ACE_TEXT("Process %d exited with exit code %d\n"), process->getpid(), process->return_value()));
-			if(++count_ == NCHILDREN) {
+			if(++count_==NCHILDREN) {
 				ACE_Reactor::instance()->end_reactor_event_loop();
 			}
 			return(0);

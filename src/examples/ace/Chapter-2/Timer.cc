@@ -44,7 +44,7 @@ class MyTime_Handler:public ACE_Event_Handler {
 			long current_count=long(arg);
 
 			// assert that we are not getting the 5'th timer
-			ACE_ASSERT(current_count != 5);
+			ACE_ASSERT(current_count!=5);
 			// assert that we are getting them in order
 			ACE_ASSERT(current_count > last_arrived);
 			last_arrived=current_count;
@@ -52,7 +52,7 @@ class MyTime_Handler:public ACE_Event_Handler {
 			// If all timers done then set done flag
 			count++;
 			sleep(3);
-			if (count == NUMBER_TIMERS - 1) {
+			if (count==NUMBER_TIMERS-1) {
 				done=true;
 			}
 			// Keep yourself registered with the Reactor.

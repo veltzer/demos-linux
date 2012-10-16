@@ -73,7 +73,7 @@ void watchsigHandler(int gotsig)
 	}
 	if(gotusr1 && gotusr2)
 	{
-		if(setitimer(ITIMER_REAL, & timer, NULL) == -1)
+		if(setitimer(ITIMER_REAL, & timer, NULL)==-1)
 		{
 			perror("setitimer failed");
 			exit(errno);
@@ -146,25 +146,25 @@ int main(int argc,char** argv,char** envp) {
 	sigusr.sa_handler=watchsigHandler;
 	sigusr.sa_mask=emptyset;
 	sigusr.sa_flags=0;
-	if(sigaction(SIGUSR1, & sigusr, NULL) == -1) {
+	if(sigaction(SIGUSR1, & sigusr, NULL)==-1) {
 		perror("sigaction SIGUSR1 failed");
 		exit(errno);
 	}
-	if(sigaction(SIGUSR2, & sigusr, NULL) == -1) {
+	if(sigaction(SIGUSR2, & sigusr, NULL)==-1) {
 		perror("sigaction SIGUSR2 failed");
 		exit(errno);
 	}
 	sigchld.sa_handler=sigchildHandler;
 	sigchld.sa_mask=emptyset;
 	sigchld.sa_flags=0;
-	if(sigaction(SIGCHLD, & sigchld, NULL) == -1) {
+	if(sigaction(SIGCHLD, & sigchld, NULL)==-1) {
 		perror("sigaction SIGCHLD failed");
 		exit(errno);
 	}
 	sigalrm.sa_handler=timeoutsigHandler;
 	sigalrm.sa_mask=emptyset;
 	sigalrm.sa_flags=0;
-	if(sigaction(SIGALRM, & sigalrm, NULL) == -1)
+	if(sigaction(SIGALRM, & sigalrm, NULL)==-1)
 	{
 		perror("sigaction SIGALRM failed");
 		exit(errno);
@@ -172,7 +172,7 @@ int main(int argc,char** argv,char** envp) {
 	sigint.sa_handler=sigintHandler;
 	sigint.sa_mask=emptyset;
 	sigint.sa_flags=0;
-	if(sigaction(SIGINT, & sigint, NULL) == -1) {
+	if(sigaction(SIGINT, & sigint, NULL)==-1) {
 		perror("sigaction SIGINT failed");
 		exit(errno);
 	}
@@ -180,7 +180,7 @@ int main(int argc,char** argv,char** envp) {
 	timer.it_interval.tv_usec=0;
 	timer.it_value.tv_sec=5;
 	timer.it_value.tv_usec=0;
-	if(setitimer(ITIMER_REAL, & timer, NULL) == -1) {
+	if(setitimer(ITIMER_REAL, & timer, NULL)==-1) {
 		perror("setitimer failed");
 		exit(errno);
 	}

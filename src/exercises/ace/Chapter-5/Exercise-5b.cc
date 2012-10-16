@@ -47,7 +47,7 @@ protected:
 Net_Handler::Net_Handler(ACE_SOCK_Stream& s):stream(s) {
 	this->reactor(ACE_Reactor::instance());
 	int result=this->reactor()->register_handler(this, READ_MASK);
-	ACE_ASSERT(result == 0);
+	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 }
 
@@ -76,7 +76,7 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 		// Trim CR and LF(in case of telnet)
 		while(true) {
 			char value=message[result - 1];
-			if ((value == 10) || (value == 13)) {
+			if ((value==10) || (value==13)) {
 				message[--result]=0;
 			} else {
 				break;
@@ -89,10 +89,10 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 		ACE_DEBUG((LM_DEBUG, "handle: %d - Remote message: %s\n", handle, message));
 		// Wait to allow kill from other terminal
 		// ACE_OS::sleep(1);
-	} else if (result == 0) {
+	} else if (result==0) {
 		ACE_DEBUG((LM_DEBUG, "(1) - Connection closed\n"));
 		return(-1);
-	} else if (errno == EWOULDBLOCK) {
+	} else if (errno==EWOULDBLOCK) {
 		return(0);
 	} else {
 		ACE_DEBUG((LM_DEBUG, "Problems in receiving data, result=%d", result));
@@ -129,7 +129,7 @@ Net_Listener::Net_Listener(int local_address) {
 	acceptor=ACE_INET_Addr(local_address, ACE_LOCALHOST);
 	this->reactor(ACE_Reactor::instance());
 	int result=this->reactor()->register_handler(this, ACE_Event_Handler::ACCEPT_MASK);
-	ACE_ASSERT(result == 0);
+	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 	Save_handler=0;
 }
@@ -161,7 +161,7 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 		1, // restart
 		reset_new_hndl
 	);
-		ACE_ASSERT(result == 0);
+		ACE_ASSERT(result==0);
 		ACE_UNUSED_ARG(result);
 	remote_address.dump();
 	Net_Handler *handler;
@@ -191,7 +191,7 @@ public:
 	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
 		ACE_TRACE(ACE_TEXT("CatchSignal::handle_signal"));
 		// Make sure the right handler was called back.
-		ACE_ASSERT(signum == this->signum);
+		ACE_ASSERT(signum==this->signum);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%S occured. Terminating the program\n"), signum));
 		if (listener->Save_handler) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Pointer exists. Terminating the program\n")));

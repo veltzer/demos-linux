@@ -67,7 +67,7 @@ static void *alloc_mem(unsigned int size) {
 		order=get_order(size);
 		kaddr=(void *)__get_free_pages(GFP_KERNEL, order);
 	}
-	if (((unsigned int)kaddr) % PAGE_SIZE != 0) {
+	if (((unsigned int)kaddr) % PAGE_SIZE!=0) {
 		return(NULL);
 	}
 	return(kaddr);
@@ -105,7 +105,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr, unsigned int siz
 	// must NOT add MAP_LOCKED to the flags (it causes a hang)
 	flags=MAP_POPULATE | MAP_SHARED;
 	//flags=MAP_POPULATE|MAP_PRIVATE;
-	flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
+	flags&=~(MAP_EXECUTABLE | MAP_DENYWRITE);
 	down_write(&mm->mmap_sem);
 	oldval=filp->private_data;
 	filp->private_data=kptr;
@@ -156,7 +156,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("trying to mmap");
 		size=arg;
 		kptr=alloc_mem(size);
-		if (kptr == NULL) {
+		if (kptr==NULL) {
 			PR_ERROR("ERROR: could not allocate memory");
 			return(-EFAULT);
 		}
@@ -194,7 +194,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*	One argument which is the value to write.
 	*/
 	case IOCTL_DEMO_WRITE:
-		if (kptr == NULL) {
+		if (kptr==NULL) {
 			PR_ERROR("ERROR: kptr is NULL?!?");
 			return(-EFAULT);
 		}
@@ -206,7 +206,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*	One argument which is the value to check.
 	*/
 	case IOCTL_DEMO_READ:
-		if (kptr == NULL) {
+		if (kptr==NULL) {
 			PR_ERROR("ERROR: kptr is NULL?!?");
 			return(-EFAULT);
 		}
@@ -217,7 +217,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	*	One argument which is the pointer to the user space buffer.
 	*/
 	case IOCTL_DEMO_COPY:
-		if (kptr == NULL) {
+		if (kptr==NULL) {
 			PR_ERROR("ERROR: kptr is NULL?!?");
 			return(-EFAULT);
 		}
@@ -254,9 +254,9 @@ static int kern_vma_fault(struct vm_area_struct *vma, struct vm_fault *vmf) {
 	PR_DEBUG("start");
 	offset=(unsigned long)vmf->virtual_address - vma->vm_start;
 	kaddr=vma->vm_private_data;
-	kaddr += offset;
+	kaddr+=offset;
 	page=virt_to_page(kaddr);
-	if (page == NULL) {
+	if(page==NULL) {
 		PR_ERROR("couldnt find page");
 		return(VM_FAULT_SIGBUS);
 	}
@@ -312,7 +312,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 
 	PR_DEBUG("start");
 	kadr=filp->private_data;
-	vma->vm_flags |= VM_RESERVED;
+	vma->vm_flags|=VM_RESERVED;
 
 	vma->vm_private_data=kadr;
 	vma->vm_ops=&kern_vm_ops;

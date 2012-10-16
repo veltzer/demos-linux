@@ -50,7 +50,7 @@ void do1() {
 		}
 	}
 	fprintf(stderr, "np opend now read\n");
-	while((rcount=read(npfd, buffer, sizeof(buffer))) > 0 || errno == EINTR) {
+	while((rcount=read(npfd, buffer, sizeof(buffer))) > 0 || errno==EINTR) {
 		if(errno!=EINTR) {
 			buffer[rcount]='\0';
 			ssize_t ret=write(1, buffer, strlen(buffer));
@@ -64,7 +64,7 @@ void do1() {
 void do2() {
 	char buffer[BUFSIZE];
 	int rcount;
-	while((rcount=read(0, buffer, sizeof(buffer))) > 0 || errno == EINTR) {
+	while((rcount=read(0, buffer, sizeof(buffer))) > 0 || errno==EINTR) {
 		if(errno!=EINTR) {
 			buffer[rcount]='\0';
 			printf("Servicing request %s\n",buffer);
@@ -80,7 +80,7 @@ int main(int argc,char** argv,char** envp) {
 	sigalrm.sa_handler=sigalrmHandler;
 	sigalrm.sa_mask=emptyset;
 	sigalrm.sa_flags=0;
-	if(sigaction(SIGALRM, & sigalrm, NULL) == -1) {
+	if(sigaction(SIGALRM, & sigalrm, NULL)==-1) {
 		perror("sigaction SIGUSR1 failed");
 		exit(errno);
 	}

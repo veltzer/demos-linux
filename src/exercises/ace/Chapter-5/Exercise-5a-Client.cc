@@ -46,7 +46,7 @@ public:
 	int connect_to_server() {
 		// Initiate blocking connection with server.
 		ACE_DEBUG((LM_DEBUG, "(%P|%t) Starting connect to %s:%d\n", remote_addr_.get_host_name(), remote_addr_.get_port_number()));
-		if (connector_.connect(client_stream_, remote_addr_) == -1) {
+		if (connector_.connect(client_stream_, remote_addr_)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "connection failed"), -1);
 		} else {
 			ACE_DEBUG((LM_DEBUG, "(%P|%t) connected to %s\n", remote_addr_.get_host_name()));
@@ -57,7 +57,7 @@ public:
 
 	//Close down the connection properly.
 	int close() {
-		if (client_stream_.close() == -1) {
+		if (client_stream_.close()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "close"), -1);
 		} else {
 			return(0);
@@ -73,7 +73,7 @@ int GetMessageType(char *data) {
 	// Allocate a new buffer.
 	char *buffer=rb.read('\n');
 
-	if (buffer == 0) {
+	if (buffer==0) {
 		// return message type zero when EOF is reached
 		return(0);
 	} else {
@@ -113,17 +113,17 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	while(type) {
 		type=GetMessageType(buffer);
 		// ACE_DEBUG((LM_DEBUG,"%s\n", buffer));
-		if ((type == 1) || (type == 2)) {
-			if (client1.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0) == -1) {
+		if ((type==1) || (type==2)) {
+			if (client1.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0)==-1) {
 				ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "send_n"), 0);
 			}
 		} else {
-			if (client2.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0) == -1) {
+			if (client2.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0)==-1) {
 				ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "send_n"), 0);
 			}
 		}
 	}
-	if (client1.client_stream_.send_n("Quit", 5, 0) == -1) {
+	if (client1.client_stream_.send_n("Quit", 5, 0)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "send_n"), 0);
 	}
 	// Close down the connections

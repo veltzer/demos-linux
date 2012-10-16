@@ -116,8 +116,8 @@ void croak(void) {
 */
 
 void die(void) {
-	volatile int i= 12;
-	croak ();
+	volatile int i=12;
+	croak();
 	i++;
 	return;
 }

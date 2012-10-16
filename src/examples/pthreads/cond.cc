@@ -43,7 +43,7 @@ const int COUNT_HALT2=6;
 void* functionCount1(void*) {
 	while(true) {
 		pthread_mutex_lock( &condition_mutex );
-		while( count >= COUNT_HALT1 && count <= COUNT_HALT2 ) {
+		while( count>=COUNT_HALT1 && count<=COUNT_HALT2 ) {
 			pthread_cond_wait( &condition_cond, &condition_mutex );
 		}
 		pthread_mutex_unlock( &condition_mutex );
@@ -51,7 +51,7 @@ void* functionCount1(void*) {
 		count++;
 		printf("Counter value functionCount1: %d\n",count);
 		pthread_mutex_unlock( &count_mutex );
-		if(count >= COUNT_DONE) return(NULL);
+		if(count>=COUNT_DONE) return(NULL);
 	}
 }
 
@@ -66,7 +66,7 @@ void *functionCount2(void*) {
 		count++;
 		printf("Counter value functionCount2: %d\n",count);
 		pthread_mutex_unlock( &count_mutex );
-		if(count >= COUNT_DONE) return(NULL);
+		if(count>=COUNT_DONE) return(NULL);
 	}
 }
 int main(int argc,char** argv,char** envp) {

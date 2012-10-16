@@ -57,7 +57,7 @@ void doParent(int msqid, long myID)
 		if(ret!=SsubscriberID) {
 			perror("fgets(3)");
 		}
-		if(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0) == -1)
+		if(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0)==-1)
 		{
 			perror("msgsnd failed");
 			exit(errno);
@@ -70,7 +70,7 @@ void doChild(int msqid, long myID)
 	message_buf rbuf;
 	int msgsize;
 	while(true) {
-		if((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0)) == -1)
+		if((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0))==-1)
 		{
 			perror("msgrcv failed");
 			exit(errno);

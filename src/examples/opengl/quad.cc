@@ -67,13 +67,13 @@ void DrawAQuad() {
 
 int main(int argc,char** argv,char** envp) {
 	dpy=XOpenDisplay(NULL);
-	if(dpy == NULL) {
+	if(dpy==NULL) {
 		printf("cannot connect to X server\n");
 		exit(0);
 	}
 	root=DefaultRootWindow(dpy);
 	vi=glXChooseVisual(dpy, 0, att);
-	if(vi == NULL) {
+	if(vi==NULL) {
 		printf("no appropriate visual found\n");
 		exit(0);
 	}
@@ -89,13 +89,13 @@ int main(int argc,char** argv,char** envp) {
 	glEnable(GL_DEPTH_TEST);
 	while(true) {
 		XNextEvent(dpy, &xev);
-		if(xev.type == Expose) {
+		if(xev.type==Expose) {
 			printf("got expose\n");
 			XGetWindowAttributes(dpy, win, &gwa);
 			glViewport(0, 0, gwa.width, gwa.height);
 			DrawAQuad();
 			glXSwapBuffers(dpy, win);
-		} else if(xev.type == KeyPress) {
+		} else if(xev.type==KeyPress) {
 			printf("got key press\n");
 			glXMakeCurrent(dpy, None, NULL);
 			glXDestroyContext(dpy, glc);

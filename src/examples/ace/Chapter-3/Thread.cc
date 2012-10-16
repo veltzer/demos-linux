@@ -63,7 +63,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 			NULL,//argument to worker
 			THR_NEW_LWP | THR_JOINABLE,//flags
 			threads+i//thread id
-		) == -1) {
+		)==-1) {
 			ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 		}
 	}
@@ -72,10 +72,10 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// and may not work on a system using pthreads.
 	int check_count=0;
 	// sleep(30);
-	while(ACE_Thread::join(threads[check_count],NULL,NULL) == 0) {
+	while(ACE_Thread::join(threads[check_count],NULL,NULL)==0) {
 		check_count++;
 	}
 	ACE_DEBUG((LM_DEBUG, "It's all over\n"));
-	ACE_ASSERT(check_count == n_threads);
+	ACE_ASSERT(check_count==n_threads);
 	return EXIT_SUCCESS;
 }

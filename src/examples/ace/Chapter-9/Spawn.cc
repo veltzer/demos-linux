@@ -49,12 +49,12 @@ public:
 		// Spawn the new process; prepare() hook is called first.
 		ACE_Process_Options options;
 		pid_t pid=this->spawn(options);
-		if (pid == ACE_INVALID_PID) {
+		if (pid==ACE_INVALID_PID) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("spawn")), -1);
 		}
 
 		// Wait forever for my child to exit.
-		if (this->wait() == -1) {
+		if (this->wait()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("wait")), -1);
 		}
 
@@ -68,7 +68,7 @@ private:
 	int dumpRun(void) {
 		ACE_TRACE("Manager::dumpRun");
 
-		if (ACE_OS::lseek(this->outputfd_, 0, SEEK_SET) == -1) {
+		if (ACE_OS::lseek(this->outputfd_, 0, SEEK_SET)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("lseek")), -1);
 		}
 
@@ -91,7 +91,7 @@ private:
 		ACE_TRACE("Manager::prepare");
 
 		options.command_line(ACE_TEXT("%s 1"), this->programName_);
-		if ((this->setStdHandles(options) == -1) || (this->setEnvVariable(options) == -1)) {
+		if ((this->setStdHandles(options)==-1) || (this->setEnvVariable(options)==-1)) {
 			return(-1);
 		}
 #if !defined (ACE_WIN32) && !defined (ACE_LACKS_PWD_FUNCTIONS)
@@ -122,7 +122,7 @@ private:
 	int setUserID(ACE_Process_Options& options) {
 		ACE_TRACE("Manager::setUserID");
 		passwd *pw=ACE_OS::getpwnam("nobody");
-		if (pw == 0) {
+		if (pw==0) {
 			return(-1);
 		}
 		options.seteuid(pw->pw_uid);
@@ -178,7 +178,7 @@ public:
 		while(true) {
 			ssize_t retval=ACE_OS::read(ACE_STDIN, &str[i], 1);
 			if (retval > 0) {
-				if (str[i] == '\n') {
+				if (str[i]=='\n') {
 					str[++i]=0;
 					return(str);
 				}

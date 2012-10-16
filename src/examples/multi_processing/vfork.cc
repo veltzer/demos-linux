@@ -82,7 +82,7 @@ int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
 	pid_t child_pid;
 	CHECK_NOT_M1(child_pid=vfork());
-	if (child_pid == 0) {
+	if (child_pid==0) {
 		TRACE("this is the child");
 		global_data++;
 		//while(true) {
@@ -97,7 +97,7 @@ int main(int argc,char** argv,char** envp) {
 			CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
 			print_code(info.si_code);
 			print_status(info.si_status);
-			if ((info.si_code == CLD_EXITED) || (info.si_code == CLD_KILLED)) {
+			if ((info.si_code==CLD_EXITED) || (info.si_code==CLD_KILLED)) {
 				over=true;
 			}
 		}

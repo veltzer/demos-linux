@@ -98,7 +98,7 @@ ssize_t clipboard_read(struct file* filp,__user char* user_buf,size_t count,loff
 	int remaining_bytes;
 	/* Number of bytes left to read in the open file */
 	remaining_bytes=min(CLIPBOARD_SIZE-(*offset),(loff_t)count);
-	if(remaining_bytes == 0) {
+	if(remaining_bytes==0) {
 		/* All read and returning 0 for End Of File */
 		return 0;
 	}

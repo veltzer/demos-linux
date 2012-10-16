@@ -87,7 +87,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Send a hangup notification to the receiver. Notice the type parameter
 	ACE_NEW_RETURN(mb, ACE_Message_Block(size, ACE_Message_Block::MB_HANGUP), EXIT_FAILURE);
 	// Lets print the Message_Block's types
-	if (mb->msg_type() == ACE_Message_Block::MB_HANGUP) {
+	if (mb->msg_type()==ACE_Message_Block::MB_HANGUP) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("We got a hangup message\n")));
 	}
 	// again, release the mb

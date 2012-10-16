@@ -76,7 +76,7 @@ int addRecords() {
 		char buf[64];
 		ACE_OS::sprintf(buf, "%s:%d", "Record", i);
 		void *memory=g_allocator->malloc(sizeof(Record));
-		if (memory == 0) {
+		if (memory==0) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
 				ACE_TEXT("Unable to malloc")),
 				-1);
@@ -84,7 +84,7 @@ int addRecords() {
 		// Allocate and place record
 		Record *newRecord=new(memory) Record(i, i + 1, buf);
 		ACE_UNUSED_ARG(newRecord);
-		if (g_allocator->bind(buf, newRecord) == -1) {
+		if (g_allocator->bind(buf, newRecord)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"),
 				ACE_TEXT("bind failed")),
 				-1);

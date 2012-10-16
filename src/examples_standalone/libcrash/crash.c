@@ -79,9 +79,9 @@ inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_
 #define IP_STACK_FRAME_NUMBER (3)
 
 	unsigned int ret=backtrace(array, size);
-	distance += IP_STACK_FRAME_NUMBER;
+	distance+=IP_STACK_FRAME_NUMBER;
 
-	assert(distance <= size);
+	assert(distance<=size);
 
 	/* OK, here is the tricky part:
 	*
@@ -128,7 +128,7 @@ void fault_handler (int signal, siginfo_t * siginfo, void *context) {
 #ifdef USE_THREADS
 
 	ret=pthread_spin_trylock(&g_thread_lock);
-	if (EBUSY == ret) {
+	if (EBUSY==ret) {
 		/* Think of the following as an async-signal safe super sched_yield that
 		* yields even to threads with lower real-time priority */
 		sigset_t smask;
@@ -212,10 +212,10 @@ int set_cloexec_flag (int desc, int value)
 	}
 
 	/* Set just the flag we want to set. */
-	if (value != 0) {
-		oldflags |= FD_CLOEXEC;
+	if (value!=0) {
+		oldflags|=FD_CLOEXEC;
 	} else {
-		oldflags &= ~FD_CLOEXEC;
+		oldflags&=~FD_CLOEXEC;
 	}
 
 	/* Store modified flag word in the descriptor. */

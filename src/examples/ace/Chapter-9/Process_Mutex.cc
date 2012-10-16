@@ -42,7 +42,7 @@ public:
 		int count=0;
 		while(count++ < 10) {
 			int result=this->gmutex_.acquire();
-			ACE_ASSERT(result == 0);
+			ACE_ASSERT(result==0);
 
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P| %t) has the mutex\n")));
 
@@ -50,7 +50,7 @@ public:
 			ACE_OS::sleep(1);
 
 			result=this->gmutex_.release();
-			ACE_ASSERT(result == 0);
+			ACE_ASSERT(result==0);
 			// Give other process a chance.
 			ACE_OS::sleep(1);
 		}
@@ -82,11 +82,11 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		pid_t pidb=processb.spawn(options);
 
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Spawned processes; pids %d:%d\n"), pida, pidb));
-		if (processa.wait() == -1) {
+		if (processa.wait()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processa wait")), -1);
 		}
 
-		if (processb.wait() == -1) {
+		if (processb.wait()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processb wait")), -1);
 		}
 	}

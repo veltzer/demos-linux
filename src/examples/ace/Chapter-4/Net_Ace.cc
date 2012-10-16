@@ -35,7 +35,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_SOCK_Connector connector;
 	ACE_SOCK_Stream peer;
 
-	if (connector.connect(peer, srvr) == -1) {
+	if (connector.connect(peer, srvr)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("connect")), 1);
 	}
 	char buf[64];

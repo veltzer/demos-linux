@@ -40,7 +40,7 @@ int main(int argc,char** argv,char** envp) {
 	noecho();
 	while(true) {
 		int c=getch();
-		if (c == ERR) {
+		if (c==ERR) {
 			// there is no input on the keyboard. Wait a while to avoid busy wait...
 			//usleep(100000);
 		} else {

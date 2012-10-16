@@ -52,7 +52,7 @@ class HA_CommandHandler:public ACE_Task<ACE_MT_SYNCH> {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Processing message %C\n"), name_));
 			// If we cancel the following condition than the LowPriorit will win the race
 			// since the Highpriority will start too late to win.
-			if (++counter == 1) {
+			if (++counter==1) {
 				sleep(1);
 			}
 			// Simulate compute bound task.

@@ -83,7 +83,7 @@ class SharedResource {
 			if(debug) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"), LockedCounter % numThreads, value));
 			}
-			if (LockedCounter % numThreads == value) {
+			if (LockedCounter % numThreads==value) {
 				if(debug) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
 				}

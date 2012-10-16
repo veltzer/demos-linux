@@ -45,13 +45,13 @@ int HA_Status::init(int argc, ACE_TCHAR *argv[]) { // Do ACE_Get_Opt and get con
 
 	ACE_Get_Opt cmd_opts(argc, argv, options);
 
-	if (cmd_opts.long_option(ACE_TEXT("config"), 'f', ACE_Get_Opt::ARG_REQUIRED) == -1) {
+	if (cmd_opts.long_option(ACE_TEXT("config"), 'f', ACE_Get_Opt::ARG_REQUIRED)==-1) {
 		return(-1);
 	}
 	int option;
 	ACE_TCHAR config_file[MAXPATHLEN];
 	ACE_OS::strcpy(config_file, ACE_TEXT("HAStatus.conf"));
-	while((option=cmd_opts()) != EOF) {
+	while((option=cmd_opts())!=EOF) {
 		switch (option) {
 		case 'f':
 			ACE_OS::strncpy(config_file, cmd_opts.opt_arg(), MAXPATHLEN);
@@ -66,22 +66,22 @@ int HA_Status::init(int argc, ACE_TCHAR *argv[]) { // Do ACE_Get_Opt and get con
 	}
 
 	ACE_Configuration_Heap config;
-	if (config.open() == -1) {
+	if (config.open()==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("config")), -1);
 	}
 	ACE_Registry_ImpExp config_importer(config);
 
-	if (config_importer.import_config(config_file) == -1) {
+	if (config_importer.import_config(config_file)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), config_file), -1);
 	}
 
 	ACE_Configuration_Section_Key status_section;
-	if (config.open_section(config.root_section(), ACE_TEXT("HAStatus"), 0, status_section) == -1) {
+	if (config.open_section(config.root_section(), ACE_TEXT("HAStatus"), 0, status_section)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Can't open HAStatus section")), -1);
 	}
 
 	u_int status_port;
-	if (config.get_integer_value(status_section, ACE_TEXT("ListenPort"), status_port) == -1) {
+	if (config.get_integer_value(status_section, ACE_TEXT("ListenPort"), status_port)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("HAStatus ListenPort does not exist\n")), -1);
 	}
 	this->listen_addr_.set(static_cast<u_short>(status_port));

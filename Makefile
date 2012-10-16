@@ -243,7 +243,8 @@ check_exit:
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	-@./scripts/grep.py "\\n\\n\\n| = |^ |\\t | \\t|\ \ |\\t\\n| \\n" "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
+	-@./scripts/grep.py "\\n\\n\\n| = |^ |\\t | \\t|\ \ |\\t\\n| \\n|= " "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
+# " =" cannot be checked because of void foo(void* =0)
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])

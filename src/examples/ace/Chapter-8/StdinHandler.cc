@@ -82,7 +82,7 @@ int Producer::svc(void) {
 		ACE_NEW_RETURN(mb, ACE_Message_Block(BUFSIZ), -1);
 		// Keep reading stdin, until we reach EOF.
 		ssize_t n=ACE_OS::read(ACE_STDIN, mb->wr_ptr(), mb->size());
-		if(n <= 0) {
+		if(n<=0) {
 			// Send shutdown message to other thread and exit.
 			mb->length(0);
 			put_next(mb);

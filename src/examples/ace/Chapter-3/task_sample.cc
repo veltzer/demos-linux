@@ -95,11 +95,11 @@ int Task::svc(void) {
 	//Unit_Of_Work * unit_of_work;
 	while(true) {
 		// Get the message...
-		if (this->getq(message) == -1) {
+		if (this->getq(message)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "%p\n", "getq"), -1);
 		}
 		// Is it a shutdown request?
-		if (message->msg_type() == ACE_Message_Block::MB_HANGUP) {
+		if (message->msg_type()==ACE_Message_Block::MB_HANGUP) {
 			// Send the shutdown to all of our pool peers
 			this->putq(message);
 			break;

@@ -41,12 +41,12 @@ static const long max_queue=LONG_MAX;
 // reading and exit.
 static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep looping, reading a message out of the queue, until we
-	// timeout or get a message with a length == 0, which signals us to
+	// timeout or get a message with a length==0, which signals us to
 	// quit.
 	while(true) {
 		ACE_Message_Block *mb;
 		// Read from the head
-		if (msg_queue->dequeue_tail(mb) == -1) {
+		if (msg_queue->dequeue_tail(mb)==-1) {
 			break;
 		}
 		size_t length=mb->length();
@@ -57,7 +57,7 @@ static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		// Free up the buffer memory and the Message_Block.
 		ACE_Allocator::instance()->free(mb->rd_ptr());
 		mb->release();
-		if (length == 0) {
+		if (length==0) {
 			break;
 		}
 	}
@@ -77,10 +77,10 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		// Allocate a new buffer.
 		char* buffer=rb.read('\n');
 		ACE_Message_Block *mb;
-		if (buffer == 0) {
+		if (buffer==0) {
 			// Send a 0-sized shutdown message to the other thread and exit
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
-			if (msg_queue->enqueue_tail(mb) == -1) {
+			if (msg_queue->enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
@@ -92,7 +92,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 			mb->wr_ptr(rb.size());
 			ACE_DEBUG((LM_DEBUG, "enqueueing message of size %d\n", rb.size()));
 			// Enqueue into the tail
-			if (msg_queue->enqueue_tail(mb) == -1) {
+			if (msg_queue->enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 		}

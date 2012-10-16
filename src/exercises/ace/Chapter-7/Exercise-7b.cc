@@ -115,7 +115,7 @@ class Scheduler:public ACE_Task_Base {
 				auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
 
 				// Invoke the method request.
-				if (request->call() == -1) {
+				if (request->call()==-1) {
 					break;
 				}
 			}
@@ -206,32 +206,32 @@ int SendMessage(char* buffer,int type) {
 	switch(type) {
 		case 1:
 			// Enqueue in tail queue
-			if (msg_queue.enqueue_tail(mb) == -1) {
+			if (msg_queue.enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
 		case 2:
 			// Enqueue in head queue
-			if (msg_queue.enqueue_head(mb) == -1) {
+			if (msg_queue.enqueue_head(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
 		case 3:
 			// Enqueue in tail queue
-			if (msg_queue.enqueue_tail(mb) == -1) {
+			if (msg_queue.enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
 		case 4:
 			// Enqueue in head queue
-			if (msg_queue.enqueue_head(mb) == -1) {
+			if (msg_queue.enqueue_head(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
 		default:
 			// Enqueue the message at priority 10
 			mb->msg_priority(10);
-			if (msg_queue.enqueue_prio(mb) == -1) {
+			if (msg_queue.enqueue_prio(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 		break;
@@ -244,7 +244,7 @@ int SendMessage(char* buffer,int type) {
 int ReadMessage(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Message_Block *mb;
 
-	if (msg_queue->dequeue_head(mb) == -1) {
+	if (msg_queue->dequeue_head(mb)==-1) {
 		return(1);
 	}
 	int length=ACE_Utils::truncate_cast<int> (mb->length());

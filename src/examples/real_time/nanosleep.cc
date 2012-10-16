@@ -68,7 +68,7 @@ int main(int argc,char** argv,char** envp) {
 			t.tv_nsec=1000 * i;
 			nanosleep(&t, NULL);
 			ticks_t end=getticks();
-			sum += get_mic_diff(start, end);
+			sum+=get_mic_diff(start, end);
 		}
 		printf("time expired for usleep of %u micros is %lu diff is %lu\n", i, sum / repeats, sum / repeats - i);
 	}

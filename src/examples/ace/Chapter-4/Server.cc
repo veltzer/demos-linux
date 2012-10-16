@@ -54,11 +54,11 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		ACE_INET_Addr peer_addr;
 		ACE_Time_Value timeout(10, 0);
 
-		if (acceptor.accept(peer, &peer_addr, &timeout, 1) == -1) {
-			//if(acceptor.accept(peer) == -1) {
-			if (ACE_OS::last_error() == EINTR) {
+		if (acceptor.accept(peer, &peer_addr, &timeout, 1)==-1) {
+			//if(acceptor.accept(peer)==-1) {
+			if (ACE_OS::last_error()==EINTR) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while waiting for connection")));
-			} else if (ACE_OS::last_error() == ETIMEDOUT) {
+			} else if (ACE_OS::last_error()==ETIMEDOUT) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while waiting for connection")));
 			}
 		} else {
@@ -71,14 +71,14 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 			// IMPORTANT NOTICE: do not allow 0 here since it is the end
 			// of file...
 			while(bytes_received>0) {
-				if (peer.send(buffer, bytes_received) == -1) {
+				if (peer.send(buffer, bytes_received)==-1) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) error in send")));
 				}
 				bytes_received=peer.recv(buffer, sizeof(buffer));
 			}
 			// lets show a nice message if we are interrupted while reading...
-			if (bytes_received == -1) {
-				if (ACE_OS::last_error() == EINTR) {
+			if (bytes_received==-1) {
+				if (ACE_OS::last_error()==EINTR) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while reading")));
 				}
 			}

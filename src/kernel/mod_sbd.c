@@ -105,7 +105,7 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 */
 
 // this is needed for newer kernels (2.6.38) that don't have 'blk_fs_request'...
-#define blk_fs_request(rq) ((rq)->cmd_type == REQ_TYPE_FS)
+#define blk_fs_request(rq) ((rq)->cmd_type==REQ_TYPE_FS)
 
 static void sbd_request(struct request_queue *q) {
 	struct request *req;
@@ -171,20 +171,20 @@ static int __init sbd_init(void) {
 	spin_lock_init(&Device.lock);
 	// allocate the device (we use the .data user pointer to store it)
 	Device.data=vmalloc(Device.size);
-	if (Device.data == NULL)
+	if (Device.data==NULL)
 		return -ENOMEM;
 	/*
 	* Get a request queue.
 	*/
 	Queue=blk_init_queue(sbd_request, &Device.lock);
-	if (Queue == NULL)
+	if (Queue==NULL)
 		goto out_free;
 	blk_queue_logical_block_size(Queue, logical_block_size);
 	/*
 	* Get registered.
 	*/
 	major_num=register_blkdev(major_num, "sbd");
-	if (major_num <= 0) {
+	if (major_num<=0) {
 		printk(KERN_WARNING "sbd: unable to get major number\n");
 		goto out_queue;
 	}

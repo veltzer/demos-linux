@@ -49,7 +49,7 @@ int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {
 		fprintf(stderr,"usage: %s [device] [filter expression] [numpackets]\n",argv[0]);
 		fprintf(stderr,"use 'any' for any device\n");
-		fprintf(stderr,"use 'ether proto 17 and ether[15] & 1 != 0' for the filter expression\n");
+		fprintf(stderr,"use 'ether proto 17 and ether[15] & 1!=0' for the filter expression\n");
 		fprintf(stderr,"use '-1' for numpackets to capture forever\n");
 		return EXIT_FAILURE;
 	}

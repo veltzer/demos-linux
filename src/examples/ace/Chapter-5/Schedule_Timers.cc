@@ -50,7 +50,7 @@ class SigintHandler:public ACE_Event_Handler {
 		int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
 			static int counter=0;
 			counter++;
-			if (signum == SIGINT) {
+			if (signum==SIGINT) {
 				if (counter > 2) {
 					ACE_DEBUG((LM_INFO, ACE_TEXT("Got SIGINIT exiting\n")));
 					ACE_Reactor::instance()->end_reactor_event_loop();

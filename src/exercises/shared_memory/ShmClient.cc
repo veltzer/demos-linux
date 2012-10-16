@@ -52,13 +52,13 @@ void doChild(int semid, struct data * smdata, int myID) {
 		sops[0].sem_num=myID;
 		sops[0].sem_op=-1;
 		sops[0].sem_flg=0;
-		if ( semop(semid, sops, 1) == -1 )
+		if ( semop(semid, sops, 1)==-1 )
 		{
 			perror("semop");
 			exit(EXIT_FAILURE);
 		}
 
-		if (smdata[myID].readOffset != smdata[myID].writeOffset)
+		if (smdata[myID].readOffset!=smdata[myID].writeOffset)
 		{
 			messageSizePTR=(int *)smdata[myID].message + smdata[myID].readOffset/sizeof(int);
 			messageSize=* messageSizePTR;
@@ -72,7 +72,7 @@ void doChild(int semid, struct data * smdata, int myID) {
 			else
 			{
 				memcpy(message, smdata[myID].message + smdata[myID].readOffset, messageSize);
-				smdata[myID].readOffset += messageSize;
+				smdata[myID].readOffset+=messageSize;
 			}
 			fromIDPTR=(int *)message + 1;
 			printf("From: %d message: %s\n", * fromIDPTR, message+2*sizeof(int));
@@ -113,12 +113,12 @@ void doParent(int semid, struct data * smdata, int myID)
 
 		reminder=* messageSizePTR % sizeof(int);
 		if (reminder > 0)
-			* messageSizePTR += sizeof(int) - reminder;
+			* messageSizePTR+=sizeof(int) - reminder;
 		sops[0].sem_num=toID;
 		sops[0].sem_op=1;
 		sops[0].sem_flg=0;
 
-		if ( semop(semid, sops, 1) == -1 )
+		if ( semop(semid, sops, 1)==-1 )
 		{
 			perror("semop");
 			exit(EXIT_FAILURE);
@@ -134,7 +134,7 @@ void doParent(int semid, struct data * smdata, int myID)
 		else
 		{
 			memcpy(smdata[toID].message + smdata[toID].writeOffset, message, * messageSizePTR);
-			smdata[toID].writeOffset += * messageSizePTR;
+			smdata[toID].writeOffset+=*messageSizePTR;
 		}
 	}
 }
@@ -150,15 +150,15 @@ int main(int argc,char** argv,char** envp) {
 		exit(errno);
 	}
 	myID=atoi(argv[1]);
-	if (myID >= MAXCLINTS || myID < 0) {
+	if (myID>=MAXCLINTS || myID<0) {
 		fprintf(stderr, "MyID must be 0-%d\n", MAXCLINTS);
 		exit(errno);
 	}
-	if ((key=ftok("/etc/passwd", 'x')) == -1) {
+	if ((key=ftok("/etc/passwd", 'x'))==-1) {
 		perror("ftok failed");
 		exit(errno);
 	}
-	if ((semid=semget(key, 0, 0)) == -1) {
+	if ((semid=semget(key, 0, 0))==-1) {
 		perror("semget failed");
 		exit(errno);
 	}
@@ -166,7 +166,7 @@ int main(int argc,char** argv,char** envp) {
 		perror("shmget failed");
 		exit(errno);
 	}
-	if ((smdata=(struct data *)shmat(shmid, NULL, 0)) == (struct data *) -1) {
+	if ((smdata=(struct data *)shmat(shmid, NULL, 0))==(struct data *) -1) {
 		perror("shmat failed");
 		exit(errno);
 	}

@@ -33,7 +33,7 @@ int main(int argc, char** argv,char** envp) {
 	int totalCards=0;
 	int cardNum=-1;
 	while(true) {
-		// Get next sound card's card number. When "cardNum" == -1, then ALSA
+		// Get next sound card's card number. When "cardNum"==-1, then ALSA
 		// fetches the first card, otherwise pass the previous card
 		CHECK_NOT_NEGATIVE(snd_card_next(&cardNum));
 		// No more cards? ALSA sets "cardNum" to -1 if so

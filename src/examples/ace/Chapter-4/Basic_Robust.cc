@@ -54,7 +54,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 	// Listing 2 code/ch06
 	addr.set(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
-	if (addr.addr_to_string(peerAddress, sizeof(peerAddress), 0) == 0) {
+	if (addr.addr_to_string(peerAddress, sizeof(peerAddress), 0)==0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connecting to %s\n"), peerAddress));
 	}
 	// Listing 2
@@ -70,7 +70,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Listing 3
 
 	addr.set(ACE_TEXT("HALog"), ACE_LOCALHOST);
-	if (addr.addr_to_string(peerAddress, sizeof(peerAddress), 0) == 0) {
+	if (addr.addr_to_string(peerAddress, sizeof(peerAddress), 0)==0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connecting to %s\n"), peerAddress));
 	}
 
@@ -79,8 +79,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Time_Value timeout(10);
 
 	ACE_SOCK_Stream log;
-	if (logConnector.connect(log, addr, &timeout) == -1) {
-		if (ACE_OS::last_error() == ETIME) {
+	if (logConnector.connect(log, addr, &timeout)==-1) {
+		if (ACE_OS::last_error()==ETIME) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while ") ACE_TEXT("connecting to log server\n")));
 		} else {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("log")));
@@ -95,7 +95,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	* // Listing 5 code/ch06
 	* ACE_SOCK_Connector logConnector;
 	* ACE_INET_Addr local (4200, ACE_LOCALHOST);
-	* if (logConnector.connect (log, addr, 0, local) == -1)
+	* if (logConnector.connect (log, addr, 0, local)==-1)
 	* {
 	* ...
 	* // Listing 5
@@ -107,8 +107,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Listing 6 code/ch06
 	ACE_Time_Value sendTimeout(0, 5);
 
-	if (status.send_n("uptime\n", 7, &sendTimeout) == -1) {
-		if (ACE_OS::last_error() == ETIME) {
+	if (status.send_n("uptime\n", 7, &sendTimeout)==-1) {
+		if (ACE_OS::last_error()==ETIME) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while sending ") ACE_TEXT("query to status server\n")));
 		}
 		// Listing 6
@@ -120,7 +120,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 	ssize_t bc;
 	ACE_Time_Value recvTimeout(0, 1);
-	if((bc=status.recv(buf, sizeof(buf), &recvTimeout)) == -1) {
+	if((bc=status.recv(buf, sizeof(buf), &recvTimeout))==-1) {
 		ACE_ERROR((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("recv")));
 		return(103);
 	}

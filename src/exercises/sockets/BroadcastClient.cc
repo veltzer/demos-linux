@@ -59,7 +59,7 @@ int main(int argc,char** argv,char** envp) {
 		perror("brsock setsockopt failed");
 		exit(errno);
 	}
-	if ((rplysock=socket(AF_INET, SOCK_STREAM, 0)) == -1)
+	if ((rplysock=socket(AF_INET, SOCK_STREAM, 0))==-1)
 	{
 		perror("rplysock socket failed");
 		exit(errno);
@@ -68,12 +68,12 @@ int main(int argc,char** argv,char** envp) {
 	myAddress.sin_family=AF_INET;
 	myAddress.sin_port=htons(6996); // reply port id
 	myAddress.sin_addr.s_addr=INADDR_ANY;
-	if (bind (rplysock, (struct sockaddr *) & myAddress, sizeof(myAddress)) == -1)
+	if (bind (rplysock, (struct sockaddr *) & myAddress, sizeof(myAddress))==-1)
 	{
 		perror("rplysock bind failed");
 		exit(errno);
 	}
-	if (listen(rplysock, SOMAXCONN) == -1) // 128 in Linux 5 in BSD
+	if (listen(rplysock, SOMAXCONN)==-1) // 128 in Linux 5 in BSD
 	{
 		perror("listen failed");
 		exit(errno);
@@ -82,7 +82,7 @@ int main(int argc,char** argv,char** envp) {
 	while(fgets(obuffer, sizeof(obuffer), stdin))
 	{
 		if ((datalen=sendto(brsock, obuffer, strlen(obuffer), 0,
-			(struct sockaddr *) & braddress, sizeof(braddress))) == -1)
+			(struct sockaddr *) & braddress, sizeof(braddress)))==-1)
 		{
 			perror("brsock sendto failed");
 			exit(errno);
@@ -104,12 +104,12 @@ int main(int argc,char** argv,char** envp) {
 			}
 			close(newsock);
 		}
-		if (nfds == -1)
+		if (nfds==-1)
 		{
 			perror("select failed");
 			exit(errno);
 		}
-		if (nfds == 0)
+		if (nfds==0)
 		{
 			printf("Replies finished on timeout\n");
 		}

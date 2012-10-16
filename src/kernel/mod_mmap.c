@@ -139,7 +139,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			}
 			mm=current->mm;
 			flags=MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
-			flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
+			flags&=~(MAP_EXECUTABLE | MAP_DENYWRITE);
 			down_write(&mm->mmap_sem);
 			addr=do_mmap_pgoff(
 				filp, /* file pointer */
@@ -267,7 +267,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 		vaddr=kmalloc(size, GFP_KERNEL);
 #ifdef DO_RESERVE
 		// reserve the pages
-		for (i=0; i < pages * PAGE_SIZE; i += PAGE_SIZE) {
+		for (i=0; i < pages * PAGE_SIZE; i+=PAGE_SIZE) {
 			SetPageReserved(virt_to_page(((unsigned long)vaddr) + i));
 		}
 #endif // DO_RESERVE

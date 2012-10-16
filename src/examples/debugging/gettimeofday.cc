@@ -39,7 +39,7 @@ unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 		fprintf(stderr, "tv1>tv2\n");
 		exit(-1);
 	} else {
-		if (tv1->tv_sec == tv2->tv_sec) {
+		if (tv1->tv_sec==tv2->tv_sec) {
 			if (tv1->tv_usec > tv2->tv_usec) {
 				fprintf(stderr, "tv1>tv2\n");
 				exit(-1);
@@ -47,7 +47,7 @@ unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 		}
 	}
 	unsigned long diff=(tv2->tv_sec - tv1->tv_sec) * 1000;
-	diff += (tv2->tv_usec - tv1->tv_usec) / 1000;
+	diff+=(tv2->tv_usec - tv1->tv_usec) / 1000;
 	return(diff);
 }
 

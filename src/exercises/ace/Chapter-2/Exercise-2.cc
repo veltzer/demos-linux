@@ -45,12 +45,12 @@ typedef struct {
 
 static void *consumer(ConsumerData* pdata) {
 	// Keep looping, reading a message out of the queue, until we
-	// timeout or get a message with a length == 0, which signals us to quit.
+	// timeout or get a message with a length==0, which signals us to quit.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) consumer %d starting\n"),pdata->id));
 	printf("my tid is %d\n",gettid());
 	while(true) {
 		ACE_Message_Block *mb;
-		if (pdata->msg_queue->dequeue_head(mb) == -1) {
+		if (pdata->msg_queue->dequeue_head(mb)==-1) {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("(%t) %d dequeue_head\n"),pdata->id));
 			break;
 		}
@@ -89,17 +89,17 @@ static void *producer(ProducerData* pdata) {
 	while(true) {
 		// Allocate a new buffer.
 		char* buffer=rb.read('\n');
-		if (buffer == NULL) {
+		if (buffer==NULL) {
 			// create a special hangup kmessage
 			ACE_DEBUG((LM_ERROR, "(%t) producer sending hangup message\n"));
 			ACE_Message_Block *mb1,*mb2;
 			ACE_NEW_RETURN(mb1, ACE_Message_Block(0, ACE_Message_Block::MB_HANGUP), NULL);
 			mb2=mb1->duplicate();
 			// send the special message to both of the threads
-			if(pdata->msg_queue1->enqueue_tail(mb1) == -1) {
+			if(pdata->msg_queue1->enqueue_tail(mb1)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
-			if(pdata->msg_queue2->enqueue_tail(mb2) == -1) {
+			if(pdata->msg_queue2->enqueue_tail(mb2)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			break;
@@ -119,28 +119,28 @@ static void *producer(ProducerData* pdata) {
 			switch (c) {
 			case '1':
 				// Enqueue in tail queue1
-				if (pdata->msg_queue1->enqueue_tail(mb) == -1) {
+				if (pdata->msg_queue1->enqueue_tail(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				break;
 
 			case '2':
 				// Enqueue in head queue1
-				if (pdata->msg_queue1->enqueue_head(mb) == -1) {
+				if (pdata->msg_queue1->enqueue_head(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				break;
 
 			case '3':
 				// Enqueue in tail queue2
-				if (pdata->msg_queue2->enqueue_tail(mb) == -1) {
+				if (pdata->msg_queue2->enqueue_tail(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				break;
 
 			case '4':
 				// Enqueue in head queue2
-				if (pdata->msg_queue2->enqueue_head(mb) == -1) {
+				if (pdata->msg_queue2->enqueue_head(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				break;
@@ -170,21 +170,21 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ProducerData pdata;
 	pdata.msg_queue1=&msg_queue1;
 	pdata.msg_queue2=&msg_queue2;
-	if (thr_mgr.spawn(ACE_THR_FUNC(producer), &pdata, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if (thr_mgr.spawn(ACE_THR_FUNC(producer), &pdata, THR_NEW_LWP | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%t\n", "spawn producer"), 1);
 	}
 
 	ConsumerData c1data;
 	c1data.msg_queue=&msg_queue1;
 	c1data.id=1;
-	if (thr_mgr.spawn(ACE_THR_FUNC(consumer), &c1data, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if (thr_mgr.spawn(ACE_THR_FUNC(consumer), &c1data, THR_NEW_LWP | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%t\n", "spawn consumer1"), 1);
 	}
 
 	ConsumerData c2data;
 	c2data.msg_queue=&msg_queue2;
 	c2data.id=2;
-	if (thr_mgr.spawn(ACE_THR_FUNC(consumer), &c2data, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if (thr_mgr.spawn(ACE_THR_FUNC(consumer), &c2data, THR_NEW_LWP | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%t\n", "spawn consumer2"), 1);
 	}
 	// Wait for producer and consumers threads to exit.

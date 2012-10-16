@@ -55,7 +55,7 @@ void *thread_body(void *arg) {
 	int pri=*(int *)arg;
 	int err=nice(pri);
 
-	if (err == -1) {
+	if(err==-1) {
 		printf("got error from nice(2)\n");
 		exit(-1);
 	}

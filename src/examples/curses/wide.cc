@@ -61,7 +61,7 @@ int main(int argc,char** argv,char** envp) {
 		wint_t c;
 		int res;
 		res=get_wch(&c);
-		if (res == ERR) {
+		if (res==ERR) {
 			stop=true;
 			setErr("could not get_wch");
 			continue;
@@ -70,7 +70,7 @@ int main(int argc,char** argv,char** envp) {
 		wchar_t str[10];
 		swprintf(str, 10, L"%lc", c);
 		res=addwstr(str);
-		if (res == ERR) {
+		if (res==ERR) {
 			stop=true;
 			setErr("could not addwstr");
 			continue;

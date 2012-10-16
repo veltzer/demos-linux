@@ -92,7 +92,7 @@ class Scheduler:public ACE_Task_Base {
 				request(this->activation_queue_.dequeue());
 
 				// Invoke the method request.
-				if(request->call() == -1) {
+				if(request->call()==-1) {
 					break;
 				}
 			}

@@ -107,7 +107,7 @@ int main(int argc,char** argv,char** envp) {
 	print_data(data, size);
 
 	if (do_play) {
-		for (char i='a'; i < 'z'; i += 2) {
+		for (char i='a'; i < 'z'; i+=2) {
 			fprintf(stderr, "Setting memory to ['%c']\n", i);
 			memset(data, i, size);
 			print_data(data, size);
@@ -125,7 +125,7 @@ int main(int argc,char** argv,char** envp) {
 		}
 	}
 	if (do_stress) {
-		for (char i='a'; i < 'z'; i += 2) {
+		for (char i='a'; i < 'z'; i+=2) {
 			memset(data, i, size);
 			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_READ, NULL));
 			CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_WRITE, i + 1));

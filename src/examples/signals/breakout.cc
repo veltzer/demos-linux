@@ -49,7 +49,7 @@ static void SignalHandlerUSR2(int sig) {
 	counterUSR2++;
 	fprintf(stderr,"handler [%s]: %d starting\n",strsignal(sig),counterUSR2);
 	// reverse the flag
-	if (flag == 0) {
+	if (flag==0) {
 		flag=1;
 	} else {
 		flag=0;

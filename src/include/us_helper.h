@@ -125,22 +125,22 @@ static inline void handle_error(int val,const char* msg,const char* base_file,co
 	exit(EXIT_FAILURE);
 }
 static inline void check_zero(int val,const char* msg,const char* base_file,const char* file,const int line) {
-	if (val != 0) {
+	if(val!=0) {
 		handle_error(val,msg,base_file,file,line);
 	}
 }
 static inline void check_not_zero(int val,const char* msg,const char* base_file,const char* file,const int line) {
-	if (val == 0) {
+	if(val==0) {
 		handle_error(val,msg,base_file,file,line);
 	}
 }
 static inline void check_not_m1(int val,const char* msg,const char* base_file,const char* file,const int line) {
-	if (val ==-1 ) {
+	if(val==-1) {
 		handle_error(val,msg,base_file,file,line);
 	}
 }
 static inline void check_1(int val,const char* msg,const char* base_file,const char* file,const int line) {
-	if (val !=1 ) {
+	if(val!=1) {
 		handle_error(val,msg,base_file,file,line);
 	}
 }
@@ -261,7 +261,7 @@ static inline int printproc(const char *filter) {
 	char cmd[cmd_size];
 	int res;
 
-	if (filter == NULL) {
+	if (filter==NULL) {
 		snprintf(cmd, cmd_size, "cat /proc/%d/maps", pid);
 	} else {
 		snprintf(cmd, cmd_size, "cat /proc/%d/maps | grep %s", pid, filter);
@@ -275,8 +275,8 @@ static inline void memcheck(void *buf, char val, unsigned int size) {
 	char *cbuf=(char *)buf;
 	unsigned int i;
 
-	for (i=0; i < size; i++) {
-		if (cbuf[i] != val) {
+	for (i=0;i<size;i++) {
+		if(cbuf[i]!=val) {
 			fprintf(stderr, "ERROR: value at %u is %c and not %c\n", i, cbuf[i], val);
 			exit(EXIT_FAILURE);
 		}
@@ -290,7 +290,7 @@ static inline void do_prog_init(void) {
 }
 
 static inline void do_prog(unsigned int i, unsigned int mod, unsigned int full) {
-	if (i % mod == 0) {
+	if (i % mod==0) {
 		printf("\r\t%d/%d", i, full);
 		fflush(stdout);
 	}

@@ -39,7 +39,7 @@ static void* logical;
 static void capi_print_addressinfo(void *logical_adr) {
 	struct page *page=virt_to_page(logical_adr);
 
-	if (page == NULL) {
+	if (page==NULL) {
 		PR_INFO("unable to translate address %p to page", logical_adr);
 		return;
 	}
@@ -85,7 +85,7 @@ static int __init mod_init(void) {
 	* }
 	*/
 	logical=ioremap(physaddr, size);
-	if (logical == NULL) {
+	if (logical==NULL) {
 		PR_ERROR("could not ioremap");
 		release_mem_region(physaddr, size);
 		return(1);

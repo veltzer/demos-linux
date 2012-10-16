@@ -46,7 +46,7 @@ class ClientAcceptor:public ACE_Event_Handler {
 };
 
 int ClientAcceptor::open(const ACE_INET_Addr& listen_addr) {
-	if(this->m_acceptor.open(listen_addr, 1) == -1) {
+	if(this->m_acceptor.open(listen_addr, 1)==-1) {
 		return -1;
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) connected\n")));
@@ -82,7 +82,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// open the socket on a specific port
 	const unsigned int port=50000;
 	ACE_INET_Addr port_to_listen(port);
-	if(acceptor.open(port_to_listen) == -1) {
+	if(acceptor.open(port_to_listen)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), -1);
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) connect to me using 'telnet localhost %d'\n"),port));

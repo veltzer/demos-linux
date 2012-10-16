@@ -37,7 +37,7 @@ void func() {
 	static int counter=0;
 
 	counter++;
-	if (counter % 3 == 0) {
+	if (counter % 3==0) {
 		longjmp(env, counter);
 	}
 	fprintf(stderr, "this is the continuation of the function\n");

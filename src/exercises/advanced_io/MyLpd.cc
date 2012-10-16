@@ -51,7 +51,7 @@ int main(int argc,char** argv,char** envp) {
 	lplock.l_len=0;
 	CHECK_NOT_M1(fcntl(fdindex, F_SETLKW, & lplock));
 	CHECK_NOT_M1(fstat(fdindex, & buff));
-	if (buff.st_size == 0) {
+	if (buff.st_size==0) {
 		currid=0;
 		CHECK_NOT_M1(write(fdindex, & currid, sizeof(currid)));
 		buffer.ID=0;
@@ -60,7 +60,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	CHECK_NOT_M1(read(fdindex, & currid, sizeof(int)));
 	CHECK_NOT_M1((bufsize=read(fdindex, &buffer, sizeof(buffer))));
-	while(buffer.ID == 0 && bufsize > 0)
+	while(buffer.ID==0 && bufsize > 0)
 	{
 		CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));
 	}

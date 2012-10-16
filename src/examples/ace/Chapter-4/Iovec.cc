@@ -41,7 +41,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr srvr(50000, ACE_LOCALHOST);
 	ACE_SOCK_Connector connector;
 	ACE_SOCK_Stream peer;
-	ACE_ASSERT(connector.connect(peer, srvr) != -1);
+	ACE_ASSERT(connector.connect(peer, srvr)!=-1);
 	ssize_t bc;
 	iovec send[4];
 	send[0].iov_base=const_cast<char *>("up");

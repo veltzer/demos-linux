@@ -57,7 +57,7 @@ long long dummy_work(int limit) {
 int main(int argc,char** argv,char** envp) {
 	int retval;
 	retval=PAPI_library_init(PAPI_VER_CURRENT);
-	if (retval != PAPI_VER_CURRENT && retval > 0) {
+	if (retval!=PAPI_VER_CURRENT && retval > 0) {
 		fprintf(stderr,"PAPI library version mismatch!\n");
 		exit(EXIT_FAILURE);
 	}

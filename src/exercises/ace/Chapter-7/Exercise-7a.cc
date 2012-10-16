@@ -60,7 +60,7 @@ class Record {
 int PrintMessages(SHARED_ALLOC *shared, int index) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("The following records were found in storage %d:\n"), index + 1));
 	MALLOC_LIFO_RECORD record(*shared);
-	for (void *temp=0; record.next(temp) != 0; record.advance()) {
+	for (void *temp=0; record.next(temp)!=0; record.advance()) {
 		Record *record=reinterpret_cast<Record *>(temp);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), record->name()));
 	}

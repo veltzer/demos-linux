@@ -160,7 +160,7 @@ static void handle_crash(void) {
 
 	int i;
 
-	assert(crash_msg != NULL);
+	assert(crash_msg!=NULL);
 	assert(sizeof(crash_msg->assert_buffer[0])==sizeof(unsigned char));
 
 
@@ -273,22 +273,22 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 	/* Register all signal handlers for timeout, kill and fault */
 	ret=register_signal(SIGTERM, term_sig_handler);
-	if(-1 == ret) goto bail_out;
+	if(-1==ret) goto bail_out;
 
 	ret=register_signal(SIGALRM, alarm_sig_handler);
-	if(-1 == ret) goto bail_out;
+	if(-1==ret) goto bail_out;
 
 	ret=register_signal(SIGSEGV, fault_sig_handler);
-	if(-1 == ret) goto bail_out;
+	if(-1==ret) goto bail_out;
 
 	ret=register_signal(SIGILL, fault_sig_handler);
-	if(-1 == ret) goto bail_out;
+	if(-1==ret) goto bail_out;
 
 	ret=register_signal(SIGFPE, fault_sig_handler);
-	if(-1 == ret) goto bail_out;
+	if(-1==ret) goto bail_out;
 
 	ret=register_signal(SIGBUS, fault_sig_handler);
-	if(-1 == ret) goto bail_out;
+	if(-1==ret) goto bail_out;
 
 
 	/* OK, wait for someone to tickle us */
@@ -300,7 +300,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 
 	/* Deal correctly with random harmless signals
 	* Especially useful for when we run under debugger */
-	while(-1 == ret && EINTR == errno) {
+	while(-1==ret && EINTR==errno) {
 
 		mb();
 		if(terminate_flag) exit(0);
@@ -322,7 +322,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 		ret=read(fd, p, remaining_bytes);
 
 		/* We need to exit if the end closed the pipe or if we asked to terminate */
-		if((0 == ret) || terminate_flag) {
+		if((0==ret) || terminate_flag) {
 			break;
 		}
 
@@ -330,17 +330,17 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 		if(timeout_flag) break;
 
 		/* Handle random signals nicely */
-		if(-1 == ret && EINTR == errno) continue;
+		if(-1==ret && EINTR==errno) continue;
 
 		/* Read errors make us nervous. log and bail out */
-		if(-1 == ret) break;
+		if(-1==ret) break;
 
-		p += ret;
-		remaining_bytes -= ret;
+		p+=ret;
+		remaining_bytes-=ret;
 
-	} while(ret && (remaining_bytes > 0));
+	} while(ret && (remaining_bytes>0));
 
-	assert(CRASH_MSG_MAGIC == crash_msg->magic);
+	assert(CRASH_MSG_MAGIC==crash_msg->magic);
 
 	/* Make sure the process name has an ending NULL */
 	crash_msg->process_name[CRASH_MAX_PROCESS_NAME_SIZE-1]='\0';
