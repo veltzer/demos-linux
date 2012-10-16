@@ -114,7 +114,7 @@ class Stat {
 			printf("bin_min is %u\n",bin_min);
 			double runner=minbin;
 			for(unsigned int i=0;i<binnum;i++) {
-				printf("bin[%u] (%lf,%lf) => %u\n",i,runner,runner+binsize,bins[i]);
+				printf("bin[%u] (%lf,%lf)=>%u\n",i,runner,runner+binsize,bins[i]);
 				runner+=binsize;
 			}
 			printf("bin_max is %u\n",bin_max);

@@ -48,7 +48,7 @@ static int __init read_file(char *filename) {
 	}
 	//PR_DEBUG("debug message");
 	pos=0;
-	while(vfs_read(filp, buf, 1, &pos) == 1) {
+	while(vfs_read(filp, buf, 1, &pos)==1) {
 		printk("%c", buf[0]);
 	}
 	printk("\n");
@@ -75,7 +75,7 @@ static int __init write_file(char *filename, char *data) {
 		return(-EFAULT);
 	}
 	len=strlen(data);
-	if (vfs_write(filp, data, len, &pos) != len) {
+	if (vfs_write(filp, data, len, &pos)!=len) {
 		PR_ERROR("could not write");
 		return(-EFAULT);
 	}

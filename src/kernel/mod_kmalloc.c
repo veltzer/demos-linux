@@ -58,12 +58,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_DEMO_KMALLOC:
 		size=arg * PAGE_SIZE;
 		ptr=kmalloc(GFP_KERNEL, size);
-		if (ptr == NULL) {
+		if (ptr==NULL) {
 			PR_ERROR("unable to allocate %lu", size);
 			return(-EFAULT);
 		}
 		addr=(unsigned int)ptr;
-		if (addr % PAGE_SIZE != 0) {
+		if (addr % PAGE_SIZE!=0) {
 			PR_ERROR("page size issue with addr=%lu", addr);
 			return(-EFAULT);
 		}
@@ -79,12 +79,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_DEMO_GET_FREE_PAGES:
 		size=arg * PAGE_SIZE;
 		addr=__get_free_pages(GFP_KERNEL, get_order(size));
-		if (addr == 0) {
+		if (addr==0) {
 			//if(IS_ERR_VALUE(addr)) {
 			PR_ERROR("unable to allocate %lu", size);
 			return(-EFAULT);
 		}
-		if (addr % PAGE_SIZE != 0) {
+		if (addr % PAGE_SIZE!=0) {
 			PR_ERROR("page size issue with addr=%lu", addr);
 			return(-EFAULT);
 		}
@@ -98,12 +98,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_DEMO_PCI_ALLOC_CONSISTENT:
 		size=arg * PAGE_SIZE;
 		ptr=pci_alloc_consistent(NULL, size, &dma_handle);
-		if (ptr == NULL) {
+		if (ptr==NULL) {
 			PR_ERROR("unable to allocate %lu", size);
 			return(-EFAULT);
 		}
 		addr=(unsigned int)ptr;
-		if (addr % PAGE_SIZE != 0) {
+		if (addr % PAGE_SIZE!=0) {
 			PR_ERROR("page size issue with addr=%lu", addr);
 			return(-EFAULT);
 		}
@@ -114,12 +114,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 	case IOCTL_DEMO_DMA_ALLOC_COHERENT:
 		size=arg * PAGE_SIZE;
 		ptr=dma_alloc_coherent(my_device, size, &dma_handle, GFP_KERNEL);
-		if (ptr == NULL) {
+		if (ptr==NULL) {
 			PR_ERROR("unable to allocate %lu", size);
 			return(-EFAULT);
 		}
 		addr=(unsigned int)ptr;
-		if (addr % PAGE_SIZE != 0) {
+		if (addr % PAGE_SIZE!=0) {
 			PR_ERROR("page size issue with addr=%lu", addr);
 			return(-EFAULT);
 		}

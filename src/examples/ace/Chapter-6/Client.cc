@@ -31,7 +31,7 @@
 int Client::open(void *p) {
 	// Two seconds
 	ACE_Time_Value iter_delay(2);
-	if(super::open(p) == -1) {
+	if(super::open(p)==-1) {
 		return(-1);
 	}
 	this->notifier_.reactor(this->reactor());
@@ -54,7 +54,7 @@ int Client::handle_input(ACE_HANDLE) {
 		return(0);
 	}
 
-	if((recv_cnt == 0) || (ACE_OS::last_error() != EWOULDBLOCK)) {
+	if((recv_cnt==0) || (ACE_OS::last_error()!=EWOULDBLOCK)) {
 		this->reactor()->end_reactor_event_loop();
 		return(-1);
 	}
@@ -66,7 +66,7 @@ int Client::handle_input(ACE_HANDLE) {
 
 // Listing 4 code/ch07
 int Client::handle_timeout(const ACE_Time_Value&, const void *) {
-	if(++this->iterations_ >= ITERATIONS) {
+	if(++this->iterations_>=ITERATIONS) {
 		this->peer().close_writer();
 		return(0);
 	}
@@ -91,7 +91,7 @@ int Client::handle_output(ACE_HANDLE) {
 
 	while(-1!=this->getq(mb, &nowait)) {
 		ssize_t send_cnt=this->peer().send(mb->rd_ptr(), mb->length());
-		if(send_cnt == -1) {
+		if(send_cnt==-1) {
 			ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")));
 		} else {
 			mb->rd_ptr(static_cast<size_t>(send_cnt));
@@ -118,7 +118,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Connector<Client, ACE_SOCK_CONNECTOR> connector;
 	Client client;
 	Client *pc=&client;
-	if(connector.connect(pc, port_to_connect) == -1) {
+	if(connector.connect(pc, port_to_connect)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("connect")), 1);
 	}
 	ACE_Reactor::instance()->run_reactor_event_loop();

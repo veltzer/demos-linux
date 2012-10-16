@@ -52,7 +52,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		case IOCTL_EVENTFD_SIGNAL:
 			fd=(int)arg;
 			fp=eventfd_fget(fd);
-			if (fp == NULL) {
+			if (fp==NULL) {
 				PR_DEBUG("bad file descriptor");
 				return(-EINVAL);
 			}

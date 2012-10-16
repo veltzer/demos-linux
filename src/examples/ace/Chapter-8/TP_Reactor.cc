@@ -69,10 +69,10 @@ int Request_Handler::handle_input(ACE_HANDLE fd) {
 	ACE_TCHAR len=0;
 	ssize_t result=this->peer().recv(&len, sizeof(ACE_TCHAR));
 
-	if ((result > 0) && (this->peer().recv_n(buffer, len * sizeof(ACE_TCHAR)) == static_cast<ssize_t>(len * sizeof(ACE_TCHAR)))) {
+	if ((result > 0) && (this->peer().recv_n(buffer, len * sizeof(ACE_TCHAR))==static_cast<ssize_t>(len * sizeof(ACE_TCHAR)))) {
 		++this->nr_msgs_rcvd_;
 		ACE_DEBUG((LM_DEBUG,ACE_TEXT("(%t) svr input; fd: 0x%x; input: %s\n"),fd,buffer));
-		if (ACE_OS::strcmp(buffer, ACE_TEXT("shutdown")) == 0) {
+		if (ACE_OS::strcmp(buffer, ACE_TEXT("shutdown"))==0) {
 			ACE_Reactor::instance()->end_reactor_event_loop();
 		}
 		return(0);
@@ -86,7 +86,7 @@ int Request_Handler::handle_input(ACE_HANDLE fd) {
 int Request_Handler::handle_close(ACE_HANDLE fd, ACE_Reactor_Mask) {
 	ACE_DEBUG((LM_DEBUG,ACE_TEXT("(%t) svr close; fd: 0x%x, rcvd %d msgs\n"),fd,this->nr_msgs_rcvd_));
 
-	if (this->nr_msgs_rcvd_ != cli_req_no) {
+	if (this->nr_msgs_rcvd_!=cli_req_no) {
 		ACE_ERROR((LM_ERROR,ACE_TEXT("(%t) Handler 0x%x: Expected %d messages; got %d\n"),this,cli_req_no,this->nr_msgs_rcvd_));
 	}
 
@@ -145,7 +145,7 @@ class Client:public ACE_Task_Base {
 				}
 				for(size_t j=0;j<cli_req_no;j++) {
 					ACE_DEBUG((LM_DEBUG,ACE_TEXT("Sending work to server on handle 0x%x, req %d\n"),stream.get_handle(),j + 1));
-					if (stream.send_n(arg, (len + 1) * sizeof(ACE_TCHAR)) == -1) {
+					if (stream.send_n(arg, (len + 1) * sizeof(ACE_TCHAR))==-1) {
 						ACE_ERROR((LM_ERROR,ACE_TEXT("(%t) %p\n"),ACE_TEXT("send_n")));
 						continue;
 					}
@@ -157,12 +157,12 @@ class Client:public ACE_Task_Base {
 		void shut_down() {
 			ACE_SOCK_Stream stream;
 			ACE_SOCK_Connector connect;
-			if (connect.connect(stream, addr_) == -1) {
+			if (connect.connect(stream, addr_)==-1) {
 				ACE_ERROR((LM_ERROR,ACE_TEXT("(%t) %p Error while connecting\n"),ACE_TEXT("connect")));
 			}
 			const ACE_TCHAR *sbuf=ACE_TEXT("\011shutdown");
 			ACE_DEBUG((LM_DEBUG,ACE_TEXT("shutdown stream handle=%x\n"),stream.get_handle()));
-			if (stream.send_n(sbuf, (ACE_OS::strlen(sbuf) + 1) * sizeof(ACE_TCHAR)) == -1) {
+			if (stream.send_n(sbuf, (ACE_OS::strlen(sbuf) + 1) * sizeof(ACE_TCHAR))==-1) {
 				ACE_ERROR((LM_ERROR,ACE_TEXT("(%t) %p\n"),ACE_TEXT("send_n")));
 			}
 			stream.close();
@@ -177,7 +177,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_Reactor::instance(&new_reactor);
 	ACCEPTOR acceptor;
 	ACE_INET_Addr accept_addr(rendezvous);
-	if(acceptor.open(accept_addr) == -1) {
+	if(acceptor.open(accept_addr)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR,ACE_TEXT("%p\n"),ACE_TEXT("open")),1);
 	}
 	ACE_DEBUG((LM_DEBUG,ACE_TEXT("(%t) Spawning %d server threads...\n"),svr_thrno));

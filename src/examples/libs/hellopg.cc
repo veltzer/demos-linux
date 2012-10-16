@@ -54,14 +54,14 @@ int main(int argc,char** argv,char** envp) {
 	}
 	PQclear(res);
 	res=PQexec(conn, "DECLARE mycursor CURSOR FOR select * from item");
-	if (!res || (PQresultStatus(res) != PGRES_COMMAND_OK)) {
+	if (!res || (PQresultStatus(res)!=PGRES_COMMAND_OK)) {
 		fprintf(stderr, "DECLARE CURSOR command failed\n");
 		PQclear(res);
 		exit_nicely(conn);
 	}
 	PQclear(res);
 	res=PQexec(conn, "FETCH ALL in mycursor");
-	if (!res || (PQresultStatus(res) != PGRES_TUPLES_OK)) {
+	if (!res || (PQresultStatus(res)!=PGRES_TUPLES_OK)) {
 		fprintf(stderr, "FETCH ALL command didn't return tuples properly\n");
 		PQclear(res);
 		exit_nicely(conn);

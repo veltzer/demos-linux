@@ -62,15 +62,15 @@ static void* worker(void* c) {
 
 	// Make one key that will be available when the thread exits so that
 	// we'll have something to cleanup!
-	if(ACE_Thread::keycreate(&key, cleanup) == -1) {
+	if(ACE_Thread::keycreate(&key, cleanup)==-1) {
 		ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keycreate"));
 	}
 	ACE_NEW_RETURN(ip, int, 0);
-	if(ACE_Thread::setspecific(key, (void *)ip) == -1) {
+	if(ACE_Thread::setspecific(key, (void *)ip)==-1) {
 		ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 	}
 	for(intptr_t i=0;i<count;i++) {
-		if(ACE_Thread::keycreate(&key, cleanup) == -1) {
+		if(ACE_Thread::keycreate(&key, cleanup)==-1) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keycreate"));
 		}
 		ACE_NEW_RETURN(ip, int, 0);
@@ -79,20 +79,20 @@ static void* worker(void* c) {
 			// tmp is workaround for gcc strict aliasing warning.
 			void *tmp=reinterpret_cast<void *>(ip);
 
-			if(ACE_Thread::setspecific(key, tmp) == -1) {
+			if(ACE_Thread::setspecific(key, tmp)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
 
-			if(ACE_Thread::getspecific(key, &tmp) == -1) {
+			if(ACE_Thread::getspecific(key, &tmp)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
 
-			if(ACE_Thread::setspecific(key, (void *)0) == -1) {
+			if(ACE_Thread::setspecific(key, (void *)0)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
 		}
 		delete ip;
-		if(ACE_Thread::keyfree(key) == -1) {
+		if(ACE_Thread::keyfree(key)==-1) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keyfree"));
 		}
 		// Cause an error.
@@ -117,7 +117,7 @@ static void* worker(void* c) {
 			);
 		}
 		key=ACE_OS::NULL_key;
-		if(ACE_Thread::keycreate(&key, cleanup) == -1) {
+		if(ACE_Thread::keycreate(&key, cleanup)==-1) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keycreate"));
 		}
 		ACE_NEW_RETURN(ip, int, 0);
@@ -125,18 +125,18 @@ static void* worker(void* c) {
 		{
 			// Tmp is workaround for GCC strict aliasing warning.
 			void *tmp(reinterpret_cast<void *>(ip));
-			if(ACE_Thread::setspecific(key, tmp) == -1) {
+			if(ACE_Thread::setspecific(key, tmp)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
-			if(ACE_Thread::getspecific(key, &tmp) == -1) {
+			if(ACE_Thread::getspecific(key, &tmp)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
-			if(ACE_Thread::setspecific(key, (void *)0) == -1) {
+			if(ACE_Thread::setspecific(key, (void *)0)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
 		}
 		delete ip;
-		if(ACE_Thread::keyfree(key) == -1) {
+		if(ACE_Thread::keyfree(key)==-1) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keyfree"));
 		}
 	}
@@ -160,7 +160,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	if(ACE_Thread_Manager::instance()->spawn_n(threads,
 		ACE_THR_FUNC(&worker),
 		reinterpret_cast<void *>(count),
-		THR_BOUND | THR_DETACHED) == -1) {
+		THR_BOUND | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "ACE_Thread_Manager::spawn_n"), -1);
 	}
 	ACE_Thread_Manager::instance()->wait();

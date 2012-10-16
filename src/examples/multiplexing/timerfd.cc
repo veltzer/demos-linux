@@ -49,13 +49,13 @@ static void print_elapsed_time(void) {
 	nsecs=curr.tv_nsec - start.tv_nsec;
 	if (nsecs < 0) {
 		secs--;
-		nsecs += 1000000000;
+		nsecs+=1000000000;
 	}
 	printf("%d.%03d: ", secs, (nsecs + 500000) / 1000000);
 }
 
 int main(int argc,char** argv,char** envp) {
-	if (argc != 4) {
+	if (argc!=4) {
 		fprintf(stderr, "%s: usage: %s [init-secs] [interval-secs] [max-exp]\n",argv[0],argv[0]);
 		exit(EXIT_FAILURE);
 	}
@@ -82,7 +82,7 @@ int main(int argc,char** argv,char** envp) {
 	for(tot_exp=0;tot_exp<max_exp;) {
 		uint64_t exp;
 		CHECK_INT(read(fd, &exp, sizeof(uint64_t)),sizeof(uint64_t));
-		tot_exp += exp;
+		tot_exp+=exp;
 		print_elapsed_time();
 		printf("read: %llu; total=%llu\n", (unsigned long long) exp, (unsigned long long) tot_exp);
 	}

@@ -130,7 +130,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		*/
 		mm=current->mm;
 		flags=MAP_POPULATE | MAP_SHARED;
-		flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
+		flags&=~(MAP_EXECUTABLE | MAP_DENYWRITE);
 		// must hold process memory map semaphore because next function will change memory
 		// layout for the process. This also means that this code must be in a path that can
 		// sleep.

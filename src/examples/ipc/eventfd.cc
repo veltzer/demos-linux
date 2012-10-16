@@ -64,7 +64,7 @@ int main(int argc,char** argv,char** envp) {
 			uint64_t u=strtoull(argv[j], NULL, 0);
 			printf("Child writing %llu (0x%llx) to efd\n",u,u);
 			ssize_t s=write(efd, &u, sizeof(uint64_t));
-			CHECK_ASSERT(s == sizeof(uint64_t));
+			CHECK_ASSERT(s==sizeof(uint64_t));
 			//sleep(1);
 		}
 		printf("Child completed write loop\n");
@@ -85,7 +85,7 @@ int main(int argc,char** argv,char** envp) {
 			uint64_t u;
 			ssize_t s=read(efd, &u, sizeof(uint64_t));
 			if(cont) {
-				CHECK_ASSERT(s == sizeof(uint64_t));
+				CHECK_ASSERT(s==sizeof(uint64_t));
 				printf("Parent read %llu (0x%llx) from efd\n",u,u);
 			}
 		}

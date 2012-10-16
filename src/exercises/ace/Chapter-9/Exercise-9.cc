@@ -45,12 +45,12 @@ long ListenPort;
 class SignalableTask:public ACE_Task<ACE_MT_SYNCH> {
 public:
 	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
-		if (signum == SIGUSR1) {
+		if (signum==SIGUSR1) {
 			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S signal\n"), signum));
 			MyIndex=0;
 			handle_alert();
 		}
-		if (signum == SIGUSR2) {
+		if (signum==SIGUSR2) {
 			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S signal\n"), signum));
 			MyIndex=1;
 			handle_alert();
@@ -71,15 +71,15 @@ int DoAccept(long ReceivePort, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr, 
 
 	ACE_INET_Addr address_to_listen=ACE_INET_Addr(ReceivePort, ACE_LOCALHOST);
 
-	if (acceptor->open(address_to_listen, 1) == -1) {
+	if (acceptor->open(address_to_listen, 1)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 	}
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Trying to accept %d.\n"), ReceivePort));
-	if (acceptor->accept(*peer, peer_addr, &timeout, 0) == -1) {
-		if (ACE_OS::last_error() == EINTR) {
+	if (acceptor->accept(*peer, peer_addr, &timeout, 0)==-1) {
+		if (ACE_OS::last_error()==EINTR) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while ") ACE_TEXT("waiting for connection\n")));
-		} else if (ACE_OS::last_error() == ETIMEDOUT) {
+		} else if (ACE_OS::last_error()==ETIMEDOUT) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while ") ACE_TEXT("waiting for connection\n")));
 		}
 	} else {
@@ -133,7 +133,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 
 		ACE_INET_Addr address_to_listen=ACE_INET_Addr(ListenPort, ACE_LOCALHOST);
 		ACE_OS::sleep(1);
-		if (-1 == connector.connect(peer, address_to_listen, &timeout)) {
+		if (-1==connector.connect(peer, address_to_listen, &timeout)) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%p\n"), ACE_TEXT("(%P|%t) Client %d connect"), MyIndex + 1));
 			return(1);
 		}

@@ -42,11 +42,11 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 	ACE_Get_Opt opt(argc, argv, "e:i:");
 
-	for (int c; (c=opt()) != -1;) {
+	for (int c; (c=opt())!=-1;) {
 		switch (c) {
 		case 'e':
 			// Arithmetic operation
-			expiration += ACE_Time_Value(atoi(opt.opt_arg()));
+			expiration+=ACE_Time_Value(atoi(opt.opt_arg()));
 			break;
 
 		case 'i':

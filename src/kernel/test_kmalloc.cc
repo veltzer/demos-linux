@@ -44,7 +44,7 @@ int main(int argc,char** argv,char** envp) {
 	//klog_clear();
 	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	printf("starting out\n");
-	for (unsigned int i=1; i < 1000000; i += 100) {
+	for (unsigned int i=1; i < 1000000; i+=100) {
 		// kmalloc does not allocate on a page boundry...
 		//CHECK_NOT_M1(ioctl(d,IOCTL_DEMO_KMALLOC,i),"kmalloc");
 		//printf("kmalloc: i is %d\n",i);

@@ -63,7 +63,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_ZERO(pthread_cancel(thr));
 	/* Join with thread to see what its exit status was */
 	CHECK_ZERO(pthread_join(thr, &res));
-	if (res == PTHREAD_CANCELED)
+	if (res==PTHREAD_CANCELED)
 		TRACE("thread was canceled");
 	else
 		TRACE("thread wasn't canceled (shouldn't happen!)");

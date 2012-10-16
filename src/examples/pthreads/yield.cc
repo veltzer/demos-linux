@@ -79,7 +79,7 @@ void *worker(void *p) {
 	for(unsigned int i=0;i<10;i++) {
 	//while(true) {
 		//TRACE("im here");
-		int cur= __sync_add_and_fetch(&counter, 1);
+		int cur=__sync_add_and_fetch(&counter, 1);
 		if(!first) {
 			if(cur!=prev+2) {
 				fprintf(stderr,"error, cur %d is wrong, prev is %d\n",cur,prev);

@@ -33,10 +33,10 @@ class HA_Device_Repository {
 		HA_Device_Repository():owner_(0) {
 		}
 		int is_free(void) {
-			return(this->owner_ == 0);
+			return(this->owner_==0);
 		}
 		int is_owner(ACE_Task_Base *tb) {
-			return(this->owner_ == tb);
+			return(this->owner_==tb);
 		}
 		ACE_Task_Base* get_owner(void) {
 			return(this->owner_);

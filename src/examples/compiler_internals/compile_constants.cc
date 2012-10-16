@@ -44,7 +44,7 @@ static inline int _sum(int i) {
 * statement itself!
 */
 static __attribute__((__always_inline__)) int sum(int i) {
-	if (__builtin_constant_p(i) && (i == 100)) {
+	if (__builtin_constant_p(i) && (i==100)) {
 		return(5051);
 	} else {
 		return(_sum(i));

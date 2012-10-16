@@ -51,7 +51,7 @@ void handleKeyPress(SDL_keysym *keysym) {
 }
 
 int resizeWindow(int width, int height) {
-	if (height == 0) {
+	if (height==0) {
 		height=1;
 	}
 	GLfloat ratio=(GLfloat)width / (GLfloat)height;
@@ -110,14 +110,14 @@ int main(int argc,char** argv,char** envp) {
 		Quit(1);
 	}
 	int videoFlags=SDL_OPENGL; /* Enable OpenGL in SDL */
-	videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
+	videoFlags|=SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
 	if (videoInfo->hw_available) {
-		videoFlags |= SDL_HWSURFACE;
+		videoFlags|=SDL_HWSURFACE;
 	} else {
-		videoFlags |= SDL_SWSURFACE;
+		videoFlags|=SDL_SWSURFACE;
 	}
 	if (videoInfo->blit_hw) {
-		videoFlags |= SDL_HWACCEL;
+		videoFlags|=SDL_HWACCEL;
 	}
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	surface=SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, videoFlags);

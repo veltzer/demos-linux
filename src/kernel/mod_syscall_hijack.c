@@ -141,7 +141,7 @@ static void func(void) {
 	INFO("Searching for sys_call_table address...");
 	// Lookup for the table in the data section
 	while((unsigned long )ptr < (unsigned long)init_mm.end_data) {
-		if (*ptr == (unsigned long)sys_close) { // The hit has happend!
+		if (*ptr==(unsigned long)sys_close) { // The hit has happend!
 
 			INFO(" -> matching detected at %p", ptr);
 			// The pointers must point to kernel code section...
@@ -152,7 +152,7 @@ static void func(void) {
 				arr[i]=(arr[i] >> 16) & 0x0000ffff;
 			}
 			// And they must match each other
-			if(arr[0] != arr[2] || arr[1] != arr[3])
+			if(arr[0]!=arr[2] || arr[1]!=arr[3])
 			{
 				sys_call_table=(ptr-__NR_close);
 				INOF("sys_call_table base found at: %p",sys_call_table);
@@ -164,17 +164,17 @@ static void func(void) {
 	}
 
 	// Saving pointers to original system call handlers.
-	//original_sys_write	= sys_call_table[__NR_write];
-	//original_sys_open	= sys_call_table[__NR_open];
-	//original_sys_close	= sys_call_table[__NR_close];
+	//original_sys_write=sys_call_table[__NR_write];
+	//original_sys_open=sys_call_table[__NR_open];
+	//original_sys_close=sys_call_table[__NR_close];
 
 	INOF("Starting patching!");
 
 	// Remapping write, open and close syscall entries syscall table with to our
 	// functions.
-	//sys_call_table[__NR_write]	= fake_sys_write;
-	//sys_call_table[__NR_open]	= fake_sys_open;
-	//sys_call_table[__NR_close]	= fake_sys_close;
+	//sys_call_table[__NR_write]=fake_sys_write;
+	//sys_call_table[__NR_open]=fake_sys_open;
+	//sys_call_table[__NR_close]=fake_sys_close;
 }
 */
 
@@ -188,7 +188,7 @@ static void func2(void) {
 	INFO("Module is loaded!\n");
 	for(ptr=start_ptr;ptr<end_ptr;ptr+=sizeof(void*)) {
 		unsigned long *p=(unsigned long*)ptr;
-		if (p[__NR_close] == (unsigned long) sys_close){
+		if (p[__NR_close]==(unsigned long) sys_close){
 			sctable=(unsigned long **)p;
 			INFO("The address of the system call table is: 0x%p",&sctable[0]);
 			for(z=0;z<256;z++) //this max number of the system calls should be set

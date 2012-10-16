@@ -58,13 +58,13 @@ void *function_empty(void *p) {
 		bool err;
 		// ioctl to do nothing...
 		int res=ioctl(fd, IOCTL_RACE_EMPTY, NULL);
-		if (res == -1) {
+		if (res==-1) {
 			err=true;
 			errors++;
 		} else {
 			err=false;
 		}
-		if (counter % 10000 == 0) {
+		if (counter % 10000==0) {
 			char c;
 			if (err) {
 				c='E';

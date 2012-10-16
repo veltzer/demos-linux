@@ -40,7 +40,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Main Thread running\n")));
 	HA_CommandHandler handler;
 	int result=handler.activate();
-	ACE_ASSERT(result == 0);
+	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 	handler.wait();
 	return EXIT_SUCCESS;

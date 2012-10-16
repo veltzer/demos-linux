@@ -77,7 +77,7 @@ private:
 
 	int leader_active(void) {
 		ACE_TRACE(ACE_TEXT("LF_ThreadPool::leader_active"));
-		return(this->current_leader_ != 0);
+		return(this->current_leader_!=0);
 	}
 
 
@@ -90,7 +90,7 @@ private:
 	void process_message(ACE_Message_Block *mb);
 
 	int done(void) {
-		return(shutdown_ == 1);
+		return(shutdown_==1);
 	}
 
 
@@ -111,10 +111,10 @@ int LF_ThreadPool::svc(void) {
 		ACE_Message_Block *mb=0;
 		ACE_Time_Value tv(LONG_TIME);
 
-		tv += ACE_OS::gettimeofday();
+		tv+=ACE_OS::gettimeofday();
 		// Get a message, elect new leader, then process message.
 		if(this->getq(mb, &tv) < 0) {
-			if(elect_new_leader() == 0) {
+			if(elect_new_leader()==0) {
 				break;
 			}
 			continue;
@@ -163,11 +163,11 @@ int LF_ThreadPool::elect_new_leader(void) {
 		ACE_GUARD_RETURN(ACE_Thread_Mutex, follower_mon, this->followers_lock_, -1);
 		// Get the old follower.
 		Follower *fw;
-		if(this->followers_.dequeue_head(fw) != 0) {
+		if(this->followers_.dequeue_head(fw)!=0) {
 			return(-1);
 		}
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Resigning and Electing %d\n"), fw->owner()));
-		return((fw->signal() == 0) ? 0:-1);
+		return((fw->signal()==0) ? 0:-1);
 	} else {
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("(%t) Oops no followers left\n")));
 		return(-1);

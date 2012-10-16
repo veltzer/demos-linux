@@ -56,13 +56,13 @@ public:
 
 		// ACE_DEBUG ((LM_DEBUG, "Timer timed out at %d! arg=%d\n", tv.sec(), argument));
 		// Activate the consumer
-		if (argument == 1) {
-			if (thr_mgr.spawn(ACE_THR_FUNC(consumer), (void *)&msg_queue1, THR_NEW_LWP | THR_DETACHED) == -1) {
+		if (argument==1) {
+			if (thr_mgr.spawn(ACE_THR_FUNC(consumer), (void *)&msg_queue1, THR_NEW_LWP | THR_DETACHED)==-1) {
 				ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn consumer1"), 1);
 			}
 			return(1);
 		} else {
-			if (thr_mgr.spawn(ACE_THR_FUNC(consumer), (void *)&msg_queue2, THR_NEW_LWP | THR_DETACHED) == -1) {
+			if (thr_mgr.spawn(ACE_THR_FUNC(consumer), (void *)&msg_queue2, THR_NEW_LWP | THR_DETACHED)==-1) {
 				ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn consumer2"), 1);
 			}
 			return(1);
@@ -78,14 +78,14 @@ public:
 // reading and exit.
 static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep looping, reading a message out of the queue, until we
-	// timeout or get a message with a length == 0, which signals us to quit.
+	// timeout or get a message with a length==0, which signals us to quit.
 
 	//ACE_DEBUG ((LM_DEBUG , ACE_TEXT ("consumer: thread=%t Line:%l\n")));
 	//ACE_OS::sleep (1);
 	// Read ONLY one message and return !!!
 	ACE_Message_Block *mb;
 
-	if (msg_queue->dequeue_head(mb) == -1) {
+	if (msg_queue->dequeue_head(mb)==-1) {
 		return(0);
 	}
 	size_t length=mb->length();
@@ -129,15 +129,15 @@ static void *producer() {
 		int type;
 		float delay;
 		static float AbsoluteDelay=0.0;
-		if (buffer == 0) {
+		if (buffer==0) {
 			// Send a 0-sized shutdown message to the other thread and exit.
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
 			// Send Zero size message to both queues !!!
-			if (msg_queue1.enqueue_tail(mb) == -1) {
+			if (msg_queue1.enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
-			if (msg_queue2.enqueue_tail(mb) == -1) {
+			if (msg_queue2.enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 			}
 			// Specify queue1 in handle_timeout()
@@ -148,7 +148,7 @@ static void *producer() {
 		} else {
 			// Enqueue the message in priority order.
 			sscanf(buffer, "%d %f", &type, &delay);
-			AbsoluteDelay += delay;
+			AbsoluteDelay+=delay;
 			// Allocate a new message, but have it "borrow" its memory from the buffer.
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			// get message size
@@ -158,7 +158,7 @@ static void *producer() {
 			switch (type) {
 			case 1:
 				// Enqueue in tail queue1
-				if (msg_queue1.enqueue_tail(mb) == -1) {
+				if (msg_queue1.enqueue_tail(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue1 in handle_timeout()
@@ -168,7 +168,7 @@ static void *producer() {
 
 			case 2:
 				// Enqueue in head queue1
-				if (msg_queue1.enqueue_head(mb) == -1) {
+				if (msg_queue1.enqueue_head(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue1 in handle_timeout()
@@ -178,7 +178,7 @@ static void *producer() {
 
 			case 3:
 				// Enqueue in tail queue2
-				if (msg_queue2.enqueue_tail(mb) == -1) {
+				if (msg_queue2.enqueue_tail(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue2 in handle_timeout()
@@ -188,7 +188,7 @@ static void *producer() {
 
 			case 4:
 				// Enqueue in head queue2
-				if (msg_queue2.enqueue_head(mb) == -1) {
+				if (msg_queue2.enqueue_head(mb)==-1) {
 					ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
 				}
 				// Specify queue2 in handle_timeout()
@@ -210,7 +210,7 @@ static void *producer() {
 int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Spawn off one thread that copies stdin to stdout in order of the size of each line.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("main: thread=%t Line:%l\n")));
-	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)NULL, THR_NEW_LWP | THR_DETACHED) == -1) {
+	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)NULL, THR_NEW_LWP | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn producer"), 1);
 	}
 	// Wait for producer thread to exit. Comsumer thread is handled by the done variable

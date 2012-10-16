@@ -35,7 +35,7 @@ int do_something(int val) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	if (argc != 3) {
+	if (argc!=3) {
 		printf("usage: %s [val1] [val2]\n", argv[0]);
 		return(-1);
 	}

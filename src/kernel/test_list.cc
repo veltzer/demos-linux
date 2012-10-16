@@ -81,7 +81,7 @@ int main(int argc,char** argv,char** envp) {
 	while(choice!=6) {
 		int arg=0;
 		int ioctl_code=codes[choice];
-		if (ioctl_code == IOCTL_LIST_ADD) {
+		if (ioctl_code==IOCTL_LIST_ADD) {
 			arg=get_number();
 		}
 		klog_clear();

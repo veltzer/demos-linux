@@ -49,7 +49,7 @@ Net_Handler::Net_Handler(ACE_SOCK_Stream& s):stream(s) {
 	this->reactor(ACE_Reactor::instance());
 	// register outselves as handlers for that reactor
 	int result=this->reactor()->register_handler(this, READ_MASK);
-	ACE_ASSERT(result == 0);
+	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 }
 
@@ -67,7 +67,7 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 		// Trim CR and LF (in case of telnet)
 		while(true) {
 			char value=message[result - 1];
-			if ((value == 10) || (value == 13)) {
+			if ((value==10) || (value==13)) {
 				message[--result]=0;
 			} else {
 				break;
@@ -83,11 +83,11 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 		ACE_DEBUG((LM_DEBUG, "handle: %d - Remote message: %s\n", handle, message));
 		// return 0 to say that we handled the message ok
 		return(0);
-	} else if (result == 0) {
+	} else if (result==0) {
 		// we did not get input so we
 		ACE_DEBUG((LM_DEBUG, "Net_Handler: Connection closed\n"));
 		return(-1);
-	} else if (errno == EWOULDBLOCK) {
+	} else if (errno==EWOULDBLOCK) {
 		// async io state
 		return(0);
 	} else {
@@ -126,7 +126,7 @@ Net_Listener::Net_Listener(int local_address) {
 	acceptor=ACE_INET_Addr(local_address, ACE_LOCALHOST);
 	this->reactor(ACE_Reactor::instance());
 	int result=this->reactor()->register_handler(this, ACE_Event_Handler::ACCEPT_MASK);
-	ACE_ASSERT(result == 0);
+	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 }
 
@@ -157,7 +157,7 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 		1, // restart
 		reset_new_handle
 	);
-	ACE_ASSERT(result == 0);
+	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 	remote_address.dump();
 	Net_Handler *handler;

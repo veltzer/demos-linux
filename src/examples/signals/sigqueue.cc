@@ -30,7 +30,7 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	if (argc != 4) {
+	if (argc!=4) {
 		fprintf(stderr,"usage: %s [pid] [sig] [value]\n",argv[0]);
 		fprintf(stderr,"Info for real time signals follows:\n");
 		fprintf(stderr,"SIGRTMIN is %d\n",SIGRTMIN);

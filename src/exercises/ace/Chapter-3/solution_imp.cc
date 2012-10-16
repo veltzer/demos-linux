@@ -62,14 +62,14 @@ class SharedResource {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) waiting for lock\n")));
 			AttemptCounter++;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"), LockedCounter % 3, value));
-			if (LockedCounter % 3 == value) {
+			if (LockedCounter % 3==value) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
 				LockedCounter++;
 				// release lock from main and
 				// TODO!!!
 				// aquire next
 				value++;
-				value %= 3;
+				value%=3;
 				mutex[value].acquire();
 			} else {
 				mutex[value].acquire();
@@ -79,7 +79,7 @@ class SharedResource {
 		// This method releases the lock of the next object
 		void release(int value) {
 			value++;
-			value %= 3;
+			value%=3;
 			mutex[value].release();
 		}
 };

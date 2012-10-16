@@ -45,12 +45,12 @@ long ListenPort;
 class SignalableTask:public ACE_Task<ACE_MT_SYNCH> {
 public:
 	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
-		if (signum == SIGUSR1) {
+		if (signum==SIGUSR1) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) received a %S signal\n"), signum));
 			MyIndex=0;
 // handle_alert ();
 		}
-		if (signum == SIGUSR2) {
+		if (signum==SIGUSR2) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) received a %S signal\n"), signum));
 			MyIndex=1;
 // handle_alert ();
@@ -72,15 +72,15 @@ int DoAccept(long ReceivePort, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr, 
 	ACE_INET_Addr address_to_listen=ACE_INET_Addr(ReceivePort, ACE_LOCALHOST);
 
 	// Use the address as well as re-use flag
-	if (acceptor->open(address_to_listen, 1) == -1) {
+	if (acceptor->open(address_to_listen, 1)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 	}
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Trying to accept %d.\n"), ReceivePort));
-	if (acceptor->accept(*peer, peer_addr, &timeout, 0) == -1) {
-		if (ACE_OS::last_error() == EINTR) {
+	if (acceptor->accept(*peer, peer_addr, &timeout, 0)==-1) {
+		if (ACE_OS::last_error()==EINTR) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while waiting for connection\n")));
-		} else if (ACE_OS::last_error() == ETIMEDOUT) {
+		} else if (ACE_OS::last_error()==ETIMEDOUT) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while waiting for connection\n")));
 		}
 	} else {
@@ -122,7 +122,7 @@ int ReceiveMessages(ACE_SOCK_Stream peer[], ACE_SOCK_Acceptor acceptor[]) {
 					result=peer[count].recv(buffer, sizeof(buffer));
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) R E C E I V I N G: <%s>\n"), buffer));
 					/* This means the other side closed the socket */
-					if (result == 0) {
+					if (result==0) {
 						ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) result=0 for count: %d\n"), count));
 						peer[count].close();
 					} else {
@@ -159,7 +159,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		// Use SIGUSR2
 		sh.register_handler(SIGUSR2, &handler);
 		// wait untill MyIndex is modified
-		while(MyIndex == -1) {
+		while(MyIndex==-1) {
 			ACE_OS::sleep(1);
 		}
 
@@ -167,7 +167,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 
 		ACE_INET_Addr address_to_listen=ACE_INET_Addr(ListenPort, ACE_LOCALHOST);
 		ACE_OS::sleep(1);
-		if (-1 == connector.connect(peer, address_to_listen, &timeout)) {
+		if (-1==connector.connect(peer, address_to_listen, &timeout)) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%p\n"), ACE_TEXT("(%P|%t) Client %d connect"), MyIndex + 1));
 			return(1);
 		}

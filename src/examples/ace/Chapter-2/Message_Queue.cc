@@ -30,10 +30,10 @@
 int HA_CommandHandler::svc(void) {
 	while(true) {
 		ACE_Message_Block *mb;
-		if (this->getq(mb) == -1) {
+		if (this->getq(mb)==-1) {
 			break;
 		}
-		if (mb->msg_type() == ACE_Message_Block::MB_HANGUP) {
+		if (mb->msg_type()==ACE_Message_Block::MB_HANGUP) {
 			mb->release();
 			break;
 		} else {
@@ -65,7 +65,7 @@ ACE_Message_Block *Message_Receiver::shut_down_message(void) {
 int Message_Receiver::read_header(DeviceCommandHeader *dch) {
 	ssize_t result=this->peer().recv_n(dch, sizeof(DeviceCommandHeader));
 
-	if (result <= 0) {
+	if(result<=0) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Recieve Failure")), -1);
 	}
 	return(0);
@@ -75,7 +75,7 @@ int Message_Receiver::read_header(DeviceCommandHeader *dch) {
 int Message_Receiver::copy_payload(ACE_Message_Block *mb, int payload_length) {
 	ssize_t result=this->peer().recv_n(mb->wr_ptr(), payload_length);
 
-	if (result <= 0) {
+	if(result<=0) {
 		mb->release();
 		return(-1);
 	}
@@ -145,12 +145,12 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	HA_CommandHandler handler(rep);
 
 	//start up the handler.
-	ACE_ASSERT(handler.activate() == 0);
+	ACE_ASSERT(handler.activate()==0);
 
 	Acceptor acceptor(& handler);
 	ACE_INET_Addr addr(port);
 
-	if (acceptor.open(addr) == -1) {
+	if (acceptor.open(addr)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Failed to open connection")), -1);
 	}
 

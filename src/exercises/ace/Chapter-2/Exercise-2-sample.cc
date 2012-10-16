@@ -46,7 +46,7 @@ static const long max_queue=LONG_MAX;
 // The consumer dequeues a message from the ACE_Message_Queue
 static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Message_Block* mb;
-	if (msg_queue->dequeue_head(mb) == -1) {
+	if (msg_queue->dequeue_head(mb)==-1) {
 		return(NULL);
 	}
 	int length=ACE_Utils::truncate_cast<int> (mb->length());
@@ -58,7 +58,7 @@ static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Allocator::instance()->free(mb->rd_ptr());
 	// Release the Message Block
 	mb->release();
-	if (length == 0) {
+	if (length==0) {
 		// you may use the zero length as program termination
 		return(NULL);
 	}
@@ -82,7 +82,7 @@ static void* producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// #define ACE_NEW_RETURN(POINTER,CONSTRUCTOR,RET_VAL)
 	// and for the Message_Block as follows:
 	//
-	//=== ACE_Message_Block ======From: <ace/Message_Block.h> ===========================
+	//===ACE_Message_Block======From: <ace/Message_Block.h> ===========================
 	/*
 	* ACE_Message_Block (size_t size,
 	* ACE_Message_Block::ACE_Message_Type type=MB_DATA,

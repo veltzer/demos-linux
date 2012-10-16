@@ -77,7 +77,7 @@ ClientAcceptor::~ClientAcceptor() {
 }
 
 int ClientAcceptor::open(const ACE_INET_Addr& listen_addr) {
-	if(this->acceptor_.open(listen_addr, 1) == -1) {
+	if(this->acceptor_.open(listen_addr, 1)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), -1);
 	}
 	return(this->reactor()->register_handler (this, ACE_Event_Handler::ACCEPT_MASK));
@@ -87,7 +87,7 @@ int ClientAcceptor::handle_input(ACE_HANDLE) {
 	ClientService* client;
 	ACE_NEW_RETURN(client,ClientService,-1);
 	auto_ptr<ClientService> p(client);
-	if(this->acceptor_.accept(client->peer()) == -1) {
+	if(this->acceptor_.accept(client->peer())==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("Failed to accept ") ACE_TEXT("client connection")), -1);
 	}
 	p.release();
@@ -120,7 +120,7 @@ int ClientService::handle_input(ACE_HANDLE) {
 	const size_t INPUT_SIZE=4096;
 	char buffer[INPUT_SIZE];
 	ssize_t recv_cnt,send_cnt;
-	if((recv_cnt=this->sock_.recv(buffer, sizeof(buffer))) <= 0) {
+	if((recv_cnt=this->sock_.recv(buffer, sizeof(buffer)))<=0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection closed\n")));
 		return(-1);
 	}
@@ -128,7 +128,7 @@ int ClientService::handle_input(ACE_HANDLE) {
 	if(send_cnt==recv_cnt) {
 		return(0);
 	}
-	if((send_cnt==-1) && (ACE_OS::last_error() != EWOULDBLOCK)) {
+	if((send_cnt==-1) && (ACE_OS::last_error()!=EWOULDBLOCK)) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("send")), 0);
 	}
 	if(send_cnt==-1) {
@@ -141,7 +141,7 @@ int ClientService::handle_input(ACE_HANDLE) {
 	int output_off=this->output_queue_.is_empty();
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
 
-	if(this->output_queue_.enqueue_tail(mb, &nowait) == -1) {
+	if(this->output_queue_.enqueue_tail(mb, &nowait)==-1) {
 		ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p; discarding data\nenqueue failed")));
 		mb->release();
 		return(0);
@@ -213,7 +213,7 @@ class LogSwitcher:public ACE_Event_Handler {
 		int on_sig_;
 		// Signal to turn logging off
 		int off_sig_;
-		// 1 == turn on, 0 == turn off
+		// 1==turn on, 0==turn off
 		int on_off_;
 };
 
@@ -247,7 +247,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_listen("HAStatus");
 	ClientAcceptor acceptor;
 	acceptor.reactor(ACE_Reactor::instance());
-	if(acceptor.open(port_to_listen) == -1) {
+	if(acceptor.open(port_to_listen)==-1) {
 		return(1);
 	}
 	ACE_Reactor::instance()->run_reactor_event_loop();

@@ -45,7 +45,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	/*
 	int on=1;
-	if(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on) == -1) {
+	if(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on)==-1) {
 		perror("setsockoption failed");
 		exit(errno);
 	}
@@ -60,26 +60,26 @@ int main(int argc,char** argv,char** envp) {
 		exit(errno);
 	}
 	while(true) {
-		if((datalen=recvfrom(brsock, ibuffer, sizeof(ibuffer), 0, (struct sockaddr *) & fromaddr, & fromaddrlen)) == -1) {
+		if((datalen=recvfrom(brsock, ibuffer, sizeof(ibuffer), 0, (struct sockaddr *) & fromaddr, & fromaddrlen))==-1) {
 			perror("brsock recvfrom failed");
 			exit(errno);
 		}
 		ibuffer[datalen-1]='\0'; // get rid of '\n'
 		printf("Got ==>%s<==\n", ibuffer);
 		sprintf(obuffer, "Bad request");
-		if(strcmp(ibuffer, "date") == 0) {
+		if(strcmp(ibuffer, "date")==0) {
 			t=time(NULL);
 			sprintf(obuffer, "%s", ctime(& t));
 		}
-		if(strcmp(ibuffer, "pid") == 0) {
+		if(strcmp(ibuffer, "pid")==0) {
 			sprintf(obuffer, "%d", getpid());
 		}
-		if((sendsock=socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		if((sendsock=socket(AF_INET, SOCK_STREAM, 0))==-1) {
 			perror("sendsock socket failed");
 			exit(errno);
 		}
 		fromaddr.sin_port=htons(6996); // reply port id
-		if(connect (sendsock, (struct sockaddr *) & fromaddr, fromaddrlen) == -1) {
+		if(connect (sendsock, (struct sockaddr *) & fromaddr, fromaddrlen)==-1) {
 			perror("sendsock connect failed");
 			exit(errno);
 		}

@@ -51,7 +51,7 @@ public:
 		// Save some more space than being read
 		while(true) {
 			int byte_count=0;
-			if ((byte_count=new_stream_.recv(message, BUFFER_SIZE)) == -1) {
+			if ((byte_count=new_stream_.recv(message, BUFFER_SIZE))==-1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "Error in recv"));
 			} else {
 				message[byte_count]=0;
@@ -62,7 +62,7 @@ public:
 			}
 		}
 // Close new endpoint
-		if (new_stream_.close() == -1) {
+		if (new_stream_.close()==-1) {
 			ACE_ERROR((LM_ERROR, "%p\n", "close"));
 		}
 		return(0);
@@ -73,7 +73,7 @@ public:
 //into the underlying stream new_stream_. After the connection has been
 //established call the handle_connection() method.
 	int accept_connections() {
-		if (peer_acceptor_.get_local_addr(server_addr_) == -1) {
+		if (peer_acceptor_.get_local_addr(server_addr_)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "%p\n", "Error in get_local_addr"), 1);
 		}
 		ACE_DEBUG((LM_DEBUG, "Starting server at port %d\n", server_addr_.get_port_number()));
@@ -83,7 +83,7 @@ public:
 #ifdef TIMEOUT
 			ACE_Time_Value timeout(ACE_DEFAULT_TIMEOUT);
 
-			if (peer_acceptor_.accept(new_stream_, &client_addr_, &timeout) == -1) {
+			if (peer_acceptor_.accept(new_stream_, &client_addr_, &timeout)==-1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "accept"));
 				continue;
 			} else {

@@ -40,7 +40,7 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	static char buf[64];
 	ACE_Time_Value timeout(10, 0);
 	int i=0;
-	if(connector.connect(peer, addr, &timeout) == -1) {
+	if(connector.connect(peer, addr, &timeout)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Client connect")), 1);
 	}
 	while(true) {

@@ -27,11 +27,11 @@
 * This example shows how you can write C functions in C++ code.
 * This seems trivial, right ?!? Just write regular functions
 * like:
-* =========== SNIP =========
+* ============SNIP==========
 * int add(int a,int b) {
 *	return a+b;
 * }
-* =========== SNIP =========
+* ============SNIP==========
 * But this is not what I mean....
 * I want the linkage to be C style...
 *

@@ -63,7 +63,7 @@ void DoChild() {
 			perror("msgctl: msgctl failed");
 			exit(errno);
 		}
-		if(msgCtlBuf.msg_cbytes + MSGSZ+sizeof(long) >= msgCtlBuf.msg_qbytes)
+		if(msgCtlBuf.msg_cbytes + MSGSZ+sizeof(long)>=msgCtlBuf.msg_qbytes)
 		{
 			// try to empty all queues. find the one with most messages and report it.
 			biggestQueueSize=0;
@@ -73,7 +73,7 @@ void DoChild() {
 				while((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
 					i, IPC_NOWAIT|MSG_NOERROR))!=-1)
 				{
-					currentQueueSize += msgsize;
+					currentQueueSize+=msgsize;
 				}
 				if(currentQueueSize > biggestQueueSize)
 				{
@@ -98,27 +98,27 @@ int main(int argc,char** argv,char** envp) {
 	SigAction.sa_handler=TerminateChild;
 	SigAction.sa_mask=emptymask;
 	SigAction.sa_flags=0;
-	if(sigaction(SIGINT, &SigAction, NULL) == -1)
+	if(sigaction(SIGINT, &SigAction, NULL)==-1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if(sigaction(SIGTERM, &SigAction, NULL) == -1)
+	if(sigaction(SIGTERM, &SigAction, NULL)==-1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if(sigaction(SIGQUIT, &SigAction, NULL) == -1)
+	if(sigaction(SIGQUIT, &SigAction, NULL)==-1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if(sigaction(SIGABRT, &SigAction, NULL) == -1)
+	if(sigaction(SIGABRT, &SigAction, NULL)==-1)
 	{
 		perror("sigaction");
 		exit(errno);
 	}
-	if((key=ftok("MirsClient", 'x')) == -1)
+	if((key=ftok("MirsClient", 'x'))==-1)
 	{
 		perror("ftok failed");
 		exit(errno);
@@ -153,7 +153,7 @@ int main(int argc,char** argv,char** envp) {
 		switch (Ans)
 		{
 			case 1:
-				if(msgctl(msqid, IPC_STAT, & msgCtlBuf) == -1)
+				if(msgctl(msqid, IPC_STAT, & msgCtlBuf)==-1)
 				{
 					perror("msgctl: msgctl failed");
 					exit(errno);
@@ -181,14 +181,14 @@ int main(int argc,char** argv,char** envp) {
 					perror("error in kill");
 					exit(errno);
 				}
-				if(msgctl(msqid, IPC_RMID, NULL) == -1) {
+				if(msgctl(msqid, IPC_RMID, NULL)==-1) {
 					perror("msgctl RMID failed");
 					exit(errno);
 				}
 				exit(0);
 				break;
 			case 3:
-				if(msgctl(msqid, IPC_STAT, & msgCtlBuf) == -1) {
+				if(msgctl(msqid, IPC_STAT, & msgCtlBuf)==-1) {
 					perror("msgctl: msgctl failed");
 					exit(errno);
 				}
@@ -197,7 +197,7 @@ int main(int argc,char** argv,char** envp) {
 				if(ret<1) {
 					perror("scanf");
 				}
-				if(msgctl(msqid, IPC_SET, & msgCtlBuf) == -1) {
+				if(msgctl(msqid, IPC_SET, & msgCtlBuf)==-1) {
 					perror("msgctl: msgctl failed");
 					exit(errno);
 				}
@@ -218,7 +218,7 @@ int main(int argc,char** argv,char** envp) {
 				if(ret<1) {
 					perror("scanf");
 				}
-				if(msgctl(msqid, IPC_SET, & msgCtlBuf) == -1)
+				if(msgctl(msqid, IPC_SET, & msgCtlBuf)==-1)
 				{
 					perror("msgctl: msgctl failed");
 					exit(errno);

@@ -95,7 +95,7 @@ static void parse_args(int argc,ACE_TCHAR** argv) {
 static void *reader(void *) {
 	ACE_DEBUG((LM_DEBUG, "(%t) reader starting\n"));
 
-	for(int iterations=1; iterations <= n_iterations; iterations++) {
+	for(int iterations=1; iterations<=n_iterations; iterations++) {
 		ACE_Read_Guard<ACE_RW_Mutex> g(rw_mutex);
 
 		++current_readers;
@@ -106,10 +106,10 @@ static void *reader(void *) {
 
 		ACE_thread_t thr_id=shared_thr_id;
 
-		for(int loop=1; loop <= n_loops; loop++) {
+		for(int loop=1; loop<=n_loops; loop++) {
 			ACE_Thread::yield();
 
-			if(ACE_OS::thr_equal(shared_thr_id, thr_id) == 0) {
+			if(ACE_OS::thr_equal(shared_thr_id, thr_id)==0) {
 				ACE_DEBUG((LM_DEBUG, "(%t) somebody changed %d to %d\n", thr_id, shared_thr_id));
 			}
 		}
@@ -138,7 +138,7 @@ static void *writer(void *) {
 		shared_thr_id=self;
 		for(int loop=1;loop<=n_loops;loop++) {
 			ACE_Thread::yield();
-			if(ACE_OS::thr_equal(shared_thr_id, self) == 0) {
+			if(ACE_OS::thr_equal(shared_thr_id, self)==0) {
 				ACE_DEBUG((LM_DEBUG, "(%t) somebody wrote on my data %d\n", shared_thr_id));
 			}
 		}
@@ -159,8 +159,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Possibly already done
 	ACE_DEBUG((LM_DEBUG, "(%t) main thread starting\n"));
 	// Spawn off threads.
-	if((thr_mgr.spawn_n(n_readers, (ACE_THR_FUNC)reader, 0, THR_NEW_LWP) == -1) ||
-		(thr_mgr.spawn_n(n_writers, (ACE_THR_FUNC)writer, 0, THR_NEW_LWP) == -1)) {
+	if((thr_mgr.spawn_n(n_readers, (ACE_THR_FUNC)reader, 0, THR_NEW_LWP)==-1) ||
+		(thr_mgr.spawn_n(n_writers, (ACE_THR_FUNC)writer, 0, THR_NEW_LWP)==-1)) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn_n"), 1);
 	}
 	thr_mgr.wait();

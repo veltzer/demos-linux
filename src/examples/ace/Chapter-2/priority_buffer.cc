@@ -44,11 +44,11 @@ static const long max_queue=LONG_MAX;
 // reading and exit.
 static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// Keep looping, reading a message out of the queue, until we
-	// timeout or get a message with a length == 0, which signals us to
+	// timeout or get a message with a length==0, which signals us to
 	// quit.
 	while(true) {
 		ACE_Message_Block *mb;
-		if(msg_queue->dequeue_head(mb) == -1) {
+		if(msg_queue->dequeue_head(mb)==-1) {
 			break;
 		}
 		size_t length=mb->length();

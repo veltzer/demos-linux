@@ -59,7 +59,7 @@ class LogSwitcher:public ACE_Event_Handler {
 	private:
 		int on_sig_; // Signal to turn logging on
 		int off_sig_; // Signal to turn logging off
-		int on_off_; // 1 == turn on, 0 == turn off
+		int on_off_; // 1==turn on, 0==turn off
 	public:
 		LogSwitcher(int on_sig, int off_sig):on_sig_(on_sig),off_sig_(off_sig) {
 			ACE_Sig_Set sigs;
@@ -68,8 +68,8 @@ class LogSwitcher:public ACE_Event_Handler {
 			ACE_Reactor::instance()->register_handler(sigs,this);
 		}
 		int handle_signal(int signum, siginfo_t *, ucontext_t *) {
-			if (signum == this->on_sig_ || signum == this->off_sig_) {
-				this->on_off_ = signum == this->on_sig_;
+			if (signum==this->on_sig_ || signum==this->off_sig_) {
+				this->on_off_=signum==this->on_sig_;
 				ACE_Reactor::instance ()->notify (this);
 			}
 			return 0;

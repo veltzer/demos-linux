@@ -45,7 +45,7 @@ void eat(int id) {
 
 void putForks(int id) {
 	int next;
-	if(id == NPHIL-1)
+	if(id==NPHIL-1)
 		next=0;
 	else
 		next=id+1;
@@ -57,7 +57,7 @@ void putForks(int id) {
 	sops[1].sem_num=next;
 	sops[1].sem_op=1;
 	sops[1].sem_flg=0;
-	if ( semop(semid, sops, 2) == -1 ) {
+	if ( semop(semid, sops, 2)==-1) {
 		perror("semop");
 		exit(errno);
 	}
@@ -67,7 +67,7 @@ void putForks(int id) {
 void pickForks(int id)
 {
 	int next;
-	if(id == NPHIL-1)
+	if(id==NPHIL-1)
 		next=0;
 	else
 		next=id+1;
@@ -79,7 +79,7 @@ void pickForks(int id)
 	sops[1].sem_num=next;
 	sops[1].sem_op=-1;
 	sops[1].sem_flg=0;
-	if ( semop(semid, sops, 2) == -1 ) {
+	if ( semop(semid, sops, 2)==-1 ) {
 		perror("semop");
 		exit(errno);
 	}
@@ -89,24 +89,24 @@ void pickForks(int id)
 int main(int argc,char** argv,char** envp) {
 	key_t key;
 	int id;
-	if(argc != 2) {
+	if(argc!=2) {
 		fprintf(stderr, "Usage: %s [0-%d]\n", argv[0], NPHIL-1);
 		exit(EXIT_FAILURE);
 	}
-	if((argv[1][0] >= '0') && (argv[1][0] <='5') && (strlen(argv[1]) == 1))
+	if((argv[1][0]>='0') && (argv[1][0] <='5') && (strlen(argv[1])==1))
 		id=atoi(argv[1]);
 	else {
 		fprintf(stderr, "bad argument %c, Argument must be numeric value between 0 and 5\n", argv[1][0]);
 		exit(EXIT_FAILURE);
 	}
 
-	if ((key=ftok(KEYFILE, 'x')) == -1 ) {
+	if ((key=ftok(KEYFILE, 'x'))==-1 ) {
 		int local_errno=errno;
 		perror("ftok failed");
 		exit(local_errno);
 	}
 
-	if ((semid=semget(key, 0, 0)) == -1 ) {
+	if ((semid=semget(key, 0, 0))==-1 ) {
 		perror("semget");
 		exit(errno);
 	}

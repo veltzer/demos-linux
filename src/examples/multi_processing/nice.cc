@@ -58,7 +58,7 @@ pid_t make_child(int nice_val) {
 		pid_t mypid=getpid();
 		int i=0;
 		while(true) {
-			if (i % 10000000 == 0) {
+			if (i % 10000000==0) {
 				printf("pid %d, counter %d, nice %d\n", mypid, i, nice_val);
 			}
 			i++;

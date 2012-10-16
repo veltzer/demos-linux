@@ -60,11 +60,11 @@ static int __init kmem_init(void) {
 		SLAB_HWCACHE_ALIGN | SLAB_DEBUG_OBJECTS,// flags (look at the docs, will you ?)
 		NULL// ctor/dtor to be called when each element is allocated or deallocated
 	);
-	if (cache_p == NULL) {
+	if(cache_p==NULL) {
 		return(-ENOMEM);
 	}
 	p=kmem_cache_alloc(cache_p, GFP_KERNEL);
-	if (p == NULL) {
+	if(p==NULL) {
 		// there is not too much that we can do here
 		PR_ERROR("Cannot allocate memory");
 		kmem_cache_destroy(cache_p);

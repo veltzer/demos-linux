@@ -109,7 +109,7 @@ void func() {
 	static int counter=0;
 
 	counter++;
-	if (counter % 3 == 0) {
+	if (counter % 3==0) {
 		error_create("some error");
 	}
 	fprintf(stderr, "this is the continuation of the function\n");
@@ -121,7 +121,7 @@ int main(int argc,char** argv,char** envp) {
 		//error_data* p=(error_data*)ret;
 		//error_data* p=error_setjmp();
 		error_data *p=mac_error_setjmp();
-		if (p == NULL) {
+		if (p==NULL) {
 			// This is the regular code. We get here when setting doing the
 			// setjmp for the first time
 			fprintf(stderr, "c is %d\n", c);

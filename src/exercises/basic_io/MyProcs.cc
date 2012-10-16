@@ -43,19 +43,19 @@ void scanthedir(const char* dirname) {
 	int linktargetsize;
 	CHECK_NOT_NULL(sdir=opendir(dirname));
 	while((dircontent=readdir(sdir))) {
-		if ((strcmp(dircontent->d_name, "." ) == 0)
-			|| strcmp(dircontent->d_name, "..") == 0)
+		if ((strcmp(dircontent->d_name, "." )==0)
+			|| strcmp(dircontent->d_name, "..")==0)
 			continue;
 		snprintf(tmpdir, MAXPATHLEN,"%s/%s", dirname, dircontent->d_name);
 		CHECK_NOT_M1(lstat(tmpdir, & statbuf));
 		if (S_ISDIR(statbuf.st_mode)) {
-			if (statbuf.st_uid == getuid()) {
+			if (statbuf.st_uid==getuid()) {
 				snprintf(fddirname, MAXPATHLEN,"%s/fd", tmpdir);
 				printf("%s\n", dircontent->d_name);
 				CHECK_NOT_NULL(fddir=opendir(fddirname));
 				while((fddircontent=readdir(fddir))) {
-					if ((strcmp(fddircontent->d_name, "." ) == 0)
-						|| strcmp(fddircontent->d_name, "..") == 0)
+					if ((strcmp(fddircontent->d_name, "." )==0)
+						|| strcmp(fddircontent->d_name, "..")==0)
 						continue;
 					snprintf(linkname, MAXPATHLEN,"%s/%s", fddirname, fddircontent->d_name);
 					CHECK_NOT_M1(linktargetsize=readlink(linkname, linktarget, sizeof(linktarget)));

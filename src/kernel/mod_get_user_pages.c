@@ -154,7 +154,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		nr_pages=(newsize - 1) / PAGE_SIZE + 1;
 		PR_DEBUG("nr_pages is %d", nr_pages);
 		// alocate page structures...
-		if ((pages=kmalloc(nr_pages * sizeof(struct page *), GFP_KERNEL)) == NULL) {
+		if ((pages=kmalloc(nr_pages * sizeof(struct page *), GFP_KERNEL))==NULL) {
 			PR_ERROR("could not allocate page structs");
 			return(-ENOMEM);
 		}
@@ -173,11 +173,11 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			NULL
 		);
 		vma=find_vma(current->mm, bpointer);
-		vma->vm_flags |= VM_DONTCOPY;
+		vma->vm_flags|=VM_DONTCOPY;
 		up_write(&current->mm->mmap_sem);
 		PR_DEBUG("after get_user_pages res is %d", res);
 		// Errors and no page mapped should return here
-		if (res != nr_pages) {
+		if (res!=nr_pages) {
 			PR_ERROR("could not get_user_pages. res was %d", res);
 			kfree(pages);
 			return(-EFAULT);
@@ -187,7 +187,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		//pages_unlock();
 		// map the pages to kernel space...
 		vptr=vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
-		if (vptr == NULL) {
+		if (vptr==NULL) {
 			PR_ERROR("could not get_user_pages. res was %d", res);
 			kfree(pages);
 			return(-EFAULT);

@@ -63,16 +63,16 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	*/
 // #define NO_TIMEOUT
 #ifdef NO_TIMEOUT
-	if(acceptor.accept(peer) == -1) {
+	if(acceptor.accept(peer)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) Failed to accept client connection\n")), 100);
 	}
 #else
 	ACE_Time_Value timeout(10, 0);
 	ACE_INET_Addr peer_addr;
-	if (acceptor.accept(peer, &peer_addr, &timeout, 0) == -1) {
-		if (ACE_OS::last_error() == EINTR) {
+	if (acceptor.accept(peer, &peer_addr, &timeout, 0)==-1) {
+		if (ACE_OS::last_error()==EINTR) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while waiting for connection\n")));
-		} else if (ACE_OS::last_error() == ETIMEDOUT) {
+		} else if (ACE_OS::last_error()==ETIMEDOUT) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while waiting for connection\n")));
 		}
 	} else {
@@ -81,10 +81,10 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
 	}
 #endif /* NO_TIMEOUT */
-	while(type != 0) {
+	while(type!=0) {
 		type=GetMessageType(buffer);
 		// if type is not 0 (EOF) then write it to the client
-		if (type != 0) {
+		if (type!=0) {
 			size_t size=ACE_OS::strlen(buffer);
 			buffer[size++]='\n';
 			peer.send_n(buffer, size, 0);

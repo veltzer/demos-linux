@@ -46,7 +46,7 @@ class ClientAcceptor:public ACE_Event_Handler {
 		}
 
 		int open(const ACE_INET_Addr& listen_addr) {
-			if(this->acceptor_.open(listen_addr, 1) == -1) {
+			if(this->acceptor_.open(listen_addr, 1)==-1) {
 				ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), -1);
 			}
 			return(this->reactor()->register_handler(this, ACE_Event_Handler::ACCEPT_MASK));
@@ -95,7 +95,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 
 	ClientAcceptor acceptor;
 	acceptor.reactor(ACE_Reactor::instance());
-	if(acceptor.open(port_to_listen) == -1) {
+	if(acceptor.open(port_to_listen)==-1) {
 		return(1);
 	}
 

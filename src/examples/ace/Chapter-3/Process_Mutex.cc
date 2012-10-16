@@ -74,11 +74,11 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Spawned processes; pids %d:%d\n"), pida, pidb));
 
-		if (processa.wait() == -1) {
+		if (processa.wait()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processa wait")), -1);
 		}
 
-		if (processb.wait() == -1) {
+		if (processb.wait()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("processb wait")), -1);
 		}
 		// Print Done for the parent only

@@ -36,29 +36,29 @@ unsigned int la_version(unsigned int version) {
 char* la_objsearch(const char *name, uintptr_t *cookie, unsigned int flag) {
 	printf("la_objsearch(): name=%s; cookie=%p", name, cookie);
 	printf("; flag=%s\n",
-	(flag == LA_SER_ORIG) ? "LA_SER_ORIG" :
-	(flag == LA_SER_LIBPATH) ? "LA_SER_LIBPATH" :
-	(flag == LA_SER_RUNPATH) ? "LA_SER_RUNPATH" :
-	(flag == LA_SER_DEFAULT) ? "LA_SER_DEFAULT" :
-	(flag == LA_SER_CONFIG) ? "LA_SER_CONFIG" :
-	(flag == LA_SER_SECURE) ? "LA_SER_SECURE" :
+	(flag==LA_SER_ORIG) ? "LA_SER_ORIG" :
+	(flag==LA_SER_LIBPATH) ? "LA_SER_LIBPATH" :
+	(flag==LA_SER_RUNPATH) ? "LA_SER_RUNPATH" :
+	(flag==LA_SER_DEFAULT) ? "LA_SER_DEFAULT" :
+	(flag==LA_SER_CONFIG) ? "LA_SER_CONFIG" :
+	(flag==LA_SER_SECURE) ? "LA_SER_SECURE" :
 	"???");
 	return (char*)name;
 }
 
 void la_activity (uintptr_t *cookie, unsigned int flag) {
 	printf("la_activity(): cookie=%p; flag=%s\n", cookie,
-	(flag == LA_ACT_CONSISTENT) ? "LA_ACT_CONSISTENT" :
-	(flag == LA_ACT_ADD) ? "LA_ACT_ADD" :
-	(flag == LA_ACT_DELETE) ? "LA_ACT_DELETE" :
+	(flag==LA_ACT_CONSISTENT) ? "LA_ACT_CONSISTENT" :
+	(flag==LA_ACT_ADD) ? "LA_ACT_ADD" :
+	(flag==LA_ACT_DELETE) ? "LA_ACT_DELETE" :
 	"???");
 }
 
 unsigned int la_objopen(struct link_map *map, Lmid_t lmid, uintptr_t *cookie) {
 	printf("la_objopen(): loading \"%s\"; lmid=%s; cookie=%p\n",
 	map->l_name,
-	(lmid == LM_ID_BASE) ? "LM_ID_BASE" :
-	(lmid == LM_ID_NEWLM) ? "LM_ID_NEWLM" :
+	(lmid==LM_ID_BASE) ? "LM_ID_BASE" :
+	(lmid==LM_ID_NEWLM) ? "LM_ID_NEWLM" :
 	"???",
 	cookie);
 	return LA_FLG_BINDTO | LA_FLG_BINDFROM;
