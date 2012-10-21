@@ -19,10 +19,11 @@
 */
 
 #include<firstinclude.h>
-// libipq is not well adjusted for C++
-extern "C" {
-#include<libipq.h>
-}
+#include<libnetfilter_queue/libipq.h>
+// libipq is not well adjusted for C++ in older ubuntu
+//extern "C" {
+//#include<libipq.h>
+//}
 #include<linux/in.h>
 #include<linux/in6.h>
 #include<linux/netfilter.h>

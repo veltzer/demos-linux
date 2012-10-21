@@ -26,12 +26,9 @@
 * This example shows how to use compile time constants which
 * are known by the compiler in order to speed things up and
 * still present one API.
-*
-* TODO:
-* - this example does not work. Fix it up.
 */
 static inline int _sum(int i) {
-	std::cerr << "in _sum for " << i << std::endl;
+	//std::cerr << "in _sum for " << i << std::endl;
 	return(i *(i + 1) / 2);
 }
 
@@ -43,7 +40,9 @@ static inline int _sum(int i) {
 * return false and so the entire branch of that code goes away including the 'if'
 * statement itself!
 */
-static __attribute__((__always_inline__)) int sum(int i) {
+// next line produces a compile time error...
+//static __attribute__((__always_inline__)) int sum(int i) {
+static int sum(int i) {
 	if (__builtin_constant_p(i) && (i==100)) {
 		return(5051);
 	} else {
@@ -56,13 +55,11 @@ void fake_manipulate_int(int *ip) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	std::cerr << "sum for 99 is " << sum(99) << std::endl;
+	std::cerr << "sum for 99 is " << sum(99) << " and should be " << _sum(99) << std::endl;
 	int j=0;
 	fake_manipulate_int(&j);
-	std::cerr << "sum for j=100 is " << sum(j) << std::endl;
-	std::cerr << "sum for 100 is " << sum(100) << std::endl;
-	std::cerr << "sum for 100 is " << sum(100) << std::endl;
-	std::cerr << "sum for 100 is " << sum(100) << std::endl;
-	std::cerr << "sum for 101 is " << sum(101) << std::endl;
+	std::cerr << "sum for j=100 is " << sum(j) << " and should be " << _sum(100) << std::endl;
+	std::cerr << "sum for 100 is " << sum(100) << " and should be 5051 (this is the important example!)" << std::endl;
+	std::cerr << "sum for 101 is " << sum(101) << " and should be " << _sum(101) << std::endl;
 	return EXIT_SUCCESS;
 }

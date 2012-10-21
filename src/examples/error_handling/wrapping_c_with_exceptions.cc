@@ -21,6 +21,7 @@
 #include<firstinclude.h>
 #include<iostream> // for std::cerr
 #include<signal.h>
+#include<unistd.h> // for pipe(2)
 #include<stdio.h> // for perror(3)
 #include<errno.h> // for perror(3)
 #include<stdlib.h> // for EXIT_SUCCESS

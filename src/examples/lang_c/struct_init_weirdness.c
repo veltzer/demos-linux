@@ -32,6 +32,8 @@
 * If you state ={6,7,8} then the values will initialize the fields in the order you required (see a4).
 * If you state ={ .k=9 } (C99 style) then only that field will get the value, others will get 0 (see a5).
 * If you state ={ j:10 } (GNU style) then only that field will get the value, others will get 0 (see a6).
+*
+* EXTRA_COMPILE_FLAGS=-Wno-error=uninitialized -w
 */
 
 typedef struct _a {

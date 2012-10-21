@@ -37,6 +37,7 @@
 * - regular inline means inline for speed if speed is of the essense which
 * means that when compiling without optimization inline is not guaranteed.
 * - always inline means always inline (even when compiling without optimization).
+* and does not work in new gcc's which give warnings/errors about no guarantee for inlining.
 * - gnu_inline depends on other flags and has an intermediate meaning.
 */
 
@@ -52,12 +53,14 @@ static inline __attribute__((gnu_inline)) int add3(int a, int b) {
 static inline __attribute__((__gnu_inline__)) int add4(int a, int b) {
 	return a+b;
 }
+/*
 static __attribute__((always_inline)) int add5(int a, int b) {
 	return a+b;
 }
 static __attribute__((__always_inline__)) int add6(int a, int b) {
 	return a+b;
 }
+*/
 
 int main(int argc,char** argv,char** envp) {
 	int a=2;
@@ -66,7 +69,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("add2(%d,%d)=%d\n",a,b,add2(a,b));
 	printf("add3(%d,%d)=%d\n",a,b,add3(a,b));
 	printf("add4(%d,%d)=%d\n",a,b,add4(a,b));
-	printf("add5(%d,%d)=%d\n",a,b,add5(a,b));
-	printf("add5(%d,%d)=%d\n",a,b,add6(a,b));
+//	printf("add5(%d,%d)=%d\n",a,b,add5(a,b));
+//	printf("add5(%d,%d)=%d\n",a,b,add6(a,b));
 	return EXIT_SUCCESS;
 }

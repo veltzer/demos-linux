@@ -29,6 +29,8 @@
 *
 * The weird this is, if you access the same field twice gcc will 0 it for you
 * (see the last part of this example).
+*
+* EXTRA_COMPILE_FLAGS=-Wno-error=uninitialized -w
 */
 
 struct smallstruct {
@@ -53,6 +55,6 @@ int main(int argc,char** argv,char** envp) {
 	struct largestruct vlarge2;
 	printf("vlarge2.a is %d\n",vlarge2.a);
 	printf("vlarge2.b is %d\n",vlarge2.b);
-	printf("vlarge2.c is %d\n",vlarge2.b);
+	printf("vlarge2.b(second time) is %d\n",vlarge2.b);
 	return EXIT_SUCCESS;
 }
