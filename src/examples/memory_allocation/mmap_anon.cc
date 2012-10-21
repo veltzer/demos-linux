@@ -42,7 +42,7 @@
 *	- MAP_POPULATE
 * - later you can use this memory as shared memory with another process.
 *
-* EXTRA_LIBS=-lproc
+* EXTRA_LIBS=-lprocps
 */
 
 // do you want to ask mmap to populate the page table ?

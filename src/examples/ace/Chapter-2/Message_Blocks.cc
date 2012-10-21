@@ -37,11 +37,11 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	const char *command1="<InitialDataPart>";
 	const char *command2="< More Data ...>";
 	// Use the pointer to insert the string
-	ACE_OS::sprintf(mb->wr_ptr(), command1);
+	ACE_OS::sprintf(mb->wr_ptr(), "%s",command1);
 	// Move the wr_ptr() forward in the buffer by the amount of data we just put in.
 	mb->wr_ptr(ACE_OS::strlen(command1));
 	// Use the pointer to add another string
-	ACE_OS::sprintf(mb->wr_ptr(), command2);
+	ACE_OS::sprintf(mb->wr_ptr(), "%s",command2);
 	mb->wr_ptr(ACE_OS::strlen(command2) + 1);
 
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Command Sequence --> %C\n"), mb->rd_ptr()));

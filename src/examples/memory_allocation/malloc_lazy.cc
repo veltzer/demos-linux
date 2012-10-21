@@ -43,7 +43,7 @@
 * You can also look at how this program is working using this:
 * while [[ true ]]; do ps -C malloc_lazy.exe -o comm,min_flt,rss; sleep 1;done
 *
-* EXTRA_LIBS=-lproc
+* EXTRA_LIBS=-lprocps
 */
 
 static inline void print_stats(void) {

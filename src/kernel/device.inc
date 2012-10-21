@@ -19,7 +19,7 @@ static struct kern_dev* pdev;
 static struct class* my_class;
 
 // parameters
-static int chrdev_alloc_dynamic = 1;
+static bool chrdev_alloc_dynamic = 1;
 module_param(chrdev_alloc_dynamic, bool, 0444);
 MODULE_PARM_DESC(chrdev_alloc_dynamic, "Allocate the device number dynamically?");
 

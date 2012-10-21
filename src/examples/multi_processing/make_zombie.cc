@@ -25,6 +25,7 @@
 #include<sys/wait.h> // for waitid(2)
 #include<stdlib.h> // for exit(3)
 #include<string.h> // for strsignal(3)
+#include<proc/readproc.h> // for get_proc_stats(3)
 
 #include<us_helper.h>
 
@@ -52,7 +53,7 @@
 * - catting files from the /proc folder (done in two ways in this example).
 * - top(1)
 *
-* EXTRA_LIBS=-lproc
+* EXTRA_LIBS=-lprocps
 *
 */
 void print_status(int status) {
@@ -92,9 +93,12 @@ void print_code(int code) {
 static inline void print_state(pid_t pid) {
 	my_system("ps --no-headers -o comm,state %d",pid);
 	my_system("cat /proc/%d/status | grep State",pid);
+	/*
+	 * get_proc_stats does not seem to work since move to new ubuntu (12.10)
 	proc_t myproc;
 	get_proc_stats(pid,&myproc);
 	printf("pid is %d, state is %c\n",pid, myproc.state);
+	*/
 }
 
 int main(int argc,char** argv,char** envp) {
