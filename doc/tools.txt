@@ -14,7 +14,7 @@ process statistics:
 io:
 	iostat
 	iotop, ionice
-	hdparm, sdparm
+	hdparm, sdparm, lsscsi (/proc/scsi/scsi)
 	blktool
 
 cpu:
