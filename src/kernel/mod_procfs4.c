@@ -129,7 +129,7 @@ int init_module(void) {
 	if (entry) {
 		entry->proc_fops=&my_file_ops;
 	}
-	pr_info(KBUILD_MODNAME " loaded successfully");
+	pr_info(KBUILD_MODNAME " loaded successfully\n");
 	return 0;
 }
 
@@ -138,5 +138,5 @@ int init_module(void) {
 */
 void cleanup_module(void) {
 	remove_proc_entry(PROC_NAME, NULL);
-	pr_info(KBUILD_MODNAME " unloaded successfully");
+	pr_info(KBUILD_MODNAME " unloaded successfully\n");
 }

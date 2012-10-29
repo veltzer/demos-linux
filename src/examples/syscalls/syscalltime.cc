@@ -65,7 +65,7 @@ void* func(void*) {
 	for(unsigned int i=0;i<count;i++) {
 		//struct timeval t3;
 		//gettimeofday(&t3, NULL);
-		//syscall(__NR_getpid);
+		syscall(__NR_getpid);
 		//getpid();
 	}
 	gettimeofday(&t2, NULL);

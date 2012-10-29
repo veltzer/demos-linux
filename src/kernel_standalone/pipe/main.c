@@ -70,7 +70,7 @@ static int pipes_count=8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
 // this size of pipe performs very well! (3.0 G/s)
-static int pipe_size=PAGE_SIZE*1000;
+static int pipe_size=PAGE_SIZE*10;
 // this one doesnt...
 //static int pipe_size=PAGE_SIZE;
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -479,7 +479,7 @@ static int __init pipe_init(void) {
 			goto err_class;
 		}
 	}
-	pr_info(KBUILD_MODNAME " loaded successfully");
+	pr_info(KBUILD_MODNAME " loaded successfully\n");
 	return 0;
 	/*
 err_device:
@@ -514,7 +514,7 @@ static void __exit pipe_exit(void) {
 		pipe_dtor(pipes+i);
 	}
 	kfree(pipes);
-	pr_info(KBUILD_MODNAME " unloaded successfully");
+	pr_info(KBUILD_MODNAME " unloaded successfully\n");
 }
 
 module_init(pipe_init);

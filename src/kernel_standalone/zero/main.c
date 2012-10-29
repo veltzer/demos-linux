@@ -51,7 +51,7 @@ static int open_zero(struct inode * inode, struct file * file) {
 	//memset(p,0,PAGE_SIZE);
 	//file->private_data=(void*)p;
 	file->private_data=(void*)get_zeroed_page(GFP_KERNEL);
-	pr_info("all is ok and buffer is %p",file->private_data);
+	pr_info("all is ok and buffer is %p\n",file->private_data);
 	return 0;
 }
 
@@ -115,14 +115,14 @@ static int zero_init(void) {
 		pr_err("cannot alloc_chrdev_region");
 		goto err_final;
 	}
-	pr_info("allocated the region");
+	pr_info("allocated the region\n");
 	// add the cdev structure
 	cdev_init(&cdev, &zero_fops);
 	if((err=cdev_add(&cdev, first_dev, MINOR_COUNT))) {
 		pr_err("cannot cdev_add");
 		goto err_dealloc;
 	}
-	pr_info("added the cdev");
+	pr_info("added the cdev\n");
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
@@ -130,7 +130,7 @@ static int zero_init(void) {
 		err=PTR_ERR(my_class);
 		goto err_cdev_del;
 	}
-	pr_info("created the class");
+	pr_info("created the class\n");
 	// and now lets auto-create a /dev/ node
 	my_device=device_create(my_class, NULL, first_dev,"%s",THIS_MODULE->name);
 	if(IS_ERR(my_device)) {
@@ -138,8 +138,8 @@ static int zero_init(void) {
 		err=PTR_ERR(my_device);
 		goto err_class;
 	}
-	pr_info("created the device");
-	pr_info("loaded ok");
+	pr_info("created the device\n");
+	pr_info("loaded ok\n");
 	return 0;
 //err_device:
 	device_destroy(my_class, first_dev);
@@ -158,7 +158,7 @@ static void zero_exit(void) {
 	class_destroy(my_class);
 	cdev_del(&cdev);
 	unregister_chrdev_region(first_dev, MINOR_COUNT);
-	pr_info("unloaded ok");
+	pr_info("unloaded ok\n");
 }
 
 module_init(zero_init);

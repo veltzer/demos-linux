@@ -172,7 +172,7 @@ static int __init clipboard_init(void) {
 		ret=PTR_ERR(clipboard_device);
 		goto error_after_class_create;
 	}
-	pr_info("clipboard loaded sucessfuly");
+	pr_info("clipboard loaded sucessfuly\n");
 	return 0;
 
 /*
@@ -197,7 +197,7 @@ static void __exit clipboard_cleanup(void) {
 	cdev_del(clipboard_cdev);
 	unregister_chrdev_region(clipboard_dev,BUFFER_COUNT);
 	kfree(buffer);
-	pr_info("clipboard unloaded succefully.");
+	pr_info("clipboard unloaded succefully\n");
 }
 
 module_init(clipboard_init);
