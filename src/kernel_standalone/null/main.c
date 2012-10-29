@@ -65,7 +65,7 @@ static struct device *my_device;
 
 static int __init null_init(void) {
 	int err;
-	pr_info("start");
+	pr_info("start\n");
 	// this is registering the new device operations
 	if((err=register_chrdev(NULL_MAJOR,THIS_MODULE->name,&null_fops))) {
 		pr_err("unable to get major %d for %s dev",NULL_MAJOR,THIS_MODULE->name);
@@ -79,7 +79,7 @@ static int __init null_init(void) {
 			err=PTR_ERR(my_class);
 			goto err_register;
 		}
-		pr_info("created class");
+		pr_info("created class\n");
 		// and now lets auto-create a /dev/ node
 		my_device=device_create(my_class, NULL, MKDEV(NULL_MAJOR, NULL_MINOR),"%s",THIS_MODULE->name);
 		if(IS_ERR(my_device)) {
@@ -87,9 +87,9 @@ static int __init null_init(void) {
 			err=PTR_ERR(my_device);
 			goto err_class;
 		}
-		pr_info("emitted message to udev to create /dev file in user space");
+		pr_info("emitted message to udev to create /dev file in user space\n");
 	}
-	pr_info("device loaded successfuly...");
+	pr_info("device loaded successfuly\n");
 	return 0;
 // err_device:
 	device_destroy(my_class, MKDEV(NULL_MAJOR, NULL_MINOR));
@@ -102,13 +102,13 @@ err_nothing:
 }
 
 static void __exit null_exit(void) {
-	pr_info("start");
+	pr_info("start\n");
 	if(auto_register) {
 		device_destroy(my_class, MKDEV(NULL_MAJOR, NULL_MINOR));
 		class_destroy(my_class);
 	}
 	unregister_chrdev(NULL_MAJOR,THIS_MODULE->name);
-	pr_info("device unloaded successfuly...");
+	pr_info("device unloaded successfuly\n");
 }
 
 module_init(null_init);

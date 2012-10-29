@@ -107,12 +107,12 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		//jmic=do_div(jdiff,HZ);
 		jmil=jdiff / HZ;
 		jmic=jmil * 1000;
-		pr_info("j1 is %lu", j1);
-		pr_info("j2 is %lu", j2);
-		pr_info("jdiff is %lu", jdiff);
-		pr_info("HZ is %d", HZ);
-		pr_info("jmil is %lu", jmil);
-		pr_info("jmic is %lu", jmic);
+		pr_info("j1 is %lu\n", j1);
+		pr_info("j2 is %lu\n", j2);
+		pr_info("jdiff is %lu\n", jdiff);
+		pr_info("HZ is %d\n", HZ);
+		pr_info("jmil is %lu\n", jmil);
+		pr_info("jmic is %lu\n", jmic);
 		return 0;
 
 	case IOCTL_TIMING_EMPTY:

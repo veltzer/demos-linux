@@ -35,14 +35,14 @@ MODULE_PARM_DESC(myparam, "myparam controls bla bla bla...");
 
 // our own functions
 static int __init hello_init(void) {
-	pr_info("in hello_init");
-	pr_info("myparam is %d",myparam);
+	pr_info("in hello_init\n");
+	pr_info("myparam is %d\n",myparam);
 	return (0);
 }
 
 static void __exit hello_exit(void) {
-	pr_info("myparam is %d",myparam);
-	pr_info("in hello_exit");
+	pr_info("myparam is %d\n",myparam);
+	pr_info("in hello_exit\n");
 }
 
 module_init(hello_init);

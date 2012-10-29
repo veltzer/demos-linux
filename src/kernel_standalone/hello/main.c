@@ -27,12 +27,12 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("minimal Hello, World! driver doing just init and cleanup");
 
 static int __init hello_init(void) {
-	pr_info("in hello_init");
+	pr_info("in hello_init\n");
 	return (0);
 }
 
 static void __exit hello_exit(void) {
-	pr_info("in hello_exit");
+	pr_info("in hello_exit\n");
 }
 
 module_init(hello_init);
