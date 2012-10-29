@@ -23,9 +23,9 @@
 #include"another_file.h" // our own API
 
 void do_something_init(void) {
-	printk(KERN_ALERT "init");
+	printk(KERN_ALERT "init\n");
 }
 
 void do_something_exit(void) {
-	printk(KERN_ALERT "exit");
+	printk(KERN_ALERT "exit\n");
 }
