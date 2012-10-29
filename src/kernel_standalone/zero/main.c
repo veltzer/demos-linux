@@ -119,14 +119,14 @@ static int zero_init(void) {
 	// add the cdev structure
 	cdev_init(&cdev, &zero_fops);
 	if((err=cdev_add(&cdev, first_dev, MINOR_COUNT))) {
-		pr_err("cannot cdev_add");
+		pr_err("cannot cdev_add\n");
 		goto err_dealloc;
 	}
 	pr_info("added the cdev\n");
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
-		pr_err("failed in class_create");
+		pr_err("failed in class_create\n");
 		err=PTR_ERR(my_class);
 		goto err_cdev_del;
 	}
@@ -134,7 +134,7 @@ static int zero_init(void) {
 	// and now lets auto-create a /dev/ node
 	my_device=device_create(my_class, NULL, first_dev,"%s",THIS_MODULE->name);
 	if(IS_ERR(my_device)) {
-		pr_err("failed in device_create");
+		pr_err("failed in device_create\n");
 		err=PTR_ERR(my_device);
 		goto err_class;
 	}

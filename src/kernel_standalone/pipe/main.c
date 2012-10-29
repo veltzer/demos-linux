@@ -235,7 +235,7 @@ static inline void pipe_wake_writers(my_pipe_t* const pipe) {
 // read into the pipe
 static inline int pipe_copy_from_user(my_pipe_t* const pipe,int count,const char** __user ubuf) {
 	int ret;
-	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
+	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d\n",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
 	ret=copy_from_user(pipe->data+pipe->write_pos,*ubuf,count);
 	#else // DO_COPY
@@ -255,7 +255,7 @@ static inline int pipe_copy_from_user(my_pipe_t* const pipe,int count,const char
 // read from the pipe
 static inline int pipe_copy_to_user(my_pipe_t* const pipe,int count,char** __user ubuf) {
 	int ret;
-	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d",count,pipe->read_pos,pipe->write_pos,pipe->size);
+	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d\n",count,pipe->read_pos,pipe->write_pos,pipe->size);
 	#ifdef DO_COPY
 	ret=copy_to_user(*ubuf,pipe->data+pipe->read_pos,count);
 	#else // DO_COPY
@@ -314,7 +314,7 @@ static int pipe_release(struct inode* inode,struct file* filp) {
 static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, loff_t *ppos) {
 	my_pipe_t* pipe;
 	size_t data,work_size,first_chunk,second_chunk,ret;
-	pr_debug("start");
+	pr_debug("start\n");
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
 	pipe=(my_pipe_t*)(file->private_data);
@@ -330,7 +330,7 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 		}
 		data=pipe_data(pipe);
 	}
-	pr_debug("data is %d",data);
+	pr_debug("data is %d\n",data);
 	// EOF handling
 	if(data==0 && pipe->writers==0) {
 		pipe_unlock(pipe);
@@ -338,7 +338,7 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 	}
 	// now data > 0
 	work_size=min(data,count);
-	pr_debug("work_size is %d",work_size);
+	pr_debug("work_size is %d\n",work_size);
 	// copy_to_user data from the pipe
 	if(pipe->read_pos<=pipe->write_pos) {
 		if((ret=pipe_copy_to_user(pipe,work_size,&buf))) {
@@ -369,7 +369,7 @@ static ssize_t pipe_read(struct file * file, char __user * buf, size_t count, lo
 static ssize_t pipe_write(struct file * file, const char __user * buf, size_t count, loff_t *ppos) {
 	my_pipe_t* pipe;
 	size_t work_size,room,first_chunk,second_chunk,ret;
-	pr_debug("start");
+	pr_debug("start\n");
 	if (!access_ok(VERIFY_READ, buf, count))
 		return -EFAULT;
 	pipe=(my_pipe_t*)(file->private_data);
@@ -385,10 +385,10 @@ static ssize_t pipe_write(struct file * file, const char __user * buf, size_t co
 		}
 		room=pipe_room(pipe);
 	}
-	pr_debug("room is %d",room);
+	pr_debug("room is %d\n",room);
 	// now room > 0
 	work_size=min(room,count);
-	pr_debug("work_size is %d",work_size);
+	pr_debug("work_size is %d\n",work_size);
 	// copy_from_user data from the pipe
 	if(pipe->read_pos<=pipe->write_pos) {
 		first_chunk=min(work_size,pipe->size-pipe->write_pos);
@@ -439,7 +439,7 @@ static int __init pipe_init(void) {
 	// allocate all pipes
 	pipes=(my_pipe_t*)kmalloc(sizeof(my_pipe_t)*pipes_count,GFP_KERNEL);
 	if(IS_ERR(pipes)) {
-		pr_err("kmalloc");
+		pr_err("kmalloc\n");
 		ret=PTR_ERR(pipes);
 		goto err_return;
 	}
@@ -450,31 +450,31 @@ static int __init pipe_init(void) {
 	// allocate our own range of devices
 	ret=alloc_chrdev_region(&first_dev, first_minor, pipes_count, THIS_MODULE->name);
 	if(ret) {
-		pr_err("cannot alloc_chrdev_region");
+		pr_err("cannot alloc_chrdev_region\n");
 		goto err_final;
 	}
-	pr_debug("allocated the region");
+	pr_debug("allocated the region\n");
 	// add the cdev structure
 	cdev_init(&cdev, &pipe_fops);
 	ret=cdev_add(&cdev, first_dev, pipes_count);
 	if(ret) {
-		pr_err("cannot cdev_add");
+		pr_err("cannot cdev_add\n");
 		goto err_dealloc;
 	}
-	pr_debug("added the cdev");
+	pr_debug("added the cdev\n");
 	// this is creating a new class (/proc/devices)
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
-		pr_err("class_create");
+		pr_err("class_create\n");
 		ret=PTR_ERR(my_class);
 		goto err_cdev_del;
 	}
-	pr_debug("created the class");
+	pr_debug("created the class\n");
 	for(i=0;i<pipes_count;i++) {
 		// and now lets auto-create a /dev/ node
 		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),first_minor+i),NULL,"%s%d",THIS_MODULE->name,i);
 		if(IS_ERR(pipes[i].pipe_device)) {
-			pr_err("device_create");
+			pr_err("device_create\n");
 			ret=PTR_ERR(pipes[i].pipe_device);
 			goto err_class;
 		}
