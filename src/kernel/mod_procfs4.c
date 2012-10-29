@@ -43,7 +43,7 @@ MODULE_DESCRIPTION("a module showing how to use the _seq /proc API");
 *
 */
 static void* my_seq_start(struct seq_file *s, loff_t *pos) {
-	pr_debug("my_seq_start %p, %Ld",s,*pos);
+	pr_debug("my_seq_start %p, %Ld\n",s,*pos);
 	/* beginning a new sequence ? */
 	if ( *pos==0 ) {
 		/* yes, return a non null value to begin the sequence */
@@ -62,7 +62,7 @@ static void* my_seq_start(struct seq_file *s, loff_t *pos) {
 */
 static void *my_seq_next(struct seq_file *s, void *v, loff_t *pos) {
 	int *p;
-	pr_debug("my_seq_next %p, %p, %Ld",s,v,*pos);
+	pr_debug("my_seq_next %p, %p, %Ld\n",s,v,*pos);
 	p=(int*)v;
 	if(*p<10) {
 		(*p)++;
@@ -77,7 +77,7 @@ static void *my_seq_next(struct seq_file *s, void *v, loff_t *pos) {
 * This function is called at the end of a sequence
 */
 static void my_seq_stop(struct seq_file *s, void *v) {
-	pr_debug("my_seq_stop %p, %p",s,v);
+	pr_debug("my_seq_stop %p, %p\n",s,v);
 	kfree(v);
 }
 
@@ -86,7 +86,7 @@ static void my_seq_stop(struct seq_file *s, void *v) {
 */
 static int my_seq_show(struct seq_file *s, void *v) {
 	int* p;
-	pr_debug("my_seq_show %p, %p",s,v);
+	pr_debug("my_seq_show %p, %p\n",s,v);
 	p=(int*)v;
 	seq_printf(s, "%d\n", *p);
 	return 0;

@@ -68,14 +68,14 @@ static int __init null_init(void) {
 	pr_info("start\n");
 	// this is registering the new device operations
 	if((err=register_chrdev(NULL_MAJOR,THIS_MODULE->name,&null_fops))) {
-		pr_err("unable to get major %d for %s dev",NULL_MAJOR,THIS_MODULE->name);
+		pr_err("unable to get major %d for %s dev\n",NULL_MAJOR,THIS_MODULE->name);
 		goto err_nothing;
 	}
 	if(auto_register) {
 		// this is creating a new class (/sys/class)
 		my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 		if(IS_ERR(my_class)) {
-			pr_err("failed to create class");
+			pr_err("failed to create class\n");
 			err=PTR_ERR(my_class);
 			goto err_register;
 		}
@@ -83,7 +83,7 @@ static int __init null_init(void) {
 		// and now lets auto-create a /dev/ node
 		my_device=device_create(my_class, NULL, MKDEV(NULL_MAJOR, NULL_MINOR),"%s",THIS_MODULE->name);
 		if(IS_ERR(my_device)) {
-			pr_err("failed to create device");
+			pr_err("failed to create device\n");
 			err=PTR_ERR(my_device);
 			goto err_class;
 		}

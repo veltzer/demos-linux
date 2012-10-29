@@ -52,7 +52,7 @@ struct device* clipboard_device;
 * Open the device. Optional.
 */
 int clipboard_open(struct inode* inode,struct file* filp) {
-	pr_debug("device is open");
+	pr_debug("device is open\n");
 	return 0;
 }
 
@@ -60,7 +60,7 @@ int clipboard_open(struct inode* inode,struct file* filp) {
 * Release the device. Optional as well.
 */
 int clipboard_release(struct inode* inode,struct file* filp) {
-	pr_debug("device is released");
+	pr_debug("device is released\n");
 	return 0;
 }
 
@@ -131,20 +131,20 @@ static int __init clipboard_init(void) {
 	int ret; // error code to return in case of error
 	buffer=kmalloc(BUFFER_SIZE,GFP_KERNEL);
 	if(!buffer) {
-		pr_err("kmalloc");
+		pr_err("kmalloc\n");
 		ret=-ENOMEM;
 		goto any_error;
 	}
 	memset(buffer,0,BUFFER_SIZE);
 
 	if((ret=alloc_chrdev_region(&clipboard_dev,0,BUFFER_COUNT,THIS_MODULE->name))) {
-		pr_err("alloc_chrdev_region");
+		pr_err("alloc_chrdev_region\n");
 		goto error_after_alloc;
 	}
 
 	clipboard_cdev=cdev_alloc();
 	if(IS_ERR(clipboard_cdev)) {
-		pr_err("cdev_alloc");
+		pr_err("cdev_alloc\n");
 		ret=PTR_ERR(clipboard_cdev);
 		goto error_after_region;
 	}
@@ -154,21 +154,21 @@ static int __init clipboard_init(void) {
 	if((ret=cdev_add(clipboard_cdev,clipboard_dev,BUFFER_COUNT))) {
 		/* Only if we allocated a cdev but did not register do we
 		* we need to kfree it. In any other case cdev_del is enough */
-		pr_err("cdev_add");
+		pr_err("cdev_add\n");
 		kfree(clipboard_cdev);
 		goto error_after_region;
 	}
 
 	my_class=class_create(THIS_MODULE,THIS_MODULE->name);
 	if(IS_ERR(my_class)) {
-		pr_err("class_create");
+		pr_err("class_create\n");
 		ret=PTR_ERR(my_class);
 		goto error_after_register;
 	}
 	// create the /dev file entry...
 	clipboard_device=device_create(my_class, NULL, clipboard_dev,NULL,"%s",THIS_MODULE->name);
 	if(IS_ERR(clipboard_device)) {
-		pr_err("device_create");
+		pr_err("device_create\n");
 		ret=PTR_ERR(clipboard_device);
 		goto error_after_class_create;
 	}

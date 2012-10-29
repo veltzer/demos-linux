@@ -27,12 +27,12 @@ MODULE_DESCRIPTION("module with error in the initialisation process");
 
 // init/exit functions
 static int __init mod_init(void) {
-	pr_err("mod_init");
+	pr_err("mod_init\n");
 	return(-1);
 }
 
 static void __exit mod_exit(void) {
-	pr_err("mod_exit");
+	pr_err("mod_exit\n");
 }
 
 // declaration of init/cleanup functions of this module
