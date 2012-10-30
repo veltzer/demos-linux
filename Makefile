@@ -248,7 +248,7 @@ check_pgrep:
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	-@git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone
+	-@git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone
 .PHONY: check_all
 check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude
 

@@ -18,7 +18,7 @@ c=re.compile(sys.argv[1])
 cf=re.compile(sys.argv[2])
 folder=sys.argv[3]
 debug=False
-printOnlyFiles=True
+printOnlyFiles=False
 printedFiles=set()
 #debug=True
 
