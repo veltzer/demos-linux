@@ -94,7 +94,7 @@ static inline void print_state(pid_t pid) {
 	my_system("ps --no-headers -o comm,state %d",pid);
 	my_system("cat /proc/%d/status | grep State",pid);
 	/*
-	 * get_proc_stats does not seem to work since move to new ubuntu (12.10)
+	* get_proc_stats does not seem to work since move to new ubuntu (12.10)
 	proc_t myproc;
 	get_proc_stats(pid,&myproc);
 	printf("pid is %d, state is %c\n",pid, myproc.state);
