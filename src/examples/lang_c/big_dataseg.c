@@ -19,19 +19,26 @@
 */
 
 #include<firstinclude.h>
+#include<assert.h> // for assert(3)
 
 /*
 * This is an example showing C99 initialisation syntax and horrible
 * effect this has on the size of the object file generated from this file.
 *
 * Notes:
-* If you switch the initialisation from {1} to {0} then suddenly the size
+* - If you switch the initialisation from {1} to {0} then suddenly the size
 * of the object file drops dramatically. This is because initialisation to 0
 * is built in to the toolchain and is done programatically rather than storing
 * the entire data in the data segment.
+* - when you initialize the array using ={1} only the first element is initialized.
+* You can initialize more elements of the array by adding more initialization values.
 */
 
-int myarray[100000]={1};
+int myarray[100000]={1,1};
 int main(int argc,char** argv,char** envp) {
+	int i;
+	for(i=0;i<2;i++) {
+		assert(myarray[i]==1);
+	}
 	return 0;
 }
