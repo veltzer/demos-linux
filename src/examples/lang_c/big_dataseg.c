@@ -24,6 +24,8 @@
 /*
 * This is an example showing C99 initialisation syntax and horrible
 * effect this has on the size of the object file generated from this file.
+* Just look at the size of the executable for this example and you will
+* see what I mean.
 *
 * Notes:
 * - If you switch the initialisation from {1} to {0} then suddenly the size
@@ -32,6 +34,7 @@
 * the entire data in the data segment.
 * - when you initialize the array using ={1} only the first element is initialized.
 * You can initialize more elements of the array by adding more initialization values.
+* The other values of the array will be zero as this example clearly shows.
 */
 
 int myarray[100000]={1,1};
@@ -39,6 +42,9 @@ int main(int argc,char** argv,char** envp) {
 	int i;
 	for(i=0;i<2;i++) {
 		assert(myarray[i]==1);
+	}
+	for(i=2;i<100000;i++) {
+		assert(myarray[i]==0);
 	}
 	return 0;
 }
