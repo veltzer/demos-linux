@@ -20,9 +20,29 @@
 
 //#include<firstinclude.h>
 #include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include<iostream> // for std::cout, std::endl
 
 int main(int argc,char** argv,char** envp) {
-	printf("Hello, Intel compiler!\n");
+	PCM* m=PCM::getInstance();
+	// program counters, and on a failure just exit
+	if(m->program()!=PCM::Success)
+		return EXIT_FAILURE;
+	SystemCounterState before_sstate=getSystemCounterState();
+	long sum=0;
+	for(int i=0;i<1000000) {
+		for(int j=0;j<10000000) {
+			int mu1;
+			if(i%2==0) {
+				mul=-1;
+			}
+			sum+=mul*j*j;
+		}
+	}
+	SystemCounterState after_sstate=getSystemCounterState();
+	std::cout << "Instructions per clock:" << getIPC(before_sstate,after_sstate)
+		<< "L3 cache hit ratio:" << getL3CacheHitRatio(before_sstate,after_sstate)
+		<< "Bytes read:" << getBytesReadFromMC(before_sstate,after_sstate)
+		<< std::endl;
 	return EXIT_SUCCESS;
 }
