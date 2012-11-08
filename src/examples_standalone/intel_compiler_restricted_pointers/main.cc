@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+//#include<firstinclude.h>
 #include<stdio.h> // for vprintf(3)
 #include<sys/time.h> // for gettimeofday(2)
 #include<us_helper.h> // for micro_diff()
@@ -28,7 +28,11 @@
 * Same example the example for gcc but now for the Intel compiler...
 */
 
+#ifdef __GNUC__
+#define myrestrict __restrict
+#else
 #define myrestrict restrict
+#endif // __GNUC__
 //#define myrestrict
 
 void add_check_restrict(int* arr,int num, int* result) __attribute__ ((noinline));

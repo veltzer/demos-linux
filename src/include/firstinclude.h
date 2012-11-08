@@ -30,6 +30,8 @@
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE // needed for SCHED_IDLE, SCHED_BATCH
 #endif // _GNU_SOURCE
-#define __USE_GNU /* Needed to get REG_EIP from ucontext.h */
+#ifndef __USE_GNU
+#define __USE_GNU // Needed to get REG_EIP from ucontext.h
+#endif // __USE_GNU
 
 #endif /* !__firstinclude_h */
