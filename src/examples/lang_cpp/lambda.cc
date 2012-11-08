@@ -18,31 +18,18 @@
 	02111-1307 USA.
 */
 
-//#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include<firstinclude.h>
 #include<iostream> // for std::cout, std::endl
+#include<stdlib.h> // for EXIT_SUCCESS
+
+/*
+* Examples of lambdas from C++0x standard...
+*
+* EXTRA_COMPILE_FLAGS=-std=c++11
+*/
 
 int main(int argc,char** argv,char** envp) {
-	PCM* m=PCM::getInstance();
-	// program counters, and on a failure just exit
-	if(m->program()!=PCM::Success)
-		return EXIT_FAILURE;
-	SystemCounterState before_sstate=getSystemCounterState();
-	long sum=0;
-	for(int i=0;i++;i<1000000) {
-		for(int j=0;j++;j<10000000) {
-			int mul;
-			if(i%2==0) {
-				mul=-1;
-			}
-			sum+=mul*j*j;
-		}
-	}
-	SystemCounterState after_sstate=getSystemCounterState();
-	std::cout << "Instructions per clock:" << getIPC(before_sstate,after_sstate)
-		<< "L3 cache hit ratio:" << getL3CacheHitRatio(before_sstate,after_sstate)
-		<< "Bytes read:" << getBytesReadFromMC(before_sstate,after_sstate)
-		<< std::endl;
+	auto f=[]{ std::cout << "Hello, Lambdasn" << std::endl; };
+	f();
 	return EXIT_SUCCESS;
 }
