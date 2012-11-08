@@ -1,6 +1,6 @@
 # variables
 CC:=icc
-CFLAGS:=-I/usr/include/i386-linux-gnu
+CFLAGS:=-Wall
 
 # targets
 .PHONY: all

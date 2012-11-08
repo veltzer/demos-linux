@@ -1,7 +1,8 @@
 # variables
 #CC:=icc
 CC:=icpc
-CFLAGS:=-gcc-version=460 -I/usr/include/i386-linux-gnu
+#CFLAGS:=-I/usr/include/i386-linux-gnu
+CFLAGS:=
 
 # targets
 .PHONY: all
