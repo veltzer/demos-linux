@@ -19,15 +19,72 @@
 */
 
 #include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<sys/timerfd.h> // for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
+#include<unistd.h> // for read(2)
+#include<time.h> // for clock_gettime(2)
+#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
+#include<stdio.h> // for printf(3), fprintf(3)
+#include<stdint.h> // for uint64_t
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
-* This example shows how to use timerfd to do timing in an application.
+* This example was stolen shamelessly from the timerfd_create(2) manpage,
+* and adapted to my coding style.
 *
-* TODO:
-* - write the example
+* EXTRA_LIBS=-lrt
 */
 
+static void print_elapsed_time(void) {
+	static struct timespec start;
+	struct timespec curr;
+	static int first_call=1;
+	int secs, nsecs;
+
+	if (first_call) {
+		first_call=0;
+		CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &start));
+	}
+	CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &curr));
+	secs=curr.tv_sec - start.tv_sec;
+	nsecs=curr.tv_nsec - start.tv_nsec;
+	if (nsecs < 0) {
+		secs--;
+		nsecs+=1000000000;
+	}
+	printf("%d.%03d: ", secs, (nsecs + 500000) / 1000000);
+}
+
 int main(int argc,char** argv,char** envp) {
+	if (argc!=4) {
+		fprintf(stderr, "%s: usage: %s [init-secs] [interval-secs] [max-exp]\n",argv[0],argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	struct timespec now;
+	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME, &now));
+	/*
+	* Create a CLOCK_REALTIME absolute timer with initial
+	* expiration and interval as specified in command line
+	*/
+	struct itimerspec new_value;
+	uint64_t max_exp;
+	new_value.it_value.tv_sec=now.tv_sec + atoi(argv[1]);
+	new_value.it_value.tv_nsec=now.tv_nsec;
+	new_value.it_interval.tv_sec=atoi(argv[2]);
+	max_exp=atoi(argv[3]);
+	new_value.it_interval.tv_nsec=0;
+
+	int fd;
+	CHECK_NOT_M1(fd=timerfd_create(CLOCK_REALTIME, 0));
+	CHECK_NOT_M1(timerfd_settime(fd, TFD_TIMER_ABSTIME, &new_value, NULL));
+	print_elapsed_time();
+	printf("timer started\n");
+	uint64_t tot_exp;
+	for(tot_exp=0;tot_exp<max_exp;) {
+		uint64_t exp;
+		CHECK_INT(read(fd, &exp, sizeof(uint64_t)),sizeof(uint64_t));
+		tot_exp+=exp;
+		print_elapsed_time();
+		printf("read: %llu; total=%llu\n", (unsigned long long) exp, (unsigned long long) tot_exp);
+	}
 	return EXIT_SUCCESS;
 }

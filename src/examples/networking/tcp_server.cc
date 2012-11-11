@@ -81,6 +81,7 @@ void *worker(void* arg) {
 		snprintf(prbuff,res+1,"%s",buff);
 		TRACE("thread %d received %s",gettid(),prbuff);
 	}
+	CHECK_NOT_M1(shutdown(fd,SHUT_RDWR));
 	CHECK_NOT_M1(close(fd));
 	TRACE("thread %d ending",gettid());
 	return NULL;

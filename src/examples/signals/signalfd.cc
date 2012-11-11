@@ -61,7 +61,7 @@ int main(int argc,char** argv,char** envp) {
 				printf("Got SIGUSR1\n");
 				break;
 			default:
-				printf("Read unexpected signal\n");
+				printf("ERROR: Read unexpected signal\n");
 				break;
 		}
 	}
