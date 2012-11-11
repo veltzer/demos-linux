@@ -49,6 +49,7 @@ void doParent(int msqid, long myID)
 		char* ret=fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin);
 		if(ret!=SsubscriberID) {
 			perror("fgets(3)");
+			exit(errno);
 		}
 		sbuf.mtype=atoi(SsubscriberID);
 		sbuf.fromID=myID;
@@ -56,6 +57,7 @@ void doParent(int msqid, long myID)
 		ret=fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin);
 		if(ret!=SsubscriberID) {
 			perror("fgets(3)");
+			exit(errno);
 		}
 		if(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0)==-1)
 		{
@@ -92,7 +94,7 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "MirsID must be numeric positive greater than 0 and uniq (not checked)\n");
 		exit(EXIT_FAILURE);
 	}
-	if((key=ftok("MirsClient",'x'))==-1) {
+	if((key=ftok("/etc/passwd",'x'))==-1) {
 		perror("ftok failed");
 		exit(errno);
 	}

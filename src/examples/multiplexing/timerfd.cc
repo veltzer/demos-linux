@@ -28,8 +28,8 @@
 #include<us_helper.h> // for CHECK_NOT_M1()
 
 /*
-* This example was stolen shamelessly from the timerfd_create(2) manpage.
-* And adapted to my coding style.
+* This example was stolen shamelessly from the timerfd_create(2) manpage,
+* and adapted to my coding style.
 *
 * EXTRA_LIBS=-lrt
 */
