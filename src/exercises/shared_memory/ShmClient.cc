@@ -75,13 +75,12 @@ void doChild(int semid, struct data * smdata, int myID) {
 				smdata[myID].readOffset+=messageSize;
 			}
 			fromIDPTR=(int *)message + 1;
-			printf("From: %d message: %s\n", * fromIDPTR, message+2*sizeof(int));
+			printf("\n\nHey! this is the child\nI got message from: %d message: %s\n", * fromIDPTR, message+2*sizeof(int));
 		}
 	}
 }
 
-void doParent(int semid, struct data * smdata, int myID)
-{
+void doParent(int semid, struct data * smdata, int myID) {
 	char message[MAXMESSAGE];
 	int * messageSizePTR;
 	int * FromIDPTR;
@@ -96,13 +95,15 @@ void doParent(int semid, struct data * smdata, int myID)
 		char* s=fgets(Sto, 7, stdin);
 		if(s!=Sto) {
 			perror("fgets error");
+			exit(EXIT_FAILURE);
 		}
 		toID=atoi(Sto);
 		printf("Message to %d: ", toID);
 
 		s=fgets(message+sizeof(int)*2, sizeof(message) - sizeof(int)*2 -1, stdin);
-		if(s!=message) {
+		if(s!=message+sizeof(int)*2) {
 			perror("fgets error");
+			exit(EXIT_FAILURE);
 		}
 
 		messageSizePTR=(int *)message;
@@ -118,8 +119,7 @@ void doParent(int semid, struct data * smdata, int myID)
 		sops[0].sem_op=1;
 		sops[0].sem_flg=0;
 
-		if ( semop(semid, sops, 1)==-1 )
-		{
+		if ( semop(semid, sops, 1)==-1 ) {
 			perror("semop");
 			exit(EXIT_FAILURE);
 		}

@@ -98,38 +98,32 @@ int main(int argc,char** argv,char** envp) {
 	SigAction.sa_handler=TerminateChild;
 	SigAction.sa_mask=emptymask;
 	SigAction.sa_flags=0;
-	if(sigaction(SIGINT, &SigAction, NULL)==-1)
-	{
+	if(sigaction(SIGINT, &SigAction, NULL)==-1) {
 		perror("sigaction");
 		exit(errno);
 	}
-	if(sigaction(SIGTERM, &SigAction, NULL)==-1)
-	{
+	if(sigaction(SIGTERM, &SigAction, NULL)==-1) {
 		perror("sigaction");
 		exit(errno);
 	}
-	if(sigaction(SIGQUIT, &SigAction, NULL)==-1)
-	{
+	if(sigaction(SIGQUIT, &SigAction, NULL)==-1) {
 		perror("sigaction");
 		exit(errno);
 	}
-	if(sigaction(SIGABRT, &SigAction, NULL)==-1)
-	{
+	if(sigaction(SIGABRT, &SigAction, NULL)==-1) {
 		perror("sigaction");
 		exit(errno);
 	}
-	if((key=ftok("MirsClient", 'x'))==-1)
-	{
+	if((key=ftok("/etc/passwd", 'x'))==-1) {
 		perror("ftok failed");
 		exit(errno);
 	}
-	if((msqid=msgget(key, IPC_CREAT | 0666 )) < 0)
-	{
+	if((msqid=msgget(key, IPC_CREAT | 0666 )) < 0) {
 		perror("msgget failed");
 		exit(errno);
 	}
-	switch (childPID=fork())
-	{
+	printf("Queue created\n");
+	switch(childPID=fork()) {
 		case -1:
 			perror("fork failed");
 			exit(errno);
@@ -137,21 +131,21 @@ int main(int argc,char** argv,char** envp) {
 			DoChild();
 			exit(0);
 	}
-	while(1)
-	{
+	while(true) {
 		int Ans;
-		printf("\n\n\n\n\nMain Menu\n\n");
+		printf("Main Menu\n");
+		printf("=========\n");
 		printf("What would you like to do?\n");
 		printf("1. Show all the queue properties\n");
 		printf("2. Stop the service (it's a strike).\n");
 		printf("3. Change queue size\n");
-		printf("4. Change permission\n -> ");
+		printf("4. Change permission\n-> ");
 		int ret=scanf("%d", & Ans);
 		if(ret<1) {
 			perror("fscanf(3)");
+			exit(errno);
 		}
-		switch (Ans)
-		{
+		switch (Ans) {
 			case 1:
 				if(msgctl(msqid, IPC_STAT, & msgCtlBuf)==-1)
 				{
