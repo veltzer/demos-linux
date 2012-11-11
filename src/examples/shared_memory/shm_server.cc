@@ -72,9 +72,9 @@ int main(int argc,char** argv,char** envp) {
 		printf("updated the shared memory (%d)\n",count);
 		count++;
 	}
-	CHECK_NOT_M1(shmctl(shmid,IPC_RMID,NULL));
-	printf("removed the shared memory\n");
 	CHECK_NOT_M1(shmdt(ptr));
 	printf("disconnected from shared memory\n");
+	CHECK_NOT_M1(shmctl(shmid,IPC_RMID,NULL));
+	printf("removed the shared memory\n");
 	return EXIT_SUCCESS;
 }
