@@ -72,6 +72,14 @@ void add_restrict(int* __restrict arr,int num, int* __restrict result) {
 	}
 }
 
+void add_one_restrict(int* __restrict arr,int num, int* result) __attribute__ ((noinline));
+void add_one_restrict(int* __restrict arr,int num, int* result) {
+	*result=0;
+	for(int i=0;i<num;i++) {
+		*result+=arr[i];
+	}
+}
+
 int main(int argc,char** argv,char** envp) {
 	// prepare a large array
 	const unsigned int array_size=1000000;
@@ -102,6 +110,14 @@ int main(int argc,char** argv,char** envp) {
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0;i<loop;i++) {
 		add_restrict(arr,array_size,&res);
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+	
+	printf("doing %d one_restrict calls\n",loop);
+	gettimeofday(&t1, NULL);
+	for(unsigned int i=0;i<loop;i++) {
+		add_one_restrict(arr,array_size,&res);
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);

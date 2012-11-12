@@ -21,7 +21,7 @@
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for TRACE()
+#include<us_helper.h> // for TRACE(), my_system()
 
 /*
 * This is a demo to show how sync_synchronize() is implemented...
@@ -42,6 +42,11 @@
 int main(int argc,char** argv,char** envp) {
 	TRACE("start");
 	__sync_synchronize();
+	__sync_synchronize();
+	__sync_synchronize();
+	__sync_synchronize();
+	__sync_synchronize();
 	TRACE("end");
+	my_system("objdump --disassemble --source %s",argv[0]);
 	return EXIT_SUCCESS;
 }

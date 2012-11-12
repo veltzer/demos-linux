@@ -21,6 +21,7 @@
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for my_system()
 
 /*
 	this is an example of a loop that gcc cannot optimize away...
@@ -46,5 +47,6 @@ int main(int argc,char** argv,char** envp) {
 		sum+=i*i;
 	}
 	printf("sum is %d\n",sum);
+	my_system("objdump --disassemble --source %s",argv[0]);
 	return EXIT_SUCCESS;
 }
