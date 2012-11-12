@@ -32,8 +32,7 @@ void *worker(void *p) {
 	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
-	int* pointer=(int*)&t;
-	TRACE("pthread_self is %d",*pointer);
+	TRACE("pthread_self is %lu",t);
 	sleep(60);
 	TRACE("ending thread %d", num);
 	return(NULL);

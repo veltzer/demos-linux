@@ -82,7 +82,7 @@ void* doit(void* arg) {
 int main(int argc,char** argv,char** envp) {
 	TRACE("gettid() is %d",gettid());
 	TRACE("getpid() is %d",getpid());
-	TRACE("pthread_self() is %u",(unsigned int)pthread_self());
+	TRACE("pthread_self() is %lu",pthread_self());
 	pthread_t t1,t2;
 	thread_data td1,td2;
 	strncpy(td1.name,"thread one",256);

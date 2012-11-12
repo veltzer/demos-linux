@@ -28,7 +28,8 @@
 
 /*
 * This example creates a zombie thread.
-* definition: A zombie thread is a thread which is not joined by the parent.
+* definition: A zombie thread is a joinable thread which is not joined by the
+* parent.
 * This example shows that once this thread dies it does not
 * turn into a zombie process as far as the OS is concerned.
 *

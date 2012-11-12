@@ -42,7 +42,7 @@ EXTRA_LIBS=-lpthread
 void report(void) {
 	TRACE("gettid() returned %d",gettid());
 	TRACE("getpid() returned %d",getpid());
-	TRACE("pthread_self() returned %u",(unsigned int)pthread_self());
+	TRACE("pthread_self() returned %lu",pthread_self());
 }
 
 void* doit(void*) {

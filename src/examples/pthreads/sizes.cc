@@ -30,21 +30,25 @@
 
 /*
 * This is an example of setting thread stack sizes
+* If you want to see the minor page faults happening while this
+* example is running run:
+* while [[ true ]]; do ps -C sizes.exe -o comm,min_flt,rss; sleep 1;done
 *
 * EXTRA_LIBS=-lpthread
 *
 * TODO:
-* - show number of page faults for this application.
+* - show number of page faults for this application programmatically.
 * First run a thread that allocates it's space in advance.
 * Then run a thread that does not.
 * show the info from /proc
 */
 
 void ensure_space(unsigned int size) {
-	//int dummy;
-	//bzero(&dummy-size/2,size/2);
-	char buf[500000];
-	bzero(buf,500000);
+	// two ways of making sure there is enough space on the stack...
+	int dummy;
+	bzero(&dummy-size/2,size/2);
+	//char buf[size];
+	//bzero(buf,size);
 }
 
 void *worker(void *p) {
@@ -70,6 +74,7 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_ZERO(pthread_attr_setstacksize(attrs+i,(i+1)*1024*1024));
 		CHECK_ZERO(pthread_create(threads + i, attrs+i, worker, ids + i));
 		CHECK_ZERO(pthread_attr_destroy(attrs+i));
+		sleep(5);
 	}
 	fprintf(stderr, "main ended creating threads\n");
 	for(int i=0;i<num;i++) {
