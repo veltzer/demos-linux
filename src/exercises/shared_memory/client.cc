@@ -28,7 +28,8 @@
 #include<time.h>
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 const int CLIENTMESSAGESIZE=1024;
 const int MAXMESSAGE=256;
@@ -42,35 +43,26 @@ struct data {
 
 void doChild(int semid, struct data * smdata, int myID) {
 	char message[MAXMESSAGE];
-	int * messageSizePTR;
-	int * fromIDPTR;
+	int* messageSizePTR;
+	int* fromIDPTR;
 	int messageSize;
 	int spaceLeft;
 	struct sembuf sops[2];
-	while(1)
-	{
+	while(true) {
 		sops[0].sem_num=myID;
 		sops[0].sem_op=-1;
 		sops[0].sem_flg=0;
-		if ( semop(semid, sops, 1)==-1 )
-		{
-			perror("semop");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_NOT_M1(semop(semid, sops, 1));
 
-		if (smdata[myID].readOffset!=smdata[myID].writeOffset)
-		{
+		if (smdata[myID].readOffset!=smdata[myID].writeOffset) {
 			messageSizePTR=(int *)smdata[myID].message + smdata[myID].readOffset/sizeof(int);
 			messageSize=* messageSizePTR;
 			spaceLeft=CLIENTMESSAGESIZE - smdata[myID].readOffset;
-			if (spaceLeft < messageSize)
-			{
+			if (spaceLeft < messageSize) {
 				memcpy(message, smdata[myID].message + smdata[myID].readOffset, spaceLeft);
 				memcpy(message+spaceLeft, smdata[myID].message, messageSize - spaceLeft);
 				smdata[myID].readOffset=messageSize - spaceLeft;
-			}
-			else
-			{
+			} else {
 				memcpy(message, smdata[myID].message + smdata[myID].readOffset, messageSize);
 				smdata[myID].readOffset+=messageSize;
 			}
@@ -114,25 +106,19 @@ void doParent(int semid, struct data * smdata, int myID) {
 
 		reminder=* messageSizePTR % sizeof(int);
 		if (reminder > 0)
-			* messageSizePTR+=sizeof(int) - reminder;
+			*messageSizePTR+=sizeof(int)-reminder;
+
 		sops[0].sem_num=toID;
 		sops[0].sem_op=1;
 		sops[0].sem_flg=0;
-
-		if ( semop(semid, sops, 1)==-1 ) {
-			perror("semop");
-			exit(EXIT_FAILURE);
-		}
+		CHECK_NOT_M1(semop(semid,sops,1));
 
 		spaceLeft=CLIENTMESSAGESIZE - smdata[toID].writeOffset;
-		if (* messageSizePTR > spaceLeft)
-		{
+		if (* messageSizePTR > spaceLeft) {
 			memcpy(smdata[toID].message + smdata[toID].writeOffset, message, spaceLeft);
 			memcpy(smdata[toID].message, message + spaceLeft, * messageSizePTR - spaceLeft);
 			smdata[toID].writeOffset=* messageSizePTR - spaceLeft;
-		}
-		else
-		{
+		} else {
 			memcpy(smdata[toID].message + smdata[toID].writeOffset, message, * messageSizePTR);
 			smdata[toID].writeOffset+=*messageSizePTR;
 		}
@@ -145,43 +131,27 @@ int main(int argc,char** argv,char** envp) {
 	int semid;
 	key_t key;
 	int myID;
-	if (argc < 2) {
+	if(argc < 2) {
 		fprintf(stderr, "Usage: %s MyID\n", argv[0]);
 		exit(errno);
 	}
 	myID=atoi(argv[1]);
-	if (myID>=MAXCLINTS || myID<0) {
+	if(myID>=MAXCLINTS || myID<0) {
 		fprintf(stderr, "MyID must be 0-%d\n", MAXCLINTS);
 		exit(errno);
 	}
-	if ((key=ftok("/etc/passwd", 'x'))==-1) {
-		perror("ftok failed");
-		exit(errno);
-	}
-	if ((semid=semget(key, 0, 0))==-1) {
-		perror("semget failed");
-		exit(errno);
-	}
-	if ((shmid=shmget(key, sizeof(smdata), 0)) < 0) {
-		perror("shmget failed");
-		exit(errno);
-	}
-	if ((smdata=(struct data *)shmat(shmid, NULL, 0))==(struct data *) -1) {
-		perror("shmat failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(key=ftok("/etc/passwd", 'x'));
+	CHECK_NOT_M1(semid=semget(key, 0, 0));
+	CHECK_NOT_M1(shmid=shmget(key, sizeof(smdata), 0));
+	CHECK_NOT_VOIDP(smdata=(struct data *)shmat(shmid, NULL, 0),(struct data *) -1);
 	smdata[myID].readOffset=0;
 	smdata[myID].writeOffset=0;
-	switch (fork()) {
-		case -1:
-			perror("fork failed");
-			exit(errno);
-		case 0:
-			doChild(semid, smdata, myID);
-			exit(0);
-		default:
-			doParent(semid, smdata, myID);
-			exit(0);
+	int fres;
+	CHECK_NOT_M1(fres=fork());
+	if(fres==0) {
+		doChild(semid, smdata, myID);
+	} else {
+		doParent(semid, smdata, myID);
 	}
 	return EXIT_SUCCESS;
 }
