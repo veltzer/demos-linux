@@ -56,8 +56,8 @@ int main(int argc,char** argv,char** envp) {
 		smdata[i].writeOffset=0;
 	}
 	printf("Hit <Enter> to finish\n");
-	CHECK_CHARP(fgets(ans, sizeof(ans), stdin),ans);
-	CHECK_NOT_M1(shmctl(shmid, IPC_RMID, 0));
-	CHECK_NOT_M1(semctl(semid, 0, IPC_RMID, 0));
+	CHECK_CHARP(fgets(ans,sizeof(ans),stdin),ans);
+	CHECK_NOT_M1(shmctl(shmid,IPC_RMID,0));
+	CHECK_NOT_M1(semctl(semid,0,IPC_RMID,0));
 	return EXIT_SUCCESS;
 }
