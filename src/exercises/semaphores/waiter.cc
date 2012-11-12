@@ -19,7 +19,7 @@
 */
 
 #include<firstinclude.h>
-#include"Phil.hh"
+#include"phil.hh"
 #include<stdlib.h> // for EXIT_SUCCESS, exit(3)
 #include<sys/types.h> // for semctl(2), ftok(3), semget(2)
 #include<sys/ipc.h> // for semctl(2), ftok(3), semget(2)
