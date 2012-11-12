@@ -30,7 +30,7 @@
 
 /*
 * This demo shows that the default pthread_mutex is non recursive, it boggs you in an
-* infinite look. This is the FAST kind of mutex that the pthread_mutex documentation
+* infinite loop. This is the FAST kind of mutex that the pthread_mutex documentation
 * is talking about.
 *
 * Note: YOU MUST compile with -lpthread or you get very weird results with no error

@@ -194,8 +194,13 @@ TEST(
 );
 TEST(
 	singvarvol,
-	"attempt to use volatile to barrier the compiler",
+	"attempt to use volatile on left side to barrier the compiler",
 	*(volatile int *)&a=a;
+);
+TEST(
+	singvarvolright,
+	"attempt to use volatile on right side to barrier the compiler",
+	a=*(volatile int*)&a;
 );
 TEST(
 	singvarvol2,
@@ -220,6 +225,7 @@ int main(int argc,char** argv,char** envp) {
 	test_singvarbar2(val_before,val_after,dummy);
 	test_singvarbar3(val_before,val_after,dummy);
 	test_singvarvol(val_before,val_after,dummy);
+	test_singvarvolright(val_before,val_after,dummy);
 	test_singvarvol2(val_before,val_after,dummy);
 	test_atomicop(val_before,val_after,dummy);
 	return EXIT_SUCCESS;

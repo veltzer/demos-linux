@@ -39,8 +39,7 @@ static inline int _sum(int i) {
 		(void*)0)
 
 /*
-* This inline version does not work because of bug in gcc whereby __builtin_constant_p(i) is not
-* a constant
+* This inline version does not work because of bug in gcc whereby __builtin_constant_p(i) is not a constant
 */
 
 /*
