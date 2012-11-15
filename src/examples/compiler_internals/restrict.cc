@@ -19,10 +19,9 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for vprintf(3)
+#include<stdio.h> // for printf(3)
 #include<sys/time.h> // for gettimeofday(2)
-
-#include<us_helper.h> // for micro_diff
+#include<us_helper.h> // for micro_diff()
 
 /*
 * This is an example of how to use the __restrict gcc feature
@@ -45,10 +44,21 @@
 * under different versions of the __restrict macro below...
 *
 * The difference in performance here is quite noticable...
+*
+* The next does not help to get it to the same performance as the intel compiler...
+* EXXTRA_COMPILE_FLAGS=-mtune=corei7
 */
 
 void add_no_restrict(int* arr,int num, int* result) __attribute__ ((noinline));
 void add_no_restrict(int* arr,int num, int* result) {
+	*result=0;
+	for(int i=0;i<num;i++) {
+		*result+=arr[i];
+	}
+}
+
+void add_one_restrict(int* __restrict arr,int num, int* result) __attribute__ ((noinline));
+void add_one_restrict(int* __restrict arr,int num, int* result) {
 	*result=0;
 	for(int i=0;i<num;i++) {
 		*result+=arr[i];
@@ -66,14 +76,6 @@ void add_temp(int* arr,int num, int* result) {
 
 void add_restrict(int* __restrict arr,int num, int* __restrict result) __attribute__ ((noinline));
 void add_restrict(int* __restrict arr,int num, int* __restrict result) {
-	*result=0;
-	for(int i=0;i<num;i++) {
-		*result+=arr[i];
-	}
-}
-
-void add_one_restrict(int* __restrict arr,int num, int* result) __attribute__ ((noinline));
-void add_one_restrict(int* __restrict arr,int num, int* result) {
 	*result=0;
 	for(int i=0;i<num;i++) {
 		*result+=arr[i];
@@ -98,10 +100,11 @@ int main(int argc,char** argv,char** envp) {
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
-	printf("doing %d temp calls\n",loop);
+
+	printf("doing %d one_restrict calls\n",loop);
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0;i<loop;i++) {
-		add_temp(arr,array_size,&res);
+		add_one_restrict(arr,array_size,&res);
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
@@ -113,13 +116,14 @@ int main(int argc,char** argv,char** envp) {
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
-	
-	printf("doing %d one_restrict calls\n",loop);
+
+	printf("doing %d temp calls\n",loop);
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0;i<loop;i++) {
-		add_one_restrict(arr,array_size,&res);
+		add_temp(arr,array_size,&res);
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one call: %lf\n", micro_diff(&t1,&t2)/(double)loop);
+
 	return EXIT_SUCCESS;
 }

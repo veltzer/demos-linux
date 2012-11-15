@@ -27,6 +27,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include<us_helper.h> // for CHECK_NOT_M1()
 
 const int MSGSZ=1024;
 
@@ -55,15 +56,11 @@ void doParent(int msqid, long myID)
 		sbuf.fromID=myID;
 		printf("Message to %ld: ", sbuf.mtype);
 		ret=fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin);
-		if(ret!=SsubscriberID) {
+		if(ret!=sbuf.mtext) {
 			perror("fgets(3)");
 			exit(errno);
 		}
-		if(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0)==-1)
-		{
-			perror("msgsnd failed");
-			exit(errno);
-		}
+		CHECK_NOT_M1(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0));
 	}
 }
 

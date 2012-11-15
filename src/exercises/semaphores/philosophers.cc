@@ -19,7 +19,7 @@
 */
 
 #include<firstinclude.h>
-#include"Phil.hh"
+#include"phil.hh"
 #include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 #include<time.h> // for time(2)
 
