@@ -29,7 +29,8 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 struct index {
 	unsigned int ID;
@@ -47,44 +48,19 @@ void critical1() {
 	char lpindexFname[MAXNAMLEN];
 	struct stat buff;
 	sprintf(lpindexFname, "/tmp/lpindex.%d", getpid());
-	if ((fdindex=open(lpindexFname, O_RDWR|O_CREAT, 0666))==-1)
-	{
-		perror("open lpindex file failed");
-		exit(errno);
-	}
-	if (fstat(fdindex, & buff)==-1) {
-		perror("fstat fdindex failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(fdindex=open(lpindexFname, O_RDWR|O_CREAT, 0666));
+	CHECK_NOT_M1(fstat(fdindex, & buff));
 	if (buff.st_size==0) {
 		currid=0;
-		if (write(fdindex, & currid, sizeof(currid))==-1)
-		{
-			perror("write initialize file failed");
-			exit(errno);
-		}
+		CHECK_NOT_M1(write(fdindex, & currid, sizeof(currid)));
 		buffer.ID=0;
 		buffer.path[0]='\0';
-		if (write(fdindex, & buffer, sizeof(buffer))==-1)
-		{
-			perror("write initialize 2 failed");
-			exit(errno);
-		}
+		CHECK_NOT_M1(write(fdindex, & buffer, sizeof(buffer)));
 	}
-	if (read(fdindex, & currid, sizeof(int))==-1) {
-		perror("read nextid failed");
-		exit(errno);
-	}
-	if ((bufsize=read(fdindex, &buffer, sizeof(buffer)))==-1) {
-		perror("read verify failed");
-		exit(0);
-	}
+	CHECK_NOT_M1(read(fdindex, & currid, sizeof(int)));
+	CHECK_NOT_M1(bufsize=read(fdindex, &buffer, sizeof(buffer)));
 	while(buffer.ID==0 && bufsize > 0) {
-		if ((bufsize=read(fdindex, &buffer, sizeof(buffer)))==-1)
-		{
-			perror("read verify failed");
-			exit(0);
-		}
+		CHECK_NOT_M1(bufsize=read(fdindex, &buffer, sizeof(buffer)));
 	}
 	if (buffer.ID > 0) {
 		printf("Now printing job: %d file: %s\n", buffer.ID, buffer.path);
@@ -92,15 +68,9 @@ void critical1() {
 }
 
 void critical2() {
-	if (lseek(fdindex, -1 * sizeof(buffer), SEEK_CUR)==-1) {
-		perror("unable to revert to clear job ID");
-		exit(errno);
-	}
+	CHECK_NOT_M1(lseek(fdindex, -1 * sizeof(buffer), SEEK_CUR));
 	buffer.ID=0;
-	if (write(fdindex, & buffer, sizeof(buffer))==-1) {
-		perror("Unable to clear job ID");
-		exit(errno);
-	}
+	CHECK_NOT_M1(write(fdindex, & buffer, sizeof(buffer)));
 }
 
 void sigint(int gotsig) {
@@ -109,10 +79,7 @@ void sigint(int gotsig) {
 	char pathname[MAXPATHLEN];
 	struct stat statbuf;
 	char strPID[10];
-	if (!(sdir=opendir("/tmp"))) {
-		perror("opendir /tmp failed");
-		exit(errno);
-	}
+	CHECK_NOT_NULL(sdir=opendir("/tmp"));
 	if (cri1done && ! cri2done) {
 		critical2();
 	}
@@ -121,22 +88,12 @@ void sigint(int gotsig) {
 			|| strcmp(dircontent->d_name, "..")==0)
 			continue;
 		sprintf(strPID, "%d", getpid());
-		if (strstr(dircontent->d_name, strPID))
-		{
+		if (strstr(dircontent->d_name, strPID)) {
 			sprintf(pathname, "/tmp/%s", dircontent->d_name);
-			if (lstat(pathname, & statbuf)==-1)
-			{
-				perror(pathname);
-				exit(errno);
-			}
+			CHECK_NOT_M1(lstat(pathname, & statbuf));
 			if (S_ISREG(statbuf.st_mode)) {
-				if (statbuf.st_uid==getuid())
-				{
-					if (unlink(pathname)==-1)
-					{
-						perror("unable to remove file");
-						exit(errno);
-					}
+				if (statbuf.st_uid==getuid()) {
+					CHECK_NOT_M1(unlink(pathname));
 				}
 			}
 		}
@@ -154,21 +111,14 @@ int main(int argc,char** argv,char** envp) {
 	sigaddset(&settoblock, SIGTERM);
 	act.sa_handler=sigint;
 	act.sa_mask=settoblock;
-	if (sigaction(SIGINT,&act, NULL)==-1 ||
-		sigaction(SIGQUIT, &act, NULL)==-1 ||
-		sigaction(SIGABRT, &act, NULL)==-1 ||
-		sigaction(SIGTERM, &act, NULL)==-1)
-	{
-		perror("sigaction failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGINT,&act, NULL));
+	CHECK_NOT_M1(sigaction(SIGQUIT,&act, NULL));
+	CHECK_NOT_M1(sigaction(SIGABRT,&act, NULL));
+	CHECK_NOT_M1(sigaction(SIGTERM,&act, NULL));
 
 	cri1done=cri2done=0;
 	printf("blocking signals\n");
-	if(sigprocmask(SIG_BLOCK, &settoblock, &currentset)!=0) {
-		perror("cannot call sigprocmask");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(sigprocmask(SIG_BLOCK, &settoblock, &currentset));
 	printf("doing critical 1\n");
 	critical1();
 	cri1done=1;
@@ -176,10 +126,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("doing critical 2\n");
 	critical2();
 	cri2done=1;
-	if(sigprocmask(SIG_SETMASK, &currentset, NULL)!=0) {
-		perror("cannot call sigprocmask");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(sigprocmask(SIG_SETMASK, &currentset, NULL));
 	fprintf(stderr,"enabling signals\n");
 	return EXIT_SUCCESS;
 }
