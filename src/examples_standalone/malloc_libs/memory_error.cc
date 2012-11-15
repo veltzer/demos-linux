@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+//#include<firstinclude.h>
 #include<stdio.h> // for fprintf(3)
 #include<stdlib.h> // for malloc(3), free(3), atoi(3), EXIT_SUCCESS
 #ifdef DMALLOC
@@ -31,7 +31,7 @@
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {
-		fprintf(stderr,"usage: memory_error [0-5]\n");
+		fprintf(stderr,"usage: memory_error [number of error to perform]\n");
 		fprintf(stderr,"\t0 - write before the buffer and free\n");
 		fprintf(stderr,"\t1 - write after the buffer and free\n");
 		fprintf(stderr,"\t2 - write before the buffer and dont free\n");
