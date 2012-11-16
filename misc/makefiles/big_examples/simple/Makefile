@@ -6,5 +6,6 @@ main.o: main.c
 other.o: other.c
 	gcc -c -o other.o other.c
 
+.PHONY: clean
 clean:
 	-rm -f *.o program
