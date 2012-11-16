@@ -107,9 +107,26 @@ ALL:=$(ALL) $(MOD_MOD)
 CLEAN:=$(CLEAN) $(MOD_MOD) $(MOD_SR2) $(MOD_OB2) $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(MOD_CM1) $(MOD_CM2) $(MOD_CM3) $(MOD_OBJ)
 CLEAN_DIRS:=$(CLEAN_DIRS) $(KERNEL_DIR)/.tmp_versions
 
+# odps
+ODP_SRC:=$(shell find doc/odp -name "*.odp")
+ODP_BAS:=$(basename $(ODP_SRC))
+ODP_PPT:=$(addsuffix .ppt,$(ODP_BAS))
+ODP_PDF:=$(addsuffix .pdf,$(ODP_BAS))
+#ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
+
 # generic section
 .PHONY: all
 all: $(ALL)
+
+.PHONY: ppt
+ppt: $(ODP_PPT)
+
+.PHONY: pdf
+pdf: $(ODP_PDF)
+
+.PHONY: soffice
+soffice:
+	soffice "-accept=socket,port=2002;urp;" > /dev/null 2> /dev/null &
 
 .PHONY: clean_manual
 clean_manual:
@@ -182,6 +199,22 @@ $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 	$(info doing [$@])
 	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 
+# rules about odps
+$(ODP_PPT): %.ppt: %.odp $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)./scripts/DocumentConverter.py $< $@
+	$(Q)chmod 444 $@
+$(ODP_PDF): %.pdf: %.odp $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)./scripts/DocumentConverter.py $< $@
+	$(Q)chmod 444 $@
+
+# old junk for odps
+#$(Q)java -jar ~/install/jodconverter-core-3.0-beta-4.jar $< $@
+#$(Q)cp $< $@
+#$(Q)java -jar ~/install/jodconverter-core-3.0-beta-4.jar $< $@
+#$(Q)cp $< $@
+
 .PHONY: debug
 debug:
 	$(info MOD_MOD is $(MOD_MOD))
@@ -204,6 +237,8 @@ debug:
 	$(info CXXFLAGS is $(CXXFLAGS))
 	$(info CC is $(CC))
 	$(info CFLAGS is $(CFLAGS))
+	$(info ODP_SRC is $(ODP_SRC))
+	$(info ODP_PPT is $(ODP_PPT))
 
 .PHONY: todo
 todo:
