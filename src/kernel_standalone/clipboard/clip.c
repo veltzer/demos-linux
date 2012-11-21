@@ -188,6 +188,7 @@ irqreturn_t clipboard_int_handler(int irq,void* dev) {
 /* our file operations structure that gathers all the ops */
 
 struct file_operations clipboard_fops={
+	.owner=THIS_MODULE,
 	.open=clipboard_open,
 	.release=clipboard_release,
 	.read=clipboard_read,
