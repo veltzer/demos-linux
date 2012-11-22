@@ -57,5 +57,18 @@ int main(int argc,char** argv,char** envp) {
 	// but this is...
 	float x[]={ 5, 3, 2, 1 };
 	printf("size of x is %d\n",sizeof(x));
+	typedef struct _empty {
+	} empty;
+	PRINT_SIZEOF(empty);
+	typedef struct _array {
+		char a[0];
+	} array;
+	PRINT_SIZEOF(array);
+	typedef struct _charintchar {
+		char c1; 
+		int i;
+		char c2;
+	} charintchar;
+	PRINT_SIZEOF(charintchar);
 	return EXIT_SUCCESS;
 }
