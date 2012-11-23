@@ -1,14 +1,16 @@
-.PHONY: link
-link:
-	ld --shared -o out --static /usr/lib/libaudio.so.2
-
-.PHONY: strip
-strip:
-	objcopy --verbose --strip-all /usr/lib/libaudio.so.2 out
+LIB:=/usr/lib/libmpi.so.0
 
 .PHONY: obj
 obj:
-	gcc -c -o file.o file.cc
+	gcc -c -o file.o file.cc -I../../include
+
+.PHONY: link
+link:
+	ld --shared -o out --static $(LIB) 
+
+.PHONY: strip
+strip:
+	objcopy --verbose --strip-all $(LIB)
 
 .PHONY: copy
 copy:

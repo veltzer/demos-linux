@@ -1,8 +1,11 @@
-all: main.forclient main.forhq
+CFLAGS:=-I../../include
 
-main.forclient: main.c
-	gcc -s -g3 -o $@ main.c
-main.forhq: main.c
-	gcc -g3 -o $@ main.c
+.PHONY:all
+all: main.forclient.exe main.forhq.exe
+
+main.forclient.exe: main.c
+	gcc $(CFLAGS) -s -g3 -o $@ $<
+main.forhq.exe: main.c
+	gcc $(CFLAGS) -g3 -o $@ $<
 clean:
-	-rm -f main.forclient main.forhq core
+	-rm -f main.forclient.exe main.forhq.exe core

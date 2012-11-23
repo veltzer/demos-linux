@@ -11,7 +11,7 @@ FULLLIBNAME:=lib$(LIBNAME).so
 # the compiler we will be using
 CXX:=g++
 # flags for the compiler
-CXXFLAGS:=-Wall -Werror -O2
+CXXFLAGS:=-Wall -Werror -O2 -I../../include
 # all targets
 ALL:=$(APP) $(FULLLIBNAME)
 

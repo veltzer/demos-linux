@@ -19,7 +19,7 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.h"
+#include"Foo.hh"
 
 /*
 * This code uses Foo.h but will not be compiled with

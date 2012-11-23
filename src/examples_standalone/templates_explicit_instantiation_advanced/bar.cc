@@ -19,7 +19,7 @@
 */
 
 #include<firstinclude.h>
-#include"Foo.h"
+#include"Foo.hh"
 
 /*
 * This code does IMPLICIT instantiation of Foo<int>

@@ -19,7 +19,7 @@ OBJCOPY	= $(CROSS_COMPILE)objcopy
 OBJDUMP	= $(CROSS_COMPILE)objdump
 
 
-CFLAGS	:= -Wall 
+CFLAGS	:= -Wall -I../../include
 LDFLAGS := 
 
 LIBS_CFLAGS := $(CFLAGS)

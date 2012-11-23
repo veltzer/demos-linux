@@ -34,7 +34,7 @@
 #define __quote(x) #x
 #define _myheader(y) __quote(header_##y.h)
 #define myheader(x) _myheader(x)
-#includemyheader(TYPE)
+#include myheader(TYPE)
 
 int main(int argc,char** argv,char** envp) {
 	printf("SYMBOL is %s\n",SYMBOL);

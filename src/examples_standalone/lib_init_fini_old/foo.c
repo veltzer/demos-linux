@@ -22,6 +22,8 @@
 #include<stdio.h> // for fprintf(3)
 
 extern char *build_id;
+extern void _init(void);
+extern void _fini(void);
 
 void my_init(void) {
 	// call the original...

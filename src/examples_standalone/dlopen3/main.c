@@ -22,6 +22,7 @@
 #include<stdio.h> // for fprintf(3), printf(3)
 #include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
 #include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_NULL(), CHECK_ZERO()
 
 int main(int argc,char** argv,char** envp) {
 	void* h;
