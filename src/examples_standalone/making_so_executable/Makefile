@@ -3,7 +3,7 @@ SO_NAME:=lib$(SO_LINK_NAME).so
 EXE_NAME:=main.exe
 SO_OBJECTS:=add.o
 EXE_OBJECTS:=main.o
-CFLAGS:=-O2 -g3 -Wall -Werror
+CFLAGS:=-O2 -g3 -Wall -Werror -I../../include
 LDFLAGS:=-Wall -Werror
 CC:=gcc
 ALL_DEPS:=Makefile
@@ -31,10 +31,12 @@ clean: $(ALL_DEPS)
 run: $(ALL_DEPS)
 	LD_LIBRARY_PATH=. ./$(EXE_NAME)
 
+.PHONY: show_results
 show_results: all $(ALL_DEPS)
 	ldd $(SO_NAME) 
 	ldd $(EXE_NAME)
 
+.PHONY: show_results_verbose
 show_results_verbose: all $(ALL_DEPS)
 	ldd -v $(SO_NAME)
 	ldd -u $(SO_NAME)

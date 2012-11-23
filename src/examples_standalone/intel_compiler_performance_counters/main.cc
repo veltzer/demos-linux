@@ -24,6 +24,7 @@
 #include<iostream> // for std::cout, std::endl
 
 int main(int argc,char** argv,char** envp) {
+	/*
 	PCM* m=PCM::getInstance();
 	// program counters, and on a failure just exit
 	if(m->program()!=PCM::Success)
@@ -44,5 +45,6 @@ int main(int argc,char** argv,char** envp) {
 		<< "L3 cache hit ratio:" << getL3CacheHitRatio(before_sstate,after_sstate)
 		<< "Bytes read:" << getBytesReadFromMC(before_sstate,after_sstate)
 		<< std::endl;
+	*/
 	return EXIT_SUCCESS;
 }

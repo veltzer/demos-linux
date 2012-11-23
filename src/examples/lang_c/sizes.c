@@ -65,7 +65,7 @@ int main(int argc,char** argv,char** envp) {
 	} array;
 	PRINT_SIZEOF(array);
 	typedef struct _charintchar {
-		char c1; 
+		char c1;
 		int i;
 		char c2;
 	} charintchar;
