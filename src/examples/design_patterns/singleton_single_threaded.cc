@@ -22,22 +22,22 @@
 #include<stdlib.h> // for EXIT_SUCCESS, NULL
 
 /*
- * C++ Singleton
- * Limitation: Single Threaded Design
- * See: http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
- * For problems associated with locking in multi threaded applications
- *
- * Limitation:
- * If you use this Singleton (A) within a destructor of another Singleton (B)
- * This Singleton (A) must be fully constructed before the constructor of (B)
- * is called.
- */
+* C++ Singleton
+* Limitation: Single Threaded Design
+* See: http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
+* For problems associated with locking in multi threaded applications
+*
+* Limitation:
+* If you use this Singleton (A) within a destructor of another Singleton (B)
+* This Singleton (A) must be fully constructed before the constructor of (B)
+* is called.
+*/
 class MySingleton {
 	private:
 		// Private Constructor
 		MySingleton();
 		// Stop the compiler generating methods of copy the object
-		MySingleton(MySingleton const& copy);            // Not Implemented
+		MySingleton(MySingleton const& copy); // Not Implemented
 		MySingleton& operator=(MySingleton const& copy); // Not Implemented
 
 	public:
