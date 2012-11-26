@@ -117,3 +117,10 @@ elf tools:
 	pldd
 	readelf
 	chrpath
+
+database admin:
+	tora
+	toad
+	mysql
+	sqlite3
+	psql
