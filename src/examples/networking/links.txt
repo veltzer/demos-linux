@@ -1,0 +1,3 @@
+http://www.mjmwired.net/kernel/Documentation/networking/packet_mmap.txt
+http://yusufonlinux.blogspot.co.il/2010/11/raw-socket-in-linux.html
+http://yusufonlinux.blogspot.co.il/2010/11/data-link-access-and-zero-copy.html
