@@ -69,7 +69,7 @@ void* func(void*) {
 		//getpid();
 	}
 	gettimeofday(&t2, NULL);
-	printf("time in micro of one syscall: %lf\n", micro_diff(&t1,&t2)/(double)count);
+	printf("time in micro of one syscall: %lf\n", micro_diff(&t1,&t2)/(double)(count+1));
 	return NULL;
 }
 

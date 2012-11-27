@@ -21,6 +21,9 @@
 #include<firstinclude.h>
 #include<stdio.h> // for printf(3)
 
+extern void _init(void);
+extern void _fini(void);
+
 void my_init(void) {
 	// call the original...
 	_init();

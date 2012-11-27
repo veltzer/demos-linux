@@ -19,19 +19,37 @@
 */
 
 #include<firstinclude.h>
-#include<stdio.h> // for fprintf(3), printf(3)
-#include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<stdlib.h> // for EXIT_SUCCESS, NULL
+
+/*
+* C++ Singleton
+* Limitation: Single Threaded Design
+* See: http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
+* For problems associated with locking in multi threaded applications
+*
+* Limitation:
+* If you use this Singleton (A) within a destructor of another Singleton (B)
+* This Singleton (A) must be fully constructed before the constructor of (B)
+* is called.
+*/
+class MySingleton {
+	private:
+		// Private Constructor
+		MySingleton();
+		// Stop the compiler generating methods of copy the object
+		MySingleton(MySingleton const& copy); // Not Implemented
+		MySingleton& operator=(MySingleton const& copy); // Not Implemented
+
+	public:
+		static MySingleton& getInstance() {
+			// The only instance
+			// Guaranteed to be lazy initialized
+			// Guaranteed that it will be destroyed correctly
+			static MySingleton instance;
+			return instance;
+		}
+};
 
 int main(int argc,char** argv,char** envp) {
-	void* h;
-	CHECK_NOT_NULL(h=dlopen("libadd.so", RTLD_NOW));
-	void* sym;
-	CHECK_NOT_NULL(sym=dlsym(h,"func"));
-	int (*f)(int, int);
-	f=((int(*)(int, int))sym);
-	int result=f(2,2);
-	printf("2+2 is %d\n",result);
-	CHECK_ZERO(dlclose(h));
 	return EXIT_SUCCESS;
 }

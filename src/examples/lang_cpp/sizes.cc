@@ -29,8 +29,8 @@
 class A {
 	public:
 		int a;
-		int c;
 		char b;
+		int c;
 		char d;
 
 		void dosomething() {
@@ -65,6 +65,7 @@ int main(int argc,char** argv,char** envp) {
 	std::cout << "CppOffsetOf(A,b) " << CppOffsetOf(A,b) << std::endl;
 	std::cout << "CppOffsetOf(A,c) " << CppOffsetOf(A,c) << std::endl;
 	std::cout << "CppOffsetOf(A,d) " << CppOffsetOf(A,d) << std::endl;
+
 	A* a=new A();
 	a->dosomething();
 	A* ab=new B();

@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+//#include<firstinclude.h>
 #include"c.h"
 
 void C::zoo(void) {

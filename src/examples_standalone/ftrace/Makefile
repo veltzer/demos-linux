@@ -1,17 +1,19 @@
-ALL:=mainpg main main.objdump mainpg.objdump
+ALL:=mainpg.exe main.exe main.objdump mainpg.objdump
+CFLAGS:=-I../../include
+
 .PHONY: all
 all: $(ALL) 
 
-main: main.c
-	gcc $< -o $@
+main.exe: main.c
+	gcc $(CFLAGS) $< -o $@
 
-mainpg: main.c
-	gcc -pg $< -o $@
+mainpg.exe: main.c
+	gcc $(CFLAGS) -pg $< -o $@
 
-main.objdump: main
+main.objdump: main.exe
 	objdump -D $< > $@
 
-mainpg.objdump: mainpg
+mainpg.objdump: mainpg.exe
 	objdump -D $< > $@
 
 .PHONY: clean

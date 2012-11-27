@@ -84,7 +84,7 @@ static ssize_t read_zero(struct file * file, char __user * buf, size_t count, lo
 	return count;
 }
 
-int release_zero(struct inode* inode,struct file* file) {
+static int release_zero(struct inode* inode,struct file* file) {
 	//kfree(file->private_data);
 	free_page((unsigned long)file->private_data);
 	return 0;
@@ -92,6 +92,7 @@ int release_zero(struct inode* inode,struct file* file) {
 
 // this is the operations table
 static const struct file_operations zero_fops={
+	.owner=THIS_MODULE,
 	.open=open_zero,
 	.read=read_zero,
 	.release=release_zero,
@@ -132,7 +133,7 @@ static int zero_init(void) {
 	}
 	pr_info("created the class\n");
 	// and now lets auto-create a /dev/ node
-	my_device=device_create(my_class, NULL, first_dev,"%s",THIS_MODULE->name);
+	my_device=device_create(my_class,NULL,first_dev,NULL,"my%s",THIS_MODULE->name);
 	if(IS_ERR(my_device)) {
 		pr_err("failed in device_create\n");
 		err=PTR_ERR(my_device);
