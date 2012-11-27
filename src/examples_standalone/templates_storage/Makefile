@@ -1,9 +1,11 @@
+CXXFLAGS:=-Wall -Werror -I../../include
+
 out.exe: A.o use_a.o
 	g++ -o $@ A.o use_a.o
 A.o: A.cc
-	g++ -c -g3 -o $@ $<
+	g++ $(CXXFLAGS) -c -g3 -o $@ $<
 use_a.o: use_a.cc
-	g++ -c -g3 -o $@ $<
+	g++ $(CXXFLAGS) -c -g3 -o $@ $<
 
 .PHONY: clean
 clean:

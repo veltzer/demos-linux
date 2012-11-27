@@ -56,6 +56,7 @@ static ssize_t write_null(struct file * file, const char __user * buf, size_t co
 
 // this is the operations table
 static const struct file_operations null_fops={
+	.owner=THIS_MODULE,
 	.write=write_null,
 };
 

@@ -18,10 +18,21 @@
 	02111-1307 USA.
 */
 
-//#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include"b.h"
+#include<firstinclude.h>
+#include<stdio.h> // for fprintf(3), printf(3)
+#include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
+#include<stdlib.h> // for EXIT_SUCCESS
+#include<us_helper.h> // for CHECK_NOT_NULL(), CHECK_ZERO()
 
-void B::print(void) {
-	printf("i is %d\n", i);
+int main(int argc,char** argv,char** envp) {
+	void* h;
+	CHECK_NOT_NULL(h=dlopen("libadd.so", RTLD_NOW));
+	void* sym;
+	CHECK_NOT_NULL(sym=dlsym(h,"func"));
+	int (*f)(int, int);
+	f=((int(*)(int, int))sym);
+	int result=f(2,2);
+	printf("2+2 is %d\n",result);
+	CHECK_ZERO(dlclose(h));
+	return EXIT_SUCCESS;
 }

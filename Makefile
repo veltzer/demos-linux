@@ -112,7 +112,12 @@ ODP_SRC:=$(shell find doc/odp -name "*.odp")
 ODP_BAS:=$(basename $(ODP_SRC))
 ODP_PPT:=$(addsuffix .ppt,$(ODP_BAS))
 ODP_PDF:=$(addsuffix .pdf,$(ODP_BAS))
-#ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
+ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
+
+# standlone
+MK_SRC:=$(shell find src/examples_standalone -name "Makefile")
+MK_STP:=$(addsuffix .stamp,$(MK_SRC))
+ALL:=$(ALL) $(MK_STP)
 
 # generic section
 .PHONY: all
@@ -209,6 +214,12 @@ $(ODP_PDF): %.pdf: %.odp $(ALL_DEPS)
 	$(Q)./scripts/DocumentConverter.py $< $@
 	$(Q)chmod 444 $@
 
+# rules about makefiles
+$(MK_STP): %.stamp: % $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)$(MAKE) -C $(dir $<)
+	$(Q)touch $@
+
 # old junk for odps
 #$(Q)java -jar ~/install/jodconverter-core-3.0-beta-4.jar $< $@
 #$(Q)cp $< $@
@@ -239,6 +250,7 @@ debug:
 	$(info CFLAGS is $(CFLAGS))
 	$(info ODP_SRC is $(ODP_SRC))
 	$(info ODP_PPT is $(ODP_PPT))
+	$(info MK_SRC is $(MK_SRC))
 
 .PHONY: todo
 todo:

@@ -25,6 +25,7 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("minimal Hello, World! driver doing just init and cleanup");
+MODULE_VERSION("1.0.0");
 
 static int __init hello_init(void) {
 	pr_info("in hello_init\n");

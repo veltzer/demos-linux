@@ -21,7 +21,7 @@
 #ifndef CRASH_H
 #define CRASH_H
 
-#include<firstinclude.h>
+//#include<firstinclude.h>
 #include<signal.h>
 
 /* Main library registration function.

@@ -1,4 +1,4 @@
-ALL:=main.exe mainlib1.exe mainlib2.exe liblib1.so liblib2.so libm.so.6
+ALL:=main.exe mainlib1.exe mainlib2.exe liblib1.so liblib2.so libm.so
 CXXFLAGS=-I../../include
 
 .PHONY: all
@@ -14,7 +14,7 @@ liblib1.so: lib1.cc
 	g++ $(CXXFLAGS) -fpic -shared -o $@ $<
 liblib2.so: lib2.cc
 	g++ $(CXXFLAGS) -fpic -shared -o $@ $< -ldl
-libm.so.6: lib2.cc
+libm.so: lib2.cc
 	g++ $(CXXFLAGS) -fpic -shared -o $@ $< -ldl
 
 .PHONY: clean

@@ -18,10 +18,25 @@
 	02111-1307 USA.
 */
 
-//#include<firstinclude.h>
+#include<firstinclude.h>
+#include<unistd.h> // for getpagesize(2), sleep(3)
 #include<stdio.h> // for printf(3)
-#include"b.h"
+#include<strings.h> // for bzero(3)
 
-void B::print(void) {
-	printf("i is %d\n", i);
+void myfunc(int arg) {
+	int myarray[arg];
+	bzero(myarray,arg*sizeof(int));
+}
+
+int main(int argc,char** argv,char** envp) {
+	myfunc(1024*1024);
+	int size=getpagesize();
+	const int pagesize=getpagesize();
+	while(true) {
+		printf("size is %d\n",size);
+		myfunc(size);
+		sleep(1);
+		size+=pagesize;
+	}
+	return 0;
 }

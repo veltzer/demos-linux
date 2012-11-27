@@ -19,10 +19,8 @@
 */
 
 #include<firstinclude.h>
-#include<stdlib.h>
-#include<iostream>
-
-#include<us_helper.h>
+#include<stdlib.h> // for malloc(3), free(3), EXIT_SUCCESS
+#include<iostream> // for std::cout, std::endl
 
 /*
 *	This example shows how to use the C++ operator new placement
@@ -37,84 +35,87 @@
 *		your regular delete operator needs to know how to do the job
 *		both for arrays and for single elements (if you want arrays
 *		at all that is...).
+*
+*	TODO:
+*	- show in place construction (calling the constructor on an otherwise
+*	allocated block of ram)
 */
 
 class A {
-public:
-	float val;
-	A(void) {
-		val=-7.6;
-	}
+	public:
+		float val;
+		A(void) {
+			val=-7.6;
+		}
 
 
-	A(double ival) {
-		val=ival;
-	}
+		A(double ival) {
+			val=ival;
+		}
+
+		void *operator new(size_t size, double val) {
+			std::cout << "in new operator" << std::endl;
+			std::cout << "size is " << size << std::endl;
+			void *pointer=malloc(size);
+			std::cout << "pointer is " << pointer << std::endl;
+			// next two lines have no effect since the constructor
+			// will be called and will override it
+			A *p=(A *)pointer;
+			p->val=val;
+			return(pointer);
+		}
 
 
-	void *operator new(size_t size, double val) {
-		std::cerr << "in new operator" << std::endl;
-		std::cerr << "size is " << size << std::endl;
-		void *pointer=malloc(size);
-		std::cerr << "pointer is " << pointer << std::endl;
-		A *p=(A *)pointer;
-		p->val=val;
-		return(pointer);
-	}
+		// this is for allocating arrays, the size that you get
+		// is SizeOfObject*NumOfObjects...
+		void *operator new[] (const unsigned int size) {
+			std::cout << "in new[] operator" << std::endl;
+			std::cout << "size is " << size << std::endl;
+			void *pointer=malloc(size);
+			std::cout << "pointer is " << pointer << std::endl;
+			return(pointer);
+		}
 
 
-	// this is for allocating arrays, the size that you get
-	// is SizeOfObject*NumOfObjects...
-	void *operator new[] (const unsigned int size) {
-		std::cerr << "in new[] operator" << std::endl;
-		std::cerr << "size is " << size << std::endl;
-		void *pointer=malloc(size);
-		std::cerr << "pointer is " << pointer << std::endl;
-		return(pointer);
-	}
+		// notice that this does NOT get called...
+		void operator delete[] (void *pointer) {
+			std::cout << "in delete[] operator" << std::endl;
+			std::cout << "pointer is " << pointer << std::endl;
+			free(pointer);
+		}
 
+		void *operator new(size_t size) {
+			std::cout << "in new operator" << std::endl;
+			std::cout << "size is " << size << std::endl;
+			void *pointer=malloc(size);
+			std::cout << "pointer is " << pointer << std::endl;
+			return(pointer);
+		}
 
-	// notice that this does NOT get called...
-	void operator delete[] (void *pointer) {
-		std::cerr << "in delete[] operator" << std::endl;
-		std::cerr << "pointer is " << pointer << std::endl;
-		free(pointer);
-	}
-
-
-	void *operator new(size_t size) {
-		std::cerr << "in new operator" << std::endl;
-		std::cerr << "size is " << size << std::endl;
-		void *pointer=malloc(size);
-		std::cerr << "pointer is " << pointer << std::endl;
-		return(pointer);
-	}
-
-
-	void operator delete(void *pointer) {
-		std::cerr << "in delete operator" << std::endl;
-		std::cerr << "pointer is " << pointer << std::endl;
-		free(pointer);
-	}
+		void operator delete(void *pointer) {
+			std::cout << "in delete operator" << std::endl;
+			std::cout << "pointer is " << pointer << std::endl;
+			free(pointer);
+		}
 };
 
 int main(int argc,char** argv,char** envp) {
-	DEBUG("heap no arguments example");
+	std::cout << "heap no arguments example" << std::endl;
 	A* a=new A();
 
-	std::cerr << "a->val is " << a->val << std::endl;
+	std::cout << "a->val is " << a->val << std::endl;
 	delete a;
 
-	DEBUG("heap arguments example");
+	std::cout << "heap arguments example" << std::endl;
 	A* b=new(5.5) A();
-	std::cerr << "b->val is " << b->val << std::endl;
+	std::cout << "b->val is " << b->val << std::endl;
 	delete b;
 
-	DEBUG("many heap no arguments example");
+	std::cout << "many heap no arguments example" << std::endl;
 	const unsigned int num_objs=5;
 	A* e=new A[num_objs];
 	for(unsigned int i=0;i<num_objs;i++) {
-		std::cerr << i << " " << "e->val is " << e[i].val << std::endl;
+		std::cout << i << " " << "e->val is " << e[i].val << std::endl;
 	}
 	delete e;
 
@@ -124,13 +125,13 @@ int main(int argc,char** argv,char** envp) {
 	// could you write a C++ object which can be used ONLY on the stack
 	// or conversly ONLY on the heap using this property ?!?
 
-	DEBUG("stack no arguments example");
+	std::cout << "stack no arguments example" << std::endl;
 	A c;
-	std::cerr << "c.val is " << c.val << std::endl;
+	std::cout << "c.val is " << c.val << std::endl;
 
-	DEBUG("stack arguments example");
+	std::cout << "stack arguments example" << std::endl;
 	A d(6.7);
 
-	std::cerr << "d.val is " << d.val << std::endl;
+	std::cout << "d.val is " << d.val << std::endl;
 	return EXIT_SUCCESS;
 }

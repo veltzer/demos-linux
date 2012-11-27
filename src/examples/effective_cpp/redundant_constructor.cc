@@ -18,10 +18,33 @@
 	02111-1307 USA.
 */
 
-//#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include"b.h"
+#include<firstinclude.h>
+#include<stdlib.h> // for EXIT_SUCCESS
 
-void B::print(void) {
-	printf("i is %d\n", i);
+/*
+* This is an example of a redundant constructor.
+*/
+
+class B {
+	private:
+		int t;
+	public:
+		B() {
+			t=0;
+		}
+		void setT(int it) {
+			t=it;
+		}
+};
+
+class A {
+	B b;
+	public:
+		A() {
+			b.setT(7);
+		}
+};
+
+int main(int argc,char** argv,char** envp) {
+	return EXIT_SUCCESS;
 }

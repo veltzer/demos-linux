@@ -1,3 +1,5 @@
+CXXFLAGS:=-I../../include
+
 .PHONY: all
 all: main
 

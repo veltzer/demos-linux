@@ -418,6 +418,7 @@ static ssize_t pipe_write(struct file * file, const char __user * buf, size_t co
 
 // this is the operations table
 static const struct file_operations pipe_fops={
+	.owner=THIS_MODULE,
 	.open=pipe_open,
 	.release=pipe_release,
 	.read=pipe_read,
