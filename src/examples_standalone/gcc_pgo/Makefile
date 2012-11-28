@@ -6,7 +6,7 @@ main_st2.o: main.cc main.gcda
 	$(Q)g++ $(CXXFLAGS) -fprofile-use -c -o main.o main.cc
 	$(Q)mv main.o main_st2.o
 main.gcda main_run.stamp: main_phase1.exe
-	$(Q)./main_phase1.exe
+	$(Q)./main_phase1.exe 1> /dev/null 2> /dev/null
 	$(Q)touch main_run.stamp
 main_phase1.exe: main.o
 	$(Q)g++ -fprofile-generate -o $@ $<

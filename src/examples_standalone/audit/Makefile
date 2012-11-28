@@ -21,23 +21,23 @@ ALL:=$(APP) $(FULLLIBNAME)
 all: $(ALL)
 
 $(FULLLIBNAME): $(LIBNAME).cc
-	$(CXX) $(CXXFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $@ $<
+	$(Q)$(CXX) $(CXXFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $@ $<
 $(APP): $(basename $(APP)).cc
-	$(CXX) $(CXXFLAGS) -o $@ $<
+	$(Q)$(CXX) $(CXXFLAGS) -o $@ $<
 
 .PHONY: clean
 clean:
-	-rm $(ALL)
+	$(Q)-rm -f $(ALL)
 
 .PHONY: show_results
 show_results:
-	ldd $(FULLLIBNAME) $(APP)
-	ldd -v $(FULLLIBNAME)
-	ldd -u $(FULLLIBNAME)
+	$(Q)ldd $(FULLLIBNAME) $(APP)
+	$(Q)ldd -v $(FULLLIBNAME)
+	$(Q)ldd -u $(FULLLIBNAME)
 
 .PHONY: run_without_audit
 run_without_audit:
-	./$(APP)
+	$(Q)./$(APP)
 
 .PHONY: run_with_audit
 run_with_audit:

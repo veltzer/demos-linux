@@ -5,11 +5,13 @@ OBJECTS=$(addsuffix .o,$(basename $(SOURCES)))
 all: main.exe
 
 main.exe: $(OBJECTS)
-	g++ -o $@ $^
+	$(Q)g++ -o $@ $^
+%.o: %.cc
+	$(Q)g++ $(CXXFLAGS) -c -o $@ $^
 
 .PHONY: clean
 clean:
-	-rm -f $(OBJECTS) main.exe
+	$(Q)-rm -f $(OBJECTS) main.exe
 
 .PHONY: debug
 debug:
@@ -18,4 +20,4 @@ debug:
 
 .PHONY: show
 show:
-	for x in *.o; do echo $$x; nm -C $$x | grep W ; done
+	$(Q)for x in *.o; do echo $$x; nm -C $$x | grep W ; done
