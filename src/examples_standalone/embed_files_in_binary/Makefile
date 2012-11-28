@@ -1,15 +1,18 @@
 CXXFLAGS:=-I../../include
 
 .PHONY: all
-all: main
+all: main.exe
 
-main: data.o main.o
-	g++ -o $@ $?
+main.exe: data.o main.o
+	$(Q)g++ -o $@ $?
+
+main.o: main.cc
+	$(Q)g++ $(CXXFLAGS) -c -o $@ $<
 
 # rule about how to create object files from text files
 %.o: %.txt
-	objcopy --input binary --output elf32-i386 --binary-architecture i386 $< $@
+	$(Q)objcopy --input binary --output elf32-i386 --binary-architecture i386 $< $@
 
 .PHONY: clean
 clean:
-	-rm -f *.o main
+	$(Q)-rm -f *.o main.exe

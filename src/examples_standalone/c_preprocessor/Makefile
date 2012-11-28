@@ -4,10 +4,10 @@ CFLAGS:=-Wall -Werror -I../../include
 all: debug.exe release.exe
 
 debug.exe: main.c
-	gcc $(CFLAGS) $< -DTYPE=DEBUG -o $@
+	$(Q)gcc $(CFLAGS) $< -DTYPE=DEBUG -o $@
 release.exe: main.c
-	gcc $(CFLAGS) $< -DTYPE=RELEASE -o $@
+	$(Q)gcc $(CFLAGS) $< -DTYPE=RELEASE -o $@
 
 .PHONY: clean
 clean:
-	rm -f *.exe
+	$(Q)rm -f *.exe
