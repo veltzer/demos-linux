@@ -19,22 +19,22 @@ LIBS:=
 all: $(EXE_NAME)
 
 $(EXE_NAME): $(EXE_OBJECTS) $(SO_NAME) $(ALL_DEPS)
-	$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_LINK_NAME)
+	$(Q)$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_LINK_NAME)
 $(SO_NAME): $(SO_OBJECTS) $(ALL_DEPS)
-	$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_NAME) $(SO_OBJECTS) $(LIBS)
+	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_NAME) $(SO_OBJECTS) $(LIBS)
 
 .PHONY: clean
 clean: $(ALL_DEPS)
-	-rm $(SO_OBJECTS) $(EXE_OBJECTS) $(EXE_NAME) $(SO_NAME)
+	$(Q)-rm -f $(SO_OBJECTS) $(EXE_OBJECTS) $(EXE_NAME) $(SO_NAME)
 
 .PHONY: run
 run: $(ALL_DEPS)
-	LD_LIBRARY_PATH=. ./$(EXE_NAME)
+	$(Q)LD_LIBRARY_PATH=. ./$(EXE_NAME)
 
 .PHONY: show_results
 show_results: all $(ALL_DEPS)
-	ldd $(SO_NAME) 
-	ldd $(EXE_NAME)
+	$(Q)ldd $(SO_NAME) 
+	$(Q)ldd $(EXE_NAME)
 
 .PHONY: show_results_verbose
 show_results_verbose: all $(ALL_DEPS)
