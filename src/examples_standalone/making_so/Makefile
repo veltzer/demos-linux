@@ -23,9 +23,12 @@ $(EXE_NAME): $(EXE_OBJECTS) $(SO_NAME) $(ALL_DEPS)
 $(SO_NAME): $(SO_OBJECTS) $(ALL_DEPS)
 	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_NAME) $(SO_OBJECTS) $(LIBS)
 
+%.o: %.c
+	$(Q)$(CC) $(CFLAGS) -c -o $@ $<
+
 .PHONY: clean
 clean: $(ALL_DEPS)
-	$(Q)-rm *.o $(EXE_NAME) $(SO_NAME)
+	$(Q)-rm -f *.o $(EXE_NAME) $(SO_NAME)
 
 .PHONY: run
 run: $(ALL_DEPS)
