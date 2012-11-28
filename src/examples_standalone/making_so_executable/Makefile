@@ -22,6 +22,10 @@ $(EXE_NAME): $(EXE_OBJECTS) $(SO_NAME) $(ALL_DEPS)
 	$(Q)$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_LINK_NAME)
 $(SO_NAME): $(SO_OBJECTS) $(ALL_DEPS)
 	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_NAME) $(SO_OBJECTS) $(LIBS)
+main.o: main.c
+	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
+add.o: add.c
+	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 
 .PHONY: clean
 clean: $(ALL_DEPS)
@@ -38,5 +42,5 @@ show_results: all $(ALL_DEPS)
 
 .PHONY: show_results_verbose
 show_results_verbose: all $(ALL_DEPS)
-	ldd -v $(SO_NAME)
-	ldd -u $(SO_NAME)
+	$(Q)ldd -v $(SO_NAME)
+	$(Q)ldd -u $(SO_NAME)
