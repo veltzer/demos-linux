@@ -323,8 +323,8 @@ void print_card_list(void) {
 	}
 }
 
-int main(int argc, char *argv[]) {
-	print_card_list(); // prints a list of all card devices (not only MIDI)
+int main(int argc,char** argv,char** envp) {
+	//print_card_list();
 	print_midi_ports();
 	return EXIT_SUCCESS;
 }
