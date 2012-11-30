@@ -11,7 +11,7 @@ packs=[
 	'libncursesw5',
 	'libncursesw5-dev',
 	'ncurses-doc',
-	'libproc-dev',
+	'libprocps-dev',
 	'libgnomeui-dev',
 	'libsigc++-dev',
 	'libgnomeuimm-2.6-dev',
@@ -38,6 +38,8 @@ packs=[
 	'libasound2-doc',
 	'libasound2-dev',
 	'numactl',
+	'linux-headers-generic',
+	'linux-headers-generic-pae',
 ]
 
 args=['sudo','apt-get','install']

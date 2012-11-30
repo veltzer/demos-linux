@@ -22,14 +22,14 @@
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<alsa/asoundlib.h> // for snd_card_next(3), snd_config_update_free_global(3)
-#include<us_helper.h>
+#include<us_helper.h> // for CHECK_NOT_NEGATIVE()
 
 /*
 * Counts how many sound cards ALSA finds in the system.
 * EXTRA_LIBS=-lasound
 */
 
-int main(int argc, char** argv,char** envp) {
+int main(int argc,char** argv,char** envp) {
 	int totalCards=0;
 	int cardNum=-1;
 	while(true) {
@@ -40,8 +40,8 @@ int main(int argc, char** argv,char** envp) {
 		if(cardNum==-1)
 			break;
 		char* name=NULL;
-		snd_card_get_name(cardNum,&name);
-		printf("found card with id %d and name [%s]\n",cardNum,name);
+		CHECK_NOT_NEGATIVE(snd_card_get_name(cardNum,&name));
+		printf("[%d],[%s]\n",cardNum,name);
 		// Another card found, so bump the count
 		totalCards++;
 	}
