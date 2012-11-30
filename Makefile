@@ -116,6 +116,7 @@ ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
 
 # standlone
 MK_SRC:=$(shell find src/examples_standalone -name "Makefile")
+MK_FLD:=$(dir $(MK_SRC))
 MK_STP:=$(addsuffix .stamp,$(MK_SRC))
 ALL:=$(ALL) $(MK_STP)
 
@@ -131,7 +132,7 @@ pdf: $(ODP_PDF)
 
 .PHONY: soffice
 soffice:
-	soffice "-accept=socket,port=2002;urp;" > /dev/null 2> /dev/null &
+	$(Q)soffice "-accept=socket,port=2002;urp;" > /dev/null 2> /dev/null &
 
 .PHONY: clean_manual
 clean_manual:
@@ -148,12 +149,18 @@ clean_manual:
 GIT_CLEAN_FLAGS=-xdf
 #GIT_CLEAN_FLAGS=-fXd
 .PHONY: clean
-clean:
+clean: clean_standalone
 	$(info doing [$@])
 	$(Q)git clean $(GIT_CLEAN_FLAGS) > /dev/null
 .PHONY: clean_test
 clean_test:
 	@git clean $(GIT_CLEAN_FLAGS) --dry-run
+.PHONY: clean_standalone
+clean_standalone:
+	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q);done
+.PHONY: build_standalone
+build_standalone:
+	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" Q=$(Q);done
 
 # the reason that tar and gzip were selected and not zip is that the build system
 # for the native demos requires scripts with permissions and stuff. This may be different
@@ -207,17 +214,19 @@ $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 # rules about odps
 $(ODP_PPT): %.ppt: %.odp $(ALL_DEPS)
 	$(info doing [$@])
+	$(Q)rm -f $@
 	$(Q)./scripts/DocumentConverter.py $< $@
 	$(Q)chmod 444 $@
 $(ODP_PDF): %.pdf: %.odp $(ALL_DEPS)
 	$(info doing [$@])
+	$(Q)rm -f $@
 	$(Q)./scripts/DocumentConverter.py $< $@
 	$(Q)chmod 444 $@
 
 # rules about makefiles
 $(MK_STP): %.stamp: % $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)$(MAKE) -C $(dir $<)
+	$(Q)$(MAKE) -C $(dir $<) Q=$(Q)
 	$(Q)touch $@
 
 # old junk for odps
@@ -251,6 +260,8 @@ debug:
 	$(info ODP_SRC is $(ODP_SRC))
 	$(info ODP_PPT is $(ODP_PPT))
 	$(info MK_SRC is $(MK_SRC))
+	$(info MK_FLD is $(MK_FLD))
+	$(info MK_STP is $(MK_STP))
 
 .PHONY: todo
 todo:

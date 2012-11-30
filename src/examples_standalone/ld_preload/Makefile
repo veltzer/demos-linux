@@ -5,21 +5,21 @@ CXXFLAGS=-I../../include
 all: $(ALL)
 
 mainlib1.exe: main.cc liblib1.so
-	g++ $(CXXFLAGS) -o $@ $< -L. -llib1
+	$(Q)g++ $(CXXFLAGS) -o $@ $< -L. -llib1
 mainlib2.exe: main.cc liblib2.so
-	g++ $(CXXFLAGS) -o $@ $< -L. -llib2
+	$(Q)g++ $(CXXFLAGS) -o $@ $< -L. -llib2
 main.exe: main.cc
-	g++ $(CXXFLAGS) -o $@ $< -lm
+	$(Q)g++ $(CXXFLAGS) -o $@ $< -lm
 liblib1.so: lib1.cc
-	g++ $(CXXFLAGS) -fpic -shared -o $@ $<
+	$(Q)g++ $(CXXFLAGS) -fpic -shared -o $@ $<
 liblib2.so: lib2.cc
-	g++ $(CXXFLAGS) -fpic -shared -o $@ $< -ldl
+	$(Q)g++ $(CXXFLAGS) -fpic -shared -o $@ $< -ldl
 libm.so: lib2.cc
-	g++ $(CXXFLAGS) -fpic -shared -o $@ $< -ldl
+	$(Q)g++ $(CXXFLAGS) -fpic -shared -o $@ $< -ldl
 
 .PHONY: clean
 clean:
-	-rm -f $(ALL) *.dis
+	$(Q)-rm -f $(ALL) *.dis
 
 VAL=0.5
 # this simply runs the good old executable

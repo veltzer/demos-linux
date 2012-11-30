@@ -5,17 +5,17 @@ CFLAGS:=-I../../include
 all: $(ALL) 
 
 main.exe: main.c
-	gcc $(CFLAGS) $< -o $@
+	$(Q)gcc $(CFLAGS) $< -o $@
 
 mainpg.exe: main.c
-	gcc $(CFLAGS) -pg $< -o $@
+	$(Q)gcc $(CFLAGS) -pg $< -o $@
 
 main.objdump: main.exe
-	objdump -D $< > $@
+	$(Q)objdump -D $< > $@
 
 mainpg.objdump: mainpg.exe
-	objdump -D $< > $@
+	$(Q)objdump -D $< > $@
 
 .PHONY: clean
 clean:
-	-rm $(ALL) gmon.out
+	$(Q)-rm -f $(ALL) gmon.out

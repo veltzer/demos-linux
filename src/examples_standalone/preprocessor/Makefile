@@ -7,13 +7,13 @@ MAKEFILE:=Makefile
 all: $(ALL) 
 
 defs_c.out: $(MAKEFILE)
-	echo | gcc -E -dM - > $@
+	$(Q)echo | gcc -E -dM - > $@
 defs_cc.out: $(MAKEFILE) 
-	echo | g++ -E -dM - > $@
+	$(Q)echo | g++ -E -dM - > $@
 
 .PHONY: clean
 clean:
-	rm -f $(ALL)
+	$(Q)-rm -f $(ALL)
 
 .PHONY: debug
 debug:
