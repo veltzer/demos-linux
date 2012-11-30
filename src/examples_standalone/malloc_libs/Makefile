@@ -6,15 +6,14 @@ ALL_DEPS:=Makefile
 all: $(ALL) 
 
 memory_error.regular.exe: memory_error.cc $(ALL_DEPS)
-	g++ -O2 -g3 -o $@ $<
+	$(Q)g++ -O2 -g3 -o $@ $<
 memory_error.efence.exe: memory_error.cc $(ALL_DEPS)
-	g++ -O2 -g3 -o $@ $< -lefence
+	$(Q)g++ -O2 -g3 -o $@ $< -lefence
 memory_error.dmalloc.exe: memory_error.cc $(ALL_DEPS)
-	g++ -O2 -g3 -DDMALLOC -o $@ $< -ldmalloc
+	$(Q)g++ -O2 -g3 -DDMALLOC -o $@ $< -ldmalloc
 .PHONY: clean
 clean:
-	-rm -f $(ALL) logfile.out
-
+	$(Q)-rm -f $(ALL) logfile.out
 .PHONY: valgrind_memcheck
 valgrind_memcheck:
-	valgrind --tool=memcheck ./memory_error.regular.exe 0
+	$(Q)valgrind --tool=memcheck ./memory_error.regular.exe 0

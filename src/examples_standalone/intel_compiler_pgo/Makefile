@@ -7,17 +7,17 @@ PROF_USE=-prof-use
 
 # targets
 main.exe: main_st2.o
-	$(CXX) -o $@ $<
+	$(Q)$(CXX) -o $@ $<
 main_st2.o: main.cc main.gcda
-	$(CXX) $(CXXFLAGS) $(PROF_USE) -c -o main.o main.cc
-	mv main.o main_st2.o
+	$(Q)$(CXX) $(CXXFLAGS) $(PROF_USE) -c -o main.o main.cc
+	$(Q)mv main.o main_st2.o
 main.gcda main_run.stamp: main_phase1.exe
-	./main_phase1.exe
-	touch main_run.stamp
+	$(Q)./main_phase1.exe 1> /dev/null 2> /dev/null
+	$(Q)touch main_run.stamp
 main_phase1.exe: main.o
-	$(CXX) -o $@ $<
+	$(Q)$(CXX) -o $@ $<
 main.o: main.cc
-	$(CXX) $(CXXFLAGS) $(PROF_GEN) -c -o main.o main.cc
+	$(Q)$(CXX) $(CXXFLAGS) $(PROF_GEN) -c -o main.o main.cc
 .PHONY: clean
 clean:
-	-rm *.dyn *.lock *.dpi main_st2.o main.o main.exe main_phase1.exe main_run.stamp
+	$(Q)-rm -f *.dyn *.lock *.dpi main_st2.o main.o main.exe main_phase1.exe main_run.stamp

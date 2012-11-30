@@ -24,8 +24,7 @@
 #include<assert.h> // for assert(3)
 #include<iostream> // for std::exception
 #include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
-
-#include<us_helper.h>
+#include<us_helper.h> // for TRACE()
 
 /*
 * This program shows how you can disable malloc completely so that you will be sure
@@ -37,6 +36,8 @@
 * replace malloc, or call malloc. Your allocator would provice the standard malloc
 * functions (malloc,realloc,memalign) and would throw exceptions or returns nulls
 * if these are called after a certain stage.
+*
+* EXTRA_COMPILE_FLAGS=-Wno-error=deprecated-declarations -Wno-deprecated-declarations
 */
 
 static bool malloc_allowed=true;
@@ -54,30 +55,24 @@ void* my_memalign_hook(size_t alignment, size_t size,const void *caller);
 void my_free_hook(void *ptr, const void *caller);
 
 static void save_hooks(void) {
-	/* FIXME - __XXXX_hook are deprecated...
 	old_malloc_hook=__malloc_hook;
 	old_realloc_hook=__realloc_hook;
 	old_memalign_hook=__memalign_hook;
 	old_free_hook=__free_hook;
-	*/
 }
 
 static void setup_hooks(void) {
-	/* FIXME - __XXXX_hook are deprecated...
 	__malloc_hook=my_malloc_hook;
 	__realloc_hook=my_realloc_hook;
 	__memalign_hook=my_memalign_hook;
 	__free_hook=my_free_hook;
-	*/
 }
 
 static void restore_hooks(void) {
-	/* FIXME - __XXXX_hook are deprecated...
 	__malloc_hook=old_malloc_hook;
 	__realloc_hook=old_realloc_hook;
 	__memalign_hook=old_memalign_hook;
 	__free_hook=old_free_hook;
-	*/
 }
 
 void* my_malloc_hook(size_t size, const void *caller) {
@@ -116,25 +111,21 @@ void my_free_hook(void *ptr, const void *caller) {
 	throw std::exception();
 }
 
-/* FIXME - __XXXX_hook are deprecated...
 static void my_init_hook(void) {
 	TRACE("start");
 	save_hooks();
 	setup_hooks();
 	TRACE("end");
 }
-*/
 
 /* Override initializing hook from the C library. */
-/* FIXME - __XXXX_hook are deprecated...
-void (*__malloc_initialize_hook) (void)=my_init_hook;
-*/
+void (*volatile __malloc_initialize_hook) (void)=my_init_hook;
 
-void disable_malloc(void) {
+void malloc_disable(void) {
 	malloc_allowed=false;
 }
 
-void enable_malloc(void) {
+void malloc_enable(void) {
 	malloc_allowed=true;
 }
 
@@ -143,7 +134,7 @@ int main(int argc,char** argv,char** envp) {
 	void* p=malloc(200);
 	assert(p!=NULL);
 	// we are going into the critical phase of the application...
-	disable_malloc();
+	malloc_disable();
 	// this should fail...
 	p=malloc(200);
 	// we should never get to this line

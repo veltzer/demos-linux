@@ -4,14 +4,14 @@ CFLAGS:=-I../../include
 all: main.exe libadd.so
 
 main.exe: main.o 
-	gcc -o $@ $< -ldl
+	$(Q)gcc -o $@ $< -ldl
 main.o: main.c
-	gcc $(CFLAGS) -c -o $@ $<
+	$(Q)gcc $(CFLAGS) -c -o $@ $<
 libadd.so: add.o
-	gcc -shared -o $@ $<
+	$(Q)gcc -shared -o $@ $<
 add.o: add.c
-	gcc $(CFLAGS) -c -o $@ $<
+	$(Q)gcc $(CFLAGS) -c -o $@ $<
 
 .PHONY: clean
 clean:
-	-rm *.o main.exe libadd.so
+	$(Q)-rm -f *.o main.exe libadd.so
