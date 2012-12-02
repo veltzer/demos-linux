@@ -1,16 +1,16 @@
 ALL:=memory_error.dmalloc.exe memory_error.regular.exe memory_error.efence.exe
-
 ALL_DEPS:=Makefile
+CXXFLAGS:=-O2 -g3 -Wall -Werror -I../../include
 
 .PHONY: all
 all: $(ALL) 
 
 memory_error.regular.exe: memory_error.cc $(ALL_DEPS)
-	$(Q)g++ -O2 -g3 -o $@ $<
+	$(Q)g++ $(CXXFLAGS) -o $@ $<
 memory_error.efence.exe: memory_error.cc $(ALL_DEPS)
-	$(Q)g++ -O2 -g3 -o $@ $< -lefence
+	$(Q)g++ $(CXXFLAGS) -o $@ $< -lefence
 memory_error.dmalloc.exe: memory_error.cc $(ALL_DEPS)
-	$(Q)g++ -O2 -g3 -DDMALLOC -o $@ $< -ldmalloc
+	$(Q)g++ $(CXXFLAGS) -DDMALLOC -o $@ $< -ldmalloc
 .PHONY: clean
 clean:
 	$(Q)-rm -f $(ALL) logfile.out

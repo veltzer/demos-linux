@@ -1,7 +1,7 @@
 # variables
 CXX:=icc
 #CXXFLAGS:=-I/usr/include/i386-linux-gnu
-CXXFLAGS:=-Wall -Werror -O2
+CXXFLAGS:=-Wall -Werror -O2 -I../../include
 PROF_GEN=-prof-gen
 PROF_USE=-prof-use
 
