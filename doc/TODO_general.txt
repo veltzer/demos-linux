@@ -2,3 +2,4 @@ c++ userspace and kernel stuff:
 ===============================
 - find out why rdtsc doesnt work well on my multi core machine.
 	fix it.
+- do an example of libevent in linux.
