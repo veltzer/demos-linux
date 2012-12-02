@@ -1,4 +1,4 @@
-CXXFLAGS:=-Wall -Werror -I../../include
+CXXFLAGS:=-Wall -Werror -I../../include -I.
 
 .PHONY: all
 all: bar.o zoo.o ins.o
