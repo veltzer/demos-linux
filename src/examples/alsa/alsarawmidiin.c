@@ -76,61 +76,40 @@
 // Returns a string explaining the error number.
 //
 
-#include<alsa/asoundlib.h> /* Interface to the ALSA system */
-#include<stdlib.h> // for EXIT_SUCCESS
+#include<alsa/asoundlib.h> // for snd_*(3)
+#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include<stdio.h> // for fprintf(3), stderr
+#include<us_helper.h> // for CHECK_NOT_NEGATIVE(3)
 
-// function declarations:
-void errormessage(const char *format, ...);
-
-///////////////////////////////////////////////////////////////////////////
-
-int main(int argc, char *argv[]) {
-	int status;
-	int mode =SND_RAWMIDI_SYNC;
-	snd_rawmidi_t* midiin =NULL;
-	const char* portname ="hw:1,0,0"; // see alsarawportlist.c example program
-	if ((argc > 1) && (strncmp("hw:", argv[1], 3) ==0)) {
-		portname =argv[1];
+int main(int argc,char** argv,char** envp) {
+	if(argc!=2) {
+		fprintf(stderr,"%s: usage: %s portname\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: example: %s hw:3,0,0\n",argv[0],argv[0]);
+		return EXIT_FAILURE;
 	}
-	if ((status =snd_rawmidi_open(&midiin, NULL, portname, mode)) < 0) {
-		errormessage("Problem opening MIDI input: %s", snd_strerror(status));
-		exit(EXIT_FAILURE);
-	}
+	const char* portname=argv[1];
+	const int mode=SND_RAWMIDI_SYNC;
+	snd_rawmidi_t* midiin=NULL;
+	CHECK_NOT_NEGATIVE(snd_rawmidi_open(&midiin,NULL,portname,mode));
 
-	int maxcount =1000; // Exit after this many bytes have been received.
-	int count =0; // Current count of bytes received.
+	int maxcount=1000; // Exit after this many bytes have been received.
+	int count=0; // Current count of bytes received.
 	char buffer[1]; // Storage for input buffer received
-	while (count < maxcount) {
-		if ((status =snd_rawmidi_read(midiin, buffer, 1)) < 0) {
-			errormessage("Problem reading MIDI input: %s", snd_strerror(status));
-		}
+	while(count<maxcount) {
+		CHECK_NOT_NEGATIVE(snd_rawmidi_read(midiin, buffer, 1));
 		count++;
-		if ((unsigned char)buffer[0] >=0x80) { // command byte: print in hex
-			printf("0x%x ", (unsigned char)buffer[0]);
+		if((unsigned char)buffer[0]>=0x80) { // command byte: print in hex
+			printf("0x%x ",(unsigned char)buffer[0]);
 		} else {
-			printf("%d ", (unsigned char)buffer[0]);
+			printf("%d ",(unsigned char)buffer[0]);
 		}
 		fflush(stdout);
-		if (count % 20 ==0) { // print a newline to avoid line-wrapping
+		if(count%20==0) { // print a newline to avoid line-wrapping
 			printf("\n");
 		}
 	}
-	snd_rawmidi_close(midiin);
+	CHECK_NOT_NEGATIVE(snd_rawmidi_close(midiin));
 	midiin=NULL; // snd_rawmidi_close() does not clear invalid pointer,
 	return EXIT_SUCCESS; // so might be a good idea to erase it after closing.
 }
 
-///////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////
-//
-// error -- print error message
-//
-
-void errormessage(const char *format, ...) {
-	va_list ap;
-	va_start(ap, format);
-	vfprintf(stderr, format, ap);
-	va_end(ap);
-	putc('\n', stderr);
-}
