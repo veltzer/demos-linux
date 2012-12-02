@@ -157,10 +157,10 @@ clean_test:
 	@git clean $(GIT_CLEAN_FLAGS) --dry-run
 .PHONY: clean_standalone
 clean_standalone:
-	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q);done
+	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
 .PHONY: build_standalone
 build_standalone:
-	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" Q=$(Q);done
+	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
 
 # the reason that tar and gzip were selected and not zip is that the build system
 # for the native demos requires scripts with permissions and stuff. This may be different
