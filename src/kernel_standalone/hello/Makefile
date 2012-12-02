@@ -1,7 +1,7 @@
 # this is a minimal makefile for demo purposes, keep it that way...
 obj-m:=hello.o
 hello-objs:=main.o
-V:=1
+V:=0
 KDIR:=/lib/modules/$(shell uname -r)/build
 # in an embedded system:
 #KDIR:=[where the system maker gave me kernel header]/build
