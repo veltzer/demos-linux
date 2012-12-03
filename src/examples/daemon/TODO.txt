@@ -1,1 +1,0 @@
-- do example showing the use of daemon(3).
