@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-//#include<firstinclude.h>
+#include<firstinclude.h>
 #include<stdio.h> // for fopen(3), fprintf(3), fclose(3), getline(3), popen(3), pclose(3)
 #include<stdlib.h> // for system(3), abort(3), mkstemp(3), malloc(3)
 #include<unistd.h> // for close(2)

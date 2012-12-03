@@ -1,12 +1,12 @@
 # this is a minimal makefile for demo purposes, keep it that way...
 obj-m:=hello.o
 hello-objs:=main.o
-V:=1
-KDIR:=/lib/modules/$(shell uname -r)/build
+V?=0
+KDIR?=/lib/modules/$(shell uname -r)/build
 # in an embedded system:
-#KDIR:=[where the system maker gave me kernel header]/build
+#KDIR:=[where the system maker gave me kernel headers+makefile or the kernel itself which has a makefile]
 #ARCH:=arm
-#CROSS_COMPILE:=[path to where the tool chain is]/prefix
+#CROSS_COMPILE:=[path+common prefix to where the toolchain is]
 .PHONY: modules
 modules:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules

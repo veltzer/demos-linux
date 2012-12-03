@@ -1,6 +1,6 @@
 # variables
 CC:=icc
-CFLAGS:=-Wall -Werror
+CFLAGS:=-Wall -Werror -I../../include
 
 # targets
 .PHONY: all

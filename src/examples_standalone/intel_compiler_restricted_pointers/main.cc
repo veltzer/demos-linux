@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-//#include<firstinclude.h>
+#include<firstinclude.h>
 #include<stdio.h> // for vprintf(3)
 #include<sys/time.h> // for gettimeofday(2)
 #include<us_helper.h> // for micro_diff()

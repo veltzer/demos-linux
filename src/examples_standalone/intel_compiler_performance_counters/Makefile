@@ -2,7 +2,7 @@
 #CC:=icc
 CC:=icpc
 #CFLAGS:=-I/usr/include/i386-linux-gnu
-CFLAGS:=
+CFLAGS:=-I../../include -Wall -Werror
 
 # targets
 .PHONY: all
