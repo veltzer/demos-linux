@@ -262,6 +262,7 @@ static int __init pipe_init(void) {
 	int ret;
 	int i;
 	int j;
+	struct device* pipe_device;
 	// allocate all pipes
 	pipes=(my_pipe_t*)kmalloc(sizeof(my_pipe_t)*pipes_count,GFP_KERNEL);
 	if(IS_ERR(pipes)) {
@@ -304,10 +305,10 @@ static int __init pipe_init(void) {
 	pr_debug("created the class\n");
 	for(i=0;i<pipes_count;i++) {
 		// and now lets auto-create a /dev/ node
-		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),MINOR(first_dev)+i),NULL,"%s%d",THIS_MODULE->name,i);
-		if(IS_ERR(pipes[i].pipe_device)) {
+		pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),MINOR(first_dev)+i),NULL,"%s%d",THIS_MODULE->name,i);
+		if(IS_ERR(pipe_device)) {
 			pr_err("device_create\n");
-			ret=PTR_ERR(pipes[i].pipe_device);
+			ret=PTR_ERR(pipe_device);
 			goto err_class;
 		}
 	}
