@@ -19,14 +19,13 @@
 */
 
 #include<firstinclude.h>
-#include<syslog.h> // for openlog(3), syslog(3), closelog(3)
+#include<syslog.h> // for openlog(3), syslog(3), closelog(3), setlogmask(3)
 #include<unistd.h> // for sleep(3)
 #include<stdarg.h> // for vsyslog(3)
 #include<sys/types.h> // for getpid(2)
 #include<unistd.h> // for getpid(2)
 #include<stdio.h> // for fprintf(3)
-
-#include<us_helper.h> // for my_system
+#include<us_helper.h> // for my_system()
 
 /*
 * This example shows syslog basic usage. At the end it demostrates that the log
@@ -85,11 +84,21 @@ const char* str_log[8]={
 	"LOG_INFO",
 	"LOG_DEBUG"
 };
+const int pri_log[8]={
+	LOG_EMERG,
+	LOG_ALERT,
+	LOG_CRIT,
+	LOG_ERR,
+	LOG_WARNING,
+	LOG_NOTICE,
+	LOG_INFO,
+	LOG_DEBUG
+};
 
 int main(int argc,char** argv,char** envp) {
-	//print_syslog_numeric_values();
+	print_syslog_numeric_values();
 	// the named
-	const char* myname="thisismyname";
+	const char* myname="myname";
 	// record the process id doing the logging, regular user process logging...
 	openlog(myname, LOG_PID, LOG_USER);
 	// show the open file descriptor map after opening syslog
@@ -100,7 +109,8 @@ int main(int argc,char** argv,char** envp) {
 	// lets send different messages with different log levels
 	// we will cycle through the different log levels...
 	for(int i=0; i < 200; i++) {
-		syslog(i%8, "this is a message %d of loglevel %s", i, str_log[i%8]);
+		int entry=i%8;
+		syslog(pri_log[entry], "this is a message %d of loglevel %s", i, str_log[entry]);
 	}
 	// lets send the same message many times to show that
 	// notice that the filtering of same messages IS NOT done at the source
@@ -127,6 +137,6 @@ int main(int argc,char** argv,char** envp) {
 	// let syslogd (the process) a chance to actually put the data in the log
 	sleep(1);
 	// show my own log (diregard other logs from other programs)
-	my_system("tail /var/log/syslog | grep %s | grep %d",myname,getpid());
+	my_system("cat /var/log/syslog | grep %s | grep %d",myname,getpid());
 	return EXIT_SUCCESS;
 }
