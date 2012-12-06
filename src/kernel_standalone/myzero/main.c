@@ -133,7 +133,7 @@ static int zero_init(void) {
 	}
 	pr_info("created the class\n");
 	// and now lets auto-create a /dev/ node
-	my_device=device_create(my_class,NULL,first_dev,NULL,"my%s",THIS_MODULE->name);
+	my_device=device_create(my_class,NULL,first_dev,NULL,"%s",THIS_MODULE->name);
 	if(IS_ERR(my_device)) {
 		pr_err("failed in device_create\n");
 		err=PTR_ERR(my_device);

@@ -19,6 +19,7 @@
 */
 
 #include<firstinclude.h>
+#include<syslog.h> // for openlog(3), syslog(3), closelog(3), setlogmask(3)
 #include<unistd.h> // for daemon(3), pause(2), getpid(2), getppid(2)
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<stdio.h> // for printf(3)
@@ -31,11 +32,16 @@
 int main(int argc,char** argv,char** envp) {
 	// this print is still shown on the terminal...
 	printf("before daemon(3) ,I am id [%d], my parent is [%d]\n",getpid(),getppid());
+	printf("after the console returns the process will continue disconnected\n");
+	printf("from the terminal as child of pid 1\n");
+	printf("use [ps -ef | grep %s] to find it...\n",argv[0]);
+	printf("use [tail -f /var/log/syslog] to see the logs of this process.\n");
 	CHECK_NOT_M1(daemon(0,0));
-	// TODO: this print does not get anywhere (/dev/null redirection).
-	// use syslog instead.
-	printf("after daemon(3) ,I am id [%d], my parent is [%d]\n",
-			getpid(),getppid());
+	// from this point prints do not get anywhere (/dev/null redirection).
+	// so we use syslog instead...
+	openlog(argv[0], LOG_PID, LOG_USER);
+	syslog(LOG_ERR, "after daemon(3) ,I am id [%d], my parent is [%d]\n",getpid(),getppid());
+	closelog();
 	while(true) {
 		pause();
 	}
