@@ -48,6 +48,9 @@ const int MINOR_COUNT=1;
 
 static int open_zero(struct inode * inode, struct file * file) {
 	//char* p=(char*)kmalloc(PAGE_SIZE, GFP_KERNEL);
+	//if(p==NULL) {
+	//	return -EFAULT;
+	//}
 	//memset(p,0,PAGE_SIZE);
 	//file->private_data=(void*)p;
 	file->private_data=(void*)get_zeroed_page(GFP_KERNEL);
