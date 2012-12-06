@@ -473,7 +473,7 @@ static int __init pipe_init(void) {
 	pr_debug("created the class\n");
 	for(i=0;i<pipes_count;i++) {
 		// and now lets auto-create a /dev/ node
-		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),first_minor+i),NULL,"%s%d",THIS_MODULE->name,i);
+		pipes[i].pipe_device=device_create(my_class, NULL, MKDEV(MAJOR(first_dev),MINOR(first_dev)+i),NULL,"%s%d",THIS_MODULE->name,i);
 		if(IS_ERR(pipes[i].pipe_device)) {
 			pr_err("device_create\n");
 			ret=PTR_ERR(pipes[i].pipe_device);
@@ -485,7 +485,7 @@ static int __init pipe_init(void) {
 	/*
 err_device:
 	for(i=0;i<pipes_count;i++) {
-		device_destroy(my_class, MKDEV(MAJOR(first_dev),first_minor+i));
+		device_destroy(my_class, MKDEV(MAJOR(first_dev),MINOR(first_dev)+i));
 	}
 	*/
 err_class:
