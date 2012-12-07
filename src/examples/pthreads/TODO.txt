@@ -35,5 +35,6 @@
 		stack sizes.
 	4) show using pthread_attr_setstacksize to overcome thread stack issues.
 
-- do example of threads and signals. What happens if I have more than one thread? which thread
-	handles the signal?
+- do example of threads and signals. What happens if I have more than one thread? which thread handles the signal?
+
+- do example of pthread_sigmask and sigwait
