@@ -26,8 +26,11 @@
 
 /*
 * This is an example of using strsignal(3) to print out signal names.
-* List of signals can be found in "man 7 signal"
-* You can find them in "/usr/include/asm/signal.h"
+* List of signals can be found in [man 7 signal]
+* You can find them in [/usr/include/asm/signal.h]
+* [kill -l] in bash (builtin) will list all signals.
+* [kill -l] or [kill --list] from [/bin/kill] will list them too.
+* [kill -L] or [kill --table] from [/bin/kill] will show them in a nice table.
 */
 
 typedef struct _sig_and_string {

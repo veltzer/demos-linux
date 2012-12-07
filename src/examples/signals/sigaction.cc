@@ -24,7 +24,7 @@
 #include<unistd.h> // for pause(2), getpid(2)
 #include<sys/types.h> // for getpid(2)
 #include<string.h> // for strsignal(3)
-#include<us_helper.h> // for CHECK_NOT_VAL()
+#include<us_helper.h> // for CHECK_NOT_VAL(), register_handler_sigaction()
 
 /*
 * This is an example of using the sigaction(2) API.
