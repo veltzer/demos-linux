@@ -273,7 +273,7 @@ static int __init pipe_init(void) {
 	// initialize all pipes
 	for(i=0;i<pipes_count;i++) {
 		ret=pipe_ctor(pipes+i);
-	       	if(ret) {
+		if(ret) {
 			for(j=0;j<i;j++) {
 				pipe_dtor(pipes+j);
 			}

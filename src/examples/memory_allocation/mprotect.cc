@@ -22,32 +22,23 @@
 #include<stdio.h> // for printf(3)
 #include<stdlib.h> // for malloc(3), free(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include<sys/mman.h> // for mprotect(2)
-#include<signal.h> // for sigaction(2)
+#include<signal.h> // for SIGSEGV, psiginfo(3), strsignal(3)
 #include<malloc.h> // for memalign(3)
 #include<unistd.h> // for getpagesize(2)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL(), register_handler_sigaction(), TRACE()
 
 /*
 * This is a demo of the use of mprotect(2) to protect your memory and thus try to
 * find a memory violation.
 */
 
-#define HANDLE_SEGV
-
-#ifdef HANDLE_SEGV
 static void handler(int sig, siginfo_t *si, void *unused) {
+	printf("got signal %s\n",strsignal(sig));
+	printf("si is %p\n",si);
 	printf("Got SIGSEGV at address: 0x%lx\n",(long) si->si_addr);
+	psiginfo(si,"This is a message\n");
 	exit(EXIT_FAILURE);
 }
-
-static void register_handler() {
-	struct sigaction sa;
-	sa.sa_flags=SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_sigaction=handler;
-	CHECK_NOT_M1(sigaction(SIGSEGV, &sa, NULL));
-}
-#endif // HANDLE_SEGV
 
 const void* mymalloc(unsigned int size,int protect) {
 	if(protect) {
@@ -87,9 +78,10 @@ int bug_doing_read(char* buf) {
 }
 
 int main(int argc,char** argv,char** envp) {
-#ifdef HANDLE_SEGV
-	register_handler();
-#endif // HANDLE_SEGV
+	const bool handle_sigv=true;
+	if(handle_sigv) {
+		register_handler_sigaction(SIGSEGV,handler);
+	}
 
 	char* buffer=(char*)mymalloc(10,1);
 

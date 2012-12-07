@@ -34,3 +34,6 @@
 	3) show the use of pthread_attr_setstacksize and pthread_attr_getstacksize to control
 		stack sizes.
 	4) show using pthread_attr_setstacksize to overcome thread stack issues.
+
+- do example of threads and signals. What happens if I have more than one thread? which thread
+	handles the signal?

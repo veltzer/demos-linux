@@ -19,17 +19,15 @@
 */
 
 #include<firstinclude.h>
-#include<signal.h> // for psignal(3)
+#include<signal.h> // for psiginfo(3), SIGUSR1, SIGUSR2, SIGRTMIN
 #include<stdlib.h> // for EXIT_SUCCESS
 #include<unistd.h> // for pause(2), getpid(2)
 #include<sys/types.h> // for getpid(2)
 #include<string.h> // for strsignal(3)
-#include<us_helper.h> // for register_handler_signal()
+#include<us_helper.h> // for CHECK_NOT_VAL()
 
 /*
-* This is a simple example which shows how to do signal handling with the
-* signal(2) syscall. Mind you that this is the old system call and there is a
-* better sigaction(2) syscall at your disposal.
+* This is an example of using the sigaction(2) API.
 *
 * NOTES:
 * - the same signal handler can be used for handling more than one signal.
@@ -50,22 +48,26 @@
 * -r for details).
 */
 
+// count the number of signals we get
 static unsigned int counter=0;
 
-static void handler(int sig) {
+static void handler(int sig, siginfo_t *si, void *unused) {
+	printf("sighandler: counter is %d\n",counter);
+	printf("sighandler: got signal %s\n",strsignal(sig));
+	printf("sighandler: si is %p\n",si);
+	printf("sighandler: address is: 0x%lx\n",(long) si->si_addr);
+	printf("sighandler: psiginfo follows...\n");
+	psiginfo(si,"sighandler");
 	counter++;
-	psignal(sig,"handler");
-	printf("handler: start %d handler, sig is %d, name is %s\n",counter,sig,strsignal(sig));
-	printf("handler: sleeping for 10 seconds...\n");
-	//sleep(10);
-	printf("handler: end\n");
 }
 
 int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
-	register_handler_signal(SIGUSR1,handler);
-	register_handler_signal(SIGUSR2,handler);
-	register_handler_signal(SIGRTMIN,handler);
+	printf("started registering signals\n");
+	register_handler_sigaction(SIGUSR1,handler);
+	register_handler_sigaction(SIGUSR2,handler);
+	register_handler_sigaction(SIGRTMIN,handler);
+	printf("ended registering signals\n");
 	printf("my pid is %d\n",getpid());
 	printf("signal me with [kill -s SIGUSR1 %d]\n",getpid());
 	// This is a non busy wait loop which only wakes up when there are signals

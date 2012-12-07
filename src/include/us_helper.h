@@ -41,7 +41,7 @@
 #include<errno.h> // for errno
 #include<sys/utsname.h> // for uname(2)
 #include<stdbool.h> // for bool
-#include<signal.h> // for sighandler_t
+#include<signal.h> // for sighandler_t, sigaction(2)
 
 /*
 * Stringify macros - helps you turn anything into a string
@@ -436,6 +436,21 @@ static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 			fprintf(pfile,"\tCPU %d\n", j);
 		}
 	}
+}
+
+typedef void (*sig_old_handler)(int);
+void register_handler_signal(int signum,sig_old_handler handler) {
+	CHECK_NOT_SIGT(signal(signum, handler),SIG_ERR);
+	//TRACE("setup sighandler for %d,%s",signum,strsignal(signum));
+}
+
+typedef void (*sig_handler)(int, siginfo_t *, void *);
+static inline void register_handler_sigaction(int sig, sig_handler handler) {
+	struct sigaction sa;
+	sa.sa_flags=SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_sigaction=handler;
+	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
 }
 
 #endif /* !__us_helper_h */

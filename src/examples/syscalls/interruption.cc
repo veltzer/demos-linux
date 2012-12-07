@@ -38,7 +38,7 @@
 * original value you want to look at.
 */
 
-static void sig_handler(int sig) {
+static void handler(int sig) {
 	//TRACE("start handler, sig is %d",sig);
 	//TRACE("end");
 }
@@ -46,7 +46,7 @@ static void sig_handler(int sig) {
 int main(int argc,char** argv,char** envp) {
 	// make sure we break out on receiving the SIGUSR1 signal...
 	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
-	CHECK_NOT_SIGT(signal(SIGUSR1, sig_handler),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGUSR1, handler),SIG_ERR);
 	int ret;
 	printf("signal me with [kill -s SIGUSR1 %d]\n",getpid());
 	bool broken=false;

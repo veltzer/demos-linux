@@ -272,10 +272,10 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	-@git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
-	-@git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	-@git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
-	-@git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
 	$(info doing [$@])
@@ -284,20 +284,20 @@ check_main:
 .PHONY: check_ace_include
 check_ace_include:
 	$(info doing [$@])
-	-@git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	-@git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
 	$(info doing [$@])
-	-@git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_name
 check_name:
 	$(info doing [$@])
-	-@git grep -L "Mark Veltzer <mark.veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -L "Mark Veltzer <mark.veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
-	-@git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
@@ -306,21 +306,21 @@ check_pgrep:
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	-@git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone
+	@./scripts/ok_wrapper.pl git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone
 .PHONY: check_all
 check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude
 
 .PHONY: check_dots
 check_dots:
 	$(info doing [$@])
-	-@git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
 # checks that dont pass
 .PHONY: check_syn
 check_syn:
-	-@git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
-	-@git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
-	-@git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
-	-@git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
 
 .PHONY: check_files
 check_files:
