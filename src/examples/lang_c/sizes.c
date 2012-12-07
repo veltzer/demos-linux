@@ -23,13 +23,16 @@
 #include<sys/utsname.h> // for uname(2)
 #include<stdbool.h> // for bool
 #include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include<us_helper.h> // for CHECK_NOT_M1(), __stringify()
 
 /*
 * This is a demo showing the sizes of variables on the architecture
 * it is running on (it also prints the name of the architecture).
 *
 * This is intended for a GNU/linux system.
+*
+* TODO:
+* Show the results inside this source code for 32bit and 64bit linux.
 */
 
 #define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type));
