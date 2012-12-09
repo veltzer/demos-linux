@@ -358,7 +358,7 @@ find_not_git_source:
 	-@find -type f -and -not \( $(GIT_SOURCE_EXPR) \)
 .PHONY: find_exercises
 find_exercises:
-	-@find -type f -name "*_exercise.txt"
+	-@find -type f -name "exercise.txt"
 
 # kernel section
 
