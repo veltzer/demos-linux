@@ -19,11 +19,10 @@
 */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include <pthread.h>
+#include <pthread.h> // for pthread_t, pthread_attr_t, pthread_create(3), pthread_join(3)
 #include <unistd.h> // for sysconf(3)
+#include <sched.h> // for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(2)
 #include <us_helper.h> // for CHECK_ZERO(), CHECK_ONEOFTWO(), TRACE(), print_cpu_set()
 
 /*
@@ -38,7 +37,11 @@
 *
 * EXTRA_LIBS=-lpthread
 *
-* TODO: have each thread print on which cpu it is currently running.
+* TODO:
+* 	- have each thread print on which cpu it is currently running.
+* 	- the results of this example don't add up. Some of these __sync_add_and_fetch
+* 	calls must fail because other CPUs are doing them at the same time. How come they don't?
+* 	Are they guaranteed to succeed according to the Intel manual? It looks that way. Investigate.
 */
 
 // data to be passed to each thread...
@@ -50,7 +53,7 @@ typedef struct _thread_data {
 
 static void *worker(void *p) {
 	thread_data* td=(thread_data*)p;
-	TRACE("start thread %d",td->num);
+	TRACE("start thread %d, running on core %d",td->num,sched_getcpu());
 	for(int i=0;i<td->attempts;i++) {
 		__sync_add_and_fetch(td->value, 1);
 	}
