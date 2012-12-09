@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<string.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <string.h>
 
 /*
 * This is to test octal use in user space...

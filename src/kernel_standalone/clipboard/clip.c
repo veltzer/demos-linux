@@ -24,17 +24,17 @@
 * Much messed with by Gilad Ben-Yossef.
 * Fixed up by Mark Veltzer for newer kernels and added features.
 */
-#include<linux/module.h>		/* Module API */
-#include<linux/moduleparam.h>		/* Module parameters API */
-#include<linux/kernel.h>		/* printk() */
-#include<linux/slab.h>			/* Memory alloc functions */
-#include<linux/fs.h>			/* File operations */
-#include<linux/errno.h>			/* Error codes */
-#include<linux/interrupt.h>		/* Interrupts */
-#include<linux/proc_fs.h>		/* Proc file */
-#include<linux/cdev.h>			/* Character device */
-#include<linux/sched.h>			/* TASK_* definitions */
-#include<linux/uaccess.h>		/* User space access */
+#include <linux/module.h>		/* Module API */
+#include <linux/moduleparam.h>		/* Module parameters API */
+#include <linux/kernel.h>		/* printk() */
+#include <linux/slab.h>			/* Memory alloc functions */
+#include <linux/fs.h>			/* File operations */
+#include <linux/errno.h>			/* Error codes */
+#include <linux/interrupt.h>		/* Interrupts */
+#include <linux/proc_fs.h>		/* Proc file */
+#include <linux/cdev.h>			/* Character device */
+#include <linux/sched.h>			/* TASK_* definitions */
+#include <linux/uaccess.h>		/* User space access */
 
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");

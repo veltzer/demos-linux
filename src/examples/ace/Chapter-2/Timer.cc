@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<ace/Timer_Queue.h>
-#include<ace/Reactor.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <ace/Timer_Queue.h>
+#include <ace/Reactor.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This example will create 10 timers. As soon that all of them are created

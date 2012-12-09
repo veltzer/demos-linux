@@ -18,16 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<errno.h>
-#include<unistd.h>
-#include<sys/types.h>
-#include<sys/ipc.h>
-#include<sys/msg.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 const int MSGSZ=1024;
 

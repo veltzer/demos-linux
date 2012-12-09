@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cout, std::endl
-#include<stdlib.h> // for EXIT_SUCCESS, getenv(3)
-#include<string.h> // for strcmp(3)
+#include <firstinclude.h>
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS, getenv(3)
+#include <string.h> // for strcmp(3)
 
 /*
 * A simple example for using environment variables...

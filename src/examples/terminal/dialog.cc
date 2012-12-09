@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<dialog.h> // for init_dialog(3), end_dialog(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <dialog.h> // for init_dialog(3), end_dialog(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This example shows how to use the dialog C library.

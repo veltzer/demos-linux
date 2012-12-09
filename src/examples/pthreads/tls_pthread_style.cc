@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_key_t, pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3), pthread_create(3), pthread_join(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_key_t, pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3), pthread_create(3), pthread_join(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
 
 /*
 * This is a demo of thread local storage using the pthread API.

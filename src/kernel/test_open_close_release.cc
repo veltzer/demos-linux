@@ -18,17 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<sys/ioctl.h>
-#include<sys/wait.h>
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/wait.h>
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is a test which will explain which methods in the driver are
@@ -70,7 +69,6 @@ const char *filename="/dev/mod_open_close_release";
 
 void do_open_close(void) {
 	int d;
-
 	CHECK_NOT_M1(d=open(filename, O_RDWR));
 	CHECK_NOT_M1(close(d));
 }
@@ -80,13 +78,11 @@ void do_close(void) {
 	CHECK_NOT_M1(close(d));
 }
 
-
 void do_open_and_forget(void) {
 	int d;
 
 	CHECK_NOT_M1(d=open(filename, O_RDWR));
 }
-
 
 void do_open_and_segfault(void) {
 	int d;
@@ -95,7 +91,6 @@ void do_open_and_segfault(void) {
 	char *p=(char *)NULL;
 	*p=0;
 }
-
 
 pid_t run_in_process(void (*f)(void)) {
 	pid_t pid;

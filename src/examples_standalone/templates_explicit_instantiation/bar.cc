@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include"Foo.hh"
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include "Foo.hh"
 
 /*
 * This code does IMPLICIT instantiation of Foo<int>

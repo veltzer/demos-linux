@@ -18,16 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<sys/types.h>
-#include<sys/time.h>
-#include<sys/resource.h>
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <us_helper.h> // for print_scheduling_info()
 
 /*
 * This example explores how to use thread priorities
@@ -46,9 +45,6 @@ int hp=0;
 pthread_barrier_t mybarrier;
 
 int min_priority=0;
-
-
-
 
 void *thread_body(void *arg) {
 	pid_t tid=gettid();

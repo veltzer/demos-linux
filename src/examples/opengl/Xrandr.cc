@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<assert.h> // for assert(3)
-#include<stdlib.h>
-#include<string.h>
-#include<unistd.h>
-#include<X11/Xlib.h>
-#include<X11/extensions/Xrandr.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <assert.h> // for assert(3)
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <X11/Xlib.h>
+#include <X11/extensions/Xrandr.h>
 
 /*
 * OpenGL example number 3...

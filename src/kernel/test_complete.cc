@@ -18,17 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<sys/ioctl.h> // for ioctl(2)
-#include<pthread.h> // for pthread_create(3), pthread_join(3)
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-
-#include<us_helper.h>
-
-#include"shared.h" // for the ioctl codes
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_ZERO()
+#include "shared.h" // for the ioctl codes
 
 /*
 * This is a demo of how to put a thread to sleep and wake it up

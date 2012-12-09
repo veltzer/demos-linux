@@ -18,17 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<sys/ioctl.h>
-
-#include<us_helper.h>
-#include"shared.h"
+#include <firstinclude.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <us_helper.h> // for CHECK_NOT_M1()
+#include "shared.h"
 
 /*
 * This test explores how kmalloc behaves when given various

@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"phil.hh"
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3)
-#include<sys/types.h> // for semctl(2), ftok(3), semget(2)
-#include<sys/ipc.h> // for semctl(2), ftok(3), semget(2)
-#include<sys/sem.h> // for semctl(2), semget(2)
-#include<signal.h> // for signal(2)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3)
+#include <sys/types.h> // for semctl(2), ftok(3), semget(2)
+#include <sys/ipc.h> // for semctl(2), ftok(3), semget(2)
+#include <sys/sem.h> // for semctl(2), semget(2)
+#include <signal.h> // for signal(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
+#include "phil.hh"
 
 static int semid;
 

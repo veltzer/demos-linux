@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<unistd.h> // for getopt_long(3)
-#include<getopt.h> // for struct option
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <unistd.h> // for getopt_long(3)
+#include <getopt.h> // for struct option
 
 /*
 * This example demos most of the features of getopt_long. Originally

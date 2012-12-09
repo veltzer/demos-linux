@@ -18,14 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<string.h> // for memset(3)
-#include<sys/mman.h> // for mmap(2), munmap(2)
-#include<unistd.h> // for getpagesize(2)
-#include<assert.h> // for assert(3)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <string.h> // for memset(3)
+#include <sys/mman.h> // for mmap(2), munmap(2)
+#include <unistd.h> // for getpagesize(2)
+#include <assert.h> // for assert(3)
+#include <us_helper.h> // for CHECK_NOT_VOIDP(), CHECK_ZERO()
 
 /*
 * This application demonstrates the use of anonymous memory mappings to get

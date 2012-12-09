@@ -18,17 +18,17 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/stat.h> // for lstat(2)
-#include<sys/dir.h>
-#include<sys/param.h> // for MAXPATHLEN
-#include<unistd.h>
-#include<sys/types.h> // for opendir(3), DIR, struct dirent
-#include<dirent.h> // for opendir(3), DIR, struct dirent
-#include<stdio.h> // for snprintf(3)
-#include<string.h> // for strcmp(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <firstinclude.h>
+#include <sys/stat.h> // for lstat(2)
+#include <sys/dir.h>
+#include <sys/param.h> // for MAXPATHLEN
+#include <unistd.h>
+#include <sys/types.h> // for opendir(3), DIR, struct dirent
+#include <dirent.h> // for opendir(3), DIR, struct dirent
+#include <stdio.h> // for snprintf(3)
+#include <string.h> // for strcmp(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 void scanthedir(const char* dirname) {
 	DIR* sdir=NULL;

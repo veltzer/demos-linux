@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<gnome.h> // for gnome_init(3), gnome_app_new(3), gtk_widget_show(3), gtk_main(3)
+#include <firstinclude.h>
+#include <gnome.h> // for gnome_init(3), gnome_app_new(3), gtk_widget_show(3), gtk_main(3)
 
 /*
 * This is a demo program for using C Gnome

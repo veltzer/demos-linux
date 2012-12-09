@@ -30,9 +30,9 @@
 //
 // Description:	Echo MIDI input notes transposed up a tritone.
 
-#include<firstinclude.h>
-#include<alsa/asoundlib.h>
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <alsa/asoundlib.h>
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 // function declarations:
 int getArgsExpected(int midicommand);

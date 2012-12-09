@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream>
-#include<signal.h>
-#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <iostream>
+#include <signal.h>
+#include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 static void printStatus() {
 	sigset_t old;

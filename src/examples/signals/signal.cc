@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<signal.h> // for psignal(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<unistd.h> // for pause(2), getpid(2)
-#include<sys/types.h> // for getpid(2)
-#include<string.h> // for strsignal(3)
-#include<us_helper.h> // for register_handler_signal()
+#include <firstinclude.h>
+#include <signal.h> // for psignal(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <unistd.h> // for pause(2), getpid(2)
+#include <sys/types.h> // for getpid(2)
+#include <string.h> // for strsignal(3)
+#include <us_helper.h> // for register_handler_signal()
 
 /*
 * This is a simple example which shows how to do signal handling with the

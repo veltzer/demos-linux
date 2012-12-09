@@ -18,20 +18,20 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This example explores the topic of initializing structures in C.
 *
 * If you do not do any initialisation then junk will appear (see a0).
-* If you state ={} then all fields will be zeroed (see a1).
-* If you state ={0} then all fields will be zeroed (see a2).
-* If you state ={5} then the first field will be set to 5, all others to 0 (see a3).
-* If you state ={6,7,8} then the values will initialize the fields in the order you required (see a4).
-* If you state ={ .k=9 } (C99 style) then only that field will get the value, others will get 0 (see a5).
-* If you state ={ j:10 } (GNU style) then only that field will get the value, others will get 0 (see a6).
+* If you state={} then all fields will be zeroed (see a1).
+* If you state={0} then all fields will be zeroed (see a2).
+* If you state={5} then the first field will be set to 5, all others to 0 (see a3).
+* If you state={6,7,8} then the values will initialize the fields in the order you required (see a4).
+* If you state={ .k=9 } (C99 style) then only that field will get the value, others will get 0 (see a5).
+* If you state={ j:10 } (GNU style) then only that field will get the value, others will get 0 (see a6).
 *
 * EXTRA_COMPILE_FLAGS=-Wno-error=uninitialized -w
 */

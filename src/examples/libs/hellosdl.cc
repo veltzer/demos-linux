@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<GL/gl.h>
-#include<GL/glu.h>
-#include<SDL/SDL.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL/SDL.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * EXTRA_CMDS=pkg-config --cflags --libs sdl gl glu

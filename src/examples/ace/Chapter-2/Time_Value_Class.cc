@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<ace/ARGV.h>
-#include<ace/Get_Opt.h>
-#include<ace/ARGV.h>
-#include<iostream> // for std::cout, std::endl
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <ace/ARGV.h>
+#include <ace/Get_Opt.h>
+#include <ace/ARGV.h>
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * Usage example: Time_Value_Class -e 36000 -i 1200

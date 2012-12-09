@@ -18,18 +18,18 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<string.h>
-#include<unistd.h>
-#include<math.h>
-#include<time.h>
-#include<sys/time.h>
-#include<X11/Xlib.h>
-#include<GL/glx.h>
-#include<GL/glext.h>
-#include<GL/glu.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <string.h>
+#include <unistd.h>
+#include <math.h>
+#include <time.h>
+#include <sys/time.h>
+#include <X11/Xlib.h>
+#include <GL/glx.h>
+#include <GL/glext.h>
+#include <GL/glu.h>
 
 /*
 * OpenGL example number 2...

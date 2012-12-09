@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<sys/sendfile.h> // for senffile(2)
-#include<unistd.h> // getpagesize(2)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <sys/sendfile.h> // for senffile(2)
+#include <unistd.h> // getpagesize(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This demos shows how to use sendfile(2) to avoid copy to/from user space.
@@ -51,11 +51,11 @@ void copy_file(const char* filein, const char* fileout) {
 	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	// we need the return value outside the loop
 	int ret;
-	// this is the main copy loop
-	// we go out of the loop because of error or eof
-	// >0: would have kept us in the loop
-	// ==0: that is ok - it is end of file
-	// -1: error
+	//this is the main copy loop
+	//we go out of the loop because of error or eof
+	//>0: would have kept us in the loop
+	//=0: that is ok - it is end of file
+	//-1: error
 	while((ret=sendfile(fdout,fdin,NULL,sendfile_bufsize))>0) {
 	}
 	CHECK_NOT_M1(ret);

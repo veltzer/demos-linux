@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 // these we stolen shamelessly from the kernel.
 // It is a good idea to use them so that if you have a compiler

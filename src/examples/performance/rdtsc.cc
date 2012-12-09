@@ -18,15 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/time.h>
-#include<time.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<cpufreq.h>
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <sys/time.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <cpufreq.h>
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is a demo which shows how, on i386 platforms, to read the rdtsc

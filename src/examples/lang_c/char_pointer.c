@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for print_proc()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for print_proc()
 
 /*
 * This demo shows several different things:

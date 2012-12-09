@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is a simple application that creates a segmentation fault.

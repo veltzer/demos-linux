@@ -19,11 +19,10 @@
 */
 
 //#define DEBUG
-#include<linux/module.h> // for MODULE_*, module_*
-#include<linux/timer.h> // for setup_timer, mod_timer, del_timer
-
+#include <linux/module.h> // for MODULE_*, module_*
+#include <linux/timer.h> // for setup_timer, mod_timer, del_timer
 //#define DO_DEBUG
-#include"kernel_helper.h" // our own helper
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

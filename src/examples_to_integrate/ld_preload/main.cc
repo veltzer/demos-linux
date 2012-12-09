@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<math.h> // for sin(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <math.h> // for sin(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
 	printf("sin(.5) is %lf\n",sin(0.5));

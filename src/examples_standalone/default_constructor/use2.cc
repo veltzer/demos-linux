@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"a.h"
-#include"b.h"
+#include <firstinclude.h>
+#include "a.h"
+#include "b.h"
 
 void func2(void) {
 	A a;

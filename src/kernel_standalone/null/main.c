@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<linux/module.h> // for MODULE_*, module_*
-#include<linux/stat.h> // for permission bits on module_param
-#include<linux/fs.h> // for fops
-#include<linux/device.h> // for device_create
-#include<linux/moduleparam.h> // for module_param, MODULE_PARM_DESC...
-#include<linux/init.h> // for __init, __exit
+#include <linux/module.h> // for MODULE_*, module_*
+#include <linux/stat.h> // for permission bits on module_param
+#include <linux/fs.h> // for fops
+#include <linux/device.h> // for device_create
+#include <linux/moduleparam.h> // for module_param, MODULE_PARM_DESC...
+#include <linux/init.h> // for __init, __exit
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

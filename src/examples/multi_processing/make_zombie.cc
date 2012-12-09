@@ -18,16 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<unistd.h> // for fork(2), getpid(2), sleep(3), pipe(2)
-#include<stdio.h> // for printf(3)
-#include<sys/types.h> // for waitid(2), getpid(2)
-#include<sys/wait.h> // for waitid(2)
-#include<stdlib.h> // for exit(3)
-#include<string.h> // for strsignal(3)
-#include<proc/readproc.h> // for get_proc_stats(3)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <unistd.h> // for fork(2), getpid(2), sleep(3), pipe(2)
+#include <stdio.h> // for printf(3)
+#include <sys/types.h> // for waitid(2), getpid(2)
+#include <sys/wait.h> // for waitid(2)
+#include <stdlib.h> // for exit(3)
+#include <string.h> // for strsignal(3)
+#include <proc/readproc.h> // for get_proc_stats(3)
+#include <us_helper.h> // for CHECK_ZERO(), CHECK_NOT_M1(), TRACE(), CHECK_1()
 
 /*
 * This example demostrates how processes become zombies in Linux...

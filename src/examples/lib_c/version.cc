@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS, malloc(3), free(3)
-#include<stdio.h> // for printf(3)
-#include<us_helper.h> // for CHECK_NOT_M1()
-#include<unistd.h> // for confstr(3)
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS, malloc(3), free(3)
+#include <stdio.h> // for printf(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
+#include <unistd.h> // for confstr(3)
 
 /*
 * This example shows how to get the version of glibc

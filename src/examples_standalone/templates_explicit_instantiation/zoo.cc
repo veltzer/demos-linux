@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"Foo.hh"
+#include <firstinclude.h>
+#include "Foo.hh"
 
 /*
 * This code uses Foo.h but will not be compiled with

@@ -18,20 +18,20 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h>
-#include<sched.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<unistd.h> // for sysconf(3)
-#include<us_helper.h> // for CHECK_ZERO()
+#include <firstinclude.h>
+#include <pthread.h>
+#include <sched.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <unistd.h> // for sysconf(3)
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
- * This shows how to create threads with a certain affinity
- *
- * EXTRA_LIBS=-lpthread
- */
+* This shows how to create threads with a certain affinity
+*
+* EXTRA_LIBS=-lpthread
+*/
 void another_func() {
 	printf("Hello, World!");
 }
@@ -39,7 +39,7 @@ void another_func() {
 void print_cpu_set(cpu_set_t *p) {
 	fprintf(stderr, "CPU_COUNT is %d\n", CPU_COUNT(p));
 	fprintf(stderr, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
-	for (int j = 0; j < CPU_SETSIZE; j++) {
+	for (int j=0;j<CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
 			printf("\tCPU %d\n", j);
 		}
@@ -47,15 +47,15 @@ void print_cpu_set(cpu_set_t *p) {
 }
 
 void *worker(void *p) {
-	int num = *(int *)p;
+	int num=*(int *)p;
 	fprintf(stderr, "starting thread %d\n", num);
 	fprintf(stderr, "ending thread %d\n", num);
 	return(NULL);
 }
 
 int main(int argc,char** argv,char** envp) {
-	const int cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
-	const int num = 10;
+	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int num=10;
 	pthread_t threads[num];
 	pthread_attr_t attrs[num];
 	cpu_set_t cpu_sets[num];
@@ -63,8 +63,8 @@ int main(int argc,char** argv,char** envp) {
 	void* rets[num];
 
 	TRACE("started");
-	for (int i = 0; i < num; i++) {
-		ids[i] = i;
+	for (int i=0;i<num; i++) {
+		ids[i]=i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
 		print_cpu_set(cpu_sets + i);
@@ -73,7 +73,7 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	TRACE("created threads");
-	for (int i = 0; i < num; i++) {
+	for (int i=0;i<num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("end");

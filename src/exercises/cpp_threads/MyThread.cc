@@ -18,12 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_create(3), pthread_join(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-
-#include"MyThread.hh"
-#include<us_helper.h> // for CHECK_ZERO
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_ZERO
+#include "MyThread.hh"
 
 /*
 * EXTRA_LIBS=-lpthread
@@ -46,10 +45,10 @@ void MyThread::join() {
 	CHECK_ZERO(pthread_join(myid,NULL));
 }
 
-#include<iostream> // for std::cout, std::endl
-#include<unistd.h> // for sleep(3)
+#include <iostream> // for std::cout, std::endl
+#include <unistd.h> // for sleep(3)
 
-#include<us_helper.h> // for gettid()
+#include <us_helper.h> // for gettid()
 
 class ImpThread:public MyThread {
 	private:

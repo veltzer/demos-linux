@@ -18,5 +18,5 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"A.h"
+#include <firstinclude.h>
+#include "A.h"

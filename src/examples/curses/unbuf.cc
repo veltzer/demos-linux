@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<curses.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <curses.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * Curses example program number 2...

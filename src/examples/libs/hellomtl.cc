@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-//#include<mtl/mtl.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+//#include <mtl/mtl.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This program demonstrates the use of the MTL (Matrix Template Library)

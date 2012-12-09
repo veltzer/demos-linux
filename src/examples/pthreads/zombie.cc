@@ -18,13 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_create(3)
-#include<string.h> // for strncpy(3)
-#include<sys/prctl.h> // for prctl(2)
-#include<unistd.h> // for sleep(3)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_create(3)
+#include <string.h> // for strncpy(3)
+#include <sys/prctl.h> // for prctl(2)
+#include <unistd.h> // for sleep(3)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_ZERO(), TRACE()
 
 /*
 * This example creates a zombie thread.

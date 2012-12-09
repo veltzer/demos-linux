@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for ftok(3), semget(2), semctl(2), shmat(2)
-#include<sys/ipc.h> // for ftok(3), semget(2), semctl(2), shmget(2)
-#include<sys/shm.h> // for shmget(2), shmat(2)
-#include<sys/sem.h> // for semget(2), semctl(2)
-#include<stdio.h> // for printf(3), fgets(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_CHARP(), CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include <firstinclude.h>
+#include <sys/types.h> // for ftok(3), semget(2), semctl(2), shmat(2)
+#include <sys/ipc.h> // for ftok(3), semget(2), semctl(2), shmget(2)
+#include <sys/shm.h> // for shmget(2), shmat(2)
+#include <sys/sem.h> // for semget(2), semctl(2)
+#include <stdio.h> // for printf(3), fgets(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_CHARP(), CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 const int MAXCLIENTS=10;
 const int CLIENTMESSAGESIZE=4096;

@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+#include <firstinclude.h>
 //#define NDEBUG
-#include<assert.h> // for assert(3), assert_perror(3)
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<sys/ioctl.h> // for ioctl(2)
+#include <assert.h> // for assert(3), assert_perror(3)
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <sys/ioctl.h> // for ioctl(2)
 
 /*
 * Demo the use of glibc assert in C/C++
@@ -57,11 +57,11 @@ int main(int argc,char** argv,char** envp) {
 	assert(1==1);
 	printf("in here 1\n");
 #define NDEBUG
-#include<assert.h> // for assert(3)
+#include <assert.h> // for assert(3)
 	assert(1==2);
 	printf("in here 2\n");
 #undef NDEBUG
-#include<assert.h> // for assert(3)
+#include <assert.h> // for assert(3)
 	//assert(3==4);
 	assert_perror(ioctl(7,8));
 	printf("in here 3\n");

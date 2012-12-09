@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<vector> // for std::vector
-#include<iostream> // for std::cout, std::endl
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <vector> // for std::vector
+#include <iostream> // for std::cout, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This program demonstrates the use of STL (Standard Template Library).

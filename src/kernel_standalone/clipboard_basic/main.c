@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<linux/module.h>		/* Module API */
-#include<linux/moduleparam.h>		/* Module parameters API */
-#include<linux/slab.h>			/* Memory alloc functions */
-#include<linux/fs.h>			/* File operations */
-#include<linux/errno.h>			/* Error codes */
-#include<linux/uaccess.h>		/* User space access */
-#include<linux/printk.h>		/* printk and pr_* API */
-#include<linux/cdev.h>			/* Character device */
-#include<linux/device.h>		/* for class_create */
+#include <linux/module.h>		/* Module API */
+#include <linux/moduleparam.h>		/* Module parameters API */
+#include <linux/slab.h>			/* Memory alloc functions */
+#include <linux/fs.h>			/* File operations */
+#include <linux/errno.h>			/* Error codes */
+#include <linux/uaccess.h>		/* User space access */
+#include <linux/printk.h>		/* printk and pr_* API */
+#include <linux/cdev.h>			/* Character device */
+#include <linux/device.h>		/* for class_create */
 
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");

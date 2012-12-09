@@ -18,11 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_setcancelstate(3)
-#include<unistd.h> // for sleep(3)
-
-#include<us_helper.h> // for CHECK_ZERO(), TRACE()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_setcancelstate(3)
+#include <unistd.h> // for sleep(3)
+#include <us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
 * This demo is a pthread_cancel demo and was copied from the pthread_cancel

@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
 
 /*
 * This example shows how to write a function that only works for constants.

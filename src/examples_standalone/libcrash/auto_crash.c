@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include"crash.h"
+#include <firstinclude.h>
+#include <stdio.h>
+#include "crash.h"
 
 /*
 * OK, we want a way to call the register function (not to mention load the library)

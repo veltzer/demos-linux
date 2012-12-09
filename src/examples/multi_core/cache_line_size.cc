@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<unistd.h> // for sysconf(3)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for sysconf(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * An example showing how to get the cache line size on linux.

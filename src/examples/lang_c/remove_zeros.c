@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for scanf(3), printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_INT()
+#include <firstinclude.h>
+#include <stdio.h> // for scanf(3), printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_INT()
 
 void print_array(int* ar,int size) {
 	int i;

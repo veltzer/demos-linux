@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<libintl.h> // for gettext(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <libintl.h> // for gettext(3)
 
 /*
 * This example explores the use of gettext(3)

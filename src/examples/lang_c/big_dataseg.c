@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<assert.h> // for assert(3)
+#include <firstinclude.h>
+#include <assert.h> // for assert(3)
 
 /*
 * This is an example showing C99 initialisation syntax and horrible
@@ -32,7 +32,7 @@
 * of the object file drops dramatically. This is because initialisation to 0
 * is built in to the toolchain and is done programatically rather than storing
 * the entire data in the data segment.
-* - when you initialize the array using ={1} only the first element is initialized.
+* - when you initialize the array using={1} only the first element is initialized.
 * You can initialize more elements of the array by adding more initialization values.
 * The other values of the array will be zero as this example clearly shows.
 */

@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<omp.h> // for openmp pragmas and functions
-#include<stdlib.h> // for random(3)
-#include<string.h> // for memcpy(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <omp.h> // for openmp pragmas and functions
+#include <stdlib.h> // for random(3)
+#include <string.h> // for memcpy(3)
 
 /*
 * An example of writing a merge sort algorithm using open mp.

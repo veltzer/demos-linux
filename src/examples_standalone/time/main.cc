@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include"time.hh"
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include "time.hh"
 
 int main(int argc,char** argv,char** envp) {
 	Time t;

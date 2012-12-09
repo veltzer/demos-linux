@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<unistd.h> // for write(2), _exit(2)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for write(2), _exit(2)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 int func(int a, int b) {
 	return(a + b);

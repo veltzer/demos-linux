@@ -18,14 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<strings.h> // for bzero(3)
-#include<alloca.h> // for alloca(3)
-#include<stdio.h> // for printf(3)
-#include<sys/time.h> // for setrlimit(2)
-#include<sys/resource.h> // for setrlimit(2)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <strings.h> // for bzero(3)
+#include <alloca.h> // for alloca(3)
+#include <stdio.h> // for printf(3)
+#include <sys/time.h> // for setrlimit(2)
+#include <sys/resource.h> // for setrlimit(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This example shows how to allocate space on the stack using the alloca(3) function call.

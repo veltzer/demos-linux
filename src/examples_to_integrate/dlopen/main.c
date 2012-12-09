@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), perror(3)
-#include<dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
-#include<errno.h> // for errno
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), perror(3)
+#include <dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
+#include <errno.h> // for errno
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3)
 
 int main(int argc,char** argv,char** envp) {
 	void* h=dlopen("libadd.so",RTLD_NOW);

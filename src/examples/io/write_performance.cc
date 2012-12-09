@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for malloc(3), atoi(3), free(3), EXIT_SUCCESS
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<unistd.h> // for close(2), write(2)
-#include<us_helper.h> // for CHECK_NOT_M1(), run_high_priority(), getticks()
-#include<stat.hh> // for Stat(O)
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for malloc(3), atoi(3), free(3), EXIT_SUCCESS
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <unistd.h> // for close(2), write(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), run_high_priority(), getticks()
+#include <stat.hh> // for Stat(O)
 
 /*
 * This example explores the performance of the write system call...

@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
-#include<unistd.h> // for sleep(3)
-#include<us_helper.h> // for CHECK_ZERO(), printf(), gettid()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
+#include <unistd.h> // for sleep(3)
+#include <us_helper.h> // for CHECK_ZERO(), printf(), gettid()
 
 /*
 * This example explores the relations between threads and signal handling.

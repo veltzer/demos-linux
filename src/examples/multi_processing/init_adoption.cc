@@ -18,16 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<unistd.h> // for fork(2), getpid(2), sleep(3), getppid(2)
-#include<stdio.h> // for fgets(3)
-#include<sys/types.h> // for waitid(2), getpid(2), getppid(2)
-#include<sys/wait.h> // for waitid(2)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<string.h> // for strsignal(3)
-#include<signal.h> // for kill(2)
-
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <unistd.h> // for fork(2), getpid(2), sleep(3), getppid(2)
+#include <stdio.h> // for fgets(3)
+#include <sys/types.h> // for waitid(2), getpid(2), getppid(2)
+#include <sys/wait.h> // for waitid(2)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <string.h> // for strsignal(3)
+#include <signal.h> // for kill(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), TRACE()
 
 /*
 * This example demostrates what happens when a processes father dies...

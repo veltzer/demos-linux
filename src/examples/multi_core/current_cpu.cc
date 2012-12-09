@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<sched.h> // for sched_getcpu(2)
-#include<unistd.h> // for sleep(3)
-#include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <sched.h> // for sched_getcpu(2)
+#include <unistd.h> // for sleep(3)
+#include <sys/types.h> // for getpid(2)
+#include <unistd.h> // for getpid(2)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is an example of a process that prints the CPU it is running on

@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<sys/utsname.h> // for uname(2)
-#include<stdbool.h> // for bool
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_NOT_M1(), __stringify()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <sys/utsname.h> // for uname(2)
+#include <stdbool.h> // for bool
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1(), __stringify()
 
 /*
 * This is a demo showing the sizes of variables on the architecture

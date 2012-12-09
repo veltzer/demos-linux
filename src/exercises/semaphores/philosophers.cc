@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"phil.hh"
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include<time.h> // for time(2)
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include <time.h> // for time(2)
+#include "phil.hh"
 
 int semid;
 

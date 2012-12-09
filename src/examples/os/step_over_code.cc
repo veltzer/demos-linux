@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<unistd.h> // for getpid(2)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for my_system(), waitkey()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for getpid(2)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for my_system(), waitkey()
 
 /*
 * This example clearly shows that the code segment is protected against writing.

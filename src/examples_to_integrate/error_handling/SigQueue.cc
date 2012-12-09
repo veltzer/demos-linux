@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cerr, std::endl
-#include<stdio.h> // for perror(3)
-#include<signal.h> // for sigquque(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include <firstinclude.h>
+#include <iostream> // for std::cerr, std::endl
+#include <stdio.h> // for perror(3)
+#include <signal.h> // for sigquque(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 
 /*
 * This is a general command line utility to send signals via

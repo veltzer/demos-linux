@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
 
 /*
 * This example proves that const data segment data is stored in a non write

@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<link.h> // for dl_iterate_phdr(3)
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <link.h> // for dl_iterate_phdr(3)
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This example shows how to find out which libraries you are linked to.

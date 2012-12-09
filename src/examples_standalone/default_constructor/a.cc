@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include"a.h"
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include "a.h"
 
 void A::print(void) {
 	printf("i is %d\n", i);

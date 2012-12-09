@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for malloc(3), EXIT_SUCCESS, rand(3)
-#include<stdio.h> // for printf(3)
+#include <firstinclude.h>
+#include <stdlib.h> // for malloc(3), EXIT_SUCCESS, rand(3)
+#include <stdio.h> // for printf(3)
 
 /*
 * This is a sample which misses the cache on purpose...

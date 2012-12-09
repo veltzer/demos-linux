@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+#include <firstinclude.h>
 #define DEBUG
 #ifdef DEBUG
 #define CWDEBUG
-#include<libcwd/sys.h>
-#include<libcwd/debug.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <libcwd/sys.h>
+#include <libcwd/debug.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is a demo program showing how to use libcwd for C++ debug support...

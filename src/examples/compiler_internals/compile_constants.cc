@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for atoi(3)
-#include<iostream> // for std::cerr, std::endl
+#include <firstinclude.h>
+#include <stdlib.h> // for atoi(3)
+#include <iostream> // for std::cerr, std::endl
 
 /*
 * This example shows how to use compile time constants which

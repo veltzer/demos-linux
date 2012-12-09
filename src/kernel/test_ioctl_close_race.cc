@@ -18,18 +18,17 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3), fflush(3)
-#include<unistd.h> // for sleep(3), close(2)
-#include<pthread.h> // for pthread_create(3), pthread_join(3)
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<sys/ioctl.h> // for ioctl(2)
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3), fflush(3)
+#include <unistd.h> // for sleep(3), close(2)
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_ZERO()
+#include "shared.h" // for ioctl numbers
 
-#include"shared.h" // for ioctl numbers
-
-#include<us_helper.h>
 
 /*
 * This application has two threads:

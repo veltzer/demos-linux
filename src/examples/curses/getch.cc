@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<curses.h>
-#include<unistd.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <curses.h>
+#include <unistd.h>
 
 /*
 * Curses example number 1...

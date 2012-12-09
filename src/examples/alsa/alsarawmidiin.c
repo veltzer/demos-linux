@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+#include <firstinclude.h>
 
 /*
 * EXTRA_LIBS=-lasound
@@ -56,10 +56,10 @@
 //
 // int snd_rawmidi_open(snd_rawmidi_t** input, snd_rawmidi_t output,
 // const char* name, int mode)
-// intput ==returned input handle (NULL if not wanted)
-// output ==returned output handle (NULL if not wanted)
-// name ==ASCII identifier of the rawmidi handle, such as "hw:1,0,0"
-// mode ==open mode (see mode descriptions above):
+// intput==returned input handle (NULL if not wanted)
+// output==returned output handle (NULL if not wanted)
+// name==ASCII identifier of the rawmidi handle, such as "hw:1,0,0"
+// mode==open mode (see mode descriptions above):
 // SND_RAWMIDI_NONBLOCK, SND_RAWMIDI_APPEND, SND_RAWMIDI_SYNC
 //
 // int snd_rawmidi_close(snd_rawmidi_t* rawmidi)
@@ -67,19 +67,19 @@
 // error code if there was an error closing the device.
 //
 // int snd_rawmidi_write(snd_rawmidi_t* output, char* data, int datasize)
-// output ==midi output pointer setup with snd_rawmidi_open().
-// data ==array of bytes to send.
-// datasize ==number of bytes in the data array to write to MIDI output.
+// output==midi output pointer setup with snd_rawmidi_open().
+// data==array of bytes to send.
+// datasize==number of bytes in the data array to write to MIDI output.
 //
 // const char* snd_strerror(int errornum)
-// errornum ==error number returned by an ALSA snd__* function.
+// errornum==error number returned by an ALSA snd__* function.
 // Returns a string explaining the error number.
 //
 
-#include<alsa/asoundlib.h> // for snd_*(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include<stdio.h> // for fprintf(3), stderr
-#include<us_helper.h> // for CHECK_NOT_NEGATIVE(3)
+#include <alsa/asoundlib.h> // for snd_*(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdio.h> // for fprintf(3), stderr
+#include <us_helper.h> // for CHECK_NOT_NEGATIVE(3)
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=2) {

@@ -18,12 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<unistd.h> // for sysconf(3), getpid(2)
-#include<signal.h> // for signal(2)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for sysconf(3), getpid(2)
+#include <signal.h> // for signal(2)
+#include <us_helper.h>
 
 /*
 * This example shows that the data segment is organized into pages. It shows

@@ -18,19 +18,19 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<sys/wait.h>
-#include<netinet/in.h>
-#include<netdb.h>
-#include<unistd.h>
-#include<time.h>
-#include<stdio.h>
-#include<string.h>
-#include<strings.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/wait.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
 	int brsock, sendsock;
@@ -65,7 +65,7 @@ int main(int argc,char** argv,char** envp) {
 			exit(errno);
 		}
 		ibuffer[datalen-1]='\0'; // get rid of '\n'
-		printf("Got ==>%s<==\n", ibuffer);
+		printf("Got==>%s<==\n", ibuffer);
 		sprintf(obuffer, "Bad request");
 		if(strcmp(ibuffer, "date")==0) {
 			t=time(NULL);

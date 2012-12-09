@@ -21,9 +21,9 @@
 #ifndef TASK_H
 #define TASK_H
 
-#include<firstinclude.h>
-#include<ace/Task.h>
-#include<ace/Barrier.h>
+#include <firstinclude.h>
+#include <ace/Task.h>
+#include <ace/Barrier.h>
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 # pragma once

@@ -18,13 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<unistd.h> // for sleep(3)
-#include<papi.h> // for PAPI_* functions
-#include<stdlib.h> // for EXIT_SUCCESS
-
-//#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for sleep(3)
+#include <papi.h> // for PAPI_* functions
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * Demo for using the PAPI performance counters library.

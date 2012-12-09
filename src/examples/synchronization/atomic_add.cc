@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<pthread.h>
-#include<unistd.h> // for sysconf
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h> // for sysconf(3)
+#include <us_helper.h> // for CHECK_ZERO(), CHECK_ONEOFTWO()
 
 /*
 * This is a demo which shows atomic add using the

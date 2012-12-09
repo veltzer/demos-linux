@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cout, std::endl
-#include<us_helper.h> // for my_system()
+#include <firstinclude.h>
+#include <iostream> // for std::cout, std::endl
+#include <us_helper.h> // for my_system()
 
 class A {
 	public:

@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<syslog.h> // for openlog(3), syslog(3), closelog(3), setlogmask(3)
-#include<unistd.h> // for daemon(3), pause(2), getpid(2), getppid(2)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<stdio.h> // for printf(3)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <syslog.h> // for openlog(3), syslog(3), closelog(3), setlogmask(3)
+#include <unistd.h> // for daemon(3), pause(2), getpid(2), getppid(2)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdio.h> // for printf(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is an example of using the daemon(3) function.

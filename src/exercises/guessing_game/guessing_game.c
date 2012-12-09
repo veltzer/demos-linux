@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), scanf(3), perror(3)
-#include<stdlib.h> // for rand(3), EXIT_SUCCESS
-#include<errno.h> // for errno
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), scanf(3), perror(3)
+#include <stdlib.h> // for rand(3), EXIT_SUCCESS
+#include <errno.h> // for errno
 
 int main(int argc,char** argv,char** envp) {
 	int rand_number;

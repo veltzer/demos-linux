@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<us_helper.h> // for TRACE
+#include <firstinclude.h>
+#include <us_helper.h> // for TRACE
 
 void bar_init(void) {
 	TRACE("start");

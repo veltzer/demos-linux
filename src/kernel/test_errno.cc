@@ -18,16 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<unistd.h> // for close(2)
-#include<sys/ioctl.h> // for ioctl(2)
-#include<errno.h> // for errno(3)
-
-#include<us_helper.h> // our own helper for user space
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <unistd.h> // for close(2)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <errno.h> // for errno(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is an example which explores how user space experiences errors coming from the kernel.

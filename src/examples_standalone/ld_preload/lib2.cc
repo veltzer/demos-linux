@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<dlfcn.h> // for dlopen(3), dlclose(3), dlsym(3)
-#include<us_helper.h> // TRACE()
+#include <firstinclude.h>
+#include <dlfcn.h> // for dlopen(3), dlclose(3), dlsym(3)
+#include <us_helper.h> // TRACE()
 
 /*
 * Static handle to the library and to the function

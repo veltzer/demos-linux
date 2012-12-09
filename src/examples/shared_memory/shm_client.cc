@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for ftok(3), shmat(2), shmdt(2)
-#include<sys/ipc.h> // for ftok(3), shmget(2), shmctl(2)
-#include<sys/shm.h> // for shmget(2), shmat(2), shmctl(2), shmdt(2)
-#include<unistd.h> // for sleep(3)
-#include<time.h> // for localtime_r(3), strftime(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<stdio.h> // for printf(3)
-#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO()
+#include <firstinclude.h>
+#include <sys/types.h> // for ftok(3), shmat(2), shmdt(2)
+#include <sys/ipc.h> // for ftok(3), shmget(2), shmctl(2)
+#include <sys/shm.h> // for shmget(2), shmat(2), shmctl(2), shmdt(2)
+#include <unistd.h> // for sleep(3)
+#include <time.h> // for localtime_r(3), strftime(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdio.h> // for printf(3)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO()
 
 /*
 * This is a simple shared memory client that works well with the shared memory

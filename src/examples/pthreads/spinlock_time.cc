@@ -18,10 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_spin_init/lock/unlock/destroy(3)
-
-#include<us_helper.h> // for TRACE()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_spin_init/lock/unlock/destroy(3)
+#include <us_helper.h> // for TRACE()
 
 /*
 * This example examines the time it takes to lock and unlock a spin lock.

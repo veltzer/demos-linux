@@ -21,9 +21,9 @@
 #ifndef __THREAD_SPECIFIC_H
 #define __THREAD_SPECIFIC_H
 
-#include<firstinclude.h>
-#include<ace/Guard_T.h>
-#include<ace/Thread_Mutex.h>
+#include <firstinclude.h>
+#include <ace/Guard_T.h>
+#include <ace/Thread_Mutex.h>
 
 // Define a class that will be stored in thread-specific data. Note
 // that as far as this class is concerned it's just a regular C++

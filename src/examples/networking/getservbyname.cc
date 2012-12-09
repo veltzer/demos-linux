@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<netdb.h> // for getservbyname(3)
-#include<stdio.h> // for printf(3), fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include<us_helper.h> // for CHECK_NOT_NULL()
+#include <firstinclude.h>
+#include <netdb.h> // for getservbyname(3)
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 * A simple example to demonstrate getservbyname(3)

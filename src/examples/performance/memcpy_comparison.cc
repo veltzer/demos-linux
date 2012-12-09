@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<sys/time.h> // for gettimeofday(2)
-#include<stdlib.h> // for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include<string.h> // for malloc(3)
-#include<us_helper.h> // for micro_diff(), CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <sys/time.h> // for gettimeofday(2)
+#include <stdlib.h> // for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include <string.h> // for malloc(3)
+#include <us_helper.h> // for micro_diff(), CHECK_NOT_M1()
 
 /*
 * This example compares memcpy(3) to copy by loop...

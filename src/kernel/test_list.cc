@@ -18,17 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), fgets(3)
-#include<unistd.h> // for close(2)
-#include<sys/ioctl.h> // for ioctl(2)
-#include<stdlib.h> // for EXIT_SUCCESS, atoi(3)
-#include<us_helper.h> // for CHECK_NOT_M1(), waitkey(), CHECK_NOT_NULL()
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-
-#include"shared.h"
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), fgets(3)
+#include <unistd.h> // for close(2)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <stdlib.h> // for EXIT_SUCCESS, atoi(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), waitkey(), CHECK_NOT_NULL()
+#include "shared.h"
 
 /*
 * This is a test for in kernel lists

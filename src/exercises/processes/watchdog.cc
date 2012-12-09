@@ -18,16 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<errno.h>
-#include<sys/time.h>
-#include<sys/types.h>
-#include<sys/wait.h>
-#include<unistd.h>
-#include<time.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <errno.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 struct itimerval timer;
 int gotusr1=0;

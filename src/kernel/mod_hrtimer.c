@@ -19,12 +19,11 @@
 */
 
 //#define DEBUG
-#include<linux/module.h> // for MODULE_*, module_*
-#include<linux/hrtimer.h> // for hrtimer_init, hrtimer_stat, hrtimer_cancel
-#include<linux/ktime.h> // for ktime_set
-
+#include <linux/module.h> // for MODULE_*, module_*
+#include <linux/hrtimer.h> // for hrtimer_init, hrtimer_stat, hrtimer_cancel
+#include <linux/ktime.h> // for ktime_set
 //#define DO_DEBUG
-#include"kernel_helper.h" // our own helper
+#include "kernel_helper.h" // our own helper
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

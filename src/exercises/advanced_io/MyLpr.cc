@@ -18,16 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<errno.h>
-#include<sys/param.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<unistd.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <errno.h>
+#include <sys/param.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 const int MAXINDEXSIZE=128;
 

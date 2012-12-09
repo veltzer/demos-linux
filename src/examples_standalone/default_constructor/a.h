@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"base.h"
+#include <firstinclude.h>
+#include "base.h"
 
 class A:public base {
 	public:

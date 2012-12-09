@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
 
 /*
 * Compare the version that uses the 'continue' keyword with the version that

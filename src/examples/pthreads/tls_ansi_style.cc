@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_create(3), pthread_join(3)
-#include<us_helper.h> // for CHECK_ZERO(), TRACE()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <us_helper.h> // for CHECK_ZERO(), TRACE()
 
 /*
 * This is a demo of thread local storage using gcc __thread storage modifier.
