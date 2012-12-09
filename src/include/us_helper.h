@@ -253,7 +253,7 @@ static inline void debug(bool short_print,const char *file, const char *function
 	va_end(args);
 }
 
-void debug(const char *file, const char *function, int line, const char *fmt, ...) __attribute__((format(printf, 4, 5)));
+void debug(bool short_print,const char *file, const char *function, int line, const char *fmt, ...) __attribute__((format(printf, 5, 6)));
 
 #define TRACE(fmt, args...) debug(false,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 #define DEBUG(fmt, args...) debug(false,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
