@@ -235,15 +235,19 @@ static inline void waitkey(const char *msg) {
 	fgetc(stdin);
 }
 
-static inline void debug(const char *file, const char *function, int line, const char *fmt, ...) {
+static inline void debug(bool short_print,const char *file, const char *function, int line, const char *fmt, ...) {
 	extern char *program_invocation_short_name;
 	const int BUFSIZE=1024;
 	char str[BUFSIZE];
 	va_list args;
 	pid_t pid=getpid();
 	pid_t tid=gettid();
+	if(short_print) {
 
-	snprintf(str, BUFSIZE, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
+		snprintf(str, BUFSIZE, "%s\n", fmt);
+	} else {
+		snprintf(str, BUFSIZE, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
+	}
 	va_start(args, fmt);
 	vfprintf(stderr, str, args);
 	va_end(args);
@@ -251,9 +255,12 @@ static inline void debug(const char *file, const char *function, int line, const
 
 void debug(const char *file, const char *function, int line, const char *fmt, ...) __attribute__((format(printf, 4, 5)));
 
-#define DEBUG(fmt, args...) debug(__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#define INFO(fmt, args...) debug(__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#define TRACE(fmt, args...) debug(__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
+#define TRACE(fmt, args...) debug(false,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
+#define DEBUG(fmt, args...) debug(false,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
+#define INFO(fmt, args...) debug(true,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
+#define WARNING(fmt, args...) debug(true,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
+#define ERROR(fmt, args...) debug(true,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
+#define FATAL(fmt, args...) debug(true,__BASE_FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 
 static inline int printproc(const char *filter) {
 	pid_t pid=getpid();
