@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h>
-#include<stdio.h>
-#include<unistd.h>
-#include<errno.h>
-#include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 void print_message_function(void *ptr);
 

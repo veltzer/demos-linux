@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for scanf(3), printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_VAL()
+#include <firstinclude.h>
+#include <stdio.h> // for scanf(3), printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_VAL()
 
 int main(int argc,char** argv,char** envp) {
 	int num;

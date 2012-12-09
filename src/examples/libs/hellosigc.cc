@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream>
-#include<string>
-#include<sigc++/signal_system.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <iostream>
+#include <string>
+#include <sigc++/signal_system.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is a demo program for using the sigc++ signaling library

@@ -18,11 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_spin_init/lock/unlock/destroy(3),
-// for pthread_create(3), pthread_join(3)
-
-#include<us_helper.h> // for TRACE()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_spin_init(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_spin_destroy(3), pthread_create(3), pthread_join(3)
+#include <us_helper.h> // for TRACE()
 
 /*
 * This is a demo for thread spin locks.

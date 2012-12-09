@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<iostream> // for std::cout, std::endl
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <iostream> // for std::cout, std::endl
 
 /*
 * This example shows the decorator pattern implemented in C++.

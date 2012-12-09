@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<unistd.h> // for read(2), write(2)
-#include<sys/sendfile.h> // for senffile(2)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <unistd.h> // for read(2), write(2)
+#include <sys/sendfile.h> // for senffile(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This demo shows how to correctly code a simple file copy using the
@@ -40,11 +40,11 @@ void copy_file(const char* filein, const char* fileout) {
 	CHECK_NOT_M1(fdin=open(filein, O_RDONLY, 0666));
 	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	ssize_t read_bytes;
-	// this is the main copy loop
-	// we go out of the loop because of error or eof
-	// >0: would have kept us in the loop
-	// ==0: that is ok - it is end of file
-	// -1: error
+	//this is the main copy loop
+	//we go out of the loop because of error or eof
+	//>0: would have kept us in the loop
+	//=0: that is ok - it is end of file
+	//-1: error
 	while((read_bytes=read(fdin,buf,bufsize))>0) {
 		char* pointer=buf;
 		ssize_t written_bytes=0;

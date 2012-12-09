@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<limits.h> // for PATH_MAX, _POSIX_PATH_MAX
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<unistd.h> // for pathconf(3), _PC_PATH_MAX
-#include<sys/param.h> // for MAXPATHLEN
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <limits.h> // for PATH_MAX, _POSIX_PATH_MAX
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <unistd.h> // for pathconf(3), _PC_PATH_MAX
+#include <sys/param.h> // for MAXPATHLEN
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This example shows all the different ways of accessing the maximum file length in Linux.

@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cout, std::endl
-#include<list> // for std::list<T>, std::list<T>::iterator
-#include<vector> // for std::list<T>, std::list<T>::iterator
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE;
+#include <firstinclude.h>
+#include <iostream> // for std::cout, std::endl
+#include <list> // for std::list<T>, std::list<T>::iterator
+#include <vector> // for std::list<T>, std::list<T>::iterator
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE;
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {

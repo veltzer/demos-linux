@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<syslog.h> // for openlog(3), syslog(3), closelog(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <syslog.h> // for openlog(3), syslog(3), closelog(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is a test for syslog(3) calls

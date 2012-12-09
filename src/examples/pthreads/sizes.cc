@@ -18,15 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<pthread.h>
-#include<unistd.h> // for sleep(3)
-#include<strings.h> // for bzero(3)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h> // for sleep(3)
+#include <strings.h> // for bzero(3)
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
 * This is an example of setting thread stack sizes

@@ -18,11 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<time.h> // for nanosleep(2)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <time.h> // for nanosleep(2)
+#include <us_helper.h> // for getticks(), get_mic_diff()
 
 /*
 *	This is an example showing how to sleep for very short periods of
@@ -58,7 +57,6 @@
 
 int main(int argc,char** argv,char** envp) {
 	const unsigned int repeats=100;
-
 	for(unsigned int i=100;i<2000;i+=100) {
 		unsigned long sum=0;
 		for(unsigned int j=0;j<repeats;j++) {

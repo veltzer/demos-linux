@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+#include <firstinclude.h>
 // the next define makes the trace work...
 #define ACE_NTRACE 1
-#include<ace/Log_Msg.h>
+#include <ace/Log_Msg.h>
 
 /*
 * This demo shows the ACE logging facilities

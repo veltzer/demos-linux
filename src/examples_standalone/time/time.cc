@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include"time.hh"
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include "time.hh"
 
 void Time::setTime(int hours, int minutes, int seconds) {
 	m_hours=hours;

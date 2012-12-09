@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<string.h> // for memset
-#include<stdlib.h> // for malloc
-#include<wchar.h> // for wmemset
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for my_system()
+#include <firstinclude.h>
+#include <string.h> // for memset
+#include <stdlib.h> // for malloc
+#include <wchar.h> // for wmemset
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for my_system()
 
 /*
 * This example explores the inner workings of memset...

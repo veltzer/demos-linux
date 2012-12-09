@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"Foo.tt"
+#include <firstinclude.h>
+#include "Foo.tt"
 
 /*
 * This is the explicit instantiation file.

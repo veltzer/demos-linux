@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is a simple example causing a core dump.
@@ -28,7 +28,7 @@
 * thing since NULL is actually 0.
 *
 * Debug this program by running it:
-* =================================
+*=================================
 * $> ./src/examples/debugging/cause_core_dump.exe
 * Segmentation fault (core dumped)
 * $> gdb ./src/examples/debugging/cause_core_dump.exe

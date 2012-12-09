@@ -18,14 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_yield(3), pthread_create(3), pthread_join(3)
-#include<sched.h> // for sched_yield(2)
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
-#include<unistd.h> // for sleep(3)
-
-#include<us_helper.h> // for TRACE()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_yield(3), pthread_create(3), pthread_join(3)
+#include <sched.h> // for sched_yield(2)
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for exit(3), EXIT_FAILURE, EXIT_SUCCESS
+#include <unistd.h> // for sleep(3)
+#include <us_helper.h> // for TRACE()
 
 /*
 * This is a demo for the sched_yield(2) or for pthread_yield(3) which are

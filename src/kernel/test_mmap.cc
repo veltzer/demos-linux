@@ -18,19 +18,17 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<stdlib.h> // for free(3), malloc(3)
-#include<string.h> // for strncpy(3)
-#include<sys/mman.h> // for mmap(2), munmap(2)
-#include<sys/ioctl.h> // for ioctl(2)
-
-#include"shared.h" // for the ioctl numbers
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <stdlib.h> // for free(3), malloc(3)
+#include <string.h> // for strncpy(3)
+#include <sys/mman.h> // for mmap(2), munmap(2)
+#include <sys/ioctl.h> // for ioctl(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include "shared.h" // for the ioctl numbers
 
 /*
 * This is a test for the mmap demo:

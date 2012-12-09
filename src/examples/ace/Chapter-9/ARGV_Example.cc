@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<ace/os_include/os_netdb.h>
-#include<ace/OS_NS_string.h>
-#include<ace/Log_Msg.h>
-#include<ace/ARGV.h>
-#include<ace/Get_Opt.h>
+#include <firstinclude.h>
+#include <ace/os_include/os_netdb.h>
+#include <ace/OS_NS_string.h>
+#include <ace/Log_Msg.h>
+#include <ace/ARGV.h>
+#include <ace/Get_Opt.h>
 
 /*
 * ACE_ARGV examples not in a larger program. Sample code from The ACE

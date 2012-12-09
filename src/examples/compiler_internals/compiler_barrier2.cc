@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<us_helper.h> // for my_system()
+#include <firstinclude.h>
+#include <us_helper.h> // for my_system()
 
 /*
 * This example shows that a real compiler barrier does not emit any machine instructions.

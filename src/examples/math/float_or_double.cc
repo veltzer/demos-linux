@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is an example for all the folk wishing to do numerical applications and want to switch

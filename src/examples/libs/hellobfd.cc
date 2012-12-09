@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<bfd.h>
-#include<iostream>
-#include<stdlib.h>
+#include <firstinclude.h>
+#include <bfd.h>
+#include <iostream>
+#include <stdlib.h>
 
 /*
 * This program demos the libbfd library which enabled you

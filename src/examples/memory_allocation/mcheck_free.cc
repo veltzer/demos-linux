@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<mcheck.h> // for mcheck(3), states, mprobe(3)
-#include<string.h> // for strcpy(3)
-#include<stdlib.h> // for malloc(3), free(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <mcheck.h> // for mcheck(3), states, mprobe(3)
+#include <string.h> // for strcpy(3)
+#include <stdlib.h> // for malloc(3), free(3)
 
 /*
 * This example shows how mcheck helps to catch errors in free...

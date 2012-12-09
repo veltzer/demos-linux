@@ -18,20 +18,20 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<log4cpp/Portability.hh>
-#include<log4cpp/Category.hh>
-#include<log4cpp/Appender.hh>
-#include<log4cpp/FileAppender.hh>
-#include<log4cpp/OstreamAppender.hh>
-#include<log4cpp/SyslogAppender.hh>
-#include<log4cpp/Layout.hh>
-#include<log4cpp/BasicLayout.hh>
-#include<log4cpp/Priority.hh>
-#include<log4cpp/NDC.hh>
-#include<unistd.h>
-#include<stdio.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <log4cpp/Portability.hh>
+#include <log4cpp/Category.hh>
+#include <log4cpp/Appender.hh>
+#include <log4cpp/FileAppender.hh>
+#include <log4cpp/OstreamAppender.hh>
+#include <log4cpp/SyslogAppender.hh>
+#include <log4cpp/Layout.hh>
+#include <log4cpp/BasicLayout.hh>
+#include <log4cpp/Priority.hh>
+#include <log4cpp/NDC.hh>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * EXTRA_LIBS=-llog4cpp

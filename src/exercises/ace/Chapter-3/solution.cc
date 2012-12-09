@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+#include <firstinclude.h>
 #define ACE_NTRACE 1
-#include<ace/Task.h> // for ACE_Task_Base
-#include<sched.h> // for sched_yield(2)
-#include<assert.h> // for assert(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <ace/Task.h> // for ACE_Task_Base
+#include <sched.h> // for sched_yield(2)
+#include <assert.h> // for assert(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is a solution to the exercise.

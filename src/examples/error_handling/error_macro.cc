@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for open(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
+#include <firstinclude.h>
+#include <sys/types.h> // for open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
 
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
 * This program errors on purpose.

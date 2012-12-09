@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<QtGui/qapplication.h>
-#include<QtGui/qpushbutton.h>
+#include <firstinclude.h>
+#include <QtGui/qapplication.h>
+#include <QtGui/qpushbutton.h>
 
 /*
 * This is a simple Qt hello world program

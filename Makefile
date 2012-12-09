@@ -279,8 +279,8 @@ check_ws:
 .PHONY: check_main
 check_main:
 	$(info doing [$@])
-	-@git grep " main(" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
-	-@git grep "ACE_TMAIN" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v argc
+	@./scripts/ok_wrapper.pl git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_ace_include
 check_ace_include:
 	$(info doing [$@])
@@ -289,7 +289,8 @@ check_ace_include:
 .PHONY: check_include
 check_include:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -l "#include " -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
+	@./scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_name
 check_name:
 	$(info doing [$@])
@@ -298,17 +299,20 @@ check_name:
 check_exit:
 	$(info doing [$@])
 	@./scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+# " =" cannot be checked because of void foo(void* =0) and that is the reason for the next
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	-@./scripts/grep.py "\\n\\n\\n| = |^ |\\t | \\t|\ \ |\\t\\n| \\n|= " "^.*\.cc$$|^.*\.hh$$|^.*\.c$$|^.*\.h$$" src | grep -v .mod.c
-# " =" cannot be checked because of void foo(void* =0)
+	@./scripts/ok_wrapper.pl git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -L "^#include<firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone
+	@-git grep -L -e "^#include <firstinclude.h>$$" -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone
+.PHONY: check_laststub
+check_laststub:
+	$(info doing [$@])
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub
 
 .PHONY: check_dots
 check_dots:

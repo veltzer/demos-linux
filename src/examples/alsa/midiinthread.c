@@ -30,11 +30,11 @@
 //
 // Description:	Read ALSA Raw MIDI input using threads.
 
-#include<firstinclude.h>
-#include<alsa/asoundlib.h> /* for alsa interface */
-#include<pthread.h> /* for threading */
-#include<unistd.h> /* for sleep() function */
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <alsa/asoundlib.h> /* for alsa interface */
+#include <pthread.h> /* for threading */
+#include <unistd.h> /* for sleep() function */
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 // function declarations:
 void errormessage(const char *format, ...);

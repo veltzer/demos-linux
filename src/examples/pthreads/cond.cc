@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<pthread.h> // for pthread_mutex_t, pthread_cond_t, pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_cond_wait(3), pthread_create(3), pthread_join(3), pthread_t
-#include<us_helper.h> //
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <pthread.h> // for pthread_mutex_t, pthread_cond_t, pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_cond_wait(3), pthread_create(3), pthread_join(3), pthread_t
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
 * This is an example that shows how to use pthread conditions.

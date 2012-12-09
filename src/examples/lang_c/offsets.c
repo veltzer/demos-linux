@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stddef.h> // for offsetof(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stddef.h> // for offsetof(3)
 
 /*
 * This is an example of finding out how far a field is from the begining

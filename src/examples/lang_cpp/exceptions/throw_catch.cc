@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cerr, std::endl
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <iostream> // for std::cerr, std::endl
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * A simple demo of throwing an exception and catching it

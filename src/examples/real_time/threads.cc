@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This application should show how to create real time threads...

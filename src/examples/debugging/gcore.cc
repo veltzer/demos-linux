@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2), sleep(3), fork(2)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <sys/types.h> // for getpid(2)
+#include <unistd.h> // for getpid(2), sleep(3), fork(2)
+#include <stdlib.h> // for EXIT_SUCCESS
 
-#include<us_helper.h>
+#include <us_helper.h>
 
 #define DO_SLEEP
 //#define DO_SELF_PHOTO

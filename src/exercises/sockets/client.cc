@@ -18,20 +18,20 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<errno.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<sys/wait.h>
-#include<netinet/in.h>
-#include<arpa/inet.h>
-#include<netdb.h>
-#include<unistd.h>
-#include<time.h>
-#include<stdio.h>
-#include<string.h>
-#include<strings.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/wait.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <strings.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
 	int on, got, brsock, rplysock, newsock;

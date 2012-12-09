@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for kill(2)
-#include<signal.h> // for kill(2)
-#include<unistd.h> // for sleep(3)
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE, atoi(3)
+#include <firstinclude.h>
+#include <sys/types.h> // for kill(2)
+#include <signal.h> // for kill(2)
+#include <unistd.h> // for sleep(3)
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE, atoi(3)
 
 int main(int argc,char** argv,char** envp) {
 	if (argc < 2) {

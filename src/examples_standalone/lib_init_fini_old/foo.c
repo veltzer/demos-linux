@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
 
 extern char *build_id;
 extern void _init(void);

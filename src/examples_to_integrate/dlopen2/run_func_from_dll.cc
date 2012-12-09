@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3), printf(3), perror(3)
-#include<dlfcn.h> // for dlopen(3), dlsym(3), dlerror(3), dlclose(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
-#include<errno.h> // for errno
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3), printf(3), perror(3)
+#include <dlfcn.h> // for dlopen(3), dlsym(3), dlerror(3), dlclose(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include <errno.h> // for errno
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {

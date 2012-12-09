@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for atoi(3), EXIT_SUCCESS
-#include<dlfcn.h> // for dlsym(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for atoi(3), EXIT_SUCCESS
+#include <dlfcn.h> // for dlsym(3)
 
 /*
 * This example shows how to override a symbol like atoi. We define our own atoi

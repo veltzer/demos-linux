@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for malloc(3), free(3), EXIT_SUCCESS
-#include<iostream> // for std::cout, std::endl
+#include <firstinclude.h>
+#include <stdlib.h> // for malloc(3), free(3), EXIT_SUCCESS
+#include <iostream> // for std::cout, std::endl
 
 /*
 *	This example shows how to use the C++ operator new placement

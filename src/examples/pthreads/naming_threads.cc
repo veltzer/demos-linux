@@ -18,15 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_create(3), pthread_join(3)
-#include<stdio.h> // for printf(3)
-#include<sys/types.h> // for getpid(2)
-#include<unistd.h> // for getpid(2)
-#include<string.h> // for strncpy(3)
-#include<sys/prctl.h> // for prctl(2)
-
-#include<us_helper.h> // for CHECK_ZERO()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_create(3), pthread_join(3)
+#include <stdio.h> // for printf(3)
+#include <sys/types.h> // for getpid(2)
+#include <unistd.h> // for getpid(2)
+#include <string.h> // for strncpy(3)
+#include <sys/prctl.h> // for prctl(2)
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
 * This exapmle shows how to set thread names in Linux.

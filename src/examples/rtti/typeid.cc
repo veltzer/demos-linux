@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cout, std::endl
-#include<typeinfo> // for typeid
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <iostream> // for std::cout, std::endl
+#include <typeinfo> // for typeid
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * Demo the typeid function of C++, with RTTI

@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
+#include <firstinclude.h>
 #define ACE_NTRACE 1
-#include<ace/streams.h>
-#include<ace/Log_Msg.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <ace/streams.h>
+#include <ace/Log_Msg.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * EXTRA_CMDS=pkg-config --cflags --libs ACE

@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<search.h> // for hsearch(3), ENTRY
-#include<stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <search.h> // for hsearch(3), ENTRY
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 
 /*
 * This is a demo of using the GNU C libraries hash table implementation

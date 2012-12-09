@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<ace/OS_NS_stdio.h>
-#include<ace/Malloc_Base.h> // To get ACE_Allocator
-#include<ace/Message_Queue.h>
-#include<ace/Read_Buffer.h>
-#include<ace/Thread_Manager.h>
-#include<ace/Service_Config.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <ace/OS_NS_stdio.h>
+#include <ace/Malloc_Base.h> // To get ACE_Allocator
+#include <ace/Message_Queue.h>
+#include <ace/Read_Buffer.h>
+#include <ace/Thread_Manager.h>
+#include <ace/Service_Config.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This short program prints the contents of stdin to stdout sorted by

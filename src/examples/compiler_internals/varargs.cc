@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for vprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for vprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This example shows how to use the __builtin_ varargs

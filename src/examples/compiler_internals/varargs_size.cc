@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for vprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for vprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * The var args mechanism of C/C++ does not allow one to know exactly how many

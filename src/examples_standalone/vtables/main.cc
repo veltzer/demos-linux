@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 int main(int argc,char** argv,char** envp) {
 	return EXIT_SUCCESS;

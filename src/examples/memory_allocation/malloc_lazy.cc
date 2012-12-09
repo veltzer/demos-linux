@@ -18,14 +18,14 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), fgets(3)
-#include<unistd.h> // for sleep(3), getpagesize(2)
-#include<stdlib.h> // for malloc(3), atoi(3), EXIT_SUCCESS
-#include<sys/mman.h> // for mlockall(2), munlockall(2)
-#include<malloc.h> // for malloc_stats(3)
-#include<proc/readproc.h> // for look_up_our_self(3)
-#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), fgets(3)
+#include <unistd.h> // for sleep(3), getpagesize(2)
+#include <stdlib.h> // for malloc(3), atoi(3), EXIT_SUCCESS
+#include <sys/mman.h> // for mlockall(2), munlockall(2)
+#include <malloc.h> // for malloc_stats(3)
+#include <proc/readproc.h> // for look_up_our_self(3)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 /*
 * This example demostrates that malloc doesnt actually allocate

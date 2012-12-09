@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), perror(3)
-#include<errno.h> // for perror(3)
-#include<sys/sysctl.h> // for sysctl(3)
-//#include<unistd.h> // for sysctl(2)
-//#include<linux/sysctl.h> // for sysctl(2)
-#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), perror(3)
+#include <errno.h> // for perror(3)
+#include <sys/sysctl.h> // for sysctl(3)
+//#include <unistd.h> // for sysctl(2)
+//#include <linux/sysctl.h> // for sysctl(2)
+#include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 #define SIZE(a) (sizeof(a)/sizeof((a)[0]))
 int name[]={CTL_KERN,KERN_PRINTK};

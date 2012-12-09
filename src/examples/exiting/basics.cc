@@ -18,19 +18,18 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for abort(3), atexit(3), exit(3), _Exit(2)
-#include<unistd.h> // for _exit(2)
-#include<sys/syscall.h> // for syscall(2)
-
+#include <firstinclude.h>
+#include <stdlib.h> // for abort(3), atexit(3), exit(3), _Exit(2)
+#include <unistd.h> // for _exit(2)
+#include <sys/syscall.h> // for syscall(2)
 #define DO_DEBUG
-#include<us_helper.h>
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This example explores the different ways of exiting a program...
 *
 * abort(3)
-* ========
+*========
 * After this program terminates echo $? and see that it's termination
 * code is 134.
 *

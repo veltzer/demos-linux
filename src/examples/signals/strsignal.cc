@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<string.h> // for strsignal(3)
-#include<stdio.h> // for printf(3)
-#include<signal.h> // for signal names
+#include <firstinclude.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <string.h> // for strsignal(3)
+#include <stdio.h> // for printf(3)
+#include <signal.h> // for signal names
 
 /*
 * This is an example of using strsignal(3) to print out signal names.

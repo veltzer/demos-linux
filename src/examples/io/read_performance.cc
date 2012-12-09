@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), fprintf(3)
-#include<stdlib.h> // for malloc(3), atoi(3), free(3), EXIT_SUCCESS
-#include<sys/types.h> // for open(2), lseek(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<us_helper.h> // for CHECK_NOT_M1(), getticks(), micro_diff()
-#include<unistd.h> // for close(2), read(2), lseek(2)
-#include<assert.h> // for assert(3)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <stdlib.h> // for malloc(3), atoi(3), free(3), EXIT_SUCCESS
+#include <sys/types.h> // for open(2), lseek(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), getticks(), micro_diff()
+#include <unistd.h> // for close(2), read(2), lseek(2)
+#include <assert.h> // for assert(3)
 
 /*
 * This example explores the performance of a read operation.

@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/ioctl.h> // for ioctl(2)
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <sys/ioctl.h> // for ioctl(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is a test to check my own us_helper.hh file.

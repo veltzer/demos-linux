@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<postgresql/libpq-fe.h>
-#include<stdio.h> // for fprintf(3), printf(3)
-#include<stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <firstinclude.h>
+#include <postgresql/libpq-fe.h>
+#include <stdio.h> // for fprintf(3), printf(3)
+#include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 /*
 * EXTRA_LIBS=-lpq

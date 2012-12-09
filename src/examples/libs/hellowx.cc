@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<wx/wx.h>
-#include<wx/frame.h>
+#include <firstinclude.h>
+#include <wx/wx.h>
+#include <wx/frame.h>
 
 /*
 * This example is a simple wxWindows application.

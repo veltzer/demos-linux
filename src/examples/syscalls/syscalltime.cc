@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), fprintf(3)
-#include<unistd.h> // for syscall(2), __NR_getpid, getpid(3)
-#include<stdlib.h> // for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
-#include<sys/syscall.h> // for syscall(2)
-#include<sys/time.h> // for gettimeofday(2)
-#include<us_helper.h> // for micro_diff(), run_high_priority()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <unistd.h> // for syscall(2), __NR_getpid, getpid(3)
+#include <stdlib.h> // for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <sys/syscall.h> // for syscall(2)
+#include <sys/time.h> // for gettimeofday(2)
+#include <us_helper.h> // for micro_diff(), run_high_priority()
 
 /*
 * This demo times how long it takes to call a syscall.

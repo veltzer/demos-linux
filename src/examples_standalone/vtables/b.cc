@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"b.h"
+#include <firstinclude.h>
+#include "b.h"
 
 void B::bar(void) {
 }

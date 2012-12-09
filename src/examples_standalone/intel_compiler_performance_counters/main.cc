@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include<iostream> // for std::cout, std::endl
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <iostream> // for std::cout, std::endl
 
 int main(int argc,char** argv,char** envp) {
 	/*

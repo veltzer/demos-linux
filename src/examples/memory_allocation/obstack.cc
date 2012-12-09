@@ -18,13 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for malloc(3)
-#include<sys/time.h> // for gettimeofday(2)
-#include<obstack.h> // for obstack_*(3)
-
-#include<us_helper.h> // for my_system
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for malloc(3)
+#include <sys/time.h> // for gettimeofday(2)
+#include <obstack.h> // for obstack_*(3)
+#include <us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 * This example shows how to use obstacks...

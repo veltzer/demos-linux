@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cerr, std::endl
-#include<signal.h> // for signal(2)
-#include<unistd.h> // for pause(2), sleep(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include<stdio.h> // for perror(3)
+#include <firstinclude.h>
+#include <iostream> // for std::cerr, std::endl
+#include <signal.h> // for signal(2)
+#include <unistd.h> // for pause(2), sleep(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdio.h> // for perror(3)
 
 static int counter=0;
 

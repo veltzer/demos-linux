@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include"libadd/add.h"
+#include <firstinclude.h>
+#include "libadd/add.h"
 
 int add(int a,int b) {
 	return(a+b);

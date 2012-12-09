@@ -21,10 +21,10 @@
 #ifndef __stat_h
 #define __stat_h
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<math.h>
-#include<values.h>
+#include <firstinclude.h>
+#include <stdio.h>
+#include <math.h>
+#include <values.h>
 
 /*
 	Statistics collecting object

@@ -18,19 +18,18 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for socket(2)
-#include<sys/socket.h> // for socket(2)
-#include<stdio.h> // for printf(3), fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<unistd.h> // for read(2)
-#include<netinet/ip.h> // for struct iphdr
-#include<netinet/tcp.h> // for struct tcphdr
-#include<netinet/in.h> // for IPPROTO_TCP
-#include<unistd.h> // for geteuid(2)
-#include<sys/types.h> // for geteuid(2)
-
-#include<us_helper.h> // our own helper
+#include <firstinclude.h>
+#include <sys/types.h> // for socket(2)
+#include <sys/socket.h> // for socket(2)
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <unistd.h> // for read(2)
+#include <netinet/ip.h> // for struct iphdr
+#include <netinet/tcp.h> // for struct tcphdr
+#include <netinet/in.h> // for IPPROTO_TCP
+#include <unistd.h> // for geteuid(2)
+#include <sys/types.h> // for geteuid(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * An example of a sniffer

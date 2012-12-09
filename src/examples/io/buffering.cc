@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), remove(3), __flbf(3), __fbufsize(3), fclose(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<stdio_ext.h> // for __flbf(3), __fbufsize(3)
-#include<us_helper.h> // for CHECK_NOT_NULL()
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), remove(3), __flbf(3), __fbufsize(3), fclose(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdio_ext.h> // for __flbf(3), __fbufsize(3)
+#include <us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 * This example shows the different buffering schemes of the standard

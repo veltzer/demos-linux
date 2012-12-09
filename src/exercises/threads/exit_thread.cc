@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<pthread.h> // for pthread_create(3), pthread_join(3), pthread_t
-#include<stdio.h> // for printf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_ZERO()
+#include <firstinclude.h>
+#include <pthread.h> // for pthread_create(3), pthread_join(3), pthread_t
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
 * EXTRA_LIBS=-lpthread

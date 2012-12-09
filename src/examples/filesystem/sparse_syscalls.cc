@@ -18,13 +18,13 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for open(2), lseek(2)
-#include<sys/stat.h> // for open(2)
-#include<fcntl.h> // for open(2)
-#include<unistd.h> // for write(2), lseek(2), close(2)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <sys/types.h> // for open(2), lseek(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <unistd.h> // for write(2), lseek(2), close(2)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This example explores sparse files on a UNIX system.

@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<fcmp.h> // for fcmp(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <fcmp.h> // for fcmp(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is an example showing how to use the libfcmp for floating point comparison.

@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 
 #define __stringify_1(x) # x
 #define __stringify(x) __stringify_1(x)

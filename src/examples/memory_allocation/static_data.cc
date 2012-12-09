@@ -18,11 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdlib.h> // for atoi(3)
-#include<string.h> // for memset(3)
-
-#include<us_helper.h> // for my_system
+#include <firstinclude.h>
+#include <stdlib.h> // for atoi(3)
+#include <string.h> // for memset(3)
+#include <us_helper.h> // for my_system(), TRACE()
 
 /*
 * This example explores how static data (data segement) affects binary size

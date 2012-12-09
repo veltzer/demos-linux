@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<mysql/mysql.h>
-#include<iostream> // for std::cout, std::endl, std::cerr
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <mysql/mysql.h>
+#include <iostream> // for std::cout, std::endl, std::cerr
+#include <stdlib.h> // for EXIT_SUCCESS
 
 
 /*

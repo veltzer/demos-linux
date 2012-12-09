@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for fprintf(3)
-#include<stdlib.h> // for malloc(3), free(3), atoi(3), EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for fprintf(3)
+#include <stdlib.h> // for malloc(3), free(3), atoi(3), EXIT_SUCCESS
 #ifdef DMALLOC
-#include<dmalloc.h>
+#include <dmalloc.h>
 #endif // DMALLOC
 
 /*

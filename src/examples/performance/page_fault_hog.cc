@@ -18,12 +18,11 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<iostream> // for std::cout, std::endl
-#include<sys/mman.h> // for mmap(2), munmap(2)
-#include<string.h> // for memset(3)
-
-#include<us_helper.h>
+#include <firstinclude.h>
+#include <iostream> // for std::cout, std::endl
+#include <sys/mman.h> // for mmap(2), munmap(2)
+#include <string.h> // for memset(3)
+#include <us_helper.h> // for CHECK_NOT_NULL()
 
 /*
 * This example creates lots of minor page faults...

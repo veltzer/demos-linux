@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<unistd.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for TRACE()
+#include <firstinclude.h>
+#include <unistd.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for TRACE()
 
 /*
 * This is a simple example causing a segmentation fault to be generated.

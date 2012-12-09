@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h>
-#include<stdlib.h> // for EXIT_SUCCESS
-#include"add.h"
+#include <firstinclude.h>
+#include <stdio.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include "add.h"
 
 int main(int argc,char** argv,char** envp) {
 	printf("2+2 is %d\n", func(2, 2));

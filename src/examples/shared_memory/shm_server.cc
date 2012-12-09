@@ -18,16 +18,16 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<sys/types.h> // for ftok(3), shmat(2)
-#include<sys/ipc.h> // for ftok(3), shmget(2), shmctl(2)
-#include<sys/shm.h> // for shmget(2), shmat(2), shmctl(2)
-#include<unistd.h> // for sleep(3)
-#include<time.h> // for time(2)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<stdio.h> // for printf(3)
-#include<signal.h> // for signal(2)
-#include<us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_SIGT()
+#include <firstinclude.h>
+#include <sys/types.h> // for ftok(3), shmat(2)
+#include <sys/ipc.h> // for ftok(3), shmget(2), shmctl(2)
+#include <sys/shm.h> // for shmget(2), shmat(2), shmctl(2)
+#include <unistd.h> // for sleep(3)
+#include <time.h> // for time(2)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdio.h> // for printf(3)
+#include <signal.h> // for signal(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_SIGT()
 
 /*
 * This is a simple shared memory server that works well with the shared memory

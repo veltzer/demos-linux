@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<unistd.h> // for sleep(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include<us_helper.h> // for CHECK_ZERO()
+#include <firstinclude.h>
+#include <unistd.h> // for sleep(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
 * This is a simple example of calling sleep(3).

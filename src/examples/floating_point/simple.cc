@@ -18,9 +18,9 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3), snprintf(3)
-#include<stdlib.h> // for atof(3), EXIT_SUCCESS
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3), snprintf(3)
+#include <stdlib.h> // for atof(3), EXIT_SUCCESS
 
 /*
 * This example is very simple. It shows how a specific

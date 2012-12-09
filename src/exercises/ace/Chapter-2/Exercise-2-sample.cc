@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<ace/OS_NS_stdio.h>
-#include<ace/Malloc_Base.h> // To get ACE_Allocator
-#include<ace/Message_Queue.h>
-#include<ace/Read_Buffer.h>
-#include<ace/Thread_Manager.h>
-#include<ace/Service_Config.h>
-#include<ace/Truncate.h>
-#include<stdlib.h> // for EXIT_SUCCESS
+#include <firstinclude.h>
+#include <ace/OS_NS_stdio.h>
+#include <ace/Malloc_Base.h> // To get ACE_Allocator
+#include <ace/Message_Queue.h>
+#include <ace/Read_Buffer.h>
+#include <ace/Thread_Manager.h>
+#include <ace/Service_Config.h>
+#include <ace/Truncate.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * Exercise 2
@@ -82,7 +82,7 @@ static void* producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// #define ACE_NEW_RETURN(POINTER,CONSTRUCTOR,RET_VAL)
 	// and for the Message_Block as follows:
 	//
-	//===ACE_Message_Block======From: <ace/Message_Block.h> ===========================
+	//===ACE_Message_Block======From: <ace/Message_Block.h>===========================
 	/*
 	* ACE_Message_Block (size_t size,
 	* ACE_Message_Block::ACE_Message_Type type=MB_DATA,

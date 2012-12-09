@@ -18,10 +18,10 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<search.h> // for hcreate(3), hcreate_r(3), hdestroy_r(3), hdestroy(3)
-#include<stdlib.h> // for EXIT_SUCCESS
-#include<us_helper.h> // for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <search.h> // for hcreate(3), hcreate_r(3), hdestroy_r(3), hdestroy(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This demos how to use the has supplied with the standard C library...

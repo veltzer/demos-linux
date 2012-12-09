@@ -18,8 +18,8 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<unistd.h> // for pause(2)
+#include <firstinclude.h>
+#include <unistd.h> // for pause(2)
 
 int myarray[10000]={1};
 

@@ -18,18 +18,18 @@
 	02111-1307 USA.
 */
 
-#include<firstinclude.h>
-#include<stdio.h> // for printf(3)
-#include<string.h>
-#include<stdlib.h>
-#include<pthread.h>
-#include<unistd.h> // for sleep(3)
-#include<strings.h> // for bzero(3)
-#include<signal.h> // for signal(2)
-#include<sys/mman.h> // for mprotect(2)
-#include<unistd.h> // for getpagesize(2)
+#include <firstinclude.h>
+#include <stdio.h> // for printf(3)
+#include <string.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h> // for sleep(3)
+#include <strings.h> // for bzero(3)
+#include <signal.h> // for signal(2)
+#include <sys/mman.h> // for mprotect(2)
+#include <unistd.h> // for getpagesize(2)
 
-#include<us_helper.h>
+#include <us_helper.h>
 
 /*
 * This is an example that shows that you cannot alter code, which is protected

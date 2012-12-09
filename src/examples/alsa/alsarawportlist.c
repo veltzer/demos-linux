@@ -54,7 +54,7 @@
 // information:
 //
 // Dir Device Name
-// ===================================
+//===================================
 // IO hw:1,0,0 MidiSport 1x1 MIDI 1
 //
 // Where "hw:1,0,0" is the string needed to open the MidiSport 1x1 MIDI
@@ -122,11 +122,11 @@
 // * snd_ctl_rawmidi_next_device()
 //
 
-#include<firstinclude.h>
-#include<alsa/asoundlib.h> // for snd_*(3)
-#include<stdio.h> // for putc(3)
-#include<stdarg.h> // for vfprintf(3), va_start(3), va_end(3), va_list(3)
-#include<stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include <firstinclude.h>
+#include <alsa/asoundlib.h> // for snd_*(3)
+#include <stdio.h> // for putc(3)
+#include <stdarg.h> // for vfprintf(3), va_start(3), va_end(3), va_list(3)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 
 // error -- print error message
 void error(const char *format, ...) {
