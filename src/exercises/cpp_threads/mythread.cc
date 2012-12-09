@@ -22,7 +22,7 @@
 #include <pthread.h> // for pthread_create(3), pthread_join(3)
 #include <stdlib.h> // for EXIT_SUCCESS
 #include <us_helper.h> // for CHECK_ZERO()
-#include "MyThread.hh"
+#include "mythread.hh"
 
 /*
 * EXTRA_LIBS=-lpthread
