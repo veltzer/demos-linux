@@ -19,7 +19,7 @@
 */
 
 #include <linux/module.h> // for MODULE_*, module_*
-#include "another_file.h" // our own API
+#include "another_file.h" // for do_something_init(), do_something_exit()
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

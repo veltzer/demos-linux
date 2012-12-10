@@ -18,7 +18,7 @@
 	02111-1307 USA.
 */
 
-#include <linux/module.h>
+#include <linux/module.h> // for MODULE_LICENSE(), MODULE_AUTHOR(), MODULE_DESCRIPTION(), module_init(), module_exit()
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");

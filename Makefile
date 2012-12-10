@@ -291,6 +291,8 @@ check_include:
 	$(info doing [$@])
 	@./scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
 	@./scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
+# enable this when you have the balls...
+#@./scripts/ok_wrapper.pl git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_name
 check_name:
 	$(info doing [$@])
