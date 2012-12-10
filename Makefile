@@ -364,42 +364,42 @@ find_exercises:
 
 # kernel section
 
-.PHONY: kern_clean
-kern_clean:
+.PHONY: kernel_clean
+kernel_clean:
 	$(info doing [$@])
 	$(Q)-rm -rf $(KERNEL_DIR)/.tmp_versions
 	$(Q)-rm -f $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??*
-.PHONY: kern_build
-kern_build: $(MOD_MOD)
-.PHONY: kern_help
-kern_help:
+.PHONY: kernel_build
+kernel_build: $(MOD_MOD)
+.PHONY: kernel_help
+kernel_help:
 	$(MAKE) -C $(KDIR) help
-.PHONY: kern_tail
-kern_tail:
+.PHONY: kernel_tail
+kernel_tail:
 	sudo tail /var/log/kern.log
-.PHONY: kern_tailf
-kern_tailf:
+.PHONY: kernel_tailf
+kernel_tailf:
 	sudo tail -f /var/log/kern.log
-.PHONY: kern_syslog_tail
-kern_syslog_tail:
+.PHONY: kernel_syslog_tail
+kernel_syslog_tail:
 	sudo tail /var/log/kern.log
-.PHONY: kern_syslog_tailf
-kern_syslog_tailf:
+.PHONY: kernel_syslog_tailf
+kernel_syslog_tailf:
 	sudo tail -f /var/log/kern.log
-.PHONY: kern_dmesg
-kern_dmesg:
+.PHONY: kernel_dmesg
+kernel_dmesg:
 	@sudo dmesg
-.PHONY: kern_dmesg_clean
-kern_dmesg_clean:
+.PHONY: kernel_dmesg_clean
+kernel_dmesg_clean:
 	@sudo dmesg -c > /dev/null
-.PHONY: kern_halt
-kern_halt:
+.PHONY: kernel_halt
+kernel_halt:
 	sudo halt
-.PHONY: kern_reboot
-kern_reboot:
+.PHONY: kernel_reboot
+kernel_reboot:
 	sudo reboot
-.PHONY: kern_makeeasy
-kern_makeeasy:
+.PHONY: kernel_makeeasy
+kernel_makeeasy:
 	sudo echo "%sudo ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # code formatting
