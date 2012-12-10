@@ -36,12 +36,12 @@ int main(int argc,char** argv,char** envp) {
 		int this_option_optind=optind ? optind : 1;
 		int option_index=0;
 		static struct option long_options[]={
-			{"add", 1, 0, 0},
-			{"append", 0, 0, 0},
-			{"delete", 1, 0, 0},
-			{"verbose", 0, 0, 0},
-			{"create", 1, 0, 'c'},
-			{"file", 1, 0, 0},
+			{"add", required_argument, 0, 0},
+			{"append", no_argument, 0, 0},
+			{"delete", required_argument, 0, 0},
+			{"verbose", no_argument, 0, 0},
+			{"create", required_argument, 0, 'c'},
+			{"file", required_argument, 0, 0},
 			{0, 0, 0, 0}
 		};
 		c=getopt_long(argc, argv, "abc:d:012", long_options, &option_index);
