@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #define ACE_NTRACE 0
-#include <ace/Log_Msg.h>
+#include <ace/Log_Msg.h> // for ACE_TRACE(), ACE_DEBUG()
 #include <stdlib.h> // for EXIT_SUCCESS
 
 /*

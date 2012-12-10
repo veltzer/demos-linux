@@ -27,7 +27,7 @@
 #include <linux/in.h>
 #include <linux/in6.h>
 #include <linux/netfilter.h>
-#include <stdio.h>
+#include <stdio.h> // for fprintf(3)
 #include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <string.h> // for strerror(3)
 
