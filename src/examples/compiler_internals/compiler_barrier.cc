@@ -122,12 +122,12 @@ void test_ ## shortname(volatile int& val_before,volatile int& val_after,int& du
 	while(a < 3000) {\
 		a+=a;\
 	}\
-	asm("nop");\
+	/*asm("nop");*/\
 	*p=CORRECT_VAL;\
 	val_before=a;\
 	code;\
 	val_after=a;\
-	asm("nop");\
+	/*asm("nop");*/\
 	printf("results for [%s]\n",__stringify(code));\
 	printf("description [%s]\n",desc);\
 	printf("val_before is %d, val_after is %d\n",val_before,val_after);\
