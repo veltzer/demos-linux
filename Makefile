@@ -32,6 +32,9 @@ DO_MKDBG?=0
 # the c++ compiler to be used
 CXX:=g++
 CC:=gcc
+# web stuff
+WEB_DIR:=/var/www/linuxapi
+WEB_FOLDER:=web
 
 #####################
 # end of parameters #
@@ -262,6 +265,8 @@ debug:
 	$(info MK_SRC is $(MK_SRC))
 	$(info MK_FLD is $(MK_FLD))
 	$(info MK_STP is $(MK_STP))
+	$(info WEB_DIR is $(WEB_DIR))
+	$(info WEB_FOLDER is $(WEB_FOLDER))
 
 .PHONY: todo
 todo:
@@ -429,3 +434,11 @@ sloccount:
 count_files:
 	$(info doing [$@])
 	$(Q)find . -name "*.cc" -or -name "*.c" | wc -l
+
+# web page
+.PHONY: install
+install: $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)sudo rm -rf $(WEB_DIR)
+	$(Q)sudo mkdir $(WEB_DIR)
+	$(Q)sudo cp -r index.html $(WEB_FOLDER) $(WEB_DIR)
