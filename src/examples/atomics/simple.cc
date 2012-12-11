@@ -128,7 +128,7 @@ static int parse_arguments(int& argc,char** argv,bool& doObserver, int& type,int
 	if(argc-optind<1) {
 		fprintf(stderr,"%s: too few threads\n",argv[0]);
 		fprintf(stderr,"%s: usage: %s [options] [core] [core] [core..]\n",argv[0],argv[0]);
-		fprintf(stderr,"%s: select type of threads using --type= argument\n",argv[0]);
+		fprintf(stderr,"%s: select type of threads using --type=[argument]\n",argv[0]);
 		fprintf(stderr,"%s:\ttype=0 means regular threads\n",argv[0]);
 		fprintf(stderr,"%s:\ttype=1 means compiler barrier threads\n",argv[0]);
 		fprintf(stderr,"%s:\ttype=2 means atomic ops threads threads (default)\n",argv[0]);
