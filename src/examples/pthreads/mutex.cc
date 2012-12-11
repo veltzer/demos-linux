@@ -52,12 +52,13 @@ static void *worker(void *p) {
 	return(NULL);
 }
 
-
 int main(int argc,char** argv,char** envp) {
 	// first initialize the lock (no need for sharing between processes which
-	// is the reason for the 0 in the second argument...)
+	// is the reason for the NULL in the second argument as special mutex
+	// parameters...)
 	TRACE("initializing the lock...");
 	CHECK_ZERO(pthread_mutex_init(&mylock,NULL));
+	TRACE("initialized the lock...");
 	const unsigned int num=2;
 	pthread_t threads[num];
 	unsigned int ids[num];
