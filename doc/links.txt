@@ -1,3 +1,10 @@
 Various links for linux API examples
 ====================================
 https://github.com/gby/hacks - various examples by Gilad Ben-Yossef
+
+kernel links:
+=============
+Rusty Russels guide to hacking the kernel:
+	http://people.netfilter.org/~rusty/unreliable-guides/kernel-hacking/lk-hacking-guide.html
+Andries Brouwer notes about the linux kernel:
+	http://www.win.tue.nl/~aeb/linux/lk/lk.html
