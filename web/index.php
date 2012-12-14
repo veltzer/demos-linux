@@ -3,7 +3,7 @@
 		<p>
 		This is the web page for the linuxapi project.
 		Read more about this project from it's
-		<a href="https://github.com/veltzer/linuxapi">git page</a>.
+		<a href="https://github.com/veltzer/linuxapi">github page</a>.
 		</p>
 		<p>
 		Mark Veltzer, <?php 
