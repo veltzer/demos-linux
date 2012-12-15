@@ -30,8 +30,6 @@
 * EXTRA_LIBS=-lpthread
 */
 
-pthread_key_t key_myid;
-
 int main(int argc,char** argv,char** envp) {
 	const unsigned int bufsize=256;
 	char name[bufsize];
