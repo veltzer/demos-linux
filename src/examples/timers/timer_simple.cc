@@ -48,5 +48,5 @@ int main(int argc,char** argv,char** envp) {
 		pause();
 	}
 	CHECK_NOT_M1(timer_delete(timerid));
-	return EXIT_SUCCESS;  
+	return EXIT_SUCCESS;
 }
