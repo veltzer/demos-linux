@@ -1,5 +1,7 @@
 TODO:
 
+look at apt-cache search malloc
+	there are many interesting things to show here.
 various replacements for malloc:
 - here is a link:
 	http://hackingheaven.com/

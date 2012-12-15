@@ -19,28 +19,34 @@
 */
 
 #include <firstinclude.h>
-#include <stdio.h> // for fprintf(3)
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include <us_helper.h> // for CHECK_NOT_M1()
-#include <sched.h> // for sched_setscheduler(2), sched_param
-#include <sys/types.h> // for pid_t
+#include <pthread.h> // for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <signal.h> // for timer_create(2), signal(2)
+#include <time.h> // for timer_create(2), timer_settime(2), timer_delete(2)
+#include <unistd.h> // for pause(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 /*
-* make a real time process return and be a regular process.
+* This is a standard pthread demo
 *
-* This is similar to chrt(1) from the util-linux package which is
-* a command line utility. (although that chrt has lots of features...)
+* EXTRA_LIBS=-lrt
 */
+void sigusr(int signal) {
+	return;
+}
 
 int main(int argc,char** argv,char** envp) {
-	if(argc<2) {
-		fprintf(stderr,"%s: Usage: %s [pid]...\n",argv[0],argv[0]);
-		return EXIT_FAILURE;
+	timer_t timerid;
+	struct itimerspec tick={{0,10*1000},{0,10*1000}};
+	struct sigevent sigev;
+	sigev.sigev_notify=SIGEV_SIGNAL;
+	sigev.sigev_signo=SIGUSR1;
+	CHECK_NOT_SIGT(signal(SIGUSR1,sigusr),SIG_ERR);
+	CHECK_NOT_M1(timer_create(CLOCK_MONOTONIC,&sigev,&timerid));
+	CHECK_NOT_M1(timer_settime(timerid,0,&tick,NULL));
+	while(true) {
+		pause();
 	}
-	for(int i=1;i<argc;i++) {
-		struct sched_param sp={sched_priority:0};
-		pid_t pid=atoi(argv[i]);
-		CHECK_NOT_M1(sched_setscheduler(pid,SCHED_OTHER,&sp));
-	}
-	return EXIT_SUCCESS;
+	CHECK_NOT_M1(timer_delete(timerid));
+	return EXIT_SUCCESS;  
 }
