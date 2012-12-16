@@ -22,7 +22,7 @@
 #include <sys/types.h> // for getpid(2), ftruncate(2)
 #include <unistd.h> // for getpid(2), sleep(3), nice(2), fork(2), ftruncate(2)
 #include <sched.h> // for sched_setaffinity(2), CPU_ZERO(3), CPU_SET(3)
-#include <stdio.h> // for printf(3), fflush(3)
+#include <stdio.h> // for printf(3), fflush(3), fprintf(3)
 #include <us_helper.h> // for CHECK_ZERO(), CHECK_NOT_M1(), TRACE()
 #include <sys/mman.h> // for shm_open(3), shm_unlink(3)
 #include <sys/stat.h> // for shm_open(3), shm_unlink(3)
@@ -30,10 +30,10 @@
 #include <stdlib.h> // for EXIT_SUCCESS, atoi(3), EXIT_FAILURE
 
 /*
-* This examples shows the effect of the nice scheduling system.
+* This examples shows the effect of the nice scheduling system (SCHED_OTHER).
 *
 * It binds the process to a single core (for multi core systems).
-* It then forks two versions of heavy work each with a different nice level.
+* It then forks several versions of heavy work each with a different nice level.
 * Then you can compare the work done by each of these.
 *
 * EXTRA_LIBS=-lrt
@@ -42,12 +42,13 @@
 * man 2 nice
 */
 
-void make_child(const int niceval,int* prog) {
+void make_child(const int niceval,int* const prog) {
 	pid_t pid;
 	CHECK_NOT_M1(pid=fork());
 	if(pid!=0) { // parent
 		return;
 	}
+	// set the nice value for myself
 	CHECK_NOT_M1(nice(niceval));
 	float sum=0;
 	for(unsigned int i=0;i<100000000;i++) {
@@ -57,12 +58,15 @@ void make_child(const int niceval,int* prog) {
 		asm volatile("":::"memory");
 		*prog=*prog+1;
 	}
-	exit(sum);
+	printf("child done with sum %f\n",sum);
 }
 
 int main(int argc,char** argv,char** envp) {
 	if(argc<2) {
-		fprintf(stderr,"%s: usage: %s [nicevals] [niceval] ...\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: usage: %s [niceval]...\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: forexample: %s 2 1\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: or try: %s 0 1 2 3 4 5 6 7 8 9\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: to see the graph of cpu distribution\n",argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* shm_name="shared_mem";
@@ -97,12 +101,19 @@ int main(int argc,char** argv,char** envp) {
 	}
 	int loop=0;
 	while(true) {
-		__sync_synchronize();
-		printf("iteration %d: progress: ",loop);
+		printf("\riteration %d: progress: ",loop);
 		for(int i=1;i<argc;i++) {
-			printf("%d, ",*(iptr+i-1));
+			// compiler barrier to make it read the values pointed at by the pointers
+			// again... This seems to work without the barrier but still...
+			asm volatile("":::"memory");
+			int val=*(iptr+i-1);
+			if(i<argc-1) {
+				printf("%d, ",val);
+			} else {
+				printf("%d",val);
+			}
 		}
-		printf("\r");
+		//printf("\r");
 		fflush(stdout);
 		sleep(1);
 		loop++;
