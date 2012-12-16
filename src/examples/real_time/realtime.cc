@@ -26,19 +26,26 @@
 
 /*
 * This is an example of a utility program to run any program under real time priority
+*
+* This is a degenerated version of the chrt(1) command line utility from the util-linux
+* package which has better features.
+*
+* EXTRA_COMPILE_FLAGS=-std=gnu++11
 */
 
 int main(int argc,char** argv,char** envp) {
 	if(argc<3) {
-		fprintf(stderr,"usage: %s priority program [parameters...]\n",argv[0]);
+		fprintf(stderr,"%s: usage: %s priority program [parameters...]\n",argv[0],argv[0]);
 		return EXIT_FAILURE;
 	}
-	struct sched_param sched;
-	sched.sched_priority=atoi(argv[1]);
-	if(sched.sched_priority>99) {
+	int priority=atoi(argv[1]);
+	if(priority<0 || priority>99) {
 		fprintf(stderr,"%s: priority must be between 0 - 99!\n",argv[0]);
 		return EXIT_FAILURE;
 	}
+	struct sched_param sched {
+		.sched_priority=priority
+	};
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &sched));
 	printf("%s: executing %s in realtime priority %d...\n",argv[0],argv[2],sched.sched_priority);
 	CHECK_NOT_M1(execvp(argv[2],&argv[2]));

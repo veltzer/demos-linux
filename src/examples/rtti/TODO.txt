@@ -1,0 +1,3 @@
+- show how a class can set it's own name so that typeid(instance).name()
+	will return it's preferred name.
+- show dynamic and static casts.
