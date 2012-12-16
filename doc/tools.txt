@@ -124,3 +124,6 @@ database admin:
 	mysql
 	sqlite3
 	psql
+
+realtime:
+	chrt

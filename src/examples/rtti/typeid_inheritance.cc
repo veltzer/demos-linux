@@ -21,7 +21,14 @@
 #include <firstinclude.h>
 #include <iostream> // for std::cout, std::endl
 #include <typeinfo> // for typeid
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS, srandom(3), random(3)
+#include <sys/types.h> // for getpid(2)
+#include <unistd.h> // for getpid(2)
+
+/*
+* This example explores static vs dynamic typeid resolution in C++.
+* Note that the last resolution in this example must be dynamic.
+*/
 
 // empty class - don't touch this.
 class Empty {
@@ -40,15 +47,25 @@ class Employee:public Person {
 int main(int argc,char** argv,char** envp) {
 	Person person;
 	Employee employee;
-	Person *ptr=&employee;
-	// The string returned by typeid::name is implementation-defined
-	std::cout << typeid(person).name() << std::endl; // Person (statically known at compile-time)
-	std::cout << typeid(employee).name() << std::endl; // Employee (statically known at compile-time)
-	std::cout << typeid(ptr).name() << std::endl; // Person * (statically known at compile-time)
-	std::cout << typeid(*ptr).name() << std::endl; // Employee (looked up dynamically at run-time
-	// because it is the dereference of a
-	// pointer to a polymorphic class)
-	std::cout << "sizeof(Person) is " << sizeof(Person) << std::endl;
+	Person* ptr;
+	srandom(getpid());
+	if(random()%10<5) {
+		ptr=&employee;
+	} else {
+		ptr=&person;
+	}
+	// lets start by printing the sizes of the classes involved...
 	std::cout << "sizeof(Empty) is " << sizeof(Empty) << std::endl;
+	std::cout << "sizeof(Person) is " << sizeof(Person) << std::endl;
+	std::cout << "sizeof(Employee) is " << sizeof(Employee) << std::endl;
+	// The string returned by typeid::name() is implementation-defined
+	// Person (statically known at compile-time)
+	std::cout << typeid(person).name() << std::endl;
+	// Employee (statically known at compile-time)
+	std::cout << typeid(employee).name() << std::endl;
+	// Person * (statically known at compile-time)
+	std::cout << typeid(ptr).name() << std::endl;
+	// ?? (looked up dynamically at run-time because it is the dereference of a pointer to a polymorphic class)
+	std::cout << typeid(*ptr).name() << std::endl;
 	return EXIT_SUCCESS;
 }
