@@ -1,3 +1,5 @@
+- make check_all is not grepping right.
+	use my own grep script and get this over with.
 - get ridd of perror.
 - get ridd of errno.
 - make a script to update the README file with stats of this project.
