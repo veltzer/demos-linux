@@ -42,7 +42,7 @@
 * man 2 nice
 */
 
-void make_child(const int niceval,int* const prog) {
+void make_child(const int niceval,int* const prog,int core) {
 	pid_t pid;
 	CHECK_NOT_M1(pid=fork());
 	if(pid!=0) { // parent
@@ -50,6 +50,13 @@ void make_child(const int niceval,int* const prog) {
 	}
 	// set the nice value for myself
 	CHECK_NOT_M1(nice(niceval));
+	// bind the entire process to the core required
+	// lets get our pid (no error for getpid)
+	pid_t mypid=getpid();
+	cpu_set_t myset;
+	CPU_ZERO(&myset);
+	CPU_SET(core,&myset);
+	CHECK_NOT_M1(sched_setaffinity(mypid,sizeof(myset),&myset));
 	float sum=0;
 	for(unsigned int i=0;i<100000000;i++) {
 		for(unsigned int j=0;j<10000000;j++) {
@@ -63,20 +70,14 @@ void make_child(const int niceval,int* const prog) {
 
 int main(int argc,char** argv,char** envp) {
 	if(argc<2) {
-		fprintf(stderr,"%s: usage: %s [niceval]...\n",argv[0],argv[0]);
-		fprintf(stderr,"%s: forexample: %s 2 1\n",argv[0],argv[0]);
-		fprintf(stderr,"%s: or try: %s 0 1 2 3 4 5 6 7 8 9\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: usage: %s [niceval core]...\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: forexample: %s 2 0 1 0\n",argv[0],argv[0]);
+		fprintf(stderr,"%s: will run two processes nice values 2 and 1 on core 0\n",argv[0]);
+		fprintf(stderr,"%s: or try: %s 0 0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0\n",argv[0],argv[0]);
 		fprintf(stderr,"%s: to see the graph of cpu distribution\n",argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* shm_name="shared_mem";
-	// bind the entire process to a single CPU (cpu 0)
-	// lets get our pid (no error for getpid)
-	pid_t mypid=getpid();
-	cpu_set_t onecore;
-	CPU_ZERO(&onecore);
-	CPU_SET(0,&onecore);
-	CHECK_NOT_M1(sched_setaffinity(mypid,sizeof(onecore),&onecore));
 	// put this in shared memory
 	// don't check the return address in case it's the first time we run this software
 	shm_unlink(shm_name);
@@ -95,19 +96,26 @@ int main(int argc,char** argv,char** envp) {
 	),MAP_FAILED);
 	int* iptr=(int*)ptr;
 	// lets fork...
+	const int num_processes=(argc-1)/2;
+	int process_num=0;
 	for(int i=1;i<argc;i++) {
-		*(iptr+i-1)=0;
-		make_child(atoi(argv[i]),iptr+i-1);
+		int* prog=iptr+process_num;
+		*prog=0;
+		int niceval=atoi(argv[i]);
+		i++;
+		int cpu=atoi(argv[i]);
+		make_child(niceval,prog,cpu);
+		process_num++;
 	}
 	int loop=0;
 	while(true) {
 		printf("\riteration %d: progress: ",loop);
-		for(int i=1;i<argc;i++) {
+		for(int i=0;i<num_processes;i++) {
 			// compiler barrier to make it read the values pointed at by the pointers
 			// again... This seems to work without the barrier but still...
 			asm volatile("":::"memory");
-			int val=*(iptr+i-1);
-			if(i<argc-1) {
+			int val=*(iptr+i);
+			if(i<num_processes-1) {
 				printf("%d, ",val);
 			} else {
 				printf("%d",val);
