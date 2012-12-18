@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-Implemting grep in python in less than 10 lines of code...
+Implemting a better grep in python
 
 	Mark Veltzer <mark@veltzer.net>
 """
