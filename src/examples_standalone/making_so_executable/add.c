@@ -41,7 +41,8 @@ void do_init(void) {
 //int main(int argc,char** argv,char** envp) __attribute__((weak)); 
 //int mymain(int argc,char** argv,char** envp) __attribute__((noreturn)); 
 int mymain(int argc,char** argv,char** envp) {
-	static const char buf_data[]="Hello world from the lib\n";
+	const char buf_data[]="Hello world from the lib\n";
+	const int len=strlen(buf_data);
 	// this fails
 	//printf("hello from the lib...\n");
 	// this succeeds
@@ -53,28 +54,41 @@ int mymain(int argc,char** argv,char** envp) {
 	*/
 	// lets try a write syscall to file descriptor 1...
 	//strcpy(mybuf.buf,buf_data);
-	const int len=strlen(buf_data);
-	const char* mybuf=buf_data;
+	//const int len=strlen(buf_data);
+	//const char* buf=(const char*)0x700;
+	//const char* buf=(const char*)(buf_data);
+	//const char* mybuf=buf_data;
 	long res;
-		// SYS_write is 4 (from /usr/include/i386-linux-gnu/asm/unistd_32.h)
-		// file descriptor is 1
-		// buffer
-		// size of buffer
-		// enter kernel mode
-	__asm__ volatile(								\
-		"int $0x80"								\
-		: "=a" (res)								\
-		: "0" (4),"b" ((long)(1)),"c" ((long)(mybuf+1)),			\
-		"d" ((long)(len))							\
+	// SYS_write is 4 (from /usr/include/i386-linux-gnu/asm/unistd_32.h)
+	// file descriptor is 1
+	// buffer
+	// size of buffer
+	// enter kernel mode
+	/*
+	__asm__ volatile(			\
+		"mov $4,%eax\n\t"		\
+		"mov $1,%ebx\n\t"		\
+		"mov %0,%ecx\n\t"		\
+		"mov %1,%edx\n\t"		\
+		"int $0x80\n\t"			\
+		: "=a" (res)			\
+		:"r" ((long)(buf_data)), "r" ((long)(len))	\
 	);
-		// SYS_exit is 1 (from /usr/include/i386-linux-gnu/asm/unistd_32.h)
-		// argument is in ebx, it is 0
-		//"xor %ebx,%ebx\n\t"
-		// enter kernel mode
-	__asm__ volatile(								\
-		"mov $1,%eax\n\t"							\
-		"mov $7,%ebx\n\t"							\
-		"int $0x80\n\t"								\
+	*/
+	__asm__ volatile(						\
+		"int $0x80"						\
+		: "=a" (res)						\
+		: "0" (4),"b" ((long)(1)),"c" ((long)(&len)),		\
+		"d" ((long)(2))						\
+	);
+	// SYS_exit is 1 (from /usr/include/i386-linux-gnu/asm/unistd_32.h)
+	// argument is in ebx, it is 0
+	//"xor %ebx,%ebx\n\t"
+	// enter kernel mode
+	__asm__ volatile(			\
+		"mov $1,%eax\n\t"		\
+		"mov $7,%ebx\n\t"		\
+		"int $0x80\n\t"			\
 	);
 	// this works!!!
 	/*
