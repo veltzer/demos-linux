@@ -26,27 +26,12 @@
 * This is an example of getting a register on an i32 machine
 */
 
-static inline unsigned int getrdtsc() {
-	unsigned int val;
-	asm ("rdtsc":"=val" (val));
-	return val;
-}
-static inline unsigned int getstackpointer() {
-	unsigned int val;
-	asm ("movl %%esp, %0":"=r" (val));
-	return val;
-}
-static inline unsigned int getframepointer() {
-	unsigned int val;
-	asm ("movl %%ebp, %0":"=r" (val));
-	return val;
-}
-
 int main(int argc,char** argv,char** envp) {
-	volatile int a=6;
-	printf("&a is %p\n",&a);
-	printf("stackpointer is %p\n",(void*)getstackpointer());
-	printf("framepointer is %p\n",(void*)getframepointer());
-	printf("rdtsc is %u\n",getrdtsc());
+	int foo = 10, bar = 15;
+	__asm__ __volatile__("addl  %%ebx,%%eax"
+		:"=a"(foo)
+		:"a"(foo), "b"(bar)
+	);
+        printf("foo+bar=%d\n", foo);
 	return EXIT_SUCCESS;
 }
