@@ -36,6 +36,7 @@ void do_init(void) {
 }
 */
 
+const char other_buf[]="Hello world from the lib\n";
 
 //int main(int argc,char** argv,char** envp) __attribute__((weak,noreturn)); 
 //int main(int argc,char** argv,char** envp) __attribute__((weak)); 
@@ -78,8 +79,8 @@ int mymain(int argc,char** argv,char** envp) {
 	__asm__ volatile(						\
 		"int $0x80"						\
 		: "=a" (res)						\
-		: "0" (4),"b" ((long)(1)),"c" ((long)(&len)),		\
-		"d" ((long)(2))						\
+		: "0" (4),"b" ((long)(1)),"c" ((long)(other_buf)),	\
+		"d" ((long)(5))						\
 	);
 	// SYS_exit is 1 (from /usr/include/i386-linux-gnu/asm/unistd_32.h)
 	// argument is in ebx, it is 0
