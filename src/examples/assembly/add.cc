@@ -23,7 +23,7 @@
 #include <stdlib.h> // for EXIT_SUCCESS
 
 /*
-* This is an example of getting a register on an i32 machine
+* An example of GNU extended assembly syntax inlined in C.
 */
 
 int main(int argc,char** argv,char** envp) {
