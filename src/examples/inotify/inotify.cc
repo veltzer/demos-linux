@@ -32,8 +32,12 @@
 
 /*
 * This demo shows how to use the inotify(2) API to get notifications of file changes.
+*
+* Getting out of the inotify main loop:
 * We use a signal to break out of the inotify loop. We could have used poll or an event
-* fd from other threads which would work out just fine.
+* fd from other threads which would work out just fine. We use siginterrupt and a user
+* defined signal instead. That is the reason for all the singla handling code in this
+* example.
 *
 * One of the weird things in terms of the inotify API is that it returns records of uneven
 * length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to save on short
@@ -82,12 +86,12 @@ static int max_rec=0;
 static int max_len=0;
 
 int main(int argc,char** argv,char** envp) {
-	int fd;
-	const char* path="/tmp";
 	register_handler();
 	CHECK_NOT_M1(siginterrupt(SIGUSR1,1));
+	int fd;
 	CHECK_NOT_M1(fd=inotify_init());
 	uint32_t mask=IN_CREATE | IN_DELETE | IN_MODIFY | IN_MOVED_TO | IN_MOVED_FROM;
+	const char* path="/tmp";
 	CHECK_NOT_M1(inotify_add_watch(fd,path,mask));
 	printf("fd is %d\n", fd);
 	printf("stop me with [kill -s SIGUSR1 %d]\n",getpid());

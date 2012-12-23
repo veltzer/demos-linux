@@ -20,5 +20,13 @@ For bug reporting instructions, please see:
 <http://www.debian.org/Bugs/>.
 fermat$
 ======================================
-
 This example still DOES NOT WORK. Running the shared object crashes. Need to find out why.
+
+approaches that I already tried:
+
+- Tried passing flags "-e myfunctionname" as entry point to the linker
+using something like:
+	FLAGS_FOR_SHARED_LIB:=-shared -Xlinker -e -Xlinker my_entry
+
+- Tried to define a standard C like "main" function in the SO with __attribute__((weak)).
+It seems to get to the right point but then crashes misteriously.
