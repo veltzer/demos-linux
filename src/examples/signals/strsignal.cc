@@ -23,6 +23,7 @@
 #include <string.h> // for strsignal(3)
 #include <stdio.h> // for printf(3)
 #include <signal.h> // for signal names
+#include <us_helper.h> // for ARRAY_SIZEOF()
 
 /*
 * This is an example of using strsignal(3) to print out signal names.
@@ -78,8 +79,8 @@ sig_and_name sig_vals[]={
 };
 
 int main(int argc,char** argv,char** envp) {
-	printf("number of signal values is %d\n",sizeof(sig_vals)/sizeof(sig_and_name));
-	for(unsigned int i=0;i<sizeof(sig_vals)/sizeof(sig_and_name);i++) {
+	printf("number of signal values is %d\n",ARRAY_SIZEOF(sig_vals));
+	for(unsigned int i=0;i<ARRAY_SIZEOF(sig_vals);i++) {
 		int sig=sig_vals[i].sig;
 		const char* signame=sig_vals[i].signame;
 		printf("i=%d, sig=%d, in_code=%s, strsignal(sig)=%s\n",i,sig,signame,strsignal(sig));
