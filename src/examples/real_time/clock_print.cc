@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h> // for printf(3)
-#include <time.h> // for clock_getres(2)
+#include <time.h> // for clock_getres(2), clock_gettime(2), struct timespec
 #include <us_helper.h> // for CHECK_NOT_M1()
 #include <stdlib.h> // for EXIT_SUCCESS
 
@@ -38,9 +38,8 @@ typedef struct _clock_data {
 	clockid_t id;
 } clock_data;
 
-const int num_clocks=7;
 // these clock ids are taken from /usr/include/bits/time.h...
-clock_data clocks[num_clocks]={
+clock_data clocks[]={
 	{
 		"CLOCK_REALTIME",
 		CLOCK_REALTIME
@@ -72,7 +71,7 @@ clock_data clocks[num_clocks]={
 };
 
 int main(int argc,char** argv,char** envp) {
-	for(int i=0;i<num_clocks;i++) {
+	for(unsigned int i=0;i<sizeof(clocks)/sizeof(clock_data);i++) {
 		clockid_t clk_id=clocks[i].id;
 		struct timespec res,ts;
 		CHECK_NOT_M1(clock_getres(clk_id, &res));
