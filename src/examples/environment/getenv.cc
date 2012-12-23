@@ -25,19 +25,39 @@
 
 /*
 * A simple example for using environment variables...
+* This example also shows how to receive environment variables
+* via the "char** envp" argument to main and how to print it.
+* It also shows how to access all environment variables via
+* the 'environ' extern variable.
 */
 
 int main(int argc,char** argv,char** envp) {
+	// print out the entire environment
+	while(*envp!=NULL) {
+		std::cout << *envp << std::endl;
+		envp++;
+	}
+	// print it again via environ
+	extern char **environ;
+	char** environp=environ;
+	while(*environp!=NULL) {
+		std::cout << *environp << std::endl;
+		environp++;
+	}
 	const char* varname="WHOWANTSSOUP";
 	char* ptr=getenv(varname);
 	if(ptr==NULL) {
-		std::cout << "Please stand in line" << std::endl;
+		std::cout << "Please stand in line (define environment variable WHOWANTSSOUP)" << std::endl;
+		std::cout << "in bash use [export WHOWANTSSOUP=kramer]" << std::endl;
 	} else {
 		if(strcmp(ptr,"kramer")==0) {
 			std::cout << "Jumbalaya!" << std::endl;
 		} else {
 			if(strcmp(ptr,"newman")==0) {
 				std::cout << "No soup for you!" << std::endl;
+			} else {
+				std::cout << "You are not kramer or newman" << std::endl;
+				std::cout << "in bash use [export WHOWANTSSOUP=kramer|newman]" << std::endl;
 			}
 		}
 	}

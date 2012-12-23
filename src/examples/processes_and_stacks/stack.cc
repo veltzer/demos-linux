@@ -54,7 +54,7 @@ void func(int m,bool mems) {
 // a loop trying to use more and more stack
 void loop(bool mems) {
 	printf("mems is %d\n",mems);
-	for(unsigned int m=1;m<20;m++) {
+	for(unsigned int m=1;m<50;m++) {
 		printf("m is %d\n",m);
 		func(m,mems);
 	}
@@ -62,7 +62,9 @@ void loop(bool mems) {
 
 int main(int argc,char** argv,char** envp) {
 	print_limit();
+	// example of non dumping the stack...
 	loop(false);
+	// this will dump core...
 	loop(true);
 	return EXIT_SUCCESS;
 }
