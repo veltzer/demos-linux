@@ -51,6 +51,11 @@
 #define __stringify(x) __stringify_1(x)
 
 /*
+* Macro to calculate size of array
+*/
+#define ARRAY_SIZEOF(a) (sizeof(a)/sizeof(a[0]))
+
+/*
 * getting a thread id (glibc doesnt have this)
 */
 static inline pid_t gettid(void) {
