@@ -71,7 +71,7 @@ static const char* names[]={
 	"IN_MOVED_FROM", "IN_MOVED_TO", "IN_OPEN" };
 static void print_mask(uint32_t mask) {
 	bool first=true;
-	for(unsigned int i=0;i<sizeof(types)/sizeof(uint32_t);i++) {
+	for(unsigned int i=0;i<ARRAY_SIZEOF(types);i++) {
 		uint32_t m=types[i];
 		if(mask & m) {
 			if(first)

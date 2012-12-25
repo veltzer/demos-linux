@@ -1,4 +1,4 @@
-test: folder/source.file 
+test: demo_folder/source.file 
 	$(info $$@ is $@)
 	$(info $$^ is $^)
 

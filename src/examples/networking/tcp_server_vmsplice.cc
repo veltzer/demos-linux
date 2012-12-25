@@ -73,7 +73,7 @@ void *worker(void* arg) {
 	CHECK_NOT_VOIDP(mypointer=mmap(NULL,mysize,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0),MAP_FAILED);
 	// 2. fill it with data.
 	int* p=(int*)mypointer;
-	for(unsigned int i=0;i<mysize/sizeof(int);i++) {
+	for(unsigned int i=0;i<mysize/sizeof(unsigned int);i++) {
 		p[i]=rand();
 	}
 	// 3. vmsplice it
