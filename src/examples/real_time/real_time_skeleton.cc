@@ -51,8 +51,8 @@ void stack_prefault(void) {
 
 int main(int argc,char** argv,char** envp) {
 	/* Declare ourself as a real time task */
-  	struct sched_param param;
-	param.sched_priority = 49;
+	struct sched_param param;
+	param.sched_priority=49;
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &param));
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
@@ -74,8 +74,8 @@ int main(int argc,char** argv,char** envp) {
 		/* calculate next shot */
 		t.tv_nsec+=interval;
 		while(t.tv_nsec>=NSEC_PER_SEC) {
-      			t.tv_nsec-=NSEC_PER_SEC;
-      			t.tv_sec++;
+			t.tv_nsec-=NSEC_PER_SEC;
+			t.tv_sec++;
 		}
 	}
 	return EXIT_SUCCESS;
