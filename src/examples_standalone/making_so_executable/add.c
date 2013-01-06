@@ -38,9 +38,9 @@ void do_init(void) {
 
 const char other_buf[]="Hello world from the lib\n";
 
-//int main(int argc,char** argv,char** envp) __attribute__((weak,noreturn)); 
-//int main(int argc,char** argv,char** envp) __attribute__((weak)); 
-//int mymain(int argc,char** argv,char** envp) __attribute__((noreturn)); 
+//int main(int argc,char** argv,char** envp) __attribute__((weak,noreturn));
+//int main(int argc,char** argv,char** envp) __attribute__((weak));
+//int mymain(int argc,char** argv,char** envp) __attribute__((noreturn));
 int mymain(int argc,char** argv,char** envp) {
 	const char buf_data[]="Hello world from the lib\n";
 	const int len=strlen(buf_data);
