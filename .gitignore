@@ -16,6 +16,8 @@
 *.stamp
 *.out
 *.p
+# gnu compiled headers
+*.gch
 java/bin/*
 # locks by open office
 .~lock.*
