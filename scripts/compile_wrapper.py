@@ -1,5 +1,12 @@
 #!/usr/bin/python
 
+"""
+This script wraps the running of the compiler with the right flags.
+You must pass the compiler and the flags to it.
+It will scan the source file in order to find specific flags
+to be added to the compilation.
+"""
+
 import sys
 import subprocess
 
@@ -11,7 +18,11 @@ def system_check_output(cmd, input=None, cwd=None, env=None):
 		raise ValueError('error in executing',cmd)
 	return output
 
+# parameters
 debug=False
+ccache=True
+
+# start of code
 script=sys.argv.pop(0)
 source=sys.argv.pop(0)
 target=sys.argv.pop(0)
@@ -62,6 +73,8 @@ for line in open(source):
 		cmd=cmd.split()
 		for c in cmd:
 			args.insert(1,c)
+if ccache:
+	args.insert(0,'ccache')
 if debug:
 	print 'running',args
 subprocess.check_call(args)
