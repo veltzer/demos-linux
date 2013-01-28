@@ -4,3 +4,4 @@ TODO list for the build system for these examples:
 	try to build all (make clean and then make -j 4) and you
 	will see the errors.
 	fix this.
+- add ccache support.
