@@ -20,10 +20,10 @@ def system_check_output(cmd, input=None, cwd=None, env=None):
 
 # parameters
 debug=False
-ccache=True
 
 # start of code
 script=sys.argv.pop(0)
+ccache=int(sys.argv.pop(0))
 link=int(sys.argv.pop(0))
 source=sys.argv.pop(0)
 target=sys.argv.pop(0)
