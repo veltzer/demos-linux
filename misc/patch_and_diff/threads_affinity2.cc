@@ -30,7 +30,7 @@
 /*
 * This shows how to create threads with a certain affinity
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 void another_func() {
 	printf("Hello, World!");

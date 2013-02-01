@@ -42,7 +42,8 @@
 * With trace enabled it will indent according to functions entered.
 * Multiple "%I" usage is possible.
 *
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 void FunB() {

@@ -27,7 +27,7 @@
 * This demos pthread mutex usage.
 * Note that these are actually futexes.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 static pthread_mutex_t mylock;

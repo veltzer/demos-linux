@@ -30,7 +30,7 @@
 * - different clocks show different times.
 * - different clocks have different resolutions.
 *
-* EXTRA_LIBS=-lrt
+* EXTRA_LINK_FLAGS=-lrt
 */
 
 typedef struct _clock_data {

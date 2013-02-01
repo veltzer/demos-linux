@@ -26,7 +26,7 @@
 /*
 * This is a demo of thread local storage using the pthread API.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 pthread_key_t key_myid;

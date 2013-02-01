@@ -25,7 +25,8 @@
 /*
 * This example is a simple wxWindows application.
 *
-* EXTRA_CMDS=wx-config --cflags --libs
+* EXTRA_COMPILE_CMDS=wx-config --cflags
+* EXTRA_LINK_CMDS=wx-config --libs
 */
 
 class MyApp:public wxApp {

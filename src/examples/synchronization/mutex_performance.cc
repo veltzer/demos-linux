@@ -43,7 +43,7 @@
 * 10 times more. In all other aspects all other types of locks (recursive, non
 * recursive, shared, non shared) perform about the same.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {

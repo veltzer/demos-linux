@@ -28,7 +28,7 @@
 /*
 * This is a demo for using pthread spin locks...
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 FILE* pfile=stderr;

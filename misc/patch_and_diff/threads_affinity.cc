@@ -30,7 +30,7 @@
 /*
 * This shows how to create threads with a certain affinity
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 void print_cpu_set(cpu_set_t *p) {
 	fprintf(stderr, "CPU_COUNT is %d\n", CPU_COUNT(p));

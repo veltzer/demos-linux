@@ -35,7 +35,7 @@
 /*
 * This is a tcp client demo.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 unsigned int numrequests;

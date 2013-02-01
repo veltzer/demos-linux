@@ -27,7 +27,7 @@
 * This demo is a pthread_cancel demo and was copied from the pthread_cancel
 * manpage.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 *
 * TODO:
 * - show that the cancellation happened in the middle of the sleep and that it was close

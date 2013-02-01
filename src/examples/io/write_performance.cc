@@ -44,7 +44,7 @@
 * You can also use iotop to see the process consuming first place in the io
 * category.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 char* filename;

@@ -40,7 +40,7 @@
 /*
 * This is an example of using vmsplice to send mucho data to clients.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 int get_backlog() {

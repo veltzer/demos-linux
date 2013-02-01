@@ -32,7 +32,7 @@
 * tools may be used to achieve the same goal
 * (system calls for instance).
 *
-* EXTRA_LIBS=-lncursesw
+* EXTRA_LINK_FLAGS=-lncursesw
 */
 int main(int argc,char** argv,char** envp) {
 	initscr();

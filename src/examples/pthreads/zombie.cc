@@ -39,7 +39,7 @@
 * TODO:
 * - show that this example works the same even if you call pthread_detach.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 void set_thread_name(const char* newname) {
 	const unsigned int size=16;

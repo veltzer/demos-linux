@@ -30,7 +30,7 @@
 * References:
 * http://icl.cs.utk.edu/papi/index.html
 *
-* EXTRA_LIBS=-lpapi
+* EXTRA_LINK_FLAGS=-lpapi
 */
 
 void print_counters(long long* arr,int num) {

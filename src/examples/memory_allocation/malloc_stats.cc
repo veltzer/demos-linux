@@ -31,7 +31,7 @@
 * In order to make it interesting it first does some multi threading
 * work with some memory allocations to make the pools/arenas appear.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 void *worker(void *p) {

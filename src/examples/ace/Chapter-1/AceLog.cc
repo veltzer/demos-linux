@@ -33,7 +33,8 @@
 * level.
 * - you have to put your own newline at the end of ACE_DEBUG messages.
 *
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 void foo(void) {
 	ACE_TRACE(ACE_TEXT("foo"));

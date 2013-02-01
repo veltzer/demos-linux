@@ -46,7 +46,7 @@
 *	safe' and on machines with a good rtc will use it. read more in the
 *	documentation.
 *
-* EXTRA_LIBS=-lcpufreq
+* EXTRA_LINK_FLAGS=-lcpufreq
 *
 * TODO:
 * - it seems that this example does not work well in Ubuntu since the

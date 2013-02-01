@@ -25,7 +25,8 @@
 #include "Message_Receiver.hh"
 
 /*
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 int HA_CommandHandler::svc(void) {
 	while(true) {

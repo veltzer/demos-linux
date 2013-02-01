@@ -31,7 +31,7 @@
 * This is a demo which shows that perror, errno etc all work on a thread
 * by thread level...
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 void *worker1(void *p) {
 	fprintf(stderr, "worker1 starting thread\n");

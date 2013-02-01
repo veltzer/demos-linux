@@ -28,6 +28,7 @@
 * here, it is the block containting the for loop that is parallel.
 *
 * EXTRA_COMPILE_FLAGS=-fopenmp
+* EXTRA_LINK_FLAGS=-fopenmp
 */
 
 int main(int argc,char** argv,char** envp) {

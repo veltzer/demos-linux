@@ -26,7 +26,7 @@
 
 /*
 * Counts how many sound cards ALSA finds in the system.
-* EXTRA_LIBS=-lasound
+* EXTRA_LINK_FLAGS=-lasound
 */
 
 int main(int argc,char** argv,char** envp) {

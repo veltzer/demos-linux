@@ -32,7 +32,7 @@
 * This is a demo of how to put a thread to sleep and wake it up
 * from another thread... This is done via the complete function
 *
-* EXTRA_LIBS=-lpthread -lcpufreq
+* EXTRA_LINK_FLAGS=-lpthread -lcpufreq
 */
 
 // file descriptor to be used all over

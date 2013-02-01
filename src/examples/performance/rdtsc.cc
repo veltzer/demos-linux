@@ -49,7 +49,7 @@
 * frequency is 600 MHz doesn't means that it ticks: 600,000,000 (600 million
 * times) per seconds exactly...
 *
-* EXTRA_LIBS=-lcpufreq
+* EXTRA_LINK_FLAGS=-lcpufreq
 *
 * TODO:
 * - on multi core the RDTSC reports twice as long. Fix this...

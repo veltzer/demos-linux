@@ -34,7 +34,7 @@
 #include <stdlib.h> // for EXIT_SUCCESS
 
 /*
-* EXTRA_LIBS=-llog4cpp
+* EXTRA_LINK_FLAGS=-llog4cpp
 */
 
 int main(int argc,char** argv,char** envp) {

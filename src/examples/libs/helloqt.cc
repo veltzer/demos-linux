@@ -25,7 +25,8 @@
 /*
 * This is a simple Qt hello world program
 *
-* EXTRA_CMDS=pkg-config --cflags --libs QtGui
+* EXTRA_COMPILE_CMDS=pkg-config --cflags QtGui
+* EXTRA_LINK_CMDS=pkg-config --libs QtGui
 */
 
 int main(int argc,char** argv,char** envp) {

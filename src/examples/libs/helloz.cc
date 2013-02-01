@@ -27,7 +27,7 @@
 /*
 * A simple example of using the libz library.
 *
-* EXTRA_LIBS=-lz
+* EXTRA_LINK_FLAGS=-lz
 */
 
 int main(int argc,char** argv,char** envp) {

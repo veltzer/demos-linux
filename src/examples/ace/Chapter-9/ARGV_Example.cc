@@ -29,7 +29,8 @@
 * ACE_ARGV examples not in a larger program. Sample code from The ACE
 * Programmer's Guide, Copyright 2003 Addison-Wesley. All Rights Reserved.
 *
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv) {

@@ -31,7 +31,7 @@
 * This is an example of how to read a character from the keyboard
 * in non-blocking mode...
 *
-* EXTRA_LIBS=-lncursesw
+* EXTRA_LINK_FLAGS=-lncursesw
 */
 
 int main(int argc,char** argv,char** envp) {

@@ -24,7 +24,7 @@
 #include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 
 /*
-* EXTRA_LIBS=-lpq
+* EXTRA_LINK_FLAGS=-lpq
 */
 
 void exit_nicely(PGconn* conn) {

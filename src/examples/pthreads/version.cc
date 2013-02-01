@@ -27,7 +27,7 @@
 /*
 * This demp shows how to get the version of the pthread library you are using.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 int main(int argc,char** argv,char** envp) {

@@ -35,7 +35,7 @@
 	here that I defined myself in <us_helper.hh>. Check it out. You can either
 	use that or use some framework which gives you wrappers.
 
-EXTRA_LIBS=-lpthread
+EXTRA_LINK_FLAGS=-lpthread
 */
 
 void report(void) {

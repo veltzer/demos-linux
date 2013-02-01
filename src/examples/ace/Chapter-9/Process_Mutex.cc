@@ -25,7 +25,8 @@
 #include <ace/Process_Mutex.h>
 
 /*
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 // Listing 1 code/ch10

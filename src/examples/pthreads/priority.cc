@@ -31,7 +31,7 @@
 /*
 * This example explores how to use thread priorities
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 pthread_t hpt;

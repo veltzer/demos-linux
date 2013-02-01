@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 
 /*
-* EXTRA_LIBS=-lasound
+* EXTRA_LINK_FLAGS=-lasound
 */
 // Programmer: Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Sat May 9 22:03:40 PDT 2009

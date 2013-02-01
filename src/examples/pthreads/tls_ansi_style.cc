@@ -25,7 +25,7 @@
 /*
 * This is a demo of thread local storage using gcc __thread storage modifier.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 __thread int myid;

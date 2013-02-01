@@ -39,7 +39,7 @@
 * - why, after the first read, when you run the app again, does it takemore for the first read?
 * - take care of short reads
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 char* filename;

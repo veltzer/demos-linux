@@ -25,7 +25,7 @@
 #include <us_helper.h> // for TRACE()
 
 /*
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 /*

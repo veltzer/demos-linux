@@ -53,7 +53,7 @@
 * - do a script that graphs the results of calling this code with various values of
 * 'count'. Show the convergence on the real value.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 unsigned int count;

@@ -30,7 +30,8 @@
 * Reactor examples
 * Timers & state data
 *
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 class TimerHandler:public ACE_Event_Handler {

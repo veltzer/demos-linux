@@ -25,7 +25,7 @@
 #include <us_helper.h> // for CHECK_ZERO()
 
 /*
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 void* PrintHello(void *threadid) {

@@ -32,7 +32,7 @@
 * - remove the run high priority function from this code.
 * - show the results.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 static pthread_spinlock_t mylock;

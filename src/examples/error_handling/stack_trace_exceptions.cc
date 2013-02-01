@@ -42,7 +42,7 @@
 * - the '-rdynamic' flag is needed if the 'backtrace_symbols' function is to
 * work and return symbols to you.
 *
-* EXTRA_LIBS=-rdynamic
+* EXTRA_LINK_FLAGS=-rdynamic
 *
 * TODO:
 * - show how to see the two "nameless" stack frames in the middle (they are not currently seen).
