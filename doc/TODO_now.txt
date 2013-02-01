@@ -1,7 +1,7 @@
 - three pressing issues:
 	1. mouse device driver example.
 	2. executable library example.
-	3. make check_all.
+		(still not fully done although getting there).
 
 - make check_all is not grepping right.
 	use my own grep script and get this over with.
