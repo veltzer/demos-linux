@@ -1,0 +1,9 @@
+This is a document describing ccache that should be turned into a ccache presentation
+=====================================================================================
+
+notes:
+- ccache cannot be used for linking. Just compilation. If you use it for linking
+it will just call the linker/compiler. So a single command like:
+	ccache gcc file.cc -o file.out
+will NOT use ccache. ccache WILL NOT break the command into compilation and then
+link phase and use the cache for the first of these nor does it cache link results.
