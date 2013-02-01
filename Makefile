@@ -35,6 +35,8 @@ CC:=gcc
 # web stuff
 WEB_DIR:=/var/www/linuxapi
 WEB_FOLDER:=web
+# do you want ccache support?
+CCACHE=1
 
 #####################
 # end of parameters #
@@ -189,28 +191,28 @@ git_maintain:
 # how to create regular executables...
 $(CC_OBJ): %.oo: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
+	$(Q)./scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
 $(C_OBJ): %.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+	$(Q)./scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
 $(CC_EXE): %.exe: %.oo $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
+	$(Q)./scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
 $(C_EXE): %.exe: %.o $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
+	$(Q)./scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
 $(CC_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
+	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
 $(C_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
+	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
 $(CC_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
+	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
 $(C_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
+	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.exe $(ALL_DEPS)
 	$(info doing [$@])
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
