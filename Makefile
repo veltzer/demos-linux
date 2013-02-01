@@ -91,10 +91,12 @@ CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
 C_PRE:=$(addsuffix .p,$(basename $(C_SRC)))
 CC_DIS:=$(addsuffix .dis,$(basename $(CC_SRC)))
 C_DIS:=$(addsuffix .dis,$(basename $(C_SRC)))
+CC_OBJ:=$(addsuffix .oo,$(basename $(CC_SRC)))
+C_OBJ:=$(addsuffix .o,$(basename $(C_SRC)))
 CC_EXE:=$(addsuffix .exe,$(basename $(CC_SRC)))
 C_EXE:=$(addsuffix .exe,$(basename $(C_SRC)))
 ALL:=$(ALL) $(CC_EXE) $(C_EXE)
-CLEAN:=$(CLEAN) $(CC_EXE) $(CC_DIS) $(CC_ASX) $(CC_PRE)
+CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_ASX) $(C_ASX) $(CC_PRE) $(C_PRE)
 
 # kernel modules
 MOD_SRC:=$(shell ./scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
@@ -185,24 +187,30 @@ git_maintain:
 # general rules...
 
 # how to create regular executables...
-$(CC_EXE): %.exe: %.cc $(ALL_DEPS)
+$(CC_OBJ): %.oo: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $< $@ $(CXX) $(CXXFLAGS) -o $@ $< $$EXTRA_FLAGS
-$(C_EXE): %.exe: %.c $(ALL_DEPS)
+	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
+$(C_OBJ): %.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+$(CC_EXE): %.exe: %.oo $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)./scripts/compile_wrapper.py 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
+$(C_EXE): %.exe: %.o $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)./scripts/compile_wrapper.py 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
 $(CC_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
 $(C_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -S -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
 $(CC_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
 $(C_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $< $@ $(CC) $(CFLAGS) -E -o $@ $< $$EXTRA_FLAGS
+	$(Q)./scripts/compile_wrapper.py 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.exe $(ALL_DEPS)
 	$(info doing [$@])
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@

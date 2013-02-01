@@ -36,7 +36,7 @@
 * It then forks several versions of heavy work each with a different nice level.
 * Then you can compare the work done by each of these.
 *
-* EXTRA_LIBS=-lrt
+* EXTRA_LINK_FLAGS=-lrt
 *
 * References:
 * man 2 nice

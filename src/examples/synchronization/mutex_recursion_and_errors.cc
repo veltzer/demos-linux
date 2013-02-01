@@ -47,7 +47,7 @@
 *	destroy function is creating an error (knowing that the lock is still taken one
 *	time).
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 *
 * TODO:
 * - make this example take command line arguments about which type of lock to create

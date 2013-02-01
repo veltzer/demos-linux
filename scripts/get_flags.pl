@@ -29,15 +29,15 @@ open(FILE,$source) || die('unable to open file ['.$source.']');
 my($line);
 while($line=<FILE>) {
 	chop($line);
-	if($line=~/EXTRA_CMDS=(.*)/) {
-		my($extra)=$line=~/EXTRA_CMDS=(.*)/;
+	if($line=~/EXTRA_LINK_CMDS=(.*)/) {
+		my($extra)=$line=~/EXTRA_LINK_CMDS=(.*)/;
 		$extra=~s/SOURCE/$source/g;
 		$extra=~s/TARGET/$target/g;
 		$extra=trim(`$extra`);
 		push(@flags,$extra);
 	}
-	if($line=~/EXTRA_LIBS=(.*)/) {
-		my($extra)=$line=~/EXTRA_LIBS=(.*)/;
+	if($line=~/EXTRA_LINK_FLAGS=(.*)/) {
+		my($extra)=$line=~/EXTRA_LINK_FLAGS=(.*)/;
 		$extra=~s/SOURCE/$source/g;
 		$extra=~s/TARGET/$target/g;
 		$extra=trim($extra);

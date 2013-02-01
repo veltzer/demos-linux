@@ -31,7 +31,7 @@
 * This example was stolen shamelessly from the timerfd_create(2) manpage,
 * and adapted to my coding style.
 *
-* EXTRA_LIBS=-lrt
+* EXTRA_LINK_FLAGS=-lrt
 */
 
 static void print_elapsed_time(void) {

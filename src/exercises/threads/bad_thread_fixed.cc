@@ -27,7 +27,7 @@
 #include <time.h> // for time(2)
 
 /*
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 void* PrintHello(void *threadid) {

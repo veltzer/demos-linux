@@ -7,6 +7,7 @@
 
 # user space stuff...
 *.o
+*.oo
 *.so
 *.exe
 *.dis

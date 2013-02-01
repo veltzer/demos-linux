@@ -27,7 +27,7 @@
 /*
 * Demo the clock_gettime usage
 *
-* EXTRA_LIBS=-lrt
+* EXTRA_LINK_FLAGS=-lrt
 */
 
 void print_timespec(const char *msg, struct timespec *ts) {

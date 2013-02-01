@@ -29,7 +29,7 @@
 /*
 * This is a demo program showing how to use libcwd for C++ debug support...
 *
-* EXTRA_LIBS=-lcwd
+* EXTRA_LINK_FLAGS=-lcwd
 */
 
 // Define our own debug channel:

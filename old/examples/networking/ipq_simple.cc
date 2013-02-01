@@ -41,7 +41,7 @@
 * sudo iptables -A OUTPUT -j QUEUE
 * sudo ./ipq_simple
 *
-* EXTRA_LIBS=-lipq
+* EXTRA_LINK_FLAGS=-lipq
 */
 
 static void die(struct ipq_handle *h) {

@@ -25,7 +25,7 @@
 #include "mythread.hh"
 
 /*
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 void* MyThread::realsvc(void* arg) {

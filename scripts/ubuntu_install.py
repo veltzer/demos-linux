@@ -40,6 +40,7 @@ packs=[
 	'numactl',
 	'linux-headers-generic',
 	'linux-headers-generic-pae',
+	'ccache', # for faster building
 ]
 
 args=['sudo','apt-get','install']

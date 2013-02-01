@@ -30,7 +30,7 @@
 * This is a real time skeleton that shows all the critical parts of a real time application
 * in Linux
 *
-* EXTRA_LIBS=-lrt
+* EXTRA_LINK_FLAGS=-lrt
 */
 
 /* we use 49 as the PRREMPT_RT use 50

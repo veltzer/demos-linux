@@ -29,7 +29,7 @@
 /*
 * This is an example of writing your own spin locks...
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 // this is the spin lock implementation (pthread "like")

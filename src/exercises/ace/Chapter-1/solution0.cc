@@ -27,7 +27,8 @@
 /*
 * solution to the first exercise.
 *
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 // Notice the use of the ACE version of main

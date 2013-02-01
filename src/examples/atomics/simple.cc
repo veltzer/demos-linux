@@ -41,7 +41,7 @@
 * - We see that if we run the threads and have them do regular +=1 instead of
 * atomic ops we get really bad values for the shared counter.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 *
 * TODO:
 * - the results of this example don't add up. Some of these __sync_add_and_fetch

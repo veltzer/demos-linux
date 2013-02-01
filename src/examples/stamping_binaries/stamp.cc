@@ -41,7 +41,7 @@
 *	If you want to see more macros that the compiler provides just run:
 *	cpp -dM < /dev/null
 *
-* EXTRA_SYSTEM=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
+* EXTRA_COMPILE_CMDS=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
 */
 
 #define STRING_VERSION "1.23.56"

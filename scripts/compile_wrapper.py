@@ -24,6 +24,7 @@ ccache=True
 
 # start of code
 script=sys.argv.pop(0)
+link=int(sys.argv.pop(0))
 source=sys.argv.pop(0)
 target=sys.argv.pop(0)
 args=sys.argv
@@ -33,47 +34,48 @@ if debug:
 	print 'target is',target
 # scan the source code
 for line in open(source):
-	f=line.find('EXTRA_CMDS=')
-	if f!=-1:
-		line.strip()
-		f=line.find('EXTRA_CMDS=')+len('EXTRA_CMDS=')
-		cmd=line[f:]
-		cmd=cmd.replace('SOURCE',source)
-		cmd=cmd.replace('TARGET',target)
-		cmd=cmd.split()
-		out=subprocess.check_output(cmd)
-		out=out.split()
-		args.extend(out)
-	f=line.find('EXTRA_LIBS=')
-	if f!=-1:
-		line.strip()
-		f=line.find('EXTRA_LIBS=')+len('EXTRA_LIBS=')
-		cmd=line[f:]
-		cmd=cmd.replace('SOURCE',source)
-		cmd=cmd.replace('TARGET',target)
-		cmd=cmd.split()
-		args.extend(cmd)
-	f=line.find('EXTRA_SYSTEM=')
-	if f!=-1:
-		line.strip()
-		f=line.find('EXTRA_SYSTEM=')+len('EXTRA_SYSTEM=')
-		cmd=line[f:]
-		cmd=cmd.replace('SOURCE',source)
-		cmd=cmd.replace('TARGET',target)
-		out=system_check_output(cmd)
-		out=out.split()
-		args.extend(out)
-	f=line.find('EXTRA_COMPILE_FLAGS=')
-	if f!=-1:
-		line.strip()
-		f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
-		cmd=line[f:]
-		cmd=cmd.replace('SOURCE',source)
-		cmd=cmd.replace('TARGET',target)
-		cmd=cmd.split()
-		for c in cmd:
-			args.insert(1,c)
-if ccache:
+	if link:
+		f=line.find('EXTRA_LINK_CMDS=')
+		if f!=-1:
+			line.strip()
+			f=line.find('EXTRA_LINK_CMDS=')+len('EXTRA_LINK_CMDS=')
+			cmd=line[f:]
+			cmd=cmd.replace('SOURCE',source)
+			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.split()
+			out=subprocess.check_output(cmd)
+			out=out.split()
+			args.extend(out)
+		f=line.find('EXTRA_LINK_FLAGS=')
+		if f!=-1:
+			line.strip()
+			f=line.find('EXTRA_LINK_FLAGS=')+len('EXTRA_LINK_FLAGS=')
+			cmd=line[f:]
+			cmd=cmd.replace('SOURCE',source)
+			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.split()
+			args.extend(cmd)
+	else:
+		f=line.find('EXTRA_COMPILE_CMDS=')
+		if f!=-1:
+			line.strip()
+			f=line.find('EXTRA_COMPILE_CMDS=')+len('EXTRA_COMPILE_CMDS=')
+			cmd=line[f:]
+			cmd=cmd.replace('SOURCE',source)
+			cmd=cmd.replace('TARGET',target)
+			out=system_check_output(cmd)
+			out=out.split()
+			args.extend(out)
+		f=line.find('EXTRA_COMPILE_FLAGS=')
+		if f!=-1:
+			line.strip()
+			f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
+			cmd=line[f:]
+			cmd=cmd.replace('SOURCE',source)
+			cmd=cmd.replace('TARGET',target)
+			for c in cmd.split():
+				args.insert(1,c)
+if ccache and not link:
 	args.insert(0,'ccache')
 if debug:
 	print 'running',args

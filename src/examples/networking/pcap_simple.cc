@@ -31,7 +31,7 @@
 * In addition you have to run it as root.
 * Example: sudo ./src/examples/networking/pcap_simple.exe any ip -1
 *
-* EXTRA_LIBS=-lpcap
+* EXTRA_LINK_FLAGS=-lpcap
 */
 
 /*

@@ -27,7 +27,8 @@
 /*
 * A stolen example from the gtkmm distribution. Slightly modified.
 *
-* EXTRA_CMDS=pkg-config --cflags --libs gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
+* EXTRA_COMPILE_CMDS=pkg-config --cflags gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
+* EXTRA_LINK_CMDS=pkg-config --libs gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
 */
 
 class HelloWorld:public Gtk::Window {

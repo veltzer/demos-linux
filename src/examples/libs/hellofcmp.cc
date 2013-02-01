@@ -26,7 +26,7 @@
 /*
 * This is an example showing how to use the libfcmp for floating point comparison.
 *
-* EXTRA_LIBS=-lfcmp
+* EXTRA_LINK_FLAGS=-lfcmp
 */
 
 int main(int argc,char** argv,char** envp) {

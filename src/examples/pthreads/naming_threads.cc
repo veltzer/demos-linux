@@ -35,7 +35,7 @@
 * entity which may be a thread or a process. The reason that it says what is says is
 * mostly historical.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 void get_thread_name(char* buffer,unsigned int bufsize) {

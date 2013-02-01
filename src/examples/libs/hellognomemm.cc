@@ -25,7 +25,8 @@
 /*
 * This is a demo program for using Gnome--
 *
-* EXTRA_CMDS=pkg-config --libs --cflags libgnomeuimm-2.6
+* EXTRA_COMPILE_CMDS=pkg-config --cflags libgnomeuimm-2.6
+* EXTRA_LINK_CMDS=pkg-config --libs libgnomeuimm-2.6
 */
 
 int main(int argc,char** argv,char** envp) {

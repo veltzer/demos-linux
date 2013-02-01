@@ -40,7 +40,7 @@
 * Get your hands on the source code of 'modinfo' and copy the relevant parts here.
 * (publish this in a blog for the interested parties...)
 *
-* EXTRA_LIBS=-ldl
+* EXTRA_LINK_FLAGS=-ldl
 */
 
 void get_driver_version(const char *filename) {

@@ -36,7 +36,7 @@
 * that since a compiler barrier is only a compile time instruction about
 * code emittion.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 int main(int argc,char** argv,char** envp) {

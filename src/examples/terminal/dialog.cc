@@ -25,7 +25,7 @@
 /*
 * This example shows how to use the dialog C library.
 *
-* EXTRA_LIBS=/usr/lib/libdialog.a -lncursesw
+* EXTRA_LINK_FLAGS=/usr/lib/libdialog.a -lncursesw
 *
 * TODO:
 * - you may want to write this ?!?

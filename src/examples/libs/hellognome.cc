@@ -24,7 +24,8 @@
 /*
 * This is a demo program for using C Gnome
 *
-* EXTRA_CMDS=pkg-config --cflags --libs libgnomeui-2.0
+* EXTRA_LINK_CMDS=pkg-config --libs libgnomeui-2.0
+* EXTRA_COMPILE_CMDS=pkg-config --cflags libgnomeui-2.0
 */
 
 int main(int argc,char** argv,char** envp) {

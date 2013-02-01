@@ -25,7 +25,8 @@
 /*
 * This is a simple hello gtk program
 *
-* EXTRA_CMDS=pkg-config --cflags --libs gtk+-2.0
+* EXTRA_COMPILE_CMDS=pkg-config --cflags gtk+-2.0
+* EXTRA_LINK_CMDS=pkg-config --libs gtk+-2.0
 */
 
 int main(int argc,char** argv,char** envp) {

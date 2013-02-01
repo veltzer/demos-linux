@@ -27,7 +27,7 @@
 * This example shows how to override a symbol like atoi. We define our own atoi
 * but also call the original implementation.
 *
-* EXTRA_LIBS=-ldl
+* EXTRA_LINK_FLAGS=-ldl
 */
 
 int (*p_atoi)(const char* nptr);

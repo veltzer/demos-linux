@@ -32,7 +32,8 @@
 * This demonstration program verifies the functionality of the ACE_OS
 * implementation of readers/writer locks on Win32 and Posix pthreads.
 *
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 // Default number of iterations.

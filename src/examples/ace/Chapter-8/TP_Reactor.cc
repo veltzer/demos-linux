@@ -31,7 +31,8 @@
 #include "Request_Handler.hh"
 
 /*
-* EXTRA_CMDS=pkg-config --cflags --libs ACE
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
 */
 
 // Accepting end point. This is actually "localhost:10010", but some

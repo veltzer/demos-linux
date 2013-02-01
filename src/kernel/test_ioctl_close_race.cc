@@ -42,7 +42,7 @@
 *	- any new operations on this file descriptor are not allowed (bad file descriptor).
 *	- makes it easier to program in the kernel.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 
 // file descriptor

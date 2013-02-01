@@ -28,7 +28,8 @@
 * You need all of these folders added with -I because of how the h files
 * for mysql++ are written.
 *
-* EXTRA_LIBS=-I/usr/include/mysql++ -I/usr/include/mysql -lmysqlpp
+* EXTRA_COMPILE_FLAGS=-I/usr/include/mysql++ -I/usr/include/mysql
+* EXTRA_LINK_FLAGS=-lmysqlpp
 */
 
 int main(int argc,char** argv,char** envp) {

@@ -52,7 +52,7 @@
 * - catting files from the /proc folder (done in two ways in this example).
 * - top(1)
 *
-* EXTRA_LIBS=-lprocps
+* EXTRA_LINK_FLAGS=-lprocps
 *
 */
 void print_status(int status) {

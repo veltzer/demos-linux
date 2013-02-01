@@ -52,7 +52,7 @@
 * since the underlying libc functions (backtrace_*) are allocating memory via malloc(3)
 * which may be corrupt at that point.
 *
-* EXTRA_LIBS=-rdynamic
+* EXTRA_LINK_FLAGS=-rdynamic
 *
 * TODO:
 * - do cxx name demangling.

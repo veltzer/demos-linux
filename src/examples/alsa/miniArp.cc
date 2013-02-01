@@ -38,7 +38,7 @@
 * The original example was taken from:
 * http://alsamodular.sourceforge.net/miniArp.c
 * http://alsamodular.sourceforge.net/alsa_programming_howto.html
-* EXTRA_LIBS=-lasound
+* EXTRA_LINK_FLAGS=-lasound
 */
 
 const int TICKS_PER_QUARTER=128;

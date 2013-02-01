@@ -28,6 +28,7 @@
 * An example of writing a merge sort algorithm using open mp.
 *
 * EXTRA_COMPILE_FLAGS=-fopenmp
+* EXTRA_LINK_FLAGS=-fopenmp
 */
 
 void mergesort(int* arr,unsigned int from,unsigned int to,int* scratch) {

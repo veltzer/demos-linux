@@ -26,7 +26,7 @@
 /*
 * This is a standard pthread demo
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 void *worker(void *p) {
 	int num=*(int *)p;

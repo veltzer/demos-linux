@@ -29,7 +29,7 @@
 /*
 * This is a standard pthread demo
 *
-* EXTRA_LIBS=-lrt
+* EXTRA_LINK_FLAGS=-lrt
 */
 void sigusr(int signal) {
 	return;

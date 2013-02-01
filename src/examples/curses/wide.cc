@@ -31,7 +31,7 @@
 *
 * This is an example of how to use wide characters in curses...
 *
-* EXTRA_LIBS=-lncursesw
+* EXTRA_LINK_FLAGS=-lncursesw
 */
 
 static const char *myMsg=NULL;

@@ -35,7 +35,7 @@
 * - You can also do it after the child threads are created.
 * - What if a signal is registered by the child? Same. All threads get the handler.
 *
-* EXTRA_LIBS=-lpthread
+* EXTRA_LINK_FLAGS=-lpthread
 */
 // count the number of signals we get
 static unsigned int counter=0;
