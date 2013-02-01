@@ -1,8 +1,10 @@
-- three pressing issues:
-	1. mouse device driver example.
-	2. executable library example.
-		(still not fully done although getting there).
-
+precompiled headers:
+	- do standalone gcc precompiled headers example in linuxapi.
+	- do standalone intel precompiled headers example in linuxapi.
+	- make the linuxapi package itself use precompiled headers.
+- mouse device driver example.
+- executable library example.
+	(still not fully done although getting there).
 - make check_all is not grepping right.
 	use my own grep script and get this over with.
 - get ridd of perror.
