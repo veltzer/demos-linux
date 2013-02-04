@@ -20,12 +20,26 @@
 
 #include <firstinclude.h>
 #include <unistd.h> // for pause(2)
+#include <stdio.h> // for printf(3)
+
+/*
+* This example is to be used for showing:
+* 	pmap `pidof [this executables name]
+* or:
+* 	cat /proc/`pidof [this executables name]`/maps
+*
+* Notes:
+* - if you unremark the array below you will see a bigger
+* data segment for {1} and the same for {0}.
+* This is because {0} blocks are lazily created at runtime.
+*/
 
 int myarray[10000]={1};
 
 int main(int argc,char** argv,char** envp) {
 	while(true) {
 		pause();
+		printf("got some signal...\n");
 	}
 	return 0;
 }
