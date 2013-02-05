@@ -46,7 +46,7 @@
 * The difference in performance here is quite noticable...
 *
 * The next does not help to get it to the same performance as the intel compiler...
-* EXXTRA_COMPILE_FLAGS=-mtune=corei7
+* EXXTRA_COMPILE_FLAGS=-mtune=corei7 -O3
 */
 
 void add_no_restrict(int* arr,int num, int* result) __attribute__ ((noinline));

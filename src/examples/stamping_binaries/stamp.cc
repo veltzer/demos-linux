@@ -42,6 +42,7 @@
 *	cpp -dM < /dev/null
 *
 * EXTRA_COMPILE_CMDS=echo -DCHECKSUM=`md5sum SOURCE | cut -f 1 -d " "` -DHOST=`hostname` -DUSER=$USER -DSYSTEM=`uname -a | tr ' ' '-'`
+* EXTRA_COMPILE_FLAGS=-g3
 */
 
 #define STRING_VERSION "1.23.56"
@@ -69,7 +70,7 @@ static const char* ATTR id_numeric_version="id_numeric_version=" __stringify(NUM
 static const char* ATTR id_checksum="id_checksum=" __stringify(CHECKSUM);
 static const char* ATTR id_version="id_version=" __VERSION__;
 
-const char* script="cpp/user_space/stamping_binaries/stamp.gdb";
+const char* script="src/examples/stamping_binaries/stamp.gdb";
 
 int main(int argc,char** argv,char** envp) {
 	printf("date is %s\n", __DATE__);
@@ -93,7 +94,7 @@ int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_M1(system(cmd));
 
 	// lets dump our own core
-	snprintf(cmd,len,"gcore -o /tmp/core %d",getpid());
+	snprintf(cmd,len,"sudo gcore -o /tmp/core %d",getpid());
 	printf("\nrunning [%s]\n",cmd);
 	CHECK_NOT_M1(system(cmd));
 
