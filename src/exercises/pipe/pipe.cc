@@ -41,11 +41,11 @@
 
 void doChildOne(int* fd) {
 	// close standard output
-	CHECK_NOT_M1(close(1));
+	CHECK_NOT_M1(close(STDOUT_FILENO));
 	// close the read end of the pipe
 	CHECK_NOT_M1(close(fd[0]));
 	// setup fd 1 to be correct
-	CHECK_NOT_M1(dup2(fd[1],1));
+	CHECK_NOT_M1(dup2(fd[1],STDOUT_FILENO));
 	// execute ls -l
 	CHECK_NOT_M1(execl("/bin/ls","/bin/ls","-l",NULL));
 }
@@ -56,11 +56,11 @@ void doChildOne(int* fd) {
 
 void doChildTwo(int* fd) {
 	// close standard input
-	CHECK_NOT_M1(close(0));
+	CHECK_NOT_M1(close(STDIN_FILENO));
 	// close the write end of the pipe
 	CHECK_NOT_M1(close(fd[1]));
 	// setup fd 1 to be correct
-	CHECK_NOT_M1(dup2(fd[0],0));
+	CHECK_NOT_M1(dup2(fd[0],STDIN_FILENO));
 	// execute ls -l
 	CHECK_NOT_M1(execl("/usr/bin/wc","/usr/bin/wc","-l",NULL));
 }

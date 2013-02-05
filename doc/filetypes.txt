@@ -1,0 +1,13 @@
+
+
+	- - regular file
+	d - folder
+	l - symbolic link
+	
+
+	c - character device driver
+	b - block device driver
+
+
+	p - named pipe
+	s - named UNIX socket 

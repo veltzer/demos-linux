@@ -33,6 +33,7 @@ int main(int argc,char** argv,char** envp) {
 	unsigned int sum=0;
 	for(unsigned int i=0;i<100;i++) {
 		sum+=i;
+		//__sync_synchronize();
 	}
 	printf("sum is %u\n",sum);
 	return EXIT_SUCCESS;

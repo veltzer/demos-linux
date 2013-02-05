@@ -42,7 +42,7 @@ static inline int _sum(int i) {
 */
 // next line produces a compile time error...
 //static __attribute__((__always_inline__)) int sum(int i) {
-static int sum(int i) {
+static inline int sum(int i) {
 	if (__builtin_constant_p(i) && (i==100)) {
 		return(5051);
 	} else {

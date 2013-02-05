@@ -40,11 +40,10 @@
 int trace(const char *fmt, ...) {
 	extern char *program_invocation_short_name;
 
-	printf("%s: ", program_invocation_short_name);
+	int ret=printf("%s: ", program_invocation_short_name);
 	va_list ap;
 	va_start(ap,fmt);
-	int ret;
-	ret=vprintf(fmt, ap);
+	ret+=vprintf(fmt, ap);
 	va_end(ap);
 	return(ret);
 }
