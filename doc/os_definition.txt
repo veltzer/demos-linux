@@ -1,0 +1,4 @@
+An OS is a piece of software that enables other pieces
+of software to run *and* makes sure that no piece of software
+that runs on top of it does harm to other pieces of software
+or to the OS kernel itself.
