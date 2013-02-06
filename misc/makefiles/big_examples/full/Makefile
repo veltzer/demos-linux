@@ -1,4 +1,4 @@
-CFLAGS=-I.
+CFLAGS=-I. -I../../../../src/include
 SOURCES=$(shell find . -name "*.c")
 BASENAMES=$(basename $(SOURCES))
 DEPS=$(addsuffix .d,$(BASENAMES))
