@@ -21,45 +21,17 @@
 #include <firstinclude.h>
 #include <stdio.h> // for fprintf(3)
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include <sys/types.h> // for open(2)
+#include <sys/types.h> // for open(2), ftruncate(2)
 #include <sys/stat.h> // for open(2)
 #include <fcntl.h> // for open(2)
-#include <unistd.h> // for read(2), write(2), close(2)
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <unistd.h> // for ftruncate(2), close(2)
+#include <sys/mman.h> // for mmap(2)
+#include <string.h> // for memcpy(3)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 /*
-* This demo shows how to correctly code a simple file copy using the
-* read(2) and write(2) system calls, handling short reads appropriately.
+* This example shows a more efficient copy of file in israel.
 */
-
-void copy_file(const char* filein, const char* fileout) {
-	const unsigned int bufsize=4096;
-	char buf[bufsize];
-	int fdin,fdout;
-	CHECK_NOT_M1(fdin=open(filein, O_RDONLY, 0666));
-	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
-	ssize_t read_bytes;
-	//this is the main copy loop
-	//we go out of the loop because of error or eof
-	//>0: would have kept us in the loop
-	//=0: that is ok - it is end of file
-	//-1: error
-	while((read_bytes=read(fdin,buf,bufsize))>0) {
-		char* pointer=buf;
-		ssize_t written_bytes=0;
-		ssize_t to_write=read_bytes;
-		while(written_bytes<read_bytes) {
-			ssize_t write_bytes;
-			CHECK_NOT_M1(write_bytes=write(fdout,pointer,to_write));
-			to_write-=write_bytes;
-			pointer+=write_bytes;
-			written_bytes+=write_bytes;
-		}
-	}
-	CHECK_NOT_M1(read_bytes);
-	CHECK_NOT_M1(close(fdin));
-	CHECK_NOT_M1(close(fdout));
-}
 
 int main(int argc,char** argv,char** envp) {
 	if(argc!=3) {
@@ -68,6 +40,20 @@ int main(int argc,char** argv,char** envp) {
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	copy_file(filein,fileout);
+	int source;
+	CHECK_NOT_M1(source=open(filein,O_RDONLY));
+	struct stat statbuf;
+	fstat (source, &statbuf);
+	size_t len=statbuf.st_size;
+	int target;
+	CHECK_NOT_M1(target=open(fileout,O_RDWR|O_CREAT,statbuf.st_mode));
+	CHECK_NOT_M1(ftruncate(target,len));
+	void* src;
+	CHECK_NOT_VOIDP(src=mmap(0,len,PROT_READ,MAP_PRIVATE,source,0),MAP_FAILED);
+	void* dest;
+	CHECK_NOT_VOIDP(dest=mmap(0,len,PROT_READ|PROT_WRITE,MAP_SHARED,target,0),MAP_FAILED);
+	CHECK_NOT_M1(close(source));
+	CHECK_NOT_M1(close(target));
+	memcpy(dest,src,len);
 	return EXIT_SUCCESS;
 }
