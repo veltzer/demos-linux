@@ -183,22 +183,23 @@ int main(int argc,char** argv,char** envp) {
 				char printbuff[1024];
 				print_events(printbuff,1024,events[n].events);
 				TRACE("got events %s",printbuff);
-				if(events[n].events & EPOLLIN) {
-					const int buflen=1024;
-					char buffer[buflen];
-					ssize_t len;
-					int fd=events[n].data.fd;
-					CHECK_NOT_M1(len=read(fd,buffer,buflen));
-					// FIXME (handle short writes!)
-					ssize_t ret;
-					CHECK_NOT_M1(ret=write(fd,buffer,len));
-					TRACE("read %d bytes and wrote %d bytes",len,ret);
-				}
 				if(events[n].events & EPOLLRDHUP) {
 					int fd=events[n].data.fd;
 					TRACE("closing the fd %d",fd);
 					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL,fd,NULL));
 					CHECK_NOT_M1(close(fd));
+				} else {
+					if(events[n].events & EPOLLIN) {
+						const int buflen=1024;
+						char buffer[buflen];
+						ssize_t len;
+						int fd=events[n].data.fd;
+						CHECK_NOT_M1(len=read(fd,buffer,buflen));
+						// FIXME (handle short writes!)
+						ssize_t ret;
+						CHECK_NOT_M1(ret=write(fd,buffer,len));
+						TRACE("read %d bytes and wrote %d bytes",len,ret);
+					}
 				}
 			}
 		}

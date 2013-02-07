@@ -24,18 +24,22 @@
 #include <dirent.h> // for opendir(3), readdir(3), closedir(3), rewinddir(3)
 #include <stdlib.h> // for qsort(3), EXIT_SUCCESS
 #include <string.h> // for strcasecmp(3), strncpy(3)
-#include <sys/types.h> // for stat(2), getpwuid(2), for getgrgid(2)
-#include <sys/stat.h> // for stat(2)
-#include <unistd.h> // for stat(2)
+#include <sys/types.h> // for lstat(2), getpwuid(2), for getgrgid(2)
+#include <sys/stat.h> // for lstat(2)
+#include <unistd.h> // for lstat(2)
 #include <pwd.h> // for getpwuid(2)
 #include <grp.h> // for getgrgid(2)
 #include <math.h> // for log10(3), lround(3)
+#include <time.h> // for localtime_r(3), strftime(3), time(2)
 #include <us_helper.h> // for CHECK_NOT_NULL(), CHECK_NOT_M1()
 
 /*
 * TODO:
-* - print date
+* - date printing is not exactly as in ls as ls shows the date
+* for stuff which happened a year ago.
 * - print symlink.
+* - handle suid bits, gsetuid bits, tmpbits, ...
+* - adding colors?!?
 */
 
 static int strcmp_wrap(const void* pa,const void* pb) {
@@ -109,6 +113,11 @@ int main(int argc,char** argv,char** envp) {
 	DIR* d;
 	struct dirent* dircontent;
 	const bool hidedots=true;
+	// lets take the current time
+	time_t now;
+	CHECK_NOT_M1(time(&now));
+	struct tm mytmnow;
+	CHECK_NOT_NULL(localtime_r(&now,&mytmnow));
 	CHECK_NOT_NULL(d=opendir("."));
 	int num_files=0;
 	int num_blocks=0;
@@ -130,7 +139,7 @@ int main(int argc,char** argv,char** envp) {
 		arr[i]=(char*)malloc(256);
 		strncpy(arr[i],dircontent->d_name,256);
 		struct stat buf;
-		CHECK_NOT_M1(stat(arr[i],&buf));
+		CHECK_NOT_M1(lstat(arr[i],&buf));
 		num_blocks+=buf.st_blocks;
 		if(buf.st_nlink>max_link) {
 			max_link=buf.st_nlink;
@@ -140,10 +149,9 @@ int main(int argc,char** argv,char** envp) {
 		}
 		i++;
 	}
-	//printf("log10 is %lf, %ld, %d\n",log10(max_link),lrint(ceil(log10(max_link))),max_link);
+	CHECK_NOT_M1(closedir(d));
 	int size_width=lrint(ceil(log10(max_size)));
 	int size_link=lrint(ceil(log10(max_link+1)));
-	CHECK_NOT_M1(closedir(d));
 	qsort(arr,num_files,sizeof(char*),strcmp_wrap);
 	printf("total %d\n",num_blocks/2);
 	for(int i=0;i<num_files;i++) {
@@ -152,13 +160,24 @@ int main(int argc,char** argv,char** envp) {
 			continue;
 		}
 		struct stat buf;
-		CHECK_NOT_M1(stat(arr[i],&buf));
+		CHECK_NOT_M1(lstat(arr[i],&buf));
 		char p[11];
 		mode_t m=buf.st_mode;
 		filetype(m,p);
 		struct passwd *pwd=getpwuid(buf.st_uid);
 		struct group* grp=getgrgid(buf.st_gid);
-		printf("%s %*d %s %s %*ld %s\n",
+		struct tm mytm;
+		CHECK_NOT_NULL(localtime_r(&buf.st_mtime,&mytm));
+		const int date_buf_size=256;
+		char mybuf[date_buf_size];
+		const char* format_same_year="%b %e %R";
+		const char* format_other_year="%b %e  %Y";
+		if(mytm.tm_year==mytmnow.tm_year) {
+			CHECK_NOT_ZERO(strftime(mybuf,date_buf_size,format_same_year,&mytm));
+		} else {
+			CHECK_NOT_ZERO(strftime(mybuf,date_buf_size,format_other_year,&mytm));
+		}
+		printf("%s %*d %s %s %*ld %s %s\n",
 			p,
 			size_link,
 			buf.st_nlink,
@@ -166,6 +185,7 @@ int main(int argc,char** argv,char** envp) {
 			grp->gr_name,
 			size_width,
 			buf.st_size,
+			mybuf,
 			arr[i]
 		);
 	}

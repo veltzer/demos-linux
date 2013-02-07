@@ -41,7 +41,7 @@
 //const unsigned int port=7000;
 const char* serv_name="http-alt";
 const char* serv_proto="tcp";
-const char* input_file="src/examples/networking/web_server.http";
+const char* input_file="src/examples/networking/pthread_web_server.http";
 
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
