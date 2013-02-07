@@ -43,7 +43,6 @@ const int times=10;
 */
 static void function(void) __attribute__ ((noinline));
 static void function(void) {
-	asm("");
 	//printf("times is %d\n",times);
 	for(int i=0;i<times;i++) {
 		printf("i is %d\n",i);
