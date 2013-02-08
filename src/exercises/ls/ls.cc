@@ -171,7 +171,7 @@ int main(int argc,char** argv,char** envp) {
 		const int date_buf_size=256;
 		char mybuf[date_buf_size];
 		const char* format_same_year="%b %e %R";
-		const char* format_other_year="%b %e  %Y";
+		const char* format_other_year="%b %e " " %Y";
 		if(mytm.tm_year==mytmnow.tm_year) {
 			CHECK_NOT_ZERO(strftime(mybuf,date_buf_size,format_same_year,&mytm));
 		} else {
