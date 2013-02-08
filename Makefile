@@ -313,7 +313,7 @@ check_include:
 .PHONY: check_name
 check_name:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -L "Mark Veltzer <mark.veltzer" -- '*.c' '*.cc' '*.h' '*.hh'
+	@./scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
