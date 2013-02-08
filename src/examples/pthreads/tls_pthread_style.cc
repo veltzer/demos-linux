@@ -26,6 +26,9 @@
 /*
 * This is a demo of thread local storage using the pthread API.
 *
+* TODO:
+* - destroy the ptherad_key_t...
+*
 * EXTRA_LINK_FLAGS=-lpthread
 */
 

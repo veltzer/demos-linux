@@ -1,3 +1,5 @@
+- do an example of using /dev/rtc and /dev/hpet...
+
 - do an example of hugetlbfs.
 - core dump example: show how an application can dump its own core
 and continue running (gcore on the cmd line, sending itself a signal,
