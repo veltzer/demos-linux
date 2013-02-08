@@ -7,7 +7,8 @@ It will scan the source file in order to find specific flags
 to be added to the compilation.
 """
 
-import sys
+from __future__ import print_function # for print
+import sys # for exit
 import subprocess
 
 def system_check_output(cmd, input=None, cwd=None, env=None): 
@@ -15,7 +16,8 @@ def system_check_output(cmd, input=None, cwd=None, env=None):
 	(output,errout)=pipe.communicate(input=input) 
 	status=pipe.returncode 
 	if status:
-		raise ValueError('error in executing',cmd)
+		#raise ValueError('error in executing',cmd)
+		sys.exit(status)
 	return output
 
 # parameters
@@ -29,9 +31,9 @@ source=sys.argv.pop(0)
 target=sys.argv.pop(0)
 args=sys.argv
 if debug:
-	print 'script is',script
-	print 'source is',source
-	print 'target is',target
+	print('script is',script)
+	print('source is',source)
+	print('target is',target)
 # scan the source code
 for line in open(source):
 	if link:
@@ -78,5 +80,11 @@ for line in open(source):
 if ccache and not link:
 	args.insert(0,'ccache')
 if debug:
-	print 'running',args
-subprocess.check_call(args)
+	print('running',args)
+try:
+	subprocess.check_call(args)
+except Exception, e:
+	#print('e is',e,file=sys.stderr)
+	#print(dir(e),file=sys.stderr)
+	#print(e.returncode,file=sys.stderr)
+	sys.exit(e.returncode)

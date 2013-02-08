@@ -31,6 +31,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 int main(int argc,char** argv,char** envp) {
 	int brsock, sendsock;
@@ -87,7 +88,7 @@ int main(int argc,char** argv,char** envp) {
 		if(ret!=(ssize_t)strlen(obuffer)) {
 			perror("write(2) error");
 		}
-		close(sendsock);
+		CHECK_NOT_M1(close(sendsock));
 	}
 	return EXIT_SUCCESS;
 }

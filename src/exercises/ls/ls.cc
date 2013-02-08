@@ -30,7 +30,7 @@
 #include <pwd.h> // for getpwuid(2)
 #include <grp.h> // for getgrgid(2)
 #include <math.h> // for log10(3), lround(3)
-#include <time.h> // for localtime_r(3), strftime(3), time(2)
+#include <time.h> // for localtime_r(3), strftime(3), time(2), difftime(3)
 #include <us_helper.h> // for CHECK_NOT_NULL(), CHECK_NOT_M1()
 
 /*
@@ -41,6 +41,10 @@
 * - handle suid bits, gsetuid bits, tmpbits, ...
 * - adding colors?!?
 */
+
+// ls considers anything older than 6 months to be printed with a year
+// see 'info ls' for more info...
+const double oldsecs=192*24*60*60;
 
 static int strcmp_wrap(const void* pa,const void* pb) {
 	const char** ppa=(const char**)pa;
@@ -70,15 +74,9 @@ static void filetype(mode_t m,char* p) {
 	if(S_ISSOCK(m)) {
 		p[0]='s';
 	}
-	p[1]='-';
-	p[2]='-';
-	p[3]='-';
-	p[4]='-';
-	p[5]='-';
-	p[6]='-';
-	p[7]='-';
-	p[8]='-';
-	p[9]='-';
+	for(int i=1;i<10;i++) {
+		p[i]='-';
+	}
 	if(S_IRUSR & m) {
 		p[1]='r';
 	}
@@ -116,8 +114,6 @@ int main(int argc,char** argv,char** envp) {
 	// lets take the current time
 	time_t now;
 	CHECK_NOT_M1(time(&now));
-	struct tm mytmnow;
-	CHECK_NOT_NULL(localtime_r(&now,&mytmnow));
 	CHECK_NOT_NULL(d=opendir("."));
 	int num_files=0;
 	int num_blocks=0;
@@ -172,7 +168,7 @@ int main(int argc,char** argv,char** envp) {
 		char mybuf[date_buf_size];
 		const char* format_same_year="%b %e %R";
 		const char* format_other_year="%b %e " " %Y";
-		if(mytm.tm_year==mytmnow.tm_year) {
+		if(difftime(now,buf.st_mtime)<oldsecs) {
 			CHECK_NOT_ZERO(strftime(mybuf,date_buf_size,format_same_year,&mytm));
 		} else {
 			CHECK_NOT_ZERO(strftime(mybuf,date_buf_size,format_other_year,&mytm));

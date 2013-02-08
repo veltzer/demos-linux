@@ -19,19 +19,15 @@
 */
 
 #include <firstinclude.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/wait.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <time.h>
-#include <stdio.h>
-#include <string.h>
-#include <strings.h>
+#include <netinet/in.h> // for inet_ntoa(3)
+#include <arpa/inet.h> // for inet_ntoa(3)
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for read(2), close(2)
+#include <sys/types.h> // for socket(2), setsockopt(2), listen(2), bind(2), accept(2), sendto(2)
+#include <sys/socket.h> // for socket(2), setsockopt(2), listen(2), bind(2), accept(2), sendto(2), inet_ntoa(3)
+#include <strings.h> // for bzero(3)
 #include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 int main(int argc,char** argv,char** envp) {
 	int on, got, brsock, rplysock, newsock;
@@ -43,10 +39,7 @@ int main(int argc,char** argv,char** envp) {
 	struct timeval timeout;
 	fd_set readfds;
 
-	if ((brsock=socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		perror("brsock socket failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(brsock=socket(AF_INET, SOCK_DGRAM, 0));
 
 	bzero(& braddress, sizeof(braddress));
 	braddress.sin_family=AF_INET;
@@ -54,70 +47,47 @@ int main(int argc,char** argv,char** envp) {
 	braddress.sin_port=htons(6969); // should use getservbyname()
 
 	on=1;
-	if (setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on) < 0)
-	{
-		perror("brsock setsockopt failed");
-		exit(errno);
-	}
-	if ((rplysock=socket(AF_INET, SOCK_STREAM, 0))==-1)
-	{
-		perror("rplysock socket failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)));
+	CHECK_NOT_M1((rplysock=socket(AF_INET, SOCK_STREAM, 0))==-1);
+
 	bzero(& myAddress, sizeof(myAddress));
 	myAddress.sin_family=AF_INET;
 	myAddress.sin_port=htons(6996); // reply port id
 	myAddress.sin_addr.s_addr=INADDR_ANY;
-	if (bind (rplysock, (struct sockaddr *) & myAddress, sizeof(myAddress))==-1)
-	{
-		perror("rplysock bind failed");
-		exit(errno);
-	}
-	if (listen(rplysock, SOMAXCONN)==-1) // 128 in Linux 5 in BSD
-	{
-		perror("listen failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(bind(rplysock, (struct sockaddr *) & myAddress, sizeof(myAddress))==-1);
+	CHECK_NOT_M1(listen(rplysock,SOMAXCONN));
+
 	printf("Type your request: ");
-	while(fgets(obuffer, sizeof(obuffer), stdin))
-	{
-		if ((datalen=sendto(brsock, obuffer, strlen(obuffer), 0,
-			(struct sockaddr *) & braddress, sizeof(braddress)))==-1)
-		{
-			perror("brsock sendto failed");
-			exit(errno);
-		}
+	while(fgets(obuffer, sizeof(obuffer), stdin)) {
+		CHECK_NOT_M1(datalen=sendto(brsock, obuffer, strlen(obuffer), 0,
+			(struct sockaddr *) & braddress, sizeof(braddress)));
 		printf("Request sent\n");
 		timeout.tv_sec=5;
 		timeout.tv_usec=0;
 		FD_ZERO(& readfds);
 		FD_SET(rplysock, & readfds);
-		while((nfds=select(rplysock+1, & readfds, NULL, NULL, & timeout)) > 0)
-		{
-			newsock=accept(rplysock, (struct sockaddr *) & rplyFromAddress,
-				& rplyFromAddressLen);
-			while((got=read(newsock, ibuffer, sizeof(ibuffer))) > 0)
-			{
+		CHECK_NOT_M1(nfds=select(rplysock+1, & readfds, NULL, NULL, & timeout));
+		while(nfds>0) {
+			CHECK_NOT_M1(newsock=accept(rplysock, (struct sockaddr *) & rplyFromAddress,
+				& rplyFromAddressLen));
+			CHECK_NOT_M1(got=read(newsock, ibuffer, sizeof(ibuffer)));
+			while(got>0) {
 				ibuffer[got-1]='\0'; // get rid of '\n'
 				printf("Reply from %s received: %s\n",
 				inet_ntoa(rplyFromAddress.sin_addr), ibuffer);
+				CHECK_NOT_M1(got=read(newsock, ibuffer, sizeof(ibuffer)));
 			}
-			close(newsock);
+			CHECK_NOT_M1(close(newsock));
+			CHECK_NOT_M1(nfds=select(rplysock+1, & readfds, NULL, NULL, & timeout));
 		}
-		if (nfds==-1)
-		{
-			perror("select failed");
-			exit(errno);
-		}
-		if (nfds==0)
-		{
+		if(nfds==0) {
 			printf("Replies finished on timeout\n");
 		}
 		FD_SET(rplysock, & readfds);
 		printf("Type your request: ");
 	}
 	printf("\n");
-	close(rplysock);
-	close(brsock);
+	CHECK_NOT_M1(close(rplysock));
+	CHECK_NOT_M1(close(brsock));
 	return EXIT_SUCCESS;
 }
