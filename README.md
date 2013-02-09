@@ -9,10 +9,10 @@ about exactly how a certain API works.
 Topics covered by the examples
 ------------------------------
 * Multi-threading
-* Locking
 * Multi-processing
-* Calling system calls without C.
-* Performance.
+* Locking
+* Calling system calls without C
+* Performance
 * Many more...
 
 contributing
