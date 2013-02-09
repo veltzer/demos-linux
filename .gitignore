@@ -9,7 +9,7 @@
 *.o
 *.oo
 *.so
-*.exe
+*.elf
 *.dis
 *.s
 *.d

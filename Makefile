@@ -36,7 +36,14 @@ CC:=gcc
 WEB_DIR:=/var/www/linuxapi
 WEB_FOLDER:=web
 # do you want ccache support?
-CCACHE=1
+CCACHE:=1
+# suffix for binary files
+SUFFIX_BIN:=elf
+# suffix for c++ object files
+SUFFIX_OO:=oo
+
+# export all variables to sub-make processes...
+export
 
 #####################
 # end of parameters #
@@ -93,10 +100,10 @@ CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
 C_PRE:=$(addsuffix .p,$(basename $(C_SRC)))
 CC_DIS:=$(addsuffix .dis,$(basename $(CC_SRC)))
 C_DIS:=$(addsuffix .dis,$(basename $(C_SRC)))
-CC_OBJ:=$(addsuffix .oo,$(basename $(CC_SRC)))
+CC_OBJ:=$(addsuffix .$(SUFFIX_OO),$(basename $(CC_SRC)))
 C_OBJ:=$(addsuffix .o,$(basename $(C_SRC)))
-CC_EXE:=$(addsuffix .exe,$(basename $(CC_SRC)))
-C_EXE:=$(addsuffix .exe,$(basename $(C_SRC)))
+CC_EXE:=$(addsuffix .$(SUFFIX_BIN),$(basename $(CC_SRC)))
+C_EXE:=$(addsuffix .$(SUFFIX_BIN),$(basename $(C_SRC)))
 ALL:=$(ALL) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_ASX) $(C_ASX) $(CC_PRE) $(C_PRE)
 
@@ -189,16 +196,16 @@ git_maintain:
 # general rules...
 
 # how to create regular executables...
-$(CC_OBJ): %.oo: %.cc $(ALL_DEPS)
+$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)./scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
 $(C_OBJ): %.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)./scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
-$(CC_EXE): %.exe: %.oo $(ALL_DEPS)
+$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)./scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
-$(C_EXE): %.exe: %.o $(ALL_DEPS)
+$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)./scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
 $(CC_ASX): %.s: %.cc $(ALL_DEPS)
@@ -213,7 +220,7 @@ $(CC_PRE): %.p: %.cc $(ALL_DEPS)
 $(C_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
-$(CC_DIS) $(C_DIS): %.dis: %.exe $(ALL_DEPS)
+$(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 	$(info doing [$@])
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
 #	$(Q)objdump --demangle --source --disassemble --no-show-raw-insn --section=.text $< > $@
@@ -357,7 +364,7 @@ check_tests_for_drivers:
 
 PROJECTS_EXPR:=-name ".project" -or -name ".cproject" -or -wholename "./nbproject/*"
 SOURCE_EXPR:=-name "*.cc" -or -name "*.hh" -or -name "*.h" -or -name "*.c" -or -name "Makefile" -or -name "*.txt" -or -name "*.sed" -or -name "*.patch" -or -name "*.mk" -or -name "*.cfg" -or -name "*.sh" -or -name "*.cfg" -or -name "*.html" -or -name "*.css" -or -name "*.js" -or -name "*.ajax" -or -name "*.php" -or -name "*.gdb" -or -name ".gitignore" -or -name "*.pl" -or $(PROJECTS_EXPR) -or -name "*.gif" -or -name "*.png" -or -name "*.xml" -or -name "*.sxw" -or -name "*.sxg" -or -wholename "*/.settings/*" -or -name "*.doc" -or -name "*.pdf" -or -name "*.jar" -or -name ".classpath" -or -name "*.sqlite" -or -name "*.py"
-TARGET_EXPR:=-name "*.exe" -or -name "*.d" -or -name "*.o" -or -name "*.so" -or -name "*.o.cmd" -or -name "*.ko" -or -name "*.ko.cmd" -or -wholename "*/.tmp_versions/*" -or -name "Module.symvers" -or -name "modules.order" -or -name "*.class" -or -name "*.stamp" -or -name "*.dis"
+TARGET_EXPR:=-name "*.$(SUFFIX_BIN)" -or -name "*.d" -or -name "*.o" -or -name "*.so" -or -name "*.o.cmd" -or -name "*.ko" -or -name "*.ko.cmd" -or -wholename "*/.tmp_versions/*" -or -name "Module.symvers" -or -name "modules.order" -or -name "*.class" -or -name "*.stamp" -or -name "*.dis"
 GIT_SOURCE_EXPR:=-type f $(addprefix -or -path ./,$(GIT_SOURCES))
 
 .PHONY: find_not_source

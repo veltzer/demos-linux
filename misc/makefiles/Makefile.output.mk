@@ -9,4 +9,7 @@
 all:
 	$(info This is a message to the screen)
 	$(info )
+	@# this does not work
 	$(info This is a message to a file) > foo
+	$(warning This is a warning)
+	$(error This is an error )
