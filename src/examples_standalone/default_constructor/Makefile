@@ -3,16 +3,16 @@ OBJECTS:=$(addsuffix .o,$(basename $(SOURCES)))
 CXXFLAGS:=-Wall -Werror -I../../include
 
 .PHONY: all
-all: main.exe
+all: main.$(SUFFIX_BIN)
 
-main.exe: $(OBJECTS)
+main.$(SUFFIX_BIN): $(OBJECTS)
 	$(Q)g++ -o $@ $^
 %.o: %.cc
 	$(Q)g++ $(CXXFLAGS) -c -o $@ $^
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f $(OBJECTS) main.exe
+	$(Q)-rm -f $(OBJECTS) main.$(SUFFIX_BIN)
 
 .PHONY: debug
 debug:

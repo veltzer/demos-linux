@@ -15,29 +15,29 @@ CFLAGS5:=-no-simd -fargument-alias -no-opt-multi-version-aggressive -no-ansi-ali
 
 # targets
 .PHONY: all
-all: main0.exe main1.exe main2.exe main3.exe main4.exe main5.exe main6.exe main7.exe
+all: main0.$(SUFFIX_BIN) main1.$(SUFFIX_BIN) main2.$(SUFFIX_BIN) main3.$(SUFFIX_BIN) main4.$(SUFFIX_BIN) main5.$(SUFFIX_BIN) main6.$(SUFFIX_BIN) main7.$(SUFFIX_BIN)
 
-main0.exe: main.cc
-	$(Q)$(CC) $(CFLAGS0) main.cc -o main0.exe
-main1.exe: main.cc
-	$(Q)$(CC) $(CFLAGS1) main.cc -o main1.exe
-main2.exe: main.cc
-	$(Q)$(CC) $(CFLAGS2) main.cc -o main2.exe
-main3.exe: main.cc
-	$(Q)$(CC) $(CFLAGS3) main.cc -o main3.exe
-main4.exe: main.cc
-	$(Q)$(CC) $(CFLAGS4) main.cc -o main4.exe
-main5.exe: main.cc
-	$(Q)$(CC) $(CFLAGS5) main.cc -o main5.exe
-main6.exe: main.cc
-	$(Q)g++ -mtune=native -O4 -I../../include main.cc -o main6.exe
-main7.exe: main.cc
-	$(Q)g++ -I../../include main.cc -o main7.exe
+main0.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS0) main.cc -o main0.$(SUFFIX_BIN)
+main1.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS1) main.cc -o main1.$(SUFFIX_BIN)
+main2.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS2) main.cc -o main2.$(SUFFIX_BIN)
+main3.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS3) main.cc -o main3.$(SUFFIX_BIN)
+main4.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS4) main.cc -o main4.$(SUFFIX_BIN)
+main5.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS5) main.cc -o main5.$(SUFFIX_BIN)
+main6.$(SUFFIX_BIN): main.cc
+	$(Q)g++ -mtune=native -O4 -I../../include main.cc -o main6.$(SUFFIX_BIN)
+main7.$(SUFFIX_BIN): main.cc
+	$(Q)g++ -I../../include main.cc -o main7.$(SUFFIX_BIN)
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f main0.exe main1.exe main2.exe main3.exe main4.exe main5.exe main6.exe main7.exe main.dis
+	$(Q)-rm -f main0.$(SUFFIX_BIN) main1.$(SUFFIX_BIN) main2.$(SUFFIX_BIN) main3.$(SUFFIX_BIN) main4.$(SUFFIX_BIN) main5.$(SUFFIX_BIN) main6.$(SUFFIX_BIN) main7.$(SUFFIX_BIN) main.dis
 
 .PHONY: dis
 dis:
-	$(Q)objdump main1.exe --disassemble > main.dis
+	$(Q)objdump main1.$(SUFFIX_BIN) --disassemble > main.dis

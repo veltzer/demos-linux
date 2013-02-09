@@ -23,11 +23,11 @@
 #include <unistd.h> // for getpid(2), sleep(3), nice(2), fork(2), ftruncate(2)
 #include <sched.h> // for sched_setaffinity(2), CPU_ZERO(3), CPU_SET(3)
 #include <stdio.h> // for printf(3), fflush(3), fprintf(3)
-#include <us_helper.h> // for CHECK_ZERO(), CHECK_NOT_M1(), TRACE()
 #include <sys/mman.h> // for shm_open(3), shm_unlink(3)
 #include <sys/stat.h> // for shm_open(3), shm_unlink(3)
 #include <fcntl.h> // for shm_open(3), shm_unlink(3)
 #include <stdlib.h> // for EXIT_SUCCESS, atoi(3), EXIT_FAILURE
+#include <us_helper.h> // for CHECK_ZERO(), CHECK_NOT_M1(), TRACE()
 
 /*
 * This examples shows the effect of the nice scheduling system (SCHED_OTHER).

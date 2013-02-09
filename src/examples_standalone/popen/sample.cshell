@@ -1,4 +1,4 @@
-#!c_run.exe
+#!c_run.elf
 
 #include<stdio.h>
 

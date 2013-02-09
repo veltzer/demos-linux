@@ -1,13 +1,13 @@
 CFLAGS:=-Wall -Werror -I../../include
 
 .PHONY: all
-all: debug.exe release.exe
+all: debug.$(SUFFIX_BIN) release.$(SUFFIX_BIN)
 
-debug.exe: main.c
+debug.$(SUFFIX_BIN): main.c
 	$(Q)gcc $(CFLAGS) $< -DTYPE=DEBUG -o $@
-release.exe: main.c
+release.$(SUFFIX_BIN): main.c
 	$(Q)gcc $(CFLAGS) $< -DTYPE=RELEASE -o $@
 
 .PHONY: clean
 clean:
-	$(Q)rm -f *.exe
+	$(Q)rm -f *.$(SUFFIX_BIN)

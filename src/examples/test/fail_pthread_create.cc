@@ -19,14 +19,14 @@
 */
 
 #include <firstinclude.h>
-#include <sys/ioctl.h> // for ioctl(2)
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for CHECK_ZERO()
 
 /*
-* This is a test to check my own us_helper.hh file.
+* This program calls pthread_create and tries to fail on purpse to see the error
+* messages for this function.
 */
 
 int main(int argc,char** argv,char** envp) {
-	CHECK_NOT_M1(ioctl(5,7));
 	return EXIT_SUCCESS;
 }

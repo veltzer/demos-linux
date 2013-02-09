@@ -3,7 +3,7 @@
 # default bahviour of linking with standard C/C++ runtime libraries.
 FLAGS_FOR_SHARED_LIB:=-shared -fpic
 # app name
-APP:=app.exe
+APP:=app.$(SUFFIX_BIN)
 # lib name
 LIBNAME:=myaudit
 # full lib name

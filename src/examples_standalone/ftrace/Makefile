@@ -1,19 +1,19 @@
-ALL:=mainpg.exe main.exe main.objdump mainpg.objdump
+ALL:=mainpg.$(SUFFIX_BIN) main.$(SUFFIX_BIN) main.objdump mainpg.objdump
 CFLAGS:=-I../../include
 
 .PHONY: all
 all: $(ALL) 
 
-main.exe: main.c
+main.$(SUFFIX_BIN): main.c
 	$(Q)gcc $(CFLAGS) $< -o $@
 
-mainpg.exe: main.c
+mainpg.$(SUFFIX_BIN): main.c
 	$(Q)gcc $(CFLAGS) -pg $< -o $@
 
-main.objdump: main.exe
+main.objdump: main.$(SUFFIX_BIN)
 	$(Q)objdump -D $< > $@
 
-mainpg.objdump: mainpg.exe
+mainpg.objdump: mainpg.$(SUFFIX_BIN)
 	$(Q)objdump -D $< > $@
 
 .PHONY: clean
