@@ -1,6 +1,6 @@
 SO_LINK_NAME:=add
 SO_NAME:=lib$(SO_LINK_NAME).so
-EXE_NAME:=main.exe
+EXE_NAME:=main.$(SUFFIX_BIN)
 SO_OBJECTS:=add.o
 EXE_OBJECTS:=main.o
 # on Intel this usually works without the -fpic but use it none the less

@@ -1,20 +1,33 @@
-- do a demo of a process doing io and monitoring it's own io with a variety of tools:
-	iotop
-	iostat
-	ionice
-- show demos of splice, vmsplice and tee.
-- add more multiplexing examples:
-	select
-	poll
-	- and not just for TCP, for regular io too!
 - do demos of the following:
-	1 fallocate
-	2 fallocate
-	2 readahead
-	2 sync_file_range
-	3 posix_fallocate
-	3 posix_fadvise
-	2 truncate, ftruncate
-	2 msync
-- add more examples of aio.
-- add example of readahead(2)
+	monitoring io:
+		iotop(1)
+		iostat(1)
+		ionice(1)
+	zero copy:
+		sendfile(2)
+		splice(2)
+		vmsplice(2)
+		tee(2)
+	multiplexing:
+		select(2)
+		poll(2)
+	io blocks read/write performance:
+		fallocate(1)
+		fallocate(2)
+		posix_fallocate(2)
+		readahead(2)
+		posix_fadvise(2)
+	truncating files:
+		truncate(1)
+		truncate(2)
+		ftruncate(2)
+	memory advise:
+		madvise(2)
+		posix_madvise(2)
+	syncing files:
+		sync(2)
+		syncfs(2)
+		fdatasync(2)
+		fsync(2)
+		sync_file_range(2)
+		msync(2)

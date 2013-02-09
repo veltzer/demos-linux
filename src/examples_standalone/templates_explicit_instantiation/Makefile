@@ -2,9 +2,9 @@ CXXFLAGS:=-I../../include -Wall -Werror -fno-implicit-inline-templates -fno-impl
 OBJECTS:=bar.o zoo.o ins.o
 
 .phony: all
-all: out.exe
+all: out.$(SUFFIX_BIN)
 
-out.exe: $(OBJECTS)
+out.$(SUFFIX_BIN): $(OBJECTS)
 	$(Q)g++ $(OBJECTS) -o $@
 
 bar.o: bar.cc
@@ -22,4 +22,4 @@ nm:
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f $(OBJECTS) out.exe
+	$(Q)-rm -f $(OBJECTS) out.$(SUFFIX_BIN)

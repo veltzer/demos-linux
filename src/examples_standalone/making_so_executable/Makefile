@@ -1,6 +1,6 @@
 SO_LINK_NAME:=add
 SO_NAME:=lib$(SO_LINK_NAME).so
-EXE_NAME:=main.exe
+EXE_NAME:=main.$(SUFFIX_BIN)
 SO_OBJECTS:=add.o
 EXE_OBJECTS:=main.o
 CFLAGS:=-O2 -g3 -Wall -Werror -I../../include

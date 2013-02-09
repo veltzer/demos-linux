@@ -1,3 +1,5 @@
+- add better error handling for pthread errors as opposed to errno errors.
+
 precompiled headers:
 	- do standalone gcc precompiled headers example in linuxapi.
 	- do standalone intel precompiled headers example in linuxapi.

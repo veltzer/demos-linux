@@ -6,15 +6,15 @@ CFLAGS:=-I../../include -Wall -Werror
 
 # targets
 .PHONY: all
-all: main.exe
+all: main.$(SUFFIX_BIN)
 
-main.exe: main.cc
-	$(Q)$(CC) $(CFLAGS) main.cc -o main.exe
+main.$(SUFFIX_BIN): main.cc
+	$(Q)$(CC) $(CFLAGS) main.cc -o main.$(SUFFIX_BIN)
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f main.exe main.dis
+	$(Q)-rm -f main.$(SUFFIX_BIN) main.dis
 
 .PHONY: dis
 dis:
-	$(Q)objdump main.exe --disassemble > main.dis
+	$(Q)objdump main.$(SUFFIX_BIN) --disassemble > main.dis

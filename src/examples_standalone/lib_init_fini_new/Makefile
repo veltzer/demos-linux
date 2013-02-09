@@ -1,8 +1,8 @@
-ALL:=main.exe libfoo.so libbar.so
+ALL:=main.$(SUFFIX_BIN) libfoo.so libbar.so
 
 CXXFLAGS=-I../../include
 
-main.exe: main.cc libfoo.so libbar.so
+main.$(SUFFIX_BIN): main.cc libfoo.so libbar.so
 	$(Q)g++ $(CXXFLAGS) -o $@ $< -L. -lfoo -lbar -lpthread
 libfoo.so: foo.cc
 	$(Q)g++ $(CXXFLAGS) -shared -o $@ $<

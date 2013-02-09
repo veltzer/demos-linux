@@ -1,6 +1,6 @@
 CFLAGS:=-Wall -Werror -I../../include
 
-prog.exe: time.o main.o
+prog.$(SUFFIX_BIN): time.o main.o
 	$(Q)g++ -o $@ time.o main.o
 time.o: time.cc
 	$(Q)g++ $(CFLAGS) -c -o $@ $<
@@ -9,4 +9,4 @@ main.o: main.cc
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f *.o prog.exe
+	$(Q)-rm -f *.o prog.$(SUFFIX_BIN)

@@ -1,1 +1,2 @@
 - add a demo showing use of the err(3) family of functions.
+	and error(3)

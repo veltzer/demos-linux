@@ -1,11 +1,11 @@
 CFLAGS:=-I../../include
 
 .PHONY:all
-all: main.forclient.exe main.forhq.exe
+all: main.forclient.$(SUFFIX_BIN) main.forhq.$(SUFFIX_BIN)
 
-main.forclient.exe: main.c
+main.forclient.$(SUFFIX_BIN): main.c
 	$(Q)gcc $(CFLAGS) -s -g3 -o $@ $<
-main.forhq.exe: main.c
+main.forhq.$(SUFFIX_BIN): main.c
 	$(Q)gcc $(CFLAGS) -g3 -o $@ $<
 clean:
-	$(Q)-rm -f main.forclient.exe main.forhq.exe core
+	$(Q)-rm -f main.forclient.$(SUFFIX_BIN) main.forhq.$(SUFFIX_BIN) core

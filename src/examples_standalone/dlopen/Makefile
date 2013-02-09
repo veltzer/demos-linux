@@ -1,9 +1,9 @@
 CFLAGS:=-I../../include
 
 .PHONY: all
-all: main.exe libadd.so
+all: main.$(SUFFIX_BIN) libadd.so
 
-main.exe: main.o 
+main.$(SUFFIX_BIN): main.o 
 	$(Q)$(CC) -o $@ $< -ldl
 main.o: main.c
 	$(Q)$(CC) $(CFLAGS) -c -o $@ $< 
@@ -14,4 +14,4 @@ add.o: add.c
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f *.o main.exe libadd.so
+	$(Q)-rm -f *.o main.$(SUFFIX_BIN) libadd.so

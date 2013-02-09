@@ -1,9 +1,9 @@
 CXXFLAGS:=-I../../include
 
 .PHONY: all
-all: main.exe
+all: main.$(SUFFIX_BIN)
 
-main.exe: data.o main.o
+main.$(SUFFIX_BIN): data.o main.o
 	$(Q)g++ -o $@ $?
 
 main.o: main.cc
@@ -15,4 +15,4 @@ main.o: main.cc
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f *.o main.exe
+	$(Q)-rm -f *.o main.$(SUFFIX_BIN)

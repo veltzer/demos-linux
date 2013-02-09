@@ -18,21 +18,23 @@
 	02111-1307 USA.
 */
 
-#include <firstinclude.h>
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <stdio.h> // for printf(3)
-#include <us_helper.h> // for CHECK_NOT_M1()
-
 /*
-* This program errors on purpose.
-* strace(1) it to see the errors
-* Note that the program continues to run after error.
+* check that exp(i*pi)==-1
+*
+* NOTES:
+* - the manual says that you have to link with the math library (-lm) in order to
+* use these functions but this does not seem to be the case.
 */
 
+#include <firstinclude.h>
+#include <math.h> // for atan(3)
+#include <complex.h> // for cexp(3), creal(3), cimag(3)
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+
 int main(int argc,char** argv,char** envp) {
-	open("thisfiledoesnotexist",O_RDONLY);
-	printf("Hello, World!\n");
+	double pi=4*atan(1.0);
+	double complex z=cexp(I*pi);
+	printf("%f+%f*i\n",creal(z),cimag(z));
 	return EXIT_SUCCESS;
 }
