@@ -417,21 +417,18 @@ static inline void print_scheduling_consts() {
 }
 
 // a function to run another function in a high priority thread and wait for it to finish...
-// TODO: error checking in this function is bad.
-static inline void* run_high_priority(void* (*func)(void*),void* val,int prio) {
+static inline void* run_high_priority(void* (*func)(void*),void* pval,int prio) {
 	struct sched_param myparam;
 	void* retval;
 	pthread_attr_t myattr;
 	pthread_t mythread;
-	//myparam.sched_priority=sched_get_priority_max(SCHED_FIFO);
 	myparam.sched_priority=prio;
 	pthread_attr_init(&myattr);
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
 	pthread_attr_setschedparam(&myattr, &myparam);
-	CHECK_NOT_ZERO(pthread_create(&mythread, &myattr, func, val));
+	CHECK_NOT_ZERO(pthread_create(&mythread, &myattr, func, pval));
 	CHECK_NOT_ZERO(pthread_join(mythread, &retval));
-	//printf("thread joined and return val was %p\n",retval);
 	return retval;
 }
 const int STANDARD_HIGH_PRIORITY=90;

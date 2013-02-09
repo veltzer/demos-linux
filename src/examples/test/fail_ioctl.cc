@@ -21,13 +21,14 @@
 #include <firstinclude.h>
 #include <sys/ioctl.h> // for ioctl(2)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <us_helper.h> // for CHECK_NOT_M1(), no_params()
 
 /*
 * This is a test to check my own us_helper.hh file.
 */
 
 int main(int argc,char** argv,char** envp) {
+	no_params(argc,argv);
 	CHECK_NOT_M1(ioctl(5,7));
 	return EXIT_SUCCESS;
 }
