@@ -40,10 +40,7 @@ int main(int argc,char** argv,char** envp) {
 	struct sockaddr_in server, fromaddr;
 	time_t t;
 	char ibuffer[1000], obuffer[1000];
-	if((brsock=socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		perror("brsock socket failed");
-		exit(errno);
-	}
+	brsock=CHECK_NOT_M1(socket(AF_INET, SOCK_DGRAM, 0));
 	/*
 	int on=1;
 	if(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on)==-1) {
