@@ -23,6 +23,7 @@
 #include <stdlib.h> // for exit(3), posix_memalign(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <unistd.h> // for getpagesize(2)
 #include <sys/mman.h> // for mprotect(2)
+#include <us_helper.hh> // for CHECK_NOT_M1()
 
 // this code simulates a memory corruption
 void bad_code(void* precious_data) {
@@ -31,10 +32,7 @@ void bad_code(void* precious_data) {
 }
 
 void protect_me(void* precious_data,size_t len) {
-	if(mprotect(precious_data,len,PROT_READ)==-1) {
-		perror("mprotect");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(mprotect(precious_data,len,PROT_READ)==-1);
 }
 
 int main(int argc,char** argv,char** envp) {

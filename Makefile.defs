@@ -1,0 +1,4 @@
+# suffix for binary files
+SUFFIX_BIN:=elf
+# suffix for c++ object files
+SUFFIX_OO:=oo

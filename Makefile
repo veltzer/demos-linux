@@ -1,6 +1,7 @@
 ##############
 # parameters #
 ##############
+include Makefile.defs
 # directories
 US_DIRS:=src/examples src/exercises
 KERNEL_DIR:=src/kernel
