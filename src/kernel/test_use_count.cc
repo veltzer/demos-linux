@@ -42,8 +42,8 @@ int main(int argc,char** argv,char** envp) {
 	int fd;
 	int fd2;
 	while(true) {
-		CHECK_NOT_M1(fd=open(filename, O_RDWR));
-		CHECK_NOT_M1(fd2=open(filename, O_RDWR));
+		fd=CHECK_NOT_M1(open(filename, O_RDWR));
+		fd2=CHECK_NOT_M1(open(filename, O_RDWR));
 		usleep(1000000);
 		//sleep(1);
 		CHECK_NOT_M1(close(fd));

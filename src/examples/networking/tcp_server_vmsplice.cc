@@ -46,8 +46,7 @@
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
 	const char* filename="/proc/sys/net/core/somaxconn";
-	int fd;
-	CHECK_NOT_M1(fd=open(filename, O_RDONLY));
+	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
 	const unsigned int size=256;
 	char buf[size];
 	CHECK_NOT_M1(read(fd, buf, size));
@@ -62,15 +61,13 @@ void *worker(void* arg) {
 	const unsigned int buflen=1024;
 	char buff[buflen];
 	char prbuff[buflen+1];
-	ssize_t res;
-	CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
+	ssize_t res=CHECK_NOT_M1(recv(fd,buff,buflen,0));
 	snprintf(prbuff,res+1,"%s",buff);
 	TRACE("thread %d received %s",gettid(),prbuff);
 	// lets emulate some work
 	// 1. allocate memory (via anonymous mmap(2)).
 	unsigned int mysize=getpagesize()*100;
-	void* mypointer;
-	CHECK_NOT_VOIDP(mypointer=mmap(NULL,mysize,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0),MAP_FAILED);
+	void* mypointer=CHECK_NOT_VOIDP(mmap(NULL,mysize,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0),MAP_FAILED);
 	// 2. fill it with data.
 	int* p=(int*)mypointer;
 	for(unsigned int i=0;i<mysize/sizeof(unsigned int);i++) {
@@ -122,13 +119,11 @@ int main(int argc,char** argv,char** envp) {
 	printf("contact me at host %s port %d\n",host,port);
 
 	// lets get the port number using getservbyname(3)
-	//struct servent* p_servent;
-	//CHECK_NOT_NULL(p_servent=getservbyname(serv_name,serv_proto));
+	//struct servent* p_servent=(struct servent*)CHECK_NOT_NULL(getservbyname(serv_name,serv_proto));
 	//print_servent(p_servent);
 
 	// lets open the socket
-	int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 	printf("opened socket with sockfd %d\n",sockfd);
 
 	// lets make the socket reusable
@@ -157,10 +152,9 @@ int main(int argc,char** argv,char** envp) {
 	printf("listen was successful\n");
 
 	while(true) {
-		int fd;
 		struct sockaddr_in client;
 		socklen_t addrlen;
-		CHECK_NOT_M1(fd=accept(sockfd,(struct sockaddr *)&client,&addrlen));
+		int fd=CHECK_NOT_M1(accept(sockfd,(struct sockaddr *)&client,&addrlen));
 		printf("accepted fd %d\n",fd);
 		// spawn a thread to handle the connection to that client...
 		pthread_t thread;

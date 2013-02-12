@@ -60,14 +60,8 @@ void print_data(void *data, int size) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	// the data pointer
-	void *data;
-	// another data pointer
-	void *data2;
 	// file to be used
 	const char *filename="/dev/demo";
-	// file descriptor
-	int d;
 	// flags
 	const int flags=MAP_PRIVATE | MAP_POPULATE;
 	// the size of data that we need
@@ -76,10 +70,10 @@ int main(int argc,char** argv,char** envp) {
 	const int offset=0;
 
 	fprintf(stderr, "Asking the kernel to open the handle\n");
-	CHECK_NOT_M1(d=open(filename, O_RDWR));
+	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 	//printproc();
 
-	CHECK_NOT_VOIDP(data=mmap(
+	void* data=CHECK_NOT_VOIDP(mmap(
 		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 		size, /* the size we need */
 		PROT_READ | PROT_WRITE, /* we want read AND write */
@@ -87,7 +81,7 @@ int main(int argc,char** argv,char** envp) {
 		d, /* file descriptor */
 		offset /* offset */
 		), MAP_FAILED);
-	CHECK_NOT_VOIDP(data2=mmap(
+	void* data2=CHECK_NOT_VOIDP(mmap(
 		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
 		size, /* the size we need */
 		PROT_READ | PROT_WRITE, /* we want read AND write */

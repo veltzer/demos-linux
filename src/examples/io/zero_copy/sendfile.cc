@@ -46,19 +46,18 @@
 
 void copy_file(const char* filein, const char* fileout) {
 	size_t sendfile_bufsize=getpagesize();
-	int fdin,fdout;
-	CHECK_NOT_M1(fdin=open(filein, O_RDONLY, 0666));
-	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
-	// we need the return value outside the loop
-	int ret;
+	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY, 0666));
+	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	//this is the main copy loop
 	//we go out of the loop because of error or eof
 	//>0: would have kept us in the loop
 	//=0: that is ok - it is end of file
 	//-1: error
-	while((ret=sendfile(fdout,fdin,NULL,sendfile_bufsize))>0) {
+	// we need the return value outside the loop
+	int ret=CHECK_NOT_M1(sendfile(fdout,fdin,NULL,sendfile_bufsize));
+	while(ret>0) {
+		ret=CHECK_NOT_M1(sendfile(fdout,fdin,NULL,sendfile_bufsize));
 	}
-	CHECK_NOT_M1(ret);
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
 }

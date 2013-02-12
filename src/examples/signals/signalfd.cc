@@ -44,8 +44,7 @@ int main(int argc,char** argv,char** envp) {
 	sigaddset(&mask,SIGUSR1);
 	/* Block signals so that they aren't handled according to their default dispositions */
 	CHECK_NOT_M1(sigprocmask(SIG_BLOCK,&mask,NULL));
-	int sfd;
-	CHECK_NOT_M1(sfd=signalfd(-1,&mask,0));
+	int sfd=CHECK_NOT_M1(signalfd(-1,&mask,0));
 	while(true) {
 		struct signalfd_siginfo fdsi;
 		CHECK_INT(read(sfd,&fdsi,sizeof(struct signalfd_siginfo)),sizeof(struct signalfd_siginfo));

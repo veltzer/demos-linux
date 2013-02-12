@@ -43,15 +43,13 @@
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename="/dev/drv_errno";
-	// file descriptor
-	int d;
 	// hold results of syscalls and errnos
 	int res, myerrno;
 	// default value for errno before we start
 	const int def_errno=2005;
 
 	printf("Starting, errno at start is %d\n",def_errno);
-	CHECK_NOT_M1(d=open(filename, O_RDWR));
+	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 
 	for (int i=-10; i < 10; i++) {
 		errno=def_errno;

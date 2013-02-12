@@ -48,8 +48,7 @@ int main(int argc,char** argv,char** envp) {
 	const char* file=argv[3];
 
 	// lets open the socket
-	int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP));
 	TRACE("opened socket with sockfd %d",sockfd);
 
 	// lets create the address
@@ -73,8 +72,7 @@ int main(int argc,char** argv,char** envp) {
 	peer_addr.sin_port=htons(port);
 
 	// lets send
-	int fd;
-	CHECK_NOT_M1(fd=open(file,O_RDONLY));
+	int fd=CHECK_NOT_M1(open(file,O_RDONLY));
 	int ret;
 	unsigned int buflen=getpagesize();
 	char buf[buflen];
@@ -83,8 +81,7 @@ int main(int argc,char** argv,char** envp) {
 		int bytes=ret;
 		char* pbuf=buf;
 		while(bytes>0) {
-			int written;
-			CHECK_NOT_M1(written=sendto(sockfd,buf,bytes,0,(struct sockaddr *)&peer_addr,sizeof(peer_addr)));
+			int written=CHECK_NOT_M1(sendto(sockfd,buf,bytes,0,(struct sockaddr *)&peer_addr,sizeof(peer_addr)));
 			TRACE("sendto %d bytes",written);
 			bytes-=written;
 			pbuf+=written;

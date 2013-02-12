@@ -74,8 +74,7 @@ int main(int argc,char** argv,char** envp) {
 	my_system("sudo rmmod mod_list");
 	my_system("sudo insmod ./mod_list.ko");
 	my_system("sudo chmod 666 %s",filename);
-	int fd;
-	CHECK_NOT_M1(fd=open(filename, O_RDWR));
+	int fd=CHECK_NOT_M1(open(filename, O_RDWR));
 	int choice=show_menu();
 	while(choice!=6) {
 		int arg=0;

@@ -126,29 +126,22 @@ void doParent(int semid, struct data * smdata, int myID) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	struct data * smdata;
-	int shmid;
-	int semid;
-	key_t key;
-	int myID;
 	if(argc < 2) {
 		fprintf(stderr, "Usage: %s MyID\n", argv[0]);
 		exit(errno);
 	}
-	myID=atoi(argv[1]);
+	int myID=atoi(argv[1]);
 	if(myID>=MAXCLINTS || myID<0) {
 		fprintf(stderr, "MyID must be 0-%d\n", MAXCLINTS);
 		exit(errno);
 	}
-	CHECK_NOT_M1(key=ftok("/etc/passwd", 'x'));
-	CHECK_NOT_M1(semid=semget(key, 0, 0));
-	CHECK_NOT_M1(shmid=shmget(key, sizeof(smdata), 0));
-	CHECK_NOT_VOIDP(smdata=(struct data *)shmat(shmid, NULL, 0),(struct data *) -1);
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
+	int semid=CHECK_NOT_M1(semget(key, 0, 0));
+	int shmid=CHECK_NOT_M1(shmget(key, sizeof(struct data), 0));
+	struct data* smdata=(struct data*)CHECK_NOT_VOIDP(shmat(shmid, NULL, 0),(void*)-1);
 	smdata[myID].readOffset=0;
 	smdata[myID].writeOffset=0;
-	int fres;
-	CHECK_NOT_M1(fres=fork());
-	if(fres==0) {
+	if(CHECK_NOT_M1(fork())) {
 		doChild(semid, smdata, myID);
 	} else {
 		doParent(semid, smdata, myID);

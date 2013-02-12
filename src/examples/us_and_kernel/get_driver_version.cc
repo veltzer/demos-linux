@@ -44,8 +44,7 @@
 */
 
 void get_driver_version(const char *filename) {
-	void* handle;
-	CHECK_NOT_NULL(handle=dlopen(filename, RTLD_LAZY));
+	void* handle=CHECK_NOT_NULL(dlopen(filename, RTLD_LAZY));
 	CHECK_NOT_M1(dlclose(handle));
 }
 

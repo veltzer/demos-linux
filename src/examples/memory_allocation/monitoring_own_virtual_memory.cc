@@ -58,7 +58,7 @@ int main(int argc,char** argv,char** envp) {
 	// lets allocate the memory
 	for(unsigned int i=0;i<num_chunks;i++) {
 		printf("allocating block number %d\n",i);
-		CHECK_NOT_NULL(arr[i]=malloc(chunk_size));
+		arr[i]=CHECK_NOT_NULL(malloc(chunk_size));
 		show_vmem();
 	}
 	// lets touch the memory

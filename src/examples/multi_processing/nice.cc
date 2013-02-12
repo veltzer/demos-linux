@@ -48,8 +48,7 @@
 */
 
 pid_t make_child(int nice_val) {
-	pid_t child_pid;
-	CHECK_NOT_M1(child_pid=fork());
+	pid_t child_pid=CHECK_NOT_M1(fork());
 	if(child_pid==0) {
 		// child process
 		// set our own nice level to the required level...

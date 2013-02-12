@@ -43,8 +43,7 @@
 */
 
 void make_child(const int niceval,int* const prog,int core) {
-	pid_t pid;
-	CHECK_NOT_M1(pid=fork());
+	pid_t pid=CHECK_NOT_M1(fork());
 	if(pid!=0) { // parent
 		return;
 	}
@@ -81,12 +80,10 @@ int main(int argc,char** argv,char** envp) {
 	// put this in shared memory
 	// don't check the return address in case it's the first time we run this software
 	shm_unlink(shm_name);
-	int smfd;
-	CHECK_NOT_M1(smfd=shm_open(shm_name,O_CREAT|O_RDWR,0));
+	int smfd=CHECK_NOT_M1(shm_open(shm_name,O_CREAT|O_RDWR,0));
 	// we have to set the size otherwise it will not work
 	CHECK_NOT_M1(ftruncate(smfd,getpagesize()));
-	void* ptr;
-	CHECK_NOT_VOIDP(ptr=mmap(
+	void* ptr=CHECK_NOT_VOIDP(mmap(
 		NULL,/* addr: dont recommend address */
 		getpagesize(),/* size: the size of the file */
 		PROT_READ|PROT_WRITE,/* prot: we just want read */

@@ -73,8 +73,7 @@ int main(int argc,char** argv,char** envp) {
 	max_exp=atoi(argv[3]);
 	new_value.it_interval.tv_nsec=0;
 
-	int fd;
-	CHECK_NOT_M1(fd=timerfd_create(CLOCK_REALTIME, 0));
+	int fd=CHECK_NOT_M1(timerfd_create(CLOCK_REALTIME, 0));
 	CHECK_NOT_M1(timerfd_settime(fd, TFD_TIMER_ABSTIME, &new_value, NULL));
 	print_elapsed_time();
 	printf("timer started\n");

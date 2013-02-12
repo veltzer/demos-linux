@@ -35,12 +35,8 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	int dsize;
-	CHECK_NOT_M1(dsize=getdtablesize());
-	printf("getdtablesize() returned %d\n",dsize);
-	long ldsize;
-	CHECK_NOT_M1(ldsize=sysconf(_SC_OPEN_MAX));
-	printf("sysconf(_SC_OPEN_MAX) returned %ld\n",ldsize);
+	printf("getdtablesize() returned %d\n",CHECK_NOT_M1(getdtablesize()));
+	printf("sysconf(_SC_OPEN_MAX) returned %d\n",CHECK_NOT_M1(sysconf(_SC_OPEN_MAX)));
 	struct rlimit rlim;
 	CHECK_NOT_M1(getrlimit(RLIMIT_NOFILE,&rlim));
 	printf("rlim_cur is %ld\n",rlim.rlim_cur);

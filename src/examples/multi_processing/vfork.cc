@@ -79,8 +79,7 @@ int global_data=42;
 
 int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
-	pid_t child_pid;
-	CHECK_NOT_M1(child_pid=vfork());
+	pid_t child_pid=CHECK_NOT_M1(vfork());
 	if (child_pid==0) {
 		TRACE("this is the child");
 		global_data++;

@@ -106,7 +106,7 @@ int main(int argc,char** argv,char** envp) {
 	// file name of the device
 	const char *filename="/dev/demo";
 
-	CHECK_NOT_M1(d=open(filename, O_RDWR));
+	d=CHECK_NOT_M1(open(filename, O_RDWR));
 	if (do_stack_test) {
 		char data[csize + getpagesize() * 10];
 		do_test(data, csize, "stack");

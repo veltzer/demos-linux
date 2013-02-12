@@ -30,32 +30,27 @@
 const int MAXCLIENTS=10;
 const int CLIENTMESSAGESIZE=4096;
 
-int main(int argc,char** argv,char** envp) {
-	struct data {
-		int readOffset;
-		int writeOffset;
-		char message[CLIENTMESSAGESIZE];
-	};
-	struct data * smdata;
-	int shmid;
-	int semid;
-	key_t key;
-	int i;
-	char ans[10];
+struct data {
+	int readOffset;
+	int writeOffset;
+	char message[CLIENTMESSAGESIZE];
+};
 
-	CHECK_NOT_M1(key=ftok("/etc/passwd", 'x'));
-	CHECK_NOT_M1(semid=semget(key, MAXCLIENTS, IPC_CREAT | 0666));
-	for(i=0; i<MAXCLIENTS; i++) {
+int main(int argc,char** argv,char** envp) {
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
+	int semid=CHECK_NOT_M1(semget(key, MAXCLIENTS, IPC_CREAT | 0666));
+	for(int i=0; i<MAXCLIENTS; i++) {
 		CHECK_NOT_M1(semctl(semid, i, SETVAL, 0));
 	}
 	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLIENTS);
-	CHECK_NOT_M1(shmid=shmget(key, sizeof(struct data) * MAXCLIENTS, IPC_CREAT | 0666));
-	CHECK_NOT_VOIDP(smdata=(struct data *)shmat(shmid, NULL, 0),(struct data *)-1);
-	for (i=0; i<MAXCLIENTS; i++) {
+	int shmid=CHECK_NOT_M1(shmget(key, sizeof(struct data) * MAXCLIENTS, IPC_CREAT | 0666));
+	struct data* smdata=(struct data*)CHECK_NOT_VOIDP(shmat(shmid, NULL, 0),(void*)-1);
+	for (int i=0; i<MAXCLIENTS; i++) {
 		smdata[i].readOffset=0;
 		smdata[i].writeOffset=0;
 	}
 	printf("Hit <Enter> to finish\n");
+	char ans[10];
 	CHECK_CHARP(fgets(ans,sizeof(ans),stdin),ans);
 	CHECK_NOT_M1(shmctl(shmid,IPC_RMID,0));
 	CHECK_NOT_M1(semctl(semid,0,IPC_RMID,0));

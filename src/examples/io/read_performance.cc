@@ -53,7 +53,7 @@ void* func(void*) {
 	ssize_t read_bytes;
 	// first read
 	gettimeofday(&t1,NULL);
-	CHECK_NOT_M1(read_bytes=read(fd,buf,filesize));
+	read_bytes=CHECK_NOT_M1(read(fd,buf,filesize));
 	assert(read_bytes==filesize);
 	gettimeofday(&t2,NULL);
 	printf("time of first read: %lf (%d bytes read)\n", micro_diff(&t1,&t2),read_bytes);
@@ -61,7 +61,7 @@ void* func(void*) {
 	CHECK_NOT_M1(lseek(fd,0,SEEK_SET));
 	// second read
 	gettimeofday(&t1,NULL);
-	CHECK_NOT_M1(read_bytes=read(fd,buf,filesize));
+	read_bytes=CHECK_NOT_M1(read(fd,buf,filesize));
 	assert(read_bytes==filesize);
 	gettimeofday(&t2,NULL);
 	printf("time of second read: %lf (%d bytes read)\n", micro_diff(&t1,&t2),read_bytes);
@@ -69,7 +69,7 @@ void* func(void*) {
 	CHECK_NOT_M1(lseek(fd,0,SEEK_SET));
 	// third read
 	gettimeofday(&t1,NULL);
-	CHECK_NOT_M1(read_bytes=read(fd,buf,filesize));
+	read_bytes=CHECK_NOT_M1(read(fd,buf,filesize));
 	assert(read_bytes==filesize);
 	gettimeofday(&t2,NULL);
 	printf("time of third read: %lf (%d bytes read)\n", micro_diff(&t1,&t2),read_bytes);
@@ -85,7 +85,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	filename=argv[1];
 	// lets open the file
-	CHECK_NOT_M1(fd=open(filename,O_RDONLY));
+	fd=CHECK_NOT_M1(open(filename,O_RDONLY));
 	// lets find out the size of the file
 	struct stat buf;
 	CHECK_NOT_M1(fstat(fd,&buf));

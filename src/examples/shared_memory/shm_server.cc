@@ -48,17 +48,14 @@ void sigterm_exit(int sig) {
 int main(int argc,char** argv,char** envp) {
 	// first lets make sure that we exit if we get SIGINT
 	CHECK_NOT_SIGT(signal(SIGINT, sigterm_exit),SIG_ERR);
-	key_t key;
-	CHECK_NOT_M1(key=ftok("/etc/passwd",'x'));
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd",'x'));
 	printf("key is 0x%x\n",key);
 	// remove the old shm, if it exists
-	int shmid;
 	// add IPC_EXCL if you want the following to fail if the shared
 	// memory exists...
-	CHECK_NOT_M1(shmid=shmget(key,sizeof(struct data),IPC_CREAT|IPC_EXCL|0666));
+	int shmid=CHECK_NOT_M1(shmget(key,sizeof(struct data),IPC_CREAT|IPC_EXCL|0666));
 	printf("shmid is %d\n",shmid);
-	void* ptr;
-	CHECK_NOT_VOIDP(ptr=shmat(shmid,NULL,0),(void*)-1);
+	void* ptr=CHECK_NOT_VOIDP(shmat(shmid,NULL,0),(void*)-1);
 	struct data* dateptr=(struct data*)ptr;
 	int count=0;
 	printf("shared memory was created, you can now run the client\n");

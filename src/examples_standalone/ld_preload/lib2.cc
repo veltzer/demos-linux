@@ -36,9 +36,8 @@ static void __attribute__((constructor)) init(void) {
 	TRACE("start");
 	//handle=dlopen("/lib/tls/i686/cmov/libm.so.6", RTLD_LAZY);
 	//handle=dlopen("/lib/libm-2.12.1.so", RTLD_LAZY);
-	CHECK_NOT_NULL(handle=dlopen(NULL, RTLD_LAZY));
-	void* sym;
-	CHECK_NOT_NULL(sym=dlsym(handle,"sin"));
+	handle=CHECK_NOT_NULL(dlopen(NULL, RTLD_LAZY));
+	void* sym=CHECK_NOT_NULL(dlsym(handle,"sin"));
 	psin=(double(*)(double))sym;
 	TRACE("end");
 }

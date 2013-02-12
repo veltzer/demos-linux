@@ -37,8 +37,6 @@ int main(int argc,char** argv,char** envp) {
 	printf("PATH_MAX is %d\n",PATH_MAX);
 	printf("_POSIX_PATH_MAX is %d\n",_POSIX_PATH_MAX);
 	printf("MAXPATHLEN is %d\n",MAXPATHLEN);
-	long path_max;
-	CHECK_NOT_M1(path_max=pathconf("/",_PC_PATH_MAX));
-	printf("pathconf(\"/\",_PC_PATH_MAX) is %ld\n",path_max);
+	printf("pathconf(\"/\",_PC_PATH_MAX) is %d\n",CHECK_NOT_M1(pathconf("/",_PC_PATH_MAX)));
 	return EXIT_SUCCESS;
 }

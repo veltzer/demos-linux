@@ -123,8 +123,8 @@ int main(int argc,char** argv,char** envp) {
 	my_system("sudo insmod ./mod_ioctl_close_race.ko");
 	my_system("sudo chmod 666 %s",filename);
 
-	CHECK_NOT_M1(fd=open(filename, O_RDWR));
-	CHECK_NOT_M1(fd2=open(filename, O_RDWR));
+	fd=CHECK_NOT_M1(open(filename, O_RDWR));
+	fd2=CHECK_NOT_M1(open(filename, O_RDWR));
 
 	pthread_t thread_empty,thread_short,thread_long,thread_close;
 	CHECK_ZERO(pthread_create(&thread_empty, NULL, function_empty, NULL));

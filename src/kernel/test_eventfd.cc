@@ -37,14 +37,10 @@
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename="/dev/mod_eventfd";
-	// file descriptor
-	int fd;
 
-	CHECK_NOT_M1(fd=open(filename, O_RDWR));
-	int efd;
-	CHECK_NOT_M1(efd=eventfd(0, 0));
-	int pid;
-	CHECK_NOT_M1(pid=fork());
+	int fd=CHECK_NOT_M1(open(filename, O_RDWR));
+	CHECK_NOT_M1(eventfd(0, 0));
+	int pid=CHECK_NOT_M1(fork());
 	if(pid==0) {
 		printf("Child\n");
 	} else {

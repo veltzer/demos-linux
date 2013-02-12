@@ -22,7 +22,7 @@
 #include <stdio.h> // for printf(3), remove(3), __flbf(3), __fbufsize(3), fclose(3)
 #include <stdlib.h> // for EXIT_SUCCESS
 #include <stdio_ext.h> // for __flbf(3), __fbufsize(3)
-#include <us_helper.h> // for CHECK_NOT_NULL()
+#include <us_helper.h> // for CHECK_NOT_NULL(), CHECK_INT()
 
 /*
 * This example shows the different buffering schemes of the standard
@@ -51,15 +51,13 @@ int main(int argc,char** argv,char** envp) {
 	printBuff(stdout, "stdout");
 	printBuff(stderr, "stderr");
 
-	FILE *f1;
-	CHECK_NOT_NULL(f1=fopen(writeFileName, "w"));
+	FILE *f1=(FILE*)CHECK_NOT_NULL(fopen(writeFileName, "w"));
 	printBuff(f1, "newly created file for writing");
-	fclose(f1);
+	CHECK_INT(fclose(f1),EOF);
 	remove(writeFileName);
 
-	FILE *f2;
-	CHECK_NOT_NULL(f2=fopen(readFileName, "r"));
+	FILE *f2=(FILE*)CHECK_NOT_NULL(fopen(readFileName, "r"));
 	printBuff(f2, "newly created file for reading");
-	fclose(f2);
+	CHECK_INT(fclose(f2),EOF);
 	return EXIT_SUCCESS;
 }

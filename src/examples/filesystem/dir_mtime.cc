@@ -82,8 +82,7 @@ int main(int argc,char** argv,char** envp) {
 	// one second (the regular stat(2) time resolution) to elapse...
 	sleep(2);
 	// now lets create a file inside the directory...
-	int d;
-	CHECK_NOT_M1(d=open(fullname,O_CREAT|O_EXCL,mode_all));
+	int d=CHECK_NOT_M1(open(fullname,O_CREAT|O_EXCL,mode_all));
 	// lets close the file
 	CHECK_NOT_M1(close(d));
 	// lets check the mtime of the various dirs...

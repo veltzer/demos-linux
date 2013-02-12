@@ -33,16 +33,17 @@
 * This is not very suitable for very delicate and precise timings but still.
 */
 void uptime(float *time1, float *time2) {
+	/* I don't think this is needed
 	// null the pointers
 	*time1=0;
 	*time2=0;
+	*/
 	// read the data from the /proc/uptime virtual file...
 	const char* filename="/proc/uptime";
 	const unsigned int size=256;
+	int d=CHECK_NOT_M1(open(filename, O_RDONLY));
 	char buf[size];
-	int d, res;
-	CHECK_NOT_M1(d=open(filename, O_RDONLY));
-	CHECK_NOT_M1(res=read(d, buf, size));
+	CHECK_NOT_M1(read(d, buf, size));
 	char *saveptr;
 	char *ptr=strtok_r(buf, " ", &saveptr);
 	*time1=atof(ptr);

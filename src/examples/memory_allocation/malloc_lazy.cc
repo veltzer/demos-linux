@@ -74,14 +74,13 @@ int main(int argc,char** argv,char** envp) {
 		printf("11) exit\n");
 		unsigned int bufsize=256;
 		char buf[bufsize];
-		char *r;
-		CHECK_NOT_NULL(r=fgets(buf,bufsize,stdin));
+		CHECK_NOT_NULL(fgets(buf,bufsize,stdin));
 		int result=atoi(buf);
 		switch(result) {
 			case 1:
 				// get page number from user...
 				printf("how many pages to touch ?\n");
-				CHECK_NOT_NULL(r=fgets(buf,bufsize,stdin));
+				CHECK_NOT_NULL(fgets(buf,bufsize,stdin));
 				pagenum=atoi(buf);
 				for(unsigned int i=0; i < pagenum; i++) {
 					p[page_counter * page_size]=0;

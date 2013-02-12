@@ -45,11 +45,9 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	pid_t child_pid;
-	CHECK_NOT_M1(child_pid=fork());
+	pid_t child_pid=CHECK_NOT_M1(fork());
 	if (child_pid==0) {
-		pid_t gchild_pid;
-		CHECK_NOT_M1(gchild_pid=fork());
+		pid_t gchild_pid=CHECK_NOT_M1(fork());
 		if (gchild_pid==0) {
 			TRACE("this is the gchild, pid is %d",getpid());
 			// lets show the parent pid...

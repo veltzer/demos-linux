@@ -40,18 +40,14 @@ int main(int argc,char** argv,char** envp) {
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	int source;
-	CHECK_NOT_M1(source=open(filein,O_RDONLY));
+	int source=CHECK_NOT_M1(open(filein,O_RDONLY));
 	struct stat statbuf;
 	fstat (source, &statbuf);
 	size_t len=statbuf.st_size;
-	int target;
-	CHECK_NOT_M1(target=open(fileout,O_RDWR|O_CREAT,statbuf.st_mode));
+	int target=CHECK_NOT_M1(open(fileout,O_RDWR|O_CREAT,statbuf.st_mode));
 	CHECK_NOT_M1(ftruncate(target,len));
-	void* src;
-	CHECK_NOT_VOIDP(src=mmap(0,len,PROT_READ,MAP_PRIVATE,source,0),MAP_FAILED);
-	void* dest;
-	CHECK_NOT_VOIDP(dest=mmap(0,len,PROT_READ|PROT_WRITE,MAP_SHARED,target,0),MAP_FAILED);
+	void* src=CHECK_NOT_VOIDP(mmap(0,len,PROT_READ,MAP_PRIVATE,source,0),MAP_FAILED);
+	void* dest=CHECK_NOT_VOIDP(mmap(0,len,PROT_READ|PROT_WRITE,MAP_SHARED,target,0),MAP_FAILED);
 	CHECK_NOT_M1(close(source));
 	CHECK_NOT_M1(close(target));
 	memcpy(dest,src,len);

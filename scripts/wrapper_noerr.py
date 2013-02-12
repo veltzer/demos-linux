@@ -22,6 +22,7 @@ def system_check_output(args):
 if len(sys.argv)<1:
 	raise ValueError('command line issue')
 
+# debug
 #print sys.argv
 # run the command
 system_check_output(sys.argv[1:])

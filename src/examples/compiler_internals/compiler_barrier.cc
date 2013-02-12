@@ -214,7 +214,7 @@ TEST(
 );
 
 int main(int argc,char** argv,char** envp) {
-	CHECK_NOT_NULL(outfile=fopen("/dev/null","w"));
+	outfile=(FILE*)CHECK_NOT_NULL(fopen("/dev/null","w"));
 	int val_before,val_after,dummy;
 	test_nothing(val_before,val_after,dummy);
 	test_machbar(val_before,val_after,dummy);

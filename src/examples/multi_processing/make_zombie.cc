@@ -101,13 +101,12 @@ static inline void print_state(pid_t pid) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	pid_t child_pid;
 	int pipefd_c2p[2];
-	int pipefd_p2c[2];
 	CHECK_ZERO(pipe(pipefd_c2p));
+	int pipefd_p2c[2];
 	CHECK_ZERO(pipe(pipefd_p2c));
 
-	CHECK_NOT_M1(child_pid=fork());
+	pid_t child_pid=CHECK_NOT_M1(fork());
 	// the child
 	if (child_pid==0) {
 		set_process_name("child");

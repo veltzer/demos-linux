@@ -33,11 +33,8 @@
 */
 
 int main(int argc,char** argv,char** envp) {
-	int ncpus;
-	CHECK_NOT_M1(ncpus=sysconf(_SC_NPROCESSORS_ONLN));
-	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",ncpus);
-	CHECK_NOT_M1(ncpus=sysconf(_SC_NPROCESSORS_CONF));
-	printf("sysconf(_SC_NPROCESSORS_CONF)=%d\n",ncpus);
+	printf("sysconf(_SC_NPROCESSORS_ONLN)=%d\n",CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN)));
+	printf("sysconf(_SC_NPROCESSORS_CONF)=%d\n",CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_CONF)));
 	printf("get_nprocs_conf()=%d\n",get_nprocs_conf());
 	printf("get_nprocs()=%d\n",get_nprocs());
 	return EXIT_SUCCESS;

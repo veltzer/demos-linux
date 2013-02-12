@@ -41,11 +41,9 @@ int main(int argc,char** argv,char** envp) {
 	my_system("sudo rmmod mod_timing");
 	my_system("sudo insmod ./mod_timing.ko");
 	my_system("sudo chmod 666 %s",filename);
-	// file descriptor
-	int d;
 
 	printf("Starting\n");
-	CHECK_NOT_M1(d=open(filename, O_RDWR));
+	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 
 	printf("showing cpus and their frequencies\n");
 	klog_clear();

@@ -82,18 +82,18 @@ Q:=@
 endif # DO_MKDBG
 
 # sources from the git perspective
-GIT_SOURCES:=$(shell ./scripts/git_wrapper.sh ls-files)
+GIT_SOURCES:=$(shell scripts/git_wrapper.sh ls-files)
 ALL:=
 CLEAN:=
 CLEAN_DIRS:=
 
 # user space applications (c and c++)
-CC_SRC:=$(shell ./scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
-C_SRC:=$(shell ./scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
-ALL_C:=$(shell ./scripts/find_wrapper.sh . -name "*.c")
-ALL_CC:=$(shell ./scripts/find_wrapper.sh . -name "*.cc")
-ALL_H:=$(shell ./scripts/find_wrapper.sh . -name "*.h")
-ALL_HH:=$(shell ./scripts/find_wrapper.sh . -name "*.hh")
+CC_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
+C_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
+ALL_C:=$(shell scripts/find_wrapper.sh . -name "*.c")
+ALL_CC:=$(shell scripts/find_wrapper.sh . -name "*.cc")
+ALL_H:=$(shell scripts/find_wrapper.sh . -name "*.h")
+ALL_HH:=$(shell scripts/find_wrapper.sh . -name "*.hh")
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
 C_ASX:=$(addsuffix .s,$(basename $(C_SRC)))
 CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
@@ -108,7 +108,7 @@ ALL:=$(ALL) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_ASX) $(C_ASX) $(CC_PRE) $(C_PRE)
 
 # kernel modules
-MOD_SRC:=$(shell ./scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
+MOD_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
 MOD_BAS:=$(basename $(MOD_SRC))
 MOD_OBJ:=$(addsuffix .o,$(MOD_BAS))
 MOD_SR2:=$(addsuffix .mod.c,$(MOD_BAS))
@@ -198,28 +198,28 @@ git_maintain:
 # how to create regular executables...
 $(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
 $(C_OBJ): %.o: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
 $(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
 $(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
 $(CC_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
+	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
 $(C_ASX): %.s: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
+	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
 $(CC_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
+	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
 $(C_PRE): %.p: %.cc $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)./scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
+	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 	$(info doing [$@])
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
@@ -235,12 +235,12 @@ $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 $(ODP_PPT): %.ppt: %.odp $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)rm -f $@
-	$(Q)./scripts/DocumentConverter.py $< $@
+	$(Q)scripts/DocumentConverter.py $< $@
 	$(Q)chmod 444 $@
 $(ODP_PDF): %.pdf: %.odp $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)rm -f $@
-	$(Q)./scripts/DocumentConverter.py $< $@
+	$(Q)scripts/DocumentConverter.py $< $@
 	$(Q)chmod 444 $@
 
 # rules about makefiles
@@ -296,40 +296,40 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
-	@./scripts/ok_wrapper.pl git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	@./scripts/ok_wrapper.pl git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
-	@./scripts/ok_wrapper.pl git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
-	@./scripts/ok_wrapper.pl git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_ace_include
 check_ace_include:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	@./scripts/ok_wrapper.pl git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
-	@./scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
 # enable this when you have the balls...
-#@./scripts/ok_wrapper.pl git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
+#@scripts/ok_wrapper.pl git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_name
 check_name:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
+	@scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+	@scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 # " =" cannot be checked because of void foo(void* =0) and that is the reason for the next
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
+	@scripts/ok_wrapper.pl git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
@@ -337,20 +337,24 @@ check_firstinclude:
 .PHONY: check_laststub
 check_laststub:
 	$(info doing [$@])
+.PHONY: check_check
+check_check:
+	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub check_check
 
 .PHONY: check_dots
 check_dots:
 	$(info doing [$@])
-	@./scripts/ok_wrapper.pl git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
+	@scripts/ok_wrapper.pl git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
 # checks that dont pass
 .PHONY: check_syn
 check_syn:
-	@./scripts/ok_wrapper.pl git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
-	@./scripts/ok_wrapper.pl git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
-	@./scripts/ok_wrapper.pl git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
-	@./scripts/ok_wrapper.pl git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@scripts/ok_wrapper.pl git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@scripts/ok_wrapper.pl git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@scripts/ok_wrapper.pl git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
+	@scripts/ok_wrapper.pl git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
 
 .PHONY: check_files
 check_files:

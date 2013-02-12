@@ -46,8 +46,7 @@ void* worker(void* arg) {
 	// get the thread number
 	int threadid=*(int*)arg;
 	// lets open the socket
-	unsigned int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 	printf("%d: opened socket with sockfd %d\n",threadid,sockfd);
 
 	// lets create the address
@@ -72,8 +71,7 @@ void* worker(void* arg) {
 		// lets receive
 		unsigned int rbuflen=getpagesize();
 		char rbuf[rbuflen];
-		int ret;
-		CHECK_NOT_M1(ret=recv(sockfd,rbuf,rbuflen,0));
+		int ret=CHECK_NOT_M1(recv(sockfd,rbuf,rbuflen,0));
 		char prbuf[rbuflen+1];
 		snprintf(prbuf,ret+1,"%s",rbuf);
 		printf("%d: received [%s]\n",threadid,prbuf);

@@ -54,8 +54,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("cmp /etc/passwd [yourfile]\n");
 
 	// lets open the socket
-	int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP));
 	TRACE("opened socket with sockfd %d",sockfd);
 
 	// lets create the address
@@ -78,8 +77,7 @@ int main(int argc,char** argv,char** envp) {
 	unsigned int buflen=getpagesize();
 	char buf[buflen];
 	int ret;
-	int fd;
-	CHECK_NOT_M1(fd=open(file,O_WRONLY | O_CREAT | O_TRUNC,0666));
+	int fd=CHECK_NOT_M1(open(file,O_WRONLY | O_CREAT | O_TRUNC,0666));
 	while((ret=recvfrom(sockfd,buf,buflen,0,(struct sockaddr *)&peer_addr,&peer_len))>0) {
 		TRACE("peer address is %s",inet_ntoa(peer_addr.sin_addr));
 		const unsigned int prlen=20;
@@ -90,8 +88,7 @@ int main(int argc,char** argv,char** envp) {
 		int bytes=ret;
 		char* pbuf=buf;
 		while(bytes>0) {
-			int written;
-			CHECK_NOT_M1(written=write(fd,pbuf,bytes));
+			int written=CHECK_NOT_M1(write(fd,pbuf,bytes));
 			bytes-=written;
 			pbuf+=written;
 		}

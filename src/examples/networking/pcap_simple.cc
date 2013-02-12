@@ -68,12 +68,10 @@ int main(int argc,char** argv,char** envp) {
 	printf("Number of packets: %d\n",num_packets);
 	printf("Filter expression: %s\n",filter_exp);
 
-	/* packet capture handle */
-	pcap_t *handle;
 	/* error buffer */
 	char errbuf[PCAP_ERRBUF_SIZE];
 	/* Open capture device */
-	CHECK_NOT_NULL(handle=pcap_open_live(dev,SNAP_LEN,0,1000,errbuf));
+	pcap_t* handle=(pcap_t*)CHECK_NOT_NULL(pcap_open_live(dev,SNAP_LEN,0,1000,errbuf));
 
 	/* Set the direction - we only want incoming packets */
 	CHECK_NOT_M1(pcap_setdirection(handle,PCAP_D_IN));
