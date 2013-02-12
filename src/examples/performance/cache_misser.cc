@@ -19,24 +19,35 @@
 */
 
 #include <firstinclude.h>
-#include <stdlib.h> // for malloc(3), EXIT_SUCCESS, rand(3)
-#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for malloc(3), EXIT_SUCCESS, EXIT_FAILURE, rand(3), atoi(3)
+#include <stdio.h> // for printf(3), fprintf(3), stderr
 
 /*
 * This is a sample which misses the cache on purpose...
 *
 * test this with:
-* perf stat -e cache-misses ./src/examples/performance/cache_misser.exe
+* perf stat -e cache-misses ./src/examples/performance/cache_misser.elf [val] [times]
+* try 104857600 as the value (100MB)
+* note that when you pass times=0 you will still get lots of cache misses.
+* Those are the cache misses to materialize the memory. Do it one time with times=0
+* and then whenever you increase times you will get the extra cache misses you are
+* generating.
+* make the value bigger to see more misses...
 */
 
 int main(int argc,char** argv,char** envp) {
-	const unsigned int size=1024*1024*100; // 100M buffer
+	if(argc!=3) {
+		fprintf(stderr,"%s: usage: %s [val] [times]\n",argv[0],argv[0]);
+		return EXIT_FAILURE;
+	}
+	unsigned int size=atoi(argv[1]);
+	unsigned int times=atoi(argv[2]);
 	char* p=(char*)malloc(size);
 	for(unsigned int i=0;i<size;i++) {
 		p[i]=i%256;
 	}
 	long long sum=0;
-	for(unsigned int i=0;i<100000000;i++) {
+	for(unsigned int i=0;i<times;i++) {
 		int pos=rand()%size;
 		sum+=p[pos];
 	}
