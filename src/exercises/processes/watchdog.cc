@@ -19,49 +19,49 @@
 */
 
 #include <firstinclude.h>
-#include <errno.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <time.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <sys/time.h> // for setitimer(2)
+#include <sys/types.h> // for wait3(2)
+#include <sys/time.h> // for wait3(2)
+#include <sys/resource.h> // for wait3(2)
+#include <sys/wait.h> // for wait3(2)
+#include <time.h> // for ctime(3), time(2)
+#include <stdio.h> // for printf(3)
+#include <unistd.h> // for execl(2), fork(2), pause(2)
+#include <sys/types.h> // for kill(2)
+#include <signal.h> // for kill(2), sigemptyset(2), sigaction(2)
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3)
+#include <string.h> // for strlen(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
-struct itimerval timer;
-int gotusr1=0;
-int gotusr2=0;
-int child1pid;
-int child2pid;
+static struct itimerval timer;
+static int gotusr1=0;
+static int gotusr2=0;
+static int child1pid;
+static int child2pid;
 
-void sigintHandler(int gotsig)
-{
-	kill(child1pid, SIGKILL);
-	kill(child2pid, SIGKILL);
-	exit(0);
+void sigintHandler(int gotsig) {
+	CHECK_NOT_M1(kill(child1pid, SIGKILL));
+	CHECK_NOT_M1(kill(child2pid, SIGKILL));
+	exit(EXIT_SUCCESS);
 }
 
-void sigchildHandler(int gotsig)
-{
-	pid_t pid;
+void sigchildHandler(int gotsig) {
 	int status;
-	while((pid=wait3(&status, WNOHANG, NULL)) > 0)
-	{
+	pid_t pid=CHECK_NOT_M1(wait3(&status, WNOHANG, NULL));
+	while(pid>0) {
 		if(WIFEXITED(status))
 			printf("Child %d exited. Status: %d\n",pid,WEXITSTATUS(status));
 		if(WIFSIGNALED(status))
 			printf("Child %d killed. Signal: %d\n",pid,WTERMSIG(status));
+		pid=CHECK_NOT_M1(wait3(&status, WNOHANG, NULL));
 	}
 }
 
-void watchsigHandler(int gotsig)
-{
+void watchsigHandler(int gotsig) {
 	time_t now=time(NULL);
 	char* stime=ctime(&now);
 	stime[strlen(stime)-1]='\0';
-	switch (gotsig)
-	{
+	switch (gotsig) {
 		case SIGUSR1:
 			gotusr1=1;
 			printf("%s: TTL from 1\n", stime);
@@ -71,10 +71,8 @@ void watchsigHandler(int gotsig)
 			printf("%s: TTL from 2\n", stime);
 			break;
 	}
-	if(gotusr1 && gotusr2)
-	{
-		if(setitimer(ITIMER_REAL, & timer, NULL)==-1)
-		{
+	if(gotusr1 && gotusr2) {
+		if(setitimer(ITIMER_REAL, & timer, NULL)==-1) {
 			perror("setitimer failed");
 			exit(errno);
 		}
@@ -82,59 +80,37 @@ void watchsigHandler(int gotsig)
 	}
 }
 
-void doChild1()
-{
-	execl("./child", "./child", "1", NULL);
-	perror("execl child1 failed");
-	exit(errno);
+void doChild1() {
+	CHECK_NOT_M1(execl("./child", "./child", "1", NULL));
 }
 
-void doChild2()
-{
-	execl("./child", "./child", "2", NULL);
-	perror("execl child2 failed");
-	exit(errno);
+void doChild2() {
+	CHECK_NOT_M1(execl("./child", "./child", "2", NULL));
 }
 
-void startChild1()
-{
-	switch (child1pid=fork())
-	{
-		case -1:
-			perror("fork for child1 failed");
-			exit(errno);
-			break;
-		case 0:
-			doChild1();
-			exit(0);
-			break;
+void startChild1() {
+	child1pid=CHECK_NOT_M1(fork());
+	if(child1pid==0) {
+		doChild1();
 	}
 }
 
-void startChild2()
-{
-	switch (child2pid=fork())
-	{
-		case -1:
-			perror("fork for child2 failed");
-			exit(errno);
-			break;
-		case 0:
-			doChild2();
-			exit(0);
-			break;
+void startChild2() {
+	child2pid=CHECK_NOT_M1(fork());
+	if(child2pid==0) {
+		doChild2();
 	}
 }
 
 void timeoutsigHandler(int gotsig) {
 	if(gotusr1==0) {
 		printf("Signal form child 1 ID %d lost. Restarting\n", child1pid);
-		kill(child1pid, SIGKILL);
+		CHECK_NOT_M1(kill(child1pid, SIGKILL));
 		startChild1();
 	}
 	if(gotusr2==0) {
 		printf("Signal from child 2 ID %d lost. Restarting\n", child2pid);
-		kill(child2pid, SIGKILL);
+		CHECK_NOT_M1(kill(child2pid, SIGKILL));
 		startChild2();
 	}
 }
@@ -146,44 +122,25 @@ int main(int argc,char** argv,char** envp) {
 	sigusr.sa_handler=watchsigHandler;
 	sigusr.sa_mask=emptyset;
 	sigusr.sa_flags=0;
-	if(sigaction(SIGUSR1, & sigusr, NULL)==-1) {
-		perror("sigaction SIGUSR1 failed");
-		exit(errno);
-	}
-	if(sigaction(SIGUSR2, & sigusr, NULL)==-1) {
-		perror("sigaction SIGUSR2 failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGUSR1, & sigusr, NULL));
+	CHECK_NOT_M1(sigaction(SIGUSR2, & sigusr, NULL));
 	sigchld.sa_handler=sigchildHandler;
 	sigchld.sa_mask=emptyset;
 	sigchld.sa_flags=0;
-	if(sigaction(SIGCHLD, & sigchld, NULL)==-1) {
-		perror("sigaction SIGCHLD failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGCHLD, & sigchld, NULL));
 	sigalrm.sa_handler=timeoutsigHandler;
 	sigalrm.sa_mask=emptyset;
 	sigalrm.sa_flags=0;
-	if(sigaction(SIGALRM, & sigalrm, NULL)==-1)
-	{
-		perror("sigaction SIGALRM failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGALRM, & sigalrm, NULL));
 	sigint.sa_handler=sigintHandler;
 	sigint.sa_mask=emptyset;
 	sigint.sa_flags=0;
-	if(sigaction(SIGINT, & sigint, NULL)==-1) {
-		perror("sigaction SIGINT failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGINT, & sigint, NULL));
 	timer.it_interval.tv_sec=5;
 	timer.it_interval.tv_usec=0;
 	timer.it_value.tv_sec=5;
 	timer.it_value.tv_usec=0;
-	if(setitimer(ITIMER_REAL, & timer, NULL)==-1) {
-		perror("setitimer failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(setitimer(ITIMER_REAL, & timer, NULL));
 	startChild1();
 	startChild2();
 	while(true) {

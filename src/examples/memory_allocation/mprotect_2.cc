@@ -19,8 +19,7 @@
 */
 
 #include <firstinclude.h>
-#include <stdio.h> // for perror(3)
-#include <stdlib.h> // for exit(3), posix_memalign(3), EXIT_FAILURE, EXIT_SUCCESS
+#include <stdlib.h> // for exit(3), posix_memalign(3), EXIT_SUCCESS
 #include <unistd.h> // for getpagesize(2)
 #include <sys/mman.h> // for mprotect(2)
 #include <us_helper.h> // for CHECK_NOT_M1()
@@ -32,16 +31,13 @@ void bad_code(void* precious_data) {
 }
 
 void protect_me(void* precious_data,size_t len) {
-	CHECK_NOT_M1(mprotect(precious_data,len,PROT_READ)==-1);
+	CHECK_NOT_M1(mprotect(precious_data,len,PROT_READ));
 }
 
 int main(int argc,char** argv,char** envp) {
 	void* precious_data;
 	const unsigned int size=8192;
-	if(posix_memalign(&precious_data,getpagesize(),size)==-1) {
-		perror("posix_memalign");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(posix_memalign(&precious_data,getpagesize(),size));
 	protect_me(precious_data,size);
 	bad_code(precious_data);
 	return EXIT_SUCCESS;
