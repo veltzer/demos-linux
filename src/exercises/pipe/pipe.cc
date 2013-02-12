@@ -69,14 +69,12 @@ int main(int argc,char** argv,char** envp) {
 	int fd[2];
 	CHECK_NOT_M1(pipe(fd));
 	// child one
-	int pid1;
-	CHECK_NOT_M1(pid1=fork());
+	int pid1=CHECK_NOT_M1(fork());
 	if(pid1==0) {
 		doChildOne(fd);
 	}
 	// child two
-	int pid2;
-	CHECK_NOT_M1(pid2=fork());
+	int pid2=CHECK_NOT_M1(fork());
 	if(pid2==0) {
 		doChildTwo(fd);
 	}

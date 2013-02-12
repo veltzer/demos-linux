@@ -36,15 +36,13 @@
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename="/dev/demo";
-	// file descriptor
-	int fd;
 	// size of strings
 	const unsigned int len=256;
 	// two strings to get the data
 	char s1[len];
 	char s2[len];
 
-	CHECK_NOT_M1(fd=open(filename, O_RDWR));
+	int fd=CHECK_NOT_M1(open(filename, O_RDWR));
 	while(true) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");

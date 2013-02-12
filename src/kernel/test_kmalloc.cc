@@ -37,11 +37,8 @@
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename="/dev/demo";
-	// file descriptor
-	int d;
-
 	//klog_clear();
-	CHECK_NOT_M1(d=open(filename, O_RDWR));
+	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 	printf("starting out\n");
 	for (unsigned int i=1; i < 1000000; i+=100) {
 		// kmalloc does not allocate on a page boundry...

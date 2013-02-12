@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdlib.h>
+#include <stdlib.h> // for EXIT_SUCCESS
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <us_helper.h> // for CHECK_NOT_M1()
@@ -35,10 +35,7 @@
 int main(int argc,char** argv,char** envp) {
 	// file to be used
 	const char *filename="/dev/demo";
-	// file handle
-	int d;
-
-	CHECK_NOT_M1(d=open(filename, O_RDWR));
+	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

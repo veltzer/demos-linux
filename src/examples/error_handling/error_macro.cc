@@ -30,10 +30,10 @@
 * This program errors on purpose.
 */
 
-//#define CHECK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(EXIT_FAILURE);}
-#define CHECK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(EXIT_FAILURE);}
+//#define CHK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(EXIT_FAILURE);}
+#define CHK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(EXIT_FAILURE);}
 
 int main(int argc,char** argv,char** envp) {
-	CHECK_NOT_M1(open("thisfiledoesnotexist",O_RDONLY));
+	CHK_NOT_M1(open("thisfiledoesnotexist",O_RDONLY));
 	return EXIT_SUCCESS;
 }

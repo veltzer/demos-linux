@@ -60,7 +60,6 @@ static inline void print_stats(void) {
 
 int main(int argc,char** argv,char** envp) {
 	const int size=1024*1024;
-	void* p;
 	int flags=MAP_PRIVATE | MAP_ANONYMOUS;
 	if(do_populate) {
 		flags|=MAP_POPULATE;
@@ -68,7 +67,7 @@ int main(int argc,char** argv,char** envp) {
 
 	printproc(NULL);
 	print_stats();
-	CHECK_NOT_VOIDP(p=mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0),MAP_FAILED);
+	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0),MAP_FAILED);
 	printproc(NULL);
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {

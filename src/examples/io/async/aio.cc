@@ -43,11 +43,9 @@
 
 int main(int argc,char** argv,char** envp) {
 	const int BUFSIZE=1024;
-	int fd;
-	CHECK_NOT_M1(fd=open("/etc/passwd",O_RDONLY));
+	int fd=CHECK_NOT_M1(open("/etc/passwd",O_RDONLY));
 	/* Allocate a data buffer for the aiocb request */
-	void* ptr;
-	CHECK_NOT_NULL(ptr=malloc(BUFSIZE+1));
+	void* ptr=CHECK_NOT_NULL(malloc(BUFSIZE+1));
 	struct aiocb my_aiocb;
 	/* Zero out the aiocb structure (recommended) */
 	bzero(&my_aiocb,sizeof(struct aiocb));
@@ -62,8 +60,7 @@ int main(int argc,char** argv,char** envp) {
 	// sleeping wait via API
 	const struct aiocb * const cblist[]={ &my_aiocb };
 	CHECK_ZERO(aio_suspend(cblist,1,NULL));
-	int ret;
-	CHECK_NOT_M1(ret=aio_return(&my_aiocb));
+	int ret=CHECK_NOT_M1(aio_return(&my_aiocb));
 	printf("got ret of %d\n",ret);
 	char* buf=(char*)my_aiocb.aio_buf;
 	buf[ret]='\0';

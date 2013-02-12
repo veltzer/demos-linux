@@ -46,10 +46,9 @@ const char* input_file="src/examples/networking/pthread_web_server.http";
 int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...
 	const char* filename="/proc/sys/net/core/somaxconn";
+	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
 	const unsigned int size=256;
 	char buf[size];
-	int fd;
-	CHECK_NOT_M1(fd=open(filename, O_RDONLY));
 	CHECK_NOT_M1(read(fd, buf, size));
 	CHECK_NOT_M1(close(fd));
 	return atoi(buf);
@@ -67,24 +66,20 @@ void *worker(void* arg) {
 	TRACE("thread %d got fd %d",gettid(),fd);
 	const unsigned int buflen=1024;
 	char buff[buflen];
-	ssize_t res;
-	CHECK_NOT_M1(res=recv(fd,buff,buflen,0));
-	int ifd;
-	CHECK_NOT_M1(ifd=open(input_file,O_RDONLY));
-	ssize_t ires;
-	CHECK_NOT_M1(ires=read(ifd,buff,buflen));
+	CHECK_NOT_M1(recv(fd,buff,buflen,0));
+	int ifd=CHECK_NOT_M1(open(input_file,O_RDONLY));
+	ssize_t ires=CHECK_NOT_M1(read(ifd,buff,buflen));
 	while(ires!=0) {
 		int offset=0;
 		char* pointer=buff;
 		int written=0;
 		while(written<ires) {
-			int size;
-			CHECK_NOT_M1(size=send(fd,pointer,ires-written,offset));
+			int size=CHECK_NOT_M1(send(fd,pointer,ires-written,offset));
 			offset+=size;
 			pointer+=size;
 			written+=size;
 		}
-		CHECK_NOT_M1(ires=read(ifd,buff,buflen));
+		ires=CHECK_NOT_M1(read(ifd,buff,buflen));
 	}
 	CHECK_NOT_M1(close(ifd));
 	CHECK_NOT_M1(close(fd));
@@ -106,13 +101,11 @@ int main(int argc,char** argv,char** envp) {
 	printf("contact me at port %d\n",port);
 
 	// lets get the port number using getservbyname(3)
-	//struct servent* p_servent;
-	//CHECK_NOT_NULL(p_servent=getservbyname(serv_name,serv_proto));
+	//struct servent* p_servent=(struct servent*)CHECK_NOT_NULL(getservbyname(serv_name,serv_proto));
 	//print_servent(p_servent);
 
 	// lets open the socket
-	int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 	printf("opened socket with sockfd %d\n",sockfd);
 
 	// lets make the socket reusable
@@ -140,10 +133,9 @@ int main(int argc,char** argv,char** envp) {
 	printf("listen was successful\n");
 
 	while(true) {
-		int fd;
 		struct sockaddr_in client;
 		socklen_t addrlen;
-		CHECK_NOT_M1(fd=accept(sockfd,(struct sockaddr *)&client,&addrlen));
+		int fd=CHECK_NOT_M1(accept(sockfd,(struct sockaddr *)&client,&addrlen));
 		printf("accepted fd %d\n",fd);
 		// spawn a thread to handle the connection to that client...
 		pthread_t thread;

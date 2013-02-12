@@ -87,7 +87,7 @@ void doChild(const char * chld)
 
 void startChild1()
 {
-	CHECK_NOT_M1(child1pid=fork());
+	child1pid=CHECK_NOT_M1(fork());
 	// child
 	if(child1pid==0) {
 		close(pipefd[0]);
@@ -100,7 +100,7 @@ void startChild1()
 
 void startChild2()
 {
-	CHECK_NOT_M1(child2pid=fork());
+	child2pid=CHECK_NOT_M1(fork());
 	// child
 	if(child2pid==0) {
 		close(pipefd[1]);

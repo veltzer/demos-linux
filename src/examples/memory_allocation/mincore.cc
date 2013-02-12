@@ -64,8 +64,7 @@ int main(int argc,char** argv,char** envp) {
 			free_pointer=p;
 			break;
 		case METHOD_MALLOC:
-			char* mp;
-			CHECK_NOT_NULL(mp=(char*)malloc(size));
+			char* mp=(char*)CHECK_NOT_NULL(malloc(size));
 			CHECK_NOT_NULL(malloc(10));
 			//mincore_pointer=mp+pagesize-(unsigned long)mp%pagesize;
 			mincore_pointer=mp-(unsigned long)mp%pagesize;

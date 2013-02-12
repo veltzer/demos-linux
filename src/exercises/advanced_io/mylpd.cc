@@ -37,14 +37,13 @@ struct index {
 };
 
 int main(int argc,char** argv,char** envp) {
-	int fdindex;
 	struct index buffer;
 	int bufsize;
 	int currid;
 	struct flock lplock;
 	struct stat buff;
 
-	CHECK_NOT_M1((fdindex=open("lpindex", O_RDWR|O_CREAT, 0666)));
+	int fdindex=CHECK_NOT_M1(open("lpindex", O_RDWR|O_CREAT, 0666));
 	lplock.l_type=F_WRLCK;
 	lplock.l_whence=SEEK_SET;
 	lplock.l_start=0;
@@ -59,7 +58,7 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_NOT_M1(write(fdindex, & buffer, sizeof(buffer)));
 	}
 	CHECK_NOT_M1(read(fdindex, & currid, sizeof(int)));
-	CHECK_NOT_M1((bufsize=read(fdindex, &buffer, sizeof(buffer))));
+	bufsize=CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));
 	while(buffer.ID==0 && bufsize > 0)
 	{
 		CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));

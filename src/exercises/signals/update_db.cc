@@ -48,7 +48,7 @@ void critical1() {
 	char lpindexFname[MAXNAMLEN];
 	struct stat buff;
 	sprintf(lpindexFname, "/tmp/lpindex.%d", getpid());
-	CHECK_NOT_M1(fdindex=open(lpindexFname, O_RDWR|O_CREAT, 0666));
+	fdindex=CHECK_NOT_M1(open(lpindexFname, O_RDWR|O_CREAT, 0666));
 	CHECK_NOT_M1(fstat(fdindex, & buff));
 	if (buff.st_size==0) {
 		currid=0;
@@ -58,9 +58,9 @@ void critical1() {
 		CHECK_NOT_M1(write(fdindex, & buffer, sizeof(buffer)));
 	}
 	CHECK_NOT_M1(read(fdindex, & currid, sizeof(int)));
-	CHECK_NOT_M1(bufsize=read(fdindex, &buffer, sizeof(buffer)));
+	bufsize=CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));
 	while(buffer.ID==0 && bufsize > 0) {
-		CHECK_NOT_M1(bufsize=read(fdindex, &buffer, sizeof(buffer)));
+		bufsize=CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));
 	}
 	if (buffer.ID > 0) {
 		printf("Now printing job: %d file: %s\n", buffer.ID, buffer.path);
@@ -74,12 +74,11 @@ void critical2() {
 }
 
 void sigint(int gotsig) {
-	DIR* sdir=NULL;
 	struct dirent* dircontent;
 	char pathname[MAXPATHLEN];
 	struct stat statbuf;
 	char strPID[10];
-	CHECK_NOT_NULL(sdir=opendir("/tmp"));
+	DIR* sdir=(DIR*)CHECK_NOT_NULL(opendir("/tmp"));
 	if (cri1done && ! cri2done) {
 		critical2();
 	}

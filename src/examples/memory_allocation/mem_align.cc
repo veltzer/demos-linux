@@ -52,8 +52,7 @@ inline void* align_address(void* addr) {
 void *mem_align(unsigned int size) {
 	int ps=getpagesize();
 	void *ptr;
-	int res;
-	CHECK_ZERO(res=posix_memalign(&ptr, ps, size));
+	CHECK_ZERO(posix_memalign(&ptr, ps, size));
 	return(ptr);
 }
 
@@ -86,8 +85,7 @@ void *mmap_alloc(unsigned int size) {
 	int flags=MAP_ANONYMOUS;
 	flags|=MAP_PRIVATE;
 	//flags|=MAP_SHARED;
-	void* res;
-	CHECK_NOT_VOIDP(res=mmap(
+	void* res=CHECK_NOT_VOIDP(mmap(
 		NULL,/* dont recommend address */
 		size,/* the size we need */
 		PROT_READ | PROT_WRITE,/* we want read AND write */

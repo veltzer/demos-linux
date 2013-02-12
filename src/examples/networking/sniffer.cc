@@ -46,8 +46,7 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr,"Do you want to try sudo?\n");
 		return EXIT_FAILURE;
 	}
-	int fd;
-	CHECK_NOT_M1(fd=socket(PF_INET, SOCK_RAW, IPPROTO_TCP));
+	int fd=CHECK_NOT_M1(socket(PF_INET, SOCK_RAW, IPPROTO_TCP));
 	/* single packets are usually not bigger than 8192 bytes but
 	* depend on the media standard of the Network Access layer such as
 	* Ethernet, Token Ring etc

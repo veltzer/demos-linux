@@ -56,9 +56,8 @@ unsigned int binmean;
 
 void* func(void*) {
 	void* buf=malloc(bufsize);
-	int fd;
 	Stat s(binnumber,binsize,binmean);
-	CHECK_NOT_M1(fd=open(filename,O_RDWR | O_CREAT,0666));
+	int fd=CHECK_NOT_M1(open(filename,O_RDWR | O_CREAT,0666));
 	for(unsigned int i=0;i<count;i++) {
 		ticks_t t1=getticks();
 		CHECK_NOT_M1(write(fd,buf,bufsize));

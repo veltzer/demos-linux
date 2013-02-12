@@ -58,7 +58,7 @@ int main(int argc,char** argv,char** envp) {
 	waitkey(NULL);
 	// lets install our own SIGSEGV signal handler so that we could print the address we
 	// failed at...
-	CHECK_NOT_SIGT(old_handler=signal(SIGSEGV,segv_handler),SIG_ERR);
+	old_handler=CHECK_NOT_SIGT(signal(SIGSEGV,segv_handler),SIG_ERR);
 	ptr=(char*)&a;
 	// the next line is really needed. If I leave it out then the seg fault happens much
 	// sooner since I'm stepping over stuff which is needed by the libc library for either

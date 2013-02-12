@@ -25,10 +25,8 @@
 #include <us_helper.h> // for CHECK_NOT_NULL(), CHECK_ZERO()
 
 int main(int argc,char** argv,char** envp) {
-	void* h;
-	CHECK_NOT_NULL(h=dlopen("libadd.so", RTLD_NOW));
-	void* sym;
-	CHECK_NOT_NULL(sym=dlsym(h,"func"));
+	void* h=CHECK_NOT_NULL(dlopen("libadd.so", RTLD_NOW));
+	void* sym=CHECK_NOT_NULL(dlsym(h,"func"));
 	int (*f)(int, int);
 	f=((int(*) (int, int))sym);
 	int result=f(2, 2);

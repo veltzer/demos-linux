@@ -44,8 +44,7 @@
 * static void printStatus() {
 *	sigset_t old;
 *	CHECK_NOT_M1(sigprocmask(SIG_BLOCK,NULL,&old));
-*	int ret;
-*	CHECK_NOT_M1(ret=sigismember(&old,SIGFPE));
+*	int ret=CHECK_NOT_M1(sigismember(&old,SIGFPE));
 *	std::cerr << "ret is " << ret << std::endl;
 * }
 */

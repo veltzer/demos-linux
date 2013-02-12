@@ -139,15 +139,17 @@ static inline void handle_error(int val,const char* msg,const char* file,const c
 	//}
 	//exit(EXIT_FAILURE);
 }
-static inline void check_zero(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_zero(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val!=0) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_not_zero(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_not_zero(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val==0) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
 static inline int check_not_m1(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val==-1) {
@@ -155,61 +157,72 @@ static inline int check_not_m1(int val,const char* msg,const char* file,const ch
 	}
 	return val;
 }
-static inline void check_1(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_1(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val!=1) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_not_negative(int val, const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_not_negative(int val, const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val<0) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_not_null(void* val, const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline void* check_not_null(void* val, const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val==NULL) {
 		handle_error((int)val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_oneoftwo(int val, const char* msg,int e1,int e2,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_oneoftwo(int val, const char* msg,int e1,int e2,const char* file,const char* base_file,const char* function,const int line) {
 	if(val!=e1 && val!=e2) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_assert(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_assert(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(!val) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_not_voidp(void* val,const char *msg, void* errval,const char* file,const char* base_file,const char* function,const int line) {
+static inline void* check_not_voidp(void* val,const char *msg, void* errval,const char* file,const char* base_file,const char* function,const int line) {
 	if(val==errval) {
 		handle_error((int)val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_not_sigt(sighandler_t val,const char *msg, sighandler_t errval,const char* file,const char* base_file,const char* function,const int line) {
+static inline sighandler_t check_not_sigt(sighandler_t val,const char *msg, sighandler_t errval,const char* file,const char* base_file,const char* function,const int line) {
 	if(val==errval) {
 		handle_error((int)val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_int(int val,const char *msg,int expected,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_int(int val,const char *msg,int expected,const char* file,const char* base_file,const char* function,const int line) {
 	if(val!=expected) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_charp(char* val,const char *msg,char* expected,const char* file,const char* base_file,const char* function,const int line) {
+static inline char* check_charp(char* val,const char *msg,char* expected,const char* file,const char* base_file,const char* function,const int line) {
 	if(val!=expected) {
 		handle_error(0,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_in_range(int val,const char *msg,int min,int max,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_in_range(int val,const char *msg,int min,int max,const char* file,const char* base_file,const char* function,const int line) {
 	if(val<min || val>=max) {
 		fprintf(stderr,"val is %d, min is %d, max is %d\n",val,min,max);
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
-static inline void check_positive(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+static inline int check_positive(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
 	if(val<=0) {
 		handle_error(val,msg,file,base_file,function,line);
 	}
+	return val;
 }
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v),__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
@@ -400,7 +413,7 @@ static inline void print_scheduling_info() {
 	int scheduler;
 	// 0 means current process
 	CHECK_NOT_M1(sched_getparam(0,&myparam));
-	CHECK_NOT_M1(scheduler=sched_getscheduler(0));
+	scheduler=CHECK_NOT_M1(sched_getscheduler(0));
 	printf("==================================\n");
 	printf("scheduling data for the current thread...\n");
 	printf("sched_getparam returned %d\n", myparam.sched_priority);

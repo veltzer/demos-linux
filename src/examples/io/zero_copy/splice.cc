@@ -44,14 +44,12 @@ void copy_file(const char* filein, const char* fileout) {
 	// lets make the pipe big!
 	CHECK_NOT_M1(pipe(pipe_fds));
 	//lets get the pipe size
-	//size_t pipe_size;
-	//CHECK_NOT_M1(pipe_size=fcntl(pipe_fds[0],F_GETPIPE_SZ));
+	//size_t pipe_size=CHECK_NOT_M1(fcntl(pipe_fds[0],F_GETPIPE_SZ));
 	//printf("pipe_size is %d\n",pipe_size);
 	//lets set the pipe size
 	CHECK_NOT_M1(fcntl(pipe_fds[0],F_SETPIPE_SZ,splice_size));
-	int fdin,fdout;
-	CHECK_NOT_M1(fdin=open(filein, O_RDONLY, 0666));
-	CHECK_NOT_M1(fdout=open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
+	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY, 0666));
+	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	// we need the return value outside the loop
 	int ret;
 	//this is the main copy loop

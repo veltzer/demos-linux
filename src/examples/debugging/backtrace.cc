@@ -88,7 +88,7 @@ void print_trace(bool full) {
 	backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 
 	/*
-	* CHECK_NOT_NULL(strings=backtrace_symbols(buffer, nptrs));
+	* strings=CHECK_NOT_NULL(backtrace_symbols(buffer, nptrs));
 	* for(j=0;j<nptrs;j++)
 	*	fprintf(stderr,"%s\n", strings[j]);
 	* free(strings);
@@ -119,7 +119,7 @@ void print_trace_sighandler(int sig) {
 * Signal handler registration function
 */
 void trace_register(void) {
-	CHECK_NOT_SIGT(old_handler=signal(SIGSEGV, print_trace_sighandler),SIG_ERR);
+	old_handler=CHECK_NOT_SIGT(signal(SIGSEGV, print_trace_sighandler),SIG_ERR);
 	/*
 	* struct sigaction sa;
 	* memset(sa,0,sizeof(struct sigaction));

@@ -20,19 +20,16 @@
 
 #include <firstinclude.h>
 #include <sys/stat.h> // for lstat(2)
-#include <sys/dir.h>
+#include <unistd.h> // for lstat(2), readlink(2)
 #include <sys/param.h> // for MAXPATHLEN
-#include <unistd.h>
-#include <sys/types.h> // for opendir(3), DIR, struct dirent
-#include <dirent.h> // for opendir(3), DIR, struct dirent
-#include <stdio.h> // for snprintf(3)
+#include <sys/types.h> // for opendir(3), DIR, struct dirent, closedir(3), lstat(2)
+#include <dirent.h> // for opendir(3), DIR, struct dirent, closedir(3), readdir(3)
+#include <stdio.h> // for snprintf(3), printf(3)
 #include <string.h> // for strcmp(3)
 #include <stdlib.h> // for EXIT_SUCCESS
 #include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 void scanthedir(const char* dirname) {
-	DIR* sdir=NULL;
-	DIR* fddir=NULL;
 	struct dirent* dircontent;
 	struct dirent* fddircontent;
 	struct stat statbuf;
@@ -41,7 +38,7 @@ void scanthedir(const char* dirname) {
 	char linkname[MAXPATHLEN];
 	char linktarget[MAXPATHLEN];
 	int linktargetsize;
-	CHECK_NOT_NULL(sdir=opendir(dirname));
+	DIR* sdir=(DIR*)CHECK_NOT_NULL(opendir(dirname));
 	while((dircontent=readdir(sdir))) {
 		if ((strcmp(dircontent->d_name, "." )==0)
 			|| strcmp(dircontent->d_name, "..")==0)
@@ -52,13 +49,13 @@ void scanthedir(const char* dirname) {
 			if (statbuf.st_uid==getuid()) {
 				snprintf(fddirname, MAXPATHLEN,"%s/fd", tmpdir);
 				printf("%s\n", dircontent->d_name);
-				CHECK_NOT_NULL(fddir=opendir(fddirname));
+				DIR* fddir=(DIR*)CHECK_NOT_NULL(opendir(fddirname));
 				while((fddircontent=readdir(fddir))) {
 					if ((strcmp(fddircontent->d_name, "." )==0)
 						|| strcmp(fddircontent->d_name, "..")==0)
 						continue;
 					snprintf(linkname, MAXPATHLEN,"%s/%s", fddirname, fddircontent->d_name);
-					CHECK_NOT_M1(linktargetsize=readlink(linkname, linktarget, sizeof(linktarget)));
+					linktargetsize=CHECK_NOT_M1(readlink(linkname, linktarget, sizeof(linktarget)));
 					linktarget[linktargetsize]='\0';
 					printf("\t%s --> %s\n", linkname, linktarget);
 				}

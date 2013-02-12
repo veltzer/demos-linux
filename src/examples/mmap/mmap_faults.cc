@@ -27,6 +27,7 @@
 #include <unistd.h> // for fstat(2), close(2), getpagesize(2)
 #include <sys/time.h> // for getrusage(2)
 #include <sys/resource.h> // for getrusage(2)
+#include <stdlib.h> // for EXIT_SUCCESS
 #include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 /*
@@ -47,16 +48,14 @@ void show_vmem() {
 
 int main(int argc,char** argv,char** envp) {
 	show_vmem();
-	int fd;
-	CHECK_NOT_M1(fd=open(file_to_map,O_RDONLY));
+	int fd=CHECK_NOT_M1(open(file_to_map,O_RDONLY));
 	struct stat stat_buf;
 	CHECK_NOT_M1(fstat(fd,&stat_buf));
 	printf("size is %ld\n",stat_buf.st_size);
 	printf("fd is %d\n",fd);
 	const int size=stat_buf.st_size;
 	const int pagesize=getpagesize();
-	void *res;
-	CHECK_NOT_VOIDP(res=mmap(
+	void *res=CHECK_NOT_VOIDP(mmap(
 		NULL,/* addr: dont recommend address */
 		size,/* size: the size of the file */
 		PROT_READ,/* prot: we just want read */

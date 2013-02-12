@@ -42,8 +42,7 @@ static void handler(int sig, siginfo_t *si, void *unused) {
 
 const void* mymalloc(unsigned int size,int protect) {
 	if(protect) {
-		void* buf;
-		CHECK_NOT_NULL(buf=(void*)memalign(getpagesize(),size));
+		void* buf=CHECK_NOT_NULL(memalign(getpagesize(),size));
 		CHECK_NOT_M1(mprotect(buf,size,PROT_READ));
 		return buf;
 		/*

@@ -36,9 +36,8 @@ void clean(int sig) {
 
 int main(int argc,char** argv,char** envp) {
 	CHECK_NOT_SIGT(signal(SIGINT,clean),SIG_ERR);
-	key_t key;
-	CHECK_NOT_M1(key=ftok(KEYFILE,'x'));
-	CHECK_NOT_M1(semid=semget(key,NPHIL,IPC_CREAT | 0666));
+	key_t key=CHECK_NOT_M1(ftok(KEYFILE,'x'));
+	semid=CHECK_NOT_M1(semget(key,NPHIL,IPC_CREAT | 0666));
 	for(int i=0;i<NPHIL;i++) {
 		CHECK_NOT_M1(semctl(semid,i,SETVAL,1));
 	}

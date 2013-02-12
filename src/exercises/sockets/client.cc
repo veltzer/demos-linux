@@ -30,16 +30,14 @@
 #include <us_helper.h> // for CHECK_NOT_M1()
 
 int main(int argc,char** argv,char** envp) {
-	int on, got, brsock, rplysock, newsock;
-	ssize_t datalen;
+	int on, got;
 	socklen_t rplyFromAddressLen;
 	struct sockaddr_in braddress, rplyFromAddress, myAddress;
 	char ibuffer[1000], obuffer[1000];
-	int nfds;
 	struct timeval timeout;
 	fd_set readfds;
 
-	CHECK_NOT_M1(brsock=socket(AF_INET, SOCK_DGRAM, 0));
+	int brsock=CHECK_NOT_M1(socket(AF_INET, SOCK_DGRAM, 0));
 
 	bzero(& braddress, sizeof(braddress));
 	braddress.sin_family=AF_INET;
@@ -48,37 +46,36 @@ int main(int argc,char** argv,char** envp) {
 
 	on=1;
 	CHECK_NOT_M1(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)));
-	CHECK_NOT_M1((rplysock=socket(AF_INET, SOCK_STREAM, 0))==-1);
+	int rplysock=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, 0));
 
 	bzero(& myAddress, sizeof(myAddress));
 	myAddress.sin_family=AF_INET;
 	myAddress.sin_port=htons(6996); // reply port id
 	myAddress.sin_addr.s_addr=INADDR_ANY;
-	CHECK_NOT_M1(bind(rplysock, (struct sockaddr *) & myAddress, sizeof(myAddress))==-1);
+	CHECK_NOT_M1(bind(rplysock, (struct sockaddr *) & myAddress, sizeof(myAddress)));
 	CHECK_NOT_M1(listen(rplysock,SOMAXCONN));
 
 	printf("Type your request: ");
 	while(fgets(obuffer, sizeof(obuffer), stdin)) {
-		CHECK_NOT_M1(datalen=sendto(brsock, obuffer, strlen(obuffer), 0,
-			(struct sockaddr *) & braddress, sizeof(braddress)));
+		CHECK_NOT_M1(sendto(brsock, obuffer, strlen(obuffer), 0, (struct sockaddr *) & braddress, sizeof(braddress)));
 		printf("Request sent\n");
 		timeout.tv_sec=5;
 		timeout.tv_usec=0;
 		FD_ZERO(& readfds);
 		FD_SET(rplysock, & readfds);
-		CHECK_NOT_M1(nfds=select(rplysock+1, & readfds, NULL, NULL, & timeout));
+		int nfds=CHECK_NOT_M1(select(rplysock+1, & readfds, NULL, NULL, & timeout));
 		while(nfds>0) {
-			CHECK_NOT_M1(newsock=accept(rplysock, (struct sockaddr *) & rplyFromAddress,
+			int newsock=CHECK_NOT_M1(accept(rplysock, (struct sockaddr *) & rplyFromAddress,
 				& rplyFromAddressLen));
-			CHECK_NOT_M1(got=read(newsock, ibuffer, sizeof(ibuffer)));
+			got=CHECK_NOT_M1(read(newsock, ibuffer, sizeof(ibuffer)));
 			while(got>0) {
 				ibuffer[got-1]='\0'; // get rid of '\n'
 				printf("Reply from %s received: %s\n",
 				inet_ntoa(rplyFromAddress.sin_addr), ibuffer);
-				CHECK_NOT_M1(got=read(newsock, ibuffer, sizeof(ibuffer)));
+				got=CHECK_NOT_M1(read(newsock, ibuffer, sizeof(ibuffer)));
 			}
 			CHECK_NOT_M1(close(newsock));
-			CHECK_NOT_M1(nfds=select(rplysock+1, & readfds, NULL, NULL, & timeout));
+			nfds=CHECK_NOT_M1(select(rplysock+1, & readfds, NULL, NULL, & timeout));
 		}
 		if(nfds==0) {
 			printf("Replies finished on timeout\n");

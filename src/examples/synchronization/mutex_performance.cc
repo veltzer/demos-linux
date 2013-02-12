@@ -95,14 +95,15 @@ void* work(void* param) {
 
 int main(int argc,char** argv,char** envp) {
 	printf("main started\n");
-	pthread_mutexattr_t attr;
-	key_t key;
-	CHECK_NOT_M1(key=ftok("/etc/passwd", 'x'));
-	CHECK_NOT_M1(semid=semget(key, 1, IPC_CREAT | 0666));
+
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
+	semid=CHECK_NOT_M1(semget(key, 1, IPC_CREAT | 0666));
 	CHECK_NOT_M1(semctl(semid,0,SETVAL,1));
 
 	CHECK_ZERO(sem_init(&sem_nonshared,0,1));
 	CHECK_ZERO(sem_init(&sem_shared,1,1));
+
+	pthread_mutexattr_t attr;
 	CHECK_ZERO(pthread_mutexattr_init(&attr));
 	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_FAST_NP));
 	CHECK_ZERO(pthread_mutex_init(&mutex_fast,&attr));

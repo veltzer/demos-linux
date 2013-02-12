@@ -45,8 +45,7 @@ const char *string="hello";
 const char *fname="/tmp/my.sparse.file";
 
 int main(int argc,char** argv,char** envp) {
-	FILE* f;
-	CHECK_NOT_NULL(f=fopen(fname, "w"));
+	FILE* f=(FILE*)CHECK_NOT_NULL(fopen(fname, "w"));
 	CHECK_NOT_M1(fseek(f, pos, SEEK_CUR));
 	CHECK_NOT_M1(fwrite(string, strlen(string), 1, f));
 	CHECK_NOT_M1(fclose(f));
@@ -58,7 +57,7 @@ int main(int argc,char** argv,char** envp) {
 	my_system("ls -l %s",fname);
 	my_system("du -h %s",fname);
 	// now lets see that we can read from the file...
-	CHECK_NOT_NULL(f=fopen(fname, "r"));
+	f=(FILE*)CHECK_NOT_NULL(fopen(fname, "r"));
 	const unsigned int buf_size=4096;
 	char buf[buf_size];
 	memset(buf,3,buf_size);

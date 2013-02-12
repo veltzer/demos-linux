@@ -19,18 +19,22 @@
 */
 
 #include <firstinclude.h>
-#include <stdio.h> // for scanf(3), printf(3)
+#include <unistd.h> // for getpagesize(2), sysconf(3)
+#include <stdio.h> // for printf(3)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include <us_helper.h> // for CHECK_INT()
+#include <us_helper.h> // for CHECK_NOT_M1()
+
+/*
+* This example shows how to get the systems page size, the available physical pages
+* and the overall physical pages (overall RAM size) of a system.
+* Note that you can see all this info from the command line using 'getconf -a'
+*/
 
 int main(int argc,char** argv,char** envp) {
-	int num;
-	CHECK_INT(scanf("%d",&num),1);
-	int i=0;
-	while(num/2>0) {
-		i++;
-		num/=2;
-	}
-	printf("number of times divided is %d\n",i);
+	printf("getpagesize() is %d\n",getpagesize());
+	printf("sysconf(_SC_PAGESIZE) is %d\n",CHECK_NOT_M1(sysconf(_SC_PAGESIZE)));
+	printf("sysconf(_SC_PAGE_SIZE) is %d\n",CHECK_NOT_M1(sysconf(_SC_PAGE_SIZE)));
+	printf("sysconf(_SC_AVPHYS_PAGES) is %d\n",CHECK_NOT_M1(sysconf(_SC_AVPHYS_PAGES)));
+	printf("sysconf(_SC_PHYS_PAGES) is %d\n",CHECK_NOT_M1(sysconf(_SC_PHYS_PAGES)));
 	return EXIT_SUCCESS;
 }

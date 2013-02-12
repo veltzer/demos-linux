@@ -70,8 +70,7 @@ void print_code(int code) {
 
 int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
-	pid_t child_pid;
-	CHECK_NOT_M1(child_pid=fork());
+	pid_t child_pid=CHECK_NOT_M1(fork());
 	if(child_pid==0) {
 		bool selected=false;
 		int selection;

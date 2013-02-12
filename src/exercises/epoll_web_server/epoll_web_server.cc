@@ -53,8 +53,7 @@ int get_backlog() {
 	const char* filename="/proc/sys/net/core/somaxconn";
 	const unsigned int size=256;
 	char buf[size];
-	int fd;
-	CHECK_NOT_M1(fd=open(filename, O_RDONLY));
+	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
 	CHECK_NOT_M1(read(fd, buf, size));
 	CHECK_NOT_M1(close(fd));
 	return atoi(buf);
@@ -64,50 +63,42 @@ void print_events(char* buffer, size_t size,uint32_t events) {
 	char* p=buffer;
 	int cursize=size;
 	if(events & EPOLLIN) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLIN "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLIN "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLOUT) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLOUT "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLOUT "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLRDHUP) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLRDHUP "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLRDHUP "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLPRI) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLPRI "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLPRI "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLERR) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLERR "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLERR "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLHUP) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLHUP "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLHUP "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLET) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLET "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLET "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
 	if(events & EPOLLONESHOT) {
-		size_t ret;
-		CHECK_IN_RANGE(ret=snprintf(p,cursize,"EPOLLONESHOT "),1,cursize);
+		size_t ret=CHECK_IN_RANGE(snprintf(p,cursize,"EPOLLONESHOT "),1,cursize);
 		cursize-=ret;
 		p+=ret;
 	}
@@ -123,8 +114,7 @@ int main(int argc,char** argv,char** envp) {
 	printf("contact me at host %s port %d\n",host,port);
 
 	// lets open the socket
-	int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 	printf("opened socket with sockfd %d\n",sockfd);
 
 	// lets make the socket reusable
@@ -154,8 +144,7 @@ int main(int argc,char** argv,char** envp) {
 
 	// create the epoll fd
 	const unsigned int max_events=10;
-	int epollfd;
-	CHECK_NOT_M1(epollfd=epoll_create(max_events));
+	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
 
 	// add the listening socket to it
 	struct epoll_event ev;
@@ -166,14 +155,12 @@ int main(int argc,char** argv,char** envp) {
 	// go into the endless service loop
 	while(true) {
 		struct epoll_event events[max_events];
-		int nfds;
-		CHECK_NOT_M1(nfds=epoll_wait(epollfd, events, max_events, -1));
+		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0;n<nfds;n++) {
 			if(events[n].data.fd==sockfd) {
-				int conn_sock;
 				struct sockaddr_in local;
 				socklen_t addrlen;
-				CHECK_NOT_M1(conn_sock=accept4(sockfd,(struct sockaddr*)&local,&addrlen,SOCK_NONBLOCK));
+				int conn_sock=CHECK_NOT_M1(accept4(sockfd,(struct sockaddr*)&local,&addrlen,SOCK_NONBLOCK));
 				struct epoll_event ev;
 				ev.events=EPOLLIN|EPOLLET|EPOLLOUT|EPOLLRDHUP;
 				ev.data.fd=conn_sock;
@@ -192,12 +179,10 @@ int main(int argc,char** argv,char** envp) {
 					if(events[n].events & EPOLLIN) {
 						const int buflen=1024;
 						char buffer[buflen];
-						ssize_t len;
 						int fd=events[n].data.fd;
-						CHECK_NOT_M1(len=read(fd,buffer,buflen));
+						ssize_t len=CHECK_NOT_M1(read(fd,buffer,buflen));
 						// FIXME (handle short writes!)
-						ssize_t ret;
-						CHECK_NOT_M1(ret=write(fd,buffer,len));
+						ssize_t ret=CHECK_NOT_M1(write(fd,buffer,len));
 						TRACE("read %d bytes and wrote %d bytes",len,ret);
 					}
 				}

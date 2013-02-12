@@ -59,7 +59,7 @@ int main(int argc,char** argv,char** envp) {
 	my_system("sudo chmod 666 %s",filename);
 
 	// we are the in the parent of the threads - connect to the device
-	CHECK_NOT_M1(fd=open(filename, O_RDWR));
+	fd=CHECK_NOT_M1(open(filename, O_RDWR));
 	// initialize the completion
 	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_INIT, NULL));
 

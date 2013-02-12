@@ -48,8 +48,7 @@ int main(int argc,char** argv,char** envp) {
 	unsigned int port=atoi(argv[4]);
 
 	// lets open the socket
-	int sockfd;
-	CHECK_NOT_M1(sockfd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
+	int sockfd=CHECK_NOT_M1(socket(AF_INET,SOCK_STREAM,IPPROTO_TCP));
 	printf("opened socket with sockfd %d\n",sockfd);
 
 	// lets create the address
@@ -73,8 +72,7 @@ int main(int argc,char** argv,char** envp) {
 	// lets receive
 	unsigned int rbuflen=1024;
 	char rbuf[rbuflen];
-	int ret;
-	CHECK_NOT_M1(ret=recv(sockfd,rbuf,rbuflen,0));
+	int ret=CHECK_NOT_M1(recv(sockfd,rbuf,rbuflen,0));
 	char prbuf[rbuflen];
 	snprintf(prbuf,ret+1,"%s",rbuf);
 	printf("received [%s]\n",prbuf);

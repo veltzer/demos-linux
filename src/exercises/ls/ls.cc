@@ -108,15 +108,15 @@ static void filetype(mode_t m,char* p) {
 }
 
 int main(int argc,char** argv,char** envp) {
-	DIR* d;
-	struct dirent* dircontent;
 	const bool hidedots=true;
 	// lets take the current time
 	time_t now;
 	CHECK_NOT_M1(time(&now));
-	CHECK_NOT_NULL(d=opendir("."));
+	DIR* d=(DIR*)CHECK_NOT_NULL(opendir("."));
 	int num_files=0;
 	int num_blocks=0;
+	// no need to check the return code of readdir(3) (see the manual page for it...)
+	struct dirent* dircontent;
 	while((dircontent=readdir(d))) {
 		if(hidedots && dircontent->d_name[0]=='.') {
 			continue;
@@ -125,6 +125,7 @@ int main(int argc,char** argv,char** envp) {
 	}
 	char** arr=(char**)malloc(sizeof(char*)*num_files);
 	int i=0;
+	// this function does not have an error statte
 	rewinddir(d);
 	int max_size=0;
 	nlink_t max_link=0;
