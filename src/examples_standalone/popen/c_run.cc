@@ -20,8 +20,9 @@
 
 #include <firstinclude.h>
 #include <stdio.h> // for fopen(3), fprintf(3), fclose(3), getline(3), popen(3), pclose(3)
-#include <stdlib.h> // for system(3), abort(3), mkstemp(3), malloc(3)
+#include <stdlib.h> // for system(3), abort(3), mkstemp(3), malloc(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h> // for close(2)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL(), my_system()
 
 /*
 * Example for using the shbang line to run C code
@@ -29,102 +30,57 @@
 
 //#define DEBUG
 
-void my_system(const char* cmd) {
-#ifdef DEBUG
-	fprintf(stderr,"doing system [%s]\n",cmd);
-#endif // DEBUG
-	int ret=system(cmd);
-	if(ret==-1) {
-		perror("system failed");
-		abort();
-	}
-}
-
 /*
 * cut all but the first line in the file and return the temp file holding the result
 */
 void cut_first_line(const char* filename,FILE* output) {
-	FILE* input=fopen(filename,"r");
-	if(input==NULL) {
-		perror("cannot open file");
-		abort();
-	}
+	FILE* input=(FILE*)CHECK_NOT_NULL(fopen(filename,"r"));
 	size_t n=1024;
 	char* lineptr=(char*)malloc(n);
-	int ret;
 	int active=0;
-	while((ret=getline(&lineptr,&n,input)>0)) {
+	int ret=CHECK_NOT_M1(getline(&lineptr,&n,input));
+	while(ret>0) {
 		if(active) {
 #ifdef DEBUG
 			fprintf(stderr,"writing out [%s]\n",lineptr);
 #endif // DEBUG
-			int ret=fputs(lineptr,output);
-			if(ret==EOF) {
-				perror("could not fputs");
-				abort();
-			}
+			CHECK_INT(fputs(lineptr,output),EOF);
 		} else {
 			active=1;
 		}
+		ret=CHECK_NOT_M1(getline(&lineptr,&n,input));
 	}
-	if(ret!=0) {
-		fprintf(stderr,"got bad value from getline(3)");
-		abort();
-	}
-	if(fclose(input)==EOF) {
-		perror("got bad value from fclose(3)");
-		abort();
-	}
+	CHECK_INT(fclose(input),EOF);
 }
 
-static char template[]="/tmp/crun.XXXXXX";
 int main(int argc,char** argv,char** envp) {
 	// handle command line
 	if(argc!=2) {
 		fprintf(stderr,"usage: %s [cshell file]\n",argv[0]);
-		abort();
+		return EXIT_FAILURE;
 	}
 	const char* filename=argv[1];
+	char tmpl[]="/tmp/crun.XXXXXX";
 	// create a filename for the executable
-	int fd=mkstemp(template);
-	if(fd==-1) {
-		perror("got bad value from mkstemp(3)");
-		abort();
-	}
+	int fd=CHECK_NOT_M1(mkstemp(tmpl));
 #ifdef DEBUG
-	fprintf(stderr,"template is [%s]\n",template);
+	fprintf(stderr,"tmpl is [%s]\n",tmpl);
 #endif // DEBUG
 	// run the compiler until eof...
 	const int max=1024;
 	char cmd[max];
-	sprintf(cmd,"gcc -x c -o %s -O2 -",template);
+	sprintf(cmd,"gcc -x c -o %s -O2 -",tmpl);
 #ifdef DEBUG
 	fprintf(stderr,"cmd is [%s]\n",cmd);
 #endif // DEBUG
-	FILE* handle=popen(cmd,"w");
-	if(handle==NULL) {
-		perror("error with popen");
-		abort();
-	}
+	FILE* handle=(FILE*)CHECK_NOT_NULL(popen(cmd,"w"));
 	cut_first_line(filename,handle);
-	int ret=pclose(handle);
-	if(ret==-1) {
-		perror("got bad value from pclose(3)");
-		abort();
-	}
-	// close the template
-	ret=close(fd);
-	if(ret==-1) {
-		perror("got bad value from close(2)");
-		abort();
-	}
+	CHECK_NOT_M1(pclose(handle));
+	// close the tmpl
+	CHECK_NOT_M1(close(fd));
 	// now run the resulting executable
-	my_system(template);
-	// finally unlink the template
-	ret=unlink(template);
-	if(ret==-1) {
-		perror("got bad value from unlink(2)");
-		abort();
-	}
-	return(0);
+	my_system("%s",tmpl);
+	// finally unlink the tmpl
+	CHECK_NOT_M1(unlink(tmpl));
+	return EXIT_SUCCESS;
 }
