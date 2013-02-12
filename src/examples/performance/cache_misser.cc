@@ -33,6 +33,10 @@
 * and then whenever you increase times you will get the extra cache misses you are
 * generating.
 * make the value bigger to see more misses...
+*
+* TODO:
+* - allocate the memory using mmap(2) and MAP_POPULATE to get number of cache misses
+* before starting the run lower.
 */
 
 int main(int argc,char** argv,char** envp) {
