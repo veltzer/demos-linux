@@ -52,7 +52,7 @@ Using it
 		make src/examples/performance/cache_misser.elf
 	the name of the elf binary is the same as the example source code with .elf instead of
 	.[c|cc].
-	You must be at the root of the projec to issue the 'make' command.
+	You must be at the root of the project to issue the 'make' command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
 
 	Mark Veltzer <mark.veltzer@gmail.com>, 2011-2013
