@@ -342,8 +342,12 @@ check_laststub:
 check_check:
 	$(info doing [$@])
 	@scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR
+.PHONY: check_perror
+check_perror:
+	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep perror \| grep -v assert_perror
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub check_check
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub check_check check_perror
 
 .PHONY: check_dots
 check_dots:

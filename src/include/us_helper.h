@@ -193,6 +193,12 @@ static inline void* check_not_voidp(void* val,const char *msg, void* errval,cons
 	}
 	return val;
 }
+static inline void* check_voidp(void* val,const char *msg, void* errval,const char* file,const char* base_file,const char* function,const int line) {
+	if(val!=errval) {
+		handle_error((int)val,msg,file,base_file,function,line);
+	}
+	return val;
+}
 static inline sighandler_t check_not_sigt(sighandler_t val,const char *msg, sighandler_t errval,const char* file,const char* base_file,const char* function,const int line) {
 	if(val==errval) {
 		handle_error((int)val,msg,file,base_file,function,line);
@@ -224,6 +230,12 @@ static inline int check_positive(int val,const char* msg,const char* file,const 
 	}
 	return val;
 }
+static inline int check_gezero(int val,const char* msg,const char* file,const char* base_file,const char* function,const int line) {
+	if(val<0) {
+		handle_error(val,msg,file,base_file,function,line);
+	}
+	return val;
+}
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v),__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_NOT_ZERO(v) check_not_zero(v, __stringify(v),__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
@@ -234,11 +246,13 @@ static inline int check_positive(int val,const char* msg,const char* file,const 
 #define CHECK_ONEOFTWO(v,e1,e2) check_oneoftwo(v, __stringify(v),e1,e2,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_ASSERT(v) check_assert(v, __stringify(v),__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_NOT_VOIDP(v,e) check_not_voidp(v, __stringify(v),e,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
+#define CHECK_VOIDP(v,e) check_not_voidp(v, __stringify(v),e,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_NOT_SIGT(v,e) check_not_sigt(v, __stringify(v),e,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_INT(v,e) check_int(v, __stringify(v),e,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_CHARP(v,e) check_charp(v, __stringify(v),e,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_IN_RANGE(v,min,max) check_in_range(v, __stringify(v),min,max,__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 #define CHECK_POSITIVE(v) check_positive(v, __stringify(v),__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
+#define CHECK_GEZERO(v) check_gezero(v, __stringify(v),__FILE__,__BASE_FILE__,__FUNCTION__,__LINE__)
 
 // kernel log handling functions
 static inline void klog_clear(void) {

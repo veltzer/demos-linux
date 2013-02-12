@@ -19,16 +19,14 @@
 */
 
 #include <firstinclude.h>
-#include <errno.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_SUCCESS, exit(3)
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <sys/types.h> // for kill(2), open(2)
+#include <sys/stat.h> // for open(2)
+#include <fcntl.h> // for open(2)
+#include <signal.h> // for kill(2), sigaction(2)
+#include <unistd.h> // for alarm(2), read(2), write(2)
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_SUCCESS, exit(3), atoi(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 const int BUFSIZE=1024;
 
@@ -45,8 +43,7 @@ void do1() {
 	int rcount;
 	while((npfd=open("np",O_RDONLY))==-1) {
 		if(errno!=EINTR) {
-			perror("Open named pipe \"np\" failed");
-			exit(errno);
+			CHECK_NOT_M1(-1);
 		}
 	}
 	fprintf(stderr, "np opend now read\n");
@@ -54,9 +51,7 @@ void do1() {
 		if(errno!=EINTR) {
 			buffer[rcount]='\0';
 			ssize_t ret=write(1, buffer, strlen(buffer));
-			if(ret!=(ssize_t)strlen(buffer)) {
-				perror("did not write fully");
-			}
+			CHECK_ASSERT(ret!=(ssize_t)strlen(buffer));
 		}
 	}
 }
@@ -73,23 +68,19 @@ void do2() {
 }
 
 int main(int argc,char** argv,char** envp) {
-	int me;
+	if(argc < 2) {
+		fprintf(stderr, "%s: Usage: %s 1 or 2\n", argv[0], argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	int me=atoi(argv[1]);
 	struct sigaction sigalrm;
 	sigset_t emptyset;
 	sigemptyset(&emptyset);
 	sigalrm.sa_handler=sigalrmHandler;
 	sigalrm.sa_mask=emptyset;
 	sigalrm.sa_flags=0;
-	if(sigaction(SIGALRM, & sigalrm, NULL)==-1) {
-		perror("sigaction SIGUSR1 failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGALRM, & sigalrm, NULL));
 	alarm(2);
-	if(argc < 2) {
-		fprintf(stderr, "Usage: %s 1 or 2\n", argv[0]);
-		exit(EXIT_FAILURE);
-	}
-	me=atoi(argv[1]);
 	if(me < 1 || me > 2) {
 		fprintf(stderr, "I said 1 or 2\n");
 		exit(EXIT_FAILURE);
