@@ -21,8 +21,6 @@ precompiled headers:
 - mouse device driver example.
 - executable library example.
 	(still not fully done although getting there).
-- get ridd of perror.
-- get ridd of errno.
 - make a script to update the README file with stats of this project.
 	(python preprocessor?). Run it whenever we release a version.
 - find two spaces in a row.

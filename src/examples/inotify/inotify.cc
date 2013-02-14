@@ -36,7 +36,7 @@
 * Getting out of the inotify main loop:
 * We use a signal to break out of the inotify loop. We could have used poll or an event
 * fd from other threads which would work out just fine. We use siginterrupt and a user
-* defined signal instead. That is the reason for all the singla handling code in this
+* defined signal instead. That is the reason for all the signal handling code in this
 * example.
 *
 * One of the weird things in terms of the inotify API is that it returns records of uneven
