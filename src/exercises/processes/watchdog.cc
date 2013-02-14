@@ -72,10 +72,7 @@ void watchsigHandler(int gotsig) {
 			break;
 	}
 	if(gotusr1 && gotusr2) {
-		if(setitimer(ITIMER_REAL, & timer, NULL)==-1) {
-			perror("setitimer failed");
-			exit(errno);
-		}
+		CHECK_NOT_M1(setitimer(ITIMER_REAL, & timer, NULL));
 		gotusr1=gotusr2=0;
 	}
 }

@@ -3,7 +3,7 @@
 ##############
 include Makefile.defs
 # directories
-US_DIRS:=src/examples src/exercises
+US_DIRS:=src/examples src/exercises src/examples_to_integrate
 KERNEL_DIR:=src/kernel
 US_INCLUDE:=src/include
 # kernel variables

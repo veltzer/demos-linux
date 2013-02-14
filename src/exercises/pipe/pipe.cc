@@ -22,7 +22,6 @@
 #include <sys/types.h> // for waitpid(2)
 #include <sys/wait.h> // for waitpid(2)
 #include <unistd.h> // for close(2), dup(2), execl(3), fork(2)
-#include <stdio.h> // for perror(3)
 #include <stdlib.h> // for EXIT_SUCCESS
 #include <us_helper.h> // for CHECK_NOT_M1()
 

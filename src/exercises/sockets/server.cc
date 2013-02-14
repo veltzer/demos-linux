@@ -19,49 +19,35 @@
 */
 
 #include <firstinclude.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/wait.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <time.h>
-#include <stdio.h>
-#include <string.h>
-#include <strings.h>
+#include <sys/types.h> // for socket(2), bind(2), recvfrom(2), connect(2)
+#include <sys/socket.h> // for socket(2), bind(2), recvfrom(2), connect(2)
+#include <unistd.h> // for write(2), close(2)
+#include <stdio.h> // for printf(3), sprintf(3)
+#include <string.h> // for strlen(3)
+#include <arpa/inet.h> // for htons(3)
+#include <strings.h> // for bzero(3)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_ASSERT()
 
 int main(int argc,char** argv,char** envp) {
-	int brsock, sendsock;
-	ssize_t datalen;
 	socklen_t fromaddrlen;
-	struct sockaddr_in server, fromaddr;
+	struct sockaddr_in fromaddr;
 	time_t t;
 	char ibuffer[1000], obuffer[1000];
-	brsock=CHECK_NOT_M1(socket(AF_INET, SOCK_DGRAM, 0));
+	int brsock=CHECK_NOT_M1(socket(AF_INET, SOCK_DGRAM, 0));
 	/*
 	int on=1;
-	if(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on)==-1) {
-		perror("setsockoption failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on));
 	*/
+	struct sockaddr_in server;
 	bzero(& server, sizeof(server));
 	server.sin_family=AF_INET;
 	server.sin_addr.s_addr=INADDR_ANY;
 	server.sin_port=htons(6969); // should use getservbyname()
 
-	if(bind(brsock, (struct sockaddr *) &server, sizeof(server)) < 0) {
-		perror("brsock connect failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(bind(brsock, (struct sockaddr *) &server, sizeof(server)));
 	while(true) {
-		if((datalen=recvfrom(brsock, ibuffer, sizeof(ibuffer), 0, (struct sockaddr *) & fromaddr, & fromaddrlen))==-1) {
-			perror("brsock recvfrom failed");
-			exit(errno);
-		}
+		ssize_t datalen=CHECK_NOT_M1(recvfrom(brsock, ibuffer, sizeof(ibuffer), 0, (struct sockaddr *) & fromaddr, & fromaddrlen));
 		ibuffer[datalen-1]='\0'; // get rid of '\n'
 		printf("Got==>%s<==\n", ibuffer);
 		sprintf(obuffer, "Bad request");
@@ -72,19 +58,11 @@ int main(int argc,char** argv,char** envp) {
 		if(strcmp(ibuffer, "pid")==0) {
 			sprintf(obuffer, "%d", getpid());
 		}
-		if((sendsock=socket(AF_INET, SOCK_STREAM, 0))==-1) {
-			perror("sendsock socket failed");
-			exit(errno);
-		}
+		int sendsock=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, 0));
 		fromaddr.sin_port=htons(6996); // reply port id
-		if(connect (sendsock, (struct sockaddr *) & fromaddr, fromaddrlen)==-1) {
-			perror("sendsock connect failed");
-			exit(errno);
-		}
-		ssize_t ret=write(sendsock, obuffer, strlen(obuffer));
-		if(ret!=(ssize_t)strlen(obuffer)) {
-			perror("write(2) error");
-		}
+		CHECK_NOT_M1(connect (sendsock, (struct sockaddr *) & fromaddr, fromaddrlen));
+		ssize_t ret=CHECK_NOT_M1(write(sendsock, obuffer, strlen(obuffer)));
+		CHECK_ASSERT(ret==(ssize_t)strlen(obuffer));
 		CHECK_NOT_M1(close(sendsock));
 	}
 	return EXIT_SUCCESS;

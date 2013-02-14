@@ -19,9 +19,9 @@
 */
 
 #include <firstinclude.h>
-#include <stdio.h> // for printf(3), scanf(3), perror(3)
+#include <stdio.h> // for printf(3), scanf(3)
 #include <stdlib.h> // for rand(3), EXIT_SUCCESS
-#include <errno.h> // for errno
+#include <us_helper.h> // for CHECK_INT
 
 int main(int argc,char** argv,char** envp) {
 	int rand_number;
@@ -32,11 +32,7 @@ int main(int argc,char** argv,char** envp) {
 		int guess=-1;
 		while(guess!=rand_number) {
 			printf("what is your guess ? ");
-			int ret=scanf("%d",&guess);
-			if(ret!=1) {
-				perror("scanf");
-				return -1;
-			}
+			CHECK_INT(scanf("%d",&guess),EOF);
 			if(guess<rand_number) {
 				printf("guess higher...\n");
 			}
@@ -48,12 +44,7 @@ int main(int argc,char** argv,char** envp) {
 			}
 		}
 		printf("want to play more ? ");
-		int ret=scanf("%d",&cont);
-		if(ret!=1) {
-			int err=errno;
-			perror("scanf");
-			return err;
-		}
+		CHECK_INT(scanf("%d",&cont),EOF);
 	}
 	return EXIT_SUCCESS;
 }
