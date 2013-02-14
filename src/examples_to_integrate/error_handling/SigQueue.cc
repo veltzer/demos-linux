@@ -20,9 +20,9 @@
 
 #include <firstinclude.h>
 #include <iostream> // for std::cerr, std::endl
-#include <stdio.h> // for perror(3)
 #include <signal.h> // for sigquque(3)
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
 * This is a general command line utility to send signals via
@@ -32,16 +32,13 @@
 int main(int argc,char** argv,char** envp) {
 	if(argc!=4) {
 		std::cerr << argv[0] << ": usage " << argv[0] << " [pid] [sig] [value]" << std::endl;
-		return -1;
+		return EXIT_FAILURE;
 	}
 	int pid=atoi(argv[1]);
 	int sig=atoi(argv[2]);
 	int val=atoi(argv[3]);
 	union sigval sval;
 	sval.sival_int=val;
-	if(sigqueue(pid,sig,sval)==-1) {
-		perror("problem calling sigqueue(2)");
-		return EXIT_FAILURE;
-	}
+	CHECK_NOT_M1(sigqueue(pid,sig,sval));
 	return EXIT_SUCCESS;
 }

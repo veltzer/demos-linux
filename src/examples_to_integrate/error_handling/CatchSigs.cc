@@ -22,9 +22,9 @@
 #include <iostream> // for std::cerr, std::endl
 #include <signal.h> // for signal(2)
 #include <unistd.h> // for pause(2), sleep(3)
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include <stdio.h> // for perror(3)
+#include <stdlib.h> // for EXIT_SUCCESS
 #include <string.h> // for strsignal(3)
+#include <us_helper.h> // for CHECK_NOT_SIGT(), CHECK_NOT_M1()
 
 static int counter=0;
 
@@ -41,24 +41,12 @@ static void SignalHandler(int sig) {
 
 int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
-	if(signal(SIGUSR1,SignalHandler)==SIG_ERR) {
-		perror("problem with calling signal(2)");
-		return EXIT_FAILURE;
-	}
-	if(signal(SIGUSR2,SignalHandler)==SIG_ERR) {
-		perror("problem with calling signal(2)");
-		return EXIT_FAILURE;
-	}
+	CHECK_NOT_SIGT(signal(SIGUSR1,SignalHandler),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGUSR2,SignalHandler),SIG_ERR);
 	/*
 	struct sigaction sa;
-	if(sigaction(SIGUSR1,sa,NULL)==-1) {
-		perror("problem with calling sigaction(2)");
-		return EXIT_FAILURE;
-	}
-	if(sigaction(SIGUSR2,sa,NULL)==-1) {
-		perror("problem with calling sigaction(2)");
-		return EXIT_FAILURE;
-	}
+	CHECK_NOT_M1(sigaction(SIGUSR1,sa,NULL));
+	CHECK_NOT_M1(sigaction(SIGUSR2,sa,NULL));
 	*/
 	std::cerr << "main: set up the sig handler, lets start" << std::endl;
 	// This is a non busy wait loop which only wakes up when there

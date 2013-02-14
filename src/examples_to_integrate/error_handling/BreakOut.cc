@@ -23,8 +23,8 @@
 #include <signal.h> // for signal(2), siginterrupt(3)
 #include <unistd.h> // for read(2)
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
-#include <stdio.h> // for perror(3)
 #include <string.h> // for strsignal(3)
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 static int counterUSR1=0;
 static int counterUSR2=0;
@@ -45,22 +45,13 @@ static void SignalHandlerUSR2(int sig) {
 		flag=0;
 	}
 	std::cerr << "handler: [" << strsignal(sig) << "]: " << counterUSR1 << " setting flag to " << flag << std::endl;
-	if(siginterrupt(SIGUSR1,flag)==-1) {
-		perror("problem with calling siginterrupt(2)");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(siginterrupt(SIGUSR1,flag));
 }
 
 int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
-	if(signal(SIGUSR1,SignalHandlerUSR1)==SIG_ERR) {
-		perror("problem with calling signal(2)");
-		return EXIT_FAILURE;
-	}
-	if(signal(SIGUSR2,SignalHandlerUSR2)==SIG_ERR) {
-		perror("problem with calling signal(2)");
-		return EXIT_FAILURE;
-	}
+	CHECK_NOT_SIGT(signal(SIGUSR1,SignalHandlerUSR1),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGUSR2,SignalHandlerUSR2),SIG_ERR);
 	std::cerr << "main: set up the sig handler, lets start" << std::endl;
 	// This is a non busy wait loop which only wakes up when there
 	// are signals
@@ -68,9 +59,7 @@ int main(int argc,char** argv,char** envp) {
 	char buf[size];
 	while(true) {
 		std::cerr << "main: before read" << std::endl;
-		if(read(0,buf,size)==-1) {
-			perror("main: error in read(2)");
-		}
+		CHECK_NOT_M1(read(0,buf,size));
 		std::cerr << "main: after read" << std::endl;
 	}
 	return EXIT_SUCCESS;
