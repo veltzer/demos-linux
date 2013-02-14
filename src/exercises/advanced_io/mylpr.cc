@@ -19,15 +19,14 @@
 */
 
 #include <firstinclude.h>
-#include <errno.h>
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <sys/param.h> // for MAXPATHLEN
+#include <sys/types.h> // for lseek(2)
+#include <fcntl.h> // for fcntl(2)
+#include <unistd.h> // for lseek(2), write(2), read(2), fcntl(2)
+#include <stdio.h> // for fprintf(3)
+#include <string.h> // for strcpy(3)
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 const int MAXINDEXSIZE=128;
 
@@ -37,71 +36,39 @@ struct index {
 };
 
 int main(int argc,char** argv,char** envp) {
-	int fdindex;
-	struct index buffer;
-	int buffersize;
-	int currid;
-	struct flock lplock;
 
 	if(argc < 2) {
-		fprintf(stderr, "Usage: %s file\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s file\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	if ((fdindex=open("lpindex", O_RDWR|O_CREAT, 0666))==-1) {
-		perror("open lpindex file failed");
-		exit(errno);
-	}
+	int fdindex=CHECK_NOT_M1(open("lpindex", O_RDWR|O_CREAT, 0666));
+	struct flock lplock;
 	lplock.l_type=F_WRLCK;
 	lplock.l_whence=SEEK_SET;
 	lplock.l_start=0;
 	lplock.l_len=0;
-	if (fcntl(fdindex, F_SETLKW, & lplock)==-1) {
-		perror("fcntl F_SETLK WriteLock failed");
-		exit(errno);
-	}
-	if ((buffersize=read(fdindex, & currid, sizeof(int)))==-1) {
-		perror("read nextid failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(fcntl(fdindex, F_SETLKW, & lplock));
+	int currid;
+	int buffersize=CHECK_NOT_M1(read(fdindex, & currid, sizeof(int)));
 	if (buffersize==0 || currid > MAXINDEXSIZE) {
 		currid=0;
 	}
-	if (lseek(fdindex, sizeof(int) + currid * sizeof(buffer), SEEK_SET)==-1) {
-		perror("seek to nextid failed");
-		exit(errno);
-	}
-	if (read(fdindex, &buffer, sizeof(buffer))==-1) {
-		perror("read verify failed");
-		exit(0);
-	}
+	struct index buffer;
+	CHECK_NOT_M1(lseek(fdindex, sizeof(int) + currid * sizeof(buffer), SEEK_SET));
+	CHECK_NOT_M1(read(fdindex, &buffer, sizeof(buffer)));
 	if(buffer.ID>0) {
 		fprintf(stderr, "Index table full. Retry print later");
 		exit(EXIT_FAILURE);
 	}
-	if(lseek(fdindex, sizeof(int) + currid * sizeof(buffer), SEEK_SET)==-1) {
-		perror("seek to nextid failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(lseek(fdindex, sizeof(int) + currid * sizeof(buffer), SEEK_SET));
 	buffer.ID=currid+1;
 	strcpy(buffer.path,argv[1]);
-	if (write(fdindex,&buffer,sizeof(buffer))==-1) {
-		perror("write buffer failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(write(fdindex,&buffer,sizeof(buffer)));
 	printf("file %s spooled, JobID: %d\n", buffer.path, buffer.ID);
-	if (lseek(fdindex, 0, SEEK_SET)==-1) {
-		perror("seek to start failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(lseek(fdindex, 0, SEEK_SET));
 	currid++;
-	if (write(fdindex, & currid, sizeof(int))==-1) {
-		perror("write nextid failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(write(fdindex, & currid, sizeof(int)));
 	lplock.l_type=F_UNLCK;
-	if (fcntl(fdindex, F_SETLK, & lplock)==-1) {
-		perror("fcntl F_SETLK F_UNLK failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(fcntl(fdindex, F_SETLK, & lplock));
 	return EXIT_SUCCESS;
 }

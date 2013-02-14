@@ -27,7 +27,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <time.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 const int MSGSZ=128;
 const int MAXQUEUE=32768;
@@ -39,18 +40,13 @@ typedef struct mymsgbuf
 	char mtext[MSGSZ];
 } message_buf;
 
-int childPID;
-int msqid;
-struct msqid_ds msgCtlBuf;
+static int childPID;
+static int msqid;
+static struct msqid_ds msgCtlBuf;
 
 void TerminateChild(int gotsig) {
-	int rc=kill(childPID,SIGKILL);
-	if(rc) {
-		perror("error in kill");
-		exit(errno);
-	} else {
-		exit(0);
-	}
+	CHECK_NOT_M1(kill(childPID,SIGKILL));
+	exit(EXIT_SUCCESS);
 }
 
 void DoChild() {
@@ -59,10 +55,7 @@ void DoChild() {
 	int i, biggestQID=0;
 	message_buf rbuf;
 	while(true) {
-		if(msgctl(msqid,IPC_STAT,&msgCtlBuf)==-1) {
-			perror("msgctl: msgctl failed");
-			exit(errno);
-		}
+		CHECK_NOT_M1(msgctl(msqid,IPC_STAT,&msgCtlBuf));
 		if(msgCtlBuf.msg_cbytes + MSGSZ+sizeof(long)>=msgCtlBuf.msg_qbytes)
 		{
 			// try to empty all queues. find the one with most messages and report it.
@@ -70,13 +63,10 @@ void DoChild() {
 			for(i=1; i<MAXQUEUE; i++)
 			{
 				currentQueueSize=0;
-				while((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long),
-					i, IPC_NOWAIT|MSG_NOERROR))!=-1)
-				{
+				while((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), i, IPC_NOWAIT|MSG_NOERROR))!=-1) {
 					currentQueueSize+=msgsize;
 				}
-				if(currentQueueSize > biggestQueueSize)
-				{
+				if(currentQueueSize>biggestQueueSize) {
 					biggestQueueSize=currentQueueSize;
 					biggestQID=i;
 				}
@@ -89,39 +79,18 @@ void DoChild() {
 }
 
 int main(int argc,char** argv,char** envp) {
-	key_t key;
-	struct sigaction SigAction;
 	sigset_t emptymask;
-	int rc;
-
 	sigemptyset(&emptymask);
+	struct sigaction SigAction;
 	SigAction.sa_handler=TerminateChild;
 	SigAction.sa_mask=emptymask;
 	SigAction.sa_flags=0;
-	if(sigaction(SIGINT, &SigAction, NULL)==-1) {
-		perror("sigaction");
-		exit(errno);
-	}
-	if(sigaction(SIGTERM, &SigAction, NULL)==-1) {
-		perror("sigaction");
-		exit(errno);
-	}
-	if(sigaction(SIGQUIT, &SigAction, NULL)==-1) {
-		perror("sigaction");
-		exit(errno);
-	}
-	if(sigaction(SIGABRT, &SigAction, NULL)==-1) {
-		perror("sigaction");
-		exit(errno);
-	}
-	if((key=ftok("/etc/passwd", 'x'))==-1) {
-		perror("ftok failed");
-		exit(errno);
-	}
-	if((msqid=msgget(key, IPC_CREAT | 0666 )) < 0) {
-		perror("msgget failed");
-		exit(errno);
-	}
+	CHECK_NOT_M1(sigaction(SIGINT, &SigAction, NULL));
+	CHECK_NOT_M1(sigaction(SIGTERM, &SigAction, NULL));
+	CHECK_NOT_M1(sigaction(SIGQUIT, &SigAction, NULL));
+	CHECK_NOT_M1(sigaction(SIGABRT, &SigAction, NULL));
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
+	msqid=CHECK_NOT_M1(msgget(key,IPC_CREAT|0666));
 	printf("Queue created\n");
 	switch(childPID=fork()) {
 		case -1:
@@ -170,16 +139,9 @@ int main(int argc,char** argv,char** envp) {
 				fprintf(stderr, "msg_ctime=%s", ctime(&msgCtlBuf.msg_ctime));
 				break;
 			case 2:
-				rc=kill(childPID, SIGKILL);
-				if(rc) {
-					perror("error in kill");
-					exit(errno);
-				}
-				if(msgctl(msqid, IPC_RMID, NULL)==-1) {
-					perror("msgctl RMID failed");
-					exit(errno);
-				}
-				exit(0);
+				CHECK_NOT_M1(kill(childPID, SIGKILL));
+				CHECK_NOT_M1(msgctl(msqid, IPC_RMID, NULL));
+				exit(EXIT_SUCCESS);
 				break;
 			case 3:
 				if(msgctl(msqid, IPC_STAT, & msgCtlBuf)==-1) {

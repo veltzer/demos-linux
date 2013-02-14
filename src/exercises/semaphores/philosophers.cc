@@ -19,11 +19,17 @@
 */
 
 #include <firstinclude.h>
-#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE, rand(3), srand(3)
 #include <time.h> // for time(2)
+#include <unistd.h> // for sleep(3)
+#include <stdio.h> // for printf(3)
+#include <sys/types.h> // for semop(2), ftok(3), semget(2)
+#include <sys/ipc.h> // for semop(2), ftok(3), semget(2)
+#include <sys/sem.h> // for semop(2), semget(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 #include "phil.hh"
 
-int semid;
+static int semid;
 
 void think(int id) {
 	int stime;
@@ -57,15 +63,11 @@ void putForks(int id) {
 	sops[1].sem_num=next;
 	sops[1].sem_op=1;
 	sops[1].sem_flg=0;
-	if ( semop(semid, sops, 2)==-1) {
-		perror("semop");
-		exit(errno);
-	}
+	CHECK_NOT_M1(semop(semid, sops, 2));
 	printf("Philosopher %d replaced the forks\n", id);
 }
 
-void pickForks(int id)
-{
+void pickForks(int id) {
 	int next;
 	if(id==NPHIL-1)
 		next=0;
@@ -79,10 +81,7 @@ void pickForks(int id)
 	sops[1].sem_num=next;
 	sops[1].sem_op=-1;
 	sops[1].sem_flg=0;
-	if ( semop(semid, sops, 2)==-1 ) {
-		perror("semop");
-		exit(errno);
-	}
+	CHECK_NOT_M1(semop(semid, sops, 2));
 	printf("Philosopher %d finally picked the forks\n", id);
 }
 
@@ -100,16 +99,9 @@ int main(int argc,char** argv,char** envp) {
 		exit(EXIT_FAILURE);
 	}
 
-	if ((key=ftok(KEYFILE, 'x'))==-1 ) {
-		int local_errno=errno;
-		perror("ftok failed");
-		exit(local_errno);
-	}
+	key=CHECK_NOT_M1(ftok(KEYFILE, 'x'));
 
-	if ((semid=semget(key, 0, 0))==-1 ) {
-		perror("semget");
-		exit(errno);
-	}
+	semid=CHECK_NOT_M1(semget(key, 0, 0));
 
 	while(true) {
 		pickForks(id);
