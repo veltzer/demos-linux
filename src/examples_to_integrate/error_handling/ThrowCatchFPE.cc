@@ -19,23 +19,18 @@
 */
 
 #include <firstinclude.h>
-#include <iostream>
-#include <signal.h>
+#include <iostream> // for std::cerr, std::endl
+#include <signal.h> // for sigismember(3), sigprocmask(2)
 #include <stdlib.h> // for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h> // for CHECK_NOT_M1()
 
+/*
 static void printStatus() {
 	sigset_t old;
-	if(sigprocmask(SIG_BLOCK,NULL,&old)==-1) {
-		perror("problem with calling sigprocmask(2)");
-		exit(EXIT_FAILURE);
-	}
-	int ret=sigismember(&old,SIGFPE);
-	if(ret==-1) {
-		perror("problem with calling sigismember(2)");
-		exit(EXIT_FAILURE);
-	}
-	std::cerr << "ret is " << ret << std::endl;
+	CHECK_NOT_M1(sigprocmask(SIG_BLOCK,NULL,&old));
+	CHECK_NOT_M1(sigismember(&old,SIGFPE));
 }
+*/
 
 /*
 * This method unblocks a signal so that it could be gotten again.
@@ -49,10 +44,7 @@ static void unblock(int signum) {
 	sigset_t sigs;
 	sigemptyset(&sigs);
 	sigaddset(&sigs,signum);
-	if(sigprocmask(SIG_UNBLOCK,&sigs,NULL)==-1) {
-		perror("problem with calling sigprocmask(2)");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_M1(sigprocmask(SIG_UNBLOCK,&sigs,NULL));
 }
 
 static void SignalHandler(int sig) {
@@ -91,34 +83,22 @@ static void doBadCode(int i) {
 		*/
 		case 2:
 			std::cerr << "Lets do a simulation of some bad code using raise(3)" << std::endl;
-			if(raise(SIGFPE)==-1) {
-				perror("problem with calling raise(2)");
-				exit(EXIT_FAILURE);
-			}
+			CHECK_NOT_M1(raise(SIGFPE));
 			break;
 		/*
 		* This is a floating point exception by using kill(2)
 		*/
 		case 3:
 			std::cerr << "Lets do a simulation of some bad code using kill(2)" << std::endl;
-			if(kill(getpid(),SIGFPE)==-1) {
-				perror("problem with calling kill(2)");
-				exit(EXIT_FAILURE);
-			}
+			CHECK_NOT_M1(kill(getpid(),SIGFPE));
 			break;
 	}
 }
 
 int main(int argc,char** argv,char** envp) {
 	// set up the signal handler (only need to do this once)
-	if(signal(SIGFPE,SignalHandler)==SIG_ERR) {
-		perror("problem with calling signal(2)");
-		exit(EXIT_FAILURE);
-	}
-	if(signal(SIGSEGV,SignalHandler)==SIG_ERR) {
-		perror("problem with calling signal(2)");
-		exit(EXIT_FAILURE);
-	}
+	CHECK_NOT_SIGT(signal(SIGFPE,SignalHandler),SIG_ERR);
+	CHECK_NOT_SIGT(signal(SIGSEGV,SignalHandler),SIG_ERR);
 	for(int c=0;c<10;c++) {
 		std::cerr << "c is " << c << std::endl;
 		try {

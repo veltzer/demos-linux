@@ -21,7 +21,10 @@
 #include <firstinclude.h>
 #include <iostream>
 #include <signal.h>
+#include <stdio.h> // for perror(3)
+#include <errno.h> // for perror(3)
 #include <stdlib.h> // for EXIT_SUCCESS
+#include <unistd.h> // for pipe(2)
 
 // Here is a template that will take care of all out needs
 
