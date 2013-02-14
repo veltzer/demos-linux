@@ -24,6 +24,7 @@
 #include <unistd.h> // for pause(2), sleep(3)
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h> // for perror(3)
+#include <string.h> // for strsignal(3)
 
 static int counter=0;
 

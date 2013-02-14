@@ -24,6 +24,7 @@
 #include <unistd.h> // for read(2)
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 #include <stdio.h> // for perror(3)
+#include <string.h> // for strsignal(3)
 
 static int counterUSR1=0;
 static int counterUSR2=0;

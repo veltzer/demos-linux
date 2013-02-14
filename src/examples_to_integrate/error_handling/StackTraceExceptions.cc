@@ -23,6 +23,7 @@
 #include <stdlib.h> // for EXIT_SUCCESS
 #include <execinfo.h>
 #include <exception>
+#include <stdio.h> // for printf(3)
 #include "demangle.h"
 
 class TracedException:public std::exception

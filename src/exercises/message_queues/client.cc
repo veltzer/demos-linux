@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_CHARP()
 
 const int MSGSZ=1024;
 
@@ -47,62 +47,38 @@ void doParent(int msqid, long myID)
 	while(1)
 	{
 		printf("Call ID: ");
-		char* ret=fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin);
-		if(ret!=SsubscriberID) {
-			perror("fgets(3)");
-			exit(errno);
-		}
+		CHECK_CHARP(fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin),SsubscriberID);
 		sbuf.mtype=atoi(SsubscriberID);
 		sbuf.fromID=myID;
 		printf("Message to %ld: ", sbuf.mtype);
-		ret=fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin);
-		if(ret!=sbuf.mtext) {
-			perror("fgets(3)");
-			exit(errno);
-		}
+		CHECK_CHARP(fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin),sbuf.mtext);
 		CHECK_NOT_M1(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0));
 	}
 }
 
 void doChild(int msqid, long myID)
 {
-	message_buf rbuf;
-	int msgsize;
 	while(true) {
-		if((msgsize=msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0))==-1)
-		{
-			perror("msgrcv failed");
-			exit(errno);
-		}
+		message_buf rbuf;
+		int msgsize=CHECK_NOT_M1(msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0));
 		rbuf.mtext[msgsize-sizeof(long)]='\0'; // string was sent without null char.
 		printf("Message from: %ld -> %s", rbuf.fromID, rbuf.mtext);
 	}
 }
 
 int main(int argc,char** argv,char** envp) {
-	int msqid;
 	long myID;
-	key_t key;
-	if(argc<2) {
-		fprintf(stderr, "Usage: %s MirsID\n", argv[0]);
+	if(argc!=2) {
+		fprintf(stderr, "%s: usage: %s MirsID\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	if((myID=atoi(argv[1]))<1) {
 		fprintf(stderr, "MirsID must be numeric positive greater than 0 and uniq (not checked)\n");
 		exit(EXIT_FAILURE);
 	}
-	if((key=ftok("/etc/passwd",'x'))==-1) {
-		perror("ftok failed");
-		exit(errno);
-	}
-	if((msqid=msgget(key,0))<0) {
-		perror("msgget failed");
-		exit(errno);
-	}
-	switch (fork()) {
-		case -1:
-			perror("Fork failed");
-			exit(errno);
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd",'x'));
+	int msqid=CHECK_NOT_M1(msgget(key,0));
+	switch (CHECK_NOT_M1(fork())) {
 		case 0:
 			doChild(msqid, myID);
 			exit(0);

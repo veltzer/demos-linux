@@ -84,11 +84,11 @@ void doParent(int semid, struct data * smdata, int myID) {
 	while(1)
 	{
 		printf("To: ");
-		CHECK_VOIDP(fgets(Sto, 7, stdin),Sto);
+		CHECK_CHARP(fgets(Sto, 7, stdin),Sto);
 		toID=atoi(Sto);
 		printf("Message to %d: ", toID);
 
-		CHECK_VOIDP(fgets(message+sizeof(int)*2, sizeof(message) - sizeof(int)*2 -1, stdin),message+sizeof(int)*2);
+		CHECK_CHARP(fgets(message+sizeof(int)*2, sizeof(message) - sizeof(int)*2 -1, stdin),message+sizeof(int)*2);
 
 		messageSizePTR=(int *)message;
 		* messageSizePTR=strlen(message+sizeof(int)*2) + sizeof(int)*2;
