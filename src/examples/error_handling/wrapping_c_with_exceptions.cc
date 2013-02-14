@@ -22,8 +22,6 @@
 #include <iostream> // for std::cerr
 #include <signal.h>
 #include <unistd.h> // for pipe(2)
-#include <stdio.h> // for perror(3)
-#include <errno.h> // for perror(3)
 #include <stdlib.h> // for EXIT_SUCCESS
 
 /*
@@ -37,7 +35,6 @@
 // this is the non template approach
 int syscall(int val,int err_val) {
 	if(val==err_val) {
-		//perror("C++ exception thrown");
 		throw std::exception();
 	}
 	return val;
@@ -46,7 +43,6 @@ int syscall(int val,int err_val) {
 // Here is a template that will take care of all our needs
 template<class T> T syscall(T val, T err_val) {
 	if(val==err_val) {
-		//perror("C++ exception thrown");
 		throw std::exception();
 	}
 	return(val);

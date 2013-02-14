@@ -345,9 +345,10 @@ check_check:
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep perror \| grep -v assert_perror
+	@scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
+#--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub check_check check_perror
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub check_perror check_check
 
 .PHONY: check_dots
 check_dots:

@@ -21,9 +21,8 @@
 #include <firstinclude.h>
 #include <papi.h> // for PAPI_* functions
 #include <unistd.h> // for sleep(3)
-#include <stdio.h> // for printf(3), perror(3)
-#include <stdlib.h> // for exit(3), atoi(3), EXIT_FAILURE, EXIT_SUCCESS
-#include <errno.h> // for perror(3)
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <stdlib.h> // for atoi(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <us_helper.h> // for getticks()
 
 /*
@@ -36,11 +35,6 @@
 *
 * EXTRA_LINK_FLAGS=-lpapi
 */
-
-void handle_error(int val) {
-	perror("had an error");
-	exit(EXIT_FAILURE);
-}
 
 long long dummy_work(int limit) {
 	int count=0;
@@ -60,8 +54,7 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr,"PAPI library version mismatch!\n");
 		exit(EXIT_FAILURE);
 	}
-	if (retval < 0)
-		handle_error(retval);
+	CHECK_GEZERO(retval);
 
 	// lets start measuring...
 	long long c1=PAPI_get_real_cyc();

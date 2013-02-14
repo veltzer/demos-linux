@@ -76,6 +76,7 @@ void DoChild() {
 		}
 		sleep(5);
 	}
+	exit(EXIT_SUCCESS);
 }
 
 int main(int argc,char** argv,char** envp) {
@@ -92,13 +93,9 @@ int main(int argc,char** argv,char** envp) {
 	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
 	msqid=CHECK_NOT_M1(msgget(key,IPC_CREAT|0666));
 	printf("Queue created\n");
-	switch(childPID=fork()) {
-		case -1:
-			perror("fork failed");
-			exit(errno);
-		case 0:
-			DoChild();
-			exit(0);
+	childPID=CHECK_NOT_M1(fork());
+	if(childPID==0) {
+		DoChild();
 	}
 	while(true) {
 		int Ans;
@@ -109,18 +106,10 @@ int main(int argc,char** argv,char** envp) {
 		printf("2. Stop the service (it's a strike).\n");
 		printf("3. Change queue size\n");
 		printf("4. Change permission\n-> ");
-		int ret=scanf("%d", & Ans);
-		if(ret<1) {
-			perror("fscanf(3)");
-			exit(errno);
-		}
+		CHECK_INT(scanf("%d", & Ans),1);
 		switch (Ans) {
 			case 1:
-				if(msgctl(msqid, IPC_STAT, & msgCtlBuf)==-1)
-				{
-					perror("msgctl: msgctl failed");
-					exit(errno);
-				}
+				CHECK_NOT_M1(msgctl(msqid, IPC_STAT, & msgCtlBuf));
 				fprintf(stderr, "msg_perm.uid=%d\n", msgCtlBuf.msg_perm.uid);
 				fprintf(stderr, "msg_perm.gid=%d\n", msgCtlBuf.msg_perm.gid);
 				fprintf(stderr, "msg_perm.cuid=%d\n", msgCtlBuf.msg_perm.cuid);
@@ -144,41 +133,19 @@ int main(int argc,char** argv,char** envp) {
 				exit(EXIT_SUCCESS);
 				break;
 			case 3:
-				if(msgctl(msqid, IPC_STAT, & msgCtlBuf)==-1) {
-					perror("msgctl: msgctl failed");
-					exit(errno);
-				}
+				CHECK_NOT_M1(msgctl(msqid, IPC_STAT, & msgCtlBuf));
 				printf("From %ld\nTo ",msgCtlBuf.msg_qbytes);
-				ret=scanf("%ld", & msgCtlBuf.msg_qbytes);
-				if(ret<1) {
-					perror("scanf");
-				}
-				if(msgctl(msqid, IPC_SET, & msgCtlBuf)==-1) {
-					perror("msgctl: msgctl failed");
-					exit(errno);
-				}
+				CHECK_INT(scanf("%ld", & msgCtlBuf.msg_qbytes),1);
+				CHECK_NOT_M1(msgctl(msqid, IPC_SET, & msgCtlBuf));
 				break;
 			case 4:
 				fprintf(stderr, "Enter msg_perm.uid: ");
-				ret=scanf ("%d", &msgCtlBuf.msg_perm.uid);
-				if(ret<1) {
-					perror("scanf");
-				}
+				CHECK_INT(scanf ("%d", &msgCtlBuf.msg_perm.uid),1);
 				fprintf(stderr, "Enter msg_perm.gid: ");
-				ret=scanf("%d", &msgCtlBuf.msg_perm.gid);
-				if(ret<1) {
-					perror("scanf");
-				}
+				CHECK_INT(scanf("%d", &msgCtlBuf.msg_perm.gid),1);
 				fprintf(stderr, "Enter msg_perm.mode: ");
-				ret=scanf("%hd", &msgCtlBuf.msg_perm.mode);
-				if(ret<1) {
-					perror("scanf");
-				}
-				if(msgctl(msqid, IPC_SET, & msgCtlBuf)==-1)
-				{
-					perror("msgctl: msgctl failed");
-					exit(errno);
-				}
+				CHECK_INT(scanf("%hd", &msgCtlBuf.msg_perm.mode),1);
+				CHECK_NOT_M1(msgctl(msqid, IPC_SET, & msgCtlBuf));
 		}
 	}
 	return EXIT_SUCCESS;
