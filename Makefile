@@ -1,7 +1,7 @@
 ##############
 # parameters #
 ##############
-$(info CURDIR is $(CURDIR))
+#$(info CURDIR is $(CURDIR))
 include Makefile.defs
 # directories
 US_DIRS:=src/examples src/exercises src/examples_to_integrate
