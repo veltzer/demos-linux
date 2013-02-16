@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_* stuff
-#include <linux/moduleparam.h> // for module_param
-#include <linux/stat.h> // for the various security constants
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* stuff */
+#include <linux/moduleparam.h> /* for module_param */
+#include <linux/stat.h> /* for the various security constants */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -85,10 +85,10 @@ MODULE_DESCRIPTION("demonstrate the use of kernel module parameters");
 * These should all have default values otherwise you should assume that they
 * are junk.
 */
-static short int myshort=1;
-static int myint=420;
-static long int mylong=9999;
-static char *mystring="blah";
+static short int myshort = 1;
+static int myint = 420;
+static long int mylong = 9999;
+static char *mystring = "blah";
 
 /*
 * Each parameter needs to be declared using the following syntax:
@@ -100,36 +100,41 @@ static char *mystring="blah";
 *
 * If you want to see all the options see $KERNEL_HEADERS/linux/stat.h
 */
-// this is the most permissive mode available.
-// root can read write, group root can read write and others can read.
-// for security reasons others writing is prohibited. This means that you
-// will need root user or to be a member of group root to change kernel
-// modules parameters at runtime...
+/* this is the most permissive mode available.
+root can read write, group root can read write and others can read.
+for security reasons others writing is prohibited. This means that you
+will need root user or to be a member of group root to change kernel
+modules parameters at runtime... */
 module_param(myshort, short, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 MODULE_PARM_DESC(myshort, "A short integer");
-// only root and group root will be able to both read this and write this at runtime
+/* only root and group root will be able to both read this and write this
+ * at runtime */
 module_param(myint, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(myint, "An integer");
-// only root will be able to read this one
+/* only root will be able to read this one */
 module_param(mylong, long, S_IRUSR);
 MODULE_PARM_DESC(mylong, "A long integer");
-// this will not appear at all in /sys but will appear in modinfo.
-// no one has permission to do anything with it...
+/* this will not appear at all in /sys but will appear in modinfo.
+no one has permission to do anything with it... */
 module_param(mystring, charp, 0000);
 MODULE_PARM_DESC(mystring, "A character string");
 
-static int param_init(void) {
+static int param_init(void)
+{
 	PR_INFO("start");
 	PR_INFO("myshort is a short integer: %hd", myshort);
 	PR_INFO("myint is an integer: %d", myint);
 	PR_INFO("mylong is a long integer: %ld", mylong);
 	PR_INFO("mystring is a string: %s", mystring);
-	PR_INFO("You may change some of the values now via /sys and see the values changed");
-	PR_INFO("either by catting /sys or unloading the module and looking at the unload printout...");
+	PR_INFO("You may change some of the values now via /sys and see");
+	PR_INFO("the values changed");
+	PR_INFO("either by catting /sys or unloading the module and");
+	PR_INFO("looking at the unload printout...");
 	return 0;
 }
 
-static void param_exit(void) {
+static void param_exit(void)
+{
 	PR_INFO("start");
 	PR_INFO("myshort is a short integer: %hd", myshort);
 	PR_INFO("myint is an integer: %d", myint);

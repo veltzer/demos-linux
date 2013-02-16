@@ -18,28 +18,30 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/fs.h> // for fops
-#include <linux/device.h> // for struct device
-#include <linux/eventfd.h> // for the eventfd API
-#include "shared.h" // for ioctl numbers
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* */
+#include <linux/fs.h> /* for fops */
+#include <linux/device.h> /* for struct device */
+#include <linux/eventfd.h> /* for the eventfd API */
+#include "shared.h" /* for ioctl numbers */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("module that demos the use of an eventfd");
 
-// static data
-static struct device* my_device;
+/* static data */
+static struct device *my_device;
 
-// fops
+/* fops */
 
 /*
 * This is the ioctl implementation.
 */
-static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
+		unsigned long arg)
+{
 	// file desriptor to use
 	int fd;
 	// struct file to use
@@ -50,22 +52,22 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		case IOCTL_EVENTFD_SIGNAL:
 			fd=(int)arg;
 			fp=eventfd_fget(fd);
-			if (fp==NULL) {
+			if (IS_ERR(fp)) {
 				PR_DEBUG("bad file descriptor");
-				return(-EINVAL);
+				return PTR_ERR(fp);
 			}
-			//eventfd_signal(fp,1);
-			return(0);
+			/* eventfd_signal(fp,1); */
+			return 0;
 	}
-	return(-EINVAL);
+	return -EINVAL;
 }
 
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops={
-	.owner=THIS_MODULE,
-	.unlocked_ioctl=kern_unlocked_ioctll,
+static const struct file_operations my_fops = {
+	.owner = THIS_MODULE,
+	.unlocked_ioctl = kern_unlocked_ioctl,
 };
 
 #include "device.inc"

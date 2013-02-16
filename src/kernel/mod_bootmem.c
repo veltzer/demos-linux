@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_* stuff
-#include <linux/bootmem.h> // for the bootmem function
-//define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* stuff */
+#include <linux/bootmem.h> /* for the bootmem function */
+/* define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -48,25 +48,27 @@ MODULE_DESCRIPTION("This is a driver that demos the alloc_bootmem function");
 * - is there a dealloc_bootmem function and if so why am I not showing how to use it here ?
 */
 
-// our own functions
-static int __init mod_init(void) {
+/* our own functions */
+static int __init mod_init(void)
+{
 	void* p;
 	PR_DEBUG("start");
-	// this will NOT work if your module is dynamic (you must be linked into the kernel)
-	//alloc_bootmem(10000000);
+	/* this will NOT work if your module is dynamic (you must be linked into the kernel) */
+	/* alloc_bootmem(10000000); */
 	p=alloc_bootmem(PAGE_SIZE);
 	if (IS_ERR(p)) {
 		PR_ERROR("unable to allocate bootmem");
-		return(PTR_ERR(p));
+		return PTR_ERR(p);
 	}
 	PR_DEBUG("ok");
-	return(0);
+	return 0;
 }
 
-static void __exit mod_exit(void) {
+static void __exit mod_exit(void)
+{
 	PR_DEBUG("start");
 }
 
-// declaration of init/cleanup functions of this module
+/* declaration of init/cleanup functions of this module */
 module_init(mod_init);
 module_exit(mod_exit);

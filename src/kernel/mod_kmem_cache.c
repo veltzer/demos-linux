@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*, module_*
-#include <linux/slab.h> // for the cache functions
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_*, module_* */
+#include <linux/slab.h> /* for the cache functions */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -45,42 +45,44 @@ MODULE_DESCRIPTION("This demo is to show how to create kmem caches and use them"
 *	and deallocating.
 */
 
-// statics for this module
+/* statics for this module */
 static struct kmem_cache* cache_p=NULL;
 static void* p=NULL;
 
-// our own functions
-static int __init kmem_init(void) {
+/* our own functions */
+static int __init kmem_init(void)
+{
 	PR_INFO("start");
 	cache_p=kmem_cache_create(
-		"veltzer",// name of cache (will appear in slabtop(1), /proc/slabinfo and more.
-		100,// size of objects in cache
-		0,// alignment
-		SLAB_HWCACHE_ALIGN | SLAB_DEBUG_OBJECTS,// flags (look at the docs, will you ?)
-		NULL// ctor/dtor to be called when each element is allocated or deallocated
+		"veltzer", /* name of cache (will appear in slabtop(1), /proc/slabinfo and more. */
+		100, /* size of objects in cache */
+		0, /* alignment */
+		SLAB_HWCACHE_ALIGN | SLAB_DEBUG_OBJECTS, /* flags (look at the docs, will you ?) */
+		NULL /* ctor/dtor to be called when each element is allocated or deallocated */
 	);
-	if(cache_p==NULL) {
-		return(-ENOMEM);
+	if(IS_ERR(cache_p)) {
+		return PTR_ERR(cache_p);
 	}
 	p=kmem_cache_alloc(cache_p, GFP_KERNEL);
-	if(p==NULL) {
-		// there is not too much that we can do here
+	if(IS_ERR(p)) {
+		/* there is not too much that we can do here */
 		PR_ERROR("Cannot allocate memory");
 		kmem_cache_destroy(cache_p);
-		return(-ENOMEM);
+		return PTR_ERR(p);
 	}
-	//mempool_create(number,mempool_alloc_slab, mempool_free_slab, drbd_request_cache);
+	/* mempool_create(number,mempool_alloc_slab, mempool_free_slab, drbd_request_cache); */
 	PR_INFO("end");
-	return(0);
+	return 0;
 }
 
-static void __exit kmem_exit(void) {
+static void __exit kmem_exit(void)
+{
 	PR_INFO("start");
 	kmem_cache_free(cache_p, p);
 	kmem_cache_destroy(cache_p);
 	PR_INFO("end");
 }
 
-// declaration of init/cleanup functions of this module
+/* declaration of init/cleanup functions of this module */
 module_init(kmem_init);
 module_exit(kmem_exit);

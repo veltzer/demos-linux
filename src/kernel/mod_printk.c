@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*. module_*
-#include <linux/printk.h> // for pr_*
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_*. module_* */
+#include <linux/printk.h> /* for pr_* */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 /*
 * This is a minimal module showing various logging functions
@@ -39,12 +39,16 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("module for showing logging functions");
 
-void print_error_once_wrapper(void) {
+void print_error_once_wrapper(void)
+{
 	pr_err_once("this is an error that will not be repeated\n");
 }
 
-// our own functions
-static int __init mod_init(void) {
+/* our own functions */
+static int __init mod_init(void)
+{
+	/* next ones create warnings with checkpatch.pl...*/
+	/*
 	printk(KERN_EMERG "this is an emergency message");
 	printk(KERN_ALERT "this is an alert message");
 	printk(KERN_CRIT "this is a critical message");
@@ -57,6 +61,7 @@ static int __init mod_init(void) {
 	printk(FW_WARN "this is a firmware warning message");
 	printk(FW_INFO "this is a firmware info message");
 	printk(HW_ERR "this is a hardware error message");
+	*/
 	pr_emerg("this is an emergency message\n");
 	pr_alert("this is an alert message\n");
 	pr_crit("this is a critical message\n");
@@ -70,17 +75,17 @@ static int __init mod_init(void) {
 	print_error_once_wrapper();
 	// lets dump the stack...
 	dump_stack();
-	return(0);
+	return 0;
 }
 
 
-static void __exit mod_exit(void) {
-	// this will not show any output...
+static void __exit mod_exit(void)
+{
+	/* this will not show any output... */
 	print_error_once_wrapper();
 	dump_stack();
 }
 
-// declaration of init/cleanup functions of this module
-
+/* declaration of init/cleanup functions of this module */
 module_init(mod_init);
 module_exit(mod_exit);

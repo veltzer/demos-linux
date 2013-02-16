@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/syscalls.h> // for the sys call numbers
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* */
+#include <linux/syscalls.h> /* for the sys call numbers */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -51,7 +51,8 @@ MODULE_DESCRIPTION("Module for finding the sys call table");
 */
 
 // A function to align an address to a page boundary...
-inline unsigned long align_address(unsigned long addr) {
+static inline unsigned long align_address(unsigned long addr)
+{
 	return addr & ~(PAGE_SIZE-1);
 }
 
@@ -198,27 +199,29 @@ static void func2(void) {
 }
 */
 
-static unsigned long* get_sys_call_table(void) {
-	// the next address is taken from /proc/kallsyms
-	// using "cat /proc/kallsyms | grep sys_call_table"
-	unsigned long* ret=(unsigned long*)0xc0594150;
+static unsigned long* get_sys_call_table(void)
+{
+	/* the next address is taken from /proc/kallsyms
+	using "cat /proc/kallsyms | grep sys_call_table"
+	*/
+	unsigned long *ret = (unsigned long*)0xc0594150;
 	return ret;
 }
 
-static void* sys_call_adr=NULL;
-static unsigned long* sys_call_adr_precise=NULL;
+static void *sys_call_adr;
+static unsigned long *sys_call_adr_precise;
 
 static int map_sys_call_table(void) {
-	unsigned long* syscalltab=get_sys_call_table();
-	unsigned long syscalladr=(unsigned long)virt_to_phys(syscalltab);
-	unsigned long offset=syscalladr & (PAGE_SIZE-1);
-	unsigned long start=align_address(syscalladr);
-	unsigned long len=PAGE_SIZE;
+	unsigned long* syscalltab = get_sys_call_table();
+	unsigned long syscalladr = (unsigned long)virt_to_phys(syscalltab);
+	unsigned long offset = syscalladr & (PAGE_SIZE-1);
+	unsigned long start = align_address(syscalladr);
+	unsigned long len = PAGE_SIZE;
 	//const unsigned int num_pages=1;
 	sys_call_adr=ioremap(start, len);
-	if(sys_call_adr==NULL) {
+	if(IS_ERR(sys_call_adr)) {
 		PR_ERROR("unable to ioremap");
-		return -1;
+		return PTR_ERR(sys_call_adr);
 	} else {
 		sys_call_adr_precise=sys_call_adr+offset;
 		PR_DEBUG("got precise %p",sys_call_adr_precise);
@@ -226,18 +229,22 @@ static int map_sys_call_table(void) {
 	}
 }
 
-static void unmap_sys_call_table(void) {
+static void unmap_sys_call_table(void)
+{
 	iounmap(sys_call_adr);
 }
 
-static unsigned long get_sys_call_entry(int nr) {
+static unsigned long get_sys_call_entry(int nr)
+{
 	return sys_call_adr_precise[nr];
 }
-static void set_sys_call_entry(int nr,unsigned long val) {
+static void set_sys_call_entry(int nr,unsigned long val)
+{
 	sys_call_adr_precise[nr]=val;
 }
 
-static void test_sys_call_table(int nr) {
+static void test_sys_call_table(int nr)
+{
 	unsigned long val=get_sys_call_entry(nr);
 	PR_DEBUG("val is %lx",val);
 	set_sys_call_entry(nr,val);
@@ -298,13 +305,15 @@ asmlinkage static int new_pipe2(int* des,int flags) {
 static int called=0;
 static asmlinkage long (*old_close)(unsigned int);
 
-asmlinkage static long new_close(unsigned int val) {
+asmlinkage static long new_close(unsigned int val)
+{
 	PR_DEBUG("here");
 	called++;
 	return old_close(val);
 }
 
-static int __init mod_init(void) {
+static int __init mod_init(void)
+{
 	PR_DEBUG("start");
 	map_sys_call_table();
 	test_sys_call_table(__NR_close);
@@ -314,7 +323,8 @@ static int __init mod_init(void) {
 	return 0;
 }
 
-static void __exit mod_exit(void) {
+static void __exit mod_exit(void)
+{
 	PR_DEBUG("start");
 	set_sys_call_entry(__NR_close,(unsigned long)old_close);
 	unmap_sys_call_table();

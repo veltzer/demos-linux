@@ -18,15 +18,15 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/fs.h> // for fops
-#include <linux/device.h> // for struct device
-#include <linux/spinlock.h> // for the spin lock API
-#include <linux/slab.h> // for the kmalloc API
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
-#include "shared.h" // for the ioctl numbers
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* */
+#include <linux/fs.h> /* for fops */
+#include <linux/device.h> /* for struct device */
+#include <linux/spinlock.h> /* for the spin lock API */
+#include <linux/slab.h> /* for the kmalloc API */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
+#include "shared.h" /* for the ioctl numbers */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -39,50 +39,56 @@ MODULE_DESCRIPTION("Showing how to use spin locks in the kernel");
 * http://www.kernel.org/pub/linux/kernel/people/rusty/kernel-locking/index.html
 */
 
-// static data
+/* static data */
 static struct device* my_device;
-DEFINE_SPINLOCK(mr_lock); // unlocked by default...
+DEFINE_SPINLOCK(mr_lock); /* unlocked by default... */
 static spinlock_t *lock_t;
 
-// fops
+/* fops */
 
 /*
 * This is the ioctl implementation.
 */
-static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
+		unsigned long arg)
+{
 	unsigned long flags;
 	PR_DEBUG("start");
 	switch (cmd) {
-		case IOCTL_SPINLOCK_IRQSAVE:
-			// lock - this will disable interrupts on the local CPU Only!!!
-			spin_lock_irqsave(&mr_lock, flags);
-			/* critical section ... */
-			spin_unlock_irqrestore(&mr_lock, flags);
-			return 0;
-		case IOCTL_SPINLOCK_REGULAR:
-			// lock - this will not disable interrupts and may cause a dead lock if you
-			// try to acquire the same lock from an interrupt handler or higher level task
-			spin_lock(&mr_lock);
-			spin_unlock(&mr_lock);
-			return 0;
-		case IOCTL_SPINLOCK_ALLOCATED:
-			lock_t=kmalloc(sizeof(spinlock_t), GFP_KERNEL);
-			spin_lock_init(lock_t);
-			spin_lock(lock_t);
-			spin_unlock(lock_t);
-			kfree(lock_t);
-			return 0;
+	case IOCTL_SPINLOCK_IRQSAVE:
+		/* lock - this will disable interrupts on the local CPU Only!!! */
+		spin_lock_irqsave(&mr_lock, flags);
+		/* critical section ... */
+		spin_unlock_irqrestore(&mr_lock, flags);
+		return 0;
+	case IOCTL_SPINLOCK_REGULAR:
+		/* lock - this will not disable interrupts and may cause a dead lock if you
+		try to acquire the same lock from an interrupt handler or higher level task
+		*/
+		spin_lock(&mr_lock);
+		spin_unlock(&mr_lock);
+		return 0;
+	case IOCTL_SPINLOCK_ALLOCATED:
+		lock_t = kmalloc(sizeof(spinlock_t), GFP_KERNEL);
+		if (IS_ERR(lock_t)) {
+			return PTR_ERR(lock_t);
+		}
+		spin_lock_init(lock_t);
+		spin_lock(lock_t);
+		spin_unlock(lock_t);
+		kfree(lock_t);
+		return 0;
 	}
-	return(-EINVAL);
+	return -EINVAL;
 }
 
 
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops={
-	.owner=THIS_MODULE,
-	.unlocked_ioctl=kern_unlocked_ioctll,
+static const struct file_operations my_fops = {
+	.owner = THIS_MODULE,
+	.unlocked_ioctl = kern_unlocked_ioctl,
 };
 
 #include "device.inc"

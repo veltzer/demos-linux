@@ -50,7 +50,7 @@ static int ioctl_size;
 /*
 * This is the ioctl implementation.
 */
-static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 	//int i;
 	char str[256];
 	void* ptr;
@@ -146,7 +146,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		//PR_DEBUG("kaddr is (p) %p",kaddr);
 		//PR_DEBUG("real size is (d) %d",ioctl_size);
 		PR_DEBUG("addr for user space is (lu) %lu / (p) %p", addr, (void *)addr);
-		return(addr);
+		return addr;
 
 	/*
 	*	unmap a region
@@ -167,7 +167,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			order=get_order(size);
 			free_pages((unsigned long)kernel_addr, order);
 		}
-		return(ret);
+		return ret;
 
 	/*
 	*	The the size of the region
@@ -178,7 +178,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 		PR_DEBUG("size is %d", ioctl_size);
 		return 0;
 	}
-	return(-EINVAL);
+	return -EINVAL;
 }
 
 /*
@@ -237,12 +237,12 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 		vma->vm_page_prot// protection
 	)) {
 		PR_DEBUG("error path");
-		return(-EAGAIN);
+		return -EAGAIN;
 	}
 	vma->vm_ops=&kern_remap_vm_ops;
 	vma->vm_private_data=kaddr;
 	kern_vma_open(vma);
-	return(0);
+	return 0;
 }
 
 /*
@@ -250,7 +250,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma) {
 */
 static struct file_operations my_fops={
 	.owner=THIS_MODULE,
-	.unlocked_ioctl=kern_unlocked_ioctll,
+	.unlocked_ioctl=kern_unlocked_ioctl,
 	.mmap=kern_mmap,
 };
 

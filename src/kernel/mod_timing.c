@@ -43,7 +43,7 @@ static struct device *my_device;
 /*
 * This is the ioctl implementation.
 */
-static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd,
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 	unsigned long arg) {
 	/* cycles_t is actually unsigned long long
 	(look at arch/x86/include/asm/tsc.h). */
@@ -130,7 +130,7 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd,
 */
 static const struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_unlocked_ioctll,
+	.unlocked_ioctl = kern_unlocked_ioctl,
 };
 
 #include "device.inc"

@@ -40,7 +40,8 @@ module_param(minors_count, int, 0444);
 MODULE_PARM_DESC(minors_count, "how many minors to allocate");
 
 // registration/unregistration functions
-int __init register_dev(void) {
+int __init register_dev(void)
+{
 	int ret;
 	// create a class
 	my_class = class_create(THIS_MODULE, THIS_MODULE->name);
