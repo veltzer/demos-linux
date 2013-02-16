@@ -42,22 +42,22 @@ static struct device *my_device;
 static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		unsigned long arg)
 {
-	// file desriptor to use
+	/* file desriptor to use */
 	int fd;
-	// struct file to use
+	/* struct file to use */
 	struct file *fp;
 
 	PR_DEBUG("start");
 	switch (cmd) {
-		case IOCTL_EVENTFD_SIGNAL:
-			fd=(int)arg;
-			fp=eventfd_fget(fd);
-			if (IS_ERR(fp)) {
-				PR_DEBUG("bad file descriptor");
-				return PTR_ERR(fp);
-			}
-			/* eventfd_signal(fp,1); */
-			return 0;
+	case IOCTL_EVENTFD_SIGNAL:
+		fd = (int)arg;
+		fp = eventfd_fget(fd);
+		if (IS_ERR(fp)) {
+			PR_DEBUG("bad file descriptor");
+			return PTR_ERR(fp);
+		}
+		/* eventfd_signal(fp,1); */
+		return 0;
 	}
 	return -EINVAL;
 }

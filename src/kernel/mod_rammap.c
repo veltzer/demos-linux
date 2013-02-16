@@ -18,32 +18,33 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/page-flags.h> // for PG_* constants
-#include <linux/mm.h> // for page_* functions
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* */
+#include <linux/page-flags.h> /* for PG_* constants */
+#include <linux/mm.h> /* for page_* functions */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("module which prints out the ram map");
 
-// static data
-static unsigned int physaddr=0x32000000;
-static unsigned int size=170 * 1024 * 1024;
-static void* logical;
+/* static data */
+static unsigned int physaddr = 0x32000000;
+static unsigned int size = 170 * 1024 * 1024;
+static void *logical;
 
-// our own functions
+/* our own functions */
 static void capi_print_addressinfo(void *logical_adr)
 {
-	struct page *page=virt_to_page(logical_adr);
+	struct page *page = virt_to_page(logical_adr);
 
-	if (page==NULL) {
+	if (page == NULL) {
 		PR_INFO("unable to translate address %p to page", logical_adr);
 		return;
 	}
-	PR_INFO("address %p, page:%p flags:0x%0*lx mapping:%p mapcount:%d count:%d\n",
+	PR_INFO(
+	"address %p, page:%p flags:0x%0*lx mapping:%p mapcount:%d count:%d\n",
 		logical_adr,
 		page, (int)(2 * sizeof(unsigned long)),
 		page->flags, page->mapping,
@@ -53,8 +54,8 @@ static void capi_print_addressinfo(void *logical_adr)
 	PR_INFO("PG_lru is %lu", page->flags & (1 << PG_lru));
 	PR_INFO("PG_private is %lu", page->flags & (1 << PG_private));
 	PR_INFO("PG_locked is %lu", page->flags & (1 << PG_locked));
-	// Missing in newer kernels and so is remarked...
-	//PR_INFO("PG_buddy is %lu", page->flags & (1 << PG_buddy));
+	/* Missing in newer kernels and so is remarked... */
+	/* PR_INFO("PG_buddy is %lu", page->flags & (1 << PG_buddy)); */
 	PR_INFO("PG_writeback is %lu", page->flags & (1 << PG_writeback));
 	PR_INFO("PG_slab is %lu", page->flags & (1 << PG_slab));
 	PR_INFO("PG_swapcache is %lu", page->flags & (1 << PG_swapcache));
@@ -64,9 +65,9 @@ static void capi_print_addressinfo(void *logical_adr)
 
 static void capi_debug_address(unsigned int phys)
 {
-	void* logical=__va(phys);
-	void* logical2=phys_to_virt(phys);
-	unsigned int phys2=__pa(logical);
+	void *logical = __va(phys);
+	void *logical2 = phys_to_virt(phys);
+	unsigned int phys2 = __pa(logical);
 
 	PR_INFO("phys is %u", phys);
 	PR_INFO("logical is %p", logical);
@@ -86,23 +87,23 @@ static int __init mod_init(void)
 	*	return 1;
 	* }
 	*/
-	logical=ioremap(physaddr, size);
+	logical = ioremap(physaddr, size);
 	if (IS_ERR(logical)) {
-		PR_ERROR("could not ioremap");
+		pr_err("could not ioremap");
 		release_mem_region(physaddr, size);
 		return PTR_ERR(logical);
 	}
 	PR_INFO("got logical address %p", logical);
-	//memset(logical,0,size);
-	//*logical=5;
-	//PR_INFO("read %c",*logical);
-	//logical=phys_to_virt(physaddr);
-	//for(i=0;i<170*1024*1024;i++) {
-	//	logical[i]=0;
-	//}
-	//capi_print_addressinfo((void*)(1024*1024*700));
-	//capi_print_addressinfo((void*)(1024*1024*695));
-	//capi_print_addressinfo((void*)(1024*1024*720));
+	/* memset(logical,0,size);
+	*logical=5;
+	PR_INFO("read %c",*logical);
+	logical=phys_to_virt(physaddr);
+	for(i=0;i<170*1024*1024;i++)
+		logical[i]=0;
+	capi_print_addressinfo((void*)(1024*1024*700));
+	capi_print_addressinfo((void*)(1024*1024*695));
+	capi_print_addressinfo((void*)(1024*1024*720));
+	*/
 	return 0;
 }
 
@@ -113,7 +114,6 @@ static void __exit mod_exit(void)
 	release_mem_region(physaddr, size);
 }
 
-// declaration of init/cleanup functions of this module
-
+/* declaration of init/cleanup functions of this module */
 module_init(mod_init);
 module_exit(mod_exit);

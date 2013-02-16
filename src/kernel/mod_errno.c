@@ -43,7 +43,8 @@ static struct device *my_device;
 /*
 * This is the ioctl implementation. This returns whatever it gets.
 */
-static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
+		unsigned long arg)
 {
 	PR_DEBUG("start");
 	return arg;
@@ -52,7 +53,7 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned lo
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
+static const struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.unlocked_ioctl = kern_unlocked_ioctl,
 };

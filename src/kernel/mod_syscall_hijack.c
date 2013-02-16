@@ -35,29 +35,32 @@ MODULE_DESCRIPTION("Module for finding the sys call table");
 * http://downloads.securityfocus.com/downloads/scprint.tar.gz
 * http://www.epanastasi.com/?page_id=52
 * http://kerneltrap.org/node/5793
-* http://stackoverflow.com/questions/2103315/linux-kernel-system-call-hooking-example
+* http://stackoverflow.com/questions/2103315/
+* linux-kernel-system-call-hooking-example
 * http://rootkitanalytics.com/kernelland/syscall-hijack.php
 *
-* If you want to check that this module works then use this from the command line:
+* If you want to check that this module works then use this from
+* the command line:
 * grep syscall_call /proc/kallsyms
 * or
 * grep sys_call_table /proc/kallsyms
 *
 * TODO:
-* - make finding the sys call table be dynamic and not with the current hard code
-*	address.
-* - how come I don't manage to do this with the set_memory_{rw},{x} etc? They are
-*	supposed to work. Check it out again.
+* - make finding the sys call table be dynamic and not with the
+* current hard codeed address.
+* - how come I don't manage to do this with the set_memory_{rw},{x} etc?
+* They are supposed to work. Check it out again.
 */
 
-// A function to align an address to a page boundary...
+/* A function to align an address to a page boundary... */
 static inline unsigned long align_address(unsigned long addr)
 {
 	return addr & ~(PAGE_SIZE-1);
 }
 
-// this function prints system call numbers (this is good for getting an idea
-// of how big the system call table really is).
+/* this function prints system call numbers (this is good for getting an idea
+of how big the system call table really is).
+*/
 
 /*
 static void print_sys_call_nums(void) {
@@ -68,8 +71,9 @@ static void print_sys_call_nums(void) {
 }
 */
 
-// this functions puts whatever permission on whatever address you want
-// prot should be or'ed with VM_READ | VM_WRITE | VM_EXEC
+/* this functions puts whatever permission on whatever address you want
+prot should be or'ed with VM_READ | VM_WRITE | VM_EXEC
+*/
 
 /*
 static void set_perms(void* pointer,int prot_val) {
@@ -85,11 +89,12 @@ static void set_perms(void* pointer,int prot_val) {
 }
 */
 
-// this function tries to read the sys_call_table var directly...
+/* this function tries to read the sys_call_table var directly... */
 
 /*
 static void read_sys_call_table(void) {
-	// this does not work because the symbol "sys_call_table" is not exported...
+	// this does not work because the symbol "sys_call_table" is not
+	// exported...
 	extern void* sys_call_table;
 	INFO("The address of the system call table is: 0x%p\n",sys_call_table);
 }
@@ -117,7 +122,8 @@ static void my_func(void) {
 		if((p[__NR_open]==ptr_sys_open) &&
 			(p[__NR_close]==ptr_sys_close)) {
 			sctable=(unsigned long **)p;
-			INFO("The address of the system call table is: 0x%p\n",&sctable[0]);
+			INFO("The address of the system call table is: 0x%p\n",
+				&sctable[0]);
 			break;
 		}
 	}
@@ -134,8 +140,9 @@ static void print_text(void) {
 /*
 // first version of sys call table calculation...
 static void func(void) {
-	unsigned long* ptr=(unsigned long *)((init_mm.end_code + 4) & 0xfffffffc);
-	unsigned long* sys_call_table;
+	unsigned long *ptr=(unsigned long *)((init_mm.end_code + 4) &
+		0xfffffffc);
+	unsigned long *sys_call_table;
 	int i;
 	unsigned long arr[5];
 	INFO("Searching for sys_call_table address...");
@@ -155,7 +162,8 @@ static void func(void) {
 			if(arr[0]!=arr[2] || arr[1]!=arr[3])
 			{
 				sys_call_table=(ptr-__NR_close);
-				INOF("sys_call_table base found at: %p",sys_call_table);
+				INFO("sys_call_table base found at: %p",
+					sys_call_table);
 				break;
 			}
 
@@ -170,8 +178,8 @@ static void func(void) {
 
 	INOF("Starting patching!");
 
-	// Remapping write, open and close syscall entries syscall table with to our
-	// functions.
+	// Remapping write, open and close syscall entries syscall table
+	// with to our functions.
 	//sys_call_table[__NR_write]=fake_sys_write;
 	//sys_call_table[__NR_open]=fake_sys_open;
 	//sys_call_table[__NR_close]=fake_sys_close;
@@ -188,43 +196,47 @@ static void func2(void) {
 	INFO("Module is loaded!\n");
 	for(ptr=start_ptr;ptr<end_ptr;ptr+=sizeof(void*)) {
 		unsigned long *p=(unsigned long*)ptr;
-		if (p[__NR_close]==(unsigned long) sys_close){
+		if (p[__NR_close]==(unsigned long) sys_close) {
 			sctable=(unsigned long **)p;
-			INFO("The address of the system call table is: 0x%p",&sctable[0]);
-			for(z=0;z<256;z++) //this max number of the system calls should be set
-			INFO("The address of %d system call is 0x%p\n",z, sctable[z]);
+			INFO("The address of the system call table is: 0x%p",
+				&sctable[0]);
+			// this max number of the system calls should be set
+			for(z=0;z<256;z++)
+				INFO("The address of %d system call is 0x%p\n",
+					z, sctable[z]);
 			break;
 		}
 	}
 }
 */
 
-static unsigned long* get_sys_call_table(void)
+static unsigned long *get_sys_call_table(void)
 {
 	/* the next address is taken from /proc/kallsyms
 	using "cat /proc/kallsyms | grep sys_call_table"
 	*/
-	unsigned long *ret = (unsigned long*)0xc0594150;
+	unsigned long *ret = (unsigned long *)0xc0594150;
 	return ret;
 }
 
 static void *sys_call_adr;
 static unsigned long *sys_call_adr_precise;
 
-static int map_sys_call_table(void) {
-	unsigned long* syscalltab = get_sys_call_table();
+static int map_sys_call_table(void)
+{
+	unsigned long *syscalltab = get_sys_call_table();
 	unsigned long syscalladr = (unsigned long)virt_to_phys(syscalltab);
 	unsigned long offset = syscalladr & (PAGE_SIZE-1);
 	unsigned long start = align_address(syscalladr);
 	unsigned long len = PAGE_SIZE;
-	//const unsigned int num_pages=1;
-	sys_call_adr=ioremap(start, len);
-	if(IS_ERR(sys_call_adr)) {
+	/* const unsigned int num_pages=1; */
+	sys_call_adr = ioremap(start, len);
+	if (IS_ERR(sys_call_adr)) {
 		PR_ERROR("unable to ioremap");
 		return PTR_ERR(sys_call_adr);
 	} else {
-		sys_call_adr_precise=sys_call_adr+offset;
-		PR_DEBUG("got precise %p",sys_call_adr_precise);
+		sys_call_adr_precise = sys_call_adr+offset;
+		PR_DEBUG("got precise %p", sys_call_adr_precise);
 		return 0;
 	}
 }
@@ -238,16 +250,16 @@ static unsigned long get_sys_call_entry(int nr)
 {
 	return sys_call_adr_precise[nr];
 }
-static void set_sys_call_entry(int nr,unsigned long val)
+static void set_sys_call_entry(int nr, unsigned long val)
 {
-	sys_call_adr_precise[nr]=val;
+	sys_call_adr_precise[nr] = val;
 }
 
 static void test_sys_call_table(int nr)
 {
-	unsigned long val=get_sys_call_entry(nr);
-	PR_DEBUG("val is %lx",val);
-	set_sys_call_entry(nr,val);
+	unsigned long val = get_sys_call_entry(nr);
+	PR_DEBUG("val is %lx", val);
+	set_sys_call_entry(nr, val);
 }
 
 /*
@@ -302,7 +314,8 @@ asmlinkage static int new_pipe2(int* des,int flags) {
 	return old_pipe2(des,flags);
 }
 */
-static int called=0;
+/* initialised automatically to 0...*/
+static int called;
 static asmlinkage long (*old_close)(unsigned int);
 
 asmlinkage static long new_close(unsigned int val)
@@ -317,8 +330,8 @@ static int __init mod_init(void)
 	PR_DEBUG("start");
 	map_sys_call_table();
 	test_sys_call_table(__NR_close);
-	old_close=(asmlinkage long (*)(unsigned int))get_sys_call_entry(__NR_close);
-	set_sys_call_entry(__NR_close,(unsigned long)new_close);
+	old_close = (typeof(old_close))get_sys_call_entry(__NR_close);
+	set_sys_call_entry(__NR_close, (unsigned long)new_close);
 	PR_DEBUG("end");
 	return 0;
 }
@@ -326,9 +339,9 @@ static int __init mod_init(void)
 static void __exit mod_exit(void)
 {
 	PR_DEBUG("start");
-	set_sys_call_entry(__NR_close,(unsigned long)old_close);
+	set_sys_call_entry(__NR_close, (unsigned long)old_close);
 	unmap_sys_call_table();
-	PR_DEBUG("called is %d",called);
+	PR_DEBUG("called is %d", called);
 	PR_DEBUG("end");
 }
 

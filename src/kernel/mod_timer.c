@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*, module_*
-#include <linux/timer.h> // for setup_timer, mod_timer, del_timer
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_*, module_* */
+#include <linux/timer.h> /* for setup_timer, mod_timer, del_timer */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -37,30 +37,32 @@ MODULE_DESCRIPTION("Demo of the regular linux kernel timer API");
 
 static struct timer_list my_timer;
 
-static void my_timer_callback(unsigned long data) {
-	printk("my_timer_callback called (%ld).\n",jiffies);
+static void my_timer_callback(unsigned long data)
+{
+	pr_info("my_timer_callback called (%ld).\n", jiffies);
 }
 
-static int __init mod_init(void) {
+static int __init mod_init(void)
+{
 	int ret;
-	printk("Timer module installing\n");
-	setup_timer(&my_timer,my_timer_callback,0);
-	printk("Starting timer to fire in 200ms (%ld)\n",jiffies);
-	ret=mod_timer(&my_timer,jiffies+msecs_to_jiffies(200));
-	if(ret) {
-		printk("Error in mod_timer\n");
+	pr_info("Timer module installing\n");
+	setup_timer(&my_timer, my_timer_callback, 0);
+	pr_info("Starting timer to fire in 200ms (%ld)\n", jiffies);
+	ret = mod_timer(&my_timer, jiffies+msecs_to_jiffies(200));
+	if (ret) {
+		pr_err("Error in mod_timer\n");
 		return ret;
 	}
 	return 0;
 }
 
-static void __exit mod_exit(void) {
+static void __exit mod_exit(void)
+{
 	int ret;
-	ret=del_timer(&my_timer);
-	if(ret) {
-		printk("The timer is still in use...\n");
-	}
-	printk("Timer module uninstalling\n");
+	ret = del_timer(&my_timer);
+	if (ret)
+		pr_err("The timer is still in use...\n");
+	pr_info("Timer module uninstalling\n");
 }
 
 module_init(mod_init);
