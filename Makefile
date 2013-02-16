@@ -42,6 +42,8 @@ CCACHE:=1
 SUFFIX_BIN:=elf
 # suffix for c++ object files
 SUFFIX_OO:=oo
+# Kernel source code for checkpatch.pl
+KERNEL_SRC:=~/install/linux-3.6.3
 
 # export all variables to sub-make processes...
 export
@@ -112,13 +114,14 @@ CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_AS
 MOD_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
 MOD_BAS:=$(basename $(MOD_SRC))
 MOD_OBJ:=$(addsuffix .o,$(MOD_BAS))
+MOD_CHP:=$(addsuffix .stamp,$(MOD_BAS))
 MOD_SR2:=$(addsuffix .mod.c,$(MOD_BAS))
 MOD_OB2:=$(addsuffix .mod.o,$(MOD_BAS))
 MOD_CM1:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .ko.cmd,$(notdir $(MOD_BAS))))
 MOD_CM2:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .mod.o.cmd,$(notdir $(MOD_BAS))))
 MOD_CM3:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .o.cmd,$(notdir $(MOD_BAS))))
 MOD_MOD:=$(addsuffix .ko,$(MOD_BAS))
-ALL:=$(ALL) $(MOD_MOD)
+ALL:=$(ALL) $(MOD_MOD) $(MOD_CHP)
 CLEAN:=$(CLEAN) $(MOD_MOD) $(MOD_SR2) $(MOD_OB2) $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(MOD_CM1) $(MOD_CM2) $(MOD_CM3) $(MOD_OBJ)
 CLEAN_DIRS:=$(CLEAN_DIRS) $(KERNEL_DIR)/.tmp_versions
 
@@ -197,28 +200,28 @@ git_maintain:
 # general rules...
 
 # how to create regular executables...
-$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS)
+$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
-$(C_OBJ): %.o: %.c $(ALL_DEPS)
+$(C_OBJ): %.o: %.c $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
-$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS)
+$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
-$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS)
+$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
-$(CC_ASX): %.s: %.cc $(ALL_DEPS)
+$(CC_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
-$(C_ASX): %.s: %.cc $(ALL_DEPS)
+$(C_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
-$(CC_PRE): %.p: %.cc $(ALL_DEPS)
+$(CC_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
-$(C_PRE): %.p: %.cc $(ALL_DEPS)
+$(C_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
@@ -227,6 +230,11 @@ $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 #	$(Q)objdump --demangle --source --disassemble --no-show-raw-insn --section=.text $< > $@
 	$(Q)objdump --disassemble --source --demangle $< > $@
 
+# rule about how to check kernel source files
+$(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
+	$(info doing [$@])
+	$(Q)$(KERNEL_SRC)/scripts/checkpatch.pl --file $< --root $(KERNEL_SRC)
+	$(Q)touch $@
 # rule about how to create .ko files...
 $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 	$(info doing [$@])
@@ -348,7 +356,7 @@ check_perror:
 	@scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_pgrep check_firstinclude check_laststub check_perror check_check
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_firstinclude check_laststub check_perror check_check
 
 .PHONY: check_dots
 check_dots:
@@ -402,7 +410,9 @@ find_exercises:
 kernel_clean:
 	$(info doing [$@])
 	$(Q)-rm -rf $(KERNEL_DIR)/.tmp_versions
-	$(Q)-rm -f $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??*
+	$(Q)-rm -f $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(KERNEL_DIR)/mod_*.ko $(KERNEL_DIR)/mod_*.o $(KERNEL_DIR)/*.mod.c $(KERNEL_DIR)/.??* $(KERNEL_DIR)/*.stamp
+.PHONY: kernel_check
+kernel_check: $(MOD_CHP)
 .PHONY: kernel_build
 kernel_build: $(MOD_MOD)
 .PHONY: kernel_help
