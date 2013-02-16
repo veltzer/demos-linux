@@ -133,7 +133,7 @@ ODP_PDF:=$(addsuffix .pdf,$(ODP_BAS))
 ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
 
 # standlone
-MK_SRC:=$(shell find src/examples_standalone -name "Makefile")
+MK_SRC:=$(shell find src/examples_standalone src/kernel_standalone -name "Makefile")
 MK_FLD:=$(dir $(MK_SRC))
 MK_STP:=$(addsuffix .stamp,$(MK_SRC))
 ALL:=$(ALL) $(MK_STP)
