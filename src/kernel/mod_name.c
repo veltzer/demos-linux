@@ -46,7 +46,7 @@ static int __init mod_init(void) {
 	pr_info("this module is called " KBUILD_MODNAME "\n");
 	pr_info("this module is called %s\n",KBUILD_MODNAME);
 	pr_info("this module is called %s\n",THIS_MODULE->name);
-	return(0);
+	return 0;
 }
 
 static void __exit mod_exit(void) {

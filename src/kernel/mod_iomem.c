@@ -18,11 +18,11 @@
 	02111-1307 USA.
 */
 
-//#define DEBUG
-#include <linux/module.h> // for MODULE_*
-#include <linux/printk.h> // for printk functions
-//#define DO_DEBUG
-#include "kernel_helper.h" // our own helper
+/* #define DEBUG */
+#include <linux/module.h> /* for MODULE_* */
+#include <linux/printk.h> /* for printk functions */
+/* #define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
 
 /*
 * This is a driver to walk the iomem list and see all the resources...
@@ -35,29 +35,29 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Demo module for testing");
 
-// our own functions
-static int __init mod_init(void) {
+/* our own functions */
+static int __init mod_init(void)
+{
 	struct resource *rp;
 	PR_INFO("start");
-	rp=iomem_resource.child;
-	while(rp) {
-		printk("%0*llx-%0*llx\n",
+	rp = iomem_resource.child;
+	while (rp) {
+		pr_info("%0*llx-%0*llx\n",
 			8, (unsigned long long)rp->start,
 			8, (unsigned long long)rp->end
 		);
-		// advance to the next resource...
-		rp=rp->sibling;
+		/* advance to the next resource... */
+		rp = rp->sibling;
 	}
-	return(0);
+	return 0;
 }
 
-
-static void __exit mod_exit(void) {
+static void __exit mod_exit(void)
+{
 	PR_INFO("start");
 }
 
 
-// declaration of init/cleanup functions of this module
-
+/* declaration of init/cleanup functions of this module */
 module_init(mod_init);
 module_exit(mod_exit);

@@ -35,7 +35,8 @@ static unsigned int size=170 * 1024 * 1024;
 static void* logical;
 
 // our own functions
-static void capi_print_addressinfo(void *logical_adr) {
+static void capi_print_addressinfo(void *logical_adr)
+{
 	struct page *page=virt_to_page(logical_adr);
 
 	if (page==NULL) {
@@ -61,7 +62,8 @@ static void capi_print_addressinfo(void *logical_adr) {
 	PR_INFO("PG_reserved is %lu", page->flags & (1 << PG_reserved));
 }
 
-static void capi_debug_address(unsigned int phys) {
+static void capi_debug_address(unsigned int phys)
+{
 	void* logical=__va(phys);
 	void* logical2=phys_to_virt(phys);
 	unsigned int phys2=__pa(logical);
@@ -73,7 +75,8 @@ static void capi_debug_address(unsigned int phys) {
 	capi_print_addressinfo(logical);
 }
 
-static int __init mod_init(void) {
+static int __init mod_init(void)
+{
 	PR_DEBUG("start");
 	capi_debug_address(physaddr);
 
@@ -84,10 +87,10 @@ static int __init mod_init(void) {
 	* }
 	*/
 	logical=ioremap(physaddr, size);
-	if (logical==NULL) {
+	if (IS_ERR(logical)) {
 		PR_ERROR("could not ioremap");
 		release_mem_region(physaddr, size);
-		return(1);
+		return PTR_ERR(logical);
 	}
 	PR_INFO("got logical address %p", logical);
 	//memset(logical,0,size);
@@ -100,10 +103,11 @@ static int __init mod_init(void) {
 	//capi_print_addressinfo((void*)(1024*1024*700));
 	//capi_print_addressinfo((void*)(1024*1024*695));
 	//capi_print_addressinfo((void*)(1024*1024*720));
-	return(0);
+	return 0;
 }
 
-static void __exit mod_exit(void) {
+static void __exit mod_exit(void)
+{
 	PR_DEBUG("start");
 	iounmap(logical);
 	release_mem_region(physaddr, size);

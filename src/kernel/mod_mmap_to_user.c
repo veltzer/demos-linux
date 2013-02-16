@@ -144,7 +144,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr,
 /*
 * This is the ioctl implementation.
 */
-static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd,
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		unsigned long arg)
 {
 	/* for results from functions */
@@ -333,7 +333,7 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma)
 */
 static const struct file_operations my_fops = {
 	.owner = THIS_MODULE,
-	.unlocked_ioctl = kern_unlocked_ioctll,
+	.unlocked_ioctl = kern_unlocked_ioctl,
 	.mmap = kern_mmap,
 };
 

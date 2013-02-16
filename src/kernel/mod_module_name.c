@@ -61,7 +61,7 @@ static int __init mod_init(void) {
 	// using this symbol_get function you can also get kernel symbols, other modules symbols or your
 	// own exported symbols.
 	PR_INFO("printk (via get) is %p",symbol_get("printk"));
-	return(0);
+	return 0;
 }
 
 static void __exit mod_exit(void) {

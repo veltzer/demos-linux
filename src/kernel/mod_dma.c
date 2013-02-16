@@ -110,7 +110,7 @@ static int __init mod_init(void) {
 	}
 #endif // DO_INC
 	PR_DEBUG("end");
-	return(0);
+	return 0;
 }
 
 static void __exit mod_exit(void) {

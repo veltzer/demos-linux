@@ -56,7 +56,8 @@ static struct completion comp;
 * This is the ioctl implementation.
 */
 // a completion structure
-static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned long arg) {
+static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+{
 	int i;
 
 	PR_DEBUG("start");
@@ -84,15 +85,15 @@ static long kern_unlocked_ioctll(struct file *filp, unsigned int cmd, unsigned l
 			complete_all(&comp);
 			return 0;
 	}
-	return(-EINVAL);
+	return -EINVAL;
 }
 
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops={
-	.owner=THIS_MODULE,
-	.unlocked_ioctl=kern_unlocked_ioctll,
+static struct file_operations my_fops = {
+	.owner = THIS_MODULE,
+	.unlocked_ioctl = kern_unlocked_ioctl,
 };
 
 #include "device.inc"
