@@ -233,7 +233,7 @@ $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 # rule about how to check kernel source files
 $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)$(KERNEL_SRC)/scripts/checkpatch.pl --file $< --root $(KERNEL_SRC)
+	$(Q)scripts/wrapper.py $(KERNEL_SRC)/scripts/checkpatch.pl --file $< --root $(KERNEL_SRC)
 	$(Q)touch $@
 # rule about how to create .ko files...
 $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
@@ -356,8 +356,7 @@ check_perror:
 	@scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_firstinclude check_laststub check_perror check_check
-#check_all: check_ws check_main check_ace_include check_include check_name check_exit check_firstinclude check_laststub check_perror check_check kernel_check
+check_all: check_ws check_main check_ace_include check_include check_name check_exit check_firstinclude check_laststub check_perror check_check kernel_check
 
 .PHONY: check_dots
 check_dots:

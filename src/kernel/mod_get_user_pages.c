@@ -30,7 +30,8 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("get_user_pages demo");
 
 /*
-*	This driver demostrates how to map user space (virtual space) to kernel space.
+*	This driver demostrates how to map user space (virtual space)
+*	to kernel space.
 *	You can either get it fragmented in pages, or if you really need to,
 *	use the MMU to map it to a single kernel side linear address...
 */
@@ -38,13 +39,13 @@ MODULE_DESCRIPTION("get_user_pages demo");
 #include "shared.h"
 
 /* static data */
-static struct device* my_device;
+static struct device *my_device;
 /* this is the size of the buffer */
 static unsigned int size;
 /* this is the kernel space pointer (matches user) */
-static void *ptr=NULL;
+static void *ptr;
 /* this is the kernel space pointer (we got from vmap) */
-static void *vptr=NULL;
+static void *vptr;
 /* will store page data as they are mapped... */
 static struct page **pages;
 /* will store the numer of pages required... */
@@ -59,21 +60,17 @@ static unsigned int nr_pages;
 static inline void pages_unlock(void)
 {
 	unsigned int i;
-
 	/* unlock the pages */
-	for (i = 0; i < nr_pages; i++) {
+	for (i = 0; i < nr_pages; i++)
 		unlock_page(pages[i]);
-	}
 }
 
 static inline void pages_lock(void)
 {
 	unsigned int i;
-
 	/* unlock the pages */
-	for (i = 0; i < nr_pages; i++) {
+	for (i = 0; i < nr_pages; i++)
 		lock_page(pages[i]);
-	}
 }
 
 static inline void pages_dirty(void)
@@ -81,9 +78,8 @@ static inline void pages_dirty(void)
 	unsigned int i;
 
 	/* set the pages as dirty */
-	for (i = 0; i < nr_pages; i++) {
+	for (i = 0; i < nr_pages; i++)
 		SetPageDirty(pages[i]);
-	}
 }
 
 static inline void pages_unmap(void)
@@ -92,9 +88,8 @@ static inline void pages_unmap(void)
 
 	/* set the pages as dirty */
 	for (i = 0; i < nr_pages; i++) {
-		if (!PageReserved(pages[i])) {
+		if (!PageReserved(pages[i]))
 			SetPageDirty(pages[i]);
-		}
 		page_cache_release(pages[i]);
 	}
 }
@@ -102,11 +97,9 @@ static inline void pages_unmap(void)
 static inline void pages_reserve(void)
 {
 	unsigned int i;
-
 	/* set the pages as reserved */
-	for (i=0; i < nr_pages; i++) {
+	for (i = 0; i < nr_pages; i++)
 		SetPageReserved(pages[i]);
-	}
 }
 
 static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
@@ -161,10 +154,11 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		nr_pages = (newsize - 1) / PAGE_SIZE + 1;
 		PR_DEBUG("nr_pages is %d", nr_pages);
 		/* alocate page structures... */
-		if ((pages=kmalloc(nr_pages * sizeof(struct page *),
-					GFP_KERNEL)) == NULL) {
+		pages = kmalloc(nr_pages * sizeof(struct page *),
+				GFP_KERNEL);
+		if (IS_ERR(pages)) {
 			PR_ERROR("could not allocate page structs");
-			return -ENOMEM;
+			return PTR_ERR(pages);
 		}
 		PR_DEBUG("after pages allocation");
 		/* get user pages and fault them in */
@@ -231,11 +225,10 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 	*/
 	case IOCTL_DEMO_READ:
 		cptr = (char *)ptr;
-		sloop = min(size, (unsigned int)10);
+		sloop = min_t(unsigned int, size, (unsigned int)10);
 		PR_DEBUG("sloop is %d", sloop);
-		for (i = 0; i < sloop; i++) {
+		for (i = 0; i < sloop; i++)
 			PR_DEBUG("value of %d is %c", i, cptr[i]);
-		}
 		return 0;
 	/*
 	*	This is asking the kernel to write on our data

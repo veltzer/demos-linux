@@ -66,14 +66,16 @@ static int __init mod_init(void)
 	pr_alert("this is an alert message\n");
 	pr_crit("this is a critical message\n");
 	pr_err("this is an error message\n");
-	pr_warning("this is a warning message\n");
+	/* next one create checkpatch.pl warnings which say to
+	prefer pr_warn */
+	/* pr_warning("this is a warning message\n"); */
 	pr_warn("this is also a warning message\n");
 	pr_notice("this is a notice message\n");
 	pr_info("this is an info message\n");
 	pr_devel("this is a development message\n");
 	pr_debug("this is a debug message\n");
 	print_error_once_wrapper();
-	// lets dump the stack...
+	/* lets dump the stack... */
 	dump_stack();
 	return 0;
 }

@@ -39,23 +39,24 @@ static struct device *my_device;
 */
 static int kern_open(struct inode *inode, struct file *filp)
 {
-	// you can use dev_printk like you would printk only with the added device...
-	dev_printk(KERN_DEBUG,my_device,"this is my debug message");
-	// or better yet, use the predefined ones:
-	dev_emerg(my_device,"emergency");
-	dev_alert(my_device,"alert");
-	dev_crit(my_device,"critical");
-	dev_err(my_device,"error");
-	dev_warn(my_device,"warning");
-	dev_notice(my_device,"notice");
-	dev_info(my_device,"info");
+	/* you can use dev_printk like you would printk only with the
+	added device... */
+	dev_printk(KERN_DEBUG, my_device, "this is my debug message");
+	/* or better yet, use the predefined ones: */
+	dev_emerg(my_device, "emergency");
+	dev_alert(my_device, "alert");
+	dev_crit(my_device, "critical");
+	dev_err(my_device, "error");
+	dev_warn(my_device, "warning");
+	dev_notice(my_device, "notice");
+	dev_info(my_device, "info");
 	return 0;
 }
 
 /*
 * The file operations structure.
 */
-static struct file_operations my_fops = {
+static const struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.open = kern_open,
 };
