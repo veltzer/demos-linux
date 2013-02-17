@@ -25,6 +25,10 @@
 
 /*
 * Demo of the typeof operator in C.
+*
+* References:
+* http://stackoverflow.com/questions/4436889/what-is-typeofc-1-in-c
+* http://gcc.gnu.org/onlinedocs/gcc/Typeof.html
 */
 
 static int myfunction(double x) {
