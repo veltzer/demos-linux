@@ -27,8 +27,12 @@
 * Demo of the typeof operator in C.
 */
 
+static int myfunction(double x) {
+	return (int)x+1;
+}
+
 int main(int argc,char** argv,char** envp) {
-	/* The next one does not work */
+	/* The next attempt to stringify typeof does not work */
 	/*
 	int __attribute__((unused)) c=6;
 	printf("typeof(c) returned %s\n",__stringify(typeof(c)));
@@ -45,5 +49,19 @@ int main(int argc,char** argv,char** envp) {
 	/* e's type is a pointer to whatever c type is... */
 	typeof(typeof(c) *) e=(typeof(typeof(c) *))100;
 	printf("e is %p\n",e);
+
+	/* f's type is the return type of myfunction... */
+	typeof(myfunction(1)) f=3;
+	printf("f is %d\n",f);
+
+	/* g's type is a promoted to at least int...*/
+	char a=4;
+	typeof(a+1) g=(typeof(g))a;
+	printf("g is %d\n",g);
+
+	/* same as above but with float (remains float)... */
+	float b=4;
+	typeof(b+1) h=(typeof(h))b;
+	printf("h is %f\n",h);
 	return EXIT_SUCCESS;
 }
