@@ -35,8 +35,9 @@ int main(int argc,char** argv,char** envp) {
 	const double p_dval=atof(p_sval);
 	void* h=CHECK_NOT_NULL(dlopen(p_lib,RTLD_NOW));
 	void* sym=CHECK_NOT_NULL(dlsym(h,p_func));
-	//double (*f)(double)=(double (*)double)sym;
-	double (*f)(double)=(typeof(f))sym;
+	double (*f)(double)=(double (*)(double))sym;
+	// another option
+	//double (*f)(double)=(typeof(f))sym;
 	double result=f(p_dval);
 	printf("result is %lf\n",result);
 	CHECK_ZERO(dlclose(h));
