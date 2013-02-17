@@ -19,26 +19,31 @@
 */
 
 #include <firstinclude.h>
-#include <stdio.h> // for printf(3), fprintf(3)
-#include <dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, atof(3)
-#include <us_helper.h> // for CHECK_NOT_NULL(), CHECK_ZERO()
+#include <stdio.h> // for printf(3)
+#include <stdlib.h> // for EXIT_SUCCESS
+#include <us_helper.h> // for __stringify()
+
+/*
+* Demo of the typeof operator in C.
+*/
 
 int main(int argc,char** argv,char** envp) {
-	if(argc!=4) {
-		fprintf(stderr, "usage: %s [library] [function] [value]\n", argv[0]);
-		return EXIT_FAILURE;
-	}
-	const char* p_lib=argv[1];
-	const char* p_func=argv[2];
-	const char* p_sval=argv[3];
-	const double p_dval=atof(p_sval);
-	void* h=CHECK_NOT_NULL(dlopen(p_lib,RTLD_NOW));
-	void* sym=CHECK_NOT_NULL(dlsym(h,p_func));
-	//double (*f)(double)=(double (*)double)sym;
-	double (*f)(double)=(typeof(f))sym;
-	double result=f(p_dval);
-	printf("result is %lf\n",result);
-	CHECK_ZERO(dlclose(h));
+	/* The next one does not work */
+	/*
+	int __attribute__((unused)) c=6;
+	printf("typeof(c) returned %s\n",__stringify(typeof(c)));
+	*/
+
+	/*
+	 * Example of using typeof() to avoid writing the type yourself
+	 */
+	int c=6;
+	/* d is the same type of c */
+	typeof(c) d=c;
+	printf("d is %d\n",d);
+
+	/* e's type is a pointer to whatever c type is... */
+	typeof(typeof(c) *) e=(typeof(typeof(c) *))100;
+	printf("e is %p\n",e);
 	return EXIT_SUCCESS;
 }
