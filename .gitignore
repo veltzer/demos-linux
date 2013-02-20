@@ -17,8 +17,10 @@
 *.stamp
 *.out
 *.p
-# gnu compiled headers
+# gnu precompiled headers
 *.gch
+# intel precompiled headers
+*.pchi
 java/bin/*
 # locks by open office
 .~lock.*
