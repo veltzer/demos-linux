@@ -18,10 +18,4 @@
 	02111-1307 USA.
 */
 
-#include <ace/Log_Msg.h> // for precompilation of headers
-#include <ace/Reactor.h> // for precompilation of headers
-#include <stdlib.h> // for EXIT_SUCCESS
-
-int main(int argc,char** argv,char** envp) {
-	return EXIT_SUCCESS;
-}
+#include <stdio.h>

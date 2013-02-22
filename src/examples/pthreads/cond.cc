@@ -25,48 +25,70 @@
 
 /*
 * This is an example that shows how to use pthread conditions.
+* The idea is to synchronize two threads. One thread will do work when count is between two values
+* and the other will do work when count is in any other range.
+* The thread that will do work for any other range is also reponsible for ending the entire program
+* by signaling the other thread that all work is done.
+*
 * Remmember that in order to use these you must protect the entire area where you are checking the condition
 * using a mutex. And since conditions do not come with mutexes you must create one yourself.
 *
 * EXTRA_LINK_FLAGS=-lpthread
 */
 
-pthread_mutex_t count_mutex=PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t condition_mutex=PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t condition_cond=PTHREAD_COND_INITIALIZER;
 
 int count=0;
 const int COUNT_DONE=10;
-const int COUNT_HALT1=3;
-const int COUNT_HALT2=6;
+const int COUNT_RANGE_MIN=3;
+const int COUNT_RANGE_MAX=6;
+bool done=false;
 
 void* functionCount1(void*) {
 	while(true) {
 		CHECK_ZERO(pthread_mutex_lock(&condition_mutex));
-		while( count>=COUNT_HALT1 && count<=COUNT_HALT2) {
+		while((count>=COUNT_RANGE_MIN && count<=COUNT_RANGE_MAX) && !done) {
 			CHECK_ZERO(pthread_cond_wait(&condition_cond,&condition_mutex));
 		}
+		if(!done) {
+			count++;
+			printf("Counter value functionCount1: %d\n",count);
+			if(count==COUNT_DONE) {
+				done=true;
+				CHECK_ZERO(pthread_cond_signal(&condition_cond));
+			} else {
+				if(count==COUNT_RANGE_MIN) {
+					CHECK_ZERO(pthread_cond_signal(&condition_cond));
+				}
+			}
+		}
 		CHECK_ZERO(pthread_mutex_unlock(&condition_mutex));
-		CHECK_ZERO(pthread_mutex_lock(&count_mutex));
-		count++;
-		printf("Counter value functionCount1: %d\n",count);
-		CHECK_ZERO(pthread_mutex_unlock(&count_mutex));
-		if(count>=COUNT_DONE) return(NULL);
+		if(done) {
+			printf("functionCount1 exiting...\n");
+			return(NULL);
+		}
 	}
 }
 
 void *functionCount2(void*) {
 	while(true) {
 		CHECK_ZERO(pthread_mutex_lock(&condition_mutex));
-		if(count<COUNT_HALT1 || count>COUNT_HALT2) {
-			CHECK_ZERO(pthread_cond_signal(&condition_cond));
+		while((count<COUNT_RANGE_MIN || count>COUNT_RANGE_MAX) && !done) {
+			CHECK_ZERO(pthread_cond_wait(&condition_cond,&condition_mutex));
+		}
+		if(!done) {
+			count++;
+			printf("Counter value functionCount2: %d\n",count);
+			if(count==COUNT_RANGE_MAX+1) {
+				CHECK_ZERO(pthread_cond_signal(&condition_cond));
+			}
 		}
 		CHECK_ZERO(pthread_mutex_unlock(&condition_mutex));
-		CHECK_ZERO(pthread_mutex_lock(&count_mutex));
-		count++;
-		printf("Counter value functionCount2: %d\n",count);
-		CHECK_ZERO(pthread_mutex_unlock(&count_mutex));
-		if(count>=COUNT_DONE) return(NULL);
+		if(done) {
+			printf("functionCount2 exiting...\n");
+			return(NULL);
+		}
 	}
 }
 int main(int argc,char** argv,char** envp) {

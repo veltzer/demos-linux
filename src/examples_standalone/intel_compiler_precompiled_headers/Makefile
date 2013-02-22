@@ -1,7 +1,7 @@
 PCHI:=hello.pchi
 EXE:=a.out
 
-$(EXE) $(PCHI): hello.cc hello.h
+$(EXE) $(PCHI): hello.cc hello.hh
 	icpc -pch-create $(PCHI) hello.cc -o $(EXE)
 
 .PHONY: clean
@@ -10,8 +10,8 @@ clean:
 
 .PHONY: test
 test:
-	time icpc goodbye.cc -I. -include hello.h -pch-use $(PCHI) -o test_opt.out 
-	time icpc goodbye.cc -I. -include hello.h -o test_noopt.out
+	time icpc goodbye.cc -I. -include hello.hh -pch-use $(PCHI) -o test_opt.out 
+	time icpc goodbye.cc -I. -include hello.hh -o test_noopt.out
 
 .PHONY: test_pch
 test_pch:
