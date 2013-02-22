@@ -328,8 +328,8 @@ check_include:
 	@scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
 # enable this when you have the balls...
 #@scripts/ok_wrapper.pl git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
-.PHONY: check_name
-check_name:
+.PHONY: check_license
+check_license:
 	$(info doing [$@])
 	@scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_exit
@@ -358,7 +358,7 @@ check_perror:
 	@scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_name check_exit check_firstinclude check_laststub check_perror check_check kernel_check
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_laststub check_perror check_check kernel_check
 
 .PHONY: check_dots
 check_dots:
