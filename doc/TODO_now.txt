@@ -1,4 +1,3 @@
-- check style for standalone kernel code as well.
 - format all user space code right and do the check as formatting
 	and then checking for no diff.
 
