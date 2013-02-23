@@ -39,8 +39,8 @@ Using it
 			sudo apt-get install python
 		for rpm based distributions (fedora, redhat, centos,...) do:
 			sudo yum install python
-* pull the examples:
-	git pull git@github.com:veltzer/linuxapi.git
+* clone the examples:
+	git clone git@github.com:veltzer/linuxapi.git
 * cd into it:
 	cd linuxapi
 * install the missing packages and headers needed to compile and run this project
