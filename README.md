@@ -33,7 +33,7 @@ Using it
 --------
 * you need python on your machine:
 	try:
-		python --version
+		`python --version`
 	if python is missing then:
 		for deb based distributions (debian, ubuntu, ...) do:
 			sudo apt-get install python
