@@ -6,6 +6,7 @@ include Makefile.defs
 # directories
 US_DIRS:=src/examples src/exercises src/examples_to_integrate
 KERNEL_DIR:=src/kernel
+KERNEL_SA_DIR:=src/kernel_standalone
 US_INCLUDE:=src/include
 # kernel variables
 # version of kernel to build against
@@ -45,6 +46,9 @@ SUFFIX_BIN:=elf
 SUFFIX_OO:=oo
 # Kernel source code for checkpatch.pl
 KERNEL_SRC:=~/install/linux-3.6.3
+# checkpatch executable...
+#SCRIPT_CP:=$(KERNEL_SRC)/scripts/checkpatch.pl
+SCRIPT_CP:=scripts/checkpatch.pl
 
 # export all variables to sub-make processes...
 export
@@ -113,9 +117,11 @@ CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_AS
 
 # kernel modules
 MOD_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
+MOD_SA_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_SA_DIR) -name "*.c")
 MOD_BAS:=$(basename $(MOD_SRC))
+MOD_SA_BAS:=$(basename $(MOD_SA_SRC))
 MOD_OBJ:=$(addsuffix .o,$(MOD_BAS))
-MOD_CHP:=$(addsuffix .stamp,$(MOD_BAS))
+MOD_CHP:=$(addsuffix .stamp,$(MOD_BAS) $(MOD_SA_BAS))
 MOD_SR2:=$(addsuffix .mod.c,$(MOD_BAS))
 MOD_OB2:=$(addsuffix .mod.o,$(MOD_BAS))
 MOD_CM1:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .ko.cmd,$(notdir $(MOD_BAS))))
@@ -235,7 +241,7 @@ $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 # rule about how to check kernel source files
 $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)scripts/wrapper.py $(KERNEL_SRC)/scripts/checkpatch.pl --file $< --root $(KERNEL_SRC)
+	$(Q)scripts/wrapper.py $(SCRIPT_CP) --file $< --root $(KERNEL_SRC)
 	$(Q)touch $@
 # rule about how to create .ko files...
 $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
@@ -453,7 +459,7 @@ kernel_makeeasy:
 .PHONY: format_astyle
 format_astyle: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=scripts/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 # I do not use uncrustify because it changes code that it already beautified...
 .PHONY: format_uncrustify
 format_uncrustify: $(ALL_DEPS)

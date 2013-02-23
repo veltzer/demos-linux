@@ -18,14 +18,11 @@
 	02111-1307 USA.
 */
 
-#include <firstinclude.h>
+#include "connect.h"
 
+/* functions that we need to supply */
 extern "C" {
-// functions that we need to supply
-int cpp_init();
-void cpp_exit();
-
-// support functions
+/* support functions */
 void myprintk(const char *);
 void *mymalloc(unsigned int);
 void myfree(void *);
