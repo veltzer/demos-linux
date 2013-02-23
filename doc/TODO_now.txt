@@ -1,3 +1,7 @@
+- check style for standalone kernel code as well.
+- format all user space code right and do the check as formatting
+	and then checking for no diff.
+
 - get more examples from http://www.linuxprogrammingblog.com/
 
 - write slides about room for optimization.

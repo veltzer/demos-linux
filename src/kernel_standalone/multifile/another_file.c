@@ -18,13 +18,15 @@
 	02111-1307 USA.
 */
 
-#include <linux/module.h> // for printk
-#include "another_file.h" // our own API
+#include <linux/module.h> /* for pr_alert */
+#include "another_file.h" /* our own API */
 
-void do_something_init(void) {
-	printk(KERN_ALERT "init\n");
+void do_something_init(void)
+{
+	pr_alert("init\n");
 }
 
-void do_something_exit(void) {
-	printk(KERN_ALERT "exit\n");
+void do_something_exit(void)
+{
+	pr_alert("exit\n");
 }

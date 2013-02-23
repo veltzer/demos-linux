@@ -27,7 +27,7 @@ $(ko-m): top.o top.mod.o $(CC_OBJECTS)
 # -Werror-implicit-function-declaration -Wstrict-prototypes
 # which are not relevant to C++ (the compiler told me so!)
 %.o: %.cc
-	 g++-4.4 -nostdinc -Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common -Os -fno-stack-protector -m32 -msoft-float -mregparm=3 -freg-struct-return -mpreferred-stack-boundary=2 -march=i686 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fomit-frame-pointer -Werror -c -o $@ $<
+	 g++ -nostdinc -Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common -Os -fno-stack-protector -m32 -msoft-float -mregparm=3 -freg-struct-return -mpreferred-stack-boundary=2 -march=i686 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fomit-frame-pointer -Werror -c -o $@ $<
 top.o top.mod.o: top.c
 	$(MAKE) -C $(KDIR) M=$(PWD) V=$(V) modules
 	-rm -f top.ko
