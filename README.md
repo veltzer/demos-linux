@@ -36,17 +36,17 @@ Using it
 		`python --version`
 	if python is missing then:
 		for deb based distributions (debian, ubuntu, ...) do:
-			sudo apt-get install python
+			`sudo apt-get install python`
 		for rpm based distributions (fedora, redhat, centos,...) do:
-			sudo yum install python
+			`sudo yum install python`
 * clone the examples:
-		git clone git@github.com:veltzer/linuxapi.git
+    git clone git@github.com:veltzer/linuxapi.git
 * cd into it:
-		cd linuxapi
+    cd linuxapi
 * install the missing packages and headers needed to compile and run this project
-		./scripts/ubuntu_install.py
+    ./scripts/ubuntu_install.py
 * compile:
-		make
+    make
 * some of the examples may not compile for you because of missing libraries. Don't worry:
 	you can build each specific example by issuing:
 		make src/examples/performance/cache_misser.elf
