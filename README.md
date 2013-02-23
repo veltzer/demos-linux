@@ -39,16 +39,13 @@ Using it
 			`sudo apt-get install python`
 		for rpm based distributions (fedora, redhat, centos,...) do:
 			`sudo yum install python`
-* clone the examples:
-    git clone git@github.com:veltzer/linuxapi.git
-* cd into it:
-    cd linuxapi
-* install the missing packages and headers needed to compile and run this project
-    ./scripts/ubuntu_install.py
-* compile:    make
+* clone the examples: `git clone git@github.com:veltzer/linuxapi.git`
+* cd into it: `cd linuxapi`
+* install the missing packages and headers needed to compile and run this project `./scripts/ubuntu_install.py`
+* compile: `make`
 * some of the examples may not compile for you because of missing libraries. Don't worry:
 	you can build each specific example by issuing:
-		make src/examples/performance/cache_misser.elf
+		`make src/examples/performance/cache_misser.elf`
 	the name of the elf binary is the same as the example source code with .elf instead of
 	.[c|cc].
 	You must be at the root of the project to issue the 'make' command.
