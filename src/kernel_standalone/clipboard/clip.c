@@ -108,6 +108,7 @@ int clipboard_release(struct inode *inode, struct file *filp)
 ssize_t clipboard_read(struct file *filp, __user char *user_buf, size_t count,
 		loff_t *offset)
 {
+	int ret;
 	int remaining_bytes;
 	/* Number of bytes left to read in the open file */
 	remaining_bytes = min(CLIPBOARD_SIZE-(*offset), (loff_t)count);

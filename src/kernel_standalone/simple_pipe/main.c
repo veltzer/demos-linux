@@ -71,15 +71,15 @@ module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
 /* struct for each pipe */
-struct _my_pipe_t {
+struct my_pipe_t {
 	char *data;
 	size_t size;
 	size_t read_pos;
 	size_t write_pos;
-} my_pipe_t;
+};
 
 /* these are all out pipes. Automatically initialised to NULL */
-static my_pipe_t *pipes;
+static struct my_pipe_t *pipes;
 /* this variable will store the class */
 static struct class *my_class;
 /* this variable will hold our cdev struct */
@@ -88,7 +88,7 @@ static struct cdev cdev;
 static dev_t first_dev;
 
 /* pipe constructur */
-static inline int pipe_ctor(my_pipe_t *pipe)
+static inline int pipe_ctor(struct my_pipe_t *pipe)
 {
 	pipe->data = kmalloc(pipe_size, GFP_KERNEL);
 	if (pipe->data == NULL)
@@ -100,19 +100,19 @@ static inline int pipe_ctor(my_pipe_t *pipe)
 }
 
 /* pipe destructor */
-static inline void pipe_dtor(const my_pipe_t *pipe)
+static inline void pipe_dtor(const struct my_pipe_t *pipe)
 {
 	kfree(pipe->data);
 }
 
 /* do we have data in the pipe ? */
-static inline bool pipe_have_data(const my_pipe_t *pipe)
+static inline bool pipe_have_data(const struct my_pipe_t *pipe)
 {
 	return pipe->read_pos != pipe->write_pos;
 }
 
 /* return the empty room of a pipe */
-static inline size_t pipe_room(const my_pipe_t *pipe)
+static inline size_t pipe_room(const struct my_pipe_t *pipe)
 {
 	if (pipe->read_pos <= pipe->write_pos)
 		return pipe->size-pipe->write_pos+pipe->read_pos-1;
@@ -120,7 +120,7 @@ static inline size_t pipe_room(const my_pipe_t *pipe)
 		return pipe->read_pos-pipe->write_pos-1;
 }
 /* return the occupied room of a pipe */
-static inline size_t pipe_data(const my_pipe_t *pipe)
+static inline size_t pipe_data(const struct my_pipe_t *pipe)
 {
 	if (pipe->read_pos <= pipe->write_pos)
 		return pipe->write_pos-pipe->read_pos;
@@ -129,7 +129,7 @@ static inline size_t pipe_data(const my_pipe_t *pipe)
 }
 
 /* read into the pipe */
-static inline int pipe_copy_from_user(my_pipe_t const *pipe, int count,
+static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 		const char __user **ubuf)
 {
 	int ret;
@@ -151,7 +151,7 @@ static inline int pipe_copy_from_user(my_pipe_t const *pipe, int count,
 }
 
 /* read from the pipe */
-static inline int pipe_copy_to_user(my_pipe_t const *pipe, int count,
+static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 		char __user **ubuf)
 {
 	int ret;
@@ -184,12 +184,12 @@ static int pipe_open(struct inode *inode, struct file *filp)
 static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 		loff_t *ppos)
 {
-	my_pipe_t *pipe;
+	struct my_pipe_t *pipe;
 	size_t data, work_size, first_chunk, second_chunk, ret;
 	pr_debug("start\n");
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
-	pipe = (my_pipe_t *)(file->private_data);
+	pipe = (struct my_pipe_t *)(file->private_data);
 	/* lets sleep while there is no data in the pipe
 	why do we not just use the waitqueue condition? because we want to get
 	the pipe LOCKED with data
@@ -224,12 +224,12 @@ static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 static ssize_t pipe_write(struct file *file, const char __user *buf,
 		size_t count, loff_t *ppos)
 {
-	my_pipe_t *pipe;
+	struct my_pipe_t *pipe;
 	size_t work_size, room, first_chunk, second_chunk, ret;
 	pr_debug("start\n");
 	if (!access_ok(VERIFY_READ, buf, count))
 		return -EFAULT;
-	pipe = (my_pipe_t *)(file->private_data);
+	pipe = (struct my_pipe_t *)(file->private_data);
 	/* lets check if we have room in the pipe
 	why do we not just use the waitqueue condition? because we want to get
 	the pipe LOCKED with data
@@ -276,7 +276,7 @@ static int __init pipe_init(void)
 	int j;
 	struct device *pipe_device;
 	/* allocate all pipes */
-	pipes = kmalloc(sizeof(my_pipe_t)*pipes_count, GFP_KERNEL);
+	pipes = kmalloc(sizeof(struct my_pipe_t)*pipes_count, GFP_KERNEL);
 	if (IS_ERR(pipes)) {
 		pr_err("kmalloc\n");
 		ret = PTR_ERR(pipes);
