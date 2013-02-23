@@ -45,8 +45,7 @@ Using it
     cd linuxapi
 * install the missing packages and headers needed to compile and run this project
     ./scripts/ubuntu_install.py
-* compile:
-    make
+* compile:    make
 * some of the examples may not compile for you because of missing libraries. Don't worry:
 	you can build each specific example by issuing:
 		make src/examples/performance/cache_misser.elf
