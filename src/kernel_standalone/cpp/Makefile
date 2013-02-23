@@ -1,20 +1,20 @@
 # fill in the object files which are part of the module
-obj-m=top.o
+obj-m:=top.o
 # fill in any extra compiler flags
-EXTRA_CFLAGS+=-Werror -I.
+#EXTRA_CFLAGS+=-Werror -I.
 # fill in the name of the module
-name=top
+name:=top
 # fill in the name of the genrated ko file
-ko-m=top.ko
+ko-m:=top.ko
 # fill in the version of the kernel for which you want the module compiled to
 KVER?=$(shell uname -r)
 # fill in the directory of the kernel build system
-KDIR=/lib/modules/$(KVER)/build
+KDIR:=/lib/modules/$(KVER)/build
 # fill in the vervosity level you want
 V?=0
 
-CC_SOURCES=$(shell find . -name "*.cc")
-CC_OBJECTS=$(addsuffix .o,$(basename $(CC_SOURCES)))
+CC_SOURCES:=$(shell find . -name "*.cc")
+CC_OBJECTS:=$(addsuffix .o,$(basename $(CC_SOURCES)))
 
 # this rule was also taken from running with V=1
 $(ko-m): top.o top.mod.o $(CC_OBJECTS) 
@@ -29,18 +29,18 @@ $(ko-m): top.o top.mod.o $(CC_OBJECTS)
 %.o: %.cc
 	 g++ -nostdinc -Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common -Os -fno-stack-protector -m32 -msoft-float -mregparm=3 -freg-struct-return -mpreferred-stack-boundary=2 -march=i686 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fomit-frame-pointer -Werror -c -o $@ $<
 top.o top.mod.o: top.c
-	$(MAKE) -C $(KDIR) M=$(PWD) V=$(V) modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
 	-rm -f top.ko
 modules:
-	$(MAKE) -C $(KDIR) M=$(PWD) V=$(V) modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
 modules_install:
-	$(MAKE) -C $(KDIR) M=$(PWD) V=$(V) modules_install
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules_install
 clean:
-	$(MAKE) -C $(KDIR) M=$(PWD) V=$(V) clean
-	# some how this file does get cleaned
-	-rm -f modules.order
+	$(Q)$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) clean
+	$(Q)# some how this file does get cleaned
+	$(Q)-rm -f modules.order
 help:
-	$(MAKE) -C $(KDIR) M=$(PWD) V=$(V) help
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) help
 insmod:
 	sudo insmod $(ko-m) 
 lsmod:
