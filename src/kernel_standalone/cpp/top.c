@@ -19,8 +19,8 @@
 */
 
 #include <linux/module.h> /* for MODULE_LICENSE(), MODULE_AUTHOR(),
-			     MODULE_DESCRIPTION(), module_init(),
-			     module_exit() */
+			MODULE_DESCRIPTION(), module_init(),
+			module_exit() */
 #include <linux/slab.h> /* for kmalloc(), kfree() */
 #include "connect.h"
 
