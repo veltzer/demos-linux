@@ -79,7 +79,7 @@ module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
 /* struct for each pipe */
-struct _my_pipe_t {
+struct my_pipe_t {
 	char *data;
 	size_t size;
 	size_t read_pos;
@@ -95,13 +95,13 @@ struct _my_pipe_t {
 	#endif /* DO_MUTEX */
 	int readers;
 	int writers;
-} my_pipe_t;
+};
 
 /* automatically initialised to NULL... */
-static my_pipe_t *pipes;
+static struct my_pipe_t *pipes;
 
 /* pipe constructur */
-static inline void pipe_ctor(my_pipe_t *pipe)
+static inline void pipe_ctor(struct my_pipe_t *pipe)
 {
 	pipe->data = kzalloc(pipe_size, GFP_KERNEL);
 	pipe->size = pipe_size;
@@ -118,19 +118,19 @@ static inline void pipe_ctor(my_pipe_t *pipe)
 }
 
 /* pipe destructor */
-static inline void pipe_dtor(const my_pipe_t *pipe)
+static inline void pipe_dtor(const struct my_pipe_t *pipe)
 {
 	kfree(pipe->data);
 }
 
 /* do we have data in the pipe ? */
-static inline bool pipe_have_data(const my_pipe_t *pipe)
+static inline bool pipe_have_data(const struct my_pipe_t *pipe)
 {
 	return pipe->read_pos != pipe->write_pos;
 }
 
 /* return the empty room of a pipe */
-static inline size_t pipe_room(const my_pipe_t *pipe)
+static inline size_t pipe_room(const struct my_pipe_t *pipe)
 {
 	if (pipe->read_pos <= pipe->write_pos)
 		return pipe->size-pipe->write_pos+pipe->read_pos-1;
@@ -138,7 +138,7 @@ static inline size_t pipe_room(const my_pipe_t *pipe)
 		return pipe->read_pos-pipe->write_pos-1;
 }
 /* return the occupied room of a pipe */
-static inline size_t pipe_data(const my_pipe_t *pipe)
+static inline size_t pipe_data(const struct my_pipe_t *pipe)
 {
 	if (pipe->read_pos <= pipe->write_pos)
 		return pipe->write_pos-pipe->read_pos;
@@ -147,7 +147,7 @@ static inline size_t pipe_data(const my_pipe_t *pipe)
 }
 
 /* lock the pipe spinlock */
-static inline void pipe_lock(my_pipe_t const *pipe)
+static inline void pipe_lock(struct my_pipe_t *pipe)
 {
 	#ifdef DO_SPINLOCK
 	spin_lock(&pipe->lock);
@@ -158,7 +158,7 @@ static inline void pipe_lock(my_pipe_t const *pipe)
 }
 
 /* unlock the pipe spinlock */
-static inline void pipe_unlock(my_pipe_t const *pipe)
+static inline void pipe_unlock(struct my_pipe_t *pipe)
 {
 	#ifdef DO_SPINLOCK
 	spin_unlock(&pipe->lock);
@@ -169,7 +169,7 @@ static inline void pipe_unlock(my_pipe_t const *pipe)
 }
 
 /* wait on the pipes readers queue */
-static inline int pipe_wait_read(my_pipe_t const *pipe)
+static inline int pipe_wait_read(struct my_pipe_t *pipe)
 {
 	#ifdef DO_WAITQUEUE
 	int ret;
@@ -198,7 +198,7 @@ static inline int pipe_wait_read(my_pipe_t const *pipe)
 }
 
 /* wait on the pipes writers queue */
-static inline int pipe_wait_write(my_pipe_t const *pipe)
+static inline int pipe_wait_write(struct my_pipe_t *pipe)
 {
 	#ifdef DO_WAITQUEUE
 	int ret;
@@ -227,7 +227,7 @@ static inline int pipe_wait_write(my_pipe_t const *pipe)
 }
 
 /* wake up the readers */
-static inline void pipe_wake_readers(my_pipe_t const *pipe)
+static inline void pipe_wake_readers(struct my_pipe_t *pipe)
 {
 	#ifdef DO_WAKEUP
 	wake_up_all(&pipe->read_queue);
@@ -235,7 +235,7 @@ static inline void pipe_wake_readers(my_pipe_t const *pipe)
 }
 
 /* wake up the writers */
-static inline void pipe_wake_writers(my_pipe_t const *pipe)
+static inline void pipe_wake_writers(struct my_pipe_t *pipe)
 {
 	#ifdef DO_WAKEUP
 	wake_up_all(&pipe->write_queue);
@@ -243,7 +243,7 @@ static inline void pipe_wake_writers(my_pipe_t const *pipe)
 }
 
 /* read into the pipe */
-static inline int pipe_copy_from_user(my_pipe_t const *pipe, int count,
+static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 		const char __user **ubuf) {
 	int ret;
 	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d\n",
@@ -264,7 +264,7 @@ static inline int pipe_copy_from_user(my_pipe_t const *pipe, int count,
 }
 
 /* read from the pipe */
-static inline int pipe_copy_to_user(my_pipe_t const *pipe, int count,
+static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 		char __user **ubuf)
 {
 	int ret;
@@ -293,7 +293,7 @@ static int pipe_open(struct inode *inode, struct file *filp)
 	BUG! subtract the minor number we got when allocating
 	*/
 	int minor = iminor(inode);
-	my_pipe_t *pipe = pipes+minor;
+	struct my_pipe_t *pipe = pipes+minor;
 #ifdef DO_MUTEX
 	pipe->inode = inode;
 #endif /* DO_MUTEX */
@@ -309,8 +309,8 @@ static int pipe_open(struct inode *inode, struct file *filp)
 
 static int pipe_release(struct inode *inode, struct file *filp)
 {
-	my_pipe_t *pipe;
-	pipe = (my_pipe_t *)(filp->private_data);
+	struct my_pipe_t *pipe;
+	pipe = (struct my_pipe_t *)(filp->private_data);
 	pipe_lock(pipe);
 	if (filp->f_mode & FMODE_READ)
 		pipe->readers--;
@@ -327,12 +327,12 @@ static int pipe_release(struct inode *inode, struct file *filp)
 
 static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 		loff_t *ppos) {
-	my_pipe_t *pipe;
+	struct my_pipe_t *pipe;
 	size_t data, work_size, first_chunk, second_chunk, ret;
 	pr_debug("start\n");
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
-	pipe = (my_pipe_t *)(file->private_data);
+	pipe = (struct my_pipe_t *)(file->private_data);
 	/* lets sleep while there is no data in the pipe
 	 * why do we not just use the waitqueue condition?
 	 * because we want to get the pipe LOCKED with data */
@@ -387,12 +387,12 @@ static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 
 static ssize_t pipe_write(struct file *file, const char __user *buf,
 		size_t count, loff_t *ppos) {
-	my_pipe_t *pipe;
+	struct my_pipe_t *pipe;
 	size_t work_size, room, first_chunk, second_chunk, ret;
 	pr_debug("start\n");
 	if (!access_ok(VERIFY_READ, buf, count))
 		return -EFAULT;
-	pipe = (my_pipe_t *)(file->private_data);
+	pipe = (struct my_pipe_t *)(file->private_data);
 	/* lets check if we have room in the pipe
 	 * why do we not just use the waitqueue condition?
 	 * because we want to get the pipe LOCKED with data
@@ -464,7 +464,7 @@ static int __init pipe_init(void)
 	int ret;
 	int i;
 	/* allocate all pipes */
-	pipes = kmalloc(sizeof(my_pipe_t)*pipes_count, GFP_KERNEL);
+	pipes = kmalloc(sizeof(struct my_pipe_t)*pipes_count, GFP_KERNEL);
 	if (IS_ERR(pipes)) {
 		pr_err("kmalloc\n");
 		ret = PTR_ERR(pipes);

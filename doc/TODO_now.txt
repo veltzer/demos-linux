@@ -1,3 +1,5 @@
+- kernel standalone examples are not build not cleaned with
+build and clean. Make it not so.
 - format all user space code right and do the check as formatting
 	and then checking for no diff.
 
