@@ -22,7 +22,7 @@ V?=0
 # regular kernels do not have -Werror and we want it!
 # The problem is that this makes the kernel build system scream at me (it fears I am changing
 # the flags in some profound ways). This is what we have wrapper scripts for...
-KCFLAGS:=-Werror
+#KCFLAGS:=-Werror
 # do you want dependency on the makefile itself ?!?
 DO_ALL_DEPS:=1
 # optimization with debug info (for disassembly)
@@ -140,8 +140,7 @@ ODP_PDF:=$(addsuffix .pdf,$(ODP_BAS))
 ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
 
 # standlone
-#MK_SRC:=$(shell find src/examples_standalone src/kernel_standalone -name "Makefile")
-MK_SRC:=$(shell find src/examples_standalone -name "Makefile")
+MK_SRC:=$(shell find src/examples_standalone src/kernel_standalone -name "Makefile")
 MK_FLD:=$(dir $(MK_SRC))
 MK_STP:=$(addsuffix .stamp,$(MK_SRC))
 ALL:=$(ALL) $(MK_STP)
