@@ -15,7 +15,7 @@ Topics covered by the examples
 * Performance
 * Many more...
 
-contributing
+Contributing
 ------------
 This project needs help! fork me and commit!
 Just open a github account, modify and add examples and ask me to commit...
