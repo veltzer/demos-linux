@@ -1,47 +1,48 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/OS_main.h>
 #include <ace/Stream.h>
 #include <ace/Task.h>
 #include <ace/Message_Block.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
 typedef ACE_Stream<ACE_MT_SYNCH> MT_Stream;
 typedef ACE_Module<ACE_MT_SYNCH> MT_Module;
 typedef ACE_Task<ACE_MT_SYNCH> MT_Task;
 
 static int ProducerData=0;
-class Consumer : public MT_Task {
+class Consumer:public MT_Task {
 public:
 	// Initialize Consumer.
 	virtual int open(void *) {
 		// <activate> is inherited from class Task.
 		return(activate(THR_BOUND));
 	}
+
 
 	// Enqueue the message on the Message_Queue
 	// for subsequent processing in <svc>.
@@ -50,18 +51,20 @@ public:
 		return(putq(mb, tv));
 	}
 
+
 	// Receive message from producer and print to stdout.
 	virtual int svc(void);
 };
 
 // Define the Producer interface
-class Producer : public MT_Task {
+class Producer:public MT_Task {
 public:
 	// Initialize Producer.
 	virtual int open(void *) {
 		// activate() is inherited from class Task.
 		return(activate(THR_BOUND));
 	}
+
 
 	// Read data from stdin and pass to consumer.
 	virtual int svc(void);
@@ -116,7 +119,7 @@ int Consumer::svc(void) {
 	return(0);
 }
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// Control hierarchically-related active objects.
 	MT_Stream stream;
 	// All processing is performed in the

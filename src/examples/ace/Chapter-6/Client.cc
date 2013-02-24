@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/OS_NS_stdio.h>
@@ -26,9 +26,9 @@
 #include "Client.hh"
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 int Client::open(void *p) {
 	// Two seconds
 	ACE_Time_Value iter_delay(2);
@@ -41,23 +41,27 @@ int Client::open(void *p) {
 	return(this->reactor()->schedule_timer (this, 0, ACE_Time_Value::zero, iter_delay));
 }
 
+
 // Listing 2
 
 // Listing 3 code/ch07
 int Client::handle_input(ACE_HANDLE) {
 	char buf[64];
 	ssize_t recv_cnt=this->peer().recv(buf, sizeof(buf) - 1);
+
 	if(recv_cnt > 0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("YES! GOT DATA!!!")));
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%.*C"), static_cast<int>(recv_cnt), buf));
 		return(0);
 	}
+
 	if((recv_cnt==0) || (ACE_OS::last_error()!=EWOULDBLOCK)) {
 		this->reactor()->end_reactor_event_loop();
 		return(-1);
 	}
 	return(0);
 }
+
 
 // Listing 3
 
@@ -67,6 +71,7 @@ int Client::handle_timeout(const ACE_Time_Value&, const void *) {
 		this->peer().close_writer();
 		return(0);
 	}
+
 	ACE_Message_Block *mb;
 	ACE_NEW_RETURN(mb, ACE_Message_Block(128), -1);
 	int nbytes=ACE_OS::sprintf (mb->wr_ptr(), "Iteration %d\n", this->iterations_);
@@ -76,6 +81,7 @@ int Client::handle_timeout(const ACE_Time_Value&, const void *) {
 	return(0);
 }
 
+
 // Listing 4
 
 // Listing 5 code/ch07
@@ -83,6 +89,7 @@ int Client::handle_output(ACE_HANDLE) {
 	ACE_Message_Block *mb;
 
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
+
 	while(-1!=this->getq(mb, &nowait)) {
 		ssize_t send_cnt=this->peer().send(mb->rd_ptr(), mb->length());
 		if(send_cnt==-1) {
@@ -104,8 +111,8 @@ int Client::handle_output(ACE_HANDLE) {
 	return(0);
 }
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
-	// ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+	//ACE_INET_Addr port_to_connect(ACE_TEXT("HAStatus"), ACE_LOCALHOST);
 	ACE_INET_Addr port_to_connect(8080, ACE_LOCALHOST);
 
 	// Notice using the Connector without

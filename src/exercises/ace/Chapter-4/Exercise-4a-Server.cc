@@ -1,33 +1,33 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Log_Msg.h>
 #include <ace/Read_Buffer.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
 // a Read_Buffer which is always connected to STDIN
 static ACE_Read_Buffer rb(ACE_STDIN);
@@ -41,17 +41,17 @@ int GetMessageType(char* data) {
 		return(0);
 	} else {
 		int type;
-		sscanf(buffer, "%d", &type);
+		sscanf(buffer,"%d",&type);
 		// Remove the type from the buffer
-		ACE_OS::sprintf(data, "%s", buffer+2);
+		ACE_OS::sprintf(data,"%s",buffer+2);
 		return(type);
 	}
 }
 
 int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr) {
 	/*
-	 * Basic acceptor usage - No timeout
-	 */
+	* Basic acceptor usage - No timeout
+	*/
 #define NO_TIMEOUT
 #ifdef NO_TIMEOUT
 	if (acceptor->accept(*peer)==-1) {
@@ -59,6 +59,7 @@ int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, A
 	}
 #else
 	ACE_Time_Value timeout(10, 0);
+
 	if (acceptor->accept(*peer, peer_addr, &timeout, 0)==-1) {
 		if (ACE_OS::last_error()==EINTR) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while ") ACE_TEXT("waiting for connection\n")));
@@ -70,24 +71,24 @@ int MakeConnection(ACE_SOCK_Acceptor *acceptor, ACE_INET_Addr *port_to_listen, A
 		peer_addr->addr_to_string(peer_name, MAXHOSTNAMELEN);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
 	}
-#endif	/* NO_TIMEOUT */
+#endif /* NO_TIMEOUT */
 	return(0);
 }
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_listen[3];
 	ACE_SOCK_Acceptor acceptor[3];
 	ACE_INET_Addr peer_addr[3];
 	ACE_SOCK_Stream peer[3];
 	int type=1;
 	char buffer[4096];
-	for(int i=0; i<3; i++) {
+	for(int i=0;i<3;i++) {
 		port_to_listen[i]=ACE_INET_Addr(50000 + i, ACE_LOCALHOST);
 		if (acceptor[i].open(port_to_listen[i], 1)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 		}
 	}
-	for(int i=0; i<3; i++) {
+	for(int i=0;i<3;i++) {
 		MakeConnection(&acceptor[i], &port_to_listen[i], &peer[i], &peer_addr[i]);
 	}
 	int i;
@@ -110,7 +111,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 		}
 	}
 	// send "End" and close the connections
-	for(int i=0; i<3; i++) {
+	for(int i=0;i<3;i++) {
 		peer[i].send_n("End", 4, 0);
 		peer[i].recv(buffer, sizeof(buffer));
 		peer[i].close();

@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/OS_NS_stdio.h>
@@ -27,12 +27,12 @@
 #include <ace/Log_Msg.h>
 #include <ace/SOCK_Connector.h>
 #include <ace/INET_Addr.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
 const int SIZE_BUF=128;
 const int NO_ITERATIONS=5;
@@ -42,24 +42,26 @@ public:
 	ACE_SOCK_Stream client_stream_;
 	ACE_INET_Addr remote_addr_;
 	ACE_SOCK_Connector connector_;
-	Client(char *hostname, int port) : remote_addr_(port, hostname) {
+	Client(char *hostname, int port):remote_addr_(port, hostname) {
 		// Nothing need to be done
 	}
 
-// Uses a connector component `connector_ to connect to a
-// remote machine and pass the connection into a stream component client_stream_
+
+//Uses a connector component `connector_ to connect to a
+//remote machine and pass the connection into a stream component client_stream_
 	int connect_to_server() {
 		// Initiate blocking connection with server.
-		ACE_DEBUG((LM_DEBUG, "(%P|%t) Starting connect to %s:%d\n", remote_addr_.get_host_name(), remote_addr_.get_port_number()));
+		ACE_DEBUG((LM_DEBUG, "(%P|%t) Starting connect to %s:%d\n",remote_addr_.get_host_name(), remote_addr_.get_port_number()));
 		if (connector_.connect(client_stream_, remote_addr_)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "connection failed"), -1);
 		} else {
-			ACE_DEBUG((LM_DEBUG, "(%P|%t) connected to %s\n", remote_addr_.get_host_name()));
+			ACE_DEBUG((LM_DEBUG, "(%P|%t) connected to %s\n",remote_addr_.get_host_name()));
 		}
 		return(0);
 	}
 
-// Close down the connection properly.
+
+//Close down the connection properly.
 	int close() {
 		if (client_stream_.close()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "close"), -1);
@@ -76,6 +78,7 @@ int GetMessageType(char *data) {
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char *buffer=rb.read('\n');
+
 	// return message type zero when EOF is reached
 	if (buffer==0) {
 		// Return 0 as message type
@@ -89,8 +92,10 @@ int GetMessageType(char *data) {
 	}
 }
 
+
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	int FinalDelay=4;
+
 	if (argc < 2) {
 		ACE_DEBUG((LM_DEBUG, "Usage %s <hostname> <port_number> [Final delay(sec)]\n", argv[0]));
 		ACE_DEBUG((LM_DEBUG, "Where: <hostname> - may be localhost\n"));
@@ -104,14 +109,16 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 			FinalDelay=value;
 		}
 	}
+
 	Client client(argv[1], port);
 
 	client.connect_to_server();
 	int type=1;
 	char buffer[100];
+
 	while(type) {
 		type=GetMessageType(buffer);
-// ACE_DEBUG((LM_DEBUG,"%s\n", buffer));
+//		ACE_DEBUG((LM_DEBUG,"%s\n", buffer));
 		if (client.client_stream_.send_n(buffer, ACE_OS::strlen(buffer) + 1, 0)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "send_n"), 0);
 		}

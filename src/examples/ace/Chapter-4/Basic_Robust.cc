@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/OS_NS_errno.h>
@@ -25,30 +25,30 @@
 #include <ace/SOCK_Connector.h>
 #include <ace/Log_Msg.h>
 #include <ace/Time_Value.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	/*
-	 * Here we will use the default ctor and the set()
-	 * method to configure it. After each set() we will
-	 * display the address as a string and then connect
-	 * to each respective server. We can reuse the addr
-	 * instance once connection has been established.
-	 *
-	 * // Listing 1 code/ch06
-	 * ACE_INET_Addr addr;
-	 * ...
-	 * addr.set ("HAStatus", ACE_LOCALHOST);
-	 * ...
-	 * addr.set ("HALog", ACE_LOCALHOST);
-	 * // Listing 1
-	 *
-	 */
+	* Here we will use the default ctor and the set()
+	* method to configure it. After each set() we will
+	* display the address as a string and then connect
+	* to each respective server. We can reuse the addr
+	* instance once connection has been established.
+	*
+	* // Listing 1 code/ch06
+	* ACE_INET_Addr addr;
+	* ...
+	* addr.set ("HAStatus", ACE_LOCALHOST);
+	* ...
+	* addr.set ("HALog", ACE_LOCALHOST);
+	* // Listing 1
+	*
+	*/
 
 	ACE_INET_Addr addr;
 	ACE_TCHAR peerAddress[64];
@@ -64,6 +64,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_SOCK_Stream status;
 	ACE_OS::last_error(0);
 	ACE_SOCK_Connector statusConnector(status, addr);
+
 	if (ACE_OS::last_error()) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("status")), 100);
 	}
@@ -73,6 +74,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	if (addr.addr_to_string(peerAddress, sizeof(peerAddress), 0)==0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connecting to %s\n"), peerAddress));
 	}
+
 	// Listing 4 code/ch06
 	ACE_SOCK_Connector logConnector;
 	ACE_Time_Value timeout(10);
@@ -89,22 +91,23 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Listing 4
 
 	/*
-	 * We generally let the OS pick our local port number but
-	 * if you want, you can choose that also:
-	 * // Listing 5 code/ch06
-	 * ACE_SOCK_Connector logConnector;
-	 * ACE_INET_Addr local (4200, ACE_LOCALHOST);
-	 * if (logConnector.connect (log, addr, 0, local)==-1)
-	 * {
-	 * ...
-	 * // Listing 5
-	 * }
-	 */
+	* We generally let the OS pick our local port number but
+	* if you want, you can choose that also:
+	* // Listing 5 code/ch06
+	* ACE_SOCK_Connector logConnector;
+	* ACE_INET_Addr local (4200, ACE_LOCALHOST);
+	* if (logConnector.connect (log, addr, 0, local)==-1)
+	* {
+	* ...
+	* // Listing 5
+	* }
+	*/
 
 	char buf[64];
 
 	// Listing 6 code/ch06
 	ACE_Time_Value sendTimeout(0, 5);
+
 	if (status.send_n("uptime\n", 7, &sendTimeout)==-1) {
 		if (ACE_OS::last_error()==ETIME) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Timeout while sending ") ACE_TEXT("query to status server\n")));
@@ -115,6 +118,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 		}
 		return(102);
 	}
+
 	ssize_t bc;
 	ACE_Time_Value recvTimeout(0, 1);
 	if((bc=status.recv(buf, sizeof(buf), &recvTimeout))==-1) {

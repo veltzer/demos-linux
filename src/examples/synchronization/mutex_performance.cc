@@ -1,60 +1,57 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <sys/time.h>	// for gettimeofday(2)
-#include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3),
-			//pthread_mutex_init(3), pthread_mutex_destory(3)
-#include <semaphore.h>	// for sem_init(3), sem_wait(3), sem_post(3)
-#include <sys/types.h>	// for ftok(3), semget(3), semctl(3), semop(3)
-#include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
-#include <sys/sem.h>	// for semget(3), semctl(3), semop(3)
-#include <us_helper.h>	// for micro_diff, CHECK_ZERO
+#include <stdio.h> // for printf(3)
+#include <sys/time.h> // for gettimeofday(2)
+#include <pthread.h> // for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
+#include <semaphore.h> // for sem_init(3), sem_wait(3), sem_post(3)
+#include <sys/types.h> // for ftok(3), semget(3), semctl(3), semop(3)
+#include <sys/ipc.h> // for ftok(3), semget(3), semctl(3), semop(3)
+#include <sys/sem.h> // for semget(3), semctl(3), semop(3)
+#include <us_helper.h> // for micro_diff, CHECK_ZERO
 
 /*
- * This demo shows the difference between regular pthread mutex (which is a
- * futex) and an expensive one.
- *
- * The idea is a single thread application that just measures a million
- *lock/unlock
- * operations on each type of lock. Simple and effective.
- *
- * We measure ALL kinds of semaphores and mutexes here.
- *
- * Results:
- * the main finding is that
- * regular lock/unlock costs about 90 nanos on modern hardware while SYSV IPC
- *costs
- * 10 times more. In all other aspects all other types of locks (recursive, non
- * recursive, shared, non shared) perform about the same.
- *
- * EXTRA_LINK_FLAGS=-lpthread
- */
+* This demo shows the difference between regular pthread mutex (which is a
+* futex) and an expensive one.
+*
+* The idea is a single thread application that just measures a million lock/unlock
+* operations on each type of lock. Simple and effective.
+*
+* We measure ALL kinds of semaphores and mutexes here.
+*
+* Results:
+* the main finding is that
+* regular lock/unlock costs about 90 nanos on modern hardware while SYSV IPC costs
+* 10 times more. In all other aspects all other types of locks (recursive, non
+* recursive, shared, non shared) perform about the same.
+*
+* EXTRA_LINK_FLAGS=-lpthread
+*/
 
-void measure(pthread_mutex_t* mutex, sem_t* sem, int semid, const char* name) {
+void measure(pthread_mutex_t* mutex,sem_t* sem, int semid,const char* name) {
 	struct timeval t1, t2;
 	const unsigned int loop=1000000;
-	printf("running test [%s]\n", name);
+	printf("running test [%s]\n",name);
 	gettimeofday(&t1, NULL);
-	for(unsigned int i=0; i < loop; i++) {
+	for(unsigned int i=0;i < loop;i++) {
 		if(mutex) {
 			CHECK_ZERO(pthread_mutex_lock(mutex));
 			CHECK_ZERO(pthread_mutex_unlock(mutex));
@@ -76,7 +73,7 @@ void measure(pthread_mutex_t* mutex, sem_t* sem, int semid, const char* name) {
 		}
 	}
 	gettimeofday(&t2, NULL);
-	printf("time in micro of one lock/unlock pair: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	printf("time in micro of one lock/unlock pair: %lf\n", micro_diff(&t1,&t2)/(double)loop);
 }
 
 static pthread_mutex_t mutex_fast;
@@ -87,34 +84,34 @@ static sem_t sem_shared;
 static int semid;
 
 void* work(void* param) {
-	measure(&mutex_fast, NULL, -1, "fast mutexes");
-	measure(&mutex_recursive, NULL, -1, "recursive mutexes");
-	measure(&mutex_errorcheck, NULL, -1, "error checking mutexes");
-	measure(NULL, &sem_nonshared, -1, "non shared semaphores");
-	measure(NULL, &sem_shared, -1, "shared semaphores");
-	measure(NULL, NULL, semid, "SYSV IPC semaphores");
+	measure(&mutex_fast,NULL,-1,"fast mutexes");
+	measure(&mutex_recursive,NULL,-1,"recursive mutexes");
+	measure(&mutex_errorcheck,NULL,-1,"error checking mutexes");
+	measure(NULL,&sem_nonshared,-1,"non shared semaphores");
+	measure(NULL,&sem_shared,-1,"shared semaphores");
+	measure(NULL,NULL,semid,"SYSV IPC semaphores");
 	return NULL;
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("main started\n");
 
 	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
 	semid=CHECK_NOT_M1(semget(key, 1, IPC_CREAT | 0666));
-	CHECK_NOT_M1(semctl(semid, 0, SETVAL, 1));
+	CHECK_NOT_M1(semctl(semid,0,SETVAL,1));
 
-	CHECK_ZERO(sem_init(&sem_nonshared, 0, 1));
-	CHECK_ZERO(sem_init(&sem_shared, 1, 1));
+	CHECK_ZERO(sem_init(&sem_nonshared,0,1));
+	CHECK_ZERO(sem_init(&sem_shared,1,1));
 
 	pthread_mutexattr_t attr;
 	CHECK_ZERO(pthread_mutexattr_init(&attr));
-	CHECK_ZERO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_FAST_NP));
-	CHECK_ZERO(pthread_mutex_init(&mutex_fast, &attr));
-	CHECK_ZERO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP));
-	CHECK_ZERO(pthread_mutex_init(&mutex_recursive, &attr));
-	CHECK_ZERO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK_NP));
-	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck, &attr));
-	run_high_priority(work, NULL, STANDARD_HIGH_PRIORITY);
+	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_FAST_NP));
+	CHECK_ZERO(pthread_mutex_init(&mutex_fast,&attr));
+	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_RECURSIVE_NP));
+	CHECK_ZERO(pthread_mutex_init(&mutex_recursive,&attr));
+	CHECK_ZERO(pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_ERRORCHECK_NP));
+	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck,&attr));
+	run_high_priority(work,NULL,STANDARD_HIGH_PRIORITY);
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_fast));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_recursive));
 	CHECK_ZERO(pthread_mutex_destroy(&mutex_errorcheck));

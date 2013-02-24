@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/INET_Addr.h>
@@ -24,26 +24,26 @@
 #include <ace/Reactor.h>
 #include <ace/Log_Msg.h>
 #include <ace/SOCK_Stream.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * This example shows how to use a socket acceptor through a reactor
- *
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* This example shows how to use a socket acceptor through a reactor
+*
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
-class ClientAcceptor : public ACE_Event_Handler {
-public:
-	int open(const ACE_INET_Addr& listen_addr);
-	virtual ~ClientAcceptor();
+class ClientAcceptor:public ACE_Event_Handler {
+	public:
+		int open(const ACE_INET_Addr& listen_addr);
+		virtual ~ClientAcceptor();
 
-	virtual ACE_HANDLE get_handle(void) const;
+		virtual ACE_HANDLE get_handle(void) const;
 
-	virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
+		virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
 
-protected:
-	ACE_SOCK_Acceptor m_acceptor;
+	protected:
+		ACE_SOCK_Acceptor m_acceptor;
 };
 
 int ClientAcceptor::open(const ACE_INET_Addr& listen_addr) {
@@ -75,7 +75,7 @@ int ClientAcceptor::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// create the acceptor
 	ClientAcceptor acceptor;
 	// register the acceptor with the singleton reactor
@@ -86,7 +86,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	if(acceptor.open(port_to_listen)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), -1);
 	}
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) connect to me using 'telnet localhost %d'\n"), port));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) connect to me using 'telnet localhost %d'\n"),port));
 	// main loop on the singleton reactor
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) before event loop\n")));
 	ACE_Reactor::instance()->run_reactor_event_loop();

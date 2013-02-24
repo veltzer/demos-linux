@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <sys/time.h>
@@ -25,53 +25,53 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <cpufreq.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * This is a demo which shows how, on i386 platforms, to read the rdtsc
- * register in order to get a high precision timer. Mind you, you must
- * be running on a machine that does not do frequency scaling in order
- * for this to work...
- *
- * TODO:
- * - add reading of the cpu frequency.
- * - add diffing the two values.
- * - add measuring absolute time via the cpu frequency.
- *
- * If you compare the results of this test with the cpu frequency information
- * provided by the OS you will find a slight difference.
- *
- * Where does this difference come from?
- * The sleep(3) call which is called here is handled by the OS using the PIC
- * interrupt handler clock while the RDTSC register that we call is from the
- * CPU internal clock. This means that we are comparing two different clocks!
- * In addition to all of this setting the fact that the CPU reports that it's
- * frequency is 600 MHz doesn't means that it ticks: 600,000,000 (600 million
- * times) per seconds exactly...
- *
- * EXTRA_LINK_FLAGS=-lcpufreq
- *
- * TODO:
- * - on multi core the RDTSC reports twice as long. Fix this...
- */
+* This is a demo which shows how, on i386 platforms, to read the rdtsc
+* register in order to get a high precision timer. Mind you, you must
+* be running on a machine that does not do frequency scaling in order
+* for this to work...
+*
+* TODO:
+* - add reading of the cpu frequency.
+* - add diffing the two values.
+* - add measuring absolute time via the cpu frequency.
+*
+* If you compare the results of this test with the cpu frequency information
+* provided by the OS you will find a slight difference.
+*
+* Where does this difference come from?
+* The sleep(3) call which is called here is handled by the OS using the PIC
+* interrupt handler clock while the RDTSC register that we call is from the
+* CPU internal clock. This means that we are comparing two different clocks!
+* In addition to all of this setting the fact that the CPU reports that it's
+* frequency is 600 MHz doesn't means that it ticks: 600,000,000 (600 million
+* times) per seconds exactly...
+*
+* EXTRA_LINK_FLAGS=-lcpufreq
+*
+* TODO:
+* - on multi core the RDTSC reports twice as long. Fix this...
+*/
 void long_task(void) {
-// const int sleep_time=100;
-// usleep(sleep_time);
+//	const int sleep_time=100;
+//	usleep(sleep_time);
 	sleep(1);
 	/*
-	 * This doesn't really work since the compiler eliminates
-	 * the entire loop when optimizing...:)
-	 * const int count=1000000;
-	 * for(int i=0;i<count;i++) {
-	 * }
-	 */
+	* This doesn't really work since the compiler eliminates
+	* the entire loop when optimizing...:)
+	* const int count=1000000;
+	* for(int i=0;i<count;i++) {
+	* }
+	*/
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	printf("starting up...\n");
 
 	printf("lets get the cpu and numa node via getcpu(2)...\n");
-	int c, n;
+	int c,n;
 	CHECK_NOT_M1(syscall(__NR_getcpu, &c, &n, NULL));
 	printf("getcpu(2) says cpu is [%d] and numa node is [%d]...\n", c, n);
 
@@ -119,6 +119,6 @@ int main(int argc, char** argv, char** envp) {
 	printf("cpufreq_get_freq_hardware(0) [%lu]\n", cpufreq_get_freq_hardware(0));
 	// this is again using libcpufreq but will fail since it tries to access
 	// the /proc file that requires root access)
-	// printf("proc_get_freq_kernel(0) [%lu]\n",proc_get_freq_kernel(0));
+	//printf("proc_get_freq_kernel(0) [%lu]\n",proc_get_freq_kernel(0));
 	return EXIT_SUCCESS;
 }

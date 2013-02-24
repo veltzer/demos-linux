@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/os_include/os_netdb.h>
@@ -26,23 +26,23 @@
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Log_Msg.h>
 #include <ace/Time_Value.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * Example of simple single threaded ace socket server.
- * Notice the hanlding of interruption
- *
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* Example of simple single threaded ace socket server.
+* Notice the hanlding of interruption
+*
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	// lets open the port...
 	ACE_INET_Addr port_to_listen(50000);
-	// ACE_INET_Addr port_to_listen("HAStatus");
+	//ACE_INET_Addr port_to_listen("HAStatus");
 	ACE_SOCK_Acceptor acceptor;
-	if(acceptor.open(port_to_listen, 1)==-1) {
-		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\nacceptor.open")), 100);
+	if(acceptor.open(port_to_listen,1)==-1) {
+		ACE_ERROR_RETURN((LM_ERROR,ACE_TEXT("%p\nacceptor.open")),100);
 	}
 	// lets print our own connect address...
 	ACE_TCHAR my_name[MAXHOSTNAMELEN];
@@ -54,8 +54,9 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 		ACE_SOCK_Stream peer;
 		ACE_INET_Addr peer_addr;
 		ACE_Time_Value timeout(10, 0);
+
 		if (acceptor.accept(peer, &peer_addr, &timeout, 1)==-1) {
-			// if(acceptor.accept(peer)==-1) {
+			//if(acceptor.accept(peer)==-1) {
 			if (ACE_OS::last_error()==EINTR) {
 				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while waiting for connection")));
 			} else if (ACE_OS::last_error()==ETIMEDOUT) {
@@ -68,8 +69,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
 			char buffer[4096];
 			ssize_t bytes_received=peer.recv(buffer, sizeof(buffer));
-			// IMPORTANT NOTICE: do not allow 0 here since it is the
-			//end
+			// IMPORTANT NOTICE: do not allow 0 here since it is the end
 			// of file...
 			while(bytes_received>0) {
 				if (peer.send(buffer, bytes_received)==-1) {
@@ -77,8 +77,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 				}
 				bytes_received=peer.recv(buffer, sizeof(buffer));
 			}
-			// lets show a nice message if we are interrupted while
-			//reading...
+			// lets show a nice message if we are interrupted while reading...
 			if (bytes_received==-1) {
 				if (ACE_OS::last_error()==EINTR) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while reading")));
