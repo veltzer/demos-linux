@@ -1,21 +1,21 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
-
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
-
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
+ * This file is part of the linuxapi project.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * The linuxapi package is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * The linuxapi package is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the GNU C Library; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA.
  */
 
 #include <firstinclude.h>
@@ -34,12 +34,12 @@
  */
 
 /* we use 49 as the PRREMPT_RT use 50
-   as the priority of kernel tasklets
-   and interrupt handler by default */
+ * as the priority of kernel tasklets
+ * and interrupt handler by default */
 const int MY_PRIORITY=49;
 /* The maximum stack size which is
-   guranteed safe to access without
-   faulting */
+ * guranteed safe to access without
+ * faulting */
 const int MAX_SAFE_STACK=8*1024;
 /* The number of nsecs per sec. */
 const int NSEC_PER_SEC=1000000000;
@@ -70,8 +70,8 @@ int main(int argc, char** argv, char** envp) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
 		/* do the stuff
-		   ...
-		   calculate next shot */
+		 * ...
+		 * calculate next shot */
 		t.tv_nsec+=interval;
 		while(t.tv_nsec>=NSEC_PER_SEC) {
 			t.tv_nsec-=NSEC_PER_SEC;

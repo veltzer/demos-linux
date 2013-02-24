@@ -1,21 +1,21 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
-
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
-
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
+ * This file is part of the linuxapi project.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * The linuxapi package is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * The linuxapi package is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the GNU C Library; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA.
  */
 
 #include <firstinclude.h>
@@ -44,24 +44,24 @@ static void* worker(void *arg) {
 }
 
 /*
-   class M {
-        public:
-                void run() {
-                        ACE_DEBUG((LM_DEBUG, "Thread (%t) Created to do some work"));
-                        ::number++;
-                        ACE_DEBUG((LM_DEBUG, " and number is %d\n", ::number));
-                        //Let the other guy go while I fall asleep for a random period of time
-                        ACE_OS::sleep(ACE_OS::rand() % 2);
-   //Exiting now
-                        ACE_DEBUG((LM_DEBUG, "\t\t Thread (%t) Done! \t The number is now: %d\n", number));
-                }
-   };
-
-   static void* run_method(void* arg) {
-        M* p=(M*)arg;
-        p->run();
-        return NULL;
-   }
+ * class M {
+ *      public:
+ *              void run() {
+ *                      ACE_DEBUG((LM_DEBUG, "Thread (%t) Created to do some work"));
+ *                      ::number++;
+ *                      ACE_DEBUG((LM_DEBUG, " and number is %d\n", ::number));
+ *                      //Let the other guy go while I fall asleep for a random period of time
+ *                      ACE_OS::sleep(ACE_OS::rand() % 2);
+ * //Exiting now
+ *                      ACE_DEBUG((LM_DEBUG, "\t\t Thread (%t) Done! \t The number is now: %d\n", number));
+ *              }
+ * };
+ *
+ * static void* run_method(void* arg) {
+ *      M* p=(M*)arg;
+ *      p->run();
+ *      return NULL;
+ * }
  */
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {

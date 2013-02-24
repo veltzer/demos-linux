@@ -1,21 +1,21 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
-
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
-
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
+ * This file is part of the linuxapi project.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * The linuxapi package is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * The linuxapi package is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the GNU C Library; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA.
  */
 
 #include <firstinclude.h>
@@ -232,23 +232,23 @@ void ExitProgram() {
 // CHECK EVENTS
 void CheckKeyboard() {
 	/* FIXME: XKeysymToString is deprecated
-	   if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
-	        char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
-	        if(strncmp(key_string, "Left", 4)==0) {
-	                rot_z_vel-=200.0*DT;
-	        } else if(strncmp(key_string, "Right", 5)==0) {
-	                rot_z_vel+=200.0*DT;
-	        } else if(strncmp(key_string, "Up", 2)==0) {
-	                rot_y_vel-=200.0*DT;
-	        } else if(strncmp(key_string, "Down", 4)==0) {
-	                rot_y_vel+=200.0*DT;
-	        } else if(strncmp(key_string, "F1", 2)==0) {
-	                rot_y_vel=0.0;
-	                rot_z_vel=0.0;
-	        } else if(strncmp(key_string, "Escape", 5)==0) {
-	                ExitProgram();
-	        }
-	   }
+	 * if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
+	 *      char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
+	 *      if(strncmp(key_string, "Left", 4)==0) {
+	 *              rot_z_vel-=200.0*DT;
+	 *      } else if(strncmp(key_string, "Right", 5)==0) {
+	 *              rot_z_vel+=200.0*DT;
+	 *      } else if(strncmp(key_string, "Up", 2)==0) {
+	 *              rot_y_vel-=200.0*DT;
+	 *      } else if(strncmp(key_string, "Down", 4)==0) {
+	 *              rot_y_vel+=200.0*DT;
+	 *      } else if(strncmp(key_string, "F1", 2)==0) {
+	 *              rot_y_vel=0.0;
+	 *              rot_z_vel=0.0;
+	 *      } else if(strncmp(key_string, "Escape", 5)==0) {
+	 *              ExitProgram();
+	 *      }
+	 * }
 	 */
 }
 

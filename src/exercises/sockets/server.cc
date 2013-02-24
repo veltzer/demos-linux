@@ -1,21 +1,21 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
-
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
-
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
+ * This file is part of the linuxapi project.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * The linuxapi package is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * The linuxapi package is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the GNU C Library; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA.
  */
 
 #include <firstinclude.h>
@@ -36,8 +36,8 @@ int main(int argc, char** argv, char** envp) {
 	char ibuffer[1000], obuffer[1000];
 	int brsock=CHECK_NOT_M1(socket(AF_INET, SOCK_DGRAM, 0));
 	/*
-	   int on=1;
-	   CHECK_NOT_M1(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on));
+	 * int on=1;
+	 * CHECK_NOT_M1(setsockopt(brsock, SOL_SOCKET, SO_BROADCAST, &on, sizeof on));
 	 */
 	struct sockaddr_in server;
 	bzero(&server, sizeof(server));
