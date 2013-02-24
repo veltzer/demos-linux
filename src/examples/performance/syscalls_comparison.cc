@@ -25,7 +25,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <stdlib.h>	// for free(3), malloc(3)
 #include <pthread.h>	// for pthread_key_create(3), pthread_setspecific(3),
-			// pthread_getspecific(3)
+			//pthread_getspecific(3)
 #include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1()
 
 /*
@@ -39,7 +39,7 @@
  * of gettid and performs much better.
  *
  * How do I know that gcc actually calls getpid or gettid? I see it in the
- **disassemly.
+ *disassemly.
  * (gettimeofday is obviously called)
  *
  * EXTRA_LINK_FLAGS=-lpthread

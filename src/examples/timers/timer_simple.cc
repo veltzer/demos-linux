@@ -20,11 +20,11 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3),
-			// pthread_self(3)
+			//pthread_self(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <signal.h>	// for timer_create(2), signal(2)
 #include <time.h>	// for timer_create(2), timer_settime(2),
-			// timer_delete(2)
+			//timer_delete(2)
 #include <unistd.h>	// for pause(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 

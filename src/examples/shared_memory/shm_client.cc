@@ -27,7 +27,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(),
-			// CHECK_NOT_NULL(), CHECK_NOT_ZERO()
+			//CHECK_NOT_NULL(), CHECK_NOT_ZERO()
 
 /*
  * This is a simple shared memory client that works well with the shared memory

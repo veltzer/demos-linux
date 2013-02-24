@@ -36,21 +36,21 @@
  *
  * NOTES:
  * - events arrive together. One epoll_wait can wake you up on multiple events
- **on the same fd.
+ *on the same fd.
  * - EPOLLRDHUP is the event delivered when the other side hangs up.
  * - EPOLLOUT is the event delivered when writing is done. If we work edge
- **triggered then
+ *triggered then
  * it will be delivered only once. We are supposed to check that the entire
- **write is done.
+ *write is done.
  * - to stop polling on an fd you must first deregister it from epoll AND ONLY
- **THEN close it (obvious).
+ *THEN close it (obvious).
  * - we are doing async IO here all over. This means that when you are notified
- **that there is data you
+ *that there is data you
  * to read fast (without blocking) and then you get to write fast.
  *
  * TODO:
  * - check what happens when we write large amounts of data to the output. Will
- **the async write come up
+ *the async write come up
  * short?
  */
 

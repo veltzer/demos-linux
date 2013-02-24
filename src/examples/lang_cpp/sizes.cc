@@ -60,7 +60,7 @@ int main(int argc, char** argv, char** envp) {
 	std::cout << "sizeof(B) is " << sizeof(B) << std::endl;
 	std::cout << "sizeof(C) is " << sizeof(C) << std::endl;
 	// std::cout << "__builtin_offsetof(e,B) " << __builtin_offsetof(e,B) <<
-	// std::endl;
+	//std::endl;
 	std::cout << "CppOffsetOf(B,e) " << CppOffsetOf(B, e) << std::endl;
 	std::cout << "CppOffsetOf(A,a) " << CppOffsetOf(A, a) << std::endl;
 	std::cout << "CppOffsetOf(A,b) " << CppOffsetOf(A, b) << std::endl;

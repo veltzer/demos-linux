@@ -26,14 +26,14 @@
 /*
  *	This is an example of a compiler barrier
  *	This example needs to be compiled with optimizations to see it in
- **action.
+ *action.
  *	View the resulting assembly code with:
  *	objdump --disassemble --line-numbers --source --demangle barrier
  *
  *	The gcc compiler barrier
  *	========================
  *	is the asm(memory) one. It is not a CPU reordering barrier - just a
- **compiler
+ *compiler
  *	one.
  *	It seems that gcc does not have the notion of a *read* vs *write*
  *	barrier which could come in handly instead of this dominating
@@ -42,44 +42,44 @@
  *	Function call barriers
  *	======================
  *	On some platforms/compilers these are also memory barriers but not so in
- **gcc
+ *gcc
  *	that assumes that functions that are called do not change the content of
- **registers
+ *registers
  *	(and if they do, they put back everything the way they found it...). In
- **any case
+ *any case
  *	you cannot really rely on them since you are not sure which functions
- **are macros,
+ *are macros,
  *	inlines etc. Better to use an official compiler barrier. I picked a
- **function that
+ *function that
  *	is definately not an inlined one and still this it does not perform well
- **as
+ *as
  *	a compiler barrier (srandom on gcc 4.5.2).
  *
  *	Machine memory barriers
  *	=======================
  *	is the __sync_synchronize() one. There doesn't seem to be a read vs
- **write
+ *write
  *	one. This does not serve as a compiler barrier as is evident as a result
  *	of this program.
  *
  *	Empty assembly block
  *	====================
  *	Used to work in some versions of gcc but stopped working. Better not to
- **use.
+ *use.
  *
  *	Notes:
  *	- the loop that you see in the code forces the compiler to use a
- **register
+ *register
  *	to hold the 'a' variable (if you compile with optimisation ofcourse).
  *	- if you disassemble the code you see that the compiler writes the loop
- **variable
+ *variable
  *	(a in our case) back to it's natural place on the stack right after the
- **loop.
+ *loop.
  *	- after the loop suprisingly, the compiler is certain that the register
- **is still
+ *is still
  *	holding the right value for a and so uses it in the print...
  *	- without a good compiler barrier the compiler is certain that the value
- **in the
+ *in the
  *	register is synchronized with the memory location.
  *
  *	References:
@@ -124,13 +124,13 @@ FILE* outfile;
 			p++; \
 		} \
 		/* this taking of the address of a to have the compiler actually
-		   store
+		  store
 		   a on the stack at all! If we don't do this the compiler will
-		   treat
+		  treat
 		   a as a register for the entire scope of this function! */ \
 		int *pa=&a; \
 		/* this printing is essential to keep the compiler from telling
-		   us
+		  us
 		   that 'pa' is an unused variable... */ \
 		fprintf(outfile, "pa is %p\n", pa); \
 		fprintf(outfile, "p is %p\n", p); \

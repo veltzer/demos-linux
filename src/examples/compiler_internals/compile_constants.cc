@@ -36,11 +36,11 @@ static inline int _sum(int i) {
  * Take note that this function must be inlined or in the compilation unit with
  * it's usage points for this trick to take effect. If you are worried about
  * what happens when the compiler compiles this function for real (not in inline
- **mode)
+ *mode)
  * then you not need be worried: __builtin_constant_p(x) is then always assumed
- **to
+ *to
  * return false and so the entire branch of that code goes away including the
- **'if'
+ *'if'
  * statement itself!
  */
 // next line produces a compile time error...

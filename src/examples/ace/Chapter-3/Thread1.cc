@@ -30,7 +30,7 @@
  */
 
 // Arguments that are to be passed to the worker thread are instances of this
-// class.
+//class.
 class Args {
 public:
 	Args(int iterations) : mutex(), iterations(iterations) {

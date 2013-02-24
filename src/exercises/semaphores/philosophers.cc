@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE, rand(3),
-			// srand(3)
+			//srand(3)
 #include <time.h>	// for time(2)
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for printf(3)

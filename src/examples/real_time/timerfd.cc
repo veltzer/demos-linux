@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2),
-			// timerfd_gettime(2)
+			//timerfd_gettime(2)
 #include <unistd.h>	// for read(2)
 #include <time.h>	// for clock_gettime(2)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS

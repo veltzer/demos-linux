@@ -22,13 +22,13 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3), exit(3)
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_create(3),
-			// pthread_join(3)
+			//pthread_join(3)
 #include <unistd.h>	// for sysconf(3), usleep(3), getopt_long(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3),
-			// sched_getcpu(2)
+			//sched_getcpu(2)
 #include <getopt.h>	// for struct option
 #include <us_helper.h>	// for CHECK_ZERO(), CHECK_ONEOFTWO(), TRACE(),
-			// print_cpu_set()
+			//print_cpu_set()
 
 /*
  * This is a demo which shows atomic add using the
@@ -48,11 +48,11 @@
  *
  * TODO:
  * - the results of this example don't add up. Some of these
- **__sync_add_and_fetch
+ *__sync_add_and_fetch
  * calls must fail because other CPUs are doing them at the same time. How come
- **they don't?
+ *they don't?
  * Are they guaranteed to succeed according to the Intel manual? It looks that
- **way. Investigate.
+ *way. Investigate.
  */
 
 // data to be passed to each thread...

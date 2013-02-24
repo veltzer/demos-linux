@@ -37,7 +37,7 @@
 
 // TODO:
 // We still need to show how the mechanism of accessing a child field from an
-// overridden
+//overridden
 // method in the parent works when there is multiple inheritance involved...
 
 class NameEmpty {
@@ -86,38 +86,38 @@ int main(int argc, char** argv, char** envp) {
 	// one byte of ram...
 	std::cout << "sizeof(NameEmpty) is " << sizeof(NameEmpty) << std::endl;
 	// this yet again proves the previous point by showing that if we have
-	// just
+	//just
 	// one single character the previous character goes away
 	std::cout << "sizeof(NameOnechar) is " << sizeof(NameOnechar) << std::endl;
 	// this shows that two characters are packed (=2)
 	std::cout << "sizeof(NameTwochar) is " << sizeof(NameTwochar) << std::endl;
 	// this shows that having virtual functions adds the pointer to the
-	// vtable
+	//vtable
 	// which is 4 bytes
 	std::cout << "sizeof(NameOnevirt) is " << sizeof(NameOnevirt) << std::endl;
 	// this shows that having multiple virtual functions does NOT increase
-	// the
+	//the
 	// size of your object (you only hold a pointer to the vtable...)
 	std::cout << "sizeof(NameTwovirt) is " << sizeof(NameTwovirt) << std::endl;
 	// this shows that even inheritance from a class which has virtual
-	// functions
+	//functions
 	// does not add size
 	std::cout << "sizeof(NameSimpleInherit) is " << sizeof(NameSimpleInherit) << std::endl;
 	// same for inheriting from a class that has more than one virtual
-	// function...
+	//function...
 	std::cout << "sizeof(NameSimpleInherit2) is " << sizeof(NameSimpleInherit2) << std::endl;
 	// this shows that a derived object from two virtual objects holds TWO
-	// virtual table
+	//virtual table
 	// pointers
 	std::cout << "sizeof(NameMultInherit) is " << sizeof(NameMultInherit) << std::endl;
 	// this shows the use of the CppOffsetOf macro we defined above and that
-	// the first
+	//the first
 	// field comes right after the vtable pointer...
 	std::cout << "CppOffsetOf(NameOneVirtOneField,x) is " << CppOffsetOf(NameOneVirtOneField, x) << std::endl;
 	// now lets see what happends of we have more than one field...
 	std::cout << "CppOffsetOf(NameOneVirtTwoField,y) is " << CppOffsetOf(NameOneVirtTwoField, y) << std::endl;
 	// the next prints prove that the object is laid out this way: vtable
-	// for parent 1, data for
+	//for parent 1, data for
 	// parent 1, vtable for parent 2, data for parent 2, ...
 
 	std::cout << "CppOffsetOf(NameFMultInherit,x) is " << CppOffsetOf(NameFMultInherit, x) << std::endl;

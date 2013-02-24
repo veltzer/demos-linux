@@ -35,7 +35,7 @@
  * So why should you use pthread_join/pthread_detach?
  * In order to clean up the threads memory footprint in the pthread library.
  * You should choose one, and only one, of either pthread_join or
- **pthread_detach.
+ *pthread_detach.
  *
  * TODO:
  * - show that this example works the same even if you call pthread_detach.
@@ -90,7 +90,7 @@ int main(int argc, char** argv, char** envp) {
 	// wait till the thread is over...
 	CHECK_ZERO(pthread_mutex_lock(&mutex_end));
 	// since the thead called the unlock just before it ended wait just a
-	// tiny
+	//tiny
 	// weeny bit more...
 	sleep(1);
 	// CHECK_ZERO(pthread_join(thread,NULL));

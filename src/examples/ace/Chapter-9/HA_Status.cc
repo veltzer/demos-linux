@@ -41,9 +41,9 @@ private:
 };
 
 int HA_Status::init(int argc, ACE_TCHAR *argv[]) {	// Do ACE_Get_Opt and
-							// get conf file name,
-							// read out the sections
-							// and print the names.
+							//get conf file name,
+							//read out the sections
+							//and print the names.
 	static const ACE_TCHAR options[]=ACE_TEXT(":f:");
 
 	ACE_Get_Opt cmd_opts(argc, argv, options);

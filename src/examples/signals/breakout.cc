@@ -29,15 +29,15 @@
 
 /*
  * This demo demostrates how to cause a thread that is stuck in a long system
- **call to
+ *call to
  * break out of it. The idea is to generate a signal and to define that signal
- **as an
+ *as an
  * interrupt signal. This will not cause the system call to be restarted but
- **rather
+ *rather
  * the system call (in this examples case read(2)) will return with an error(-1)
- **and
+ *and
  * the error code will be -EINTR. On receiving this the main thread will
- **politely end
+ *politely end
  * (throw an exception ?!?).
  */
 

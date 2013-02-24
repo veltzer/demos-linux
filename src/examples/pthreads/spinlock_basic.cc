@@ -20,8 +20,8 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_spin_init(3), pthread_spin_lock(3),
-			// pthread_spin_unlock(3), pthread_spin_destroy(3),
-			// pthread_create(3), pthread_join(3)
+			//pthread_spin_unlock(3), pthread_spin_destroy(3),
+			//pthread_create(3), pthread_join(3)
 #include <us_helper.h>	// for TRACE()
 
 /*
@@ -50,7 +50,7 @@ static void *worker(void *p) {
 
 int main(int argc, char** argv, char** envp) {
 	// first initialize the lock (no need for sharing between processes
-	// which
+	//which
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
 	CHECK_ZERO(pthread_spin_init(&mylock, 0));

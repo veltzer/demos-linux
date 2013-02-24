@@ -24,7 +24,7 @@
 #include <sys/time.h>	// for gettimeofday(2)
 #include <assert.h>	// for assert(3)
 #include <pthread.h>	// for pthread_mutex_t, pthread_mutex_lock,
-			// pthread_mutex_unlock
+			//pthread_mutex_unlock
 #include <stdarg.h>	// for va_list, va_start, va_end
 #include <us_helper.h>	// for micro_diff(3)
 
@@ -33,21 +33,21 @@
  *
  * Notes:
  * - every messsage that I'm sending to syslog or to file has a number in it.
- **This
+ *This
  *	has two reasons: the most important is for syslog to actually log the
- **message
+ *message
  *	since if syslog gets two identical messages it does not log the second.
- **Instead
+ *Instead
  *	it waits for sometime and then says that the previous message repeated
- **so and so
+ *so and so
  *	times. The second reason is to include the printf like formatting code
- **in the
+ *in the
  *	measurements.
  * - the tested code runs in a high priority thread to make sure that we measure
- **times
+ *times
  *	correctly.
  * - the fwrite implementation is fast because it does buffering. Maybe you are
- **ok with
+ *ok with
  *	that (you may lose data if you crash) and in that case you can use it.
  *
  * Results:
@@ -60,7 +60,7 @@
  *	time in micro of one write: 0.330000
  *	=====================================
  *	This is because rsyslogd in ubuntu is synchroneous. Most syslogd
- **implementations are
+ *implementations are
  *	like that.
  *
  * TODO:
@@ -70,7 +70,7 @@
  *	- O_SYNC
  * - add another test with syslog which writes to a sysfs file instead.
  * - add another test case of asynchroneous syslog (damn it! how do I configure
- **that?!?).
+ *that?!?).
  * - explain the results in the text above.
  * - do better stats (min, max, variance and more - max is the most important).
  *

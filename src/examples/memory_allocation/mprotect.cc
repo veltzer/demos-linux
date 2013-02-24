@@ -21,17 +21,17 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for malloc(3), free(3), exit(3), EXIT_SUCCESS,
-			// EXIT_FAILURE
+			//EXIT_FAILURE
 #include <sys/mman.h>	// for mprotect(2)
 #include <signal.h>	// for SIGSEGV, psiginfo(3), strsignal(3)
 #include <malloc.h>	// for memalign(3)
 #include <unistd.h>	// for getpagesize(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL(),
-			// register_handler_sigaction(), TRACE()
+			//register_handler_sigaction(), TRACE()
 
 /*
  * This is a demo of the use of mprotect(2) to protect your memory and thus try
- **to
+ *to
  * find a memory violation.
  */
 

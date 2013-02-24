@@ -116,8 +116,7 @@ private:
 };
 
 class HA_ControllerAgentProxy {	// This acts as a Proxy to the controller impl
-				// object.
-
+				//object.
 public:
 	ACE_Future<int> status_update(void) {
 		ACE_TRACE(ACE_TEXT("HA_ControllerAgentProxy::status_update"));

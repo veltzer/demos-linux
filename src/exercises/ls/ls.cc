@@ -116,7 +116,7 @@ int main(int argc, char** argv, char** envp) {
 	int num_files=0;
 	int num_blocks=0;
 	// no need to check the return code of readdir(3) (see the manual page
-	// for it...)
+	//for it...)
 	struct dirent* dircontent;
 	while((dircontent=readdir(d))) {
 		if(hidedots && dircontent->d_name[0]=='.') {

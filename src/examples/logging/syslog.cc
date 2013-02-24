@@ -39,36 +39,36 @@
  * on /dev/log as a udp socket and logs the messages sent to it.
  *
  * A question that is often raised is what is the performance of syslog compared
- **to
+ *to
  * printf to a file - the answer is faster since it is sending the data through
- **the socket
+ *the socket
  * and does not wait for it to be written to disk. Each call to syslog will
- **actually
+ *actually
  * generate two different system calls: time(2) and then send(2). The time(2)
- **call is
+ *call is
  * in order to log the time that the message was sent at (source time). Then the
- **time
+ *time
  * is formatted in the form of a date and sent, along with the data, to syslog.
  * You can see all of this if you strace(1) this example. There seems to be no
- **way to
+ *way to
  * tell syslog(3) not to do this timing thing and just send the message.
  *
  * So how long does it take to call syslog? Two system calls worth (pretty long
- **but
+ *but
  * shorter than writing to a file).
  *
  * See a different example of how to use syslog as a general logging and tracing
- **facility
+ *facility
  * using the vsyslog function.
  *
  * Notice the use of setlogmask in order to control which logs actually go to
- **the log.
+ *the log.
  *
  */
 
 /*
  * this is a debug function for me to find out what the syslog constants for
- **logging
+ *logging
  * levels are...
  */
 #define PRINT_LEVEL(a) fprintf(stderr, # a " is %d\n", a);
@@ -110,7 +110,7 @@ int main(int argc, char** argv, char** envp) {
 	// the named
 	const char* myname="myname";
 	// record the process id doing the logging, regular user process
-	// logging...
+	//logging...
 	openlog(myname, LOG_PID, LOG_USER);
 	// show the open file descriptor map after opening syslog
 	// at this point the socket is still not created...
@@ -126,25 +126,25 @@ int main(int argc, char** argv, char** envp) {
 	// lets send the same message many times to show that
 	// notice that the filtering of same messages IS NOT done at the source
 	// syslog will ACTUALLY send the message 200 times, the syslogd
-	// application
+	//application
 	// is the one that will notice that the same message was received and
-	// will
+	//will
 	// only print it once and then, after a delay or upon receiving a
-	// different
+	//different
 	// message, will print the number of times that that message appeared...
 	// you can verify this by stracing this demo and seeing 200 different
-	// calls
+	//calls
 	// to send(2).
 	for(int i=0; i < 200; i++) {
 		syslog(LOG_ERR, "did you know that 2+2=4?");
 	}
 	// lets send a different message to make syslogd(1) print the number of
-	// times
+	//times
 	// the message was sent...
 	syslog(LOG_ERR, "goodbye, syslog");
 	// show the open file descriptor map after opening syslog
 	// the socket is now here - it seems that syslog is lazy, you can
-	// control
+	//control
 	// this laziness if you pass LOG_NDELAY to openlog...
 	my_system("ls -l /proc/%d/fd | grep socket", getpid());
 	// close the connection with syslogd(1)
@@ -152,7 +152,7 @@ int main(int argc, char** argv, char** envp) {
 	// show that the socket is not there after closelog(3)
 	my_system("ls -l /proc/%d/fd | grep socket", getpid());
 	// let syslogd (the process) a chance to actually put the data in the
-	// log
+	//log
 	sleep(1);
 	// show my own log (diregard other logs from other programs)
 	my_system("cat /var/log/syslog | grep %s | grep %d", myname, getpid());

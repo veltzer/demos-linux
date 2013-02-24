@@ -56,9 +56,9 @@ int main(int argc, char** argv, char** envp) {
 	// I am using my own handler but the default one is ok (prints an error
 	// message and aborts).
 	// This call is neccessary if you havent linked with -lmcheck or if you
-	// really
+	//really
 	// want to use your own handler. I haven't linked with -lmcheck so I
-	// will
+	//will
 	// use my own handler...
 	mcheck(myhandler);
 	const int size_of_buffer=10;

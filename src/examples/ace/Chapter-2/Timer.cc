@@ -71,19 +71,19 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 			th,
 			(const void *)i,// argument sent to handle_timeout()
 			ACE_Time_Value(10 * i + 1)	// set timer to go off
-							// with delay
+							//with delay
 			);
 	}
 	// Cancel the fifth timer before it goes off
 	// Timer ID of timer to be removed
 	reactor.cancel_timer(timer_id[5]);
 	// In the following loop we wait for the event, except when done
-	// variable is set
+	//variable is set
 	// this is done when the last one is activated.
 	// This termination trick is only one option for termination out of many
-	// other possibilities.
+	//other possibilities.
 	// and is not a good one at that because it makes us write the logic for
-	// the termination.
+	//the termination.
 	// this is a busy free wait loop
 	while(!done) {
 		reactor.handle_events();

@@ -62,15 +62,15 @@ int main(int argc, char** argv, char** envp) {
 		void* p=malloc(sizeToAlloc);
 		if(prev!=NULL) {
 			// TRACE("guess is %p, p is %p, sizeToAlloc is
-			// %d",guess,p,sizeToAlloc);
+			//%d",guess,p,sizeToAlloc);
 			assert(guess==p);
 			// this is debug code aimed at understanding how the
-			// malloc
+			//malloc
 			// engine works...
 			// unsigned int diff=(char*)p-(char*)prev;
 			// TRACE("allocated %d, real diff is %d, diff is %d,
-			// diff mod 8 is %d\n",sizeToAlloc,diff, diff-sizeToAlloc
-			// , diff%8);
+			//diff mod 8 is %d\n",sizeToAlloc,diff, diff-sizeToAlloc
+			//, diff%8);
 		}
 		prev=p;
 	}

@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <iostream>	// for std::cerr, std::endl
 #include <signal.h>	// for sigemptyset(2), sigaddset(2), sigprocmask(2),
-			// raise(3), kill(2)
+			//raise(3), kill(2)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <sys/types.h>	// for kill(2), getpid(2)
 #include <unistd.h>	// for getpid(2)
@@ -35,15 +35,15 @@
  * - the need to unblock the signal in the signal handler
  * - the fact that raise(3) and kill(2) do not work exactly the same.
  * - the fact that the signal is blocked inside the signal handler while other
- **signals are not.
+ *signals are not.
  * this effects the protection you get on your data structures.
  * - if you want more than one signal cached then you should use the sigqueue(2)
- **instead of the kill(2) interface and then you can also pass parameters to that
- **handler (limit is according to ulimit).
+ *instead of the kill(2) interface and then you can also pass parameters to that
+ *handler (limit is according to ulimit).
  * - Only one signal is "cached" while you are blocking that signal (the kernel
- **holds a mask of pending signals for you).
+ *holds a mask of pending signals for you).
  * - I provided a SigQueue executable to allow you to do that. Use it to see the
- **signals queued and the value that you provide cought by the process.
+ *signals queued and the value that you provide cought by the process.
  */
 
 /*
@@ -61,7 +61,7 @@
  * the same signal is blocked. This means that since we throw an exception from
  * a signal handler (which actually does a longjmp) then this situation will not
  * change and so we need to unblock the signal if we want to use C++ exception
- **handling
+ *handling
  * or longjmp
  */
 static void unblock(int signum) {
@@ -75,7 +75,7 @@ static void unblock(int signum) {
 static void SignalHandler(int sig) {
 	// before we throw an exception or do a longjmp we need to unblock
 	// the signal or the kernel will think we are still in the signal
-	// handler
+	//handler
 	unblock(sig);
 	throw std::exception();
 }

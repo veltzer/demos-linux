@@ -161,7 +161,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 			break;
 		}
 		// Allocate a new message, but have it "borrow" its memory from
-		// the buffer.
+		//the buffer.
 		ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 		// get message size
 		// ACE_Utils::truncate_cast<unsigned long> (rb.size ());

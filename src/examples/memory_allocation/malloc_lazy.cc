@@ -37,7 +37,7 @@
  *
  * Notes:
  * - you have to have the right limits set in order to call mlockall. On a
- **standard
+ *standard
  * Ubuntu system ulimit. A standard workaround in an ubuntu system like this is
  * to run the process as root (via sudo or the like...).
  *

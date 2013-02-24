@@ -76,9 +76,9 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		ACE_Message_Block* mb;
 		if (buffer==NULL) {
 			// Send a 0-sized shutdown message to the other thread
-			// and exit
+			//and exit
 			// (size_t is needed because 0 can be interpreted as a
-			// pointer)
+			//pointer)
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
 			if (msg_queue->enqueue_tail(mb)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "put_next"));
@@ -87,7 +87,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		} else {
 			// Enqueue the message in fifo order.
 			// Allocate a new message, but have it "borrow" its
-			// memory
+			//memory
 			// from the buffer.
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			mb->wr_ptr(rb.size());

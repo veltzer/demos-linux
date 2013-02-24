@@ -40,7 +40,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Use the pointer to insert the string
 	ACE_OS::sprintf(mb->wr_ptr(), "%s", command1);
 	// Move the wr_ptr() forward in the buffer by the amount of data we just
-	// put in.
+	//put in.
 	mb->wr_ptr(ACE_OS::strlen(command1));
 	// Use the pointer to add another string
 	ACE_OS::sprintf(mb->wr_ptr(), "%s", command2);

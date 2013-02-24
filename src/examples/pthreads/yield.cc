@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_yield(3), pthread_create(3),
-			// pthread_join(3)
+			//pthread_join(3)
 #include <sched.h>	// for sched_yield(2)
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
@@ -42,16 +42,16 @@
  * that they yield one to the other.
  * Ofcourse, this is not strictly a proof that this works since even on a single
  * CPU machine with heavy load it could be that not even the single TRACE
- **executing
+ *executing
  * could fit in a time slot. But you get the idea.
  * If you look at the first runs you would see that one of these threads gets a
- **lot
+ *lot
  * of the CPU. This is because it takes time to create the other thread in the
  * operating system and it seems that yield does not always guarantee that the
- **other
+ *other
  * thread wins.
  * There is a barrier here also used to jump start the threads at exactly the
- **same
+ *same
  * time but strictly speaking it is not required for this demo.
  *
  * TODO:
@@ -74,9 +74,9 @@ bool ended=false;
 void *worker(void *p) {
 #ifdef DO_BARRIER
 	// do not CHECK_ZERO on the line below since pthread_barrier_wait DOES
-	// NOT
+	//NOT
 	// always return zero (actually, it always returns something else than
-	// zero
+	//zero
 	// to one of the threads (like a leader...)
 	pthread_barrier_wait(&barrier);
 #endif	// DO_BARRIER

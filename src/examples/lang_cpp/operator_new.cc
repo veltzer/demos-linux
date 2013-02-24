@@ -24,7 +24,7 @@
 
 /*
  * This explores how to override the new operator for the entire C++
- **environment.
+ *environment.
  * Both for regular allocation and for arrays....
  *
  * Notes:
@@ -32,9 +32,9 @@
  * the "void operator delete(void* p)" takes care of deleting
  * both "void* operator new(const unsigned int size)" and
  * "void* operator new(const unsigned int size,const unsigned int type)"
- **allocated
+ *allocated
  * objects. You cannot pass hints to the delete operator and so one delete
- **operator
+ *operator
  * takes care of all hinted operators. The same goes for the array case.
  *
  * if you do not declare an array allocation then:

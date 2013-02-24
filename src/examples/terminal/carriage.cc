@@ -35,10 +35,10 @@
  * only when stdout is flushed naturally which happens only when it's buffer
  * is full or when "\n" is printed.
  *	- you can set stdout for no buffering, use stderr instead, or use direct
- **write(2)
+ *write(2)
  *	to avoid the extra call to flush.
  *	- ofcouse, you can also use the curses library to do all of this which
- **has a much
+ *has a much
  *	richer API but does require some learning.
  */
 

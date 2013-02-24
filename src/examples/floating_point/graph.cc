@@ -32,7 +32,7 @@
  * floating point...
  * Up to this number the floating point system representat integers precisely
  * using the mantisa. After this number it goes into using the exponent and
- **therefor
+ *therefor
  * becomes un-exact.
  *
  * Conclusions:
@@ -40,7 +40,7 @@
  *
  * TODO:
  * - this program currently prints the output in gnuplot format but does not
- **plot it on
+ *plot it on
  * the screen. Make it be self contained and call gnuplot correctly.
  */
 
@@ -104,7 +104,7 @@ int main(int argc, char** argv, char** envp) {
 		#endif	// DO_DOUBLE
 		#ifdef DO_ATOF
 		// now print i into a string buffer, atof it back to float and
-		// convert
+		//convert
 		char string_of_i[128];
 		snprintf(string_of_i, 128, "%d", i);
 		float f2=atof(string_of_i);

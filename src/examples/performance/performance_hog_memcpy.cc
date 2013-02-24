@@ -37,7 +37,7 @@
  *
  * Notes:
  * - you need the sudo since perf works by hardware events and support for them
- **in the kernel.
+ *in the kernel.
  * - you can avoid root with:
  *	Consider tweaking /proc/sys/kernel/perf_event_paranoid:
  *	-1 - Not paranoid at all
@@ -58,7 +58,7 @@
 class A {
 public:
 	// the function is not inlined on purpose so it would show up in
-	// profilers
+	//profilers
 	// use this example to see that the actual memcpy(3) function
 	// is tuned to the cpu you are running on...
 	static void performance_hog_function(char* buf1, char* buf2, unsigned int size) __attribute__((noinline)) {

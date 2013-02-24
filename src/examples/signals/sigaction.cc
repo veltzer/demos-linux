@@ -71,7 +71,7 @@ int main(int argc, char** argv, char** envp) {
 	printf("my pid is %d\n", getpid());
 	printf("signal me with [kill -s SIGUSR1 %d]\n", getpid());
 	// This is a non busy wait loop which only wakes up when there are
-	// signals
+	//signals
 	while(true) {
 		int ret=pause();
 		printf("pause(2) wakeup with return value %d (-1 is ok as ret value)\n", ret);

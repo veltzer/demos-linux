@@ -45,9 +45,9 @@ int main(int argc, char** argv, char** envp) {
 }
 
 // template void SigC::Signal1<void, basic_string<char,
-// string_char_traits<char>, __default_alloc_template<true, 0> > const &,
-// SigC::Marshal<void> >::emit(basic_string<char, string_char_traits<char>,
-// __default_alloc_template<true, 0> > const &);
+//string_char_traits<char>, __default_alloc_template<true, 0> > const &,
+//SigC::Marshal<void> >::emit(basic_string<char, string_char_traits<char>,
+//__default_alloc_template<true, 0> > const &);
 template void SigC::Signal1<void, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, SigC::Marshal<void> >::emit(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&);
 
 template SigC::SlotData *SigC::manage<SigC::SlotData>(SigC::SlotData *);
