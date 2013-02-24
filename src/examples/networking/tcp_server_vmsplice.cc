@@ -77,9 +77,10 @@ void *worker(void* arg) {
 	int mypipe[2];
 	CHECK_NOT_M1(pipe(mypipe));
 	/*
+	 * This does not work...
 	 * struct iovec myiovec={
-	 *      .iov_base=mypointer,
-	 *      .iov_len=mysize,
+	 * .iov_base=mypointer,
+	 * .iov_len=mysize,
 	 * };
 	 */
 	struct iovec myiovec;

@@ -45,22 +45,22 @@ static void* worker(void *arg) {
 
 /*
  * class M {
- *      public:
- *              void run() {
- *                      ACE_DEBUG((LM_DEBUG, "Thread (%t) Created to do some work"));
- *                      ::number++;
- *                      ACE_DEBUG((LM_DEBUG, " and number is %d\n", ::number));
- *                      //Let the other guy go while I fall asleep for a random period of time
- *                      ACE_OS::sleep(ACE_OS::rand() % 2);
+ * public:
+ * void run() {
+ * ACE_DEBUG((LM_DEBUG, "Thread (%t) Created to do some work"));
+ * ::number++;
+ * ACE_DEBUG((LM_DEBUG, " and number is %d\n", ::number));
+ * //Let the other guy go while I fall asleep for a random period of time
+ * ACE_OS::sleep(ACE_OS::rand() % 2);
  * //Exiting now
- *                      ACE_DEBUG((LM_DEBUG, "\t\t Thread (%t) Done! \t The number is now: %d\n", number));
- *              }
+ * ACE_DEBUG((LM_DEBUG, "\t\t Thread (%t) Done! \t The number is now: %d\n", number));
+ * }
  * };
  *
  * static void* run_method(void* arg) {
- *      M* p=(M*)arg;
- *      p->run();
- *      return NULL;
+ * M* p=(M*)arg;
+ * p->run();
+ * return NULL;
  * }
  */
 
@@ -76,17 +76,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_thread_t* threadID=new ACE_thread_t[n_threads + 1];
 	ACE_hthread_t* threadHandles=new ACE_hthread_t[n_threads + 1];
 	// spawn n_threads
-	if(ACE_Thread::spawn_n(
-		   threadID,	// id's for each of the threads
-		   n_threads,	// number of threads to spawn
-		   (ACE_THR_FUNC)worker,// entry point for new thread
-		   NULL,// args to worker
-		   THR_JOINABLE | THR_NEW_LWP,	// flags
-		   ACE_DEFAULT_THREAD_PRIORITY,
-		   NULL,
-		   0,
-		   threadHandles
-		   )!=n_threads) {
+	if(ACE_Thread::spawn_n(threadID, n_threads, (ACE_THR_FUNC)worker, NULL, THR_JOINABLE | THR_NEW_LWP, ACE_DEFAULT_THREAD_PRIORITY, NULL, 0, threadHandles)!=n_threads) {
 		ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 	}
 	// Wait for all the threads to exit before you let the main fall

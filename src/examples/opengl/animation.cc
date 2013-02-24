@@ -233,21 +233,21 @@ void ExitProgram() {
 void CheckKeyboard() {
 	/* FIXME: XKeysymToString is deprecated
 	 * if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
-	 *      char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
-	 *      if(strncmp(key_string, "Left", 4)==0) {
-	 *              rot_z_vel-=200.0*DT;
-	 *      } else if(strncmp(key_string, "Right", 5)==0) {
-	 *              rot_z_vel+=200.0*DT;
-	 *      } else if(strncmp(key_string, "Up", 2)==0) {
-	 *              rot_y_vel-=200.0*DT;
-	 *      } else if(strncmp(key_string, "Down", 4)==0) {
-	 *              rot_y_vel+=200.0*DT;
-	 *      } else if(strncmp(key_string, "F1", 2)==0) {
-	 *              rot_y_vel=0.0;
-	 *              rot_z_vel=0.0;
-	 *      } else if(strncmp(key_string, "Escape", 5)==0) {
-	 *              ExitProgram();
-	 *      }
+	 * char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
+	 * if(strncmp(key_string, "Left", 4)==0) {
+	 * rot_z_vel-=200.0*DT;
+	 * } else if(strncmp(key_string, "Right", 5)==0) {
+	 * rot_z_vel+=200.0*DT;
+	 * } else if(strncmp(key_string, "Up", 2)==0) {
+	 * rot_y_vel-=200.0*DT;
+	 * } else if(strncmp(key_string, "Down", 4)==0) {
+	 * rot_y_vel+=200.0*DT;
+	 * } else if(strncmp(key_string, "F1", 2)==0) {
+	 * rot_y_vel=0.0;
+	 * rot_z_vel=0.0;
+	 * } else if(strncmp(key_string, "Escape", 5)==0) {
+	 * ExitProgram();
+	 * }
 	 * }
 	 */
 }

@@ -24,9 +24,9 @@
 
 /*
  * This example is to be used for showing:
- *      pmap `pidof [this executables name]
+ * pmap `pidof [this executables name]
  * or:
- *      cat /proc/`pidof [this executables name]`/maps
+ * cat /proc/`pidof [this executables name]`/maps
  *
  * Notes:
  * - if you unremark the array below you will see a bigger

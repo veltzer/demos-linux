@@ -31,8 +31,8 @@ int main(int argc, char** argv, char** envp) {
 	printf("pi is %p\n", pi);
 	/*
 	 * if(rand()<RAND_MAX) {
-	 *      pi+=1;
-	 *      printf("pi is %p\n",pi);
+	 * pi+=1;
+	 * printf("pi is %p\n",pi);
 	 * }
 	 */
 	for(i=0; i<100; i++) {
