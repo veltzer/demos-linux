@@ -29,7 +29,7 @@
  * This example explores the different ways of exiting a program...
  *
  * abort(3)
- **========
+ ***========
  * After this program terminates echo $? and see that it's termination
  * code is 134.
  *

@@ -27,9 +27,9 @@
 /*
  * Example of how to reboot the system
  * You need to have the right capabilities or you have to be running as root in
- *order
+ **order
  * to run this program. If you have the right permissions then this program will
- *reboot
+ **reboot
  * your machine, so you better watch out...
  */
 

@@ -24,9 +24,9 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for read(2), close(2)
 #include <sys/types.h>	// for socket(2), setsockopt(2), listen(2), bind(2),
-			//accept(2), sendto(2)
+			// accept(2), sendto(2)
 #include <sys/socket.h>	// for socket(2), setsockopt(2), listen(2), bind(2),
-			//accept(2), sendto(2), inet_ntoa(3)
+			// accept(2), sendto(2), inet_ntoa(3)
 #include <strings.h>	// for bzero(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_NOT_M1()

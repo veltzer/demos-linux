@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <libgnomeuimm.h>	// for Glib::OptionContext(O), Gnome::Main(O),
-				//Gnome::UI::App(O)
+				// Gnome::UI::App(O)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*

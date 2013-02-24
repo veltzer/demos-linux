@@ -55,7 +55,7 @@ public:
 	virtual int handle_timeout(const ACE_Time_Value& tv, const void *arg) {
 		long argument=long(arg);
 		// ACE_DEBUG ((LM_DEBUG, "Timer timed out at %d! arg=%d\n",
-		//tv.sec(), argument));
+		// tv.sec(), argument));
 		// Activate the consumer
 		if (argument==1) {
 			if (thr_mgr.spawn(ACE_THR_FUNC(consumer), (void *)&msg_queue1, THR_NEW_LWP | THR_DETACHED)==-1) {
@@ -128,7 +128,7 @@ static void *producer() {
 		static float AbsoluteDelay=0.0;
 		if (buffer==0) {
 			// Send a 0-sized shutdown message to the other thread
-			//and exit.
+			// and exit.
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
 			// Send Zero size message to both queues !!!
 			if (msg_queue1.enqueue_tail(mb)==-1) {
@@ -148,14 +148,14 @@ static void *producer() {
 			sscanf(buffer, "%d %f", &type, &delay);
 			AbsoluteDelay+=delay;
 			// Allocate a new message, but have it "borrow" its
-			//memory from the buffer.
+			// memory from the buffer.
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			// get message size
 			mb->wr_ptr(rb.size());
 			// mb->rd_ptr(mb->rd_ptr() + Message_Offset); // Skip
-			//thhe type and time in the message
+			// thhe type and time in the message
 			// ACE_DEBUG ((LM_DEBUG, "enqueueing message of size
-			//%d\n", size));
+			// %d\n", size));
 			switch (type) {
 			case 1:
 				// Enqueue in tail queue1
@@ -165,7 +165,7 @@ static void *producer() {
 				// Specify queue1 in handle_timeout()
 				timer_id=reactor.schedule_timer(th, (const void *)1, ACE_Time_Value(AbsoluteDelay));
 				// ACE_DEBUG ((LM_DEBUG , "case1: timer
-				//id=%d\n", timer_id));
+				// id=%d\n", timer_id));
 				break;
 
 			case 2:
@@ -176,7 +176,7 @@ static void *producer() {
 				// Specify queue1 in handle_timeout()
 				timer_id=reactor.schedule_timer(th, (const void *)1, ACE_Time_Value(AbsoluteDelay));
 				// ACE_DEBUG ((LM_DEBUG , "case2: timer
-				//id=%d\n", timer_id));
+				// id=%d\n", timer_id));
 				break;
 
 			case 3:
@@ -187,7 +187,7 @@ static void *producer() {
 				// Specify queue2 in handle_timeout()
 				timer_id=reactor.schedule_timer(th, (const void *)2, ACE_Time_Value(AbsoluteDelay));
 				// ACE_DEBUG ((LM_DEBUG , "case3: timer
-				//id=%d\n", timer_id));
+				// id=%d\n", timer_id));
 				break;
 
 			case 4:
@@ -213,13 +213,13 @@ static void *producer() {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Spawn off one thread that copies stdin to stdout in order of the size
-	//of each line.
+	// of each line.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("main: thread=%t Line:%l\n")));
 	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)NULL, THR_NEW_LWP | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn producer"), 1);
 	}
 	// Wait for producer thread to exit. Comsumer thread is handled by the
-	//done variable
+	// done variable
 	thr_mgr.wait();
 	// wait for all events to be completed
 	while(done!=2) {

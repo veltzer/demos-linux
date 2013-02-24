@@ -41,7 +41,7 @@ int HA_CommandHandler::svc(void) {
 			// Get header pointer, then move past header to payload.
 			/*
 			   DeviceCommandHeader *dch=(DeviceCommandHeader
-			      *)mb->rd_ptr();
+			   *)mb->rd_ptr();
 			   mb->rd_ptr(sizeof(DeviceCommandHeader));
 			   ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d
 			      with ") ACE_TEXT("command payload of:\n%s"),

@@ -30,7 +30,7 @@
  *
  * Notes:
  * - you need the sudo since perf works by hardware events and support for them
- *in the kernel.
+ **in the kernel.
  * - you can avoid root with:
  *	Consider tweaking /proc/sys/kernel/perf_event_paranoid:
  *	-1 - Not paranoid at all
@@ -46,7 +46,7 @@
 class A {
 public:
 	// the function is not inlined on purpose so it would show up in
-	//profilers
+	// profilers
 	// like 'perf(1)'...
 	// static void performance_hog_function2() {
 	static void performance_hog_function_cpu() __attribute__((noinline)) {

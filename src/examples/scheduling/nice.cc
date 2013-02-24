@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <sys/types.h>	// for getpid(2), ftruncate(2)
 #include <unistd.h>	// for getpid(2), sleep(3), nice(2), fork(2),
-			//ftruncate(2)
+			// ftruncate(2)
 #include <sched.h>	// for sched_setaffinity(2), CPU_ZERO(3), CPU_SET(3)
 #include <stdio.h>	// for printf(3), fflush(3), fprintf(3)
 #include <sys/mman.h>	// for shm_open(3), shm_unlink(3)
@@ -35,7 +35,7 @@
  *
  * It binds the process to a single core (for multi core systems).
  * It then forks several versions of heavy work each with a different nice
- *level.
+ **level.
  * Then you can compare the work done by each of these.
  *
  * EXTRA_LINK_FLAGS=-lrt
@@ -81,7 +81,7 @@ int main(int argc, char** argv, char** envp) {
 	const char* shm_name="shared_mem";
 	// put this in shared memory
 	// don't check the return address in case it's the first time we run
-	//this software
+	// this software
 	shm_unlink(shm_name);
 	int smfd=CHECK_NOT_M1(shm_open(shm_name, O_CREAT|O_RDWR, 0));
 	// we have to set the size otherwise it will not work
@@ -91,7 +91,7 @@ int main(int argc, char** argv, char** envp) {
 			getpagesize(),	/* size: the size of the file */
 			PROT_READ|PROT_WRITE,	/* prot: we just want read */
 			MAP_SHARED,	/* flags: PRIVATE or SHARED ** MUST** be
-					  specified */
+					   specified */
 			smfd,	/* fd: our file descriptor */
 			0	/* offset: from the begining of the file */
 			), MAP_FAILED);
@@ -113,9 +113,9 @@ int main(int argc, char** argv, char** envp) {
 		printf("\riteration %d: progress: ", loop);
 		for(int i=0; i<num_processes; i++) {
 			// compiler barrier to make it read the values pointed
-			//at by the pointers
+			// at by the pointers
 			// again... This seems to work without the barrier but
-			//still...
+			// still...
 			asm volatile ("" ::: "memory");
 			int val=*(iptr+i);
 			if(i<num_processes-1) {

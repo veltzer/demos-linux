@@ -32,7 +32,7 @@
 
 void myhandler(enum mcheck_status status) {
 	// inside my handler, careful not to do something complicated here since
-	//the system is in a bad state as it is...
+	// the system is in a bad state as it is...
 	char state[256];
 	switch(status) {
 	case MCHECK_DISABLED:
@@ -61,9 +61,9 @@ int main(int argc, char** argv, char** envp) {
 	// I am using my own handler but the default one is ok (prints an error
 	// message and aborts).
 	// This call is neccessary if you havent linked with -lmcheck or if you
-	//really
+	// really
 	// want to use your own handler. I haven't linked with -lmcheck so I
-	//will
+	// will
 	// use my own handler...
 	mcheck(myhandler);
 	const int size_of_buffer=10;

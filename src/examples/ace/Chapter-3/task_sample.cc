@@ -138,7 +138,7 @@ int Task::svc(void) {
 		ACE_OS::sleep(ACE_Time_Value(0, 5000));
 		/*
 		 * Release the message block and allow the unit of work to also
-		 *go
+		 **go
 		 * away.
 		 */
 		message->release();

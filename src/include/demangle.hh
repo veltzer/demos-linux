@@ -55,7 +55,7 @@ inline void error_demangle(char* symbol,
 		// offset in [begin_offset, end_offset). now apply
 		// __cxa_demangle():
 		// allocate string which will be filled with the demangled
-		//function name
+		// function name
 		size_t funcnamesize=256;
 		char* funcname=(char *)malloc(funcnamesize);
 		int status;
@@ -67,12 +67,12 @@ inline void error_demangle(char* symbol,
 			strncpy(result_offset, begin_offset, max_offset);
 		} else {
 			// demangling failed. Output function name as a C
-			//function with
+			// function with
 			// no arguments.
 			snprintf(result_name, max_name, "%s()", begin_name);
 			snprintf(result_offset, max_offset, "%s", begin_offset);
 			// fprintf(stderr, "error demangle: %s: %s()+%s\n",
-			//symbol, begin_name, begin_offset);
+			// symbol, begin_name, begin_offset);
 		}
 	} else {
 		// couldn't parse the line? print the whole line.

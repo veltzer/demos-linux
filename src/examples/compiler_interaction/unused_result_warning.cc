@@ -35,7 +35,7 @@
  *
  * see the discussion in:
  *
- *http://stackoverflow.com/questions/3599160/unused-parameter-warnings-in-c-code
+ **http://stackoverflow.com/questions/3599160/unused-parameter-warnings-in-c-code
  * http://dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
  */
 
@@ -61,7 +61,7 @@ int main(int argc, char** argv, char** envp) {
 	add(5, 6);
 	#pragma GCC diagnostic pop
 	// another way to ignore the requirement to use the result is to put it
-	//in a variable
+	// in a variable
 	// but to mark the variable as "usused"...
 	int c __attribute__((unused))=add(a, b);
 	return EXIT_SUCCESS;

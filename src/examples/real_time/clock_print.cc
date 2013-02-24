@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <time.h>	// for clock_getres(2), clock_gettime(2), struct
-			//timespec
+			// timespec
 #include <us_helper.h>	// for CHECK_NOT_M1(), ARRAY_SIZEOF()
 #include <stdlib.h>	// for EXIT_SUCCESS
 

@@ -27,21 +27,21 @@
 
 /*
  * This example shows how to extract the version number from a "ko" (kernel
- *object)
+ **object)
  * file...
  *
  * BEWARE: This code DOES NOT WORK!!!
  *
  * This code has led me to the conclusion that modinfo does not use dlopen to
- *get
+ **get
  * the information from the .ko files but rather mmaps them directly and uses
  * 'man 5 elf' to find the format of the executable file. Do NOT use this code -
- *it
+ **it
  * will crash your program...
  *
  * How to fix this ?
  * Get your hands on the source code of 'modinfo' and copy the relevant parts
- *here.
+ **here.
  * (publish this in a blog for the interested parties...)
  *
  * EXTRA_LINK_FLAGS=-ldl

@@ -37,9 +37,9 @@
  * - regular inline means inline for speed if speed is of the essense which
  * means that when compiling without optimization inline is not guaranteed.
  * - always inline means always inline (even when compiling without
- *optimization).
+ **optimization).
  * and does not work in new gcc's which give warnings/errors about no guarantee
- *for inlining.
+ **for inlining.
  * - gnu_inline depends on other flags and has an intermediate meaning.
  */
 

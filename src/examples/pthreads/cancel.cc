@@ -31,10 +31,10 @@
  *
  * TODO:
  * - show that the cancellation happened in the middle of the sleep and that it
- *was close
+ **was close
  * to the time that asked the cancellation.
  * - show what other functions instead of sleep can be used as cancellation
- *points.
+ **points.
  */
 
 static void * thread_func(void *ignored_argument) {

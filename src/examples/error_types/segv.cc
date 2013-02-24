@@ -26,9 +26,9 @@
  * This is a simple example causing a segmentation fault to be generated.
  *
  * The address "0" is not mapped into any regular processes virtual address
- *space
+ **space
  * which is a good thing since NULL (which is heavily used in C programs) has
- *the
+ **the
  * value 0.
  *
  * TODO:

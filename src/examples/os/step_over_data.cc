@@ -39,7 +39,7 @@ sighandler_t old_handler;
 
 /*
  * This is a signal handler to handle the segmentation faults we will
- *generate...
+ **generate...
  */
 void segv_handler(int sig) {
 	// printf("in segv handler\n");
@@ -58,23 +58,23 @@ int main(int argc, char** argv, char** envp) {
 	printf("address of old_handler is %p, look it up above...\n", &old_handler);
 	waitkey(NULL);
 	// lets install our own SIGSEGV signal handler so that we could print
-	//the address we
+	// the address we
 	// failed at...
 	old_handler=CHECK_NOT_SIGT(signal(SIGSEGV, segv_handler), SIG_ERR);
 	ptr=(char*)&a;
 	// the next line is really needed. If I leave it out then the seg fault
-	//happens much
+	// happens much
 	// sooner since I'm stepping over stuff which is needed by the libc
-	//library for either
+	// library for either
 	// catching the signal or doing printf. I know it is weird that libc
-	//puts stuff in
+	// puts stuff in
 	// my data segment but that is the case. The offset has to be large
-	//enough no to
+	// enough no to
 	// step over libc.
 	ptr+=200;
 	for(unsigned int i=0; i<page_size*2; i++) {
 		// printf("still alive: ptr=%p, i=%d, offset is
-		//%d\n",ptr,i,int(ptr)%page_size);
+		// %d\n",ptr,i,int(ptr)%page_size);
 		*ptr=0;
 		// this is not strictly necessary...
 		// __sync_synchronize();

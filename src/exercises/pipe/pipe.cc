@@ -28,14 +28,14 @@
 /*
  * This is the first child
  * It closes it's own standrad output (which it inherited from the parent -
- *usually
+ **usually
  * the console where the parent was run).
  * It then closes the side of the pipe that it is not going to use (the read
- *side [0]).
+ **side [0]).
  * This is done so that the other side will get SIGPIPE and eof when all is
- *done.
+ **done.
  * It then duplicates the side of the pipe that it will use (the write side [1])
- *to its
+ **to its
  * standard output (that it will give to it's children in case of exec).
  * It executes ls which prints to the pipes write side.
  * When ls dies this process dies.
@@ -83,7 +83,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	// close the pipe at the parent
 	// we cannot close before the fork or the children will not be able to
-	//use this
+	// use this
 	// pipe...
 	CHECK_NOT_M1(close(fd[0]));
 	CHECK_NOT_M1(close(fd[1]));

@@ -26,24 +26,24 @@
 
 /*
  * This is an example of infinite recursion prevention using setting the stack
- *size
+ **size
  *
  * Notes:
  * We really have to force the compilers hand into calling the function again
- *and again
+ **and again
  * since we compiler this module in optimized mode.
  *
  * three ways to do this:
  * - put the noinline attribute on the function. This is no good since the
- *compiler
+ **compiler
  *	will respect this when other functions call this function but not when
- *this function
+ **this function
  *	calls itself. We could have used this with mutual recursion.
  * - have the function do some side effect. This has the same problems as above.
- *Again,
+ **Again,
  *	mutual recursion could have helped.
  * - have the function call itself several times. This saved the day for this
- *example.
+ **example.
  */
 
 void show_stack_size() {
@@ -62,7 +62,7 @@ void show_stack_size() {
 
 static int myfunc(int y, bool end) {
 	// this is also not required (sometimes it forces the compiler not to
-	//inline since
+	// inline since
 	// there could be side effects)
 	// asm ("");
 	if(y%10000==0) {
@@ -74,13 +74,13 @@ static int myfunc(int y, bool end) {
 	}
 	int z=myfunc(++y, end);
 	// without this second call gcc would implement a goto instead of
-	//calling the function
+	// calling the function
 	// again!!! - smart ass compiler...
 	z=myfunc(++y, end);
 	return z;
 }
 // this is not required - the double call above solves the smartass compiler
-//problem.
+// problem.
 // int myfunc(int y) __attribute__((noinline));
 
 int main(int argc, char** argv, char** envp) {

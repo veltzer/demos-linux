@@ -80,7 +80,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		ACE_Message_Block *mb;
 		if(buffer==0) {
 			// Send a 0-sized shutdown message to the other thread
-			//and
+			// and
 			// exit.
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
 			if(msg_queue->enqueue_tail(mb)==-1) {
@@ -90,7 +90,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		} else {
 			// Enqueue the message in priority order.
 			// Allocate a new message, but have it "borrow" its
-			//memory
+			// memory
 			// from the buffer.
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			// Setting the priority according to message length.
@@ -125,7 +125,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	/*
 	   ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
 	   if(thr_mgr.spawn(ACE_THR_FUNC(producer),(void
-	      *)&msg_queue,THR_NEW_LWP|THR_DETACHED)==-1) {
+	   *)&msg_queue,THR_NEW_LWP|THR_DETACHED)==-1) {
 	        ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);
 	   }
 	   // Wait for producer and consumer threads to exit.

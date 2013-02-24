@@ -30,7 +30,7 @@
  * This demo times how long it takes to call a syscall.
  * It is a simple loop surrounded by gettimeofday.
  * We do call this code in high priority to make sure we do not get context
- *switched
+ **switched
  * which will cause our measurements to be off.
  *
  * How long is it?
@@ -41,10 +41,10 @@
  *
  * Notes:
  * - notice that syscall(__NR_getpid) is a little faster than gettimeofday.
- *Obviously - it doesn't need
+ **Obviously - it doesn't need
  * to get the time in the kernel.
  * - notice that getpid() is MUCH faster than syscall(__NR_getpid) because it
- *caches the pid in user
+ **caches the pid in user
  * space. It does not get optimized out (checked the disassembly).
  *
  * TODO:
@@ -54,7 +54,7 @@
  * - allow to measure various system calls (not just gettimeofday) and learn
  * something from this.
  * - do a script that graphs the results of calling this code with various
- *values of
+ **values of
  * 'count'. Show the convergence on the real value.
  *
  * EXTRA_LINK_FLAGS=-lpthread

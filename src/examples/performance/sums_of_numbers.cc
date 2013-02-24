@@ -37,7 +37,7 @@
  *
  * TODO:
  * - make this example disassemble itself and show what the compiler did, or
- *maybe
+ **maybe
  * morph it's own code to show that the sum is there ?
  */
 

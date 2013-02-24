@@ -31,13 +31,13 @@
  * From the disassembly we can see that:
  * - no call to memset is used since memset is a macro.
  *	(you cannot break on memset in the debugger and actually stop on that
- *function)
+ **function)
  * - this means that memset inline assembly is inserted into our code.
  * - the compiler uses "rep stos" to do the actual memsetting which is
  *	a single machine instruction on Intel which means that it is very
- *efficient.
+ **efficient.
  * - the wmemset function is not inline assembly (you can break on it in the
- *debugger)
+ **debugger)
  * - this example does not explore the inner workins of the wmemset function
  * (meanins whether it is implemented efficiently or not).
  *

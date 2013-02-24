@@ -23,11 +23,11 @@
 
 /*
  * This example shows how to correctly define your own malloc functions so that
- *gcc will
+ **gcc will
  * work correctly with them.
  *
  * The use of the alloc_size attribute allows the compiled built in functions to
- *know
+ **know
  * the size of the object.
  *
  * use the mallocto know that the pointer returned by the functions is a new

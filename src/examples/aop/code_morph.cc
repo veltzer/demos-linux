@@ -70,7 +70,7 @@ void debug(void* ptr) {
 
 /*
  * A function that scans a memory space and returns the pointer to a cell with a
- *certain
+ **certain
  * value...
  */
 char* find_cell(void* ptr, char val) {
@@ -83,7 +83,7 @@ char* find_cell(void* ptr, char val) {
 
 /*
  * This is a signal handler to handle the segmentation faults we will
- *generate...
+ **generate...
  */
 void segv_handler(int sig) {
 	fprintf(stderr, "in segv_handler, changing protection for the page...\n");
@@ -111,7 +111,7 @@ int main(int argc, char** argv, char** envp) {
 	// we could have used mprotect from the begining...
 	*p=5;
 	// lets call the function again to see that it has changed it's
-	//behaviour...
+	// behaviour...
 	function();
 	return EXIT_SUCCESS;
 }

@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <sys/types.h>	// for socket(2), recv(2), connect(2), send(2)
 #include <sys/socket.h>	// for socket(2), recv(2), connect(2), send(2),
-			//inet_addr(3)
+			// inet_addr(3)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for printf(3), atoi(3), snprintf(3)
 #include <stdlib.h>	// for exit(3), EXIT_SUCCESS, EXIT_FAILURE

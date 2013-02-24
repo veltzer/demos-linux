@@ -64,14 +64,14 @@ int main(int argc, char** argv, char** envp) {
 		/* Create RAW socket */
 		int s=CHECK_NOT_M1(socket(AF_INET, SOCK_RAW, IPPROTO_RAW));
 		/* socket options, tell the kernel we provide the IP structure
-		  */
+		 */
 		CHECK_NOT_M1(setsockopt(s, IPPROTO_IP, IP_HDRINCL, &on, sizeof(on)));
 		if((hp=gethostbyname(argv[2]))==NULL) {
 			ip->ip_dst.s_addr=CHECK_NOT_M1(inet_addr(argv[2]));
 		} else
 			bcopy(hp->h_addr_list[0], &ip->ip_dst.s_addr, hp->h_length);
 		/* The following source address just redundant for target to
-		  collect */
+		   collect */
 		if((hp2=gethostbyname(argv[1]))==NULL) {
 			ip->ip_src.s_addr=CHECK_NOT_M1(inet_addr(argv[1]));
 		} else

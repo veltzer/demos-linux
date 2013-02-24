@@ -69,7 +69,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 			char buffer[4096];
 			ssize_t bytes_received=peer.recv(buffer, sizeof(buffer));
 			// IMPORTANT NOTICE: do not allow 0 here since it is the
-			//end
+			// end
 			// of file...
 			while(bytes_received>0) {
 				if (peer.send(buffer, bytes_received)==-1) {
@@ -78,7 +78,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 				bytes_received=peer.recv(buffer, sizeof(buffer));
 			}
 			// lets show a nice message if we are interrupted while
-			//reading...
+			// reading...
 			if (bytes_received==-1) {
 				if (ACE_OS::last_error()==EINTR) {
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Interrupted while reading")));

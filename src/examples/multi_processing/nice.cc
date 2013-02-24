@@ -30,7 +30,7 @@
  *
  * A few notes about this example:
  * - as you can see nice(2) is a "soft" priority. All of these processes are
- *very
+ **very
  * busy but still the ones with the bigger nice value manage to get a few
  * instructions executed at some point in time...
  * - from the command line you can start a process with a certain nice level

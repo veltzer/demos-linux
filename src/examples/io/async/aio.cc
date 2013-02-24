@@ -56,7 +56,7 @@ int main(int argc, char** argv, char** envp) {
 	my_aiocb.aio_offset=0;
 	CHECK_ZERO(aio_read(&my_aiocb));
 	// busy wait (bad! - but you can use this API for peeking once in a
-	//while)
+	// while)
 	// while(aio_error(&my_aiocb)==EINPROGRESS);
 	// sleeping wait via API
 	const struct aiocb * const cblist[]={ &my_aiocb };

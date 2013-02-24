@@ -33,7 +33,7 @@ struct mystruct {
 
 int main(int argc, char** argv, char** envp) {
 	// this is C99 style. This does not work in g++ by default although it
-	//does work in gcc.
+	// does work in gcc.
 	/*
 	   struct mystruct v1={ .a=6, .b=7 };
 	   printf("v1.a is %d\n",v1.a);

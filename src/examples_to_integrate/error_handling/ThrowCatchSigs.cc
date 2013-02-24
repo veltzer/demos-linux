@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <iostream>	// for std::cerr, std::endl, std::exception
 #include <signal.h>	// for sigprocmask(2), sigismember(3), sigemptyset(3),
-			//sigaddset(3), raise(3), kill(2)
+			// sigaddset(3), raise(3), kill(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
@@ -40,7 +40,7 @@
  * the same signal is blocked. This means that since we throw an exception from
  * a signal handler (which actually does a longjmp) then this situation will not
  * change and so we need to unblock the signal if we want to use C++ exception
- *handling
+ **handling
  * or longjmp
  */
 static void unblock(int signum) {
@@ -53,7 +53,7 @@ static void unblock(int signum) {
 static void SignalHandler(int sig) {
 	// before we throw an exception or do a longjmp we need to unblock
 	// the signal or the kernel will think we are still in the signal
-	//handler
+	// handler
 	unblock(sig);
 	throw std::exception();
 }
@@ -107,7 +107,7 @@ int main(int argc, char** argv, char** envp) {
 		std::cerr << "c is " << c << std::endl;
 		try {
 			doBadCode(c%2);
-		}catch(std::exception e)  {
+		}catch(std::exception e) {
 			std::cerr << "Got exception, lets continue anyway" << std::endl;
 		}
 	}
