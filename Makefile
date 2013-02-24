@@ -47,8 +47,7 @@ SUFFIX_OO:=oo
 # Kernel source code for checkpatch.pl
 KERNEL_SRC:=~/install/linux-3.6.3
 # checkpatch executable...
-#SCRIPT_CP:=$(KERNEL_SRC)/scripts/checkpatch.pl
-SCRIPT_CP:=scripts/checkpatch.pl
+SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 
 # export all variables to sub-make processes...
 export
@@ -242,7 +241,7 @@ $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 # rule about how to check kernel source files
 $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)scripts/wrapper.py $(SCRIPT_CP) --file $< --root $(KERNEL_SRC)
+	$(Q)scripts/wrapper.py $(SCRIPT_CHECKPATCH) --file $< --root $(KERNEL_SRC)
 	$(Q)touch $@
 # rule about how to create .ko files...
 $(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
