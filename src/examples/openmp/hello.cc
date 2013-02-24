@@ -26,7 +26,7 @@
 /*
  * This is a minimal openmp program.
  * Notice that openmp automatically adjusts to the number of cores that you
- **have.
+ *have.
  * You can ofcourse, change that (reduce or increase number of threads)
  *
  * EXTRA_COMPILE_FLAGS=-fopenmp

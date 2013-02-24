@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3),
-			// pthread_self(3)
+			//pthread_self(3)
 #include <unistd.h>	// for sleep(3)
 #include <us_helper.h>	// for CHECK_ZERO(), printf(), gettid()
 
@@ -32,11 +32,11 @@
  * - you can signal threads from the command line using kill(1). You just have
  * to know the thread id.
  * - If you register a signal handler from the main thread before the creation
- **of
+ *of
  * the child threads then they too will have the signal handler installed.
  * - You can also do it after the child threads are created.
  * - What if a signal is registered by the child? Same. All threads get the
- **handler.
+ *handler.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */

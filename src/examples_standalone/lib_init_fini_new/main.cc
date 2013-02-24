@@ -45,7 +45,7 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("begin");
 	// fork so that we will see if the hooks are called
 	// for forked children too (constructors are not called, destructors
-	// are...)...
+	//are...)...
 	// this example is for a well behaved child (exists ok...)
 	TRACE("forking a well behaved child...");
 	pid_t child_pid=fork();
@@ -60,7 +60,7 @@ int main(int argc, char** argv, char** envp) {
 		return 0;
 	}
 	// lets do it again to see what happens if the child terminates
-	// abruptly...
+	//abruptly...
 	TRACE("forking a brat...");
 	child_pid=fork();
 	if(child_pid) {
@@ -74,7 +74,7 @@ int main(int argc, char** argv, char** envp) {
 		_exit(0);
 	}
 	// lets do some multi-threading work to see how multi-threading is
-	// affecting all this...
+	//affecting all this...
 	const int num=2;
 	pthread_t threads[num];
 	int ids[num];

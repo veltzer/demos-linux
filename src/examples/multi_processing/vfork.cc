@@ -41,7 +41,7 @@
  * - the segfault seems to be in the parent not in the child. Need to check this
  * for sure.
  * - the results of using vfork incorrectly (not for exec) are indeed undefined
- **as the manual page says.
+ *as the manual page says.
  */
 void print_status(int status) {
 	if (WIFEXITED(status)) {

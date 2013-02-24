@@ -20,9 +20,9 @@
 
 #include <firstinclude.h>
 #include <sys/types.h>	// for socket(2), bind(2), open(2), listen(2),
-			// accept(2), recv(2), setsockopt(2)
+			//accept(2), recv(2), setsockopt(2)
 #include <sys/socket.h>	// for socket(2), bind(2), listen(2), accept(2),
-			// recv(2), setsockopt(2)
+			//recv(2), setsockopt(2)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for printf(3), atoi(3), snprintf(3)
 #include <netdb.h>	// for getservbyname(3)

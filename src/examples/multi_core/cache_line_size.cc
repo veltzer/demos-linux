@@ -29,7 +29,7 @@
  * ICACHE is the instruction cache.
  *
  * There are many other parameters you can get via the sysconf interface. Some
- **hardware
+ *hardware
  * related and some software. do 'getconf -a' on the cmdline to see them...
  */
 

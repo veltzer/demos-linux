@@ -39,11 +39,11 @@
  *
  * This example explains when open and release are called.
  * open - is called when a unique new fd is created based on the device driver
- **file.
+ *file.
  *	It is NOT called when an already existing fd is duplicated like in the
  *	case of fork(2) or dup(2).
  * release - is called when the final fd of the last process is closed. This
- **means
+ *means
  *	that no userspace process still holds a connection to that fd.
  *	It is NOT called when a close(2) occurs which is not the last one...
  * Common questions are:
@@ -58,7 +58,7 @@
  * one process - they may be shared. You only get notification when they
  * are created or finally destroyed.
  * - one strategy is to not share file descriptors. Close them in the parent or
- **child if
+ *child if
  * you fork or only open them after forks.
  * - have every process which closes the descriptor do
  * an ioctl(2) on it before closing notifying you. The same could be done

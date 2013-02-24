@@ -61,7 +61,7 @@ void doChild(int msqid, long myID)
 		message_buf rbuf;
 		int msgsize=CHECK_NOT_M1(msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0));
 		rbuf.mtext[msgsize-sizeof(long)]='\0';	// string was sent
-							// without null char.
+							//without null char.
 		printf("Message from: %ld -> %s", rbuf.fromID, rbuf.mtext);
 	}
 }

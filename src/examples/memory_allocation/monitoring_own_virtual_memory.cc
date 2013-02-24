@@ -28,16 +28,16 @@
 
 /*
  * This is an example which shows how to monitor your own virtual memory using
- **getrusage
+ *getrusage
  *
  * Note that if you do not zero the memory (see the bzero call below) then this
- **program
+ *program
  * works much faster and does not generate and page faults and the usage stays
- **the same.
+ *the same.
  */
 
 extern char etext, edata, end;	/* The symbols must have some type, or "gcc
-				   -Wall" complains */
+				  -Wall" complains */
 
 void show_vmem() {
 	struct rusage usage;

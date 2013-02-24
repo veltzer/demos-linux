@@ -45,7 +45,7 @@ static char* p;
 static bool debug=false;
 
 /* convert number of bytes to be allocated to real number of bytes allocated...
- */
+  */
 unsigned int round_it(unsigned int size) {
 	if(size%8>4) {
 		size=size-size%8+16;
@@ -92,7 +92,7 @@ void mguess_fini(void) {
 int main(int argc, char** argv, char** envp) {
 	mguess_init();
 	// lets randomize things a bit so everything will be different on each
-	// run...
+	//run...
 	srandom(getpid());
 	// lets do some random allocatinons...
 	for(unsigned int i=0; i<10000; i++) {

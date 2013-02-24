@@ -20,7 +20,7 @@
 
 /*
  * This example shows how to control kernel logging level using a user space
- **program.
+ *program.
  * You can also use /proc or sysctl via the command line to do the same thing
  */
 

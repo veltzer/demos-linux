@@ -31,11 +31,11 @@
  * This exapmle shows how to set thread names in Linux.
  * The heart of the idea is to call prctl(2).
  * If you look at the documentation of prctl(2), it states that it only sets
- **PROCESS
+ *PROCESS
  * names, but this is actually wrong since it sets the name of the current
- **schedualable
+ *schedualable
  * entity which may be a thread or a process. The reason that it says what is
- **says is
+ *says is
  * mostly historical.
  *
  * EXTRA_LINK_FLAGS=-lpthread
@@ -101,12 +101,12 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO(pthread_create(&t2, NULL, doit, &td2));
 
 	// wait for the threads to be initialized, if we got the lock then they
-	// are...
+	//are...
 	CHECK_ZERO(pthread_mutex_lock(&td1.start_mutex));
 	CHECK_ZERO(pthread_mutex_lock(&td2.start_mutex));
 
 	// now that both threads have set their name, show the threads with
-	// their names...
+	//their names...
 	my_system("ps -p %d -L", getpid());
 	// let the threads die (if we do not unlock they will wait forever...)
 	CHECK_ZERO(pthread_mutex_unlock(&td1.end_mutex));

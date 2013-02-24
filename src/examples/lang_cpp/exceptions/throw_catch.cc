@@ -29,7 +29,7 @@
 int main(int argc, char** argv, char** envp) {
 	try {
 		throw 20;
-	}catch(int e) {
+	}catch(int e)  {
 		std::cerr << "An exception occurred. Exception Nr. " << e << std::endl;
 	}
 	return EXIT_SUCCESS;

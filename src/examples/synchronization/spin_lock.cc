@@ -21,9 +21,9 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3),
-			// pthread_spin_init(3), pthread_spin_destroy(3),
-			// pthread_spin_lock(3), pthread_spin_unlock(3),
-			// pthread_attr_init(3), pthread_attr_setaffinity_np(3)
+			//pthread_spin_init(3), pthread_spin_destroy(3),
+			//pthread_spin_lock(3), pthread_spin_unlock(3),
+			//pthread_attr_init(3), pthread_attr_setaffinity_np(3)
 #include <unistd.h>	// for sysconf(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <us_helper.h>	// for CHECK_ZERO()

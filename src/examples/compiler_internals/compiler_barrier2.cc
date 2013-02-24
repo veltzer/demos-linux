@@ -23,7 +23,7 @@
 
 /*
  * This example shows that a real compiler barrier does not emit any machine
- **instructions.
+ *instructions.
  * It simply uses the compiler barrier a lot and shows the disassembly...
  */
 

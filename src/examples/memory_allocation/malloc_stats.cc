@@ -22,7 +22,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, atoi(3)
 #include <malloc.h>	// for malloc_stats(3)
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3),
-			// pthread_self(3)
+			//pthread_self(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for fprintf(3)
 #include <us_helper.h>	// for CHECK_ZERO(), TRACE()

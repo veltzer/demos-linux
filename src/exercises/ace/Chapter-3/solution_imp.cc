@@ -38,7 +38,7 @@ private:
 	// This is the actual counter. We will initialize it in the constructor.
 	int LockedCounter;
 	// This is the attempt counter. We will initialize it in the
-	// constructor.
+	//constructor.
 	int AttemptCounter;
 
 public:

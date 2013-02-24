@@ -33,7 +33,7 @@
  * - indented messages (NOT DONE).
  *
  * In this example I use syslog defined priorities so as not to build a
- **convesion
+ *convesion
  * mechanism from my own priority levels to syslog priorities.
  *
  * TODO:

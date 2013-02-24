@@ -58,7 +58,7 @@ void DoChild() {
 		CHECK_NOT_M1(msgctl(msqid, IPC_STAT, &msgCtlBuf));
 		if(msgCtlBuf.msg_cbytes + MSGSZ+sizeof(long)>=msgCtlBuf.msg_qbytes) {
 			// try to empty all queues. find the one with most
-			// messages and report it.
+			//messages and report it.
 			biggestQueueSize=0;
 			for(i=1; i<MAXQUEUE; i++) {
 				currentQueueSize=0;

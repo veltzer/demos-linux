@@ -61,7 +61,7 @@ ACE_HANDLE Net_Handler::get_handle(void) const {
 
 int Net_Handler::handle_input(ACE_HANDLE handle) {
 	// if Quit (and only this string) is detected in the message the close
-	// everything
+	//everything
 	char message[BUFSIZ];
 	int result=this->stream.recv(message, sizeof(message));
 	if (result > 0) {

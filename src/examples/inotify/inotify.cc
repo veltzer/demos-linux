@@ -32,23 +32,23 @@
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file
- **changes.
+ *changes.
  *
  * Getting out of the inotify main loop:
  * We use a signal to break out of the inotify loop. We could have used poll or
- **an event
+ *an event
  * fd from other threads which would work out just fine. We use siginterrupt and
- **a user
+ *a user
  * defined signal instead. That is the reason for all the signal handling code
- **in this
+ *in this
  * example.
  *
  * One of the weird things in terms of the inotify API is that it returns
- **records of uneven
+ *records of uneven
  * length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to
- **save on short
+ *save on short
  * file name lengths. And a single read can return more than one record but will
- **always return
+ *always return
  * an even amount of records.
  */
 

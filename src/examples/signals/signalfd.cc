@@ -43,7 +43,7 @@ int main(int argc, char** argv, char** envp) {
 	sigaddset(&mask, SIGQUIT);
 	sigaddset(&mask, SIGUSR1);
 	/* Block signals so that they aren't handled according to their default
-	   dispositions */
+	  dispositions */
 	CHECK_NOT_M1(sigprocmask(SIG_BLOCK, &mask, NULL));
 	int sfd=CHECK_NOT_M1(signalfd(-1, &mask, 0));
 	while(true) {

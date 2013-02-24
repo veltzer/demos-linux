@@ -71,7 +71,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 			}
 			// Free up the buffer memory and the Message_Block.
 			// ACE_Allocator::instance ()->free (mb->rd_ptr ()); //
-			// Free the buffer
+			//Free the buffer
 			mb->release();
 			// Free the Memory Block
 			if (length==0) {
@@ -97,7 +97,7 @@ static void *producer() {
 		ACE_Message_Block *mb;
 		if (buffer==0) {
 			// Send a 0-sized shutdown message to the other thread
-			// and exit.
+			//and exit.
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
 			// Send Zero size message to both queues !!!
 			if (msg_queue1.enqueue_tail(mb)==-1) {
@@ -111,12 +111,12 @@ static void *producer() {
 		} else {
 			// Enqueue the message in priority order.
 			// Allocate a new message, but have it "borrow" its
-			// memory from the buffer.
+			//memory from the buffer.
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			// get message size
 			mb->wr_ptr(rb.size());
 			// ACE_DEBUG ((LM_DEBUG, "enqueueing message of size
-			// %d\n", size));
+			//%d\n", size));
 			// Get message type into c variable
 			char c=*buffer;
 			switch (c) {
@@ -180,7 +180,7 @@ static void *producer() {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Spawn off one thread that copies stdin to stdout in order of the size
-	// of each line.
+	//of each line.
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("main: thread=%t Line:%l\n")));
 	if (thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)NULL, THR_NEW_LWP | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn producer"), 1);

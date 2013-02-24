@@ -28,7 +28,7 @@
 
 /*
  * This is a real time skeleton that shows all the critical parts of a real time
- **application
+ *application
  * in Linux
  *
  * EXTRA_LINK_FLAGS=-lrt

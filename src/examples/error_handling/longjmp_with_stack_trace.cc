@@ -84,7 +84,7 @@ inline void error_free_last() {
 }
 
 // This function **must** be inlined as if setjmp returns then env will no
-// longer
+//longer
 // be valid. That's why we don't use it (there is no way to guarantee inlining).
 inline error_data *error_setjmp() {
 	int ret=setjmp(env);
@@ -117,7 +117,7 @@ int main(int argc, char** argv, char** envp) {
 		error_data *p=mac_error_setjmp();
 		if (p==NULL) {
 			// This is the regular code. We get here when setting
-			// doing the
+			//doing the
 			// setjmp for the first time
 			fprintf(stderr, "c is %d\n", c);
 			func();

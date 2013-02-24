@@ -30,14 +30,14 @@
  *
  * What are the semantics of __restrict?
  * It tells the compiler that any access to the values pointed to by this
- **pointer
+ *pointer
  * will be done only through this pointer or derived pointers from this pointer.
  *
  * This means that if you write a function that gets two pointers and you add
  * restrict to them then you commit to them having no overlapped areas.
  *
  * Why should you use this? Because it allows the compiler to perform
- **optimizations
+ *optimizations
  * that it could not do otherwise. In this example the compiler will not need
  * to store the value in *result to main memory and will be able to store
  * it in a register.
@@ -48,7 +48,7 @@
  * The difference in performance here is quite noticable...
  *
  * The next does not help to get it to the same performance as the intel
- **compiler...
+ *compiler...
  * EXXTRA_COMPILE_FLAGS=-mtune=corei7 -O3
  */
 

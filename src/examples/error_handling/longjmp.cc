@@ -25,7 +25,7 @@
 
 /*
  * This is a demo of how to use the setjmp/longjmp in order to simulate
- **exception
+ *exception
  * handling in C code.
  */
 
@@ -50,7 +50,7 @@ int main(int argc, char** argv, char** envp) {
 		ret=setjmp(env);
 		if(!ret) {
 			// This is the regular code. We get here when setting
-			// doing the
+			//doing the
 			// setjmp for the first time
 			fprintf(stderr, "c is %d\n", c);
 			func();

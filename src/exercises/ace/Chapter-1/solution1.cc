@@ -51,7 +51,7 @@ void FunB() {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%I DEBUG: pid=%P Line:%l File=%N\n")));
 	// ACE_DEBUG((LM_INFO,ACE_TEXT("%I INFO: pid=%P Line:%l File=%N\n")));
 	// ACE_DEBUG((LM_NOTICE,ACE_TEXT("%I NOTICE: pid=%P Line:%l
-	// File=%N\n")));
+	//File=%N\n")));
 }
 
 void FunA() {
@@ -59,7 +59,7 @@ void FunA() {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("%I DEBUG: pid=%P Line:%l File=%N\n")));
 	// ACE_DEBUG((LM_INFO,ACE_TEXT("%I INFO: pid=%P Line:%l File=%N\n")));
 	// ACE_DEBUG((LM_NOTICE,ACE_TEXT("%I NOTICE: pid=%P Line:%l
-	// File=%N\n")));
+	//File=%N\n")));
 	FunB();
 }
 

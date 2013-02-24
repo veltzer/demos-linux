@@ -71,15 +71,15 @@ int main(int argc, char** argv, char** envp) {
 		klog_clear();
 		void *p=CHECK_NOT_VOIDP(mmap(
 				NULL,	/* we DO NOT recommend an address -
-					   better to let the kernel decide */
+					  better to let the kernel decide */
 				size,	/* the size we need */
 				PROT_READ | PROT_WRITE,	/* we want read AND
-							   write */
+							  write */
 				MAP_SHARED | MAP_POPULATE,	/* we want to
-								   shard with
-								   kernel and
-								   don't want
-								   page faults */
+								  shard with
+								  kernel and
+								  don't want
+								  page faults */
 				d,	/* file descriptor */
 				0	/* offset */
 				), MAP_FAILED);
@@ -138,23 +138,23 @@ int main(int argc, char** argv, char** envp) {
 		for (int i=0; i < number; i++) {
 			void *p=CHECK_NOT_VOIDP(mmap(
 					NULL,	/* we DO NOT recommend an
-						   address - better to let the
-						   kernel decide */
+						  address - better to let the
+						  kernel decide */
 					size,	/* the size we need */
 					PROT_READ | PROT_WRITE,	/* we want read
-								   AND write */
+								  AND write */
 					MAP_SHARED | MAP_POPULATE,	/* we
-									   want
-									   to
-									   shard
-									   with
-									   kernel
-									   and
-									   don't
-									   want
-									   page
-									   faults
-									 */
+									  want
+									  to
+									  shard
+									  with
+									  kernel
+									  and
+									  don't
+									  want
+									  page
+									  faults
+									  */
 					d,	/* file descriptor */
 					0	/* offset */
 					), MAP_FAILED);

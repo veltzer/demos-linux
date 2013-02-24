@@ -63,7 +63,7 @@ private:
 
 #if !defined (ACE_THR_PRI_OTHER_MAX)
 // This should be fixed in ACE... There's no _MAX, _MIN values for thread
-// priorities.
+//priorities.
 #if defined (ACE_WIN32)
 #define ACE_THR_PRI_OTHER_MAX ((ACE_THR_PRI_OTHER_DEF)+1)
 #elif defined (VXWORKS)

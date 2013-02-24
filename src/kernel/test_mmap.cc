@@ -74,7 +74,7 @@ int main(int argc, char** argv, char** envp) {
 
 	void* data=CHECK_NOT_VOIDP(mmap(
 			NULL,	/* we DO NOT recommend an address - better to
-				   let the kernel decide */
+				  let the kernel decide */
 			size,	/* the size we need */
 			PROT_READ | PROT_WRITE,	/* we want read AND write */
 			flags,	/* we don't want page faults */
@@ -83,7 +83,7 @@ int main(int argc, char** argv, char** envp) {
 			), MAP_FAILED);
 	void* data2=CHECK_NOT_VOIDP(mmap(
 			NULL,	/* we DO NOT recommend an address - better to
-				   let the kernel decide */
+				  let the kernel decide */
 			size,	/* the size we need */
 			PROT_READ | PROT_WRITE,	/* we want read AND write */
 			flags,	/* we don't want page faults */

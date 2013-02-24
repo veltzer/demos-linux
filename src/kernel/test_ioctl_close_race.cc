@@ -37,11 +37,11 @@
  *
  * What do we learn from this?
  *	- closing a file descriptor only schedules release to be called in the
- **kernel.
+ *kernel.
  *	- this release will be called once any ioctls on the current file
- **descriptor end.
+ *descriptor end.
  *	- any new operations on this file descriptor are not allowed (bad file
- **descriptor).
+ *descriptor).
  *	- makes it easier to program in the kernel.
  *
  * EXTRA_LINK_FLAGS=-lpthread

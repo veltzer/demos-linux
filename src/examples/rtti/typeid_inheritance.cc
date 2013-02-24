@@ -67,7 +67,7 @@ int main(int argc, char** argv, char** envp) {
 	// Person * (statically known at compile-time)
 	std::cout << typeid(ptr).name() << std::endl;
 	// ?? (looked up dynamically at run-time because it is the dereference
-	// of a pointer to a polymorphic class)
+	//of a pointer to a polymorphic class)
 	std::cout << typeid(*ptr).name() << std::endl;
 	return EXIT_SUCCESS;
 }

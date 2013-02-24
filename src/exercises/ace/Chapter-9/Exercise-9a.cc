@@ -116,7 +116,7 @@ int ReceiveMessages(ACE_SOCK_Stream peer[], ACE_SOCK_Acceptor acceptor[]) {
 					result=peer[count].recv(buffer, sizeof(buffer));
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) R E C E I V I N G: <%s>\n"), buffer));
 					/* This means the other side closed the
-					   socket */
+					  socket */
 					if (result==0) {
 						ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) result=0 for count: %d\n"), count));
 						peer[count].close();

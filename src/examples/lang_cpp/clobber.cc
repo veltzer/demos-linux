@@ -24,7 +24,7 @@
 
 /*
  * This is a demo that shows C++ allows to clobber variable names in serveral
- **ways:
+ *ways:
  * - inheritance.
  * - local parameters.
  */

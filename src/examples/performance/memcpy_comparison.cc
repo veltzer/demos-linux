@@ -22,23 +22,23 @@
 #include <stdio.h>	// for printf(3)
 #include <sys/time.h>	// for gettimeofday(2)
 #include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE,
-			// atoi(3)
+			//atoi(3)
 #include <string.h>	// for malloc(3)
 #include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1()
 
 /*
  * This example compares memcpy(3) to copy by loop...
  * As you can see memcpy is faster since it uses a specialized machine
- **instruction to do the copying.
+ *instruction to do the copying.
  * Actually glibc has an implementation adjusted for each cpu and switches the
  * memcpy function pointer to the right implementation at initialization time.
  * See the disassembly for more details.
  * If you uncomment the rand() code you will find that memcpy does not give you
- **any slack: it does NOT
+ *any slack: it does NOT
  * check the arguments passed to it for sanity. This is part of the philosophy
- **of the GNU/Linux system.
+ *of the GNU/Linux system.
  * The idea is that system programmers can take care of themselves and the APIs
- **should be as fast
+ *should be as fast
  * as possible to cater for good programmers.
  */
 

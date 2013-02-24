@@ -31,7 +31,7 @@ static int counter=0;
 static void SignalHandler(int sig) {
 	// before we throw an exception or do a longjmp we need to unblock
 	// the signal or the kernel will think we are still in the signal
-	// handler
+	//handler
 	counter++;
 	std::cerr << "handler: " << counter << " starting sig handler for signal [" << strsignal(sig) << "]" << std::endl;
 	std::cerr << "handler: " << counter << " going to sleep" << std::endl;

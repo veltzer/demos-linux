@@ -52,7 +52,7 @@ int main(int argc, char** argv, char** envp) {
 	try {
 		mysyscall(pipe(fd), -1);
 		mysyscall(signal(SIGPIPE, myhandler), SIG_ERR);
-	}catch(std::exception e) {
+	}catch(std::exception e)  {
 		std::cerr << "cought exception" << std::endl;
 	}
 	return EXIT_SUCCESS;

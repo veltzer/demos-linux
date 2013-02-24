@@ -49,7 +49,7 @@ int main(int argc, char** argv, char** envp) {
 	Debug(libcw_do.on());
 	// List all debug channels (nor very usefull unless you allow to turn
 	// channels on and off from the commandline; this is supported in
-	// libcw).
+	//libcw).
 	Debug(list_channels_on(libcw_do));
 	Debug(dc::hello.on());
 	Dout(dc::hello, "==============================");

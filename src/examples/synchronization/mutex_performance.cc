@@ -22,7 +22,7 @@
 #include <stdio.h>	// for printf(3)
 #include <sys/time.h>	// for gettimeofday(2)
 #include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3),
-			// pthread_mutex_init(3), pthread_mutex_destory(3)
+			//pthread_mutex_init(3), pthread_mutex_destory(3)
 #include <semaphore.h>	// for sem_init(3), sem_wait(3), sem_post(3)
 #include <sys/types.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
@@ -34,7 +34,7 @@
  * futex) and an expensive one.
  *
  * The idea is a single thread application that just measures a million
- **lock/unlock
+ *lock/unlock
  * operations on each type of lock. Simple and effective.
  *
  * We measure ALL kinds of semaphores and mutexes here.
@@ -42,7 +42,7 @@
  * Results:
  * the main finding is that
  * regular lock/unlock costs about 90 nanos on modern hardware while SYSV IPC
- **costs
+ *costs
  * 10 times more. In all other aspects all other types of locks (recursive, non
  * recursive, shared, non shared) perform about the same.
  *

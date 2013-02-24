@@ -41,7 +41,7 @@ typedef struct _mystruct {
 
 /*
  * This does not work...
- **#include <stddef.h> // for offsetof(3)
+ *#include <stddef.h> // for offsetof(3)
    typedef struct _mystruct2 {
         int field1;
         char foo;

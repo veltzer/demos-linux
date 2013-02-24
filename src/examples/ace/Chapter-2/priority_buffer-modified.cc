@@ -49,15 +49,15 @@ static const long max_queue=LONG_MAX;
 // producer sends a 0-sized message to inform the consumer to stop
 // reading and exit.
 static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {	// Keep
-									// looping,
-									// reading
-									// a
-									// message
-									// out of
-									// the
-									// queue,
-									// until
-									// we
+									//looping,
+									//reading
+									//a
+									//message
+									//out of
+									//the
+									//queue,
+									//until
+									//we
 	// timeout or get a message with a length==0, which signals us to
 	// quit.
 	while(true) {
@@ -94,7 +94,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		ACE_Message_Block *mb;
 		if(buffer==0) {
 			// Send a 0-sized shutdown message to the other thread
-			// and
+			//and
 			// exit.
 
 			ACE_NEW_RETURN(mb, ACE_Message_Block((size_t)0), 0);
@@ -106,7 +106,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 		// Enqueue the message in priority order.
 		else {
 			// Allocate a new message, but have it "borrow" its
-			// memory
+			//memory
 			// from the buffer.
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			// Setting the priority according to message length.

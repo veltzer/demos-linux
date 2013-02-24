@@ -24,7 +24,7 @@
 
 /*
  * This is an example showing how to force the compiler not to inline the
- **function.
+ *function.
  * How can you check that this works? compare the two disassembled version
  * resulting from putting the "noinline" line into a comment
  */
