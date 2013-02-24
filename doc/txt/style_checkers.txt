@@ -4,4 +4,7 @@ uncrustify
 checkstyle (for Java)
 cppcheck
 checkpatch.pl (from the linux kernel)
+	you can tweek it and change the function top_of_kernel_tree to return
+	1 always and can use it outside the kernel.
 kwstyle
+bcpp
