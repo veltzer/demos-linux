@@ -35,11 +35,13 @@
 
 /* we use 49 as the PRREMPT_RT use 50
  * as the priority of kernel tasklets
- * and interrupt handler by default */
+ * and interrupt handler by default
+ */
 const int MY_PRIORITY=49;
 /* The maximum stack size which is
  * guranteed safe to access without
- * faulting */
+ * faulting
+ */
 const int MAX_SAFE_STACK=8*1024;
 /* The number of nsecs per sec. */
 const int NSEC_PER_SEC=1000000000;
