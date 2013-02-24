@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <errno.h>
@@ -26,8 +26,8 @@
 #include <sys/msg.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h> // for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_CHARP()
+#include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_CHARP()
 
 const int MSGSZ=1024;
 
@@ -42,16 +42,15 @@ void doParent(int msqid, long myID)
 {
 	char SsubscriberID[8];
 	message_buf sbuf;
-	setbuf(stdin,0);
-	setbuf(stdout,0);
-	while(1)
-	{
+	setbuf(stdin, 0);
+	setbuf(stdout, 0);
+	while(1) {
 		printf("Call ID: ");
-		CHECK_CHARP(fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin),SsubscriberID);
+		CHECK_CHARP(fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin), SsubscriberID);
 		sbuf.mtype=atoi(SsubscriberID);
 		sbuf.fromID=myID;
 		printf("Message to %ld: ", sbuf.mtype);
-		CHECK_CHARP(fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin),sbuf.mtext);
+		CHECK_CHARP(fgets(sbuf.mtext, sizeof(sbuf.mtext) -1, stdin), sbuf.mtext);
 		CHECK_NOT_M1(msgsnd(msqid, &sbuf, strlen(sbuf.mtext)+sizeof(long), 0));
 	}
 }
@@ -61,12 +60,12 @@ void doChild(int msqid, long myID)
 	while(true) {
 		message_buf rbuf;
 		int msgsize=CHECK_NOT_M1(msgrcv(msqid, &rbuf, MSGSZ+sizeof(long), myID, 0));
-		rbuf.mtext[msgsize-sizeof(long)]='\0'; // string was sent without null char.
+		rbuf.mtext[msgsize-sizeof(long)]='\0';	// string was sent without null char.
 		printf("Message from: %ld -> %s", rbuf.fromID, rbuf.mtext);
 	}
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	long myID;
 	if(argc!=2) {
 		fprintf(stderr, "%s: usage: %s MirsID\n", argv[0], argv[0]);
@@ -76,15 +75,15 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "MirsID must be numeric positive greater than 0 and uniq (not checked)\n");
 		exit(EXIT_FAILURE);
 	}
-	key_t key=CHECK_NOT_M1(ftok("/etc/passwd",'x'));
-	int msqid=CHECK_NOT_M1(msgget(key,0));
+	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
+	int msqid=CHECK_NOT_M1(msgget(key, 0));
 	switch (CHECK_NOT_M1(fork())) {
-		case 0:
-			doChild(msqid, myID);
-			exit(0);
-		default:
-			doParent(msqid, myID);
-			exit(0);
+	case 0:
+		doChild(msqid, myID);
+		exit(0);
+	default:
+		doParent(msqid, myID);
+		exit(0);
 	}
 	return EXIT_SUCCESS;
 }

@@ -1,36 +1,36 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <unistd.h> // for fork(2), _exit(2)
-#include <sys/wait.h> // for waitpid(2)
-#include <pthread.h> // for pthread_create(3), pthread_join(3)
-#include <us_helper.h> // for TRACE()
+#include <unistd.h>	// for fork(2), _exit(2)
+#include <sys/wait.h>	// for waitpid(2)
+#include <pthread.h>	// for pthread_create(3), pthread_join(3)
+#include <us_helper.h>	// for TRACE()
 
 /*
-* EXTRA_LINK_FLAGS=-lpthread
-*/
+ * EXTRA_LINK_FLAGS=-lpthread
+ */
 
 /*
-* This is out thread function for when we'll do multi threading...
-*/
+ * This is out thread function for when we'll do multi threading...
+ */
 void *worker(void *p) {
 	TRACE("start");
 	sleep(1);
@@ -39,9 +39,9 @@ void *worker(void *p) {
 }
 
 /*
-* This is an empty testing application
-*/
-int main(int argc,char** argv,char** envp) {
+ * This is an empty testing application
+ */
+int main(int argc, char** argv, char** envp) {
 	TRACE("begin");
 	// fork so that we will see if the hooks are called
 	// for forked children too (constructors are not called, destructors are...)...
@@ -51,7 +51,7 @@ int main(int argc,char** argv,char** envp) {
 	if(child_pid) {
 		// parent
 		int status;
-		pid_t ret=waitpid(child_pid,&status,0);
+		pid_t ret=waitpid(child_pid, &status, 0);
 	} else {
 		// child
 		TRACE("child starting");
@@ -64,7 +64,7 @@ int main(int argc,char** argv,char** envp) {
 	if(child_pid) {
 		// parent
 		int status;
-		pid_t ret=waitpid(child_pid,&status,0);
+		pid_t ret=waitpid(child_pid, &status, 0);
 	} else {
 		// child
 		TRACE("child starting");
@@ -78,9 +78,9 @@ int main(int argc,char** argv,char** envp) {
 	void* rets[num];
 
 	TRACE("before pthread_create");
-	for(int i=0;i<num;i++) {
+	for(int i=0; i<num; i++) {
 		ids[i]=i;
-		CHECK_ZERO(pthread_create(threads+i,NULL,worker,ids+i));
+		CHECK_ZERO(pthread_create(threads+i, NULL, worker, ids+i));
 	}
 	TRACE("created threads");
 	for (int i=0; i < num; i++) {

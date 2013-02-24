@@ -1,34 +1,34 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <stdio.h> // for printf(3)
-#include <unistd.h> // for sysconf(3), getpid(2)
-#include <signal.h> // for signal(2)
+#include <stdio.h>	// for printf(3)
+#include <unistd.h>	// for sysconf(3), getpid(2)
+#include <signal.h>	// for signal(2)
 #include <us_helper.h>
 
 /*
-* This example shows that the data segment is organized into pages. It shows
-* that if you step over data then you will only get seg faulted once you step
-* over the page boundary.
-*/
+ * This example shows that the data segment is organized into pages. It shows
+ * that if you step over data then you will only get seg faulted once you step
+ * over the page boundary.
+ */
 
 // a must be last...
 int a=1;
@@ -38,27 +38,27 @@ unsigned int page_size;
 sighandler_t old_handler;
 
 /*
-* This is a signal handler to handle the segmentation faults we will generate...
-*/
+ * This is a signal handler to handle the segmentation faults we will generate...
+ */
 void segv_handler(int sig) {
-	//printf("in segv handler\n");
-	printf("in segv handler: ptr=%p, offset is %d\n",ptr,int(ptr)%page_size);
+	// printf("in segv handler\n");
+	printf("in segv handler: ptr=%p, offset is %d\n", ptr, int(ptr)%page_size);
 	// call the old handler...
 	old_handler(sig);
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	page_size=sysconf(_SC_PAGESIZE);
-	printf("page size is %d\n",page_size);
-	my_system("pmap %d",getpid());
-	printf("address of a is %p, look it up above...\n",&a);
-	printf("address of ptr is %p, look it up above...\n",&ptr);
-	printf("address of page_size is %p, look it up above...\n",&page_size);
-	printf("address of old_handler is %p, look it up above...\n",&old_handler);
+	printf("page size is %d\n", page_size);
+	my_system("pmap %d", getpid());
+	printf("address of a is %p, look it up above...\n", &a);
+	printf("address of ptr is %p, look it up above...\n", &ptr);
+	printf("address of page_size is %p, look it up above...\n", &page_size);
+	printf("address of old_handler is %p, look it up above...\n", &old_handler);
 	waitkey(NULL);
 	// lets install our own SIGSEGV signal handler so that we could print the address we
 	// failed at...
-	old_handler=CHECK_NOT_SIGT(signal(SIGSEGV,segv_handler),SIG_ERR);
+	old_handler=CHECK_NOT_SIGT(signal(SIGSEGV, segv_handler), SIG_ERR);
 	ptr=(char*)&a;
 	// the next line is really needed. If I leave it out then the seg fault happens much
 	// sooner since I'm stepping over stuff which is needed by the libc library for either
@@ -66,11 +66,11 @@ int main(int argc,char** argv,char** envp) {
 	// my data segment but that is the case. The offset has to be large enough no to
 	// step over libc.
 	ptr+=200;
-	for(unsigned int i=0;i<page_size*2;i++) {
-		//printf("still alive: ptr=%p, i=%d, offset is %d\n",ptr,i,int(ptr)%page_size);
+	for(unsigned int i=0; i<page_size*2; i++) {
+		// printf("still alive: ptr=%p, i=%d, offset is %d\n",ptr,i,int(ptr)%page_size);
 		*ptr=0;
 		// this is not strictly necessary...
-		//__sync_synchronize();
+		// __sync_synchronize();
 		ptr++;
 	}
 	// do not remove the next call (see above note)
