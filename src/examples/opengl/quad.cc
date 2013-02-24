@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <stdio.h>
@@ -28,12 +28,11 @@
 #include <GL/glu.h>
 
 /*
- * OpenGL example number 1...
- * Taken from
- *http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_GLX_and_Xlib
- *
- * EXTRA_LINK_FLAGS=-lX11 -lGL -lGLU
- */
+* OpenGL example number 1...
+* Taken from http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_GLX_and_Xlib
+*
+* EXTRA_LINK_FLAGS=-lX11 -lGL -lGLU
+*/
 
 Display* dpy;
 Window root;
@@ -59,14 +58,14 @@ void DrawAQuad() {
 	gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
 
 	glBegin(GL_QUADS);
-	glColor3f(1., 0., 0.); glVertex3f(-.75, -.75, 0.);
-	glColor3f(0., 1., 0.); glVertex3f(+.75, -.75, 0.);
-	glColor3f(0., 0., 1.); glVertex3f(+.75, +.75, 0.);
-	glColor3f(1., 1., 0.); glVertex3f(-.75, +.75, 0.);
+	glColor3f(1., 0., 0.); glVertex3f(-.75,-.75,0.);
+	glColor3f(0., 1., 0.); glVertex3f(+.75,-.75,0.);
+	glColor3f(0., 0., 1.); glVertex3f(+.75,+.75,0.);
+	glColor3f(1., 1., 0.); glVertex3f(-.75,+.75,0.);
 	glEnd();
 }
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	dpy=XOpenDisplay(NULL);
 	if(dpy==NULL) {
 		printf("cannot connect to X server\n");
@@ -78,8 +77,7 @@ int main(int argc, char** argv, char** envp) {
 		printf("no appropriate visual found\n");
 		exit(0);
 	}
-	// printf("tvisual %p selected\n", (void *)vi->visualid); }/* %p creates
-	//hexadecimal output like in glxinfo */
+	//printf("tvisual %p selected\n", (void *)vi->visualid); }/* %p creates hexadecimal output like in glxinfo */
 	cmap=XCreateColormap(dpy, root, vi->visual, AllocNone);
 	swa.colormap=cmap;
 	swa.event_mask=ExposureMask | KeyPressMask;

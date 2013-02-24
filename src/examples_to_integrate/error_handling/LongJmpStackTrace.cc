@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <stdio.h>
@@ -45,24 +45,24 @@ static jmp_buf env;
 
 inline void error_create(const char* message) {
 	error_data* p=(error_data*)malloc(sizeof(error_data));
-	p->size=backtrace(p->array, max_stack_frames);
-	p->symbols=backtrace_symbols(p->array, p->size);
-	strncpy(p->message, message, max_message_size);
+	p->size=backtrace(p->array,max_stack_frames);
+	p->symbols=backtrace_symbols(p->array,p->size);
+	strncpy(p->message,message,max_message_size);
 	last_error=p;
-	longjmp(env, (int)p);
+	longjmp(env,(int)p);
 }
-inline void error_print(FILE* f, error_data* p) {
-	fprintf(f, "error message is [%s]\n", p->message);
-	for(int i=p->size-drop_frames_start; i>=drop_frames_end; i--) {
+inline void error_print(FILE* f,error_data* p) {
+	fprintf(f,"error message is [%s]\n",p->message);
+	for(int i=p->size-drop_frames_start;i>=drop_frames_end;i--) {
 		char* symbol=p->symbols[i];
 		char result_name[256];
 		char result_offset[256];
-		error_demangle(symbol, result_name, 256, result_offset, 256);
-		fprintf(f, "%s,%s,%s\n", symbol, result_name, result_offset);
+		error_demangle(symbol,result_name,256,result_offset,256);
+		fprintf(f,"%s,%s,%s\n",symbol,result_name,result_offset);
 	}
 }
 inline void error_print_last(FILE* f) {
-	error_print(f, last_error);
+	error_print(f,last_error);
 }
 inline void error_free(error_data* p) {
 	free(p->symbols);
@@ -71,8 +71,7 @@ inline void error_free(error_data* p) {
 inline void error_free_last() {
 	error_free(last_error);
 }
-// This function **must** be inlined as if setjmp returns then env will no
-//longer
+// This function **must** be inlined as if setjmp returns then env will no longer
 // be valid. That's why we don't use it (there is no way to guarantee inlining).
 inline error_data* error_setjmp() {
 	int ret=setjmp(env);
@@ -93,24 +92,23 @@ void func() {
 	if(counter%3==0) {
 		error_create("some error");
 	}
-	fprintf(stderr, "this is the continuation of the function\n");
+	fprintf(stderr,"this is the continuation of the function\n");
 }
 
-int main(int argc, char** argv, char** envp) {
-	for(int c=0; c<10; c++) {
-		// int ret=setjmp(env);
-		// error_data* p=(error_data*)ret;
-		// error_data* p=error_setjmp();
+int main(int argc,char** argv,char** envp) {
+	for(int c=0;c<10;c++) {
+		//int ret=setjmp(env);
+		//error_data* p=(error_data*)ret;
+		//error_data* p=error_setjmp();
 		error_data* p=mac_error_setjmp();
 		if(p==NULL) {
-			// This is the regular code. We get here when setting
-			//doing the
+			// This is the regular code. We get here when setting doing the
 			// setjmp for the first time
-			fprintf(stderr, "c is %d\n", c);
+			fprintf(stderr,"c is %d\n",c);
 			func();
 		} else {
 			// we got an error
-			error_print(stderr, p);
+			error_print(stderr,p);
 			error_free(p);
 		}
 	}

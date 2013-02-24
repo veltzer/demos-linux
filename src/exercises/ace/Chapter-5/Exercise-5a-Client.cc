@@ -1,33 +1,33 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/Read_Buffer.h>
 #include <ace/Log_Msg.h>
 #include <ace/SOCK_Connector.h>
-#include <stdlib.h>	// for EXIT_FAILURE
+#include <stdlib.h> // for EXIT_FAILURE
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
 const int SIZE_BUF=128;
 const int NO_ITERATION=5;
@@ -38,7 +38,7 @@ public:
 	ACE_SOCK_Stream client_stream_;
 	ACE_INET_Addr remote_addr_;
 	ACE_SOCK_Connector connector_;
-	Client(char *hostname, int port) : remote_addr_(port, hostname) {
+	Client(char *hostname, int port):remote_addr_(port, hostname) {
 	}
 
 	// Uses a connector component `connector_ to connect to a
@@ -55,7 +55,8 @@ public:
 		return(0);
 	}
 
-	// Close down the connection properly.
+
+	//Close down the connection properly.
 	int close() {
 		if (client_stream_.close()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "close"), -1);
@@ -72,6 +73,7 @@ int GetMessageType(char *data) {
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char *buffer=rb.read('\n');
+
 	if (buffer==0) {
 		// return message type zero when EOF is reached
 		return(0);
@@ -84,8 +86,10 @@ int GetMessageType(char *data) {
 	}
 }
 
+
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	int FinalDelay=4;
+
 	if (argc < 2) {
 		ACE_DEBUG((LM_DEBUG, "Usage %s <port_number> [Final delay(sec)]\n", argv[0]));
 		ACE_DEBUG((LM_DEBUG, " (Final delay is useful for Exercise 5b)\n"));

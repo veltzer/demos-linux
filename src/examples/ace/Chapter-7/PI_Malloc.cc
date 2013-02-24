@@ -1,22 +1,22 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/OS_NS_stdio.h>
@@ -25,12 +25,12 @@
 #include <ace/Malloc_T.h>
 #include <ace/Null_Mutex.h>
 #include <ace/PI_Malloc.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
 ALLOCATOR;
@@ -49,6 +49,7 @@ public:
 		name_=buf;
 	}
 
+
 	~Record() {
 		g_allocator->free(name_.addr());
 	}
@@ -57,13 +58,16 @@ public:
 		return(name_);
 	}
 
+
 	int id1(void) {
 		return(id1_);
 	}
 
+
 	int id2(void) {
 		return(id2_);
 	}
+
 
 private:
 	int id1_;
@@ -76,7 +80,8 @@ void showRecords(void) {
 
 	{
 		MALLOC_LIFO_ITERATOR iter(*g_allocator);
-		for(void* temp=0; iter.next(temp)!=0; iter.advance()) {
+
+		for(void* temp=0;iter.next(temp)!=0;iter.advance()) {
 			Record *record=reinterpret_cast<Record *>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Record name: %C|id1:%d|id2:%d\n"), record->name(), record->id1(), record->id2()));
 		}
@@ -85,7 +90,7 @@ void showRecords(void) {
 
 int addRecords(void) {
 	char buf[32];
-	for(int i=0; i<10; i++) {
+	for(int i=0;i<10;i++) {
 		ACE_OS::sprintf(buf, "%s:%d", "Record", i);
 		void *memory=g_allocator->malloc(sizeof(Record));
 		if (memory==0) {
@@ -119,6 +124,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 
 		addRecords();
 	}
+
 	g_allocator->sync();
 	delete g_allocator;
 	return EXIT_SUCCESS;

@@ -1,48 +1,47 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
-#include <unistd.h>	// for fork(2)
-#include <stdio.h>	// for fgets(3)
-#include <sys/types.h>	// for waitid(2)
-#include <sys/wait.h>	// for waitid(2)
-#include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
-#include <string.h>	// for strsignal(3)
-#include <sys/types.h>	// for vfork(2)
-#include <unistd.h>	// for vfork(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <unistd.h> // for fork(2)
+#include <stdio.h> // for fgets(3)
+#include <sys/types.h> // for waitid(2)
+#include <sys/wait.h> // for waitid(2)
+#include <stdlib.h> // for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <string.h> // for strsignal(3)
+#include <sys/types.h> // for vfork(2)
+#include <unistd.h> // for vfork(2)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
- * An example of using vfork(2)
- *
- * Notes:
- * - if you let the child return from main it will cause a problem.
- * - tracing seems to work fine and sleep(3) also.
- * - writing to the parent data does not seem to be harmful too.
- * - result: the return from the function in which vfork was called is the one
- * causing the segfault.
- * - the segfault seems to be in the parent not in the child. Need to check this
- * for sure.
- * - the results of using vfork incorrectly (not for exec) are indeed undefined
- *as the manual page says.
- */
+* An example of using vfork(2)
+*
+* Notes:
+* - if you let the child return from main it will cause a problem.
+* - tracing seems to work fine and sleep(3) also.
+* - writing to the parent data does not seem to be harmful too.
+* - result: the return from the function in which vfork was called is the one
+* causing the segfault.
+* - the segfault seems to be in the parent not in the child. Need to check this
+* for sure.
+* - the results of using vfork incorrectly (not for exec) are indeed undefined as the manual page says.
+*/
 void print_status(int status) {
 	if (WIFEXITED(status)) {
 		TRACE("child exited normally with status %d", WEXITSTATUS(status));
@@ -54,6 +53,7 @@ void print_status(int status) {
 		TRACE("child was signaled with signal %s", strsignal(WTERMSIG(status)));
 	}
 }
+
 
 void print_code(int code) {
 	switch (code) {
@@ -77,14 +77,14 @@ void print_code(int code) {
 
 int global_data=42;
 
-int main(int argc, char** argv, char** envp) {
+int main(int argc,char** argv,char** envp) {
 	TRACE("this is the parent");
 	pid_t child_pid=CHECK_NOT_M1(vfork());
 	if (child_pid==0) {
 		TRACE("this is the child");
 		global_data++;
-		// while(true) {
-		// }
+		//while(true) {
+		//}
 		sleep(10);
 	} else {
 		TRACE("this is the parent");

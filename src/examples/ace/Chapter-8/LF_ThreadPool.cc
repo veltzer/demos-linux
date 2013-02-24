@@ -1,69 +1,75 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+	This file is part of the linuxapi project.
+	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
+	The linuxapi package is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 2.1 of the License, or (at your option) any later version.
 
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
+	The linuxapi package is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+	Lesser General Public License for more details.
 
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
- */
+	You should have received a copy of the GNU Lesser General Public
+	License along with the GNU C Library; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307 USA.
+*/
 
 #include <firstinclude.h>
 #include <ace/Task.h>
 #include <ace/Synch.h>
 #include <ace/Thread_Mutex.h>
 #include <ace/Condition_Thread_Mutex.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h> // for EXIT_SUCCESS
 
 /*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- */
+* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+* EXTRA_LINK_CMDS=pkg-config --libs ACE
+*/
 
 class Follower {
 public:
-	Follower(ACE_Thread_Mutex & leader_lock) : cond_(leader_lock) {
+	Follower(ACE_Thread_Mutex & leader_lock):cond_(leader_lock) {
 		owner_=ACE_Thread::self();
 	}
+
 
 	int wait(void) {
 		return(this->cond_.wait());
 	}
 
+
 	int signal(void) {
 		return(this->cond_.signal());
 	}
 
+
 	ACE_thread_t owner(void) {
 		return(this->owner_);
 	}
+
 
 private:
 	ACE_Condition_Thread_Mutex cond_;
 	ACE_thread_t owner_;
 };
 
-class LF_ThreadPool : public ACE_Task<ACE_MT_SYNCH> {
+class LF_ThreadPool:public ACE_Task<ACE_MT_SYNCH> {
 public:
-	LF_ThreadPool() : shutdown_(0), current_leader_(0) {
+	LF_ThreadPool():shutdown_(0), current_leader_(0) {
 		ACE_TRACE(ACE_TEXT("LF_ThreadPool::TP"));
 	}
+
 
 	virtual int svc(void);
 
 	void shut_down(void) {
 		shutdown_=1;
 	}
+
 
 private:
 	int become_leader(void);
@@ -75,16 +81,19 @@ private:
 		return(this->current_leader_!=0);
 	}
 
+
 	void leader_active(ACE_thread_t leader) {
 		ACE_TRACE(ACE_TEXT("LF_ThreadPool::leader_active"));
 		this->current_leader_=leader;
 	}
+
 
 	void process_message(ACE_Message_Block *mb);
 
 	int done(void) {
 		return(shutdown_==1);
 	}
+
 
 private:
 	int shutdown_;
@@ -117,6 +126,7 @@ int LF_ThreadPool::svc(void) {
 	return(0);
 }
 
+
 int LF_ThreadPool::become_leader(void) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::become_leader"));
 	ACE_GUARD_RETURN(ACE_Thread_Mutex, leader_mon, this->leader_lock_, -1);
@@ -134,6 +144,7 @@ int LF_ThreadPool::become_leader(void) {
 	return(0);
 }
 
+
 Follower *LF_ThreadPool::make_follower(void) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::make_follower"));
 	ACE_GUARD_RETURN(ACE_Thread_Mutex, follower_mon, this->followers_lock_, 0);
@@ -142,6 +153,7 @@ Follower *LF_ThreadPool::make_follower(void) {
 	this->followers_.enqueue_tail(fw);
 	return(fw);
 }
+
 
 int LF_ThreadPool::elect_new_leader(void) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::elect_new_leader"));
@@ -156,12 +168,13 @@ int LF_ThreadPool::elect_new_leader(void) {
 			return(-1);
 		}
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Resigning and Electing %d\n"), fw->owner()));
-		return((fw->signal()==0) ? 0 : -1);
+		return((fw->signal()==0) ? 0:-1);
 	} else {
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("(%t) Oops no followers left\n")));
 		return(-1);
 	}
 }
+
 
 void LF_ThreadPool::process_message(ACE_Message_Block *mb) {
 	ACE_TRACE(ACE_TEXT("LF_ThreadPool::process_message"));
@@ -173,9 +186,10 @@ void LF_ThreadPool::process_message(ACE_Message_Block *mb) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Finished processing message:%d\n"), msgId));
 }
 
+
 long LF_ThreadPool::LONG_TIME=5L;
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	LF_ThreadPool tp;
 
 	tp.activate(THR_NEW_LWP | THR_JOINABLE, 5);
@@ -184,7 +198,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_Time_Value tv(1L);
 
 	ACE_Message_Block *mb;
-	for(int i=0; i<30; i++) {
+	for(int i=0;i<30;i++) {
 		ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(int)), -1);
 		ACE_OS::memcpy(mb->wr_ptr(), &i, sizeof(int));
 		ACE_OS::sleep(tv);
