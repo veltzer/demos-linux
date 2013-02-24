@@ -100,6 +100,7 @@ ALL_C:=$(shell scripts/find_wrapper.sh . -name "*.c")
 ALL_CC:=$(shell scripts/find_wrapper.sh . -name "*.cc")
 ALL_H:=$(shell scripts/find_wrapper.sh . -name "*.h")
 ALL_HH:=$(shell scripts/find_wrapper.sh . -name "*.hh")
+ALL_US:=$(ALL_CC) $(ALL_HH) $($(shell scripts/find_wrapper.sh $(US_DIRS) -name "*.c" -or name "*.h")
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
 C_ASX:=$(addsuffix .s,$(basename $(C_SRC)))
 CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
@@ -303,6 +304,7 @@ debug:
 	$(info WEB_FOLDER is $(WEB_FOLDER))
 	$(info ALL_H is $(ALL_H))
 	$(info ALL_HH is $(ALL_HH))
+	$(info ALL_US is $(ALL_US))
 
 .PHONY: todo
 todo:
@@ -464,7 +466,7 @@ format_astyle: $(ALL_DEPS)
 .PHONY: format_uncrustify
 format_uncrustify: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)uncrustify -c support/uncrustify.cfg --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(Q)uncrustify -c support/uncrustify.cfg --no-backup $(ALL_US)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
 	$(info doing [$@])
