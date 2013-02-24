@@ -1,21 +1,21 @@
 /*
-        This file is part of the linuxapi project.
-        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-        The linuxapi package is free software; you can redistribute it and/or
-        modify it under the terms of the GNU Lesser General Public
-        License as published by the Free Software Foundation; either
-        version 2.1 of the License, or (at your option) any later version.
-
-        The linuxapi package is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-        Lesser General Public License for more details.
-
-        You should have received a copy of the GNU Lesser General Public
-        License along with the GNU C Library; if not, write to the Free
-        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-        02111-1307 USA.
+ * This file is part of the linuxapi project.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * The linuxapi package is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * The linuxapi package is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the GNU C Library; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA.
  */
 
 #include <firstinclude.h>
@@ -40,9 +40,9 @@ int HA_CommandHandler::svc(void) {
 		} else {
 			// Get header pointer, then move past header to payload.
 			/*
-			   DeviceCommandHeader *dch=(DeviceCommandHeader *)mb->rd_ptr();
-			   mb->rd_ptr(sizeof(DeviceCommandHeader));
-			   ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d with ") ACE_TEXT("command payload of:\n%s"), dch->deviceId_, mb->rd_ptr())); this->rep_.update_device(dch->deviceId_, mb->rd_ptr());
+			 * DeviceCommandHeader *dch=(DeviceCommandHeader *)mb->rd_ptr();
+			 * mb->rd_ptr(sizeof(DeviceCommandHeader));
+			 * ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d with ") ACE_TEXT("command payload of:\n%s"), dch->deviceId_, mb->rd_ptr())); this->rep_.update_device(dch->deviceId_, mb->rd_ptr());
 			 */
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("message is %s\n"), mb->rd_ptr()));
 			mb->release();
