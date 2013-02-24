@@ -104,7 +104,7 @@ int main(int argc, char** argv, char** envp) {
 		std::cerr << "c is " << c << std::endl;
 		try {
 			doBadCode(c%2);
-		}catch(std::exception e)  {
+		}catch(std::exception e) {
 			std::cerr << "Got exception, lets continue anyway" << std::endl;
 		}
 	}
