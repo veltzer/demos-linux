@@ -470,7 +470,7 @@ format_uncrustify: $(ALL_DEPS)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)indent $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(Q)indent $(ALL_US)
 
 # code measurements
 
