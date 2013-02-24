@@ -22,8 +22,8 @@ Just open a github account, modify and add examples and ask me to commit...
 A lot of the code is documented but some of it is not. More documentation would be welcome.
 I would give attribution to whomever contributes.
 
-Licensing
----------
+License
+-------
 Code is licensed GPL3 and I hold the copyright unless explicity stolen as attributed in the source code.
 I encourage people to use this source code in courses for instruction.
 Please give me some credit for it if you do wind up using it and consider dropping
