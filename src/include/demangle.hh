@@ -1,43 +1,40 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <cxxabi.h> // for abi::__cxa_demangle(3)
-#include <string.h> // for strncpy(3)
-#include <stdio.h> // for fprintf(3), snprintf(3)
-#include <stdlib.h> // for malloc(3), abort(3)
+#include <cxxabi.h>	// for abi::__cxa_demangle(3)
+#include <string.h>	// for strncpy(3)
+#include <stdio.h>	// for fprintf(3), snprintf(3)
+#include <stdlib.h>	// for malloc(3), abort(3)
 
 /*
-* function to demangle name using the C++ API for doing so
-* There is no C API for demangling since C names do not get
-* mangled.
-*/
-inline void error_demangle(
-	char* symbol,
+ * function to demangle name using the C++ API for doing so
+ * There is no C API for demangling since C names do not get
+ * mangled.
+ */
+inline void error_demangle(char* symbol,
 	char* result_name,
 	unsigned int max_name,
 	char* result_offset,
-	unsigned int max_offset
-	) {
+	unsigned int max_offset) {
 	char *begin_name=NULL, *begin_offset=NULL, *end_offset=NULL;
-
 	// find parentheses and +address offset surrounding the mangled name:
 	// ./module(function+0x15c) [0x8048a6d]
 	for (char *p=symbol; *p; ++p) {
@@ -57,7 +54,8 @@ inline void error_demangle(
 		// mangled name is now in [begin_name, begin_offset) and caller
 		// offset in [begin_offset, end_offset). now apply
 		// __cxa_demangle():
-		// allocate string which will be filled with the demangled function name
+		// allocate string which will be filled with the demangled
+		//function name
 		size_t funcnamesize=256;
 		char* funcname=(char *)malloc(funcnamesize);
 		int status;
@@ -68,11 +66,13 @@ inline void error_demangle(
 			strncpy(result_name, ret, max_name);
 			strncpy(result_offset, begin_offset, max_offset);
 		} else {
-			// demangling failed. Output function name as a C function with
+			// demangling failed. Output function name as a C
+			//function with
 			// no arguments.
 			snprintf(result_name, max_name, "%s()", begin_name);
 			snprintf(result_offset, max_offset, "%s", begin_offset);
-			//fprintf(stderr, "error demangle: %s: %s()+%s\n", symbol, begin_name, begin_offset);
+			// fprintf(stderr, "error demangle: %s: %s()+%s\n",
+			//symbol, begin_name, begin_offset);
 		}
 	} else {
 		// couldn't parse the line? print the whole line.

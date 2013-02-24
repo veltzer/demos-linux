@@ -1,49 +1,51 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <gtkmm/main.h> // for Gtk::Main
-#include <gtkmm/button.h> // for Gtk::Button
-#include <gtkmm/window.h> // for Gtk::Window
-#include <iostream> // for std::cout, std::endl
+#include <gtkmm/main.h>	// for Gtk::Main
+#include <gtkmm/button.h>	// for Gtk::Button
+#include <gtkmm/window.h>	// for Gtk::Window
+#include <iostream>	// for std::cout, std::endl
 
 /*
-* A stolen example from the gtkmm distribution. Slightly modified.
-*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
-* EXTRA_LINK_CMDS=pkg-config --libs gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
-*/
+ * A stolen example from the gtkmm distribution. Slightly modified.
+ *
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
+ * EXTRA_LINK_CMDS=pkg-config --libs gtkmm-2.4 sigc++-2.0 libgnomeui-2.0
+ */
 
-class HelloWorld:public Gtk::Window {
-	public:
-		HelloWorld();
-		virtual ~HelloWorld();
-	protected:
-		//Signal handlers:
-		void on_button_clicked();
-		//Member widgets:
-		Gtk::Button m_button;
+class HelloWorld : public Gtk::Window {
+public:
+	HelloWorld();
+	virtual ~HelloWorld();
+
+protected:
+	// Signal handlers:
+	void on_button_clicked();
+	// Member widgets:
+	Gtk::Button m_button;
 };
 
-HelloWorld::HelloWorld():
-	m_button("Hello World") // creates a new button with label "Hello World".
+HelloWorld::HelloWorld() :
+	m_button("Hello World")	// creates a new button with label "Hello
+				//World".
 {
 	// Sets the border width of the window.
 	set_border_width(10);
@@ -59,7 +61,6 @@ HelloWorld::HelloWorld():
 	m_button.show();
 }
 
-
 HelloWorld::~HelloWorld() {
 }
 
@@ -67,10 +68,10 @@ void HelloWorld::on_button_clicked() {
 	std::cout << "Hello World" << std::endl;
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	Gtk::Main kit(argc, argv);
 	HelloWorld helloworld;
-	//Shows the window and returns when it is closed.
+	// Shows the window and returns when it is closed.
 	Gtk::Main::run(helloworld);
 	return EXIT_SUCCESS;
 }

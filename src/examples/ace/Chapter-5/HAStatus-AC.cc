@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/OS_NS_errno.h>
@@ -27,13 +27,13 @@
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Reactor.h>
 #include <ace/Acceptor.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include "ClientService.hh"
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 typedef ACE_Acceptor<ClientService, ACE_SOCK_ACCEPTOR> ClientAcceptor;
 
@@ -59,7 +59,6 @@ int ClientService::handle_input(ACE_HANDLE) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection closed\n")));
 		return(-1);
 	}
-
 	send_cnt=this->peer().send(buffer, static_cast<size_t>(recv_cnt));
 	if(send_cnt==recv_cnt) {
 		return(0);
@@ -76,7 +75,6 @@ int ClientService::handle_input(ACE_HANDLE) {
 	mb->copy(&buffer[send_cnt], remaining);
 	int output_off=this->msg_queue()->is_empty();
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
-
 	if(this->putq(mb, &nowait)==-1) {
 		ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p; discarding data\n"), ACE_TEXT("enqueue failed")));
 		mb->release();
@@ -92,7 +90,6 @@ int ClientService::handle_output(ACE_HANDLE) {
 	ACE_Message_Block *mb=0;
 
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
-
 	while(-1!=this->getq(mb, &nowait)) {
 		ssize_t send_cnt=this->peer().send(mb->rd_ptr(), mb->length());
 		if(send_cnt==-1) {
@@ -106,7 +103,7 @@ int ClientService::handle_output(ACE_HANDLE) {
 		}
 		mb->release();
 	}
-	return((this->msg_queue()->is_empty()) ? -1:0);
+	return((this->msg_queue()->is_empty()) ? -1 : 0);
 }
 
 int ClientService::handle_close(ACE_HANDLE h, ACE_Reactor_Mask mask) {
@@ -116,7 +113,7 @@ int ClientService::handle_close(ACE_HANDLE h, ACE_Reactor_Mask mask) {
 	return(super::handle_close(h, mask));
 }
 
-int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_listen("HAStatus");
 	ClientAcceptor acceptor;
 	if(acceptor.open(port_to_listen, ACE_Reactor::instance(), ACE_NONBLOCK)==-1) {

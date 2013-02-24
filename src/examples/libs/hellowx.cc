@@ -1,42 +1,42 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <wx/wx.h>
 #include <wx/frame.h>
 
 /*
-* This example is a simple wxWindows application.
-*
-* EXTRA_COMPILE_CMDS=wx-config --cflags
-* EXTRA_LINK_CMDS=wx-config --libs
-*/
+ * This example is a simple wxWindows application.
+ *
+ * EXTRA_COMPILE_CMDS=wx-config --cflags
+ * EXTRA_LINK_CMDS=wx-config --libs
+ */
 
-class MyApp:public wxApp {
+class MyApp : public wxApp {
 	virtual bool OnInit(void);
 
-//	virtual int OnRun(void);
+// virtual int OnRun(void);
 };
 IMPLEMENT_APP(MyApp)
 
-class MyFrame:public wxFrame {
+class MyFrame : public wxFrame {
 public:
 	MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size);
 	void OnQuit(wxCommandEvent& event);
@@ -61,8 +61,7 @@ bool MyApp::OnInit(void) {
 	return(TRUE);
 }
 
-
-MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size):wxFrame((wxFrame *)NULL, -1, title, pos, size) {
+MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame((wxFrame *)NULL, -1, title, pos, size) {
 	// create menubar
 	wxMenuBar *menuBar=new wxMenuBar;
 	// create menu
@@ -83,11 +82,9 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size):
 	SetStatusText(_T("Welcome to wxWindows!"));
 }
 
-
 void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event)) {
 	Close(TRUE);
 }
-
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 	wxMessageBox(_T("wxWindows Hello World example."), _T("About Hello World"), wxOK | wxICON_INFORMATION, this);

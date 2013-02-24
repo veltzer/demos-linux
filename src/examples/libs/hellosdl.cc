@@ -1,34 +1,34 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <stdio.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL/SDL.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags sdl gl glu
-* EXTRA_LINK_CMDS=pkg-config --libs sdl gl glu
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags sdl gl glu
+ * EXTRA_LINK_CMDS=pkg-config --libs sdl gl glu
+ */
 
 const int SCREEN_WIDTH=640;
 const int SCREEN_HEIGHT=480;
@@ -43,11 +43,11 @@ void Quit(int returnCode) {
 
 void handleKeyPress(SDL_keysym *keysym) {
 	switch(keysym->sym) {
-		case SDLK_ESCAPE:
-			Quit(0);
-			break;
-		default:
-			break;
+	case SDLK_ESCAPE:
+		Quit(0);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -79,28 +79,28 @@ int drawGLScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(-1.5f, 0.0f, -6.0f);
-	glBegin(GL_TRIANGLES); /* Drawing Using Triangles */
-	glColor3f(1.0f, 0.0f, 0.0f); /* Red */
-	glVertex3f(0.0f, 1.0f, 0.0f); /* Top Of Triangle */
-	glColor3f(0.0f, 1.0f, 0.0f); /* Green */
-	glVertex3f(-1.0f, -1.0f, 0.0f); /* Left Of Triangle */
-	glColor3f(0.0f, 0.0f, 1.0f); /* Blue */
-	glVertex3f(1.0f, -1.0f, 0.0f); /* Right Of Triangle */
-	glEnd(); /* Finished Drawing The Triangle */
+	glBegin(GL_TRIANGLES);	/* Drawing Using Triangles */
+	glColor3f(1.0f, 0.0f, 0.0f);	/* Red */
+	glVertex3f(0.0f, 1.0f, 0.0f);	/* Top Of Triangle */
+	glColor3f(0.0f, 1.0f, 0.0f);	/* Green */
+	glVertex3f(-1.0f, -1.0f, 0.0f);	/* Left Of Triangle */
+	glColor3f(0.0f, 0.0f, 1.0f);	/* Blue */
+	glVertex3f(1.0f, -1.0f, 0.0f);	/* Right Of Triangle */
+	glEnd();/* Finished Drawing The Triangle */
 	glTranslatef(3.0f, 0.0f, 0.0f);
 	glColor3f(0.5f, 0.5f, 1.0f);
 	glBegin(GL_QUADS);
 	/* Draw A Quad */
-	glVertex3f(1.0f, 1.0f, 0.0f); /* Top Right Of The Quad */
-	glVertex3f(-1.0f, 1.0f, 0.0f); /* Top Left Of The Quad */
-	glVertex3f(-1.0f, -1.0f, 0.0f); /* Bottom Left Of The Quad */
-	glVertex3f(1.0f, -1.0f, 0.0f); /* Bottom Right Of The Quad */
-	glEnd(); /* Done Drawing The Quad */
+	glVertex3f(1.0f, 1.0f, 0.0f);	/* Top Right Of The Quad */
+	glVertex3f(-1.0f, 1.0f, 0.0f);	/* Top Left Of The Quad */
+	glVertex3f(-1.0f, -1.0f, 0.0f);	/* Bottom Left Of The Quad */
+	glVertex3f(1.0f, -1.0f, 0.0f);	/* Bottom Right Of The Quad */
+	glEnd();/* Done Drawing The Quad */
 	SDL_GL_SwapBuffers();
 	return(true);
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
 		Quit(1);
@@ -110,8 +110,8 @@ int main(int argc,char** argv,char** envp) {
 		fprintf(stderr, "Video query failed: %s\n", SDL_GetError());
 		Quit(1);
 	}
-	int videoFlags=SDL_OPENGL; /* Enable OpenGL in SDL */
-	videoFlags|=SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
+	int videoFlags=SDL_OPENGL;	/* Enable OpenGL in SDL */
+	videoFlags|=SDL_GL_DOUBLEBUFFER;/* Enable double buffering */
 	if (videoInfo->hw_available) {
 		videoFlags|=SDL_HWSURFACE;
 	} else {
@@ -134,14 +134,14 @@ int main(int argc,char** argv,char** envp) {
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) {
 			switch (event.type) {
-				case SDL_KEYDOWN:
-					handleKeyPress(&event.key.keysym);
-					break;
-				case SDL_QUIT:
-					done=true;
-					break;
-				default:
-					break;
+			case SDL_KEYDOWN:
+				handleKeyPress(&event.key.keysym);
+				break;
+			case SDL_QUIT:
+				done=true;
+				break;
+			default:
+				break;
 			}
 		}
 	}

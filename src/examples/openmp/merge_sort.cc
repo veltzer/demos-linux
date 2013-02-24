@@ -1,37 +1,37 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <stdio.h> // for printf(3)
-#include <omp.h> // for openmp pragmas and functions
-#include <stdlib.h> // for random(3)
-#include <string.h> // for memcpy(3)
+#include <stdio.h>	// for printf(3)
+#include <omp.h>// for openmp pragmas and functions
+#include <stdlib.h>	// for random(3)
+#include <string.h>	// for memcpy(3)
 
 /*
-* An example of writing a merge sort algorithm using open mp.
-*
-* EXTRA_COMPILE_FLAGS=-fopenmp
-* EXTRA_LINK_FLAGS=-fopenmp
-*/
+ * An example of writing a merge sort algorithm using open mp.
+ *
+ * EXTRA_COMPILE_FLAGS=-fopenmp
+ * EXTRA_LINK_FLAGS=-fopenmp
+ */
 
-void mergesort(int* arr,unsigned int from,unsigned int to,int* scratch) {
+void mergesort(int* arr, unsigned int from, unsigned int to, int* scratch) {
 	if(from+1==to) {
 		return;
 	}
@@ -40,15 +40,15 @@ void mergesort(int* arr,unsigned int from,unsigned int to,int* scratch) {
 	// if you put the number of threads here omp will not exceed them
 	// if you don't then omp will use the number of your cores...
 	// see this via ps -eLf...
-	//omp_set_num_threads(2);
+	// omp_set_num_threads(2);
 	#pragma omp parallel sections
 	{
 		#pragma omp section
-		mergesort(arr,from,mid,scratch);
+		mergesort(arr, from, mid, scratch);
 		#pragma omp section
-		mergesort(arr,mid,to,scratch);
+		mergesort(arr, mid, to, scratch);
 	}
-	memcpy(scratch+from,arr+from,length*sizeof(int));
+	memcpy(scratch+from, arr+from, length*sizeof(int));
 	unsigned int i=mid;
 	unsigned int j=from;
 	unsigned int target=from;
@@ -74,24 +74,24 @@ void mergesort(int* arr,unsigned int from,unsigned int to,int* scratch) {
 	}
 }
 
-void mergesort(int* arr,unsigned int size) {
+void mergesort(int* arr, unsigned int size) {
 	int* scratch=new int[size];
-	mergesort(arr,0,size,scratch);
+	mergesort(arr, 0, size, scratch);
 	delete scratch;
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	const unsigned int size=100000000;
 	int* arr=new int[size];
-	for(unsigned int i=0;i<size;i++) {
+	for(unsigned int i=0; i<size; i++) {
 		arr[i]=random();
 	}
 	// for debugging...
-	//const unsigned int size=4;
-	//int arr[size]={ 4,5,7,6 };
-	mergesort(arr,size);
-	for(unsigned int i=0;i<size;i++) {
-		printf("%d: %d\n",i,arr[i]);
+	// const unsigned int size=4;
+	// int arr[size]={ 4,5,7,6 };
+	mergesort(arr, size);
+	for(unsigned int i=0; i<size; i++) {
+		printf("%d: %d\n", i, arr[i]);
 	}
 	return EXIT_SUCCESS;
 }

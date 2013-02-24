@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 // We must replace Acceptor with Connector
@@ -35,30 +35,31 @@
 #include <ace/SOCK_Connector.h>
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 #define NCHILDREN 2
 int MyIndex=-1;
 long ListenPort;
 
-class SignalableTask:public ACE_Task<ACE_MT_SYNCH> {
+class SignalableTask : public ACE_Task<ACE_MT_SYNCH> {
 public:
 	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
 		if (signum==SIGUSR1) {
-			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S signal\n"), signum));
+			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S
+			//signal\n"), signum));
 			MyIndex=0;
 			handle_alert();
 		}
 		if (signum==SIGUSR2) {
-			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S signal\n"), signum));
+			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("(%t) received a %S
+			//signal\n"), signum));
 			MyIndex=1;
 			handle_alert();
 		}
 		return(0);
 	}
-
 
 	void handle_alert();
 };
@@ -66,16 +67,13 @@ public:
 void SignalableTask::handle_alert() {
 }
 
-
 int DoAccept(long ReceivePort, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr, ACE_SOCK_Acceptor *acceptor) {
 	ACE_Time_Value timeout(10, 0);
 
 	ACE_INET_Addr address_to_listen=ACE_INET_Addr(ReceivePort, ACE_LOCALHOST);
-
 	if (acceptor->open(address_to_listen, 1)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("acceptor.open")), 100);
 	}
-
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Trying to accept %d.\n"), ReceivePort));
 	if (acceptor->accept(*peer, peer_addr, &timeout, 0)==-1) {
 		if (ACE_OS::last_error()==EINTR) {
@@ -92,7 +90,6 @@ int DoAccept(long ReceivePort, ACE_SOCK_Stream *peer, ACE_INET_Addr *peer_addr, 
 	return(0);
 }
 
-
 int ReceiveMessage(ACE_SOCK_Stream *peer) {
 	char buffer[4096];
 
@@ -105,10 +102,8 @@ int ReceiveMessage(ACE_SOCK_Stream *peer) {
 	return(0);
 }
 
-
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	SignalableTask handler;
-
 	if (argc < 3) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Usage: %s Port1 Port2\n"), argv[0]));
 		return(1);
@@ -129,7 +124,6 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		while(MyIndex==-1) {
 			ACE_OS::sleep(1);
 		}
-
 		ListenPort=atoi(argv[MyIndex + 1]);
 
 		ACE_INET_Addr address_to_listen=ACE_INET_Addr(ListenPort, ACE_LOCALHOST);

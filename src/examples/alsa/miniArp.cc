@@ -1,45 +1,45 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h> // for signal(2)
+#include <signal.h>	// for signal(2)
 #include <alsa/asoundlib.h>
 
 /*
-* An example of playing midi.
-*
-* Before running this example make sure that midi works for you.
-* 1. Make sure you have timidity running.
-*	s -ef | grep timidity
-* 2. Find the timidity ports (usually 128:0-4)
-*	aplaymidi -l
-* 3. play the demo midi file.
-*	aplaymidi -p 128:0 src/examples/alsa/a_foggy_day.midi
-*
-* The original example was taken from:
-* http://alsamodular.sourceforge.net/miniArp.c
-* http://alsamodular.sourceforge.net/alsa_programming_howto.html
-* EXTRA_LINK_FLAGS=-lasound
-*/
+ * An example of playing midi.
+ *
+ * Before running this example make sure that midi works for you.
+ * 1. Make sure you have timidity running.
+ *	s -ef | grep timidity
+ * 2. Find the timidity ports (usually 128:0-4)
+ *	aplaymidi -l
+ * 3. play the demo midi file.
+ *	aplaymidi -p 128:0 src/examples/alsa/a_foggy_day.midi
+ *
+ * The original example was taken from:
+ * http://alsamodular.sourceforge.net/miniArp.c
+ * http://alsamodular.sourceforge.net/alsa_programming_howto.html
+ * EXTRA_LINK_FLAGS=-lasound
+ */
 
 const int TICKS_PER_QUARTER=128;
 const int MAX_SEQ_LEN=64;
@@ -57,14 +57,14 @@ snd_seq_t *open_seq() {
 	}
 	snd_seq_set_client_name(seq_handle, "miniArp");
 	if ((port_out_id=snd_seq_create_simple_port(seq_handle, "miniArp",
-		SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ,
-		SND_SEQ_PORT_TYPE_APPLICATION)) < 0) {
+		     SND_SEQ_PORT_CAP_READ|SND_SEQ_PORT_CAP_SUBS_READ,
+		     SND_SEQ_PORT_TYPE_APPLICATION)) < 0) {
 		fprintf(stderr, "Error creating sequencer port.\n");
 		exit(EXIT_FAILURE);
 	}
 	if ((port_in_id=snd_seq_create_simple_port(seq_handle, "miniArp",
-		SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE,
-		SND_SEQ_PORT_TYPE_APPLICATION)) < 0) {
+		     SND_SEQ_PORT_CAP_WRITE|SND_SEQ_PORT_CAP_SUBS_WRITE,
+		     SND_SEQ_PORT_TYPE_APPLICATION)) < 0) {
 		fprintf(stderr, "Error creating sequencer port.\n");
 		exit(EXIT_FAILURE);
 	}
@@ -130,24 +130,24 @@ void midi_action() {
 	do {
 		snd_seq_event_input(seq_handle, &ev);
 		switch (ev->type) {
-			case SND_SEQ_EVENT_ECHO:
-				arpeggio();
-				break;
-			case SND_SEQ_EVENT_NOTEON:
-				clear_queue();
-				transpose=ev->data.note.note - 60;
-				tick=get_tick();
-				arpeggio();
-				break;
-			case SND_SEQ_EVENT_CONTROLLER:
-				if (ev->data.control.param==1) {
-					bpm=(int)((double)bpm0 * (1.0 + (double)ev->data.control.value / 127.0));
-					set_tempo();
-				}
-				break;
-			case SND_SEQ_EVENT_PITCHBEND:
-				swing=(double)ev->data.control.value;
-				break;
+		case SND_SEQ_EVENT_ECHO:
+			arpeggio();
+			break;
+		case SND_SEQ_EVENT_NOTEON:
+			clear_queue();
+			transpose=ev->data.note.note - 60;
+			tick=get_tick();
+			arpeggio();
+			break;
+		case SND_SEQ_EVENT_CONTROLLER:
+			if (ev->data.control.param==1) {
+				bpm=(int)((double)bpm0 * (1.0 + (double)ev->data.control.value / 127.0));
+				set_tempo();
+			}
+			break;
+		case SND_SEQ_EVENT_PITCHBEND:
+			swing=(double)ev->data.control.value;
+			break;
 		}
 		snd_seq_free_event(ev);
 	} while (snd_seq_event_input_pending(seq_handle, 0) > 0);
@@ -165,20 +165,20 @@ void parse_sequence() {
 	while((c=fgetc(f))!=EOF) {
 		pos++;
 		switch (c) {
-			case 'c':
-				sequence[2][seq_len]=0; break;
-			case 'd':
-				sequence[2][seq_len]=2; break;
-			case 'e':
-				sequence[2][seq_len]=4; break;
-			case 'f':
-				sequence[2][seq_len]=5; break;
-			case 'g':
-				sequence[2][seq_len]=7; break;
-			case 'a':
-				sequence[2][seq_len]=9; break;
-			case 'h':
-				sequence[2][seq_len]=11; break;
+		case 'c':
+			sequence[2][seq_len]=0; break;
+		case 'd':
+			sequence[2][seq_len]=2; break;
+		case 'e':
+			sequence[2][seq_len]=4; break;
+		case 'f':
+			sequence[2][seq_len]=5; break;
+		case 'g':
+			sequence[2][seq_len]=7; break;
+		case 'a':
+			sequence[2][seq_len]=9; break;
+		case 'h':
+			sequence[2][seq_len]=11; break;
 		}
 		c=fgetc(f); pos++;
 		if(c==EOF) {
@@ -194,7 +194,7 @@ void parse_sequence() {
 			break;
 		}
 		if(atoi(&c)==0) {
-			fprintf(stderr,"error: atoi(&c)==0 with c=%s, pos=%u\n",&c,pos);
+			fprintf(stderr, "error: atoi(&c)==0 with c=%s, pos=%u\n", &c, pos);
 			exit(EXIT_FAILURE);
 		}
 		sequence[1][seq_len]=TICKS_PER_QUARTER / atoi(&c);
@@ -203,7 +203,7 @@ void parse_sequence() {
 			break;
 		}
 		if(atoi(&c)==0) {
-			fprintf(stderr,"error: atoi(&c)==0 with c=%s, pos=%u\n",&c,pos);
+			fprintf(stderr, "error: atoi(&c)==0 with c=%s, pos=%u\n", &c, pos);
 			exit(EXIT_FAILURE);
 		}
 		sequence[0][seq_len]=TICKS_PER_QUARTER / atoi(&c);
@@ -215,13 +215,13 @@ void parse_sequence() {
 void sigterm_exit(int sig) {
 	clear_queue();
 	// I removed this sleep...
-	//sleep(2);
+	// sleep(2);
 	snd_seq_stop_queue(seq_handle, queue_id, NULL);
 	snd_seq_free_queue(seq_handle, queue_id);
 	exit(EXIT_SUCCESS);
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	int npfd;
 	struct pollfd *pfd;
 	if (argc < 3) {
