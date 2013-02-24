@@ -58,7 +58,7 @@ static inline __attribute__((__gnu_inline__)) int add4(int a, int b) {
  * return a+b;
  * }
  * static __attribute__((__always_inline__)) int add6(int a, int b) {
- *      return a+b;
+ * return a+b;
  * }
  */
 

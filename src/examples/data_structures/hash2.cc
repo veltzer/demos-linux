@@ -28,10 +28,10 @@
  */
 
 const char *data[]={ "alpha", "bravo", "charlie", "delta",
-		     "echo", "foxtrot", "golf", "hotel", "india", "juliet",
-		     "kilo", "lima", "mike", "november", "oscar", "papa",
-		     "quebec", "romeo", "sierra", "tango", "uniform",
-		     "victor", "whisky", "x-ray", "yankee", "zulu"};
+"echo", "foxtrot", "golf", "hotel", "india", "juliet",
+"kilo", "lima", "mike", "november", "oscar", "papa",
+"quebec", "romeo", "sierra", "tango", "uniform",
+"victor", "whisky", "x-ray", "yankee", "zulu"};
 
 int main(int argc, char** argv, char** envp) {
 	ENTRY e, *ep;

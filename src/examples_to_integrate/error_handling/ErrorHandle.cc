@@ -28,10 +28,10 @@
 
 /*
  * int syscall(int val) {
- *      if(val==-1) {
- *              throw std::exception();
- *      }
- *      return val;
+ * if(val==-1) {
+ * throw std::exception();
+ * }
+ * return val;
  * }
  */
 

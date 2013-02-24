@@ -26,9 +26,9 @@
 
 /*
  * static void printStatus() {
- *      sigset_t old;
- *      CHECK_NOT_M1(sigprocmask(SIG_BLOCK,NULL,&old));
- *      CHECK_NOT_M1(sigismember(&old,SIGFPE));
+ * sigset_t old;
+ * CHECK_NOT_M1(sigprocmask(SIG_BLOCK,NULL,&old));
+ * CHECK_NOT_M1(sigismember(&old,SIGFPE));
  * }
  */
 

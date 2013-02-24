@@ -24,17 +24,17 @@
 #include <us_helper.h>	// for my_system()
 
 /*
- *      this is an example of a loop that gcc cannot optimize away...
- *      Consider the question why ? Doesn't gcc simulate your code
- *      in order to optimize it away ? The answer is that it does
- *      not simulate your code but rather understand the underlying
- *      construct to deduce what you are doing and use a predefined
- *      set of formulas to precalculate the result...
+ * This is an example of a loop that gcc cannot optimize away...
+ * Consider the question why ? Doesn't gcc simulate your code
+ * in order to optimize it away ? The answer is that it does
+ * not simulate your code but rather understand the underlying
+ * construct to deduce what you are doing and use a predefined
+ * set of formulas to precalculate the result...
  *
- *      You can see that indeed it is not optimized when you disassemble
- *      the code.
+ * You can see that indeed it is not optimized when you disassemble
+ * the code.
  *
- *      Compare the second loop to the first.
+ * Compare the second loop to the first.
  */
 
 int main(int argc, char** argv, char** envp) {

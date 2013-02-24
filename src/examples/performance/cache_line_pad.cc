@@ -43,9 +43,9 @@ typedef struct _mystruct {
  * This does not work...
  * #include <stddef.h> // for offsetof(3)
  * typedef struct _mystruct2 {
- *      int field1;
- *      char foo;
- *      char padding[64-__builtin_offsetof(_mystruct2,foo)];
+ * int field1;
+ * char foo;
+ * char padding[64-__builtin_offsetof(_mystruct2,foo)];
  * } mystruct2;
  */
 

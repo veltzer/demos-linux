@@ -63,12 +63,12 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 }
 /*
  * int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
- *      ExitHandler eh;
- *      ACE_Thread_Manager tm;
- *      HA_CommandHandler handler(eh);
- *      handler.thr_mgr(&tm);
- *      handler.activate();
- *      tm.wait();
- *      return EXIT_SUCCESS;
+ * ExitHandler eh;
+ * ACE_Thread_Manager tm;
+ * HA_CommandHandler handler(eh);
+ * handler.thr_mgr(&tm);
+ * handler.activate();
+ * tm.wait();
+ * return EXIT_SUCCESS;
  * }
  */

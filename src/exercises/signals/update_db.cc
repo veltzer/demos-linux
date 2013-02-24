@@ -83,8 +83,7 @@ void sigint(int gotsig) {
 		critical2();
 	}
 	while((dircontent=readdir(sdir))) {
-		if (  (strcmp(dircontent->d_name, "." )==0)
-		   || strcmp(dircontent->d_name, "..")==0)
+		if ((strcmp(dircontent->d_name, "." )==0) || strcmp(dircontent->d_name, "..")==0)
 			continue;
 		sprintf(strPID, "%d", getpid());
 		if (strstr(dircontent->d_name, strPID)) {

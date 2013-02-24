@@ -106,7 +106,7 @@ int main(int argc, char** argv, char** envp) {
 
 	/*
 	 * if(rand()<RAND_MAX) {
-	 *      buf1=NULL;
+	 * buf1=NULL;
 	 * }
 	 */
 	test_memcpy(buf1, buf2, size, loop);

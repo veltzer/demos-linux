@@ -151,10 +151,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Register a signal handler.
 	ACE_Sig_Action sa((ACE_SignalHandler)(handler), SIGINT);
 	ACE_UNUSED_ARG(sa);
-	if(ACE_Thread_Manager::instance()->spawn_n(threads,
-		   ACE_THR_FUNC(&worker),
-		   reinterpret_cast<void *>(count),
-		   THR_BOUND | THR_DETACHED)==-1) {
+	if(ACE_Thread_Manager::instance()->spawn_n(threads, ACE_THR_FUNC(&worker), reinterpret_cast<void *>(count), THR_BOUND | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "ACE_Thread_Manager::spawn_n"), -1);
 	}
 	ACE_Thread_Manager::instance()->wait();

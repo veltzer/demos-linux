@@ -40,8 +40,7 @@ void scanthedir(const char* dirname) {
 	int linktargetsize;
 	DIR* sdir=(DIR*)CHECK_NOT_NULL(opendir(dirname));
 	while((dircontent=readdir(sdir))) {
-		if (  (strcmp(dircontent->d_name, "." )==0)
-		   || strcmp(dircontent->d_name, "..")==0)
+		if ((strcmp(dircontent->d_name, "." )==0) || strcmp(dircontent->d_name, "..")==0)
 			continue;
 		snprintf(tmpdir, MAXPATHLEN, "%s/%s", dirname, dircontent->d_name);
 		CHECK_NOT_M1(lstat(tmpdir, &statbuf));
@@ -51,8 +50,7 @@ void scanthedir(const char* dirname) {
 				printf("%s\n", dircontent->d_name);
 				DIR* fddir=(DIR*)CHECK_NOT_NULL(opendir(fddirname));
 				while((fddircontent=readdir(fddir))) {
-					if (  (strcmp(fddircontent->d_name, "." )==0)
-					   || strcmp(fddircontent->d_name, "..")==0)
+					if ((strcmp(fddircontent->d_name, "." )==0) || strcmp(fddircontent->d_name, "..")==0)
 						continue;
 					snprintf(linkname, MAXPATHLEN, "%s/%s", fddirname, fddircontent->d_name);
 					linktargetsize=CHECK_NOT_M1(readlink(linkname, linktarget, sizeof(linktarget)));

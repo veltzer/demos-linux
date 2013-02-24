@@ -59,12 +59,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// ACE_hthread_t *threadHandles=new ACE_hthread_t[n_threads];
 	// Spawn off n_threads number of threads
 	for(int i=0; i<n_threads; i++) {
-		if(ACE_Thread::spawn(
-			   worker,	// thread worker function
-			   NULL,// argument to worker
-			   THR_NEW_LWP | THR_JOINABLE,	// flags
-			   threads+i	// thread id
-			   )==-1) {
+		if(ACE_Thread::spawn(worker, NULL, THR_NEW_LWP | THR_JOINABLE, threads+i)==-1) {
 			ACE_DEBUG((LM_DEBUG, "Error in spawning thread\n"));
 		}
 	}
