@@ -1,26 +1,26 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <stdio.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
@@ -32,16 +32,17 @@
 #include <GL/glu.h>
 
 /*
-* OpenGL example number 2...
-* Taken from:
-* http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Programming_Animations_with_GLX_and_Xlib
-*
-* EXTRA_LINK_FLAGS=-lX11 -lGL -lGLU
-*/
+ * OpenGL example number 2...
+ * Taken from:
+ *
+ *http://www.opengl.org/wiki/Programming_OpenGL_in_Linux:_Programming_Animations_with_GLX_and_Xlib
+ *
+ * EXTRA_LINK_FLAGS=-lX11 -lGL -lGLU
+ */
 
 // GLOBAL IDENTIFIERS
 Display* dpy;
-Window root,win;
+Window root, win;
 GLint att[]={
 	GLX_RGBA,
 	GLX_DEPTH_SIZE,
@@ -57,8 +58,8 @@ XWindowAttributes wa;
 XEvent xev;
 
 float TimeCounter, LastFrameTimeCounter, DT, prevTime=0.0, FPS;
-struct timeval tv,tv0;
-int Frame=1,FramesPerFPS;
+struct timeval tv, tv0;
+int Frame=1, FramesPerFPS;
 
 GLfloat rotation_matrix[16];
 float rot_z_vel=50.0, rot_y_vel=30.0;
@@ -68,39 +69,39 @@ void DrawCube(float size) {
 	glBegin(GL_QUADS);
 
 	glColor3f(0.7, 0.0, 0.0);
-	glVertex3f(-size,-size,-size);
-	glVertex3f(+size,-size,-size);
-	glVertex3f(+size,+size,-size);
-	glVertex3f(-size,+size,-size);
+	glVertex3f(-size, -size, -size);
+	glVertex3f(+size, -size, -size);
+	glVertex3f(+size, +size, -size);
+	glVertex3f(-size, +size, -size);
 
-	glVertex3f(-size,-size,+size);
-	glVertex3f(+size,-size,+size);
-	glVertex3f(+size,+size,+size);
-	glVertex3f(-size,+size,+size);
+	glVertex3f(-size, -size, +size);
+	glVertex3f(+size, -size, +size);
+	glVertex3f(+size, +size, +size);
+	glVertex3f(-size, +size, +size);
 
 	glColor3f(0.0, 0.0, 0.7);
 
-	glVertex3f(-size,-size,-size);
-	glVertex3f(-size,-size,+size);
-	glVertex3f(-size,+size,+size);
-	glVertex3f(-size,+size,-size);
+	glVertex3f(-size, -size, -size);
+	glVertex3f(-size, -size, +size);
+	glVertex3f(-size, +size, +size);
+	glVertex3f(-size, +size, -size);
 
-	glVertex3f(+size,-size,-size);
-	glVertex3f(+size,-size,+size);
-	glVertex3f(+size,+size,+size);
-	glVertex3f(+size,+size,-size);
+	glVertex3f(+size, -size, -size);
+	glVertex3f(+size, -size, +size);
+	glVertex3f(+size, +size, +size);
+	glVertex3f(+size, +size, -size);
 
 	glColor3f(0.0, 0.7, 0.0);
 
-	glVertex3f(-size,-size,-size);
-	glVertex3f(-size,-size,+size);
-	glVertex3f(+size,-size,+size);
-	glVertex3f(+size,-size,-size);
+	glVertex3f(-size, -size, -size);
+	glVertex3f(-size, -size, +size);
+	glVertex3f(+size, -size, +size);
+	glVertex3f(+size, -size, -size);
 
-	glVertex3f(-size,+size,-size);
-	glVertex3f(-size,+size,+size);
-	glVertex3f(+size,+size,+size);
-	glVertex3f(+size,+size,-size);
+	glVertex3f(-size, +size, -size);
+	glVertex3f(-size, +size, +size);
+	glVertex3f(+size, +size, +size);
+	glVertex3f(+size, +size, -size);
 
 	glEnd();
 }
@@ -115,8 +116,8 @@ void RotateCube() {
 }
 
 void ExposeFunc() {
-	float	aspect_ratio;
-	char	info_string[256];
+	float aspect_ratio;
+	char info_string[256];
 	// RESIZE VIEWPORT
 	XGetWindowAttributes(dpy, win, &wa);
 	glViewport(0, 0, wa.width, wa.height);
@@ -201,13 +202,13 @@ void SetupGL() {
 
 // TIME COUNTER FUNCTIONS
 void InitTimeCounter() {
-	gettimeofday(&tv0,NULL);
+	gettimeofday(&tv0, NULL);
 	FramesPerFPS=30;
 }
 
 void UpdateTimeCounter() {
 	LastFrameTimeCounter=TimeCounter;
-	gettimeofday(&tv,NULL);
+	gettimeofday(&tv, NULL);
 	TimeCounter=(float)(tv.tv_sec-tv0.tv_sec) + 0.000001*((float)(tv.tv_usec-tv0.tv_usec));
 	DT=TimeCounter-LastFrameTimeCounter;
 }
@@ -232,28 +233,29 @@ void ExitProgram() {
 // CHECK EVENTS
 void CheckKeyboard() {
 	/* FIXME: XKeysymToString is deprecated
-	if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
-		char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
-		if(strncmp(key_string, "Left", 4)==0) {
-			rot_z_vel-=200.0*DT;
-		} else if(strncmp(key_string, "Right", 5)==0) {
-			rot_z_vel+=200.0*DT;
-		} else if(strncmp(key_string, "Up", 2)==0) {
-			rot_y_vel-=200.0*DT;
-		} else if(strncmp(key_string, "Down", 4)==0) {
-			rot_y_vel+=200.0*DT;
-		} else if(strncmp(key_string, "F1", 2)==0) {
-			rot_y_vel=0.0;
-			rot_z_vel=0.0;
-		} else if(strncmp(key_string, "Escape", 5)==0) {
-			ExitProgram();
-		}
-	}
-	*/
+	   if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
+	        char* key_string=XKeysymToString(XKeycodeToKeysym(dpy,
+	           xev.xkey.keycode, 0));
+	        if(strncmp(key_string, "Left", 4)==0) {
+	                rot_z_vel-=200.0*DT;
+	        } else if(strncmp(key_string, "Right", 5)==0) {
+	                rot_z_vel+=200.0*DT;
+	        } else if(strncmp(key_string, "Up", 2)==0) {
+	                rot_y_vel-=200.0*DT;
+	        } else if(strncmp(key_string, "Down", 4)==0) {
+	                rot_y_vel+=200.0*DT;
+	        } else if(strncmp(key_string, "F1", 2)==0) {
+	                rot_y_vel=0.0;
+	                rot_z_vel=0.0;
+	        } else if(strncmp(key_string, "Escape", 5)==0) {
+	                ExitProgram();
+	        }
+	   }
+	 */
 }
 
 // MAIN PROGRAM
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	CreateWindow();
 	SetupGL();
 	InitTimeCounter();

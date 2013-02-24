@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <stdio.h>
@@ -30,43 +30,42 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1()
 #include "shared.h"
 
 /*
-* This is a test for kernel driven mmap.
-*
-* The test:
-* - opens the file.
-* - asks (via ioctl) to mmap to it's space.
-* - closes the file.
-*/
+ * This is a test for kernel driven mmap.
+ *
+ * The test:
+ * - opens the file.
+ * - asks (via ioctl) to mmap to it's space.
+ * - closes the file.
+ */
 
-//const bool do_single=true;
-//const bool do_stress=false;
+// const bool do_single=true;
+// const bool do_stress=false;
 const bool do_single=false;
 const bool do_stress=true;
 const unsigned int count=10000;
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	// file to be used
 	const char *filename="/dev/demo";
 	// user space pointer
 	void *ptr=NULL;
 
-	//klog_clear();
+	// klog_clear();
 
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
-	//printproc("demo");
-	//klog_show_clear();
+	// printproc("demo");
+	// klog_show_clear();
 	waitkey(NULL);
-
 	if (do_single) {
 		// the size of data that we need
 		const unsigned int size=1000000;
 		ptr=CHECK_NOT_VOIDP((void *)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
-		//printproc("demo");
-		//klog_show_clear();
+		// printproc("demo");
+		// klog_show_clear();
 		waitkey(NULL);
 
 		INFO("trying to write on the buffer");
@@ -77,8 +76,8 @@ int main(int argc,char** argv,char** envp) {
 		memcheck(ptr, 'a' + 1, size);
 
 		CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
-		//printproc("demo");
-		//klog_show_clear();
+		// printproc("demo");
+		// klog_show_clear();
 		waitkey(NULL);
 	}
 	if (do_stress) {
@@ -101,10 +100,9 @@ int main(int argc,char** argv,char** envp) {
 		}
 		do_prog_finish();
 	}
-
 	CHECK_NOT_M1(close(d));
-	//printproc("demo");
-	//klog_show_clear();
+	// printproc("demo");
+	// klog_show_clear();
 	waitkey(NULL);
 
 	return(0);

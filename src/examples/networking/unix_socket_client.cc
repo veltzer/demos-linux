@@ -1,74 +1,73 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <sys/types.h> // for socket(2), recv(2), connect(2), send(2)
-#include <sys/socket.h> // for socket(2), recv(2), connect(2), send(2)
-#include <strings.h> // for bzero(3)
-#include <stdio.h> // for printf(3), atoi(3), snprintf(3)
-#include <stdlib.h> // for exit(3)
-#include <unistd.h> // for close(2)
-#include <sys/un.h> // for sockaddr_un
-#include <string.h> // for strlen(3)
+#include <sys/types.h>	// for socket(2), recv(2), connect(2), send(2)
+#include <sys/socket.h>	// for socket(2), recv(2), connect(2), send(2)
+#include <strings.h>	// for bzero(3)
+#include <stdio.h>	// for printf(3), atoi(3), snprintf(3)
+#include <stdlib.h>	// for exit(3)
+#include <unistd.h>	// for close(2)
+#include <sys/un.h>	// for sockaddr_un
+#include <string.h>	// for strlen(3)
 
-#include <us_helper.h> // our own helper
+#include <us_helper.h>	// our own helper
 
 /*
-* This is a unix socket client demo.
-*/
+ * This is a unix socket client demo.
+ */
 
 const char* filename="/tmp/myunixsocket";
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	if(argc!=1) {
-		fprintf(stderr,"usage: %s\n",argv[0]);
+		fprintf(stderr, "usage: %s\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-
 	// lets open the socket
-	int sockfd=CHECK_NOT_M1(socket(AF_UNIX,SOCK_STREAM,0));
-	printf("opened socket with sockfd %d\n",sockfd);
+	int sockfd=CHECK_NOT_M1(socket(AF_UNIX, SOCK_STREAM, 0));
+	printf("opened socket with sockfd %d\n", sockfd);
 
 	// lets create the address
 	struct sockaddr_un server;
 	bzero(&server, sizeof(server));
 	server.sun_family=AF_UNIX;
-	snprintf(server.sun_path,108,"%s",filename);
+	snprintf(server.sun_path, 108, "%s", filename);
 
 	// lets connect...
-	CHECK_NOT_M1(connect(sockfd,(struct sockaddr *)&server, sizeof(server)));
+	CHECK_NOT_M1(connect(sockfd, (struct sockaddr *)&server, sizeof(server)));
 	printf("connected successfully\n");
 
 	// lets send "hello"...
 	const char* sbuf="hello";
 	unsigned int sbuflen=strlen(sbuf);
-	printf("sending [%s]\n",sbuf);
-	CHECK_NOT_M1(send(sockfd,sbuf,sbuflen,0));
+	printf("sending [%s]\n", sbuf);
+	CHECK_NOT_M1(send(sockfd, sbuf, sbuflen, 0));
 
 	// lets receive
 	unsigned int rbuflen=1024;
 	char rbuf[rbuflen];
-	int ret=CHECK_NOT_M1(recv(sockfd,rbuf,rbuflen,0));
+	int ret=CHECK_NOT_M1(recv(sockfd, rbuf, rbuflen, 0));
 	char prbuf[rbuflen];
-	snprintf(prbuf,ret+1,"%s",rbuf);
-	printf("received [%s]\n",prbuf);
+	snprintf(prbuf, ret+1, "%s", rbuf);
+	printf("received [%s]\n", prbuf);
 
 	// lets close...
 	CHECK_NOT_M1(close(sockfd));

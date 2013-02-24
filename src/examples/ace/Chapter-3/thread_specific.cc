@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/OS_NS_stdio.h>
@@ -26,13 +26,13 @@
 #include <ace/Thread_Manager.h>
 #include <ace/Signal.h>
 #include <ace/Log_Msg.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include "thread_specific.hh"
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 // Static variables.
 ACE_MT(ACE_Thread_Mutex Errno::lock_);
@@ -46,20 +46,17 @@ static ACE_SYNCH_MUTEX printf_lock;
 
 typedef ACE_TSS_Guard<ACE_Thread_Mutex> GUARD;
 
-extern "C" void
-cleanup(void *ptr) {
+extern "C" void cleanup(void *ptr) {
 	ACE_DEBUG((LM_DEBUG, "(%t) in cleanup, ptr=%x\n", ptr));
 
 	delete reinterpret_cast<char *>(ptr);
 }
-
 
 // This worker function is the entry point for each thread.
 static void* worker(void* c) {
 	intptr_t count=reinterpret_cast<intptr_t>(c);
 	ACE_thread_key_t key=ACE_OS::NULL_key;
 	int* ip=0;
-
 	// Make one key that will be available when the thread exits so that
 	// we'll have something to cleanup!
 	if(ACE_Thread::keycreate(&key, cleanup)==-1) {
@@ -69,7 +66,7 @@ static void* worker(void* c) {
 	if(ACE_Thread::setspecific(key, (void *)ip)==-1) {
 		ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 	}
-	for(intptr_t i=0;i<count;i++) {
+	for(intptr_t i=0; i<count; i++) {
 		if(ACE_Thread::keycreate(&key, cleanup)==-1) {
 			ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::keycreate"));
 		}
@@ -78,15 +75,12 @@ static void* worker(void* c) {
 		{
 			// tmp is workaround for gcc strict aliasing warning.
 			void *tmp=reinterpret_cast<void *>(ip);
-
 			if(ACE_Thread::setspecific(key, tmp)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
-
 			if(ACE_Thread::getspecific(key, &tmp)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
-
 			if(ACE_Thread::setspecific(key, (void *)0)==-1) {
 				ACE_ERROR((LM_ERROR, "(%t) %p\n", "ACE_Thread::setspecific"));
 			}
@@ -114,7 +108,7 @@ static void* worker(void* c) {
 				tss_error->error(),
 				tss_error->line(),
 				tss_error->flags()
-			);
+				);
 		}
 		key=ACE_OS::NULL_key;
 		if(ACE_Thread::keycreate(&key, cleanup)==-1) {
@@ -149,18 +143,18 @@ extern "C" void handler(int signum) {
 	ACE_Thread_Manager::instance()->exit(0);
 }
 
-int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// The Service_Config must be the first object defined in main...
 	ACE_Service_Config daemon(argv[0]);
-	int threads=argc>1?ACE_OS::atoi(argv[1]):4;
-	intptr_t count=argc>2?ACE_OS::atoi(argv[2]):10;
+	int threads=argc>1 ? ACE_OS::atoi(argv[1]) : 4;
+	intptr_t count=argc>2 ? ACE_OS::atoi(argv[2]) : 10;
 	// Register a signal handler.
 	ACE_Sig_Action sa((ACE_SignalHandler)(handler), SIGINT);
 	ACE_UNUSED_ARG(sa);
 	if(ACE_Thread_Manager::instance()->spawn_n(threads,
-		ACE_THR_FUNC(&worker),
-		reinterpret_cast<void *>(count),
-		THR_BOUND | THR_DETACHED)==-1) {
+		   ACE_THR_FUNC(&worker),
+		   reinterpret_cast<void *>(count),
+		   THR_BOUND | THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "ACE_Thread_Manager::spawn_n"), -1);
 	}
 	ACE_Thread_Manager::instance()->wait();

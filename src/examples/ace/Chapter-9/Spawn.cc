@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #define ACE_NTRACE 0
@@ -32,17 +32,16 @@
 #include <ace/Log_Msg.h>
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
-class Manager:public ACE_Process {
+class Manager : public ACE_Process {
 public:
 	Manager(const ACE_TCHAR * program_name) {
 		ACE_TRACE("Manager::Manager");
 		ACE_OS::strcpy(programName_, program_name);
 	}
-
 
 	int doWork(void) {
 		ACE_TRACE("Manager::doWork");
@@ -53,39 +52,32 @@ public:
 		if (pid==ACE_INVALID_PID) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("spawn")), -1);
 		}
-
 		// Wait forever for my child to exit.
 		if (this->wait()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("wait")), -1);
 		}
-
 		// Dump whatever happened.
 		this->dumpRun();
 		return(0);
 	}
 
-
 private:
 	int dumpRun(void) {
 		ACE_TRACE("Manager::dumpRun");
-
 		if (ACE_OS::lseek(this->outputfd_, 0, SEEK_SET)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("lseek")), -1);
 		}
-
 		char buf[1024];
 		ssize_t length=0;
-
-		// Read the contents of the error stream written by the child and print it out.
+		// Read the contents of the error stream written by the child
+		//and print it out.
 		while((length=ACE_OS::read(this->outputfd_, buf, sizeof(buf) - 1)) > 0) {
 			buf[length]=0;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), buf));
 		}
-
 		ACE_OS::close(this->outputfd_);
 		return(0);
 	}
-
 
 	// prepare() is inherited from ACE_Process.
 	int prepare(ACE_Process_Options& options) {
@@ -103,7 +95,6 @@ private:
 #endif
 	}
 
-
 	int setStdHandles(ACE_Process_Options& options) {
 		ACE_TRACE("Manager::setStdHandles");
 
@@ -112,12 +103,10 @@ private:
 		return(options.set_handles(ACE_STDIN, ACE_STDOUT, this->outputfd_));
 	}
 
-
 	int setEnvVariable(ACE_Process_Options& options) {
 		ACE_TRACE("Manager::setEnvVariables");
 		return(options.setenv(ACE_TEXT("PRIVATE_VAR=/that/seems/to/be/it")));
 	}
-
 
 #if !defined (ACE_LACKS_PWD_FUNCTIONS)
 	int setUserID(ACE_Process_Options& options) {
@@ -129,11 +118,7 @@ private:
 		options.seteuid(pw->pw_uid);
 		return(0);
 	}
-#endif /* !ACE_LACKS_PWD_FUNCTIONS */
-
-
-
-
+#endif	/* !ACE_LACKS_PWD_FUNCTIONS */
 
 private:
 	ACE_HANDLE outputfd_;
@@ -145,7 +130,6 @@ public:
 	Slave() {
 		ACE_TRACE("Slave::Slave");
 	}
-
 
 	int doWork(void) {
 		ACE_TRACE("Slave::doWork");
@@ -162,15 +146,14 @@ public:
 		return(0);
 	}
 
-
 	void showWho(void) {
 		ACE_TRACE("Slave::showWho");
 #if !defined (ACE_LACKS_PWD_FUNCTIONS)
-//	passwd *pw=::getpwuid (ACE_OS::geteuid ());
-//	ACE_DEBUG ((LM_INFO, ACE_TEXT ("(%P) Running this process as:%s\n"), pw->pw_name));
+// passwd *pw=::getpwuid (ACE_OS::geteuid ());
+// ACE_DEBUG ((LM_INFO, ACE_TEXT ("(%P) Running this process as:%s\n"),
+//pw->pw_name));
 #endif
 	}
-
 
 	ACE_TCHAR *readLine(ACE_TCHAR *str) {
 		ACE_TRACE("Slave::readLine");
@@ -197,7 +180,6 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 		Slave s;
 		return(s.doWork());
 	}
-
 	// Else, Master mode
 	Manager m(argv[0]);
 

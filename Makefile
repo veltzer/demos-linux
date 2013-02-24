@@ -359,7 +359,7 @@ check_laststub:
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR
+	@scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR \| grep -v \", CHECK_\"
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])
@@ -461,7 +461,7 @@ kernel_makeeasy:
 .PHONY: format_astyle
 format_astyle: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
 # I do not use uncrustify because it changes code that it already beautified...
 .PHONY: format_uncrustify
 format_uncrustify: $(ALL_DEPS)

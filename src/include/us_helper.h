@@ -90,7 +90,7 @@ static inline ticks_t getticks(void) {
 
 static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	if (t2 < t1) {
-		fprintf(stderr, "ERROR: What's going on? t2<t1...\n");
+		fprintf(stderr, "ERROR: Whats going on? t2<t1...\n");
 		exit(EXIT_FAILURE);
 	}
 	unsigned long long diff=(t2 - t1) / 1000;

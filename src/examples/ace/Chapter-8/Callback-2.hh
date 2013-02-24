@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #ifndef APG_CALLBACK2_H
 #define APG_CALLBACK2_H
@@ -29,7 +29,7 @@
 #include <ace/SString.h>
 #include <ace/Time_Value.h>
 
-class Callback:public ACE_Log_Msg_Callback {
+class Callback : public ACE_Log_Msg_Callback {
 public:
 	void log(ACE_Log_Record& log_record) {
 		cerr << "Log Message Received:" << endl;
@@ -37,7 +37,7 @@ public:
 		ACE_Log_Priority prio=static_cast<ACE_Log_Priority>(msg_severity);
 		const ACE_TCHAR* prio_name=ACE_Log_Record::priority_name(prio);
 		const time_t epoch=log_record.time_stamp().sec();
-		cerr << "\tType: "
+		cerr	<< "\tType: "
 			<< ACE_TEXT_ALWAYS_CHAR(prio_name)
 			<< endl
 			<< "\tLength: " << log_record.length()
@@ -54,4 +54,4 @@ public:
 	}
 };
 
-#endif /* APG_CALLBACK2_H */
+#endif	/* APG_CALLBACK2_H */
