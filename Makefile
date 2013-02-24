@@ -464,8 +464,7 @@ format_astyle: $(ALL_DEPS)
 .PHONY: format_uncrustify
 format_uncrustify: $(ALL_DEPS)
 	$(info doing [$@])
-	#$(Q)uncrustify -c scripts/uncrustify.cfg --replace --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
-	$(Q)uncrustify -c scripts/uncrustify.cfg --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
+	$(Q)uncrustify -c support/uncrustify.cfg --no-backup $(ALL_C) $(ALL_CC) $(ALL_H) $(ALL_HH)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
 	$(info doing [$@])
