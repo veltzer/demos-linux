@@ -51,5 +51,5 @@ int main(int argc, char** argv, char** envp) {
 }
 
 // template char* std::basic_string<char, std::char_traits<char>,
-//std::allocator<char> >::_S_construct<char const*>(char const*, char const*,
-//std::allocator<char> const&, std::forward_iterator_tag);
+// std::allocator<char> >::_S_construct<char const*>(char const*, char const*,
+// std::allocator<char> const&, std::forward_iterator_tag);

@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <omp.h>// for omp_get_wtime(3), omp_get_thread_num(3),
-		//omp_get_num_procs(3), omp_get_max_threads(3)
+		// omp_get_num_procs(3), omp_get_max_threads(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*

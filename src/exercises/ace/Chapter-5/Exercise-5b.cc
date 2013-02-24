@@ -62,7 +62,7 @@ void Net_Handler::terminate() {
 
 int Net_Handler::handle_input(ACE_HANDLE handle) {
 	// if Quit(and only this string) is detected in the message the close
-	//everything
+	// everything
 	char message[BUFSIZ];
 	if (Termination) {
 		ACE_Reactor::end_event_loop();

@@ -23,9 +23,9 @@
 #include <unistd.h>	// for lstat(2), readlink(2)
 #include <sys/param.h>	// for MAXPATHLEN
 #include <sys/types.h>	// for opendir(3), DIR, struct dirent, closedir(3),
-			//lstat(2)
+			// lstat(2)
 #include <dirent.h>	// for opendir(3), DIR, struct dirent, closedir(3),
-			//readdir(3)
+			// readdir(3)
 #include <stdio.h>	// for snprintf(3), printf(3)
 #include <string.h>	// for strcmp(3)
 #include <stdlib.h>	// for EXIT_SUCCESS

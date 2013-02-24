@@ -26,9 +26,9 @@
 
 /*
  * This executable receives the status code (exit code) of some process and
- *prints
+ **prints
  * an analysis of what the code means. Useful in case where you are not sure
- *what
+ **what
  * the status code means or as a demo of how to analyze such a code.
  */
 

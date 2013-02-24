@@ -29,7 +29,7 @@
  * Scheduling timers with the Reactor
  *
  * This example demostrates the scheduling of timers on a reactor and the
- *ability
+ **ability
  * to handle signals at the same time with the same singleton reactor.
  *
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE

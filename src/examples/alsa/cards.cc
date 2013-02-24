@@ -22,7 +22,7 @@
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <alsa/asoundlib.h>	// for snd_card_next(3),
-				//snd_config_update_free_global(3)
+				// snd_config_update_free_global(3)
 #include <us_helper.h>	// for CHECK_NOT_NEGATIVE()
 
 /*
@@ -35,7 +35,7 @@ int main(int argc, char** argv, char** envp) {
 	int cardNum=-1;
 	while(true) {
 		// Get next sound card's card number. When "cardNum"==-1, then
-		//ALSA
+		// ALSA
 		// fetches the first card, otherwise pass the previous card
 		CHECK_NOT_NEGATIVE(snd_card_next(&cardNum));
 		// No more cards? ALSA sets "cardNum" to -1 if so

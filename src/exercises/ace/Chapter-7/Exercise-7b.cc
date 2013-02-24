@@ -191,9 +191,9 @@ int SendMessage(char* buffer, int type) {
 	size_t size=ACE_OS::strlen(buffer);
 
 	// Allocate a new message, but have it "borrow" its memory from the
-	//buffer.
+	// buffer.
 	// ACE_NEW_RETURN (mb, ACE_Message_Block (size+1,
-	//ACE_Message_Block::MB_DATA, 0, buffer), 0);
+	// ACE_Message_Block::MB_DATA, 0, buffer), 0);
 	ACE_NEW_RETURN(mb, ACE_Message_Block(size + 1), 0);
 	// Reserve location for buffer internally
 	ACE_OS::strcpy(mb->wr_ptr(), buffer);
@@ -258,7 +258,7 @@ int ReadMessage(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	MessageAgentProxy message;
 	// Save place for up to 100 messages. If we are not sure we may use
-	//malloc
+	// malloc
 	// and have unlimited number.
 	ACE_Future<int> results[100];
 	char buffer[100];
@@ -267,7 +267,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 
 	int i=-1;
 	// Set a value just initializing the while loop. It will terminate when
-	//EOF will generate type=0
+	// EOF will generate type=0
 	int type=1;
 	while(type) {
 		type=GetMessageType(buffer);

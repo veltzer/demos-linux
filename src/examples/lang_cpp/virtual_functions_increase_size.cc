@@ -25,7 +25,7 @@
 
 /*
  * This example shows that a single virtual function in an object increases it's
- *size.
+ **size.
  */
 
 // A1 and A2 are exactly the same except the virtual in A2

@@ -28,11 +28,11 @@
 
 /*
  * This example shows all the different ways of accessing the maximum file
- *length in Linux.
+ **length in Linux.
  * As you can see different APIs return different values. Actually, the limit in
- *Linux is
+ **Linux is
  * much higher that 4096 (you can create folders that have an absolute path of
- *more than 4096
+ **more than 4096
  * bytes) but the macro is good enough to use in most cases.
  */
 

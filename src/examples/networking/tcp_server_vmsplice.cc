@@ -21,9 +21,9 @@
 #include <firstinclude.h>
 #include <sys/uio.h>	// for vmsplice(2), struct iovec
 #include <sys/types.h>	// for socket(2), bind(2), open(2), listen(2),
-			//accept(2), recv(2), setsockopt(2)
+			// accept(2), recv(2), setsockopt(2)
 #include <sys/socket.h>	// for socket(2), bind(2), listen(2), accept(2),
-			//recv(2), setsockopt(2), inet_addr(3)
+			// recv(2), setsockopt(2), inet_addr(3)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for printf(3), atoi(3)
 #include <netdb.h>	// for getservbyname(3)
@@ -122,7 +122,7 @@ int main(int argc, char** argv, char** envp) {
 
 	// lets get the port number using getservbyname(3)
 	// struct servent* p_servent=(struct
-	//servent*)CHECK_NOT_NULL(getservbyname(serv_name,serv_proto));
+	// servent*)CHECK_NOT_NULL(getservbyname(serv_name,serv_proto));
 	// print_servent(p_servent);
 
 	// lets open the socket

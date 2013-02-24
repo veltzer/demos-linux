@@ -20,10 +20,10 @@
 
 #include <firstinclude.h>
 #include <sys/types.h>	// for socket(2), recvfrom(2), connect(2), send(2),
-			//open(2)
+			// open(2)
 #include <sys/stat.h>	// for open(2)
 #include <sys/socket.h>	// for socket(2), recvfrom(2), connect(2), send(2),
-			//inet_addr(3)
+			// inet_addr(3)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for fprintf(3), atoi(3), snprintf(3), printf(3)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS

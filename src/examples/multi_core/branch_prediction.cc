@@ -39,18 +39,18 @@
  * - you can pass flags to the compiler to ignore these hints and create
  *	regular branch instructions.
  * - some compiler and/or compiler versions do not actually use this
- *information.
+ **information.
  *
  * Where can this help?
  * It can allow the compiler to reorder the control-flow graph to reduce the
- *number of branches taken for the 'likely' path. This can have a marked
- *improvement in loops where you're checking multiple exit cases.
+ **number of branches taken for the 'likely' path. This can have a marked
+ **improvement in loops where you're checking multiple exit cases.
  *
  * TODO:
  * - on the command line using time(1) this example runs the same with branch
- *prediction and without.
+ **prediction and without.
  *	Modify this to have a marked effect on performance and measure itself so
- *that I can show when
+ **that I can show when
  *	this is effective.
  */
 
@@ -62,7 +62,7 @@ int main(int argc, char** argv, char** envp) {
 		// while(unlikely(x<1000000000)) {
 		// to force the compiler to actually DO the loop.
 		// moving this line to sum+=x will actually mean that the
-		//compiler
+		// compiler
 		// will calculate the whole loop in advance!!!
 		sum+=x*x;
 		x++;

@@ -91,9 +91,9 @@ void *mmap_alloc(unsigned int size) {
 			PROT_READ | PROT_WRITE,	/* we want read AND write */
 			flags,
 			-1,	/* we do not have a device or fd to allocate
-				  from */
+				   from */
 			0	/* we dont need an offset as we don't have a
-				  file and are doing anon */
+				   file and are doing anon */
 			), MAP_FAILED);
 	return(res);
 }

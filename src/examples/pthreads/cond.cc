@@ -21,24 +21,24 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <pthread.h>	// for pthread_mutex_t, pthread_cond_t,
-			//pthread_mutex_lock(3), pthread_mutex_unlock(3),
-			//pthread_cond_wait(3), pthread_create(3),
-			//pthread_join(3), pthread_t
+			// pthread_mutex_lock(3), pthread_mutex_unlock(3),
+			// pthread_cond_wait(3), pthread_create(3),
+			// pthread_join(3), pthread_t
 #include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * This is an example that shows how to use pthread conditions.
  * The idea is to synchronize two threads. One thread will do work when count is
- *between two values
+ **between two values
  * and the other will do work when count is in any other range.
  * The thread that will do work for any other range is also reponsible for
- *ending the entire program
+ **ending the entire program
  * by signaling the other thread that all work is done.
  *
  * Remmember that in order to use these you must protect the entire area where
- *you are checking the condition
+ **you are checking the condition
  * using a mutex. And since conditions do not come with mutexes you must create
- *one yourself.
+ **one yourself.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */

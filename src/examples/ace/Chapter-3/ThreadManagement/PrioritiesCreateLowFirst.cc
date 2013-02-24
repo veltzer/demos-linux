@@ -52,7 +52,7 @@ public:
 		static int counter=0;
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Processing message %C\n"), name_));
 		// If we cancel the following condition than the LowPriorit will
-		//win the race
+		// win the race
 		// since the Highpriority will start too late to win.
 		if (++counter==1) {
 			sleep(1);
@@ -69,7 +69,7 @@ private:
 
 #if !defined (ACE_THR_PRI_OTHER_MAX)
 // This should be fixed in ACE... There's no _MAX, _MIN values for thread
-//priorities.
+// priorities.
 #if defined (ACE_WIN32)
 #define ACE_THR_PRI_OTHER_MAX ((ACE_THR_PRI_OTHER_DEF)+1)
 #elif defined (VXWORKS)

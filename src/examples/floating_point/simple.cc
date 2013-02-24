@@ -46,7 +46,7 @@ int main(int argc, char** argv, char** envp) {
 	// example with built in compiler conversions
 	int i=16777217;	// 2^24+1
 	// the volatile is neccessary so the compiler will not eliminate the
-	//entire code!
+	// entire code!
 	volatile float f=i;
 	int back_i=f;
 	if(back_i==i) {

@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <execinfo.h>	// for backtrace(3), backtrace_symbols(3),
-			//backtrace_symbols_fd(3)
+			// backtrace_symbols_fd(3)
 #include <signal.h>	// for signal(2)
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
@@ -36,32 +36,32 @@
  * of the DLL which in linux means everything you didn't put 'static' on...
  * - The thing is that dynamic symbols (ones which are exported) are not enough.
  * What about functions inside my code which are static and are on the stack?
- *They
+ **They
  * will not be in the trace.
  * - This is why you need to compile with -rdynamic to get those symbols as
- *well.
+ **well.
  * - How does the backtrace function work? It gets the return address from the
- *stack
+ **stack
  * and tries to figure out from which function it came. The return address is
- *NOT the
+ **NOT the
  * exact pointer to a know function but a pointer to some position within the
- *function
+ **function
  * (from whence you were called) but it is within the functions bounds.
  * - It repeats this process going up the stack.
  * - If you do this from within a signal handler you may also see the signal
- *handling
+ **handling
  * stack concatenated with the real stack depending on how you registered your
- *signal
+ **signal
  * hanlder (with or without it's own stack, see sigaction(2)...). If you
- *registered it
+ **registered it
  * with it's own stack you will not see the real stack at all...
  * - This example dumps stack traces both from regular context (before a fault)
- *and from
+ **and from
  * a fault handler.
  * - Please note that it is problematic to dump a stack trace from within a
- *fault handler
+ **fault handler
  * since the underlying libc functions (backtrace_*) are allocating memory via
- *malloc(3)
+ **malloc(3)
  * which may be corrupt at that point.
  *
  * EXTRA_LINK_FLAGS=-rdynamic
@@ -69,10 +69,10 @@
  * TODO:
  * - do cxx name demangling.
  * - move to registering the handler via sigaction and show how to specify it's
- *own stack
+ **own stack
  * and the effect of this on the result.
  * - show in another example what happens if we do a segfault inside a segfault
- *handler.
+ **handler.
  * - do the recommendations from the gilad ben yossef slide show:
  * pipe the data to another process standing by,
  * malloc and heap poisoning
@@ -81,7 +81,7 @@
 
 /*
  * Please keep this a C function, as it should be usable for C infrastructure as
- *well...
+ **well...
  */
 void print_trace(bool full) {
 	unsigned int nptrs;
@@ -152,11 +152,11 @@ void do_fault(void) {
 
 /*
  * I use several ways to try to force the compiler not to flatten the next
- *function:
+ **function:
  * 1. use asm("").
  * 2. __attribtue__ ((noinline));
  * 3. The value passed is from the user and not hardcoded and so the compiler
- *cannot
+ **cannot
  * unroll the function calls.
  * 4. complicating the function code with an integer accumulator and recursion.
  * finally it worked but I think it is number (3) that made it happen...
@@ -176,7 +176,7 @@ int rec_func(unsigned int ncalls) {
 	return(0);
 }
 // int rec_func(unsigned int ncalls, unsigned int ret)
-//__attribute__((__noinline__));
+// __attribute__((__noinline__));
 
 int main(int argc, char** argv, char** envp) {
 	trace_register();

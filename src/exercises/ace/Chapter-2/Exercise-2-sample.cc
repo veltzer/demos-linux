@@ -84,7 +84,7 @@ static void* producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	// and for the Message_Block as follows:
 	//
 	// ===ACE_Message_Block======From:
-	//<ace/Message_Block.h>===========================
+	// <ace/Message_Block.h>===========================
 	/*
 	 * ACE_Message_Block (size_t size,
 	 * ACE_Message_Block::ACE_Message_Type type=MB_DATA,
@@ -102,7 +102,7 @@ static void* producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 	// The following are methods for the queue (assuming using msg_queue):
 	// mb->msg_priority (int); // Priority MUST be set into the message
-	//block
+	// block
 	// msg_queue->enqueue_head(mb)
 	// msg_queue->enqueue_tail(mb)
 	// msg_queue->enqueue_prio(mb)
@@ -113,7 +113,7 @@ static void* producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Spawn off one thread that copies stdin to stdout in order of the size
-	//of each line.
+	// of each line.
 	ACE_Message_Queue<ACE_MT_SYNCH> msg_queue(max_queue);
 	if(thr_mgr.spawn(ACE_THR_FUNC(producer), (void *)&msg_queue, THR_NEW_LWP|THR_DETACHED)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, "%p\n", "spawn"), 1);

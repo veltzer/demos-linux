@@ -31,7 +31,7 @@
  */
 
 // #define CHK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n");
-//exit(EXIT_FAILURE);}
+// exit(EXIT_FAILURE);}
 #define CHK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(EXIT_FAILURE); }
 
 int main(int argc, char** argv, char** envp) {

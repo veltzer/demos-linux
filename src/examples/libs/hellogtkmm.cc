@@ -45,7 +45,7 @@ protected:
 
 HelloWorld::HelloWorld() :
 	m_button("Hello World")	// creates a new button with label "Hello
-				//World".
+				// World".
 {
 	// Sets the border width of the window.
 	set_border_width(10);

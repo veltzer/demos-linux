@@ -41,7 +41,7 @@ public:
 		}
 	}
 	// the function is not inlined on purpose so it would show up in
-	//profilers
+	// profilers
 	// like 'perf(1)'...
 	// static void performance_hog_function2() {
 	static void performance_hog_function_cpu() __attribute__((noinline)) {

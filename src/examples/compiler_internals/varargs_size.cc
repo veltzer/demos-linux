@@ -27,19 +27,19 @@
  * arguments were passed.
  *
  * For example: the printf function assumes that the user has passed enough
- *arguments
+ **arguments
  * who'se type matches the % in the format string but it cannot ascertain it.
  *
  * Can we know how many var args were there quickly? Well, yes we could using a
- *compile
+ **compile
  * time builtin compiler function called '__builtin_va_arg_pack_len'
  * Notes:
  * - the function returns the number of argument with disregard for their type.
  * This allows you to optimize a variadic API to use a non variadic version when
- *that
+ **that
  * version is not required.
  * - this builtin function can ONLY be used in a function that is GUARANTEED to
- *be
+ **be
  * inlined. This is not so with the regular 'inline' keyword. Instead the
  * '__attribute__((__gnu_inline__))' or '__attribute__((__always_inline__))'
  * must be used.

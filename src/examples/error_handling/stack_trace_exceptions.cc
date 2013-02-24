@@ -38,7 +38,7 @@
  * - we drop two stack frames that don't interest
  * us (two functions that are above the 'main' function).
  * - yet another issue is C++ name mangling. You can either do that on the
- *command
+ **command
  * line using the 'c++filt(1)' tool or in the code by using the C++ library.
  * - the '-rdynamic' flag is needed if the 'backtrace_symbols' function is to
  * work and return symbols to you.
@@ -47,9 +47,9 @@
  *
  * TODO:
  * - show how to see the two "nameless" stack frames in the middle (they are not
- *currently seen).
+ **currently seen).
  * - bring back the c++ demangling code (it was removed because it was crashing
- *the app).
+ **the app).
  */
 
 class TracedException : public std::exception {
@@ -83,7 +83,7 @@ public:
 			// char result_name[256];
 			// char result_offset[256];
 			// error_demangle(symbol, result_name, 256,
-			//result_offset, 256);
+			// result_offset, 256);
 			// std::cerr
 			// << symbol << ","
 			// << result_name << ","

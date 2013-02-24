@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for malloc(3), EXIT_SUCCESS, EXIT_FAILURE, rand(3),
-			//atoi(3)
+			// atoi(3)
 #include <stdio.h>	// for printf(3), fprintf(3), stderr
 
 /*
@@ -28,19 +28,19 @@
  *
  * test this with:
  * perf stat -e cache-misses ./src/examples/performance/cache_misser.elf [val]
- *[times]
+ **[times]
  * try 104857600 as the value (100MB)
  * note that when you pass times=0 you will still get lots of cache misses.
  * Those are the cache misses to materialize the memory. Do it one time with
- *times=0
+ **times=0
  * and then whenever you increase times you will get the extra cache misses you
- *are
+ **are
  * generating.
  * make the value bigger to see more misses...
  *
  * TODO:
  * - allocate the memory using mmap(2) and MAP_POPULATE to get number of cache
- *misses
+ **misses
  * before starting the run lower.
  */
 

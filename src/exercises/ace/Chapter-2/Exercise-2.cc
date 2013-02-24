@@ -108,15 +108,15 @@ static void *producer(ProducerData* pdata) {
 		else {
 			ACE_DEBUG((LM_ERROR, ACE_TEXT("(%t) producer sending message %s\n"), buffer));
 			// Allocate a new message, but have it "borrow" its
-			//memory from the buffer.
+			// memory from the buffer.
 			ACE_Message_Block *mb;
 			ACE_NEW_RETURN(mb, ACE_Message_Block(rb.size(), ACE_Message_Block::MB_DATA, 0, buffer), 0);
 			// set the message length (no need for this since the
-			//consumer
+			// consumer
 			// does NOT read the length)
 			// mb->wr_ptr(rb.size());
 			// ACE_DEBUG ((LM_DEBUG, "enqueueing message of size
-			//%d\n", size));
+			// %d\n", size));
 			// Get message type into c variable
 			char c=*buffer;
 			switch (c) {
@@ -161,7 +161,7 @@ static void *producer(ProducerData* pdata) {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// Spawn off one thread that copies stdin to stdout in order of the size
-	//of each line.
+	// of each line.
 	// Global thread manager.
 	ACE_Thread_Manager thr_mgr;
 

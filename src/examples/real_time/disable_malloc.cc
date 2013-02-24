@@ -28,22 +28,22 @@
 
 /*
  * This program shows how you can disable malloc completely so that you will be
- *sure
+ **sure
  * that in the running phase of your real-time application you are not using the
- *malloc
+ **malloc
  * functions which are sometimes not O(1) bound...
  *
  * This example uses malloc hooks in the C library to disable malloc.
  * Another way to achieve this is for you write your own malloc allocator to
- *completely
+ **completely
  * replace malloc, or call malloc. Your allocator would provice the standard
- *malloc
+ **malloc
  * functions (malloc,realloc,memalign) and would throw exceptions or returns
- *nulls
+ **nulls
  * if these are called after a certain stage.
  *
  * EXTRA_COMPILE_FLAGS=-Wno-error=deprecated-declarations
- *-Wno-deprecated-declarations
+ **-Wno-deprecated-declarations
  */
 
 static bool malloc_allowed=true;

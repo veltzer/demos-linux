@@ -70,7 +70,7 @@ private:
 		char buf[1024];
 		ssize_t length=0;
 		// Read the contents of the error stream written by the child
-		//and print it out.
+		// and print it out.
 		while((length=ACE_OS::read(this->outputfd_, buf, sizeof(buf) - 1)) > 0) {
 			buf[length]=0;
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), buf));
@@ -151,7 +151,7 @@ public:
 #if !defined (ACE_LACKS_PWD_FUNCTIONS)
 // passwd *pw=::getpwuid (ACE_OS::geteuid ());
 // ACE_DEBUG ((LM_INFO, ACE_TEXT ("(%P) Running this process as:%s\n"),
-//pw->pw_name));
+// pw->pw_name));
 #endif
 	}
 

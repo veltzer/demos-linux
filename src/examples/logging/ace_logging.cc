@@ -27,7 +27,7 @@
  * This demo shows the ACE logging facilities
  *
  * ACE_NTRACE: supports whether ACE_TRACE actually does anything. If disabled
- *then ACE_TRACE
+ **then ACE_TRACE
  * is nothing. If enabled then:
  * - traces will be printed where the are in the code (ACE_TRACE).
  * - traces will be printed on exit from functions (destructor pattern).

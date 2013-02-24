@@ -29,7 +29,7 @@
  * This is a solution to the exercise.
  *
  * Try to run this with "taskset 1" and more to see the difference in
- *performance.
+ **performance.
  *
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
  * EXTRA_LINK_CMDS=pkg-config --libs ACE
@@ -50,7 +50,7 @@ private:
 	// This is the actual counter. We will initialize it in the constructor.
 	int LockedCounter;
 	// This is the attempt counter. We will initialize it in the
-	//constructor.
+	// constructor.
 	int AttemptCounter;
 	// Number of threads (to do the modulu...)
 	int numThreads;
@@ -127,9 +127,9 @@ public:
 		for(int i=0; i<numAttempts; i++) {
 			sharedResource.attemptIncreaseValue(value);
 			// Sleep for 1 sec to let the other thread try to aquire
-			//the lock
+			// the lock
 			// What if we remove this sleep period? Will the program
-			//work ?
+			// work ?
 			// ACE_OS::sleep(1);
 		}
 		return(0);

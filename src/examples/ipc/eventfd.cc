@@ -73,12 +73,12 @@ int main(int argc, char** argv, char** envp) {
 	} else {
 		// parent branch
 		// install a signal handler for when the child dies so that we
-		//could know
+		// could know
 		// that we need to stop listening for messages from it
 		sighandler_t old=signal(SIGCHLD, handler);
 		CHECK_ASSERT(old!=SIG_ERR);
 		// this is neccessary in order to 'break' out of the read(2)
-		//system
+		// system
 		// call when SIGCHLD comes along...
 		CHECK_NOT_M1(siginterrupt(SIGCHLD, 1));
 		printf("Parent about to read\n");

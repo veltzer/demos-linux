@@ -25,7 +25,7 @@
 
 /*
  * This is an example showing how to use the libfcmp for floating point
- *comparison.
+ **comparison.
  *
  * EXTRA_LINK_FLAGS=-lfcmp
  */

@@ -23,7 +23,7 @@
  *
  * NOTES:
  * - the manual says that you have to link with the math library (-lm) in order
- *to
+ **to
  * use these functions but this does not seem to be the case.
  */
 

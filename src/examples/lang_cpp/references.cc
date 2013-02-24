@@ -27,15 +27,15 @@
  *
  * Things to notice:
  * - the reference is not even stored in it's own place on the stack, or
- *anywhere.
+ **anywhere.
  *	It is a compile time figment of the imagination.
  * - when changing the reference you change the actual value, much like you
- *would do
+ **would do
  *	with a pointer. The syntax is different though. Instead of doing *p=7
- *you simply
+ **you simply
  *	do p=7.
  * - Changing the reference DOES NOT change what value of the reference (it s a
- *pointer
+ **pointer
  *	after all) but rather what the reference is pointing to.
  *
  */

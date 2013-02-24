@@ -26,10 +26,10 @@
 
 /*
  * This is an example of a utility program to run any program under real time
- *priority
+ **priority
  *
  * This is a degenerated version of the chrt(1) command line utility from the
- *util-linux
+ **util-linux
  * package which has better features.
  *
  * EXTRA_COMPILE_FLAGS=-std=gnu++11

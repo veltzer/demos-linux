@@ -34,17 +34,17 @@
  * - Notice that the getppid() function returns different values because of the
  * adoption by the init(1) process.
  * - This example forks twice to show that there is no "grandparent adoption"
- *and
+ **and
  * that grandparents are not interested in their grandchildren.
  * - We need to wait a little to make sure that the parent dies - there is no
- *synchroneous
+ **synchroneous
  * way to get this info as far as I know...
  *
  * TODO:
  * - investigate how it is exactly that init does the things he does (is it the
- *kernel as I
+ **kernel as I
  * suspect that latches processes under the init process ?!? - if so, find the
- *place
+ **place
  * in the kernel that does this...).
  */
 
@@ -59,7 +59,7 @@ int main(int argc, char** argv, char** envp) {
 			// now lets signal our parent that its ok to die...
 			CHECK_NOT_M1(kill(getppid(), SIGUSR1));
 			// lets wait a while to make sure the parent really
-			//dies..
+			// dies..
 			sleep(1);
 			// now lets print our parent again...
 			TRACE("my parent pid is %d", getppid());

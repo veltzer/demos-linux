@@ -26,7 +26,7 @@
 
 /*
  * This example clearly shows that the code segment is protected against
- *writing.
+ **writing.
  * At least on Intel that is.
  *
  * Notes:

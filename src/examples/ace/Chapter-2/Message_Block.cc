@@ -27,12 +27,12 @@
 
 /*
  * This demo shows how to create message blocks, how to set message types, how
- *to create
+ **to create
  * error or hangup message, how to populate message blocks in static or dynamic
- *fashion
+ **fashion
  *
  * This demo does not explain what ACE_NEW_RETURN is. See slides or a different
- *example
+ **example
  * for that...
  *
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
@@ -41,7 +41,7 @@
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// This sections explains how to create a message block with some data
-	//in it
+	// in it
 	// It shows how to use the ACE_NEW_RETURN construct
 	// How to initialize a message block with constant size and how to write
 	// data to the message block
