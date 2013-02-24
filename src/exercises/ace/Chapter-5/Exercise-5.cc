@@ -1,51 +1,52 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/Reactor.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Log_Msg.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 /*
-* This is the handler which follows the ACE_Event_Hanlder
-* pattern. Notice the overriding of handle_input and handle_close.
-* There are other handle_* events that you can implement...
-*/
+ * This is the handler which follows the ACE_Event_Hanlder
+ * pattern. Notice the overriding of handle_input and handle_close.
+ * There are other handle_* events that you can implement...
+ */
 
-class Net_Handler:public ACE_Event_Handler {
-	protected:
-		ACE_SOCK_Stream stream;
-	public:
-		Net_Handler(ACE_SOCK_Stream & s);
-		virtual int handle_input(ACE_HANDLE handle);
-		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
-		virtual ACE_HANDLE get_handle(void) const;
+class Net_Handler : public ACE_Event_Handler {
+protected:
+	ACE_SOCK_Stream stream;
+
+public:
+	Net_Handler(ACE_SOCK_Stream & s);
+	virtual int handle_input(ACE_HANDLE handle);
+	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+	virtual ACE_HANDLE get_handle(void) const;
 };
 
-Net_Handler::Net_Handler(ACE_SOCK_Stream& s):stream(s) {
+Net_Handler::Net_Handler(ACE_SOCK_Stream& s) : stream(s) {
 	// set the reactor that we are connected to
 	this->reactor(ACE_Reactor::instance());
 	// register outselves as handlers for that reactor
@@ -62,7 +63,6 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 	// if Quit (and only this string) is detected in the message the close everything
 	char message[BUFSIZ];
 	int result=this->stream.recv(message, sizeof(message));
-
 	if (result > 0) {
 		message[result]=0;
 		// Trim CR and LF (in case of telnet)
@@ -108,19 +108,20 @@ int Net_Handler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	return(0);
 }
 
-class Net_Listener:public ACE_Event_Handler {
-	protected:
-		ACE_SOCK_Acceptor acceptor;
-	public:
-		Net_Listener(int local_address);
-		~Net_Listener(void);
-		virtual int handle_input(ACE_HANDLE handle);
-		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
-		ACE_HANDLE get_handle(void) const;
+class Net_Listener : public ACE_Event_Handler {
+protected:
+	ACE_SOCK_Acceptor acceptor;
 
-		inline void close() {
-			this->acceptor.close();
-		}
+public:
+	Net_Listener(int local_address);
+	~Net_Listener(void);
+	virtual int handle_input(ACE_HANDLE handle);
+	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+	ACE_HANDLE get_handle(void) const;
+
+	inline void close() {
+		this->acceptor.close();
+	}
 };
 
 Net_Listener::Net_Listener(int local_address) {
@@ -131,15 +132,12 @@ Net_Listener::Net_Listener(int local_address) {
 	ACE_UNUSED_ARG(result);
 }
 
-
 Net_Listener::~Net_Listener(void) {
 }
-
 
 ACE_HANDLE Net_Listener::get_handle(void) const {
 	return(this->acceptor.get_handle());
 }
-
 
 int Net_Listener::handle_input(ACE_HANDLE handle) {
 	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_input handle=%d\n", handle));
@@ -154,10 +152,10 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 	// reset new handler
 	int result=this->acceptor.accept(stream,
 		&remote_address,
-		0, // timeout
-		1, // restart
+		0,	// timeout
+		1,	// restart
 		reset_new_handle
-	);
+		);
 	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 	remote_address.dump();

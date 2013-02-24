@@ -1,34 +1,34 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <iostream> // for std::cout, std::endl
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <iostream>	// for std::cout, std::endl
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
-* watch these macros and see if you can figure out what they do...
-* we use '1' instead of '0' in these next lines because g++ is smart
-* enough to understand that using 0 will mean that we use the NULL
-* object and not let us do anything with it including taking fields
-* or doing pointer arithmetic...
-*/
+ * watch these macros and see if you can figure out what they do...
+ * we use '1' instead of '0' in these next lines because g++ is smart
+ * enough to understand that using 0 will mean that we use the NULL
+ * object and not let us do anything with it including taking fields
+ * or doing pointer arithmetic...
+ */
 
 #define CppOffsetOf(className, FieldName) ((char *)(&(((className *)1)->FieldName)) - (char *)1)
 #define CastOffsetOf(className, castName) ((char *)((castName *)((className *)1)) - (char *)((className *)1))
@@ -55,11 +55,11 @@ class NameTwovirt {
 	virtual void doother(void)=0;
 	virtual void dothat(void)=0;
 };
-class NameSimpleInherit:public NameOnevirt {
+class NameSimpleInherit : public NameOnevirt {
 };
-class NameSimpleInherit2:public NameTwovirt {
+class NameSimpleInherit2 : public NameTwovirt {
 };
-class NameMultInherit:public NameOnevirt, public NameTwovirt {
+class NameMultInherit : public NameOnevirt, public NameTwovirt {
 };
 class NameOneVirtOneField {
 public:
@@ -74,12 +74,12 @@ public:
 	int m;
 	int y;
 };
-class NameFMultInherit:public NameOneVirtOneField, public NameOneVirtTwoField {
+class NameFMultInherit : public NameOneVirtOneField, public NameOneVirtTwoField {
 public:
 	int z;
 };
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	std::cout << "Hello, World!" << std::endl;
 	// this will print out 1 just because an object needs to take at least
 	// one byte of ram...

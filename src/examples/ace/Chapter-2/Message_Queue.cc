@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/config-lite.h>
@@ -25,9 +25,9 @@
 #include "Message_Receiver.hh"
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 int HA_CommandHandler::svc(void) {
 	while(true) {
 		ACE_Message_Block *mb;
@@ -40,20 +40,18 @@ int HA_CommandHandler::svc(void) {
 		} else {
 			// Get header pointer, then move past header to payload.
 			/*
-			DeviceCommandHeader *dch=(DeviceCommandHeader *)mb->rd_ptr();
-			mb->rd_ptr(sizeof(DeviceCommandHeader));
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d with ") ACE_TEXT("command payload of:\n%s"), dch->deviceId_, mb->rd_ptr())); this->rep_.update_device(dch->deviceId_, mb->rd_ptr());
-			*/
-			ACE_DEBUG((LM_DEBUG,ACE_TEXT("message is %s\n"),mb->rd_ptr()));
+			   DeviceCommandHeader *dch=(DeviceCommandHeader *)mb->rd_ptr();
+			   mb->rd_ptr(sizeof(DeviceCommandHeader));
+			   ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message for device #%d with ") ACE_TEXT("command payload of:\n%s"), dch->deviceId_, mb->rd_ptr())); this->rep_.update_device(dch->deviceId_, mb->rd_ptr());
+			 */
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("message is %s\n"), mb->rd_ptr()));
 			mb->release();
 		}
 	}
-
 	ACE_Reactor::instance()->end_reactor_event_loop();
 
 	return(0);
 }
-
 
 ACE_Message_Block *Message_Receiver::shut_down_message(void) {
 	ACE_Message_Block *mb;
@@ -62,43 +60,34 @@ ACE_Message_Block *Message_Receiver::shut_down_message(void) {
 	return(mb);
 }
 
-
 int Message_Receiver::read_header(DeviceCommandHeader *dch) {
 	ssize_t result=this->peer().recv_n(dch, sizeof(DeviceCommandHeader));
-
 	if(result<=0) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Recieve Failure")), -1);
 	}
 	return(0);
 }
 
-
 int Message_Receiver::copy_payload(ACE_Message_Block *mb, int payload_length) {
 	ssize_t result=this->peer().recv_n(mb->wr_ptr(), payload_length);
-
 	if(result<=0) {
 		mb->release();
 		return(-1);
 	}
-
 	mb->wr_ptr(payload_length);
 	return(0);
 }
 
-
 int Message_Receiver::handle_input(ACE_HANDLE) {
 	DeviceCommandHeader dch;
-
 	if (this->read_header(&dch) < 0) {
 		return(-1);
 	}
-
 	if (dch.deviceId_ < 0) {
 		// Handle shutdown.
 		this->handler_->putq(shut_down_message());
 		return(-1);
 	}
-
 	ACE_Message_Block *mb;
 	ACE_NEW_RETURN(mb, ACE_Message_Block(dch.length_ + sizeof dch), -1);
 	// Copy the header.
@@ -112,7 +101,6 @@ int Message_Receiver::handle_input(ACE_HANDLE) {
 	return(0);
 }
 
-
 static void report_usage(int argc, ACE_TCHAR *argv[]) {
 	if (argc < 2) {
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("%s: please use me with port\n"), argv[1]));
@@ -120,10 +108,9 @@ static void report_usage(int argc, ACE_TCHAR *argv[]) {
 	}
 }
 
-
-class Acceptor:public ACE_Acceptor<Message_Receiver, ACE_SOCK_ACCEPTOR> {
+class Acceptor : public ACE_Acceptor<Message_Receiver, ACE_SOCK_ACCEPTOR> {
 public:
-	Acceptor(HA_CommandHandler * handler):handler_(handler) {
+	Acceptor(HA_CommandHandler * handler) : handler_(handler) {
 	}
 
 protected:
@@ -131,7 +118,6 @@ protected:
 		ACE_NEW_RETURN(mr, Message_Receiver(handler_), -1);
 		return(0);
 	}
-
 
 private:
 	HA_CommandHandler *handler_;
@@ -145,21 +131,19 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	HA_Device_Repository rep;
 	HA_CommandHandler handler(rep);
 
-	//start up the handler.
+	// start up the handler.
 	ACE_ASSERT(handler.activate()==0);
 
-	Acceptor acceptor(& handler);
+	Acceptor acceptor(&handler);
 	ACE_INET_Addr addr(port);
-
 	if (acceptor.open(addr)==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Failed to open connection")), -1);
 	}
-
 	ACE_Reactor::instance()->run_reactor_event_loop();
-	//run the reactive event loop
+	// run the reactive event loop
 
 	handler.wait();
-	//reap the handler before exiting.
+	// reap the handler before exiting.
 
 	return(0);
 }

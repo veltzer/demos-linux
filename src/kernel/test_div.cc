@@ -1,39 +1,39 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <stdio.h> // for printf(3), fflush(3), fgets(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <stdlib.h> // for atoi(3), EXIT_SUCCESS
-#include <unistd.h> // for close(3)
-#include <sys/ioctl.h> // for ioctl(2)
-#include <us_helper.h> // for CHECK_CHARP(), CHECK_NOT_M1()
-#include "shared.h" // for ioctl numbers
+#include <stdio.h>	// for printf(3), fflush(3), fgets(3)
+#include <sys/types.h>	// for open(2)
+#include <sys/stat.h>	// for open(2)
+#include <fcntl.h>	// for open(2)
+#include <stdlib.h>	// for atoi(3), EXIT_SUCCESS
+#include <unistd.h>	// for close(3)
+#include <sys/ioctl.h>	// for ioctl(2)
+#include <us_helper.h>	// for CHECK_CHARP(), CHECK_NOT_M1()
+#include "shared.h"	// for ioctl numbers
 
 /*
-* A basic test which opens the device, runs one ioctl with 0 or user given
-* cmd and no data and then closes the device
-*/
-int main(int argc,char** argv,char** envp) {
+ * A basic test which opens the device, runs one ioctl with 0 or user given
+ * cmd and no data and then closes the device
+ */
+int main(int argc, char** argv, char** envp) {
 	// file to be used
 	const char *filename="/dev/demo";
 	// size of strings
@@ -47,10 +47,10 @@ int main(int argc,char** argv,char** envp) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");
 		fflush(stdout);
-		CHECK_CHARP(fgets(s1, len, stdin),s1);
+		CHECK_CHARP(fgets(s1, len, stdin), s1);
 		printf("Please enter a number 2:");
 		fflush(stdout);
-		CHECK_CHARP(fgets(s2, len, stdin),s2);
+		CHECK_CHARP(fgets(s2, len, stdin), s2);
 		buffer b;
 		b.u1=atoi(s1);
 		b.u2=atoi(s2);

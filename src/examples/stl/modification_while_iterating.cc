@@ -1,63 +1,63 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <iostream> // for std::cout, std::endl
-#include <list> // for std::list<T>, std::list<T>::iterator
-#include <vector> // for std::list<T>, std::list<T>::iterator
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE;
+#include <iostream>	// for std::cout, std::endl
+#include <list>	// for std::list<T>, std::list<T>::iterator
+#include <vector>	// for std::list<T>, std::list<T>::iterator
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE;
 
 /*
-* This example shows that doing modification on an STL data structure while
-* iterating it could produce quite interesting results which are hard to
-* predict or understand. It does not only depend on what it is that you
-* are trying to do but also on what data structure you are actually using:
-* list or vector. In this example we explore both of these and show that
-* there are differences in behaviour between them:
-* - vector dumps core when trying to remove elements which are not in it
-* using its 'erase' method.
-* - list forgives trying to remove elements which are not there using its
-* 'remove' method.
-* - vector is ok with removing the current element.
-* - list dumps core when removing the current element.
-* - many other weird side effects happend. Play around with the numbers and
-* you will see it.
-*
-* Note that all of these behaviours are particular to the GNU implementation
-* of STL and are not part of the STL standard. A different STL implementation
-* may yield totally different outcomes.
-*/
+ * This example shows that doing modification on an STL data structure while
+ * iterating it could produce quite interesting results which are hard to
+ * predict or understand. It does not only depend on what it is that you
+ * are trying to do but also on what data structure you are actually using:
+ * list or vector. In this example we explore both of these and show that
+ * there are differences in behaviour between them:
+ * - vector dumps core when trying to remove elements which are not in it
+ * using its 'erase' method.
+ * - list forgives trying to remove elements which are not there using its
+ * 'remove' method.
+ * - vector is ok with removing the current element.
+ * - list dumps core when removing the current element.
+ * - many other weird side effects happend. Play around with the numbers and
+ * you will see it.
+ *
+ * Note that all of these behaviours are particular to the GNU implementation
+ * of STL and are not part of the STL standard. A different STL implementation
+ * may yield totally different outcomes.
+ */
 
-static int listorvector,size,postoact,postoremove,numtoremove;
+static int listorvector, size, postoact, postoremove, numtoremove;
 
 void do_list() {
 	std::list<int> l;
-	for(int i=0;i<size;i++) {
+	for(int i=0; i<size; i++) {
 		l.push_back(i);
 	}
 	// remove an element in a position already passed
 	std::list<int>::iterator i;
 	int counter=0;
-	for(i=l.begin();i!=l.end();i++) {
+	for(i=l.begin(); i!=l.end(); i++) {
 		if(counter==postoact) {
-			for(int j=0;j<numtoremove;j++) {
+			for(int j=0; j<numtoremove; j++) {
 				l.remove(postoremove+j);
 			}
 		}
@@ -68,15 +68,15 @@ void do_list() {
 
 void do_vector() {
 	std::vector<int> l;
-	for(int i=0;i<size;i++) {
+	for(int i=0; i<size; i++) {
 		l.push_back(i);
 	}
 	// remove an element in a position already passed
 	std::vector<int>::iterator i;
 	int counter=0;
-	for(i=l.begin();i!=l.end();i++) {
+	for(i=l.begin(); i!=l.end(); i++) {
 		if(counter==postoact) {
-			for(int j=0;j<numtoremove;j++) {
+			for(int j=0; j<numtoremove; j++) {
 				l.erase(l.begin()+postoremove);
 			}
 		}
@@ -85,7 +85,7 @@ void do_vector() {
 	}
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	if(argc!=6) {
 		std::cerr << argv[0] << ": usage: " << argv[0] << " [list or vector (1 for list)] [size] [postoact] [postoremove] [numtoremove]" << std::endl;
 		std::cerr << argv[0] << ": example: " << argv[0] << " 1 10 5 5 1" << std::endl;

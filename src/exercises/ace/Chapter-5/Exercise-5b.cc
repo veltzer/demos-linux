@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/Reactor.h>
@@ -26,14 +26,14 @@
 #include <ace/Log_Msg.h>
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 // Specify that termination has not occured yet
 bool Termination=false;
 
-class Net_Handler:public ACE_Event_Handler {
+class Net_Handler : public ACE_Event_Handler {
 public:
 	Net_Handler(ACE_SOCK_Stream & s);
 	virtual int handle_input(ACE_HANDLE handle);
@@ -45,28 +45,24 @@ protected:
 	ACE_SOCK_Stream stream;
 };
 
-Net_Handler::Net_Handler(ACE_SOCK_Stream& s):stream(s) {
+Net_Handler::Net_Handler(ACE_SOCK_Stream& s) : stream(s) {
 	this->reactor(ACE_Reactor::instance());
 	int result=this->reactor()->register_handler(this, READ_MASK);
 	ACE_ASSERT(result==0);
 	ACE_UNUSED_ARG(result);
 }
 
-
 ACE_HANDLE Net_Handler::get_handle(void) const {
 	return(this->stream.get_handle());
 }
-
 
 void Net_Handler::terminate() {
 	ACE_Reactor::end_event_loop();
 }
 
-
 int Net_Handler::handle_input(ACE_HANDLE handle) {
 	// if Quit(and only this string) is detected in the message the close everything
 	char message[BUFSIZ];
-
 	if (Termination) {
 		ACE_Reactor::end_event_loop();
 		return(-1);
@@ -102,7 +98,6 @@ int Net_Handler::handle_input(ACE_HANDLE handle) {
 	return(0);
 }
 
-
 int Net_Handler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	ACE_DEBUG((LM_DEBUG, "Net_Handler::handle_close handle=%d\n", handle));
 	this->stream.close();
@@ -111,8 +106,7 @@ int Net_Handler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	return(0);
 }
 
-
-class Net_Listener:public ACE_Event_Handler {
+class Net_Listener : public ACE_Event_Handler {
 public:
 	Net_Listener(int local_address);
 	~Net_Listener(void);
@@ -121,6 +115,7 @@ public:
 	ACE_HANDLE get_handle(void) const;
 
 protected:
+
 public:
 	ACE_SOCK_Acceptor acceptor;
 	Net_Handler* Save_handler;
@@ -135,15 +130,12 @@ Net_Listener::Net_Listener(int local_address) {
 	Save_handler=0;
 }
 
-
 Net_Listener::~Net_Listener(void) {
 }
-
 
 ACE_HANDLE Net_Listener::get_handle(void) const {
 	return(this->acceptor.get_handle());
 }
-
 
 int Net_Listener::handle_input(ACE_HANDLE handle) {
 	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_input handle=%d\n", handle));
@@ -158,19 +150,18 @@ int Net_Listener::handle_input(ACE_HANDLE handle) {
 	// reset new handler
 	int result=this->acceptor.accept(stream,
 		&remote_address,
-		0, // timeout
-		1, // restart
+		0,	// timeout
+		1,	// restart
 		reset_new_hndl
-	);
-		ACE_ASSERT(result==0);
-		ACE_UNUSED_ARG(result);
+		);
+	ACE_ASSERT(result==0);
+	ACE_UNUSED_ARG(result);
 	remote_address.dump();
 	Net_Handler *handler;
 	ACE_NEW_RETURN(handler, Net_Handler(stream), -1);
 	Save_handler=handler;
 	return(0);
 }
-
 
 int Net_Listener::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	ACE_DEBUG((LM_DEBUG, "Net_Listener::handle_close handle=%d\n", handle));
@@ -179,16 +170,18 @@ int Net_Listener::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask) {
 	return(0);
 }
 
-
-class CatchSignal:public ACE_Event_Handler {
+class CatchSignal : public ACE_Event_Handler {
 protected:
+
 public:
 	Net_Listener *listener;
 	int signum;
+
 public:
-	CatchSignal(int isignum):signum(isignum) {
+	CatchSignal(int isignum) : signum(isignum) {
 	}
-	virtual ~CatchSignal() {}
+	virtual ~CatchSignal() {
+	}
 	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0) {
 		ACE_TRACE(ACE_TEXT("CatchSignal::handle_signal"));
 		// Make sure the right handler was called back.
@@ -214,7 +207,6 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 
 	// SIGTRAP is 5
 	CatchSignal terminate(SIGTRAP);
-
 	if (argc > 1) {
 		port=atoi(argv[1]);
 	}

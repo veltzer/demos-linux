@@ -1,44 +1,44 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <stdio.h> // for fprintf(3)
-#include <sys/types.h> // for open(2)
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
-#include <stdlib.h> // for free(3), malloc(3)
-#include <string.h> // for strncpy(3)
-#include <sys/mman.h> // for mmap(2), munmap(2)
-#include <sys/ioctl.h> // for ioctl(2)
-#include <us_helper.h> // for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
-#include "shared.h" // for the ioctl numbers
+#include <stdio.h>	// for fprintf(3)
+#include <sys/types.h>	// for open(2)
+#include <sys/stat.h>	// for open(2)
+#include <fcntl.h>	// for open(2)
+#include <stdlib.h>	// for free(3), malloc(3)
+#include <string.h>	// for strncpy(3)
+#include <sys/mman.h>	// for mmap(2), munmap(2)
+#include <sys/ioctl.h>	// for ioctl(2)
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include "shared.h"	// for the ioctl numbers
 
 /*
-* This is a test for the mmap demo:
-* 0. open.
-* 1. allocate memory in kernel space and get pointer in used (mmap).
-* 2. ask kernel to manipulate the memory.
-* 3. print it out.
-* 4. unmap.
-* 5. close.
-*/
+ * This is a test for the mmap demo:
+ * 0. open.
+ * 1. allocate memory in kernel space and get pointer in used (mmap).
+ * 2. ask kernel to manipulate the memory.
+ * 3. print it out.
+ * 4. unmap.
+ * 5. close.
+ */
 
 bool do_play=false;
 bool do_stress=false;
@@ -46,7 +46,6 @@ bool do_vma=true;
 
 void print_data(void *data, int size) {
 	int msize;
-
 	if (size < 256) {
 		msize=size;
 	} else {
@@ -59,7 +58,7 @@ void print_data(void *data, int size) {
 	free(pdata);
 }
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	// file to be used
 	const char *filename="/dev/demo";
 	// flags
@@ -71,33 +70,32 @@ int main(int argc,char** argv,char** envp) {
 
 	fprintf(stderr, "Asking the kernel to open the handle\n");
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
-	//printproc();
+	// printproc();
 
 	void* data=CHECK_NOT_VOIDP(mmap(
-		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
-		size, /* the size we need */
-		PROT_READ | PROT_WRITE, /* we want read AND write */
-		flags, /* we don't want page faults */
-		d, /* file descriptor */
-		offset /* offset */
-		), MAP_FAILED);
+			NULL,	/* we DO NOT recommend an address - better to let the kernel decide */
+			size,	/* the size we need */
+			PROT_READ | PROT_WRITE,	/* we want read AND write */
+			flags,	/* we don't want page faults */
+			d,	/* file descriptor */
+			offset	/* offset */
+			), MAP_FAILED);
 	void* data2=CHECK_NOT_VOIDP(mmap(
-		NULL, /* we DO NOT recommend an address - better to let the kernel decide */
-		size, /* the size we need */
-		PROT_READ | PROT_WRITE, /* we want read AND write */
-		flags, /* we don't want page faults */
-		d, /* file descriptor */
-		offset /* offset */
-		), MAP_FAILED);
+			NULL,	/* we DO NOT recommend an address - better to let the kernel decide */
+			size,	/* the size we need */
+			PROT_READ | PROT_WRITE,	/* we want read AND write */
+			flags,	/* we don't want page faults */
+			d,	/* file descriptor */
+			offset	/* offset */
+			), MAP_FAILED);
 	fprintf(stderr, "pointer I got is %p\n", data);
 	print_data(data, size);
 	printproc("demo");
 
 	fprintf(stderr, "Putting some data in the buffer...\n");
 	memset(data, 'a', size);
-	//strncpy((char*)data,"here is some data",size);
+	// strncpy((char*)data,"here is some data",size);
 	print_data(data, size);
-
 	if (do_play) {
 		for (char i='a'; i < 'z'; i+=2) {
 			fprintf(stderr, "Setting memory to ['%c']\n", i);
@@ -130,7 +128,6 @@ int main(int argc,char** argv,char** envp) {
 		CHECK_NOT_M1(ioctl(d, IOCTL_MMAP_PRINT, p));
 		waitkey(NULL);
 	}
-
 	CHECK_NOT_M1(munmap(data, size));
 	printproc("demo");
 	CHECK_NOT_M1(munmap(data2, size));

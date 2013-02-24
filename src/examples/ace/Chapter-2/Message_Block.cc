@@ -1,42 +1,42 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
-#include <ace/OS_Memory.h> // for ACE_NEW_RETURN
-#include <ace/OS_NS_stdio.h> // This is for snprintf
-#include <ace/Log_Msg.h> // This is for ACE_DEBUG
-#include <ace/Message_Block.h> // This is for ACE_Message_Block
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <ace/OS_Memory.h>	// for ACE_NEW_RETURN
+#include <ace/OS_NS_stdio.h>	// This is for snprintf
+#include <ace/Log_Msg.h>// This is for ACE_DEBUG
+#include <ace/Message_Block.h>	// This is for ACE_Message_Block
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
-* This demo shows how to create message blocks, how to set message types, how to create
-* error or hangup message, how to populate message blocks in static or dynamic fashion
-*
-* This demo does not explain what ACE_NEW_RETURN is. See slides or a different example
-* for that...
-*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * This demo shows how to create message blocks, how to set message types, how to create
+ * error or hangup message, how to populate message blocks in static or dynamic fashion
+ *
+ * This demo does not explain what ACE_NEW_RETURN is. See slides or a different example
+ * for that...
+ *
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
-int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// This sections explains how to create a message block with some data in it
 	// It shows how to use the ACE_NEW_RETURN construct
 	// How to initialize a message block with constant size and how to write
@@ -50,8 +50,8 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	const char *data2="This is even more Data...";
 	// We have a 128 bytes at mb->wr_ptr so lets write something on them
 	// mb->wr_ptr also moves the pointer forward
-	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size, "%s",data1));
-	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size-strlen(data1), "%s",data2));
+	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size, "%s", data1));
+	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size-strlen(data1), "%s", data2));
 	// Lets access the buffer in read only mode
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
 	// This is to show that the rd_ptr does not change across calls
@@ -103,47 +103,47 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
 	mb->release();
 
 	// Create a non constant size Message_Block...
-	ACE_NEW_RETURN(mb,ACE_Message_Block(),EXIT_FAILURE);
+	ACE_NEW_RETURN(mb, ACE_Message_Block(), EXIT_FAILURE);
 	// Lets allocate message block size and write some data
 	mb->size(size);
-	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size, "%s",data1));
+	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size, "%s", data1));
 	// Lets print the message size and the message length
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("size is --> %d\n"),mb->size()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("length is --> %d\n"),mb->length()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("total_size is --> %d\n"),mb->total_size()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("total_length is --> %d\n"),mb->total_length()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"),mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("size is --> %d\n"), mb->size()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("length is --> %d\n"), mb->length()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("total_size is --> %d\n"), mb->total_size()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("total_length is --> %d\n"), mb->total_length()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
 	// Lets re-allocate more space and print again
 	mb->size(size * 2);
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("size is --> %d\n"),mb->size()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("length is --> %d\n"),mb->length()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("total_size is --> %d\n"),mb->total_size()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("total_length is --> %d\n"),mb->total_length()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("size is --> %d\n"), mb->size()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("length is --> %d\n"), mb->length()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("total_size is --> %d\n"), mb->total_size()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("total_length is --> %d\n"), mb->total_length()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
 
 	// Lets start playing around with reference counting
-	ACE_NEW_RETURN(mb,ACE_Message_Block(size),EXIT_FAILURE);
-	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(),size,"%s",data1));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("reference_count is --> %d\n"),mb->reference_count()));
+	ACE_NEW_RETURN(mb, ACE_Message_Block(size), EXIT_FAILURE);
+	mb->wr_ptr(ACE_OS::snprintf(mb->wr_ptr(), size, "%s", data1));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("reference_count is --> %d\n"), mb->reference_count()));
 	ACE_Message_Block* mb2=mb->duplicate();
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("reference_count is --> %d\n"),mb->reference_count()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("reference_count is --> %d\n"),mb2->reference_count()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"),mb->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"),mb2->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Read pointer --> %x\n"),mb->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Read pointer --> %x\n"),mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("reference_count is --> %d\n"), mb->reference_count()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("reference_count is --> %d\n"), mb2->reference_count()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb2->rd_ptr()));
 
-	//lets advance one of the read pointers (we can
-	//see that each has it's own read pointer...)
+	// lets advance one of the read pointers (we can
+	// see that each has it's own read pointer...)
 	mb->rd_ptr(3);
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"),mb->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"),mb2->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Read pointer --> %x\n"),mb->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Read pointer --> %x\n"),mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb2->rd_ptr()));
 
 	mb->release();
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("reference_count is --> %d\n"),mb2->reference_count()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Message data --> %C\n"),mb2->rd_ptr()));
-	ACE_DEBUG((LM_DEBUG,ACE_TEXT("Read pointer --> %x\n"),mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("reference_count is --> %d\n"), mb2->reference_count()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Message data --> %C\n"), mb2->rd_ptr()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Read pointer --> %x\n"), mb2->rd_ptr()));
 	return EXIT_SUCCESS;
 }

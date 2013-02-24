@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/streams.h>
@@ -25,12 +25,12 @@
 #include <ace/SOCK_Stream.h>
 #include <ace/Message_Queue.h>
 #include <ace/OS_NS_unistd.h>
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 const int BUFFER_SIZE=1024;
 
@@ -40,12 +40,13 @@ private:
 	ACE_INET_Addr client_addr_;
 	ACE_SOCK_Acceptor peer_acceptor_;
 	ACE_SOCK_Stream new_stream_;
+
 public:
-	Server(int port):server_addr_(port), peer_acceptor_(server_addr_) {
+	Server(int port) : server_addr_(port), peer_acceptor_(server_addr_) {
 	}
-	//Handle the connection once it has been established. Here the
-	//connection is handled by reading BUFFER_SIZE amount of data from the
-	//remote and then closing the connection stream down.
+	// Handle the connection once it has been established. Here the
+	// connection is handled by reading BUFFER_SIZE amount of data from the
+	// remote and then closing the connection stream down.
 	int handle_connection() {
 		// Read data from client
 		static char message[BUFFER_SIZE + 1];
@@ -69,10 +70,9 @@ public:
 		return(0);
 	}
 
-
-//Use the acceptor component peer_acceptor_ to accept the connection
-//into the underlying stream new_stream_. After the connection has been
-//established call the handle_connection() method.
+// Use the acceptor component peer_acceptor_ to accept the connection
+// into the underlying stream new_stream_. After the connection has been
+// established call the handle_connection() method.
 	int accept_connections() {
 		if (peer_acceptor_.get_local_addr(server_addr_)==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "%p\n", "Error in get_local_addr"), 1);
@@ -83,7 +83,6 @@ public:
 #define TIMEOUT
 #ifdef TIMEOUT
 			ACE_Time_Value timeout(ACE_DEFAULT_TIMEOUT);
-
 			if (peer_acceptor_.accept(new_stream_, &client_addr_, &timeout)==-1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "accept"));
 				continue;
@@ -93,14 +92,12 @@ public:
 				handle_connection();
 				ACE_OS::exit(EXIT_FAILURE);
 			}
-#endif /* TIMEOUT */
+#endif	/* TIMEOUT */
 		}
 	}
-
-
 };
 
-int main(int argc,char** argv,char** envp) {
+int main(int argc, char** argv, char** envp) {
 	if (argc < 2) {
 		ACE_ERROR((LM_ERROR, "Usage %s <port_num>\n", argv[0]));
 		ACE_OS::exit(EXIT_FAILURE);

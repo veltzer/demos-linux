@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/OS_NS_stdio.h>
@@ -28,9 +28,9 @@
 #include <ace/Read_Buffer.h>
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block> SHARED_ALLOC;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
@@ -48,7 +48,6 @@ public:
 		name_=buf;
 	}
 
-
 	~Record() {
 		shared->free(name_.addr());
 	}
@@ -56,7 +55,6 @@ public:
 	char *name(void) {
 		return(name_);
 	}
-
 
 private:
 	ACE_Based_Pointer_Basic<char> name_;
@@ -67,7 +65,6 @@ int PrintMessages(SHARED_ALLOC *shared) {
 
 	{
 		MALLOC_LIFO_RECORD record(*shared);
-
 		for(void *temp=0; record.next(temp)!=0; record.advance()) {
 			Record *record=reinterpret_cast<Record *>(temp);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), record->name()));
@@ -76,14 +73,11 @@ int PrintMessages(SHARED_ALLOC *shared) {
 	return(0);
 }
 
-
 int StoreMessages(SHARED_ALLOC *shared, char *buf) {
 	void *memory=shared->malloc(sizeof(Record));
-
 	if (memory==0) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Unable to malloc")), -1);
 	}
-
 	// Allocate and place record
 	Record *newRecord=new(memory) Record(shared, buf);
 	if (shared->bind(buf, newRecord)==-1) {
@@ -92,7 +86,6 @@ int StoreMessages(SHARED_ALLOC *shared, char *buf) {
 	return(0);
 }
 
-
 int GetMessageType(char *data) {
 	// Read new line from stdin
 	static ACE_Read_Buffer rb(ACE_STDIN);
@@ -100,7 +93,6 @@ int GetMessageType(char *data) {
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char *buffer=rb.read('\n');
-
 	if (buffer==0) {
 		// return message type zero when EOF is reached
 		// Return 0 as message type
@@ -113,7 +105,6 @@ int GetMessageType(char *data) {
 		return(type);
 	}
 }
-
 
 // Backing files where the data is kept.
 #define STORE_NAME ACE_TEXT("Exercise_7.store")
@@ -141,7 +132,6 @@ int ACE_TMAIN(int argc, ACE_TCHAR *[]) {
 			StoreMessages(shared, buffer);
 		}
 	}
-
 	shared->sync();
 	delete shared;
 	return(0);

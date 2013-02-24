@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/OS_NS_stdio.h>
@@ -26,12 +26,12 @@
 #include <ace/Null_Mutex.h>
 #include <ace/PI_Malloc.h>
 #include <ace/Read_Buffer.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
 typedef ACE_Malloc_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block> SHARED_ALLOC;
 typedef ACE_Malloc_LIFO_Iterator_T<ACE_MMAP_MEMORY_POOL, ACE_Null_Mutex, ACE_PI_Control_Block>
@@ -39,23 +39,24 @@ MALLOC_LIFO_RECORD;
 SHARED_ALLOC* shared[3];
 
 class Record {
-	public:
-		Record(SHARED_ALLOC* shared,char* name) {
-			size_t len=ACE_OS::strlen(name)+1;
-			char* buf=reinterpret_cast<char*>(shared->malloc(len));
-			ACE_OS::strcpy(buf,name);
-			name_=buf;
+public:
+	Record(SHARED_ALLOC* shared, char* name) {
+		size_t len=ACE_OS::strlen(name)+1;
+		char* buf=reinterpret_cast<char*>(shared->malloc(len));
+		ACE_OS::strcpy(buf, name);
+		name_=buf;
+	}
+	~Record() {
+		for(int i=0; i<3; i++) {
+			shared[i]->free(name_.addr());
 		}
-		~Record() {
-			for(int i=0;i<3;i++) {
-				shared[i]->free(name_.addr());
-			}
-		}
-		char* name(void) {
-			return(name_);
-		}
-	private:
-		ACE_Based_Pointer_Basic<char> name_;
+	}
+	char* name(void) {
+		return(name_);
+	}
+
+private:
+	ACE_Based_Pointer_Basic<char> name_;
 };
 
 int PrintMessages(SHARED_ALLOC *shared, int index) {
@@ -68,15 +69,15 @@ int PrintMessages(SHARED_ALLOC *shared, int index) {
 	return(0);
 }
 
-int StoreMessages(SHARED_ALLOC* shared,char* buf) {
+int StoreMessages(SHARED_ALLOC* shared, char* buf) {
 	void* memory=shared->malloc(sizeof(Record));
 	if(memory==0) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("Unable to malloc")), -1);
 	}
 	// Allocate and place record
-	Record* newRecord=new(memory) Record(shared,buf);
-	if(shared->bind(buf,newRecord)==-1) {
-		ACE_ERROR_RETURN((LM_ERROR,ACE_TEXT("%p\n"),ACE_TEXT("bind failed")),-1);
+	Record* newRecord=new(memory) Record(shared, buf);
+	if(shared->bind(buf, newRecord)==-1) {
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("bind failed")), -1);
 	}
 	return(0);
 }
@@ -88,7 +89,6 @@ int GetMessageType(char* data) {
 	// read a single line from stdin
 	// Allocate a new buffer.
 	char* buffer=rb.read('\n');
-
 	if(buffer==0) {
 		// return message type zero when EOF is reached
 		// Return 0 as message type
@@ -106,7 +106,7 @@ int GetMessageType(char* data) {
 char *StoreName[3];
 #define Address1 ACE_DEFAULT_BASE_ADDR
 
-int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 	ACE_MMAP_Memory_Pool_Options* options[3];
 	int index;
 	StoreName[0]=(char*)"Exercise_7a-store.0";
@@ -120,17 +120,17 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
 		options[0]=&option0;
 		options[1]=&option1;
 		options[2]=&option2;
-		for(int i=0;i<3;i++) {
+		for(int i=0; i<3; i++) {
 			ACE_NEW_RETURN(shared[i], SHARED_ALLOC(StoreName[i], StoreName[i], options[i]), -1);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i, shared[i]->base_addr()));
 		}
-		for(int i=0;i<3;i++) {
+		for(int i=0; i<3; i++) {
 			PrintMessages(shared[i], i);
 		}
 	} else {
 		ACE_MMAP_Memory_Pool_Options option0(0, ACE_MMAP_Memory_Pool_Options::NEVER_FIXED);
 		for (int i=0; i < 3; i++) {
-			//ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("%C\n"), StoreName[i]));
+			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("%C\n"), StoreName[i]));
 			ACE_NEW_RETURN(shared[i], SHARED_ALLOC(StoreName[i], StoreName[i], &option0), -1);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i, shared[i]->base_addr()));
 		}
@@ -140,27 +140,27 @@ int ACE_TMAIN(int argc,ACE_TCHAR** argv) {
 			type=GetMessageType(buffer);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("Buffer: <%C>\n"), buffer));
 			switch (type) {
-				case 0:
-					continue;
-				case 1:
-					index=0;
-					break;
-				case 2:
-					index=0;
-					break;
-				case 3:
-					index=1;
-					break;
-				case 4:
-					index=1;
-					break;
-				default:
-					index=2;
+			case 0:
+				continue;
+			case 1:
+				index=0;
+				break;
+			case 2:
+				index=0;
+				break;
+			case 3:
+				index=1;
+				break;
+			case 4:
+				index=1;
+				break;
+			default:
+				index=2;
 			}
 			StoreMessages(shared[index], buffer);
 		}
 	}
-	for(int i=0;i<3;i++) {
+	for(int i=0; i<3; i++) {
 		shared[i]->sync();
 		delete shared[i];
 	}

@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <stdio.h>
@@ -27,10 +27,10 @@
 #include <demangle.hh>
 
 /*
-* This is an example of using setjmp/longjmp to simulate exception handling
-* in C code. This example expands on the previous example in that it adds stack
-* traces to the "errors" which are generated.
-*/
+ * This is an example of using setjmp/longjmp to simulate exception handling
+ * in C code. This example expands on the previous example in that it adds stack
+ * traces to the "errors" which are generated.
+ */
 
 const int max_stack_frames=25;
 const int drop_frames_start=3;
@@ -59,10 +59,9 @@ inline void error_create(const char *message) {
 	longjmp(env, (int)p);
 }
 
-
 inline void error_print(FILE *f, error_data *p) {
 	fprintf(f, "error message is [%s]\n", p->message);
-	for(int i=p->size-drop_frames_start;i>=drop_frames_end;i--) {
+	for(int i=p->size-drop_frames_start; i>=drop_frames_end; i--) {
 		char *symbol=p->symbols[i];
 		char result_name[256];
 		char result_offset[256];
@@ -71,35 +70,29 @@ inline void error_print(FILE *f, error_data *p) {
 	}
 }
 
-
 inline void error_print_last(FILE *f) {
 	error_print(f, last_error);
 }
-
 
 inline void error_free(error_data *p) {
 	free(p->symbols);
 	free(p);
 }
 
-
 inline void error_free_last() {
 	error_free(last_error);
 }
-
 
 // This function **must** be inlined as if setjmp returns then env will no longer
 // be valid. That's why we don't use it (there is no way to guarantee inlining).
 inline error_data *error_setjmp() {
 	int ret=setjmp(env);
-
 	if (!ret) {
 		return(NULL);
 	} else {
 		return((error_data *)ret);
 	}
 }
-
 
 // here is another idea: why not use a macro instead:
 #define mac_error_setjmp() ((error_data *)setjmp(env))
@@ -115,11 +108,11 @@ void func() {
 	fprintf(stderr, "this is the continuation of the function\n");
 }
 
-int main(int argc,char** argv,char** envp) {
-	for(int c=0;c<10;c++) {
-		//int ret=setjmp(env);
-		//error_data* p=(error_data*)ret;
-		//error_data* p=error_setjmp();
+int main(int argc, char** argv, char** envp) {
+	for(int c=0; c<10; c++) {
+		// int ret=setjmp(env);
+		// error_data* p=(error_data*)ret;
+		// error_data* p=error_setjmp();
 		error_data *p=mac_error_setjmp();
 		if (p==NULL) {
 			// This is the regular code. We get here when setting doing the

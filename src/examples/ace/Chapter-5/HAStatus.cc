@@ -1,22 +1,22 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+        This file is part of the linuxapi project.
+        Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
 
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
+        The linuxapi package is free software; you can redistribute it and/or
+        modify it under the terms of the GNU Lesser General Public
+        License as published by the Free Software Foundation; either
+        version 2.1 of the License, or (at your option) any later version.
 
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
+        The linuxapi package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+        Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+        You should have received a copy of the GNU Lesser General Public
+        License along with the GNU C Library; if not, write to the Free
+        Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+        02111-1307 USA.
+ */
 
 #include <firstinclude.h>
 #include <ace/OS_NS_sys_time.h>
@@ -30,47 +30,49 @@
 #include <ace/SOCK_Stream.h>
 #include <ace/Synch.h>
 #include <ace/Signal.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
-* EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
-* EXTRA_LINK_CMDS=pkg-config --libs ACE
-*/
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
+ * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ */
 
-class ClientAcceptor:public ACE_Event_Handler {
-	public:
-		virtual ~ClientAcceptor();
-		int open(const ACE_INET_Addr& listen_addr);
-		virtual ACE_HANDLE get_handle(void) const {
-			return(this->acceptor_.get_handle());
-		}
-		// Called when a connection is ready to accept.
-		virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
-		// Called when this handler is removed from the ACE_Reactor.
-		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
-	protected:
-		ACE_SOCK_Acceptor acceptor_;
+class ClientAcceptor : public ACE_Event_Handler {
+public:
+	virtual ~ClientAcceptor();
+	int open(const ACE_INET_Addr& listen_addr);
+	virtual ACE_HANDLE get_handle(void) const {
+		return(this->acceptor_.get_handle());
+	}
+	// Called when a connection is ready to accept.
+	virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
+	// Called when this handler is removed from the ACE_Reactor.
+	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+
+protected:
+	ACE_SOCK_Acceptor acceptor_;
 };
 
-class ClientService:public ACE_Event_Handler {
-	public:
-		ACE_SOCK_Stream& peer(void) {
-			return(this->sock_);
-		}
-		int open(void);
-		// Get this handler's I/O handle.
-		virtual ACE_HANDLE get_handle(void) const {
-			return(this->sock_.get_handle());
-		}
-		// Called when input is available from the client.
-		virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
-		// Called when output is possible.
-		virtual int handle_output(ACE_HANDLE fd=ACE_INVALID_HANDLE);
-		// Called when this handler is removed from the ACE_Reactor.
-		virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
-	protected:
-		ACE_SOCK_Stream sock_;
-		ACE_Message_Queue<ACE_NULL_SYNCH> output_queue_;
+class ClientService : public ACE_Event_Handler {
+public:
+	ACE_SOCK_Stream& peer(void) {
+		return(this->sock_);
+	}
+	int open(void);
+	// Get this handler's I/O handle.
+	virtual ACE_HANDLE get_handle(void) const {
+		return(this->sock_.get_handle());
+	}
+	// Called when input is available from the client.
+	virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
+	// Called when output is possible.
+	virtual int handle_output(ACE_HANDLE fd=ACE_INVALID_HANDLE);
+	// Called when this handler is removed from the ACE_Reactor.
+	virtual int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+
+protected:
+	ACE_SOCK_Stream sock_;
+	ACE_Message_Queue<ACE_NULL_SYNCH> output_queue_;
 };
 
 ClientAcceptor::~ClientAcceptor() {
@@ -86,7 +88,7 @@ int ClientAcceptor::open(const ACE_INET_Addr& listen_addr) {
 
 int ClientAcceptor::handle_input(ACE_HANDLE) {
 	ClientService* client;
-	ACE_NEW_RETURN(client,ClientService,-1);
+	ACE_NEW_RETURN(client, ClientService, -1);
 	auto_ptr<ClientService> p(client);
 	if(this->acceptor_.accept(client->peer())==-1) {
 		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("(%P|%t) %p\n"), ACE_TEXT("Failed to accept ") ACE_TEXT("client connection")), -1);
@@ -102,7 +104,7 @@ int ClientAcceptor::handle_input(ACE_HANDLE) {
 int ClientAcceptor::handle_close(ACE_HANDLE, ACE_Reactor_Mask) {
 	if(this->acceptor_.get_handle()!=ACE_INVALID_HANDLE) {
 		ACE_Reactor_Mask m=ACE_Event_Handler::ACCEPT_MASK|ACE_Event_Handler::DONT_CALL;
-		this->reactor()->remove_handler(this,m);
+		this->reactor()->remove_handler(this, m);
 		this->acceptor_.close();
 	}
 	return(0);
@@ -111,7 +113,7 @@ int ClientAcceptor::handle_close(ACE_HANDLE, ACE_Reactor_Mask) {
 int ClientService::open(void) {
 	ACE_TCHAR peer_name[MAXHOSTNAMELEN];
 	ACE_INET_Addr peer_addr;
-	if((this->sock_.get_remote_addr(peer_addr)==0) && (peer_addr.addr_to_string(peer_name,MAXHOSTNAMELEN)==0)) {
+	if((this->sock_.get_remote_addr(peer_addr)==0) && (peer_addr.addr_to_string(peer_name, MAXHOSTNAMELEN)==0)) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection from %s\n"), peer_name));
 	}
 	return(this->reactor()->register_handler (this, ACE_Event_Handler::READ_MASK));
@@ -120,7 +122,7 @@ int ClientService::open(void) {
 int ClientService::handle_input(ACE_HANDLE) {
 	const size_t INPUT_SIZE=4096;
 	char buffer[INPUT_SIZE];
-	ssize_t recv_cnt,send_cnt;
+	ssize_t recv_cnt, send_cnt;
 	if((recv_cnt=this->sock_.recv(buffer, sizeof(buffer)))<=0) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) Connection closed\n")));
 		return(-1);
@@ -137,11 +139,10 @@ int ClientService::handle_input(ACE_HANDLE) {
 	}
 	ACE_Message_Block* mb;
 	size_t remaining=static_cast<size_t>((recv_cnt-send_cnt));
-	ACE_NEW_RETURN(mb,ACE_Message_Block(remaining),-1);
-	mb->copy(&buffer[send_cnt],remaining);
+	ACE_NEW_RETURN(mb, ACE_Message_Block(remaining), -1);
+	mb->copy(&buffer[send_cnt], remaining);
 	int output_off=this->output_queue_.is_empty();
 	ACE_Time_Value nowait(ACE_OS::gettimeofday());
-
 	if(this->output_queue_.enqueue_tail(mb, &nowait)==-1) {
 		ACE_ERROR((LM_ERROR, ACE_TEXT("(%P|%t) %p; discarding data\nenqueue failed")));
 		mb->release();
@@ -169,7 +170,7 @@ int ClientService::handle_output(ACE_HANDLE) {
 		}
 		mb->release();
 	}
-	return((this->output_queue_.is_empty())?-1:0);
+	return((this->output_queue_.is_empty()) ? -1 : 0);
 }
 
 int ClientService::handle_close(ACE_HANDLE, ACE_Reactor_Mask mask) {
@@ -184,11 +185,11 @@ int ClientService::handle_close(ACE_HANDLE, ACE_Reactor_Mask mask) {
 	return(0);
 }
 
-class LoopStopper:public ACE_Event_Handler {
-	public:
-		LoopStopper(int signum=SIGINT);
-		// Called when object is signaled by OS.
-		virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0);
+class LoopStopper : public ACE_Event_Handler {
+public:
+	LoopStopper(int signum=SIGINT);
+	// Called when object is signaled by OS.
+	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0);
 };
 
 LoopStopper::LoopStopper(int signum) {
@@ -200,25 +201,26 @@ int LoopStopper::handle_signal(int, siginfo_t*, ucontext_t*) {
 	return(0);
 }
 
-class LogSwitcher:public ACE_Event_Handler {
-	public:
-		LogSwitcher(int on_sig, int off_sig);
-		// Called when object is signaled by OS.
-		virtual int handle_signal(int signum,siginfo_t* =0, ucontext_t* =0);
-		// Called when an exceptional event occurs.
-		virtual int handle_exception(ACE_HANDLE fd=ACE_INVALID_HANDLE);
-	private:
-		LogSwitcher() {
-		}
-		// Signal to turn logging on
-		int on_sig_;
-		// Signal to turn logging off
-		int off_sig_;
-		// 1==turn on, 0==turn off
-		int on_off_;
+class LogSwitcher : public ACE_Event_Handler {
+public:
+	LogSwitcher(int on_sig, int off_sig);
+	// Called when object is signaled by OS.
+	virtual int handle_signal(int signum, siginfo_t* =0, ucontext_t* =0);
+	// Called when an exceptional event occurs.
+	virtual int handle_exception(ACE_HANDLE fd=ACE_INVALID_HANDLE);
+
+private:
+	LogSwitcher() {
+	}
+	// Signal to turn logging on
+	int on_sig_;
+	// Signal to turn logging off
+	int off_sig_;
+	// 1==turn on, 0==turn off
+	int on_off_;
 };
 
-LogSwitcher::LogSwitcher(int on_sig, int off_sig):on_sig_(on_sig),off_sig_(off_sig) {
+LogSwitcher::LogSwitcher(int on_sig, int off_sig) : on_sig_(on_sig), off_sig_(off_sig) {
 	ACE_Sig_Set sigs;
 	sigs.sig_add(on_sig);
 	sigs.sig_add(off_sig);
@@ -230,7 +232,7 @@ int LogSwitcher::handle_signal(int signum, siginfo_t *, ucontext_t *) {
 	if((signum==this->on_sig_) || (signum==this->off_sig_)) {
 		this->on_off_=signum==this->on_sig_;
 		ACE_Reactor::instance()->notify(this);
-		ACE_DEBUG((LM_DEBUG,ACE_TEXT("After notify\n")));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("After notify\n")));
 	}
 	return(0);
 }
@@ -244,7 +246,7 @@ int LogSwitcher::handle_exception(ACE_HANDLE) {
 	return(0);
 }
 
-int ACE_TMAIN(int argc,ACE_TCHAR** argv,ACE_TCHAR** envp) {
+int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_INET_Addr port_to_listen("HAStatus");
 	ClientAcceptor acceptor;
 	acceptor.reactor(ACE_Reactor::instance());
