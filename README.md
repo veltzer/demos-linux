@@ -25,8 +25,8 @@ I would give attribution to whomever contributes.
 Licensing
 ---------
 Code is licensed GPL3 and I hold the copyright unless explicity stolen as attributed in the source code.
-I encourage to use people to use this source code in courses for instruction.
-Please give me some credit for it if you do wind up using it and consider sending dropping
+I encourage people to use this source code in courses for instruction.
+Please give me some credit for it if you do wind up using it and consider dropping
 me a note about it so I could feel good...
 
 Using it
