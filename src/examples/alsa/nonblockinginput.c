@@ -1,26 +1,26 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
-
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+ *      This file is part of the linuxapi project.
+ *      Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ *      The linuxapi package is free software; you can redistribute it and/or
+ *      modify it under the terms of the GNU Lesser General Public
+ *      License as published by the Free Software Foundation; either
+ *      version 2.1 of the License, or (at your option) any later version.
+ *
+ *      The linuxapi package is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *      Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public
+ *      License along with the GNU C Library; if not, write to the Free
+ *      Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *      02111-1307 USA.
+ */
 
 /*
-* EXTRA_LINK_FLAGS=-lasound
-*/
+ * EXTRA_LINK_FLAGS=-lasound
+ */
 // Programmer: Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Sat May 9 22:03:40 PDT 2009
 // Last Modified: Sat May 9 22:03:46 PDT 2009
@@ -74,19 +74,19 @@
 //
 
 #include <firstinclude.h>
-#include <alsa/asoundlib.h> /* Interface to the ALSA system */
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
+#include <alsa/asoundlib.h>	/* Interface to the ALSA system */
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 
 // function declarations:
 void errormessage(const char *format, ...);
 
-///////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char *argv[]) {
 	int status;
 	int mode=SND_RAWMIDI_NONBLOCK;
 	snd_rawmidi_t* midiin=NULL;
-	const char* portname="hw:1,0,0"; // see alsarawportlist.c example program
+	const char* portname="hw:1,0,0";// see alsarawportlist.c example program
 	if ((argc > 1) && (strncmp("hw:", argv[1], 3)==0)) {
 		portname=argv[1];
 	}
@@ -94,19 +94,18 @@ int main(int argc, char *argv[]) {
 		errormessage("Problem opening MIDI input: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);
 	}
-
-	int maxcount=1000; // Exit after this many bytes have been received.
-	int count=0; // Current count of bytes received.
-	char buffer[1]; // Storage for input buffer received
+	int maxcount=1000;	// Exit after this many bytes have been received.
+	int count=0;	// Current count of bytes received.
+	char buffer[1];	// Storage for input buffer received
 	while (count < maxcount) {
 		status=0;
 		while (status !=-EAGAIN) {
 			status=snd_rawmidi_read(midiin, buffer, 1);
 			if ((status < 0) && (status !=-EBUSY) && (status !=-EAGAIN)) {
-				errormessage("Problem reading MIDI input: %s",snd_strerror(status));
+				errormessage("Problem reading MIDI input: %s", snd_strerror(status));
 			} else if (status >=0) {
 				count++;
-				if ((unsigned char)buffer[0] >=0x80) { // print command in hex
+				if ((unsigned char)buffer[0] >=0x80) {	// print command in hex
 					printf("0x%x ", (unsigned char)buffer[0]);
 				} else {
 					printf("%d ", (unsigned char)buffer[0]);
@@ -119,8 +118,8 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	snd_rawmidi_close(midiin);
-	midiin=NULL; // snd_rawmidi_close() does not clear invalid pointer,
-	return EXIT_SUCCESS; // so might be a good idea to erase it after closing.
+	midiin=NULL;	// snd_rawmidi_close() does not clear invalid pointer,
+	return EXIT_SUCCESS;	// so might be a good idea to erase it after closing.
 }
 
 // error -- print error message
