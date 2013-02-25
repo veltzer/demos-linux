@@ -18,29 +18,28 @@
  *      02111-1307 USA.
  */
 
+#ifndef __REQUEST_HANDLER_H_
+#define __REQUEST_HANDLER_H_
+
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <ace/Svc_Handler.h>
+#include <ace/SOCK_Stream.h>
+#include <ace/Thread.h>
 
-/*
- * This is an attempt to return a struct from a function
- */
+class Request_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
+	// =TITLE
+	// This class is the Svc_Handler used by <Acceptor>.
 
-typedef struct _foo {
-	int a;
-	int b;
-} foo;
+public:
+	Request_Handler (ACE_Thread_Manager *tm=0);
+	// The default constructor makes sure the right reactor is used.
 
-foo giveMeFoo(void) {
-	// following line causes a compilation error...
-	// return {3,4};
-	foo f;
-	return(f);
-}
+protected:
+	virtual int handle_input (ACE_HANDLE fd=ACE_INVALID_HANDLE);
+	virtual int handle_close (ACE_HANDLE fd, ACE_Reactor_Mask=0);
 
-int main(int argc, char** argv, char** envp) {
-	foo f=giveMeFoo();
-	printf("f.a is %d\n", f.a);
-	printf("f.b is %d\n", f.b);
-	return EXIT_SUCCESS;
-}
+private:
+	size_t nr_msgs_rcvd_;
+};
+
+#endif	/* __REQUEST_HANDLER_H_ */
