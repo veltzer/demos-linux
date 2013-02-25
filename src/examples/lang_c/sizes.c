@@ -35,7 +35,7 @@
  * Show the results inside this source code for 32bit and 64bit linux.
  */
 
-#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type));
+#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type))
 
 int main(int argc, char** argv, char** envp) {
 	struct utsname buf;

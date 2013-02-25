@@ -25,7 +25,7 @@
 /*
  * This example shows that you cannot redefine preprocessor macros.
  */
-#define mymacro(a1) printf("one\n");
+#define mymacro(a1) printf("one\n")
 // the next line will cause a compile time error...
 // #define mymacro(a1,a2) printf("two\n");
 int main(int argc, char** argv, char** envp) {

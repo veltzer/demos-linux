@@ -61,7 +61,7 @@
  * this is a debug function for me to find out what the syslog constants for logging
  * levels are...
  */
-#define PRINT_LEVEL(a) fprintf(stderr, # a " is %d\n", a);
+#define PRINT_LEVEL(a) fprintf(stderr, # a " is %d\n", a)
 void print_syslog_numeric_values(void) {
 	PRINT_LEVEL(LOG_EMERG);
 	PRINT_LEVEL(LOG_ALERT);
