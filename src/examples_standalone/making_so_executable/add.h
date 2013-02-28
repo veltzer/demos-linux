@@ -23,6 +23,6 @@
 
 #include <firstinclude.h>
 
-int func(int,int);
+int add(int,int);
 
 #endif // __add_h
