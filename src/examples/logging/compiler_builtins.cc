@@ -64,7 +64,7 @@ void print_builtins() __attribute__((flatten));
 	printf("__LINE__ is %d\n", __LINE__); \
 	printf("__func__ is %s\n", __func__); \
 	printf("__FUNCTION__ is %s\n", __FUNCTION__); \
-	printf("__PRETTY_FUNCTION__ is %s\n", __PRETTY_FUNCTION__);
+	printf("__PRETTY_FUNCTION__ is %s\n", __PRETTY_FUNCTION__)
 
 class A {
 public:

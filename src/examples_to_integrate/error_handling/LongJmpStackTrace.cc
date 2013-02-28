@@ -24,7 +24,7 @@
 #include <setjmp.h>
 #include <execinfo.h>
 #include <string.h>
-#include "demangle.h"
+#include "demangle.hh"
 
 const int max_stack_frames=25;
 const int drop_frames_start=3;

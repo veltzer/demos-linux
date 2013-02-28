@@ -1,18 +1,19 @@
 - get more examples from http://www.linuxprogrammingblog.com/
 
+slides:
 - write slides about room for optimization.
 - write slides about allocating memory fast.
 - write slides about patterns.
 	start with the proactor pattern.
 - write slides about restrict.
 - padding of structures and aligning structures in gcc and intel.
-
-slides about the intel compiler:
-- do some slides about how to install the intel compiler.
-- comparison of intel compiler to gcc
-	performance examples.
-- compatibility of the intel compiler to the gcc compiler
-	- do example with C++ compatibility for the intel compiler.
+	with examples.
+- the intel compiler:
+	- how to install it on Linux.
+	- comparison of intel compiler to gcc
+		- performance examples (already have one)
+	- compatibility of the intel compiler to the gcc compiler
+		- do example of C++ compatibility for the intel compiler.
 
 precompiled headers:
 	- do standalone gcc precompiled headers example in linuxapi.
@@ -21,8 +22,7 @@ precompiled headers:
 - mouse device driver example.
 - executable library example.
 	(still not fully done although getting there).
-- make a script to update the README file with stats of this project.
+- make a script to update the README.md file with real stats of this project.
 	(python preprocessor?). Run it whenever we release a version.
-- find two spaces in a row.
 - add a test to make sure that all source files begin with my header.
 - make sure EXIT_SUCCESS is everywhere (how do I test this?!?).

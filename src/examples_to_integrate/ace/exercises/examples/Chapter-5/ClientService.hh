@@ -18,29 +18,28 @@
  *      02111-1307 USA.
  */
 
+#ifndef __CLIENTSERVICE_H_
+#define __CLIENTSERVICE_H_
+
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <ace/Synch_Traits.h>
+#include <ace/Null_Condition.h>
+#include <ace/Null_Mutex.h>
+#include <ace/Message_Block.h>
+#include <ace/SOCK_Stream.h>
+#include <ace/Svc_Handler.h>
 
-/*
- * This is an attempt to return a struct from a function
- */
+class ClientService : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> {
+	typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> super;
 
-typedef struct _foo {
-	int a;
-	int b;
-} foo;
+public:
+	int open (void *=0);
+	// Called when input is available from the client.
+	virtual int handle_input (ACE_HANDLE fd=ACE_INVALID_HANDLE);
+	// Called when output is possible.
+	virtual int handle_output (ACE_HANDLE fd=ACE_INVALID_HANDLE);
+	// Called when this handler is removed from the ACE_Reactor.
+	virtual int handle_close (ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+};
 
-foo giveMeFoo(void) {
-	// following line causes a compilation error...
-	// return {3,4};
-	foo f;
-	return(f);
-}
-
-int main(int argc, char** argv, char** envp) {
-	foo f=giveMeFoo();
-	printf("f.a is %d\n", f.a);
-	printf("f.b is %d\n", f.b);
-	return EXIT_SUCCESS;
-}
+#endif	/* __CLIENTSERVICE_H_ */
