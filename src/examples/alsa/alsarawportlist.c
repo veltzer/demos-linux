@@ -1,26 +1,26 @@
 /*
-	This file is part of the linuxapi project.
-	Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
-
-	The linuxapi package is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 2.1 of the License, or (at your option) any later version.
-
-	The linuxapi package is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-	Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public
-	License along with the GNU C Library; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-	02111-1307 USA.
-*/
+ *      This file is part of the linuxapi project.
+ *      Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ *      The linuxapi package is free software; you can redistribute it and/or
+ *      modify it under the terms of the GNU Lesser General Public
+ *      License as published by the Free Software Foundation; either
+ *      version 2.1 of the License, or (at your option) any later version.
+ *
+ *      The linuxapi package is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *      Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public
+ *      License along with the GNU C Library; if not, write to the Free
+ *      Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *      02111-1307 USA.
+ */
 
 /*
-* EXTRA_LINK_FLAGS=-lasound
-*/
+ * EXTRA_LINK_FLAGS=-lasound
+ */
 // Programmer: Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Sat May 9 17:50:41 PDT 2009
 // Last Modified: Sat May 9 18:14:05 PDT 2009
@@ -54,7 +54,7 @@
 // information:
 //
 // Dir Device Name
-//===================================
+// ===================================
 // IO hw:1,0,0 MidiSport 1x1 MIDI 1
 //
 // Where "hw:1,0,0" is the string needed to open the MidiSport 1x1 MIDI
@@ -123,10 +123,10 @@
 //
 
 #include <firstinclude.h>
-#include <alsa/asoundlib.h> // for snd_*(3)
-#include <stdio.h> // for putc(3)
-#include <stdarg.h> // for vfprintf(3), va_start(3), va_end(3), va_list(3)
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include <alsa/asoundlib.h>	// for snd_*(3)
+#include <stdio.h>	// for putc(3)
+#include <stdarg.h>	// for vfprintf(3), va_start(3), va_end(3), va_list(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 
 // error -- print error message
 void error(const char *format, ...) {
@@ -147,7 +147,6 @@ int is_input(snd_ctl_t *ctl, int card, int device, int sub) {
 	snd_rawmidi_info_set_device(info, device);
 	snd_rawmidi_info_set_subdevice(info, sub);
 	snd_rawmidi_info_set_stream(info, SND_RAWMIDI_STREAM_INPUT);
-
 	if ((status=snd_ctl_rawmidi_info(ctl, info)) < 0 && status !=-ENXIO) {
 		return status;
 	} else if (status==0) {
@@ -165,7 +164,6 @@ int is_output(snd_ctl_t *ctl, int card, int device, int sub) {
 	snd_rawmidi_info_set_device(info, device);
 	snd_rawmidi_info_set_subdevice(info, sub);
 	snd_rawmidi_info_set_stream(info, SND_RAWMIDI_STREAM_OUTPUT);
-
 	if ((status=snd_ctl_rawmidi_info(ctl, info)) < 0 && status !=-ENXIO) {
 		return status;
 	} else if (status==0) {
@@ -201,17 +199,14 @@ void list_subdevice_info(snd_ctl_t *ctl, int card, int device) {
 		error("cannot get rawmidi information %d:%d: %s", card, device, snd_strerror(status));
 	} else if (status)
 		out=1;
-
 	if (status==0) {
 		if ((status=is_input(ctl, card, device, sub)) < 0) {
 			error("cannot get rawmidi information %d:%d: %s", card, device, snd_strerror(status));
 		}
 	} else if (status)
 		in=1;
-
 	if (status==0)
 		return;
-
 	name=snd_rawmidi_info_get_name(info);
 	sub_name=snd_rawmidi_info_get_subdevice_name(info);
 	if (sub_name[0]=='\0') {
@@ -221,7 +216,7 @@ void list_subdevice_info(snd_ctl_t *ctl, int card, int device) {
 			printf("%c%c,hw:%d,%d,[%s] (%d subdevices)\n", in ? 'I' : ' ', out ? 'O' : ' ', card, device, name, subs);
 	} else {
 		sub=0;
-		for (;;) {
+		for (;; ) {
 			printf("%c%c,hw:%d,%d,%d,[%s]\n", in ? 'I' : ' ', out ? 'O' : ' ', card, device, sub, sub_name);
 			if (++sub >=subs)
 				break;
@@ -252,7 +247,7 @@ void list_midi_devices_on_card(int card) {
 	char name[32];
 	int device=-1;
 	int status;
-	sprintf(name,"hw:%d", card);
+	sprintf(name, "hw:%d", card);
 	if ((status=snd_ctl_open(&ctl, name, 0)) < 0) {
 		error("cannot open control for card %d: %s", card, snd_strerror(status));
 	}
@@ -273,8 +268,7 @@ void list_midi_devices_on_card(int card) {
 // can read/write MIDI data.
 void print_midi_ports(void) {
 	int status;
-	int card=-1; // use -1 to prime the pump of iterating through card list
-
+	int card=-1;	// use -1 to prime the pump of iterating through card list
 	if ((status=snd_card_next(&card)) < 0) {
 		error("cannot determine card number: %s", snd_strerror(status));
 	}
@@ -297,10 +291,9 @@ void print_midi_ports(void) {
 // example, a card might only have an audio interface).
 void print_card_list(void) {
 	int status;
-	int card=-1; // use -1 to prime the pump of iterating through card list
+	int card=-1;	// use -1 to prime the pump of iterating through card list
 	char* longname=NULL;
 	char* shortname=NULL;
-
 	if ((status=snd_card_next(&card)) < 0) {
 		error("cannot determine card number: %s", snd_strerror(status));
 	}
@@ -323,8 +316,8 @@ void print_card_list(void) {
 	}
 }
 
-int main(int argc,char** argv,char** envp) {
-	//print_card_list();
+int main(int argc, char** argv, char** envp) {
+	// print_card_list();
 	print_midi_ports();
 	return EXIT_SUCCESS;
 }

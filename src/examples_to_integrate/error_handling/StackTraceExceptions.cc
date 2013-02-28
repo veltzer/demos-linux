@@ -24,7 +24,7 @@
 #include <execinfo.h>
 #include <exception>
 #include <stdio.h>	// for printf(3)
-#include "demangle.h"
+#include "demangle.hh"
 
 class TracedException : public std::exception
 {

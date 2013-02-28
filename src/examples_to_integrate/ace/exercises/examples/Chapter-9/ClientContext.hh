@@ -18,29 +18,22 @@
  *      02111-1307 USA.
  */
 
+#ifndef __CLIENTCONTEXT_H_
+#define __CLIENTCONTEXT_H_
+
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <ace/Hash_Map_Manager.h>
+#include <ace/Synch.h>
 
-/*
- * This is an attempt to return a struct from a function
- */
+typedef ACE_Hash_Map_Manager<const char *, void *, ACE_Null_Mutex> Map;
 
-typedef struct _foo {
-	int a;
-	int b;
-} foo;
+// Client-specific context information.
+class ClientContext {
+public:
+	void *get_attribute (const char *name);
+	void set_attribute (const char *name, void *value);
 
-foo giveMeFoo(void) {
-	// following line causes a compilation error...
-	// return {3,4};
-	foo f;
-	return(f);
-}
-
-int main(int argc, char** argv, char** envp) {
-	foo f=giveMeFoo();
-	printf("f.a is %d\n", f.a);
-	printf("f.b is %d\n", f.b);
-	return EXIT_SUCCESS;
-}
+private:
+	Map attributeMap_;
+};
+#endif	/* __CLIENTCONTEXT_H_ */

@@ -28,7 +28,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <signal.h>	// for siginterrupt(2)
 #include <limits.h>	// for PATH_MAX
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), register_handler_sigaction()
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file changes.
@@ -47,16 +47,9 @@
 
 // signal handling functions
 static bool stop=false;
-static void handler(int sig, siginfo_t *si, void *unused) {
+static void myhandler(int sig, siginfo_t *si, void *unused) {
 	printf("got signal, you probably want me to stop so I'm stopping...\n");
 	stop=true;
-}
-static void register_handler() {
-	struct sigaction sa;
-	sa.sa_flags=SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_sigaction=handler;
-	CHECK_NOT_M1(sigaction(SIGUSR1, &sa, NULL));
 }
 // print an inotify mask in readable form
 static uint32_t types[]={
@@ -88,7 +81,7 @@ static int max_rec=0;
 static int max_len=0;
 
 int main(int argc, char** argv, char** envp) {
-	register_handler();
+	register_handler_sigaction(SIGUSR1,myhandler);
 	CHECK_NOT_M1(siginterrupt(SIGUSR1, 1));
 	int fd=CHECK_NOT_M1(inotify_init());
 	uint32_t mask=IN_CREATE | IN_DELETE | IN_MODIFY | IN_MOVED_TO | IN_MOVED_FROM;
