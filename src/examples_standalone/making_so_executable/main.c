@@ -24,6 +24,6 @@
 #include "add.h"
 
 int main(int argc,char** argv,char** envp) {
-	printf("2+2 is %d\n", func(2, 2));
+	printf("2+2 is %d\n", add(2, 2));
 	return EXIT_SUCCESS;
 }

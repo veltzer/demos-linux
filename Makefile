@@ -315,10 +315,10 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
-	@scripts/ok_wrapper.pl git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	@scripts/ok_wrapper.pl git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
-	@scripts/ok_wrapper.pl git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
 	$(info doing [$@])

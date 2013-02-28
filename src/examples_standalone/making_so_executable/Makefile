@@ -1,3 +1,4 @@
+include ../../../Makefile.defs
 SO_LINK_NAME:=add
 SO_NAME:=lib$(SO_LINK_NAME).so
 EXE_NAME:=main.$(SUFFIX_BIN)
