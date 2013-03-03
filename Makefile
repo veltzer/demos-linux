@@ -462,17 +462,17 @@ kernel_makeeasy:
 
 # code formatting
 
-.PHONY: format_astyle
-format_astyle: $(ALL_DEPS)
-	$(error disabled by Mark)
-	$(info doing [$@])
-	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
-# I do not use uncrustify because it changes code that it already beautified...
+# This is what I use
 .PHONY: format_uncrustify
 format_uncrustify: $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l C $(ALL_US_C)
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l CPP $(ALL_US_CC)
+.PHONY: format_astyle
+format_astyle: $(ALL_DEPS)
+	$(error disabled by Mark)
+	$(info doing [$@])
+	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
 	$(error disabled by Mark)

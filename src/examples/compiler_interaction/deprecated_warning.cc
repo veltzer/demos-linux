@@ -33,7 +33,7 @@
 
 // this is how to use unused in a function declaration...
 // this is the right place to put the __attribute__...
-// int add(int a, int b) __attribute__((deprecated));
+int add(int a, int b) __attribute__((deprecated));
 
 // now for the function definition (you cant put the __attribute__ here)...
 int add(int a, int b) {
@@ -44,9 +44,12 @@ int main(int argc, char** argv, char** envp) {
 	const int a=5;
 	const int b=5;
 
-	// the next line will produce a compile time error
-	// add(5,6);
-	// this is a good line...
+	// the next line two uses produce a compile time error
+	// if gcc warnings hadn't been turned off...
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+	add(5,6);
 	printf("%d+%d is %d\n", a, b, add(a, b));
+	#pragma GCC diagnostic pop
 	return EXIT_SUCCESS;
 }
