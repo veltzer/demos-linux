@@ -493,4 +493,9 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
 	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
 }
 
+static inline void stack_prefault(int stacksize) {
+	unsigned char dummy[stacksize];
+	memset(&dummy,0,stacksize);
+}
+
 #endif /* !__us_helper_h */

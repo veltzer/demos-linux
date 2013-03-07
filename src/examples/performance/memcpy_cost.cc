@@ -19,17 +19,18 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdio.h>	// for printf(3)
+#include <sys/time.h>	// for gettimeofday(2)
+#include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
+#include <string.h>	// for malloc(3), memset(3)
 #include <time.h>	// for clock_gettime(2), clock_nanosleep(2)
 #include <sched.h>	// for sched_setscheduler(2), struct sched_param
 #include <sys/mman.h>	// for mlockall(2)
-#include <string.h>	// for memset(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), stack_prefault()
+#include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1(), stack_prefault()
 
 /*
- * This is a real time skeleton that shows all the critical parts of a real time application
- * in Linux
- *
+ * This example explores the CPU utilisation of doing XXXM memcpy per second.
+ * You need to supply how many megs you want copied and in how many intervals.
  * EXTRA_LINK_FLAGS=-lrt
  */
 
@@ -40,28 +41,61 @@ const int MY_PRIORITY=49;
 const int MAX_SAFE_STACK=8*1024;
 /* The number of nsecs per sec. */
 const int NSEC_PER_SEC=1000000000;
-/* The interval size (50us which is 50000ns in our case) */
-const int interval=50000;
 
 int main(int argc, char** argv, char** envp) {
+	if(argc!=3) {
+		fprintf(stderr,"%s: usage: %s [megs] [intervals]\n", argv[0],argv[0]);
+		fprintf(stderr,"%s: megs must be divisible by intervals...\n", argv[0]);
+		fprintf(stderr,"%s: example is 90 1024 which means 90Megs in 1024 intervals\n",argv[0]);
+		return EXIT_FAILURE;
+	}
+	unsigned int megs=atoi(argv[1]);
+	unsigned int intervals=atoi(argv[2]);
+	const int interval=NSEC_PER_SEC/intervals;
+	const int bufsize=1024*1024*megs;
+	const int transfer_size=bufsize/intervals;
+	
+	if(bufsize%intervals!=0) {
+		fprintf(stderr,"%s: megs must be divisible by intervals...\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+
+	char* buf=(char*)malloc(bufsize);
+	char* buf2=(char*)malloc(bufsize);
+	char* ptr=buf;
+	char* ptr2=buf;
+
 	/* Declare ourself as a real time task */
 	struct sched_param param;
 	param.sched_priority=49;
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &param));
+
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
+
 	/* Pre-fault our stack */
 	stack_prefault(MAX_SAFE_STACK);
+
 	/* get the current time */
 	struct timespec t;
 	clock_gettime(CLOCK_MONOTONIC, &t);
+
 	/* start after one second */
 	t.tv_sec++;
+
 	while(true) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
-		/* do the stuff */
-		/* ... */
+
+		/* do the work */
+		memcpy(ptr2,ptr,transfer_size);
+		ptr+=transfer_size;
+		ptr2+=transfer_size;
+		if(ptr-buf==bufsize) {
+			ptr=buf;
+			ptr2=buf2;
+		}
+
 		/* calculate next shot */
 		t.tv_nsec+=interval;
 		while(t.tv_nsec>=NSEC_PER_SEC) {

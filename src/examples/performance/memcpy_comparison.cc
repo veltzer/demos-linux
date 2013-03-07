@@ -19,7 +19,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
+#include <stdio.h>	// for printf(3), fprintf(3), stderr
 #include <sys/time.h>	// for gettimeofday(2)
 #include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <string.h>	// for malloc(3)
@@ -95,8 +95,8 @@ void test_imp2(void* buf1, const void* buf2, size_t size, unsigned int loop) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		printf("usage: %s [loop] [size]\n", argv[0]);
-		printf("usage: example is 10000 50000\n");
+		fprintf(stderr,"%s: usage: %s [loop] [size]\n", argv[0],argv[0]);
+		fprintf(stderr,"%s: example is 10000 50000\n",argv[0]);
 		return EXIT_FAILURE;
 	}
 	unsigned int loop=atoi(argv[1]);

@@ -1,0 +1,7 @@
+			RedHat			Debian			Purpose
+
+Low level		rpm			dpkg 			A single package tool
+
+High Level		yum/urpmi		apt			An internet installer
+
+UI level		aptitude/kpackage	aptitude/kpackage	UI with internet
