@@ -48,7 +48,7 @@ int main(int argc, char** argv, char** envp) {
 	// if gcc warnings hadn't been turned off...
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-	add(5,6);
+	add(5, 6);
 	printf("%d+%d is %d\n", a, b, add(a, b));
 	#pragma GCC diagnostic pop
 	return EXIT_SUCCESS;

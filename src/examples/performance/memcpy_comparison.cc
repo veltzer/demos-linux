@@ -95,8 +95,8 @@ void test_imp2(void* buf1, const void* buf2, size_t size, unsigned int loop) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr,"%s: usage: %s [loop] [size]\n", argv[0],argv[0]);
-		fprintf(stderr,"%s: example is 10000 50000\n",argv[0]);
+		fprintf(stderr, "%s: usage: %s [loop] [size]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example is 10000 50000\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	unsigned int loop=atoi(argv[1]);

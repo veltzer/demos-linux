@@ -27,8 +27,11 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), stack_prefault()
 
 /*
- * This is a real time skeleton that shows all the critical parts of a real time application
- * in Linux
+ * This is a real time skeleton that shows all the critical parts of a real
+ * time application in Linux.
+ *
+ * This is written in C so as to be incoporatable into C programs as well as
+ * C++ ones.
  *
  * EXTRA_LINK_FLAGS=-lrt
  */
@@ -60,9 +63,9 @@ int main(int argc, char** argv, char** envp) {
 	while(true) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
-		/* do the stuff */
-		/* ... */
-		/* calculate next shot */
+		/* do the stuff
+		 * ...
+		 * calculate next shot */
 		t.tv_nsec+=interval;
 		while(t.tv_nsec>=NSEC_PER_SEC) {
 			t.tv_nsec-=NSEC_PER_SEC;
