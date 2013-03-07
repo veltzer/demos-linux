@@ -44,9 +44,9 @@ const int NSEC_PER_SEC=1000000000;
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr,"%s: usage: %s [megs] [intervals]\n", argv[0],argv[0]);
-		fprintf(stderr,"%s: megs must be divisible by intervals...\n", argv[0]);
-		fprintf(stderr,"%s: example is 90 1024 which means 90Megs in 1024 intervals\n",argv[0]);
+		fprintf(stderr, "%s: usage: %s [megs] [intervals]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: megs must be divisible by intervals...\n", argv[0]);
+		fprintf(stderr, "%s: example is 90 1024 which means 90Megs in 1024 intervals\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	unsigned int megs=atoi(argv[1]);
@@ -54,12 +54,10 @@ int main(int argc, char** argv, char** envp) {
 	const int interval=NSEC_PER_SEC/intervals;
 	const int bufsize=1024*1024*megs;
 	const int transfer_size=bufsize/intervals;
-	
 	if(bufsize%intervals!=0) {
-		fprintf(stderr,"%s: megs must be divisible by intervals...\n", argv[0]);
+		fprintf(stderr, "%s: megs must be divisible by intervals...\n", argv[0]);
 		return EXIT_FAILURE;
 	}
-
 	char* buf=(char*)malloc(bufsize);
 	char* buf2=(char*)malloc(bufsize);
 	char* ptr=buf;
@@ -82,20 +80,18 @@ int main(int argc, char** argv, char** envp) {
 
 	/* start after one second */
 	t.tv_sec++;
-
 	while(true) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
 
 		/* do the work */
-		memcpy(ptr2,ptr,transfer_size);
+		memcpy(ptr2, ptr, transfer_size);
 		ptr+=transfer_size;
 		ptr2+=transfer_size;
 		if(ptr-buf==bufsize) {
 			ptr=buf;
 			ptr2=buf2;
 		}
-
 		/* calculate next shot */
 		t.tv_nsec+=interval;
 		while(t.tv_nsec>=NSEC_PER_SEC) {
