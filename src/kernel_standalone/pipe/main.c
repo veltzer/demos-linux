@@ -33,6 +33,7 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A named pipe exercise");
+MODULE_VERSION("1.12.43b");
 
 #define DO_COPY
 #define DO_SPINLOCK
