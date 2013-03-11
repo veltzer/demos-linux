@@ -27,7 +27,8 @@
  * This is a demo to show how sync_synchronize() is implemented...
  * You should see the __sync_synchronize which is a machine memory barrier
  * translated to a "lock orl" instruction in assembly which is an instruction
- * to the core you are running on to stop reading from the cache.
+ * to the core you are running on to stop reordering writes and reads
+ * and drop all cache assumptions.
  * So you should see one instruction in the disassembly of this code.
  * And indeed this is what we see.
  *
