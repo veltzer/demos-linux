@@ -41,6 +41,7 @@ packs=[
 	'linux-headers-generic',
 	'linux-headers-generic-pae',
 	'ccache', # for faster building
+	'xutils-dev', # for makedepend(1)
 ]
 
 args=['sudo','apt-get','install']
