@@ -116,7 +116,7 @@ static struct class *my_class;
 /* this variable will store the device */
 static struct device *my_device;
 /* this variable will hold our cdev struct */
-static struct cdev cdev;
+static struct cdev my_cdev;
 /* this is the first dev_t allocated to us... */
 static dev_t first_dev;
 /* this is our first minor. automatically initialised to 0... */
@@ -133,9 +133,9 @@ static int zero_init(void)
 		goto err_final;
 	}
 	pr_info("allocated the region\n");
-	/* add the cdev structure */
-	cdev_init(&cdev, &zero_fops);
-	err = cdev_add(&cdev, first_dev, MINOR_COUNT);
+	/* add the cdev structure, no error codes */
+	cdev_init(&my_cdev, &zero_fops);
+	err = cdev_add(&my_cdev, first_dev, MINOR_COUNT);
 	if (err) {
 		pr_err("cannot cdev_add\n");
 		goto err_dealloc;
