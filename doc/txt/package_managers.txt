@@ -1,7 +1,13 @@
-			RedHat			Debian			Purpose
+			RPM based		deb based		What it does
+			distribution		distribution
+			RedHat/CentOS/...	debian/Ubuntu/...
 
 Low level		rpm			dpkg 			A single package tool
+									Does not deal with dependencies
+									Is not "Internet" enabled
 
 High Level		yum/urpmi		apt			An internet installer
+									Does dependencies
+									Automatic updates
 
 UI level		aptitude/kpackage	aptitude/kpackage	UI with internet
