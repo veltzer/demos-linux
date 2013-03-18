@@ -36,6 +36,11 @@
  * Take heed to look at errno RIGHT AFTER the scanf fails since
  * any call to other APIs may change it's value and so lose the
  * original value you want to look at.
+ *
+ * Note:
+ * We must register the signal handler for SIGUSR1 since if we
+ * do not we will use the default signal handler for SIGUSR1
+ * which will kill our program and we do not want that behaviour.
  */
 
 static void handler(int sig) {
