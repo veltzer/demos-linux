@@ -50,13 +50,13 @@ static int open_zero(struct inode *inode, struct file *file)
 {
 	/*
 	char* p=(char*)kmalloc(PAGE_SIZE, GFP_KERNEL);
-	if (p == NULL)
-		return -EFAULT;
+	if (IS_ERR(p))
+		return ERR_PTR(p);
 	memset(p, 0, PAGE_SIZE);
-	file->private_datai = (void*)p;
+	file->private_data = (void*)p;
 	*/
-	file->private_data = get_zeroed_page(GFP_KERNEL);
-	pr_info("all is ok and buffer is %p\n", file->private_data);
+	/* file->private_data = get_zeroed_page(GFP_KERNEL);
+	pr_info("all is ok and buffer is %p\n", file->private_data); */
 	return 0;
 }
 
@@ -99,7 +99,7 @@ static ssize_t read_zero(struct file *file, char __user *buf, size_t count,
 static int release_zero(struct inode *inode, struct file *file)
 {
 	/* kfree(file->private_data); */
-	free_page((unsigned long)file->private_data);
+	/* free_page((unsigned long)file->private_data); */
 	return 0;
 }
 
@@ -166,7 +166,7 @@ static int zero_init(void)
 err_class:
 	class_destroy(my_class);
 err_cdev_del:
-	cdev_del(&cdev);
+	cdev_del(&my_cdev);
 err_dealloc:
 	unregister_chrdev_region(first_dev, MINOR_COUNT);
 err_final:
@@ -177,7 +177,7 @@ static void zero_exit(void)
 {
 	device_destroy(my_class, first_dev);
 	class_destroy(my_class);
-	cdev_del(&cdev);
+	cdev_del(&my_cdev);
 	unregister_chrdev_region(first_dev, MINOR_COUNT);
 	pr_info("unloaded ok\n");
 }

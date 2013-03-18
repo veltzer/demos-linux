@@ -1,0 +1,9 @@
+This is a diagram descrbing the different shells in unix:
+
+	SH family	csh family
+
+	sh		csh
+
+	ksh		tcsh
+
+	bash
