@@ -79,6 +79,8 @@ static int pipe_size = PAGE_SIZE;
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
+/* this is the first dev_t allocated to us... */
+static dev_t first_dev;
 /* struct for each pipe */
 struct my_pipe_t {
 	char *data;
@@ -290,10 +292,8 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 
 static int pipe_open(struct inode *inode, struct file *filp)
 {
-	/* hide the minor number in the private_data of the file_struct
-	BUG! subtract the minor number we got when allocating
-	*/
-	int minor = iminor(inode);
+	/* hide the pipe in the private_data of the struct file... */ 
+	int minor = iminor(inode)-MINOR(first_dev);
 	struct my_pipe_t *pipe = pipes+minor;
 #ifdef DO_MUTEX
 	pipe->inode = inode;
@@ -455,8 +455,6 @@ static const struct file_operations pipe_fops = {
 static struct class *my_class;
 /* this variable will hold our cdev struct */
 static struct cdev cdev;
-/* this is the first dev_t allocated to us... */
-static dev_t first_dev;
 /* this is our first minor (0 by default)*/
 static int first_minor;
 
