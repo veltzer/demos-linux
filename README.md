@@ -13,11 +13,13 @@ Topics covered by the examples
 * Locking
 * Calling system calls without C
 * Performance
+* Coding in assembly
+* Various compiler directives
 * Many more...
 
 Contributing
 ------------
-This project needs help! fork me and commit!
+This project needs help. fork me and commit.
 Just open a github account, modify and add examples and ask me to commit...
 A lot of the code is documented but some of it is not. More documentation would be welcome.
 I would give attribution to whomever contributes.
