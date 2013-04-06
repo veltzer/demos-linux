@@ -39,12 +39,12 @@ MODULE_DESCRIPTION("An irq catcher module");
 /* the /proc entry with which you can view the number of irqs intercepted */
 static const char *proc_filename = "driver/irqcatch";
 /* usb2 irq number on my desktop... */
-static unsigned int irq_num=23;
+static unsigned int irq_num = 23;
 module_param(irq_num, uint, S_IRWXU);
 /* the number if irqs got (initialised to 0 by default) */
 static unsigned int counter;
 /* the proc entry */
-static struct proc_dir_entry* irqcatch_proc_file;
+static struct proc_dir_entry *irqcatch_proc_file;
 
 /*
 * proc file callback
@@ -87,7 +87,7 @@ static int irqcatch_init(void)
 	int ret;
 	irqcatch_proc_file = create_proc_entry(proc_filename, 0, NULL);
 	if (IS_ERR(irqcatch_proc_file)) {
-		ret=PTR_ERR(irqcatch_proc_file);
+		ret = PTR_ERR(irqcatch_proc_file);
 		goto error_start;
 	}
 	irqcatch_proc_file->read_proc = irqcatch_proc_reader;
