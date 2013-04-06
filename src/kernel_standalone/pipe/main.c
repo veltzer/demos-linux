@@ -292,7 +292,7 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 
 static int pipe_open(struct inode *inode, struct file *filp)
 {
-	/* hide the pipe in the private_data of the struct file... */ 
+	/* hide the pipe in the private_data of the struct file... */
 	int minor = iminor(inode)-MINOR(first_dev);
 	struct my_pipe_t *pipe = pipes+minor;
 #ifdef DO_MUTEX
