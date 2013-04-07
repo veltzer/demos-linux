@@ -1,2 +1,0 @@
-Mouse faker exercise for linux kernel programmers
-=================================================
