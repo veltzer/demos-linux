@@ -18,12 +18,12 @@
 	02111-1307 USA.
 */
 
-/* #define DEBUG */
+#define DEBUG
 #include <linux/module.h> /* for MODULE_*, module_* */
 #include <linux/moduleparam.h> /* for module_param, MODULE_PARM_DESC */
 #include <linux/fs.h> /* for fops */
 #include <linux/device.h> /* for class_create */
-#include <linux/slab.h> /* for kzalloc */
+#include <linux/slab.h> /* for kmalloc */
 #include <linux/uaccess.h> /* for copy_to_user, access_ok */
 #include <linux/cdev.h> /* for cdev_* */
 #include <linux/sched.h> /* for TASK_INTERRUPTIBLE and more constants */
@@ -57,8 +57,13 @@ MODULE_VERSION("1.12.43b");
 * - the performace of this pipe as can be ascertained using the 'pipemeter'
 * is much lower than the kernels own pipe as can be checked
 * via 'cat /dev/zero | pipemeter > /dev/null' (I prepared a script for this).
+* - there is no need to allocated the memory for the pipe using kzalloc.
+* kmalloc is good enough assuming that we have no bugs in the driver and do
+* not supply unwritten data to user space by mistake...:)
 *
 * TODO:
+* - there is a bug in that closing the last writer does NOT make the readers
+* wake up and return EOF. Find the problem and fix it.
 * - explain the difference in performance mentioned above and improve this
 * example to give similar performance.
 * - hold the readers and writers as atomic variables.
@@ -106,7 +111,7 @@ static struct my_pipe_t *pipes;
 /* pipe constructur */
 static inline void pipe_ctor(struct my_pipe_t *pipe)
 {
-	pipe->data = kzalloc(pipe_size, GFP_KERNEL);
+	pipe->data = kmalloc(pipe_size, GFP_KERNEL);
 	pipe->size = pipe_size;
 	pipe->read_pos = 0;
 	pipe->write_pos = 0;
@@ -317,12 +322,15 @@ static int pipe_release(struct inode *inode, struct file *filp)
 		pipe->readers--;
 	if (filp->f_mode & FMODE_WRITE) {
 		pipe->writers--;
-		/* wake up readers since they may want to end if there
-		are no more writers...
-		*/
-		pipe_wake_readers(pipe);
 	}
 	pipe_unlock(pipe);
+	/* wake up readers since they may want to end if there
+	are no more writers...
+	*/
+	if (filp->f_mode & FMODE_WRITE) {
+		if (pipe->writers==0)
+			pipe_wake_readers(pipe);
+	}
 	return 0;
 }
 
