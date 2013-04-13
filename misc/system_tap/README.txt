@@ -31,6 +31,13 @@ is still required:
 	abel$ groups
 	mark : mark adm dialout cdrom plugdev lpadmin admin sambashare stapdev stapusr stapsys
 
+Finding scripts to run
+======================
+It seems that systemtap has undergone lots of source level changes recently and some of the scripts
+in this folder no longer work.
+Install the 'systemtap-doc' package and find scripts to run in:
+/usr/share/doc/systemtap-doc/examples/*
+
 References:
 http://www.ibm.com/developerworks/linux/library/l-systemtap/index.html
 http://sourceware.org/systemtap/wiki/SystemtapOnUbuntu
