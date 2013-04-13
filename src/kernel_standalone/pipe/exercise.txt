@@ -13,3 +13,7 @@ are no writers, return EOF to the reader.
 
 Compare your results with the Linux implementation of a pipe, use pipemeter.
 Are your results better? Worse? Why?
+
+Notes:
+======
+- the current solution seems to break on -lowlatency ubuntu kernels. Investigate.
