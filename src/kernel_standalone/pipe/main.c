@@ -114,8 +114,7 @@ static struct my_pipe_t *pipes;
 /* pipe constructur */
 static inline void pipe_ctor(struct my_pipe_t *pipe)
 {
-	//pipe->data = kmalloc(pipe_size, GFP_KERNEL);
-	pipe->data = kzalloc(pipe_size, GFP_KERNEL);
+	pipe->data = kmalloc(pipe_size, GFP_KERNEL);
 	pipe->size = pipe_size;
 	pipe->read_pos = 0;
 	pipe->write_pos = 0;
@@ -186,7 +185,8 @@ static inline int pipe_wait_read(struct my_pipe_t *pipe)
 	#ifdef DO_WAITQUEUE
 	int ret;
 	pipe_unlock(pipe);
-	ret = wait_event_interruptible(pipe->read_queue, pipe_data(pipe) > 0 || pipe->writers==0);
+	ret = wait_event_interruptible(pipe->read_queue,
+			pipe_data(pipe) > 0 || pipe->writers == 0);
 	pipe_lock(pipe);
 	return ret;
 	#endif /* DO_WAITQUEUE */
@@ -274,9 +274,10 @@ static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 			pipe->write_pos = 0;
 		return ret;
 	} else {
-		pr_err("error on copy_from_user, count is %d, return is %d\n",count, ret);
-		if(ret>0)
-			ret=-EFAULT;
+		pr_err("error on copy_from_user, count is %d, return is %d\n",
+				count, ret);
+		if (ret > 0)
+			ret = -EFAULT;
 		return ret;
 	}
 	return ret;
@@ -290,7 +291,7 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 	pr_debug("copy_to_user: count is %d, read_pos is %d, write_pos is %d, size is %d\n",
 			count, pipe->read_pos, pipe->write_pos, pipe->size);
 	#ifdef DO_COPY
-	pr_debug("copying to %p\n",*ubuf);
+	pr_debug("copying to %p\n", *ubuf);
 	ret = copy_to_user(*ubuf, pipe->data+pipe->read_pos, count);
 	#else /* DO_COPY */
 	ret = 0;
@@ -304,9 +305,10 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 			pipe->read_pos = 0;
 		return 0;
 	} else {
-		pr_err("error on copy_to_user, count is %d, return is %lu\n",count,ret);
-		if(ret>0)
-			ret=-EFAULT;
+		pr_err("error on copy_to_user, count is %d, return is %lu\n",
+				count, ret);
+		if (ret > 0)
+			ret = -EFAULT;
 		return ret;
 	}
 }
@@ -357,7 +359,7 @@ static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 		loff_t *ppos) {
 	struct my_pipe_t *pipe;
 	size_t data, work_size, first_chunk, second_chunk, ret;
-	pr_debug("pipe_read: start with buf %p\n",buf);
+	pr_debug("pipe_read: start with buf %p\n", buf);
 	if (!access_ok(VERIFY_WRITE, buf, count))
 		return -EFAULT;
 	pipe = (struct my_pipe_t *)(file->private_data);
