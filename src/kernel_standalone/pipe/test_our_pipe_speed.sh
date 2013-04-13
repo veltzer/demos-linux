@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # this will test the speed of my pipe device
+# TODO: kill dd at the end of the test...
 
 fuser -k /dev/pipe0
 dd if=/dev/zero bs=50000 count=1000000 of=/dev/pipe0 &
