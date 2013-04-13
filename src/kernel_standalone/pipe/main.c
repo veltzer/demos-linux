@@ -320,15 +320,14 @@ static int pipe_release(struct inode *inode, struct file *filp)
 	pipe_lock(pipe);
 	if (filp->f_mode & FMODE_READ)
 		pipe->readers--;
-	if (filp->f_mode & FMODE_WRITE) {
+	if (filp->f_mode & FMODE_WRITE)
 		pipe->writers--;
-	}
 	pipe_unlock(pipe);
 	/* wake up readers since they may want to end if there
 	are no more writers...
 	*/
 	if (filp->f_mode & FMODE_WRITE) {
-		if (pipe->writers==0)
+		if (pipe->writers == 0)
 			pipe_wake_readers(pipe);
 	}
 	return 0;
