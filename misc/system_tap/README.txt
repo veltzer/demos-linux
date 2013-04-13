@@ -22,6 +22,15 @@ second way (better):
 	* remark - the current ddebs archive DOES NOT carry a dbgsym kernel package for the -lowlatency
 	kernels. You will have to use a -generic kernel to use systemtap.
 
+How to run the scripts
+======================
+- The scripts here should be run using 'sudo'.
+- They seem to fail in some way when they are not.
+- It does not suffice to add the user to the various '*stap*' groups. Here are my groups and sudo
+is still required:
+	abel$ groups
+	mark : mark adm dialout cdrom plugdev lpadmin admin sambashare stapdev stapusr stapsys
+
 References:
 http://www.ibm.com/developerworks/linux/library/l-systemtap/index.html
 http://sourceware.org/systemtap/wiki/SystemtapOnUbuntu
