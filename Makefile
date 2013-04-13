@@ -36,7 +36,7 @@ DO_MKDBG?=0
 CXX:=g++
 CC:=gcc
 # web stuff
-WEB_DIR:=/var/www/linuxapi
+WEB_DIR:=~/public_html/public/linuxapi
 WEB_FOLDER:=web
 # do you want ccache support?
 CCACHE:=1
@@ -434,16 +434,16 @@ kernel_help:
 	$(MAKE) -C $(KDIR) help
 .PHONY: kernel_tail
 kernel_tail:
-	sudo tail /var/log/kern.log
+	@sudo tail /var/log/kern.log
 .PHONY: kernel_tailf
 kernel_tailf:
-	sudo tail -f /var/log/kern.log
+	@sudo tail -f /var/log/kern.log
 .PHONY: kernel_syslog_tail
 kernel_syslog_tail:
-	sudo tail /var/log/kern.log
+	@sudo tail /var/log/kern.log
 .PHONY: kernel_syslog_tailf
 kernel_syslog_tailf:
-	sudo tail -f /var/log/kern.log
+	@sudo tail -f /var/log/kern.log
 .PHONY: kernel_dmesg
 kernel_dmesg:
 	@sudo dmesg
@@ -452,13 +452,13 @@ kernel_dmesg_clean:
 	@sudo dmesg -c > /dev/null
 .PHONY: kernel_halt
 kernel_halt:
-	sudo halt
+	@sudo halt
 .PHONY: kernel_reboot
 kernel_reboot:
-	sudo reboot
+	@sudo reboot
 .PHONY: kernel_makeeasy
 kernel_makeeasy:
-	sudo echo "%sudo ALL=NOPASSWD: ALL" >> /etc/sudoers
+	@sudo echo "%sudo ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # code formatting
 
@@ -494,6 +494,7 @@ count_files:
 .PHONY: install
 install: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)sudo rm -rf $(WEB_DIR)
-	$(Q)sudo mkdir $(WEB_DIR)
-	$(Q)sudo cp -r index.html $(WEB_FOLDER) $(WEB_DIR)
+	$(Q)rm -rf $(WEB_DIR)
+	$(Q)mkdir $(WEB_DIR)
+	$(Q)cp -r index.html $(WEB_FOLDER) $(WEB_DIR)
+	$(Q)chmod -R go+rx $(WEB_DIR)
