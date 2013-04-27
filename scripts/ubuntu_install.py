@@ -11,7 +11,7 @@ packs=[
 	'libncursesw5',
 	'libncursesw5-dev',
 	'ncurses-doc',
-	'libprocps-dev',
+	'libprocps0-dev',
 	'libgnomeui-dev',
 	'libsigc++-dev',
 	'libgnomeuimm-2.6-dev',
