@@ -1,8 +1,7 @@
 # variables
-#CC:=icc
+SUFFIX_BIN?=elf
 CC:=icpc
-#CFLAGS:=-I/usr/include/i386-linux-gnu
-CFLAGS:=-I../../include -Wall -Werror
+CFLAGS:=-I/usr/include/i386-linux-gnu/c++/4.7 -I../../include -Wall -Werror
 
 # targets
 .PHONY: all
