@@ -319,7 +319,8 @@ static int kern_mmap(struct file *filp, struct vm_area_struct *vma)
 
 	PR_DEBUG("start");
 	kadr = filp->private_data;
-	vma->vm_flags |= VM_RESERVED;
+	/* does not work on 3.8.0 */
+	/* vma->vm_flags |= VM_RESERVED; */
 
 	vma->vm_private_data = kadr;
 	vma->vm_ops = &kern_vm_ops;
