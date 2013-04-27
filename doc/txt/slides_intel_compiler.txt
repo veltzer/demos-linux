@@ -4,3 +4,6 @@ slides about the intel compiler:
 	performance examples.
 - compatibility of the intel compiler to the gcc compiler
 	- do example with C++ compatibility for the intel compiler.
+
+references:
+http://denali.princeton.edu/IntelXe2011/compiler_c/main_cls/index.htm#bldaps_cls/common/bldaps_pch_comm.htm
