@@ -39,7 +39,7 @@ packs=[
 	'libasound2-dev',
 	'numactl',
 	'linux-headers-generic',
-	'linux-headers-generic-pae',
+	#'linux-headers-generic-pae', # if you use a -pae kernel
 	'ccache', # for faster building
 	'xutils-dev', # for makedepend(1)
 ]
