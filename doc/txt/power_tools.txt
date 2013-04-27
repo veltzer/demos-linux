@@ -1,0 +1,19 @@
+
+	cat
+	uniq
+	sort
+	head
+	tail
+	grep
+	xargs
+	tee
+	tr
+	cut
+	find
+	.
+	.
+	.
+	sed
+	awk
+	perl
+	python
