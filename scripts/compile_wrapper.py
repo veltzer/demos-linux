@@ -1,15 +1,15 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
 This script wraps the running of the compiler with the right flags.
 You must pass the compiler and the flags to it.
 It will scan the source file in order to find specific flags
-to be added to the compilation.
+to be added to the compilation or linkage.
 """
 
-from __future__ import print_function # for print
 import sys # for exit
-import subprocess
+import subprocess # for Popen
+import codecs
 
 def system_check_output(cmd, input=None, cwd=None, env=None): 
 	pipe=subprocess.Popen(cmd, shell=True, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) 
@@ -18,7 +18,7 @@ def system_check_output(cmd, input=None, cwd=None, env=None):
 	if status:
 		#raise ValueError('error in executing',cmd)
 		sys.exit(status)
-	return output
+	return output.decode()
 
 # parameters
 debug=False
@@ -45,7 +45,7 @@ for line in open(source):
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
 			cmd=cmd.split()
-			out=subprocess.check_output(cmd)
+			out=subprocess.check_output(cmd).decode()
 			out=out.split()
 			args.extend(out)
 		f=line.find('EXTRA_LINK_FLAGS=')
@@ -66,6 +66,8 @@ for line in open(source):
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
 			out=system_check_output(cmd)
+			if debug:
+				print('out is',out)
 			out=out.split()
 			args.extend(out)
 		f=line.find('EXTRA_COMPILE_FLAGS=')
@@ -75,15 +77,16 @@ for line in open(source):
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
-			for c in cmd.split():
-				args.insert(1,c)
+			args[1:1]=cmd.split()
+			#for c in cmd.split():
+			#	args.insert(1,c)
 if ccache and not link:
 	args.insert(0,'ccache')
 if debug:
 	print('running',args)
 try:
 	subprocess.check_call(args)
-except Exception, e:
+except Exception as e:
 	#print('e is',e,file=sys.stderr)
 	#print(dir(e),file=sys.stderr)
 	#print(e.returncode,file=sys.stderr)

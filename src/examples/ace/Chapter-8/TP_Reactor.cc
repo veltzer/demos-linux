@@ -33,6 +33,7 @@
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
  * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ * EXTRA_LINK_FLAGS=-lpthread
  */
 
 // Accepting end point. This is actually "localhost:10010", but some
