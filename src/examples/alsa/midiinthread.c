@@ -19,7 +19,7 @@
  */
 
 /*
- * EXTRA_LINK_FLAGS=-lasound
+ * EXTRA_LINK_FLAGS=-lasound -lpthread
  */
 // Programmer: Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Sat May 9 22:39:12 PDT 2009
