@@ -19,10 +19,10 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for atoi(3)
-#include <stdio.h>	// for printf(3)
-#include <sys/types.h>	// for WIF(3)
-#include <sys/wait.h>	// for WIF(3)
+#include <stdlib.h> // for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <stdio.h> // for printf(3), fprintf(3)
+#include <sys/types.h> // for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
+#include <sys/wait.h> // for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 
 /*
  * This executable receives the status code (exit code) of some process and prints
@@ -32,19 +32,22 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		printf("usage: %s [status code]\n", argv[0]);
-		return -1;
+		fprintf(stderr,"%s: usage: %s [status code]\n", argv[0], argv[0]);
+		fprintf(stderr,"%s: 0 - the process ended with success\n", argv[0]);
+		fprintf(stderr,"%s: n*256 - the process ended with error n\n", argv[0]);
+		fprintf(stderr,"%s: n<256 - the process was killed by OS signal n\n", argv[0]);
+		return EXIT_FAILURE;
 	}
 	int res=atoi(argv[1]);
-	printf("analyzing code %d\n", res);
+	printf("analyzing code [%d]\n", res);
 	if (WIFSIGNALED(res)) {
-		printf("ahm... Child was killed by os with signal %d\n", WTERMSIG(res));
+		printf("Child was killed by os with signal [%d]\n", WTERMSIG(res));
 	}
 	if (WIFEXITED(res)) {
-		printf("Child was NOT killed by OS.\n");
+		printf("Child was NOT killed by OS\n");
 		int return_code=WEXITSTATUS(res);
 		if (return_code) {
-			printf("Child exited successfully but reported error %d\n", return_code);
+			printf("Child exited but reported error [%d]\n", return_code);
 		} else {
 			printf("Child was a success\n");
 		}
