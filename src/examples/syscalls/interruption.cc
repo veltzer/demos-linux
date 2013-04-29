@@ -44,7 +44,7 @@
  */
 
 static void handler(int sig) {
-	TRACE("start handler, sig is %d",sig);
+	TRACE("start handler, sig is %d", sig);
 	TRACE("end");
 }
 
