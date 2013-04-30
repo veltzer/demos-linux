@@ -26,7 +26,7 @@
  * This is a sample which misses the cache on purpose...
  *
  * test this with:
- * perf stat -e cache-misses ./src/examples/performance/cache_misser.elf [val] [times]
+ * perf stat -e cache-misses ./src/examples/performance/cache_misser.elf [size] [times]
  * try 104857600 as the value (100MB)
  * note that when you pass times=0 you will still get lots of cache misses.
  * Those are the cache misses to materialize the memory. Do it one time with times=0
@@ -35,13 +35,12 @@
  * make the value bigger to see more misses...
  *
  * TODO:
- * - allocate the memory using mmap(2) and MAP_POPULATE to get number of cache misses
- * before starting the run lower.
+ * - allocate the memory using mmap(2) and MAP_POPULATE before starting the loop in * order to get number of cache misses lower.
  */
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "%s: usage: %s [val] [times]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [size] [times]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	unsigned int size=atoi(argv[1]);

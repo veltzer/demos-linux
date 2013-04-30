@@ -30,6 +30,8 @@
  * _SC_NPROCESSORS_ONLN - means online CPUs. You may not have access to all of
  * them.
  * Remmember that the number of online CPUs can change at any minute.
+ *
+ * Note: you can see and set some of the variables via getconf(1)
  */
 
 int main(int argc, char** argv, char** envp) {
