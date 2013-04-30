@@ -63,9 +63,9 @@ void* func(void*) {
 	printf("doing %d syscalls\n", count);
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0; i<count; i++) {
-		// struct timeval t3;
-		// gettimeofday(&t3, NULL);
-		syscall(__NR_getpid);
+		struct timeval t3;
+		gettimeofday(&t3, NULL);
+		//syscall(__NR_getpid);
 		// getpid();
 	}
 	gettimeofday(&t2, NULL);

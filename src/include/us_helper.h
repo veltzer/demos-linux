@@ -454,8 +454,8 @@ static inline void* run_high_priority(void* (*func)(void*),void* pval,int prio) 
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
 	pthread_attr_setschedparam(&myattr, &myparam);
-	CHECK_NOT_ZERO(pthread_create(&mythread, &myattr, func, pval));
-	CHECK_NOT_ZERO(pthread_join(mythread, &retval));
+	CHECK_ZERO(pthread_create(&mythread, &myattr, func, pval));
+	CHECK_ZERO(pthread_join(mythread, &retval));
 	return retval;
 }
 const int STANDARD_HIGH_PRIORITY=90;

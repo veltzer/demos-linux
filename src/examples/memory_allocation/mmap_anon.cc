@@ -59,6 +59,7 @@ static inline void print_stats(void) {
 }
 
 int main(int argc, char** argv, char** envp) {
+	fprintf(stderr,"getpid() is %d\n",getpid());
 	const int size=1024*1024;
 	int flags=MAP_PRIVATE | MAP_ANONYMOUS;
 	if(do_populate) {
@@ -68,6 +69,11 @@ int main(int argc, char** argv, char** envp) {
 	print_stats();
 	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), MAP_FAILED);
 	printproc(NULL);
+	//while(pause()) {
+	//}
+	// lets try to access the pointer after the allocated area...
+	char* illegal=((char*)p)+size+5;
+	*illegal=8;
 	assert((unsigned int)p%getpagesize()==0);
 	if(do_mlock) {
 		// this next line needs permission to lock memory (check ulimit or run as sudo)
