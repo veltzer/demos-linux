@@ -63,10 +63,10 @@ void* func(void*) {
 	printf("doing %d syscalls\n", count);
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0; i<count; i++) {
-		//struct timeval t3;
-		//gettimeofday(&t3, NULL);
+		// struct timeval t3;
+		// gettimeofday(&t3, NULL);
 		syscall(__NR_getpid);
-		//getpid();
+		// getpid();
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro of one syscall: %lf\n", micro_diff(&t1, &t2)/(double)(count+1));

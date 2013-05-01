@@ -64,7 +64,7 @@ int main(int argc, char** argv, char** envp) {
 	printf("sizeof(small)=%d\n", sizeof(small));
 	printf("sizeof(medium)=%d\n", sizeof(medium));
 	printf("sizeof(medium2)=%d\n", sizeof(medium2));
-	for(int i=1;i<200;i++) {
+	for(int i=1; i<200; i++) {
 		char* p=(char*)malloc(i);
 		CHECK_ASSERT(p!=NULL);
 		CHECK_ASSERT((int)p%4==0);

@@ -59,7 +59,7 @@ static inline void print_stats(void) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	fprintf(stderr,"getpid() is %d\n",getpid());
+	fprintf(stderr, "getpid() is %d\n", getpid());
 	const int size=1024*1024;
 	int flags=MAP_PRIVATE | MAP_ANONYMOUS;
 	if(do_populate) {
@@ -69,8 +69,8 @@ int main(int argc, char** argv, char** envp) {
 	print_stats();
 	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), MAP_FAILED);
 	printproc(NULL);
-	//while(pause()) {
-	//}
+	// while(pause()) {
+	// }
 	// lets try to access the pointer after the allocated area...
 	char* illegal=((char*)p)+size+5;
 	*illegal=8;

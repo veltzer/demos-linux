@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h> // for CHECK_ASSERT()
+#include <us_helper.h>	// for CHECK_ASSERT()
 
 /*
  * Example of padding a structure to L2 cache line size bytes via union...
@@ -65,15 +65,15 @@ struct bar {
 
 // same as before, applied to a Class instead...
 class MyClass {
-	private:
-		char c1;
-		int i1;
-		char c2;
+private:
+	char c1;
+	int i1;
+	char c2;
 } __attribute__((aligned (LEVEL2_CACHE_LINESIZE)));
 
 static_assert(sizeof(foo)==LEVEL2_CACHE_LINESIZE, "foo is not aligned properly");
 
-void myfunction(char c,struct bar mybar,char l, struct foo myfoo) {
+void myfunction(char c, struct bar mybar, char l, struct foo myfoo) {
 	CHECK_ASSERT((int)&mybar%LEVEL2_CACHE_LINESIZE==0);
 	CHECK_ASSERT((int)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
 }

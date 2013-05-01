@@ -41,7 +41,7 @@
 // and can only be used inside code.
 // A problem with this is that it actually creates code that may not be eliminatable by
 // the compiler.
-#define COMPILE_TIME_ASSERT(cond) do { switch(0) { case 0: case cond: ; } } while (0)
+#define COMPILE_TIME_ASSERT(cond) do { switch(0) { case 0: case cond:; } } while (0)
 // this works by creating an error for size of array being negative at compile time.
 // can be used outside/inside of code and therefore if placed outside of your functions
 // will not make your functions any less efficient.
@@ -50,21 +50,21 @@
 // cannot be used outside of functions
 #define ct_assert(e) ((void)sizeof(char[1 - 2*!(e)]))
 // another option (can be used outside functions, mesage is not nice)
-#define STATIC_ASSERT(COND,MSG) typedef char static_assertion_ ## MSG[(COND)?1:-1]
+#define STATIC_ASSERT(COND, MSG) typedef char static_assertion_ ## MSG[(COND) ? 1 : -1]
 // using error (does not work, need to fix it...)
-#define CTC(X) { extern int __attribute__((error("assertion failure: '" #X "' not true"))) compile_time_check(); ((X)?0:compile_time_check()),0; };
+#define CTC(X) { extern int __attribute__((error("assertion failure: '" # X "' not true"))) compile_time_check(); ((X) ? 0 : compile_time_check()), 0; };
 
 PR_STATIC_ASSERT(1==1);
-_Static_assert(1==1,"fail message");
-STATIC_ASSERT(1==1,fail);
+_Static_assert(1==1, "fail message");
+STATIC_ASSERT(1==1, fail);
 
 int main(int argc, char** argv, char** envp) {
 	COMPILE_TIME_ASSERT(1==1);
 	PR_STATIC_ASSERT(1==1);
 	// this is a built in gcc static assertion, no flags needed
-	_Static_assert(1==1,"fail message");
+	_Static_assert(1==1, "fail message");
 	ct_assert(1==1);
-	STATIC_ASSERT(1==1,fail);
-	//CTC(1==1);
+	STATIC_ASSERT(1==1, fail);
+	// CTC(1==1);
 	return EXIT_SUCCESS;
 }
