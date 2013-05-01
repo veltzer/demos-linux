@@ -24,22 +24,22 @@
 /*
  * This is a simple example that spends lots of time in a function.
  * You can watch this with 'sudo perf top' and enter the function with 's'.
- *
  * make sure you compile this with debug info if you want to see
- * perf annotate the machine code with your code.
+ * perf annotate the machine code with your code (see below)
  *
  * Notes:
- * - you need the sudo since perf works by hardware events and support for them in the kernel.
- * - you can avoid root with:
+ * - you need the sudo since perf works by hardware events and support for them is in the kernel.
+ * - you can avoid root/sudo with:
  *	Consider tweaking /proc/sys/kernel/perf_event_paranoid:
  *	-1 - Not paranoid at all
  *	0 - Disallow raw tracepoint access for unpriv
  *	1 - Disallow cpu events for unpriv
  *	2 - Disallow kernel profiling for unpriv
  * - if you strip the executable you will not get the function names.
+ * - if you turn off optimisation you should see completely different assembly code.
  *
- * This is to make sure I can see annotation.
- * EXTRA_COMPILE_FLAGS=-g3 -O0
+ * This is to make sure I can see annotation (adding the debug info).
+ * EXTRA_COMPILE_FLAGS=-g3
  */
 
 class A {
