@@ -71,7 +71,7 @@ private:
 	char c2;
 } __attribute__((aligned (LEVEL2_CACHE_LINESIZE)));
 
-static_assert(sizeof(foo)==LEVEL2_CACHE_LINESIZE, "foo is not aligned properly");
+static_assert(sizeof(foo)==LEVEL2_CACHE_LINESIZE, "size of foo is wrong");
 
 void myfunction(char c, struct bar mybar, char l, struct foo myfoo) {
 	CHECK_ASSERT((int)&mybar%LEVEL2_CACHE_LINESIZE==0);

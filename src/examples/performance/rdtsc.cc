@@ -23,7 +23,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <unistd.h> // for usleep(3)
 #include <cpufreq.h>
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
@@ -68,6 +68,12 @@ void long_task(void) {
 }
 
 int main(int argc, char** argv, char** envp) {
+	if(argc!=2) {
+		fprintf(stderr, "%s: usage: %s [usecs]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example is 1000000 which means 1 second\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+	unsigned int usecs=atoi(argv[1]);
 	printf("starting up...\n");
 
 	printf("lets get the cpu and numa node via getcpu(2)...\n");
@@ -80,9 +86,14 @@ int main(int argc, char** argv, char** envp) {
 
 	printf("starting a sleep of 1 second...\n");
 	ticks_t start=getticks();
-	sleep(1);
+	//usleep(usecs);
+	unsigned long sum=0;
+	for(unsigned int i=0;i<usecs;i++) {
+		sum+=i*i;
+	}
 	ticks_t end=getticks();
 	printf("finished...\n");
+	printf("sum=%lu\n",sum);
 	ticks_t diff=end - start;
 	printf("start RDTSC is %llu\n", start);
 	printf("end RDTSC is %llu\n", end);
