@@ -40,13 +40,13 @@
  * Notes:
  * - We see that if we run the threads and have them do regular +=1 instead of
  * atomic ops we get really bad values for the shared counter.
+ * - c++ has std::atomic, look at other examples.
+ * - ACE has wrappers for atomics. Look at ACE examples for more.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  *
  * TODO:
- * - the results of this example don't add up. Some of these __sync_add_and_fetch
- * calls must fail because other CPUs are doing them at the same time. How come they don't?
- * Are they guaranteed to succeed according to the Intel manual? It looks that way. Investigate.
+ * - explain the results for the non atomic threads.
  */
 
 // data to be passed to each thread...
