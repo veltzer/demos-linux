@@ -81,6 +81,7 @@ static inline unsigned int min(unsigned int a, unsigned int b) {
 *
 * References:
 * http://en.wikipedia.org/wiki/Time_Stamp_Counter
+* http://stackoverflow.com/questions/3388134/rdtsc-accuracy-across-cpu-cores
 */
 
 typedef unsigned long long ticks_t;
