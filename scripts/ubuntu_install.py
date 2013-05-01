@@ -40,6 +40,7 @@ packs=[
 	'numactl',
 	'linux-headers-generic',
 	#'linux-headers-generic-pae', # if you use a -pae kernel
+	'linux-image-3.8.0-19-generic-dbgsym', # for systemtap
 	'ccache', # for faster building
 	'xutils-dev', # for makedepend(1)
 ]
