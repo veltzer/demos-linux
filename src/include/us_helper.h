@@ -85,6 +85,7 @@ typedef unsigned long long ticks_t;
 static inline ticks_t getticks(void) {
 	unsigned int a, d;
 	asm volatile ("rdtsc":"=a" (a), "=d" (d));
+	//asm ("rdtsc":"=a" (a), "=d" (d));
 	return(((ticks_t)a) | (((ticks_t)d) << 32));
 }
 
@@ -101,7 +102,8 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 		fprintf(stderr, "ERROR: this happens on certain ubuntu systems\n");
 		exit(EXIT_FAILURE);
 	}
-	unsigned long mpart=freq / 1000;
+	//unsigned long mpart=freq / 1000;
+	unsigned long mpart=freq / 1000000;
 	if(mpart==0) {
 		fprintf(stderr, "ERROR: mpart is 0\n");
 		exit(EXIT_FAILURE);

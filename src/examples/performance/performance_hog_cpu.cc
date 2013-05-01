@@ -39,7 +39,7 @@
  * - if you strip the executable you will not get the function names.
  *
  * This is to make sure I can see annotation.
- * EXTRA_COMPILE_FLAGS=-g3
+ * EXTRA_COMPILE_FLAGS=-g3 -O0
  */
 
 class A {
