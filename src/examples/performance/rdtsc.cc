@@ -111,6 +111,11 @@ int main(int argc, char** argv, char** envp) {
 	printf("going to do command [%s]\n", cmd3);
 	CHECK_NOT_M1(system(cmd3));
 
+	// this one is ok for everyone
+	const char *cmd4="cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+	printf("going to do command [%s]\n", cmd4);
+	CHECK_NOT_M1(system(cmd4));
+
 	// this is using libcpufreq (it actually does the about reading of the
 	// file in /sys...)
 	printf("cpufreq_get_freq_kernel(0) [%lu]\n", cpufreq_get_freq_kernel(0));

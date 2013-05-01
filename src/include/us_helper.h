@@ -77,15 +77,20 @@ static inline unsigned int min(unsigned int a, unsigned int b) {
 }
 
 /*
-* Functions which handle the RDTSC
+* Functions which handle the TSC
 */
 
 typedef unsigned long long ticks_t;
 
 static inline ticks_t getticks(void) {
 	unsigned int a, d;
-	asm volatile ("rdtsc":"=a" (a), "=d" (d));
-	//asm ("rdtsc":"=a" (a), "=d" (d));
+	// the volatile here is necessary otherwise the compiler does not know that the value
+	// of this register changes and caches it
+	// the difference between 'rdtsc' and 'rdtscp' instruction is that the latter will not
+	// get executed out of order and therefore measurements using it will be more
+	// accurate
+	//asm volatile ("rdtsc":"=a" (a), "=d" (d));
+	asm volatile ("rdtscp":"=a" (a), "=d" (d));
 	return(((ticks_t)a) | (((ticks_t)d) << 32));
 }
 
@@ -94,26 +99,34 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 		fprintf(stderr, "ERROR: What's going on? t2<t1...\n");
 		exit(EXIT_FAILURE);
 	}
-	unsigned long long diff=(t2 - t1) / 1000;
-	unsigned long freq=cpufreq_get_freq_kernel(0);
+	// this is in clicks
+	unsigned long long diff=t2 - t1;
+	// the frquency returned is in tousands of clicks per second so we multiply
+	//unsigned long long freq=cpufreq_get_freq_kernel(0) * 1000;
+	
+	// we take the maxiumum frequency for newer Intel machines supporting the
+	// 'constant_tsc' feature (see /proc/cpuinfo...).
+	unsigned long min,max;
+	cpufreq_get_hardware_limits(0,&min,&max);
+	unsigned long long freq=max*1000;
 	if(freq==0) {
 		fprintf(stderr, "ERROR: cpufreq_get_freq_kernel returned 0\n");
 		fprintf(stderr, "ERROR: this is probably a problem with your cpu governor setup\n");
 		fprintf(stderr, "ERROR: this happens on certain ubuntu systems\n");
 		exit(EXIT_FAILURE);
 	}
-	//unsigned long mpart=freq / 1000;
-	unsigned long mpart=freq / 1000000;
+	// how many clicks per micro
+	unsigned long long mpart=freq / 1000000;
 	if(mpart==0) {
 		fprintf(stderr, "ERROR: mpart is 0\n");
 		exit(EXIT_FAILURE);
 	}
-	//unsigned long mdiff=difft/freq;
-	unsigned long mdiff=diff / mpart;
+	// how many micros have passed
+	unsigned long long mdiff=diff / mpart;
 	//fprintf(stdout,"diff is %llu\n",diff);
-	//fprintf(stdout,"freq is %lu\n",freq);
-	//fprintf(stdout,"mpart is %lu\n",mpart);
-	//fprintf(stdout,"mdiff is %lu\n",mdiff);
+	//fprintf(stdout,"freq is %llu\n",freq);
+	//fprintf(stdout,"mpart is %llu\n",mpart);
+	//fprintf(stdout,"mdiff is %llu\n",mdiff);
 	return(mdiff);
 }
 
