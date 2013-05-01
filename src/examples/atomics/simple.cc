@@ -76,6 +76,16 @@ static void *compiler_barrier_worker(void* p) {
 	TRACE("end thread %d", td->num);
 	return(NULL);
 }
+static void *machine_barrier_worker(void* p) {
+	thread_data* td=(thread_data*)p;
+	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
+	for(int i=0; i<td->attempts; i++) {
+		*(td->value)+=1;
+		__sync_synchronize();
+	}
+	TRACE("end thread %d", td->num);
+	return(NULL);
+}
 static void *atomic_worker(void *p) {
 	thread_data* td=(thread_data*)p;
 	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
@@ -129,9 +139,11 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 		fprintf(stderr, "%s: too few threads\n", argv[0]);
 		fprintf(stderr, "%s: usage: %s [options] [core] [core] [core..]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: select type of threads using --type=[argument]\n", argv[0]);
+		fprintf(stderr, "%s: select attempts using --attempts=[argument]\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=0 means regular threads\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=1 means compiler barrier threads\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=2 means atomic ops threads threads (default)\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=3 means machine barrier threads (default)\n", argv[0]);
 		exit(EXIT_FAILURE);
 	} else {
 		fprintf(stderr, "running with doObserver %d\n", doObserver);
@@ -184,6 +196,9 @@ int main(int argc, char** argv, char** envp) {
 				break;
 			case 2:
 				CHECK_ZERO(pthread_create(threads + i, attrs + i, atomic_worker, data + i));
+				break;
+			case 3:
+				CHECK_ZERO(pthread_create(threads + i, attrs + i, machine_barrier_worker, data + i));
 				break;
 			default:
 				fprintf(stderr, "bad type of thread (%d)\n", type);
