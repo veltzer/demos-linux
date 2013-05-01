@@ -45,7 +45,7 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("started");
+	//TRACE("started");
 	// this is the default type of locked (the "FAST" kind...) using the
 	// special initialisation syntax...
 	// pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
@@ -62,10 +62,17 @@ int main(int argc, char** argv, char** envp) {
 	// CHECK_ZERO(pthread_mutexattr_setpshared(&attr,PTHREAD_PROCESS_PRIVATE));
 	CHECK_ZERO(pthread_mutex_init(&mutex, &attr));
 
+	printf("before critical section\n");
 	CHECK_ZERO(pthread_mutex_lock(&mutex));
-	TRACE("mutex address is %p", &mutex);
+	/*
+	printf("here is a bug...\n");
+	CHECK_ZERO(pthread_mutex_lock(&mutex));
+	*/
+	//TRACE("mutex address is %p", &mutex);
+	printf("in critical section\n");
 	CHECK_ZERO(pthread_mutex_unlock(&mutex));
+	printf("after critical section\n");
 	CHECK_ZERO(pthread_mutex_destroy(&mutex));
-	TRACE("ended");
+	////TRACE("ended");
 	return EXIT_SUCCESS;
 }
