@@ -19,16 +19,13 @@
  */
 
 #include <firstinclude.h>
-#include <papi.h>	// for PAPI_* functions
+#include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
-#include <stdio.h>	// for printf(3), fprintf(3)
-#include <stdlib.h>	// for atoi(3), EXIT_FAILURE, EXIT_SUCCESS
-#include <us_helper.h>	// for getticks()
+#include <papi.h>	// for PAPI_* functions
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * Demo for using the PAPI library for RDTSC.
- * This example also proves that RDTSC is exactly what the PAPI library
- * is using under the hood.
+ * Demo for using the PAPI performance counters library.
  *
  * References:
  * http://icl.cs.utk.edu/papi/index.html
@@ -36,39 +33,46 @@
  * EXTRA_LINK_FLAGS=-lpapi
  */
 
-long long dummy_work(int limit) {
-	int count=0;
-	for(int j=0; j<limit; j++) {
-		for(int i=0; i<limit; i++) {
-			count+=dummy_work(limit-1);
-			// count+=i;
-		}
+void print_counters(long long* arr, int num) {
+	for(int i=0; i<num; i++) {
+		printf("%d: %llu\n", i, arr[i]);
 	}
-	return count;
 }
 
 int main(int argc, char** argv, char** envp) {
-	int retval;
-	retval=PAPI_library_init(PAPI_VER_CURRENT);
-	if (retval!=PAPI_VER_CURRENT && retval > 0) {
-		fprintf(stderr, "PAPI library version mismatch!\n");
-		exit(EXIT_FAILURE);
-	}
-	CHECK_GEZERO(retval);
+	printf("starting up...\n");
+	int counters=PAPI_num_counters();
+	printf("PAPI_num_counters() returned %d\n", counters);
+	int components=PAPI_num_components();
+	printf("PAPI_num_components() returned %d\n", components);
 
-	// lets start measuring...
-	long long c1=PAPI_get_real_cyc();
-	ticks_t t1=getticks();
-	// dummy_work(atoi(argv[1]));
-	// sleep(1);
-	// sleep(1);
-	long long c2=PAPI_get_real_cyc();
-	ticks_t t2=getticks();
-	printf("Wallclock cycles: %lld\n", c2-c1);
-	printf("Wallclock cycles: %lld\n", t2-t1);
-	printf("c1 is %lld\n", c1);
-	printf("c2 is %lld\n", c2);
-	printf("t1 is %lld\n", t1);
-	printf("t2 is %lld\n", t2);
+	// array for counters
+	long long* arr=new long long[counters];
+	float rtime, ptime, ipc, mflops;
+	long long ins, flpops;
+
+	int ret=PAPI_ipc(&rtime, &ptime, &ins, &ipc);
+	printf("PAPI_ipc() returned:\n");
+	printf("\trtime=%f\n", rtime);
+	printf("\tptime=%f\n", ptime);
+	printf("\tins=%lld\n", ins);
+	printf("\tipc=%f\n", ipc);
+	printf("\tret=%d\n", ret);
+
+	ret=PAPI_flops(&rtime, &ptime, &flpops, &mflops);
+	printf("PAPI_flops() returned:\n");
+	printf("\trtime=%f\n", rtime);
+	printf("\tptime=%f\n", ptime);
+	printf("\tflpops=%lld\n", flpops);
+	printf("\tmflops=%f\n", mflops);
+	printf("\tret=%d\n", ret);
+
+	ret=PAPI_read_counters(arr, counters);
+	printf("ret is %d\n", ret);
+	print_counters(arr, counters);
+	sleep(1);
+	ret=PAPI_read_counters(arr, counters);
+	printf("ret is %d\n", ret);
+	print_counters(arr, counters);
 	return EXIT_SUCCESS;
 }
