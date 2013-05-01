@@ -78,6 +78,9 @@ static inline unsigned int min(unsigned int a, unsigned int b) {
 
 /*
 * Functions which handle the TSC
+*
+* References:
+* http://en.wikipedia.org/wiki/Time_Stamp_Counter
 */
 
 typedef unsigned long long ticks_t;
