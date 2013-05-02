@@ -26,10 +26,12 @@
 /*
  * Example of padding a structure to L2 cache line size bytes via union...
  * Notice how to avoid the cache line size being hardcoded in your code...
- * Are there other ways of padding the structure without the union? I don't know.
+ * Are there other ways of padding the structure without the union? yes.
  * This also shows that the __attribute__((aligned (LEVEL2_CACHE_LINESIZE)))
  * will cause the structure to always be aligned by the compiler when passing
  * it around and creating it on the stack.
+ * Both ways DO NOT force malloc to allocate these structures aligned. You will
+ * still need something like posix_memalign(3) for that...
  *
  * EXTRA_COMPILE_CMDS=echo -DLEVEL2_CACHE_LINESIZE=`getconf LEVEL2_CACHE_LINESIZE`
  * required for the static_assert below to work...

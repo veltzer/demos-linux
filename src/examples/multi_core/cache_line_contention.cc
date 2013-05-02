@@ -30,17 +30,25 @@
 /*
  * This demo shows the difference in speed of running two threads using the same cache line
  * or different cache lines.
- 
- * EXTRA_LINK_FLAGS=-lpthread
  *
- * TODO:
- * - explain the results for the non atomic threads.
+ * Results:
+ * It seems that the difference on my laptop is about half. Meaning, its faster by on order of 2
+ * to run on non cache line shared data.
+ *
+ * Notes to programmers:
+ * - How do we prevent the compiler from making all the loops that we code in the workers
+ * go away?
+ * The solution is either to attach volatile to both the 'shared' and 'nonshared' members
+ * (see below) or to use the 'td->XXXXXXXXX[td->num]+=1;' notation used below (the compiler
+ * does not know what 'td->num' is and so actually writes the data.
+ *
+ * EXTRA_LINK_FLAGS=-lpthread
  */
 
 // data to be passed to each thread...
 typedef struct _thread_data {
 	int num;
-	int attempts;
+	unsigned long long attempts;
 	int* shared;
 	int* nonshared;
 	int usleep_interval;
@@ -49,7 +57,7 @@ typedef struct _thread_data {
 static void *shared_worker(void *p) {
 	thread_data* td=(thread_data*)p;
 	//TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
-	for(int i=0; i<td->attempts; i++) {
+	for(unsigned long long i=0; i<td->attempts; i++) {
 		td->shared[td->num]+=1;
 	}
 	//TRACE("end thread %d", td->num);
@@ -58,8 +66,8 @@ static void *shared_worker(void *p) {
 static void *nonshared_worker(void* p) {
 	thread_data* td=(thread_data*)p;
 	//TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
-	for(int i=0; i<td->attempts; i++) {
-		*(td->nonshared)+=1;
+	for(unsigned long long i=0; i<td->attempts; i++) {
+		td->nonshared[td->num]+=1;
 	}
 	//TRACE("end thread %d", td->num);
 	return(NULL);
@@ -75,7 +83,7 @@ static void *observer(void *p) {
 	return(NULL);
 }
 
-static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, int& attempts) {
+static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, unsigned long long& attempts) {
 	while(true) {
 		int option_index=0;
 		static struct option long_options[]={
@@ -98,7 +106,7 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 			break;
 		// attempts
 		case 2:
-			attempts=atoi(optarg);
+			attempts=atoll(optarg);
 			break;
 		default:
 			fprintf(stderr, "?? getopt returned character code 0%o ??\n", c);
@@ -116,14 +124,14 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 	} else {
 		fprintf(stderr, "running with doObserver %d\n", doObserver);
 		fprintf(stderr, "running with type %d\n", type);
-		fprintf(stderr, "running with attempts %d\n", attempts);
+		fprintf(stderr, "running with attempts %llu\n", attempts);
 	}
 	return optind;
 }
 int main(int argc, char** argv, char** envp) {
 	bool doObserver=false;
 	int type=0;	// atomic
-	int attempts=100000000;
+	unsigned long long attempts=1000000000;
 	int optind=parse_arguments(argc, argv, doObserver, type, attempts);
 	// find the number of cores
 	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
@@ -131,7 +139,7 @@ int main(int argc, char** argv, char** envp) {
 	const int real_threads=argc-optind;
 	const int thread_num=doObserver ? real_threads+1 : real_threads;
 	TRACE("cpu_num is %d", cpu_num);
-	TRACE("attempts is %d", attempts);
+	TRACE("attempts is %llu", attempts);
 	TRACE("thread_num is %d", thread_num);
 	pthread_t* threads=new pthread_t[thread_num];
 	pthread_attr_t* attrs=new pthread_attr_t[thread_num];
@@ -140,7 +148,7 @@ int main(int argc, char** argv, char** envp) {
 	void** rets=new void*[thread_num];
 
 	// allocate the single cache line
-	unsigned int cache_line_size=CHECK_NOT_M1(sysconf(_SC_LEVEL1_ICACHE_LINESIZE));
+	unsigned int cache_line_size=CHECK_NOT_M1(sysconf(_SC_LEVEL2_CACHE_LINESIZE));
 	void* ptr;
 	CHECK_ZERO(posix_memalign(&ptr,cache_line_size,cache_line_size));
 	int *shared=(int*)ptr;
@@ -151,7 +159,7 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<thread_num; i++) {
 		data[i].num=i;
 		data[i].attempts=attempts;
-		data[i].nonshared=new int;
+		data[i].nonshared=new int[thread_num];
 		data[i].shared=shared;
 		data[i].usleep_interval=usleep_interval;
 		CPU_ZERO(cpu_sets+i);
@@ -182,7 +190,8 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO(pthread_join(threads[i], rets+i));
 	}
 	gettimeofday(&t2, NULL);
-	printf("time in micro: %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	printf("time in micro: %lf\n", micro_diff(&t1, &t2));
+	printf("time in micro of a single attempt: %lf\n", micro_diff(&t1, &t2)/(double)attempts);
 	//TRACE("joined threads");
 	//TRACE("ended");
 	return EXIT_SUCCESS;
