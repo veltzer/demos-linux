@@ -21,7 +21,7 @@
 #ifndef __us_helper_h
 #define __us_helper_h
 
-/* THIS IS C FILE, NO C++ here */
+/* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
 #include <sched.h> // for sched_getparam(2), sched_getscheduler(2), CPU_COUNT(3)
@@ -512,6 +512,10 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
 	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
 }
 
+/*
+ * TODO: don't make this function accept the stack size, instead find the current
+ * threads stack size and prefault that...
+ */
 static inline void stack_prefault(int stacksize) {
 	unsigned char dummy[stacksize];
 	memset(&dummy,0,stacksize);
