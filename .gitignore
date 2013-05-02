@@ -33,5 +33,4 @@ java/bin/*
 .tmp_versions
 Module.symvers
 modules.order
-core
 *.objdump
