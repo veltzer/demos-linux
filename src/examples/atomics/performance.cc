@@ -34,6 +34,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	int attempts=atoi(argv[1]);
 	int counter;
+	volatile int vcounter;
 	struct timeval t1, t2;
 	TRACE("attempts is %d", attempts);
 
@@ -71,6 +72,14 @@ int main(int argc, char** argv, char** envp) {
 		counter++;
 	}
 	gettimeofday(&t2, NULL);
-	printf("time in micro of regular adds (no barrier-no loop): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	printf("time in micro of regular adds (no barrier-the loop probably goes away here): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+
+	vcounter=0;
+	gettimeofday(&t1, NULL);
+	for(int i=0; i<attempts; i++) {
+		vcounter++;
+	}
+	gettimeofday(&t2, NULL);
+	printf("time in micro of volatile adds (volatile is close to a barrier): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
 	return EXIT_SUCCESS;
 }
