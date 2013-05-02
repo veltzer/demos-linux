@@ -42,6 +42,7 @@
  * atomic ops we get really bad values for the shared counter.
  * - c++ has std::atomic, look at other examples.
  * - ACE has wrappers for atomics. Look at ACE examples for more.
+ * - We can plainly see that volatile does not guarantee atomicity.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  *
