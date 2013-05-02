@@ -54,24 +54,15 @@ typedef struct _thread_data {
 	int num;
 	int attempts;
 	int* value;
+	volatile int* vvalue;
 	int usleep_interval;
 } thread_data;
 
-static void *regular_worker(void *p) {
+static void *atomic_worker(void *p) {
 	thread_data* td=(thread_data*)p;
 	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
 	for(int i=0; i<td->attempts; i++) {
-		*(td->value)+=1;
-	}
-	TRACE("end thread %d", td->num);
-	return(NULL);
-}
-static void *compiler_barrier_worker(void* p) {
-	thread_data* td=(thread_data*)p;
-	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
-	for(int i=0; i<td->attempts; i++) {
-		*(td->value)+=1;
-		asm volatile ("" ::: "memory");
+		__sync_add_and_fetch(td->value, 1);
 	}
 	TRACE("end thread %d", td->num);
 	return(NULL);
@@ -86,11 +77,30 @@ static void *machine_barrier_worker(void* p) {
 	TRACE("end thread %d", td->num);
 	return(NULL);
 }
-static void *atomic_worker(void *p) {
+static void *compiler_barrier_worker(void* p) {
 	thread_data* td=(thread_data*)p;
 	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
 	for(int i=0; i<td->attempts; i++) {
-		__sync_add_and_fetch(td->value, 1);
+		*(td->value)+=1;
+		asm volatile ("" ::: "memory");
+	}
+	TRACE("end thread %d", td->num);
+	return(NULL);
+}
+static void *regular_worker(void *p) {
+	thread_data* td=(thread_data*)p;
+	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
+	for(int i=0; i<td->attempts; i++) {
+		*(td->value)+=1;
+	}
+	TRACE("end thread %d", td->num);
+	return(NULL);
+}
+static void *volatile_worker(void *p) {
+	thread_data* td=(thread_data*)p;
+	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
+	for(int i=0; i<td->attempts; i++) {
+		*(td->vvalue)+=1;
 	}
 	TRACE("end thread %d", td->num);
 	return(NULL);
@@ -143,6 +153,7 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 		fprintf(stderr, "%s:\ttype=1 means machine barrier threads\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=2 means compiler barrier threads\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=3 means regular threads\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=4 means volatile threads\n", argv[0]);
 		fprintf(stderr, "%s: select attempts using --attempts=[argument]\n", argv[0]);
 		fprintf(stderr, "%s: for example: --type=0 --attempts=1000000 0 1 2 3\n", argv[0]);
 		exit(EXIT_FAILURE);
@@ -155,13 +166,14 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 }
 int main(int argc, char** argv, char** envp) {
 	bool doObserver=false;
-	int type=2;	// atomic
+	int type=0;	// atomic
 	int attempts=100000;
 	int optind=parse_arguments(argc, argv, doObserver, type, attempts);
 	// find the number of cores
 	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
 	// the value to be incremented by all threads
 	int value=0;
+	volatile int vvalue=0;
 	const int usleep_interval=10000;
 	const int real_threads=argc-optind;
 	const int thread_num=doObserver ? real_threads+1 : real_threads;
@@ -179,6 +191,7 @@ int main(int argc, char** argv, char** envp) {
 		data[i].num=i;
 		data[i].attempts=attempts;
 		data[i].value=&value;
+		data[i].vvalue=&vvalue;
 		data[i].usleep_interval=usleep_interval;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(atoi(argv[optind+i]), cpu_sets+i);
@@ -201,6 +214,9 @@ int main(int argc, char** argv, char** envp) {
 			case 3:
 				CHECK_ZERO(pthread_create(threads + i, attrs + i, regular_worker, data + i));
 				break;
+			case 4:
+				CHECK_ZERO(pthread_create(threads + i, attrs + i, volatile_worker, data + i));
+				break;
 			default:
 				fprintf(stderr, "bad type of thread (%d)\n", type);
 				exit(EXIT_FAILURE);
@@ -214,6 +230,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	TRACE("joined threads");
 	TRACE("value is %d and should be %d", value, real_threads*attempts);
+	TRACE("vvalue is %d and should be %d", vvalue, real_threads*attempts);
 	TRACE("ended");
 	return EXIT_SUCCESS;
 }
