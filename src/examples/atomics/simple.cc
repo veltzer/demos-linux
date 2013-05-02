@@ -139,11 +139,12 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 		fprintf(stderr, "%s: too few threads\n", argv[0]);
 		fprintf(stderr, "%s: usage: %s [options] [core] [core] [core..]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: select type of threads using --type=[argument]\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=0 means atomic ops threads threads (default)\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=1 means machine barrier threads\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=2 means compiler barrier threads\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=3 means regular threads\n", argv[0]);
 		fprintf(stderr, "%s: select attempts using --attempts=[argument]\n", argv[0]);
-		fprintf(stderr, "%s:\ttype=0 means regular threads\n", argv[0]);
-		fprintf(stderr, "%s:\ttype=1 means compiler barrier threads\n", argv[0]);
-		fprintf(stderr, "%s:\ttype=2 means atomic ops threads threads (default)\n", argv[0]);
-		fprintf(stderr, "%s:\ttype=3 means machine barrier threads (default)\n", argv[0]);
+		fprintf(stderr, "%s: for example: --type=0 --attempts=1000000 0 1 2 3\n", argv[0]);
 		exit(EXIT_FAILURE);
 	} else {
 		fprintf(stderr, "running with doObserver %d\n", doObserver);
@@ -189,16 +190,16 @@ int main(int argc, char** argv, char** envp) {
 		} else {
 			switch(type) {
 			case 0:
-				CHECK_ZERO(pthread_create(threads + i, attrs + i, regular_worker, data + i));
-				break;
-			case 1:
-				CHECK_ZERO(pthread_create(threads + i, attrs + i, compiler_barrier_worker, data + i));
-				break;
-			case 2:
 				CHECK_ZERO(pthread_create(threads + i, attrs + i, atomic_worker, data + i));
 				break;
-			case 3:
+			case 1:
 				CHECK_ZERO(pthread_create(threads + i, attrs + i, machine_barrier_worker, data + i));
+				break;
+			case 2:
+				CHECK_ZERO(pthread_create(threads + i, attrs + i, compiler_barrier_worker, data + i));
+				break;
+			case 3:
+				CHECK_ZERO(pthread_create(threads + i, attrs + i, regular_worker, data + i));
 				break;
 			default:
 				fprintf(stderr, "bad type of thread (%d)\n", type);

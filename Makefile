@@ -4,7 +4,7 @@
 #$(info CURDIR is $(CURDIR))
 include Makefile.defs
 # directories
-US_DIRS:=src/examples src/exercises src/examples_to_integrate
+US_DIRS:=src/examples src/exercises
 KERNEL_DIR:=src/kernel
 KERNEL_SA_DIR:=src/kernel_standalone
 US_INCLUDE:=src/include
