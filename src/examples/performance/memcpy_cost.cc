@@ -31,14 +31,12 @@
 /*
  * This example explores the CPU utilisation of doing XXXM memcpy per second.
  * You need to supply how many megs you want copied and in how many intervals.
- * EXTRA_LINK_FLAGS=-lrt
+ * EXTRA_LINK_FLAGS=-lpthread -lrt
  */
 
 /* we use 49 as the PRREMPT_RT use 50 as the priority of kernel tasklets
  * and interrupt handler by default */
 const int MY_PRIORITY=49;
-/* The maximum stack size which is guranteed safe to access without faulting */
-const int MAX_SAFE_STACK=8*1024;
 /* The number of nsecs per sec. */
 const int NSEC_PER_SEC=1000000000;
 
@@ -72,7 +70,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
 
 	/* Pre-fault our stack */
-	stack_prefault(MAX_SAFE_STACK);
+	stack_prefault();
 
 	/* get the current time */
 	struct timespec t;

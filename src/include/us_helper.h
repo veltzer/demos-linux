@@ -352,7 +352,9 @@ static inline void memcheck(void *buf, char val, unsigned int size) {
 	}
 }
 
-// progress handling functions...
+/*
+ * progress handling functions...
+ */
 static inline void do_prog_init(void) {
 	printf("progress: \n");
 	fflush(stdout);
@@ -370,6 +372,9 @@ static inline void do_prog_finish(void) {
 	fflush(stdout);
 }
 
+/*
+ * Print memory stats for the current process
+ */
 static inline void print_stats(pid_t pid) {
 	proc_t myproc;
 	get_proc_stats(pid,&myproc);
@@ -395,6 +400,9 @@ static inline void my_system(const char *fmt, ...) {
 
 void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 
+/*
+ * Handle process names
+ */
 static inline void print_process_name(void) {
 	const unsigned int size=16;
 	char name[size];
@@ -420,10 +428,17 @@ static inline void print_process_name_from_proc(void) {
 	my_system("cat /proc/%d/comm",getpid());
 }
 
+/*
+ * Print kernel memory buddy info from /proc
+ */
 static inline void printbuddy(void) {
 	my_system("cat /proc/buddyinfo");
 }
 
+/*
+ * An easy function to return how many micros have passed between
+ * two time vals
+ */
 static inline double micro_diff(struct timeval* t1,struct timeval* t2) {
 	unsigned long long u1,u2;
 	u1=((unsigned long long)t1->tv_sec*1000000)+t1->tv_usec;
@@ -431,6 +446,10 @@ static inline double micro_diff(struct timeval* t1,struct timeval* t2) {
 	double diff=u2-u1;
 	return diff;
 }
+
+/*
+ * Print the scheduling info for the current thread or process
+ */
 static const char* schedulers[]={
 	"SCHED_OTHER",
 	"SCHED_FIFO",
@@ -438,6 +457,7 @@ static const char* schedulers[]={
 	"SCHED_BATCH",
 	"SCHED_IDLE",
 };
+
 static inline void print_scheduling_info() {
 	// 0 means the calling thread, process or process group
 	//int pri=getpriority(PRIO_PROCESS, 0);
@@ -454,15 +474,20 @@ static inline void print_scheduling_info() {
 	printf("==================================\n");
 }
 
+/*
+ * print parameters of the scheduling system
+ */
 static inline void print_scheduling_consts() {
 	printf("SCHED_OTHER is %d\n",SCHED_OTHER);
 	printf("SCHED_FIFO is %d\n",SCHED_FIFO);
 	printf("SCHED_RR is %d\n",SCHED_RR);
-	//printf("SCHED_BATCH is %d\n",SCHED_BATCH);
-	//printf("SCHED_IDLE is %d\n",SCHED_IDLE);
+	printf("SCHED_BATCH is %d\n",SCHED_BATCH);
+	printf("SCHED_IDLE is %d\n",SCHED_IDLE);
 }
 
-// a function to run another function in a high priority thread and wait for it to finish...
+/*
+ * a function to run another function in a high priority thread and wait for it to finish...
+ */
 static inline void* run_high_priority(void* (*func)(void*),void* pval,int prio) {
 	struct sched_param myparam;
 	void* retval;
@@ -479,6 +504,10 @@ static inline void* run_high_priority(void* (*func)(void*),void* pval,int prio) 
 }
 const int STANDARD_HIGH_PRIORITY=90;
 
+/*
+ * A function that checks that no parameters have been passed
+ * to an executable.
+ */
 static inline void no_params(int argc,char** argv) {
 	if(argc>1) {
 		fprintf(stderr,"%s: usage: %s (without parameters)\n",argv[0],argv[0]);
@@ -486,6 +515,9 @@ static inline void no_params(int argc,char** argv) {
 	}
 }
 
+/*
+ * A function to print cpu sets
+ */
 static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 	int j;
 	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
@@ -497,12 +529,17 @@ static inline void print_cpu_set(FILE* pfile,cpu_set_t *p) {
 	}
 }
 
+/*
+ * easy registration of signals via signal(2)
+ */
 typedef void (*sig_old_handler)(int);
 void register_handler_signal(int signum,sig_old_handler handler) {
 	CHECK_NOT_SIGT(signal(signum, handler),SIG_ERR);
-	//TRACE("setup sighandler for %d,%s",signum,strsignal(signum));
 }
 
+/*
+ * easy registration of signals via sigaction(2)
+ */
 typedef void (*sig_handler)(int, siginfo_t *, void *);
 static inline void register_handler_sigaction(int sig, sig_handler handler) {
 	struct sigaction sa;
@@ -513,10 +550,22 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
 }
 
 /*
- * TODO: don't make this function accept the stack size, instead find the current
- * threads stack size and prefault that...
+ * get the current threads stack size
  */
-static inline void stack_prefault(int stacksize) {
+static inline size_t pthread_get_current_stack_size() {
+	pthread_attr_t at;
+	void* stackaddr;
+	size_t stacksize;
+	CHECK_ZERO(pthread_getattr_np(pthread_self(), &at));
+	CHECK_ZERO(pthread_attr_getstack(&at, &stackaddr, &stacksize));
+	return stacksize;
+}
+
+/*
+ * prefault the entire stack for the current thread
+ */
+static inline void stack_prefault() {
+	size_t stacksize=pthread_get_current_stack_size();
 	unsigned char dummy[stacksize];
 	memset(&dummy,0,stacksize);
 }
