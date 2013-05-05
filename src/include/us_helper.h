@@ -566,8 +566,11 @@ static inline size_t pthread_get_current_stack_size() {
  */
 static inline void stack_prefault() {
 	size_t stacksize=pthread_get_current_stack_size();
-	unsigned char dummy[stacksize];
-	memset(&dummy,0,stacksize);
+	/* prefault less than the stacksize because when we were called some
+	 * of the stack was already used... */
+	size_t prefault_size=(int)(stacksize*0.9);
+	unsigned char dummy[prefault_size];
+	memset(&dummy,0,prefault_size);
 }
 
 #endif /* !__us_helper_h */
