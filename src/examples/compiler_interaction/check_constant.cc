@@ -19,21 +19,34 @@
  */
 
 #include <firstinclude.h>
-#include <omp.h>// for #pragma omg parallel, omp_get_thread_num(3), omp_get_num_threads(3)
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdio.h>	// for fprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, rand(3)
 
 /*
- * This is a minimal openmp program.
- * Notice that openmp automatically adjusts to the number of cores that you have.
- * You can ofcourse, change that (reduce or increase number of threads)
+ * This example shows how to treat constant vs non constant arguments
+ * differently...
  *
- * EXTRA_COMPILE_FLAGS=-fopenmp
- * EXTRA_LINK_FLAGS=-fopenmp
+ * This is for static_assert
+ * EXTRA_COMPILE_FLAGS=-std=c++0x
+ *
+ * TODO:
+ * - stop the compile on constants...
  */
 
+inline void do_something_with_constant(int a) __attribute__((always_inline));
+inline void do_something_with_constant(int a) {
+	if(!__builtin_constant_p(a)) {
+		printf("bad boy!\n");
+	} else {
+		printf("You are a good boy passing only constants... (%d)\n",a);
+	}
+}
+
 int main(int argc, char** argv, char** envp) {
-	#pragma omp parallel
-	printf("Hello from thread %d, nthreads %d\n", omp_get_thread_num(), omp_get_num_threads());
+	// this will not compile
+	int x=rand();
+	do_something_with_constant(x);
+	// this one does compile
+	do_something_with_constant(13);
 	return EXIT_SUCCESS;
 }

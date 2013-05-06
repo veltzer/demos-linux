@@ -51,8 +51,10 @@ int main(int argc, char** argv, char** envp) {
 	const int a=5;
 	const int b=5;
 
-	// the next line will produce a compile time error
+	// the next two lines will produce a compile time error
 	// add(5,6);
+	// (void)add(5,6);
+	// int d=add(8,9); // this is for 'd' is unused
 
 	// lets turn off gcc warnings locally to avoid the error...
 	#pragma GCC diagnostic push
