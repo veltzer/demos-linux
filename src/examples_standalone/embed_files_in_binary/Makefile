@@ -1,3 +1,4 @@
+include ../../../Makefile.defs
 CXXFLAGS:=-I../../include
 
 .PHONY: all
