@@ -1,14 +1,15 @@
+include ../../../Makefile.defs
 # variables
 CC:=icpc
 # this is no optimization
 #CFLAGS:=-O0 -I/usr/include/i386-linux-gnu -I../../include
 # in the Intel compiler -O, -O2 or no flag for optimization are the same so it always optimizes
 CFLAGS:=-restrict -I../../include
-CFLAGS0:=-O0 $(CFLAGS)
-CFLAGS1:=-O2 $(CFLAGS)
-CFLAGS2:=-O2 -no-simd $(CFLAGS)
-CFLAGS3:=-O2 -fargument-noalias $(CFLAGS)
-CFLAGS4:=-O2 -opt-multi-version-aggressive $(CFLAGS)
+CFLAGS0:=-O0 $(CFLAGS) -g3
+CFLAGS1:=-O2 $(CFLAGS) -g3
+CFLAGS2:=-O2 -no-simd $(CFLAGS) -g3
+CFLAGS3:=-O2 -fargument-noalias $(CFLAGS) -g3
+CFLAGS4:=-O2 -opt-multi-version-aggressive $(CFLAGS) -g3
 # none of following flags makes the intel compiler actually show a difference between
 # alias and non-alias...
 CFLAGS5:=-no-simd -fargument-alias -no-opt-multi-version-aggressive -no-ansi-alias $(CFLAGS)
