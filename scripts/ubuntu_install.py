@@ -43,6 +43,7 @@ packs=[
 	'linux-image-3.8.0-19-generic-dbgsym', # for systemtap
 	'ccache', # for faster building
 	'xutils-dev', # for makedepend(1)
+	'linux-tools-common', # for perf(1)
 ]
 
 args=['sudo','apt-get','install']
