@@ -19,37 +19,45 @@
  */
 
 #include <firstinclude.h>
+#include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_t
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for TRACE(), my_system()
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
- * This is a demo to show how sync_synchronize() is implemented...
- * You should see the __sync_synchronize which is a machine memory barrier
- * translated to a "lock orl" instruction in assembly which is an instruction
- * to the core you are running on to stop reordering writes and reads
- * and drop all cache assumptions.
- * So you should see one instruction in the disassembly of this code.
- * And indeed this is what we see.
- *
- * Take note that this is a also a compiler barrier. It prevents the compiler
- * from reordering around this code. You don't see any assembly emitted for
- * that since a compiler barrier is only a compile time instruction about
- * code emittion.
+ * This example shows how to exit threads (pthread_exit and return
+ * from thread function).
  *
  * EXTRA_LINK_FLAGS=-lpthread
- * this is for the source interleaving below...
- * EXTRA_COMPILE_FLAGS=-g3
  */
 
+void* PrintHello(void *threadid) {
+	int *id_ptr, taskid;
+	id_ptr=(int *) threadid;
+	taskid=*id_ptr;
+	printf("Thread %d says hello\n", taskid);
+	return (void *)(taskid*2);
+	// another option would be to call
+	// pthread_exit((void *)taskid);
+}
+
 int main(int argc, char** argv, char** envp) {
-	TRACE("start");
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	TRACE("end");
-	my_system("objdump --disassemble --source %s", argv[0]);
+	const int NUM_THREADS=8;
+	pthread_t threads[NUM_THREADS];
+	int t[NUM_THREADS];
+	// init all values to be passed to threads
+	for(int i=0; i<NUM_THREADS; i++) {
+		t[i]=i;
+	}
+	// start all threads giving each it's input
+	for(int i=0; i<NUM_THREADS; i++) {
+		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *)(t+i)));
+	}
+	// wait for all threads to finish, order does not matter
+	for(int i=0; i<NUM_THREADS; i++) {
+		void* retval;
+		CHECK_ZERO(pthread_join(threads[i], &retval));
+		printf("thread %d returned value %d\n", i, (int)retval);
+	}
 	return EXIT_SUCCESS;
 }

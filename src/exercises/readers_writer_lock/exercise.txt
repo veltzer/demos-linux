@@ -1,0 +1,5 @@
+Readers/Writer lock exercise
+============================
+Implement a readers/writer lock WITHOUT using the pthread readers/writer
+lock API. Use only conditions.
+Bonus: make the lock wait for two writers before starting to evict readers.

@@ -19,8 +19,8 @@
 - do an example of named semaphore usage:
 	sem_* functions.
 
-- show usage of pthread_exit. Actually, show all ways that allow one to exit a thread
-	- pthread_exit
+- show more ways of exiting a thread:
+	- pthread_exit (already implemented)
 	- pthread_cancel.
 	- send sigkill to the thread.
 	- more ?!?

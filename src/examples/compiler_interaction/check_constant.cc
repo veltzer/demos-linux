@@ -18,24 +18,35 @@
  * 02111-1307 USA.
  */
 
-#ifndef __mythread_h
-#define __mythread_h
-
 #include <firstinclude.h>
-#include <pthread.h>
+#include <stdio.h>	// for fprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, rand(3)
 
-class MyThread {
-private:
-	pthread_t myid;
-	static void* realsvc(void* arg);
+/*
+ * This example shows how to treat constant vs non constant arguments
+ * differently...
+ *
+ * This is for static_assert
+ * EXTRA_COMPILE_FLAGS=-std=c++0x
+ *
+ * TODO:
+ * - stop the compile on constants...
+ */
 
-public:
-	MyThread();
-	void start();
-	void join();
+inline void do_something_with_constant(int a) __attribute__((always_inline));
+inline void do_something_with_constant(int a) {
+	if(!__builtin_constant_p(a)) {
+		printf("bad boy!\n");
+	} else {
+		printf("You are a good boy passing only constants... (%d)\n",a);
+	}
+}
 
-protected:
-	virtual void svc()=0;
-};
-
-#endif	// __mythread_h
+int main(int argc, char** argv, char** envp) {
+	// this will not compile
+	int x=rand();
+	do_something_with_constant(x);
+	// this one does compile
+	do_something_with_constant(13);
+	return EXIT_SUCCESS;
+}

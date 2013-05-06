@@ -128,6 +128,13 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 	}
 	return optind;
 }
+// allocate a single cache line
+void* malloc_one_cache_line() {
+	void* ptr;
+	unsigned int cache_line_size=CHECK_NOT_M1(sysconf(_SC_LEVEL2_CACHE_LINESIZE));
+	CHECK_ZERO(posix_memalign(&ptr,cache_line_size,cache_line_size));
+	return ptr;
+}
 int main(int argc, char** argv, char** envp) {
 	bool doObserver=false;
 	int type=0;	// atomic
@@ -147,11 +154,8 @@ int main(int argc, char** argv, char** envp) {
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
 	void** rets=new void*[thread_num];
 
-	// allocate the single cache line
-	unsigned int cache_line_size=CHECK_NOT_M1(sysconf(_SC_LEVEL2_CACHE_LINESIZE));
-	void* ptr;
-	CHECK_ZERO(posix_memalign(&ptr,cache_line_size,cache_line_size));
-	int *shared=(int*)ptr;
+
+	int *shared=(int*)malloc_one_cache_line();
 
 	struct timeval t1, t2;
 	gettimeofday(&t1, NULL);
@@ -159,7 +163,7 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<thread_num; i++) {
 		data[i].num=i;
 		data[i].attempts=attempts;
-		data[i].nonshared=new int[thread_num];
+		data[i].nonshared=(int*)malloc_one_cache_line();
 		data[i].shared=shared;
 		data[i].usleep_interval=usleep_interval;
 		CPU_ZERO(cpu_sets+i);
