@@ -25,6 +25,9 @@
 #include <us_helper.h>	// for CHECK_ZERO()
 
 /*
+ * This example shows how to exit threads (pthread_exit and return
+ * from thread function).
+ *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
@@ -48,7 +51,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	// start all threads giving each it's input
 	for(int i=0; i<NUM_THREADS; i++) {
-		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *)&t[i]));
+		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *)(t+i)));
 	}
 	// wait for all threads to finish, order does not matter
 	for(int i=0; i<NUM_THREADS; i++) {
