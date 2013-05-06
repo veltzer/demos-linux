@@ -18,24 +18,30 @@
  * 02111-1307 USA.
  */
 
-#ifndef __mythread_h
-#define __mythread_h
+#ifndef __mymutex_h_
+#define __mymutex_h
 
 #include <firstinclude.h>
-#include <pthread.h>
+#include <pthread.h> // for pthread_mutex_init(3), pthread_mutex_destroy(3)
+#include <us_helper.h> // for CHECK_ZERO()
 
-class MyThread {
+class MyMutex {
 private:
-	pthread_t myid;
-	static void* realsvc(void* arg);
+	pthread_mutex_t mylock;
 
 public:
-	MyThread();
-	void start();
-	void join();
-
-protected:
-	virtual void svc()=0;
+	MyMutex() {
+		CHECK_ZERO(pthread_mutex_init(&mylock, NULL));
+	}
+	~MyMutex() {
+		CHECK_ZERO(pthread_mutex_destroy(&mylock));
+	}
+	void lock() {
+		CHECK_ZERO(pthread_mutex_lock(&mylock));
+	}
+	void unlock() {
+		CHECK_ZERO(pthread_mutex_unlock(&mylock));
+	}
 };
 
-#endif	// __mythread_h
+#endif	// __mymutex_h
