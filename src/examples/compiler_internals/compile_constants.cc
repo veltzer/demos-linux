@@ -50,16 +50,13 @@ static inline int sum(int i) {
 	}
 }
 
-void fake_manipulate_int(int *ip) {
-	*ip=atoi("100");
-}
-
 int main(int argc, char** argv, char** envp) {
 	std::cerr << "sum for 99 is " << sum(99) << " and should be " << _sum(99) << std::endl;
-	int j=0;
-	fake_manipulate_int(&j);
-	std::cerr << "sum for j=100 is " << sum(j) << " and should be " << _sum(100) << std::endl;
+	int j=atoi("100");
+	std::cerr << "sum for j=100 and the compiler does not know it is " << sum(j) << " and should be " << _sum(100) << std::endl;
 	std::cerr << "sum for 100 is " << sum(100) << " and should be 5051 (this is the important example!)" << std::endl;
+	int x=100;
+	std::cerr << "sum for x=100 and the compiler knows it is " << sum(x) << " and should be 5051 (this is the important example!)" << std::endl;
 	std::cerr << "sum for 101 is " << sum(101) << " and should be " << _sum(101) << std::endl;
 	return EXIT_SUCCESS;
 }
