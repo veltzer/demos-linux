@@ -38,6 +38,8 @@
  * code emittion.
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ * this is for the source interleaving below...
+ * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
