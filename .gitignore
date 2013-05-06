@@ -17,13 +17,18 @@
 *.stamp
 *.out
 *.p
+# libraries
+lib*.so.?.?.?
 # gnu precompiled headers
 *.gch
 # intel precompiled headers
 *.pchi
-java/bin/*
 # locks by open office
 .~lock.*
+# makefiles
+/misc/makefiles/*.junk
+# profiling
+*.gcda
 
 # kernel stuff...
 *.ko
@@ -34,3 +39,14 @@ java/bin/*
 Module.symvers
 modules.order
 *.objdump
+
+# ppt, pdf
+/doc/odp/*.pdf
+/doc/odp/*.odp
+# various output files
+*.out
+
+# intel compiler pgo
+*.dyn
+*.dpi
+*.lock

@@ -68,16 +68,16 @@ ifdef USE_THREADS
 # Make sure to ldconfig -n `pwd` before running
 
 .PHONY: tests
-tests: test auto_test naive_test
+tests: test.elf auto_test.elf naive_test.elf
 
-test: libcrash.so.$(LIB_VERSION) test.c crash.c crashd.c crash.h crash_msg.h Makefile
-	$(Q)$(CC) test.c crash.c crashd.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o test 
+test.elf: libcrash.so.$(LIB_VERSION) test.c crash.c crashd.c crash.h crash_msg.h Makefile
+	$(Q)$(CC) test.c crash.c crashd.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o test.elf
 
-auto_test: libauto_crash.so.$(LIB_VERSION) auto_test.c crash.h crash_msg.h Makefile
-	$(Q)$(CC) auto_test.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o auto_test
+auto_test.elf: libauto_crash.so.$(LIB_VERSION) auto_test.c crash.h crash_msg.h Makefile
+	$(Q)$(CC) auto_test.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o auto_test.elf
 
-naive_test: naive.c Makefile
-	$(Q)$(CC) naive.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o naive_test
+naive_test.elf: naive.c Makefile
+	$(Q)$(CC) naive.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o naive_test.elf
 
 else 
 
@@ -96,4 +96,4 @@ dist: clean
 
 .PHONY: clean
 clean: 
-	$(Q)rm -f *.o naive_test auto_test test *~ libcrash.so.$(LIB_VERSION) libauto_crash.so.$(LIB_VERSION) 
+	$(Q)rm -f *.o naive_test.elf auto_test.elf test.elf *~ libcrash.so.$(LIB_VERSION) libauto_crash.so.$(LIB_VERSION) 
