@@ -179,27 +179,27 @@ TEST(
 	);
 TEST(
 	singvarbar,
-	"a single variable barrier",
+	"a single variable barrier -> this one works",
 	asm volatile ("" : "=g" (a) ::)
 	);
 TEST(
 	singvarbar2,
-	"a single variable barrier",
+	"a single variable barrier -> this one doesnt (bahaha for the people on stackoverflow...)",
 	asm volatile ("" : "=r" (a) ::)
 	);
 TEST(
 	singvarbar3,
-	"a single variable barrier",
+	"a single variable barrier -> works (surprisingly!)",
 	asm volatile ("" : "=r" (dummy) ::)
 	);
 TEST(
 	singvarvol,
-	"attempt to use volatile on left side to barrier the compiler",
+	"attempt to use volatile on left side to barrier the compiler (this one doesnt work)",
 	*(volatile int *)&a=a;
 	);
 TEST(
 	singvarvolright,
-	"attempt to use volatile on right side to barrier the compiler",
+	"attempt to use volatile on right side to barrier the compiler (this one does work)",
 	a=*(volatile int*)&a;
 	);
 TEST(
