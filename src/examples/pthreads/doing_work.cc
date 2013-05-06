@@ -19,21 +19,41 @@
  */
 
 #include <firstinclude.h>
-#include <omp.h>// for #pragma omg parallel, omp_get_thread_num(3), omp_get_num_threads(3)
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
+#include <unistd.h>	// for sleep(3)
+#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
 
 /*
- * This is a minimal openmp program.
- * Notice that openmp automatically adjusts to the number of cores that you have.
- * You can ofcourse, change that (reduce or increase number of threads)
+ * This is a demo of a multi-threaded application which does some work.
+ * Watch it using top(1) and the 'H' button to see the work.
  *
- * EXTRA_COMPILE_FLAGS=-fopenmp
- * EXTRA_LINK_FLAGS=-fopenmp
+ * EXTRA_LINK_FLAGS=-lpthread
  */
+void *worker(void *p) {
+	int num=*(int *)p;
+	TRACE("starting thread %d", num);
+	pthread_t t=pthread_self();
+	TRACE("pthread_self is %lu", t);
+	sleep(60);
+	TRACE("ending thread %d", num);
+	return(NULL);
+}
 
 int main(int argc, char** argv, char** envp) {
-	#pragma omp parallel
-	printf("Hello from thread %d, nthreads %d\n", omp_get_thread_num(), omp_get_num_threads());
+	const int num=10;
+	pthread_t threads[num];
+	int ids[num];
+	void* rets[num];
+
+	TRACE("main starting");
+	for(int i=0; i<num; i++) {
+		ids[i]=i;
+		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
+	}
+	TRACE("main ended creating threads");
+	for (int i=0; i < num; i++) {
+		CHECK_ZERO(pthread_join(threads[i], rets + i));
+	}
+	TRACE("main ended");
 	return EXIT_SUCCESS;
 }
