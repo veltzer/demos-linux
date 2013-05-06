@@ -23,6 +23,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_ZERO()
 #include "mythread.hh"
+#include "mymutex.hh"
 
 /*
  * EXTRA_LINK_FLAGS=-lpthread
@@ -53,9 +54,10 @@ class ImpThread : public MyThread {
 private:
 	int limit;
 	int sleep_time;
+	MyMutex& m;
 
 public:
-	ImpThread(int ilimit, int isleep_time) : limit(ilimit), sleep_time(isleep_time) {
+	ImpThread(int ilimit, int isleep_time, MyMutex& mm) : limit(ilimit), sleep_time(isleep_time), m(mm) {
 	}
 
 protected:
@@ -63,7 +65,9 @@ protected:
 		pid_t tid=gettid();
 		std::cout << "thread " << tid << " starting" << std::endl;
 		for(int i=0; i<limit; i++) {
+			m.lock();
 			std::cout << "Hello from thread " << tid << " num is " << i << std::endl;
+			m.unlock();
 			sleep(sleep_time);
 		}
 		std::cout << "thread " << tid << " ending" << std::endl;
@@ -71,8 +75,9 @@ protected:
 };
 
 int main(int argc, char** argv, char** envp) {
-	ImpThread thr1(10, 1);
-	ImpThread thr2(5, 2);
+	MyMutex m;
+	ImpThread thr1(10, 1, m);
+	ImpThread thr2(5, 2, m);
 	thr1.start();
 	thr2.start();
 	thr1.join();
