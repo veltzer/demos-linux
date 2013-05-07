@@ -42,7 +42,7 @@ modules.order
 
 # ppt, pdf
 /doc/odp/*.pdf
-/doc/odp/*.odp
+/doc/odp/*.ppt
 # various output files
 *.out
 
