@@ -21,33 +21,29 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for my_system()
+#include <us_helper.h>	// for CHECK_ASSERT()
 
 /*
- * This is an example of a loop that gcc cannot optimize away...
- * Consider the question why ? Doesn't gcc simulate your code
- * in order to optimize it away ? The answer is that it does
- * not simulate your code but rather understand the underlying
- * construct to deduce what you are doing and use a predefined
- * set of formulas to precalculate the result...
+ * This is an example of using the 'static_assert' compile time assert
+ * feature. It is only available in C++, not in C and only with the c11 standard
+ * which is enabled in the flags.
+ * For static asserts in the C language see a similar demo in the C section...
+ * Also note that boost has a static assert feature (C++ only).
+ * Note that the C style static asserts do not work here in C++ (see below...).
  *
- * You can see that indeed it is not optimized when you disassemble
- * the code.
- *
- * Compare the second loop to the first.
+ * required for the static_assert below to work...
+ * EXTRA_COMPILE_FLAGS=-std=c++0x
  */
 
+typedef struct _s1 {
+	char c1;
+	int i1;
+	char c2;
+} s1;
+static_assert(sizeof(s1)==12,"something went wrong");
+// this will cause a compile time error
+//_Static_assert(sizeof(s1)==12,"something went wrong");
+
 int main(int argc, char** argv, char** envp) {
-	int sum=0;
-	for(int i=0; i<100; i++) {
-		sum+=i;
-	}
-	printf("sum is %d\n", sum);
-	for(int i=0; i<100; i++) {
-		sum+=i*i;
-	}
-	printf("sum is %d\n", sum);
-	// disassemble myself...
-	my_system("objdump --disassemble --source %s", argv[0]);
 	return EXIT_SUCCESS;
 }
