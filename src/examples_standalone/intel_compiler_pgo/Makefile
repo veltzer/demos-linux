@@ -1,3 +1,5 @@
+include ../../../Makefile.defs
+
 # variables
 CXX:=icc
 #CXXFLAGS:=-I/usr/include/i386-linux-gnu
