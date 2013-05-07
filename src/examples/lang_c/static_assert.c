@@ -25,10 +25,12 @@
  * This example shows how to do static assert in pure C.
  * What are static assertions? assertions that are validated/checked at
  * compile time and will cause a compilation time error if violated.
- * Take note that GCC already supports static assertion via the c++0x standard.
- * You need to pass the -std=c++0x flag and use 'static_assert' for that.
- * The example here demonstrates implementing a static assert without that
- * support.
+ * Take note that in the C++ language GCC already supports static assertion
+ * via the c++0x standard. You need to pass the -std=c++0x flag and use
+ * 'static_assert' for that. See an example for that in the C++ section.
+ * The example here demonstrates implementing a static assert without
+ * support for it from the compiler and the use of the _Static_assert feature
+ * of GCC in the C language. 
  * Also note that boost has a static assert feature (C++ only).
  *
  * References:
