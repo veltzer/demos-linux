@@ -38,6 +38,10 @@
  * - this example does not explore the inner workins of the wmemset function
  * (meanins whether it is implemented efficiently or not).
  *
+ * this is to make sure that source code interleaving in the disassembly works
+ * out well...
+ * EXTRA_COMPILE_FLAGS=-g3
+ *
  * TODO:
  * - find out how wmemset work and discuss it's efficiency.
  */
