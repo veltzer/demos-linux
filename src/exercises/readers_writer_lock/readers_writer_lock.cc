@@ -1,0 +1,163 @@
+/*
+ * This file is part of the linuxapi project.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * The linuxapi package is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * The linuxapi package is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the GNU C Library; if not, write to the Free
+ * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ * 02111-1307 USA.
+ */
+
+#include <firstinclude.h>
+#include <stdio.h>	// for fprintf(3)
+#include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_spin_init(3), pthread_spin_destroy(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_attr_init(3), pthread_attr_setaffinity_np(3)
+#include <unistd.h>	// for sysconf(3)
+#include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
+
+/*
+ * This is a solution to the readers/writer lock exercise.
+ *
+ * EXTRA_LINK_FLAGS=-lpthread
+ *
+ * TODO:
+ * - add the testing code.
+ */
+
+// this is the spin lock implementation (pthread "like")
+typedef struct _mypthread_rwlock_t {
+	pthread_cond_t mycond;
+	pthread_mutex_t mymutex;
+	unsigned int readers;
+	unsigned int writers;
+	unsigned int readers_waiting;
+	unsigned int writers_waiting;
+} mypthread_rwlock_t;
+
+int mypthread_rwlock_init(mypthread_rwlock_t* lock) {
+	CHECK_ZERO(pthread_cond_init(&lock->mycond,NULL));
+	CHECK_ZERO(pthread_mutex_init(&lock->mymutex,NULL));
+	lock->readers=0;
+	lock->writers=0;
+	lock->readers_waiting=0;
+	lock->writers_waiting=0;
+	return 0;
+}
+int mypthread_rwlock_destroy(mypthread_rwlock_t* lock) {
+	CHECK_ZERO(pthread_cond_destroy(&lock->mycond));
+	CHECK_ZERO(pthread_mutex_destroy(&lock->mymutex));
+	return 0;
+}
+int mypthread_rwlock_rdlock(mypthread_rwlock_t* lock) {
+	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
+	lock->readers_waiting++;
+	while(lock->writers>0) {
+		CHECK_ZERO(pthread_cond_wait(&lock->mycond,&lock->mymutex));
+	}
+	lock->readers++;
+	lock->readers_waiting--;
+	CHECK_ZERO(pthread_mutex_unlock(&lock->mymutex));
+	return 0;
+}
+int mypthread_rwlock_wrlock(mypthread_rwlock_t* lock) {
+	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
+	lock->writers_waiting++;
+	while(lock->readers>0 || lock->writers>0) {
+		CHECK_ZERO(pthread_cond_wait(&lock->mycond,&lock->mymutex));
+	}
+	lock->writers++;
+	lock->writers_waiting--;
+	CHECK_ZERO(pthread_mutex_unlock(&lock->mymutex));
+	return 0;
+}
+int mypthread_rwlock_unlock(mypthread_rwlock_t* lock) {
+	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
+	if(lock->readers) {
+		// I am a reader
+		lock->readers--;
+		CHECK_ZERO(pthread_cond_broadcast(&lock->mycond));
+	} else {
+		// I am a writer
+		lock->writers--;
+		CHECK_ZERO(pthread_cond_broadcast(&lock->mycond));
+	}
+	CHECK_ZERO(pthread_mutex_unlock(&lock->mymutex));
+	return 0;
+}
+
+// testing starts here...
+
+typedef struct _thread_data {
+	unsigned int num;
+	mypthread_rwlock_t* lock;
+	unsigned int max_sleep;
+	unsigned int loops;
+	bool reader;
+} thread_data;
+
+//static unsigned int readers=0;
+//static unsigned int writers=0;
+
+void *worker(void *p) {
+	thread_data* td=(thread_data *)p;
+	if(td->reader) {
+		for(unsigned int i=0;i<td->loops;i++) {
+			CHECK_ZERO(mypthread_rwlock_rdlock(td->lock));
+			usleep(rand()%td->max_sleep);
+			CHECK_ZERO(mypthread_rwlock_unlock(td->lock));
+		}
+	} else {
+		for(unsigned int i=0;i<td->loops;i++) {
+			CHECK_ZERO(mypthread_rwlock_wrlock(td->lock));
+			usleep(rand()%td->max_sleep);
+			CHECK_ZERO(mypthread_rwlock_unlock(td->lock));
+		}
+	}
+	return(NULL);
+}
+
+int main(int argc, char** argv, char** envp) {
+	const int loops=10000;
+	const int max_sleep=10000;
+	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int thread_num=cpu_num;
+	pthread_t* threads=new pthread_t[thread_num];
+	pthread_attr_t* attrs=new pthread_attr_t[thread_num];
+	thread_data* tds=new thread_data[thread_num];
+	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
+
+	mypthread_rwlock_t lock;
+	CHECK_ZERO(mypthread_rwlock_init(&lock));
+	for(int i=0; i<thread_num; i++) {
+		tds[i].num=i;
+		tds[i].lock=&lock;
+		tds[i].max_sleep=max_sleep;
+		tds[i].loops=loops;
+		tds[i].reader=(i%2==true);
+		CPU_ZERO(cpu_sets+i);
+		CPU_SET(i%cpu_num, cpu_sets+i);
+		CHECK_ZERO(pthread_attr_init(attrs+i));
+		CHECK_ZERO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
+		CHECK_ZERO(pthread_create(threads+i, attrs+i, worker, tds+i));
+	}
+	for(int i=0; i<thread_num; i++) {
+		CHECK_ZERO(pthread_join(threads[i], NULL));
+	}
+	CHECK_ZERO(mypthread_rwlock_destroy(&lock));
+	delete threads;
+	delete attrs;
+	delete tds;
+	delete cpu_sets;
+	return EXIT_SUCCESS;
+}
