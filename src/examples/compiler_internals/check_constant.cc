@@ -28,6 +28,9 @@
  *
  * TODO:
  * - stop the compile on constants or non constants...
+ *
+ * References:
+ * http://gcc.gnu.org/onlinedocs/gcc-4.1.2/gcc/Other-Builtins.html
  */
 
 inline void do_something_with_constant1(int a) __attribute__((always_inline));
