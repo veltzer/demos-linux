@@ -20,18 +20,29 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h>	// for __stringify()
+#include <assert.h>	// for assert(3)
 
-#define __stringify_1(x) # x
-#define __stringify(x) __stringify_1(x)
+/*
+ * This example shows how you can build a useful ASSERT macro
+ * It also demonstrates the glibc assert(3) library call.
+ *
+ * Note:
+ * - to behave like the builtin 'assert' we dump core at the end using
+ *   the abort(3) library function.
+ * - we try to emulate the library function 'assert' as much as possbile.
+ */
 
 #define ASSERT(expr) \
 	if(!(expr)) { \
-		fprintf(stderr, "ERROR! " __stringify_1(expr) "\n"); \
+		fprintf(stderr, "%s: %s:%d: %s: Assertion `%s' failed.\n", program_invocation_short_name, __FILE__, __LINE__, __PRETTY_FUNCTION__, __stringify(expr)); \
+		abort(); \
 	}
 
 int main(int argc, char** argv, char** envp) {
 	int x=1;
-	ASSERT(x==2);
+	// ASSERT(x==2);
+	assert(x==2);
 	return EXIT_SUCCESS;
 }

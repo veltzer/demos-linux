@@ -24,7 +24,7 @@
 #include <unistd.h>	// for sysconf(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <list>		// for STL list
+#include <list>	// for STL list
 #include <us_helper.h>	// for CHECK_ZERO()
 
 /*
@@ -34,42 +34,43 @@
  */
 
 template <typename T> class SynchronizedQueue {
-	private:
-		std::list<T> mylist;
-		pthread_mutex_t mymutex;
-		pthread_cond_t mycond;
-		unsigned int waiters;
-	public:
-		SynchronizedQueue() {
-			CHECK_ZERO(pthread_mutex_init(&mymutex,NULL));
-			CHECK_ZERO(pthread_cond_init(&mycond,NULL));
-			waiters=0;
+private:
+	std::list<T> mylist;
+	pthread_mutex_t mymutex;
+	pthread_cond_t mycond;
+	unsigned int waiters;
+
+public:
+	SynchronizedQueue() {
+		CHECK_ZERO(pthread_mutex_init(&mymutex, NULL));
+		CHECK_ZERO(pthread_cond_init(&mycond, NULL));
+		waiters=0;
+	}
+	void put(const T& t) {
+		CHECK_ZERO(pthread_mutex_lock(&mymutex));
+		mylist.push_back(t);
+		// only wake up one getter if there are any getters
+		// We only wake up one because we only put on data
+		// element on the queue. If another putter comes
+		// along he will wake up another one...
+		if(waiters>0) {
+			CHECK_ZERO(pthread_cond_signal(&mycond));
 		}
-		void put(const T& t) {
-			CHECK_ZERO(pthread_mutex_lock(&mymutex));
-			mylist.push_back(t);
-			// only wake up one getter if there are any getters
-			// We only wake up one because we only put on data
-			// element on the queue. If another putter comes
-			// along he will wake up another one...
-			if(waiters>0) {
-				CHECK_ZERO(pthread_cond_signal(&mycond));
-			}
-			CHECK_ZERO(pthread_mutex_unlock(&mymutex));
+		CHECK_ZERO(pthread_mutex_unlock(&mymutex));
+	}
+	T get() {
+		CHECK_ZERO(pthread_mutex_lock(&mymutex));
+		waiters++;
+		while (mylist.empty()) {
+			CHECK_ZERO(pthread_cond_wait(&mycond, &mymutex));
 		}
-		T get() {
-			CHECK_ZERO(pthread_mutex_lock(&mymutex));
-			waiters++;
-			while (mylist.empty()) {
-				CHECK_ZERO(pthread_cond_wait(&mycond,&mymutex));
-			}
-			// the list is not empty so we can take an element
-			T t=mylist.front();
-			mylist.pop_front();
-			waiters--;
-			CHECK_ZERO(pthread_mutex_unlock(&mymutex));
-			return t;
-		}
+		// the list is not empty so we can take an element
+		T t=mylist.front();
+		mylist.pop_front();
+		waiters--;
+		CHECK_ZERO(pthread_mutex_unlock(&mymutex));
+		return t;
+	}
 };
 
 // testing code starts here
@@ -86,7 +87,7 @@ typedef struct _thread_data {
 void *worker(void *p) {
 	thread_data* td=(thread_data *)p;
 	if(td->producer) {
-		for(unsigned int i=0;i<td->count;i++) {
+		for(unsigned int i=0; i<td->count; i++) {
 			td->queue->put(rand()%td->max_msg);
 			usleep(rand()%td->max_sleep);
 		}
@@ -94,7 +95,7 @@ void *worker(void *p) {
 	} else {
 		while(true) {
 			unsigned int i=td->queue->get();
-			//TRACE("I got [%d]",i);
+			// TRACE("I got [%d]",i);
 			if(i==td->max_msg) {
 				break;
 			}
@@ -114,7 +115,6 @@ int main(int argc, char** argv, char** envp) {
 	pthread_attr_t* attrs=new pthread_attr_t[thread_num];
 	thread_data* tds=new thread_data[thread_num];
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
-
 	for(unsigned int i=0; i<thread_num; i++) {
 		tds[i].num=i;
 		tds[i].producer=(i%2==0);
