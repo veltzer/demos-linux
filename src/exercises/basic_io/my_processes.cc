@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <sys/stat.h>	// for lstat(2)
-#include <unistd.h>	// for lstat(2), readlink(2)
+#include <unistd.h>	// for lstat(2), readlink(2), access(2)
 #include <sys/param.h>	// for MAXPATHLEN
 #include <sys/types.h>	// for opendir(3), DIR, struct dirent, closedir(3), lstat(2)
 #include <dirent.h>	// for opendir(3), DIR, struct dirent, closedir(3), readdir(3)
@@ -48,14 +48,18 @@ void scanthedir(const char* dirname) {
 			if (statbuf.st_uid==getuid()) {
 				snprintf(fddirname, MAXPATHLEN, "%s/fd", tmpdir);
 				printf("%s\n", dircontent->d_name);
-				DIR* fddir=(DIR*)CHECK_NOT_NULL(opendir(fddirname));
-				while((fddircontent=readdir(fddir))) {
-					if ((strcmp(fddircontent->d_name, "." )==0) || strcmp(fddircontent->d_name, "..")==0)
-						continue;
-					snprintf(linkname, MAXPATHLEN, "%s/%s", fddirname, fddircontent->d_name);
-					linktargetsize=CHECK_NOT_M1(readlink(linkname, linktarget, sizeof(linktarget)));
-					linktarget[linktargetsize]='\0';
-					printf("\t%s --> %s\n", linkname, linktarget);
+				if(access(fddirname,R_OK)==0) {
+					DIR* fddir=(DIR*)CHECK_NOT_NULL(opendir(fddirname));
+					while((fddircontent=readdir(fddir))) {
+						if ((strcmp(fddircontent->d_name, "." )==0) || strcmp(fddircontent->d_name, "..")==0)
+							continue;
+						snprintf(linkname, MAXPATHLEN, "%s/%s", fddirname, fddircontent->d_name);
+						linktargetsize=CHECK_NOT_M1(readlink(linkname, linktarget, sizeof(linktarget)));
+						linktarget[linktargetsize]='\0';
+						printf("\t%s --> %s\n", linkname, linktarget);
+					}
+				} else {
+					printf("\tcannot access fd folder\n");
 				}
 			}
 		}
