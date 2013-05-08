@@ -24,8 +24,8 @@
 #include <unistd.h>	// for close(2), dup(2), execl(3), fork(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_NOT_M1()
-#include <sys/stat.h> // for open(2)
-#include <fcntl.h> // for open(2)
+#include <sys/stat.h>	// for open(2)
+#include <fcntl.h>	// for open(2)
 
 /*
  * This is the controller program. It launches the uncontrolled program
@@ -56,7 +56,7 @@ int getnextlogfile() {
 	// TODO: 256 is ugly - fix this
 	unsigned int filename_length=256;
 	char logfilename[filename_length];
-	snprintf(logfilename,filename_length,"/tmp/log%d.txt",logfile_counter);
+	snprintf(logfilename, filename_length, "/tmp/log%d.txt", logfile_counter);
 	int logfd=CHECK_NOT_M1(open(logfilename, O_WRONLY|O_CREAT|O_TRUNC, 0666));
 	logfile_counter++;
 	return logfd;
@@ -76,11 +76,11 @@ void runLogger(int* fd) {
 	char buf[bufsize];
 	unsigned int msg_count=0;
 	while(true) {
-		ssize_t size_read=CHECK_NOT_M1(read(STDIN_FILENO,buf,bufsize));
+		ssize_t size_read=CHECK_NOT_M1(read(STDIN_FILENO, buf, bufsize));
 		if(size_read==0) {
 			break;
 		}
-		ssize_t size_write __attribute__((unused))=CHECK_NOT_M1(write(logfd,buf,size_read));
+		ssize_t size_write __attribute__((unused))=CHECK_NOT_M1(write(logfd, buf, size_read));
 		// TODO: we need to check that everything is written
 		// I am too lazy to do this...
 		if(msg_count%1000==0) {

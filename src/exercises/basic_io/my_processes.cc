@@ -48,7 +48,7 @@ void scanthedir(const char* dirname) {
 			if (statbuf.st_uid==getuid()) {
 				snprintf(fddirname, MAXPATHLEN, "%s/fd", tmpdir);
 				printf("%s\n", dircontent->d_name);
-				if(access(fddirname,R_OK)==0) {
+				if(access(fddirname, R_OK)==0) {
 					DIR* fddir=(DIR*)CHECK_NOT_NULL(opendir(fddirname));
 					while((fddircontent=readdir(fddir))) {
 						if ((strcmp(fddircontent->d_name, "." )==0) || strcmp(fddircontent->d_name, "..")==0)

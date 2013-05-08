@@ -45,7 +45,7 @@ int main(int argc, char** argv, char** envp) {
 	unsigned int usecs=atoi(argv[1]);
 
 	// init papi
-	CHECK_INT(PAPI_library_init(PAPI_VER_CURRENT),PAPI_VER_CURRENT);
+	CHECK_INT(PAPI_library_init(PAPI_VER_CURRENT), PAPI_VER_CURRENT);
 
 	// lets start measuring...
 	long long c1=PAPI_get_real_cyc();

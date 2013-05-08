@@ -38,13 +38,13 @@ inline void do_something_with_constant1(int a) {
 	if(!__builtin_constant_p(a)) {
 		printf("bad boy!\n");
 	} else {
-		printf("You are a good boy passing only constants... (%d)\n",a);
+		printf("You are a good boy passing only constants... (%d)\n", a);
 	}
 }
 
 #define ct_assert(e) (sizeof(char[1 - 2*!(e)]))
 #define do_something_with_constant(a) \
-	( __builtin_constant_p(a) ? 7 : ct_assert(0==1) )
+	(__builtin_constant_p(a) ? 7 : ct_assert(0==1))
 
 int main(int argc, char** argv, char** envp) {
 	// this will do something bad at runtime

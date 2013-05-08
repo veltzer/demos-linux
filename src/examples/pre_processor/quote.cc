@@ -26,9 +26,9 @@
  * This show how to use the preprocessors '#' operator to quote stuff
  */
 
-#define quote(a) #a
+#define quote(a) # a
 
 int main(int argc, char** argv, char** envp) {
-	printf("quote(5) is %s\n",quote(5));
+	printf("quote(5) is %s\n", quote(5));
 	return EXIT_SUCCESS;
 }

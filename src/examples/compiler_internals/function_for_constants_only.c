@@ -33,14 +33,14 @@ static inline int _sum(int i) {
 	return(i *(i + 1) / 2);
 }
 
-#define sum1(i) \
+#define sum1(i)	\
 	__builtin_choose_expr( \
 	__builtin_constant_p(i), \
 	_sum(i), \
 	(void)0)
 
-#define sum2(i) \
-	(__builtin_constant_p(i) ? _sum(i) : 0 )
+#define sum2(i)	\
+	(__builtin_constant_p(i) ? _sum(i) : 0)
 
 /*
  * This inline version does not work because of bug in gcc whereby __builtin_constant_p(i) is not a constant
@@ -58,10 +58,10 @@ int main(int argc, char** argv, char** envp) {
 	// we make sure that this is indeed a variable...:)
 	int j=atoi("25");
 	// only this creates a compile time error
-	//printf("sum1 for j is %d\n",sum1(j));
+	// printf("sum1 for j is %d\n",sum1(j));
 	// this one just returns bad value
-	printf("sum2 for j is %d\n",sum2(j));
+	printf("sum2 for j is %d\n", sum2(j));
 	// this one just returns bad value
-	printf("sum3 for j is %d\n",sum3(j));
+	printf("sum3 for j is %d\n", sum3(j));
 	return(0);
 }

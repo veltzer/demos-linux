@@ -22,8 +22,8 @@
 #define __mymutex_h
 
 #include <firstinclude.h>
-#include <pthread.h> // for pthread_mutex_init(3), pthread_mutex_destroy(3)
-#include <us_helper.h> // for CHECK_ZERO()
+#include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_destroy(3)
+#include <us_helper.h>	// for CHECK_ZERO()
 
 class MyMutex {
 private:

@@ -39,8 +39,8 @@ void my_trace(const char* fmt, ...) {
 
 int main(int argc, char** argv, char** envp) {
 	// this will not compile
-	//my_trace("2+2 is %d\n","4");
+	// my_trace("2+2 is %d\n","4");
 	// this one does compile
-	my_trace("2+2 is %d\n",4);
+	my_trace("2+2 is %d\n", 4);
 	return EXIT_SUCCESS;
 }
