@@ -86,7 +86,7 @@ int main(int argc, char** argv, char** envp) {
 	pthread_t t1, t2;
 	thread_data td1, td2;
 	strncpy(td1.name, "thread one", 256);
-	//strncpy(td2.name, "thread two", 256);
+	// strncpy(td2.name, "thread two", 256);
 	strncpy(td2.name, "תהליכון", 256);
 	CHECK_ZERO(pthread_mutex_init(&td1.start_mutex, NULL));
 	CHECK_ZERO(pthread_mutex_init(&td2.start_mutex, NULL));

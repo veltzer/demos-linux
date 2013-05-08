@@ -44,26 +44,26 @@ void f1() {
 	for(unsigned int i=0; i<100; i++) {
 		sum1+=i;
 	}
-	fprintf(out,"sum1 is %u\n", sum1);
+	fprintf(out, "sum1 is %u\n", sum1);
 }
 #pragma GCC pop_options
 
 int main(int argc, char** argv, char** envp) {
-	out=fopen("/dev/null","w");
+	out=fopen("/dev/null", "w");
 	f1();
 	// now with optimization
 	unsigned int sum2=0;
 	for(unsigned int i=0; i<100; i++) {
 		sum2+=i;
 	}
-	fprintf(out,"sum2 is %u\n", sum2);
+	fprintf(out, "sum2 is %u\n", sum2);
 	// now with printing
 	unsigned int sum3=0;
 	for(unsigned int i=0; i<100; i++) {
-		fprintf(out,"i is %d\n", i);
+		fprintf(out, "i is %d\n", i);
 		sum3+=i;
 	}
-	fprintf(out,"sum3 is %u\n", sum3);
+	fprintf(out, "sum3 is %u\n", sum3);
 	my_system("objdump --disassemble --source %s", argv[0]);
 	return EXIT_SUCCESS;
 }

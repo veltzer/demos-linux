@@ -30,7 +30,7 @@
  * 'static_assert' for that. See an example for that in the C++ section.
  * The example here demonstrates implementing a static assert without
  * support for it from the compiler and the use of the _Static_assert feature
- * of GCC in the C language. 
+ * of GCC in the C language.
  * Also note that boost has a static assert feature (C++ only).
  *
  * References:

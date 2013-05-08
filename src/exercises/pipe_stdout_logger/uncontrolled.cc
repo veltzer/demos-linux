@@ -30,7 +30,7 @@
 int main(int argc, char** argv, char** envp) {
 	unsigned int counter=0;
 	while(true) {
-		printf("%d: This is yet another log message\n",counter);
+		printf("%d: This is yet another log message\n", counter);
 		usleep(100);
 		counter++;
 	}

@@ -23,7 +23,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> // for usleep(3)
+#include <unistd.h>	// for usleep(3)
 #include <cpufreq.h>
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
@@ -86,14 +86,14 @@ int main(int argc, char** argv, char** envp) {
 
 	printf("starting a sleep of 1 second...\n");
 	ticks_t start=getticks();
-	//usleep(usecs);
+	// usleep(usecs);
 	unsigned long sum=0;
-	for(unsigned int i=0;i<usecs;i++) {
+	for(unsigned int i=0; i<usecs; i++) {
 		sum+=i*i;
 	}
 	ticks_t end=getticks();
 	printf("finished...\n");
-	printf("sum=%lu\n",sum);
+	printf("sum=%lu\n", sum);
 	ticks_t diff=end - start;
 	printf("start RDTSC is %llu\n", start);
 	printf("end RDTSC is %llu\n", end);

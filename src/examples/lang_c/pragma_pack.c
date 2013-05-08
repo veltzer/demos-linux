@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h> // for __stringify()
+#include <us_helper.h>	// for __stringify()
 
 /*
  * This is an example of controlling the packing of structures
@@ -37,17 +37,17 @@
 typedef struct _s1 {
 	char c1;
 } s1;
-_Static_assert(sizeof(s1)==1,"msg");
-_Static_assert(__builtin_offsetof(s1,c1)==0,"msg");
+_Static_assert(sizeof(s1)==1, "msg");
+_Static_assert(__builtin_offsetof(s1, c1)==0, "msg");
 
 // and again...
 typedef struct _s2 {
 	char c1;
 	char c2;
 } s2;
-_Static_assert(sizeof(s2)==2,"msg");
-_Static_assert(__builtin_offsetof(s2,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s2,c2)==1,"msg");
+_Static_assert(sizeof(s2)==2, "msg");
+_Static_assert(__builtin_offsetof(s2, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s2, c2)==1, "msg");
 
 // this one will be 6 bytes because the short will be on a 2 byte boundary
 // and so the first char is padded and so is the second...
@@ -56,10 +56,10 @@ typedef struct _s3 {
 	short s1;
 	char c2;
 } s3;
-_Static_assert(sizeof(s3)==6,"msg");
-_Static_assert(__builtin_offsetof(s3,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s3,s1)==2,"msg");
-_Static_assert(__builtin_offsetof(s3,c2)==4,"msg");
+_Static_assert(sizeof(s3)==6, "msg");
+_Static_assert(__builtin_offsetof(s3, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s3, s1)==2, "msg");
+_Static_assert(__builtin_offsetof(s3, c2)==4, "msg");
 
 // lets pack it tighter
 #pragma pack(push,1)
@@ -69,10 +69,10 @@ typedef struct _s4 {
 	char c2;
 } s4;
 #pragma pack(pop)
-_Static_assert(sizeof(s4)==4,"msg");
-_Static_assert(__builtin_offsetof(s4,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s4,s1)==1,"msg");
-_Static_assert(__builtin_offsetof(s4,c2)==3,"msg");
+_Static_assert(sizeof(s4)==4, "msg");
+_Static_assert(__builtin_offsetof(s4, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s4, s1)==1, "msg");
+_Static_assert(__builtin_offsetof(s4, c2)==3, "msg");
 
 // ints will be on their own 4 byte boundary
 typedef struct _s5 {
@@ -80,12 +80,12 @@ typedef struct _s5 {
 	int i1;
 	char c2;
 } s5;
-_Static_assert(sizeof(s5)==12,"msg");
-_Static_assert(__builtin_offsetof(s5,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s5,i1)==4,"msg");
-_Static_assert(__builtin_offsetof(s5,c2)==8,"msg");
+_Static_assert(sizeof(s5)==12, "msg");
+_Static_assert(__builtin_offsetof(s5, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s5, i1)==4, "msg");
+_Static_assert(__builtin_offsetof(s5, c2)==8, "msg");
 
-// lets pack the most (1) 
+// lets pack the most (1)
 #pragma pack(push,1)
 typedef struct _s6 {
 	char c1;
@@ -93,10 +93,10 @@ typedef struct _s6 {
 	char c2;
 } s6;
 #pragma pack(pop)
-_Static_assert(sizeof(s6)==6,"msg");
-_Static_assert(__builtin_offsetof(s6,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s6,i1)==1,"msg");
-_Static_assert(__builtin_offsetof(s6,c2)==5,"msg");
+_Static_assert(sizeof(s6)==6, "msg");
+_Static_assert(__builtin_offsetof(s6, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s6, i1)==1, "msg");
+_Static_assert(__builtin_offsetof(s6, c2)==5, "msg");
 
 // lets pack it less (2)
 #pragma pack(push,2)
@@ -106,10 +106,10 @@ typedef struct _s7 {
 	char c2;
 } s7;
 #pragma pack(pop)
-_Static_assert(sizeof(s7)==8,"msg");
-_Static_assert(__builtin_offsetof(s7,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s7,i1)==2,"msg");
-_Static_assert(__builtin_offsetof(s7,c2)==6,"msg");
+_Static_assert(sizeof(s7)==8, "msg");
+_Static_assert(__builtin_offsetof(s7, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s7, i1)==2, "msg");
+_Static_assert(__builtin_offsetof(s7, c2)==6, "msg");
 
 // lets specify the alignment of the whole structure
 // note that alignment does not make the structure size a multiplication
@@ -121,10 +121,10 @@ typedef struct _s8 {
 	int i1;
 	char c2;
 } __attribute__((aligned (16))) s8;
-_Static_assert(sizeof(s8)==16,"msg");
-_Static_assert(__builtin_offsetof(s8,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s8,i1)==4,"msg");
-_Static_assert(__builtin_offsetof(s8,c2)==8,"msg");
+_Static_assert(sizeof(s8)==16, "msg");
+_Static_assert(__builtin_offsetof(s8, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s8, i1)==4, "msg");
+_Static_assert(__builtin_offsetof(s8, c2)==8, "msg");
 
 // another way to say that the structure is packed...
 typedef struct _s9 {
@@ -132,10 +132,10 @@ typedef struct _s9 {
 	int i1;
 	char c2;
 } __attribute__ ((__packed__)) s9;
-_Static_assert(sizeof(s9)==6,"msg");
-_Static_assert(__builtin_offsetof(s9,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s9,i1)==1,"msg");
-_Static_assert(__builtin_offsetof(s9,c2)==5,"msg");
+_Static_assert(sizeof(s9)==6, "msg");
+_Static_assert(__builtin_offsetof(s9, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s9, i1)==1, "msg");
+_Static_assert(__builtin_offsetof(s9, c2)==5, "msg");
 
 // lets specify alignment of individual fields in our structure
 typedef struct _s10 {
@@ -143,10 +143,10 @@ typedef struct _s10 {
 	int i1 __attribute__ ((aligned (8)));;
 	char c2;
 } s10;
-_Static_assert(sizeof(s10)==16,"msg");
-_Static_assert(__builtin_offsetof(s10,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s10,i1)==8,"msg");
-_Static_assert(__builtin_offsetof(s10,c2)==12,"msg");
+_Static_assert(sizeof(s10)==16, "msg");
+_Static_assert(__builtin_offsetof(s10, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s10, i1)==8, "msg");
+_Static_assert(__builtin_offsetof(s10, c2)==12, "msg");
 
 // this is really unclear and does not match up with gcc
 // documentation (http://gcc.gnu.org/onlinedocs/gcc/Type-Attributes.html)
@@ -155,10 +155,10 @@ typedef struct _s11 {
 	short s2;
 	short s3;
 } __attribute__ ((aligned)) s11;
-_Static_assert(sizeof(s11)==16,"msg");
-_Static_assert(__builtin_offsetof(s11,s1)==0,"msg");
-_Static_assert(__builtin_offsetof(s11,s2)==2,"msg");
-_Static_assert(__builtin_offsetof(s11,s3)==4,"msg");
+_Static_assert(sizeof(s11)==16, "msg");
+_Static_assert(__builtin_offsetof(s11, s1)==0, "msg");
+_Static_assert(__builtin_offsetof(s11, s2)==2, "msg");
+_Static_assert(__builtin_offsetof(s11, s3)==4, "msg");
 
 // you can pack just individual fields
 typedef struct _s12 {
@@ -167,11 +167,11 @@ typedef struct _s12 {
 	char c2;
 	int i2;
 } s12;
-_Static_assert(sizeof(s12)==12,"msg");
-_Static_assert(__builtin_offsetof(s12,c1)==0,"msg");
-_Static_assert(__builtin_offsetof(s12,i1)==1,"msg");
-_Static_assert(__builtin_offsetof(s12,c2)==5,"msg");
-_Static_assert(__builtin_offsetof(s12,i2)==8,"msg");
+_Static_assert(sizeof(s12)==12, "msg");
+_Static_assert(__builtin_offsetof(s12, c1)==0, "msg");
+_Static_assert(__builtin_offsetof(s12, i1)==1, "msg");
+_Static_assert(__builtin_offsetof(s12, c2)==5, "msg");
+_Static_assert(__builtin_offsetof(s12, i2)==8, "msg");
 
 #define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type))
 
@@ -190,6 +190,6 @@ int main(int argc, char** argv, char** envp) {
 	PRINT_SIZEOF(s12);
 	// you can use __BIGGEST_ALIGNMENT__ for the largest alignment of any
 	// basic type on the system you are compiling to...
-	printf("__BIGGEST_ALIGNMENT__ is %d\n",__BIGGEST_ALIGNMENT__);
+	printf("__BIGGEST_ALIGNMENT__ is %d\n", __BIGGEST_ALIGNMENT__);
 	return EXIT_SUCCESS;
 }
