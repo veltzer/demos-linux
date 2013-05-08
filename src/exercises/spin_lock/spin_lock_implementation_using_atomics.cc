@@ -48,7 +48,7 @@ int mypthread_spin_destroy(mypthread_spinlock_t* lock) {
 int mypthread_spin_lock(mypthread_spinlock_t* lock) {
 	// lets spin!...
 	while(!__sync_bool_compare_and_swap(&(lock->val), 0, 1)) {
-		// on platform where atomic ops are NOT compiler
+		// on platforms where atomic ops are NOT compiler
 		// barrier you need to add a compiler barrier on
 		// lock->val right here inside the loop...
 	}
