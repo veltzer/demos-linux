@@ -36,8 +36,9 @@
  * EXTRA_LINK_FLAGS=-lpthread -lrt
  */
 
-/* we use 49 as the PRREMPT_RT use 50 as the priority of kernel tasklets
- * and interrupt handler by default */
+/* we use 49 as the PRREMPT_RT linux kernel patch uses 50 as the priority of
+ * kernel tasklets and interrupt handlers by default
+ */
 const int MY_PRIORITY=49;
 /* The number of nsecs per sec. */
 const int NSEC_PER_SEC=1000000000;
@@ -47,7 +48,7 @@ const int interval=50000;
 int main(int argc, char** argv, char** envp) {
 	/* Declare ourself as a real time task */
 	struct sched_param param;
-	param.sched_priority=49;
+	param.sched_priority=MY_PRIORITY;
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &param));
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
