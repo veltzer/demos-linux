@@ -1,0 +1,5 @@
+Implement the pthread spin lock api using atomic operation in gcc.
+
+The api could be gotten by "man -k pthread | grep spin"
+
+Demonstrate the use.
