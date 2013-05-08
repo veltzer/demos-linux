@@ -150,7 +150,7 @@ int main(int argc, char** argv, char** envp) {
 		tds[i].lock=&lock;
 		tds[i].max_sleep=max_sleep;
 		tds[i].loops=loops;
-		tds[i].reader=(i%2==true);
+		tds[i].reader=(i%2==0);
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
 		CHECK_ZERO(pthread_attr_init(attrs+i));
