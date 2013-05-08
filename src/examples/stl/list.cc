@@ -26,6 +26,9 @@
 /*
  * Example of using an stl linked list
  * No need to link with any third party library (STL is just headers...)
+ *
+ * References:
+ * http://www.yolinux.com/TUTORIALS/LinuxTutorialC++STL.html#LIST
  */
 
 int main(int argc, char** argv, char** envp) {
