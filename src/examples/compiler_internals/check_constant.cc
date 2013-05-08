@@ -26,15 +26,12 @@
  * This example shows how to treat constant vs non constant arguments
  * differently...
  *
- * This is for static_assert
- * EXTRA_COMPILE_FLAGS=-std=c++0x
- *
  * TODO:
- * - stop the compile on constants...
+ * - stop the compile on constants or non constants...
  */
 
-inline void do_something_with_constant(int a) __attribute__((always_inline));
-inline void do_something_with_constant(int a) {
+inline void do_something_with_constant1(int a) __attribute__((always_inline));
+inline void do_something_with_constant1(int a) {
 	if(!__builtin_constant_p(a)) {
 		printf("bad boy!\n");
 	} else {
@@ -42,11 +39,15 @@ inline void do_something_with_constant(int a) {
 	}
 }
 
+#define ct_assert(e) (sizeof(char[1 - 2*!(e)]))
+#define do_something_with_constant(a) \
+	( __builtin_constant_p(a) ? 7 : ct_assert(0==1) )
+
 int main(int argc, char** argv, char** envp) {
-	// this will not compile
+	// this will do something bad at runtime
 	int x=rand();
-	do_something_with_constant(x);
-	// this one does compile
-	do_something_with_constant(13);
+	do_something_with_constant1(x);
+	// this one will not
+	do_something_with_constant1(13);
 	return EXIT_SUCCESS;
 }
