@@ -33,6 +33,9 @@
  * This is written in C so as to be incoporatable into C programs as well as
  * C++ ones.
  *
+ * Kudos to Gilad Ben-Yosef for providing the basis upon which this code
+ * was built.
+ *
  * EXTRA_LINK_FLAGS=-lpthread -lrt
  */
 
