@@ -23,6 +23,11 @@
 #include <list>	// for std::list<T>, std::list<T>::iterator
 #include <stdlib.h>	// for EXIT_SUCCESS
 
+/*
+ * Example of using an stl linked list
+ * No need to link with any third party library (STL is just headers...)
+ */
+
 int main(int argc, char** argv, char** envp) {
 	std::list<int> l;
 	l.push_back(0);	// Insert a new element at the end
@@ -31,6 +36,10 @@ int main(int argc, char** argv, char** envp) {
 	// (Place before second argument)
 	l.push_back(5);
 	l.push_back(6);
+
+	int s=l.back();
+	l.pop_back();
+	std::cout << s << std::endl;
 
 	// lets iterate and print
 	std::list<int>::iterator i;
