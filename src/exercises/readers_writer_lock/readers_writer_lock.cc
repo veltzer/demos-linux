@@ -30,9 +30,6 @@
  * This is a solution to the readers/writer lock exercise.
  *
  * EXTRA_LINK_FLAGS=-lpthread
- *
- * TODO:
- * - add the testing code.
  */
 
 // this is the spin lock implementation (pthread "like")
@@ -46,8 +43,8 @@ typedef struct _mypthread_rwlock_t {
 } mypthread_rwlock_t;
 
 int mypthread_rwlock_init(mypthread_rwlock_t* lock) {
-	CHECK_ZERO(pthread_cond_init(&lock->mycond,NULL));
-	CHECK_ZERO(pthread_mutex_init(&lock->mymutex,NULL));
+	CHECK_ZERO(pthread_cond_init(&lock->mycond, NULL));
+	CHECK_ZERO(pthread_mutex_init(&lock->mymutex, NULL));
 	lock->readers=0;
 	lock->writers=0;
 	lock->readers_waiting=0;
@@ -63,7 +60,7 @@ int mypthread_rwlock_rdlock(mypthread_rwlock_t* lock) {
 	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
 	lock->readers_waiting++;
 	while(lock->writers>0) {
-		CHECK_ZERO(pthread_cond_wait(&lock->mycond,&lock->mymutex));
+		CHECK_ZERO(pthread_cond_wait(&lock->mycond, &lock->mymutex));
 	}
 	lock->readers++;
 	lock->readers_waiting--;
@@ -74,7 +71,7 @@ int mypthread_rwlock_wrlock(mypthread_rwlock_t* lock) {
 	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
 	lock->writers_waiting++;
 	while(lock->readers>0 || lock->writers>0) {
-		CHECK_ZERO(pthread_cond_wait(&lock->mycond,&lock->mymutex));
+		CHECK_ZERO(pthread_cond_wait(&lock->mycond, &lock->mymutex));
 	}
 	lock->writers++;
 	lock->writers_waiting--;
@@ -106,22 +103,31 @@ typedef struct _thread_data {
 	bool reader;
 } thread_data;
 
-//static unsigned int readers=0;
-//static unsigned int writers=0;
+static unsigned int readers=0;
+static unsigned int writers=0;
 
 void *worker(void *p) {
 	thread_data* td=(thread_data *)p;
 	if(td->reader) {
-		for(unsigned int i=0;i<td->loops;i++) {
+		for(unsigned int i=0; i<td->loops; i++) {
 			CHECK_ZERO(mypthread_rwlock_rdlock(td->lock));
+			CHECK_ASSERT(writers==0);
+			__sync_add_and_fetch(&readers, 1);
 			usleep(rand()%td->max_sleep);
+			__sync_sub_and_fetch(&readers, 1);
 			CHECK_ZERO(mypthread_rwlock_unlock(td->lock));
+			usleep(rand()%td->max_sleep);
 		}
 	} else {
-		for(unsigned int i=0;i<td->loops;i++) {
+		for(unsigned int i=0; i<td->loops; i++) {
 			CHECK_ZERO(mypthread_rwlock_wrlock(td->lock));
+			CHECK_ASSERT(readers==0);
+			CHECK_ASSERT(writers==0);
+			__sync_add_and_fetch(&writers, 1);
 			usleep(rand()%td->max_sleep);
+			__sync_sub_and_fetch(&writers, 1);
 			CHECK_ZERO(mypthread_rwlock_unlock(td->lock));
+			usleep(rand()%td->max_sleep);
 		}
 	}
 	return(NULL);
@@ -129,7 +135,7 @@ void *worker(void *p) {
 
 int main(int argc, char** argv, char** envp) {
 	const int loops=10000;
-	const int max_sleep=10000;
+	const int max_sleep=100;
 	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
 	const int thread_num=cpu_num;
 	pthread_t* threads=new pthread_t[thread_num];
