@@ -1,0 +1,13 @@
+This is a real time design pattern exercise
+===========================================
+You are required to implement a real time design pattern
+called "Exchanger" or, by another name, "Randezvous".
+The idea is that two threads can meet, waiting for one another
+in other to exchange a value. Each thread brings it's own
+value to the encounter, waits for the other thread to arrive
+(if that thread has not yet arrived). When both arrive, they
+exchange the values.
+
+Write the exchanger as a template.
+Demonstrate your use and prove (using assertions) that the
+exchange has been made.
