@@ -21,10 +21,10 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <sys/types.h>	// for getpid(2)
-#include <unistd.h>	// for getpid(2), sleep(3), fork(2)
+#include <unistd.h>	// for getpid(2), sleep(3), fork(2), usleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
-#include <us_helper.h>
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 #define DO_SLEEP
 // #define DO_SELF_PHOTO
@@ -62,7 +62,7 @@ int main(int argc, char** argv, char** envp) {
 	for(volatile unsigned int i=0; i<10000; i++) {
 		printf("i is %d\n", i);
 #ifdef DO_SLEEP
-		usleep(5);
+		CHECK_NOT_M1(usleep(5));
 #endif	// DO_SLEEP
 #ifdef DO_SELF_PHOTO
 		if(i==5000) {

@@ -23,7 +23,7 @@
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_barrier_t, pthread_create(3)
 #include <unistd.h>	// for sysconf(3), usleep(3), sleep(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(3)
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_ONEOFTWO(), INFO(), print_cpu_set()
+#include <us_helper.h>	// for CHECK_ZERO(), CHECK_ONEOFTWO(), INFO(), CHECK_NOT_M1(), print_cpu_set()
 
 /*
  * This demo shows off pthread barriers which are a way to synchronize a number of threads.
@@ -46,7 +46,7 @@ static void *worker(void *p) {
 		// block on the barrier
 		CHECK_ONEOFTWO(pthread_barrier_wait(td->barrier), 0, PTHREAD_BARRIER_SERIAL_THREAD);
 		// give a chance for other thread to print that they stopped sleeping (hack)
-		// usleep(1000);
+		// CHECK_NOT_M1(usleep(1000));
 		INFO("doing work (%d)", td->num);
 		// sleep for a random time
 		sleep(rand()%td->max_sleep_time+td->min_sleep_time);
@@ -89,7 +89,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, data + i));
 	}
 	// give the threads a chance to print their start messages
-	usleep(1000);
+	CHECK_NOT_M1(usleep(1000));
 	INFO("created threads");
 	INFO("joining threads");
 	for(int i=0; i<thread_num; i++) {

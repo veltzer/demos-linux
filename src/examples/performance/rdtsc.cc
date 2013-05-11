@@ -55,8 +55,10 @@
  * - on multi core the RDTSC reports twice as long. Fix this...
  */
 void long_task(void) {
-// const int sleep_time=100;
-// usleep(sleep_time);
+	/*
+	 * const int sleep_time=100;
+	 * CHECK_NOT_M1(usleep(sleep_time));
+	 */
 	sleep(1);
 	/*
 	 * This doesn't really work since the compiler eliminates
@@ -86,7 +88,7 @@ int main(int argc, char** argv, char** envp) {
 
 	printf("starting a sleep of 1 second...\n");
 	ticks_t start=getticks();
-	// usleep(usecs);
+	// CHECK_NOT_M1(usleep(usecs));
 	unsigned long sum=0;
 	for(unsigned int i=0; i<usecs; i++) {
 		sum+=i*i;

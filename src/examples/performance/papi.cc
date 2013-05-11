@@ -23,7 +23,7 @@
 #include <unistd.h>	// for usleep(3)
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdlib.h>	// for atoi(3), EXIT_FAILURE, EXIT_SUCCESS
-#include <us_helper.h>	// for getticks(), CHECK_INT()
+#include <us_helper.h>	// for getticks(), CHECK_INT(), CHECK_NOT_M1()
 
 /*
  * Demo for using the PAPI library for RDTSC.
@@ -50,7 +50,7 @@ int main(int argc, char** argv, char** envp) {
 	// lets start measuring...
 	long long c1=PAPI_get_real_cyc();
 	ticks_t t1=getticks();
-	usleep(usecs);
+	CHECK_NOT_M1(usleep(usecs));
 	long long c2=PAPI_get_real_cyc();
 	ticks_t t2=getticks();
 	printf("c1(papi) is %lld\n", c1);

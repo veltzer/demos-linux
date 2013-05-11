@@ -110,8 +110,8 @@ int main(int argc, char** argv, char** envp) {
 			}
 		}
 		/* close socket */
-		close(s);
-		usleep(30000);
+		CHECK_NOT_M1(close(s));
+		CHECK_NOT_M1(usleep(30000));
 	}
 	return EXIT_SUCCESS;
 }

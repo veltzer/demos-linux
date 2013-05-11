@@ -28,7 +28,7 @@
  * This example shows the various values returned by path conf for the folder you give it...
  */
 
-#define PRINT_PATHCONF(path,name) printf("pathconf(\"%s\",%s)=%d\n",path,__stringify(name),CHECK_NOT_M1(pathconf(path,name)))
+#define PRINT_PATHCONF(path, name) printf("pathconf(\"%s\",%s)=%d\n", path, __stringify(name), CHECK_NOT_M1(pathconf(path, name)))
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
@@ -36,14 +36,14 @@ int main(int argc, char** argv, char** envp) {
 		return EXIT_FAILURE;
 	}
 	const char* path=argv[1];
-	PRINT_PATHCONF(path,_PC_LINK_MAX);
-	PRINT_PATHCONF(path,_PC_MAX_CANON);
-	PRINT_PATHCONF(path,_PC_MAX_INPUT);
-	PRINT_PATHCONF(path,_PC_NAME_MAX);
-	PRINT_PATHCONF(path,_PC_PATH_MAX);
-	PRINT_PATHCONF(path,_PC_PIPE_BUF);
-	PRINT_PATHCONF(path,_PC_CHOWN_RESTRICTED);
-	PRINT_PATHCONF(path,_PC_NO_TRUNC);
-	PRINT_PATHCONF(path,_PC_VDISABLE);
+	PRINT_PATHCONF(path, _PC_LINK_MAX);
+	PRINT_PATHCONF(path, _PC_MAX_CANON);
+	PRINT_PATHCONF(path, _PC_MAX_INPUT);
+	PRINT_PATHCONF(path, _PC_NAME_MAX);
+	PRINT_PATHCONF(path, _PC_PATH_MAX);
+	PRINT_PATHCONF(path, _PC_PIPE_BUF);
+	PRINT_PATHCONF(path, _PC_CHOWN_RESTRICTED);
+	PRINT_PATHCONF(path, _PC_NO_TRUNC);
+	PRINT_PATHCONF(path, _PC_VDISABLE);
 	return EXIT_SUCCESS;
 }

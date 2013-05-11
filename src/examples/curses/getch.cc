@@ -23,7 +23,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <curses.h>
-#include <unistd.h>
+#include <unistd.h> // for usleep(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * Curses example number 1...
@@ -42,7 +43,7 @@ int main(int argc, char** argv, char** envp) {
 		int c=getch();
 		if (c==ERR) {
 			// there is no input on the keyboard. Wait a while to avoid busy wait...
-			// usleep(100000);
+			// CHECK_NOT_M1(usleep(100000));
 		} else {
 			// We have a character!!! Print it on the screen...
 			echochar(c);

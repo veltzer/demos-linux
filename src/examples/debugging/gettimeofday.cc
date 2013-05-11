@@ -22,8 +22,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
-#include <unistd.h>
-#include <us_helper.h>
+#include <unistd.h> // for usleep(3)
+#include <us_helper.h> // for CHECK_NOT_M1()
 
 /*
  * This example shows how to use gettimeofday
@@ -55,7 +55,7 @@ int main(int argc, char** argv, char** envp) {
 	struct timeval tv_start, tv_end;
 
 	CHECK_NOT_M1(gettimeofday(&tv_start, NULL));
-	usleep(50 * 1000);
+	CHECK_NOT_M1(usleep(50 * 1000));
 	CHECK_NOT_M1(gettimeofday(&tv_end, NULL));
 	print_timeval(&tv_start, "start");
 	print_timeval(&tv_end, "end");
