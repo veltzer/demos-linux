@@ -31,7 +31,8 @@
  * References:
  * http://stackoverflow.com/questions/3209918/how-to-implement-an-exchanger-rendezvous-pattern-in-c
  *
- * EXTRA_LINK_FLAGS=-lboost_thread
+ * the next one should be "-lboost_thread" but ubuntu has no symlink to that...
+ * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.49.0
  */
 
 template <class T> class Exchanger {
