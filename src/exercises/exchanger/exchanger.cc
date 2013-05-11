@@ -118,7 +118,7 @@ int main(int argc, char** argv, char** envp) {
 	srand(0);
 	Exchanger<unsigned int> e;
 	unsigned int max_sleep_time=1000;
-	unsigned int loop_count=1000;
+	unsigned int loop_count=1000000;
 	Worker w1(e,max_sleep_time,loop_count,100,200);
 	Worker w2(e,max_sleep_time,loop_count,200,300);
 
