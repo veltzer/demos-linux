@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <string.h>
-#include <unistd.h> // for usleep(3)
+#include <unistd.h>	// for usleep(3)
 #include <math.h>
 #include <time.h>
 #include <sys/time.h>
@@ -30,7 +30,7 @@
 #include <GL/glx.h>
 #include <GL/glext.h>
 #include <GL/glu.h>
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
  * OpenGL example number 2...

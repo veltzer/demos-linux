@@ -30,7 +30,7 @@
  *
  * Note:
  * - to behave like the builtin 'assert' we dump core at the end using
- *   the abort(3) library function.
+ * the abort(3) library function.
  * - we try to emulate the library function 'assert' as much as possbile.
  */
 

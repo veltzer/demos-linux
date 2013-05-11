@@ -42,7 +42,7 @@
  *
  * TODO:
  * - the union could be made transparent using a transparent_union attribute. check
- *   out the gcc documentation and put this in.
+ * out the gcc documentation and put this in.
  */
 
 struct foo {

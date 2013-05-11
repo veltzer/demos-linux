@@ -356,7 +356,7 @@ check_pgrep:
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone
+	@scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone | grep -v makefiles
 .PHONY: check_laststub
 check_laststub:
 	$(info doing [$@])

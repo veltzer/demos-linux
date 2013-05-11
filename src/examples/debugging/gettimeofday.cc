@@ -22,8 +22,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
-#include <unistd.h> // for usleep(3)
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <unistd.h>	// for usleep(3)
+#include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows how to use gettimeofday
