@@ -19,31 +19,31 @@
  */
 
 #include <firstinclude.h>
-#include <unistd.h>	// for sleep(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <unistd.h>	// for pathconf(2)
+#include <stdio.h>	// for printf(3), fprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h>	// for CHECK_NOT_M1(), __stringify()
 
 /*
- * This is a simple example of calling sleep(3).
- * The idea is to demonstrate that sleep is made out of signal
- * handling functions. strace this executable to see exactly which.
- *
- * Here is the output:
- * rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8)=0
- * rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8)=0
- * rt_sigprocmask(SIG_SETMASK, [], NULL, 8)=0
- * nanosleep({5, 0}, 0xbf9db174)=0
- *
- * TODO:
- * make this program strace itself...
+ * This example shows the various values returned by path conf for the folder you give it...
  */
+
+#define PRINT_PATHCONF(path,name) printf("pathconf(\"%s\",%s)=%d\n",path,__stringify(name),CHECK_NOT_M1(pathconf(path,name)))
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr, "%s: usage: %s [seconds]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [folder]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	int seconds=atoi(argv[1]);
-	CHECK_ZERO(sleep(seconds));
+	const char* path=argv[1];
+	PRINT_PATHCONF(path,_PC_LINK_MAX);
+	PRINT_PATHCONF(path,_PC_MAX_CANON);
+	PRINT_PATHCONF(path,_PC_MAX_INPUT);
+	PRINT_PATHCONF(path,_PC_NAME_MAX);
+	PRINT_PATHCONF(path,_PC_PATH_MAX);
+	PRINT_PATHCONF(path,_PC_PIPE_BUF);
+	PRINT_PATHCONF(path,_PC_CHOWN_RESTRICTED);
+	PRINT_PATHCONF(path,_PC_NO_TRUNC);
+	PRINT_PATHCONF(path,_PC_VDISABLE);
 	return EXIT_SUCCESS;
 }
