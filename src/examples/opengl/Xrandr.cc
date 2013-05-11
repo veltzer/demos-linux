@@ -23,10 +23,10 @@
 #include <assert.h>	// for assert(3)
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h> // for usleep(3)
+#include <unistd.h>	// for usleep(3)
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
-#include <us_helper.h> // for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
  * OpenGL example number 3...

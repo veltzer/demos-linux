@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <iostream>	// for std::cout, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <boost/thread.hpp> // for boost::thread::hardware_concurrency()
+#include <boost/thread.hpp>	// for boost::thread::hardware_concurrency()
 
 /*
  * A simple boost threads app
