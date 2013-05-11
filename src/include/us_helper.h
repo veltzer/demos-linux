@@ -107,7 +107,7 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	unsigned long long diff=t2 - t1;
 	// the frquency returned is in tousands of clicks per second so we multiply
 	//unsigned long long freq=cpufreq_get_freq_kernel(0) * 1000;
-	
+
 	// we take the maxiumum frequency for newer Intel machines supporting the
 	// 'constant_tsc' feature (see /proc/cpuinfo...).
 	unsigned long min,max;
