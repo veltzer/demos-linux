@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <sys/types.h>	// for waitpid(2), open(2)
 #include <sys/wait.h>	// for waitpid(2)
-#include <unistd.h>	// for close(2), dup(2), execl(3), fork(2)
+#include <unistd.h>	// for close(2), dup(2), execl(3), fork(2), pathconf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_NOT_M1()
 #include <sys/stat.h>	// for open(2)
@@ -36,7 +36,7 @@
  */
 
 void runUncontrolled(int* fd) {
-	const char* exe="src/exercises/stdout_logger/uncontrolled.elf";
+	const char* exe="src/exercises/pipe_stdout_logger/uncontrolled.elf";
 	// close standard output
 	CHECK_NOT_M1(close(STDOUT_FILENO));
 	// close the read end of the pipe
@@ -53,8 +53,7 @@ void runUncontrolled(int* fd) {
 
 static int logfile_counter=0;
 int getnextlogfile() {
-	// TODO: 256 is ugly - fix this
-	unsigned int filename_length=256;
+	unsigned int filename_length=CHECK_NOT_M1(pathconf("/tmp",_PC_NAME_MAX));
 	char logfilename[filename_length];
 	snprintf(logfilename, filename_length, "/tmp/log%d.txt", logfile_counter);
 	int logfd=CHECK_NOT_M1(open(logfilename, O_WRONLY|O_CREAT|O_TRUNC, 0666));
@@ -69,25 +68,30 @@ void runLogger(int* fd) {
 	CHECK_NOT_M1(close(fd[1]));
 	// setup fd 1 to be correct
 	CHECK_NOT_M1(dup2(fd[0], STDIN_FILENO));
-	// lets log...
-	int logfd=getnextlogfile();
+	// the log fd...
+	int logfd=-1;
 	// buffer for the logging...
 	const unsigned int bufsize=getpagesize();
 	char buf[bufsize];
 	unsigned int msg_count=0;
 	while(true) {
+		if(msg_count%1000==0) {
+			if(logfd!=-1)
+				CHECK_NOT_M1(close(logfd));
+			logfd=getnextlogfile();
+		}
+		msg_count++;
 		ssize_t size_read=CHECK_NOT_M1(read(STDIN_FILENO, buf, bufsize));
 		if(size_read==0) {
 			break;
 		}
-		ssize_t size_write __attribute__((unused))=CHECK_NOT_M1(write(logfd, buf, size_read));
-		// TODO: we need to check that everything is written
-		// I am too lazy to do this...
-		if(msg_count%1000==0) {
-			CHECK_NOT_M1(close(logfd));
-			logfd=getnextlogfile();
+		// keep writing until everything is written...
+		char* ptr=buf;
+		while(size_read>0) {
+			ssize_t size_write=CHECK_NOT_M1(write(logfd, ptr, size_read));
+			size_read-=size_write;
+			ptr+=size_write;
 		}
-		msg_count++;
 	}
 }
 
