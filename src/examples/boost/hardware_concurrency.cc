@@ -19,20 +19,18 @@
  */
 
 #include <firstinclude.h>
+#include <iostream>	// for std::cout, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <stdio.h>	// for printf(3)
-#include <unistd.h>	// for usleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <boost/thread.hpp> // for boost::thread::hardware_concurrency()
 
 /*
- * This is an uncontrolled program that we want to arrange logging for...
+ * A simple boost threads app
+ *
+ * EXTRA_LINK_FLAGS=-lboost_thread
  */
+
 int main(int argc, char** argv, char** envp) {
-	unsigned int counter=0;
-	while(true) {
-		printf("%d: This is yet another log message\n", counter);
-		CHECK_NOT_M1(usleep(100));
-		counter++;
-	}
+	size_t n_threads = boost::thread::hardware_concurrency();
+	std::cout << "boost::thread::hardware_concurrency is " << n_threads << std::endl;
 	return EXIT_SUCCESS;
 }

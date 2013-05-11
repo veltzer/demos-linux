@@ -53,7 +53,7 @@ void runUncontrolled(int* fd) {
 
 static int logfile_counter=0;
 int getnextlogfile() {
-	unsigned int filename_length=CHECK_NOT_M1(pathconf("/tmp",_PC_NAME_MAX));
+	unsigned int filename_length=CHECK_NOT_M1(pathconf("/tmp", _PC_NAME_MAX));
 	char logfilename[filename_length];
 	snprintf(logfilename, filename_length, "/tmp/log%d.txt", logfile_counter);
 	int logfd=CHECK_NOT_M1(open(logfilename, O_WRONLY|O_CREAT|O_TRUNC, 0666));

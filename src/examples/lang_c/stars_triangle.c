@@ -22,7 +22,7 @@
 #include <stdio.h>	// for scanf(3), putchar(3), fflush(3)
 #include <unistd.h>	// for usleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_INT()
+#include <us_helper.h>	// for CHECK_INT(), CHECK_NOT_M1()
 
 int main(int argc, char** argv, char** envp) {
 	int num;
@@ -44,7 +44,7 @@ int main(int argc, char** argv, char** envp) {
 			}
 			putchar('\r');
 			fflush(stdout);
-			usleep(100000);
+			CHECK_NOT_M1(usleep(100000));
 		}
 		for(i=num-1, u=0; i>=0; i--, u++) {
 			int j;
@@ -60,7 +60,7 @@ int main(int argc, char** argv, char** envp) {
 			}
 			putchar('\r');
 			fflush(stdout);
-			usleep(100000);
+			CHECK_NOT_M1(usleep(100000));
 		}
 	}
 	return EXIT_SUCCESS;

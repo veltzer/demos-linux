@@ -21,11 +21,11 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_spin_init(3), pthread_spin_destroy(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_attr_init(3), pthread_attr_setaffinity_np(3)
-#include <unistd.h>	// for sysconf(3)
+#include <unistd.h>	// for sysconf(3), usleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <list>	// for STL list
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
 
 /*
  * This is a solution to the synchronized queue exercise.
@@ -89,7 +89,7 @@ void *worker(void *p) {
 	if(td->producer) {
 		for(unsigned int i=0; i<td->count; i++) {
 			td->queue->put(rand()%td->max_msg);
-			usleep(rand()%td->max_sleep);
+			CHECK_NOT_M1(usleep(rand()%td->max_sleep));
 		}
 		td->queue->put(td->max_msg);
 	} else {
