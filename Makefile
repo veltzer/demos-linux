@@ -356,10 +356,7 @@ check_pgrep:
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone | grep -v makefiles
-.PHONY: check_laststub
-check_laststub:
-	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone \| grep -v makefiles
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
@@ -370,7 +367,7 @@ check_perror:
 	@scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_laststub check_perror check_check kernel_check
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check
 
 .PHONY: check_dots
 check_dots:
