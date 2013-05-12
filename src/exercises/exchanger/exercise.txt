@@ -8,6 +8,14 @@ value to the encounter, waits for the other thread to arrive
 (if that thread has not yet arrived). When both arrive, they
 exchange the values.
 
-Write the exchanger as a template.
+Write the exchanger as a template with one method exchange.
+
+somewhere, a global variable:
+Exchanger<int> e;
+
+Inside each thread:
+
+	int value_for_me=e.exchange(value_for_him);
+
 Demonstrate your use and prove (using assertions) that the
 exchange has been made.

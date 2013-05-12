@@ -59,9 +59,11 @@ int main(int argc, char** argv, char** envp) {
 		case SIGUSR1:
 			printf("Got SIGUSR1\n");
 			break;
+			/*
 		default:
 			printf("ERROR: Read unexpected signal\n");
 			break;
+			*/
 		}
 	}
 	return EXIT_SUCCESS;

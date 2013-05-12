@@ -23,6 +23,7 @@
 
 /*
  * This application should explore real time signals between processes.
+ * TODO: maybe I should write this app?!?
  */
 
 int main(int argc, char** argv, char** envp) {
