@@ -52,11 +52,9 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "Usage: %s [series of numbers to send]\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	int efd=eventfd(0, 0);
-	CHECK_NOT_M1(efd);
+	int efd=CHECK_NOT_M1(eventfd(0, 0));
 
-	pid_t pid=fork();
-	CHECK_NOT_M1(pid);
+	pid_t pid=CHECK_NOT_M1(fork());
 	if(pid==0) {
 		// child branch
 		for(int j=1; j<argc; j++) {

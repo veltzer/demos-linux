@@ -56,6 +56,7 @@ static void print_elapsed_time(void) {
 int main(int argc, char** argv, char** envp) {
 	if (argc!=4) {
 		fprintf(stderr, "%s: usage: %s [init-secs] [interval-secs] [max-exp]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 2 5 6\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	struct timespec now;

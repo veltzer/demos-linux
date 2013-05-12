@@ -50,7 +50,7 @@ public:
 		CHECK_ZERO(pthread_mutex_lock(&mymutex));
 		mylist.push_back(t);
 		// only wake up one getter if there are any getters
-		// We only wake up one because we only put on data
+		// We only wake up one because we only put one data
 		// element on the queue. If another putter comes
 		// along he will wake up another one...
 		if(waiters>0) {
