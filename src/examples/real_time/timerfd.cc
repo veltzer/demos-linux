@@ -34,17 +34,16 @@
  * TODO:
  * - the printing of the time must be done in some more sane way.
  * (there is also probably a bug in it...)
- *
- * EXTRA_LINK_FLAGS=-lrt
  */
 
 static void print_elapsed_time(void) {
+	// static data for start time
 	static struct timespec start;
+	static bool first_call=true;
 	struct timespec curr;
-	static int first_call=1;
 	int secs, nsecs;
 	if (first_call) {
-		first_call=0;
+		first_call=false;
 		CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &start));
 	}
 	CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &curr));
