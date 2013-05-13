@@ -32,10 +32,17 @@
 /*
  * This examples shows the effect of the nice scheduling system (SCHED_OTHER).
  *
- * It binds the process to a single core (for multi core systems).
- * It then forks several versions of heavy work each with a different nice level.
+ * It then forks several versions of heavy work each with a different nice level
+ * bound to a core of your choosing.
  * Then you can compare the work done by each of these.
+ * They forked processes report progress to the "master" process using shared
+ * memory and compiler barriers.
  *
+ * TODO:
+ * - convert the compiler barriers from full compiler barriers to single variable
+ * compiler barriers.
+ *
+ * needed for shm_* functions...
  * EXTRA_LINK_FLAGS=-lrt
  *
  * References:
@@ -50,17 +57,18 @@ void make_child(const int niceval, int* const prog, int core) {
 	// set the nice value for myself
 	CHECK_NOT_M1(nice(niceval));
 	// bind the entire process to the core required
-	// lets get our pid (no error for getpid)
-	pid_t mypid=getpid();
 	cpu_set_t myset;
 	CPU_ZERO(&myset);
 	CPU_SET(core, &myset);
-	CHECK_NOT_M1(sched_setaffinity(mypid, sizeof(myset), &myset));
+	// pid=0 in the next call means the calling process
+	CHECK_NOT_M1(sched_setaffinity(0, sizeof(myset), &myset));
 	float sum=0;
 	for(unsigned int i=0; i<100000000; i++) {
 		for(unsigned int j=0; j<10000000; j++) {
 			sum+=j;
 		}
+		// this barrier is really necessary. remove it and you wont see
+		// progress at all... 
 		asm volatile ("" ::: "memory");
 		*prog=*prog+1;
 	}
@@ -76,16 +84,17 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: to see the graph of cpu distribution\n", argv[0]);
 		return EXIT_FAILURE;
 	}
+	const int map_size=getpagesize();
 	const char* shm_name="shared_mem";
 	// put this in shared memory
 	// don't check the return address in case it's the first time we run this software
 	shm_unlink(shm_name);
 	int smfd=CHECK_NOT_M1(shm_open(shm_name, O_CREAT|O_RDWR, 0));
 	// we have to set the size otherwise it will not work
-	CHECK_NOT_M1(ftruncate(smfd, getpagesize()));
+	CHECK_NOT_M1(ftruncate(smfd, map_size));
 	void* ptr=CHECK_NOT_VOIDP(mmap(
 			NULL,	/* addr: dont recommend address */
-			getpagesize(),	/* size: the size of the file */
+			map_size,	/* size: the size of the mapping */
 			PROT_READ|PROT_WRITE,	/* prot: we just want read */
 			MAP_SHARED,	/* flags: PRIVATE or SHARED ** MUST** be specified */
 			smfd,	/* fd: our file descriptor */
@@ -123,6 +132,7 @@ int main(int argc, char** argv, char** envp) {
 		sleep(1);
 		loop++;
 	}
+	CHECK_NOT_M1(munmap(ptr,map_size));
 	CHECK_NOT_M1(shm_unlink(shm_name));
 	return EXIT_SUCCESS;
 }

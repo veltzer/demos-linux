@@ -31,6 +31,10 @@
  * This example was stolen shamelessly from the timerfd_create(2) manpage,
  * and adapted to my coding style.
  *
+ * TODO:
+ * - the printing of the time must be done in some more sane way.
+ * (there is also probably a bug in it...)
+ *
  * EXTRA_LINK_FLAGS=-lrt
  */
 
