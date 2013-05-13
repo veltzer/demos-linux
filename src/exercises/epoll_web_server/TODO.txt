@@ -1,1 +1,3 @@
 - add the web part (this is still not a web server)
+- add timeouts when a client does not do anything.
+- do the writing correctly.

@@ -21,10 +21,12 @@
 #include <firstinclude.h>
 #include <sys/eventfd.h>// for eventfd(2)
 #include <unistd.h>	// for fork(2), close(2), sleep(3), write(2), read(2)
-#include <stdlib.h>	// for exit(3)
+#include <stdlib.h>	// for exit(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for fprintf(3), strtoull(3)
 #include <signal.h>	// for siginterrupt(2), signal(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_INT()
+#include <sys/types.h>	// for waitpid(2)
+#include <sys/wait.h>	// for waitpid(2)
 
 /*
  * This program demos parent child communication via an event fd
@@ -40,54 +42,64 @@
  * - eventfd can be multiplexed using select, poll or epoll.
  */
 
-volatile bool cont=true;
-
-void handler(int signum) {
-	fprintf(stderr, "got SIGCHLD\n");
-	cont=false;
-}
-
 int main(int argc, char** argv, char** envp) {
-	if (argc < 2) {
-		fprintf(stderr, "Usage: %s [series of numbers to send]\n", argv[0]);
+	if (argc !=3) {
+		fprintf(stderr, "%s: usage: %s [loop count] [max_rand]\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	int efd=CHECK_NOT_M1(eventfd(0, 0));
+	// parameters
+	unsigned int loop_count=atoi(argv[1]);
+	unsigned int max_rand=atoi(argv[2]);
 
-	pid_t pid=CHECK_NOT_M1(fork());
-	if(pid==0) {
-		// child branch
-		for(int j=1; j<argc; j++) {
-			uint64_t u=strtoull(argv[j], NULL, 0);
-			printf("Child writing %llu (0x%llx) to efd\n", u, u);
-			ssize_t s=write(efd, &u, sizeof(uint64_t));
-			CHECK_ASSERT(s==sizeof(uint64_t));
-			// sleep(1);
-		}
-		printf("Child completed write loop\n");
-		CHECK_NOT_M1(close(efd));
-		printf("Child exiting\n");
-		return EXIT_SUCCESS;
-	} else {
+	// create the event fd
+	int efd=CHECK_NOT_M1(eventfd(0, EFD_NONBLOCK));
+
+	pid_t child_pid;
+	if((child_pid=CHECK_NOT_M1(fork()))) {
 		// parent branch
-		// install a signal handler for when the child dies so that we could know
-		// that we need to stop listening for messages from it
-		sighandler_t old=signal(SIGCHLD, handler);
-		CHECK_ASSERT(old!=SIG_ERR);
-		// this is neccessary in order to 'break' out of the read(2) system
-		// call when SIGCHLD comes along...
-		CHECK_NOT_M1(siginterrupt(SIGCHLD, 1));
-		printf("Parent about to read\n");
-		while(cont) {
+		uint64_t sum=0;
+		unsigned int counter=0;
+		bool child_dead=false;
+		while(child_dead==false) {
+			int status;
+			pid_t p=CHECK_NOT_M1(waitpid(child_pid, &status, WNOHANG));
+			if(p==child_pid) {
+				child_dead=true;
+			}
 			uint64_t u;
 			ssize_t s=read(efd, &u, sizeof(uint64_t));
-			if(cont) {
-				CHECK_ASSERT(s==sizeof(uint64_t));
-				printf("Parent read %llu (0x%llx) from efd\n", u, u);
+			if(s==-1) {
+				CHECK_ASSERT(errno!=-EAGAIN);
+			} else {
+				counter++;
+				sum+=u;
 			}
 		}
+		// pump whatever is left
+		uint64_t u;
+		ssize_t s=read(efd, &u, sizeof(uint64_t));
+		if(s==-1) {
+			CHECK_ASSERT(errno!=-EAGAIN);
+		} else {
+			counter++;
+			sum+=u;
+		}
 		CHECK_NOT_M1(close(efd));
-		printf("Parent exiting\n");
+		printf("parent counter is %u\n",counter);
+		printf("parent sum is %llu\n",sum);
+		return EXIT_SUCCESS;
+	} else {
+		// child branch
+		// so we will get good random numbers
+		srand(getpid());
+		uint64_t sum=0;
+		for(unsigned int i=0; i<loop_count; i++) {
+			uint64_t u=rand()%max_rand;
+			CHECK_INT(write(efd, &u, sizeof(uint64_t)),sizeof(uint64_t));
+			sum+=u;
+		}
+		CHECK_NOT_M1(close(efd));
+		printf("child sum is %llu\n",sum);
 		return EXIT_SUCCESS;
 	}
 }
