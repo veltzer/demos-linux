@@ -37,6 +37,8 @@
  */
 
 // const char* file_to_map="/etc/passwd";
+// TODO: this is not a good file name. I need a big file filename
+// that is guaranteed to exist always...
 const char* file_to_map="/boot/initrd.img-3.0.0-16-generic";
 
 void show_vmem() {
