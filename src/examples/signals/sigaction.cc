@@ -47,6 +47,11 @@
  * (SIGRTMIN - SIGRTMAX) and register on them then you will get full guarantee
  * of delivery (unless you congest the os rt signal queue that is - see ulimit
  * -r for details).
+ *
+ * TODO:
+ * - do not call the third argument to the signal handler 'unused' and instead
+ * get info out of it (registers?!?). See the example of the libcrash library
+ * in order to see how to do that.
  */
 
 // count the number of signals we get
