@@ -46,8 +46,12 @@ int main(int argc, char** argv, char** envp) {
 		return EXIT_FAILURE;
 	}
 	// parameters
-	register_handler_sigaction(SIGALRM, handler);
 	int seconds=atoi(argv[1]);
+	// register the signal handler for SIGALRM
+	// we have to do this since the default handler for SIGALRM
+	// will terminate the running program
+	register_handler_sigaction(SIGALRM, handler);
+	// demonstrate the use of our sleep function
 	while(true) {
 		printf("before sleep\n");
 		my_sleep(seconds);
