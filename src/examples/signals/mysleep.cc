@@ -19,32 +19,39 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3)
-#include <unistd.h>	// for sleep(3)
+#include <signal.h>	// for SIGALRM
+#include <stdio.h>	// for printf(3), fprintf(3)
+#include <unistd.h>	// for alarm(2), unistd(2)
 #include <stdlib.h>	// for EXIT_SUCCESS, atoi(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO(), register_handler_sigaction()
 
 /*
- * This is a simple example of calling sleep(3).
- * The idea is to demonstrate that sleep is made out of signal
- * handling functions. strace this executable to see exactly which.
- *
- * Here is the output:
- * rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8)=0
- * rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8)=0
- * rt_sigprocmask(SIG_SETMASK, [], NULL, 8)=0
- * nanosleep({5, 0}, 0xbf9db174)=0
- *
- * TODO:
- * - make this program strace itself...
+ * This is an example of how to implement the sleep function using
+ * alarm(2) and pause(2)
  */
+
+static void handler(int sig, siginfo_t *si, void *unused) {
+	// do nothing?!?
+}
+
+void my_sleep(int seconds) {
+	CHECK_ZERO(alarm(seconds));
+	int ret=pause();
+	CHECK_ASSERT(ret==-1 && errno==EINTR);
+}
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
 		fprintf(stderr, "%s: usage: %s [seconds]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
+	// parameters
+	register_handler_sigaction(SIGALRM, handler);
 	int seconds=atoi(argv[1]);
-	CHECK_ZERO(sleep(seconds));
+	while(true) {
+		printf("before sleep\n");
+		my_sleep(seconds);
+		printf("woke up\n");
+	}
 	return EXIT_SUCCESS;
 }

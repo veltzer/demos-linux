@@ -19,12 +19,13 @@
  */
 
 #include <firstinclude.h>
-#include <signal.h>	// for psiginfo(3), SIGUSR1, SIGUSR2, SIGRTMIN
+#include <stdio.h>	// for fprintf(3), printf(3)
+#include <signal.h>	// for sigaction(2), psiginfo(3), SIGUSR1, SIGUSR2, SIGRTMIN
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <us_helper.h>	// for CHECK_NOT_VAL(), register_handler_sigaction()
+#include <us_helper.h>	// for register_handler_sigaction()
 
 /*
  * This is an example of using the sigaction(2) API.
@@ -51,11 +52,25 @@
 // count the number of signals we get
 static unsigned int counter=0;
 
+// a function to print the siginfo_t structure
+// see 'man sigaction' for details on the internals of
+// this structure...
+// This function DOES NOT print all the fields of the siginfo
+// structure as there are just too many of them...
+void print_siginfo(FILE* out,siginfo_t *si) {
+	fprintf(out,"sighandler: si is %p\n", si);
+	fprintf(out,"sighandler: si_signo is: %d\n", si->si_signo);
+	fprintf(out,"sighandler: si_errno is: %d\n", si->si_errno);
+	fprintf(out,"sighandler: si_pid is: %d\n", si->si_pid);
+	fprintf(out,"sighandler: si_uid is: %d\n", si->si_uid);
+	fprintf(out,"sighandler: si_addr is: %p\n", si->si_addr);
+}
+
 static void handler(int sig, siginfo_t *si, void *unused) {
 	printf("sighandler: counter is %d\n", counter);
 	printf("sighandler: got signal %s\n", strsignal(sig));
-	printf("sighandler: si is %p\n", si);
-	printf("sighandler: address is: 0x%lx\n", (long) si->si_addr);
+	print_siginfo(stdout,si);
+	printf("sighandler: unused is %p...\n", unused);
 	printf("sighandler: psiginfo follows...\n");
 	psiginfo(si, "sighandler");
 	counter++;
@@ -73,7 +88,9 @@ int main(int argc, char** argv, char** envp) {
 	// This is a non busy wait loop which only wakes up when there are signals
 	while(true) {
 		int ret=pause();
-		printf("pause(2) wakeup with return value %d (-1 is ok as ret value)\n", ret);
+		// this is what is guaranteed by a clean exit of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
+		printf("pause(2) wakeup\n");
 	}
 	return EXIT_SUCCESS;
 }
