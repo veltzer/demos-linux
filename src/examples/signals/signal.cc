@@ -21,10 +21,10 @@
 #include <firstinclude.h>
 #include <signal.h>	// for psignal(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <unistd.h>	// for pause(2), getpid(2)
+#include <unistd.h>	// for pause(2), getpid(2), sleep(3)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <us_helper.h>	// for register_handler_signal()
+#include <us_helper.h>	// for register_handler_signal(), CHECK_ASSERT()
 
 /*
  * This is a simple example which shows how to do signal handling with the
@@ -66,12 +66,16 @@ int main(int argc, char** argv, char** envp) {
 	register_handler_signal(SIGUSR1, handler);
 	register_handler_signal(SIGUSR2, handler);
 	register_handler_signal(SIGRTMIN, handler);
-	printf("my pid is %d\n", getpid());
-	printf("signal me with [kill -s SIGUSR1 %d]\n", getpid());
+	printf("signal me with one of the following:\n");
+	printf("\t[kill -s SIGUSR1 %d]\n", getpid());
+	printf("\t[kill -s SIGUSR2 %d]\n", getpid());
+	printf("\t[kill -s SIGRTMIN %d]\n", getpid());
 	// This is a non busy wait loop which only wakes up when there are signals
 	while(true) {
 		int ret=pause();
-		printf("pause(2) wakeup with return value %d (-1 is ok as ret value)\n", ret);
+		// this is what a clean exit of pause(2) guarantees...
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
+		printf("pause(2) wakeup\n");
 	}
 	return EXIT_SUCCESS;
 }

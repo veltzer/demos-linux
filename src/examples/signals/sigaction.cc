@@ -88,8 +88,10 @@ int main(int argc, char** argv, char** envp) {
 	register_handler_sigaction(SIGUSR2, handler);
 	register_handler_sigaction(SIGRTMIN, handler);
 	printf("ended registering signals\n");
-	printf("my pid is %d\n", getpid());
-	printf("signal me with [kill -s SIGUSR1 %d]\n", getpid());
+	printf("signal me with one of the following:\n");
+	printf("\t[kill -s SIGUSR1 %d]\n", getpid());
+	printf("\t[kill -s SIGUSR2 %d]\n", getpid());
+	printf("\t[kill -s SIGRTMIN %d]\n", getpid());
 	// This is a non busy wait loop which only wakes up when there are signals
 	while(true) {
 		int ret=pause();
