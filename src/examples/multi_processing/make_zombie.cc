@@ -27,6 +27,7 @@
 #include <string.h>	// for strsignal(3)
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), TRACE(), CHECK_1()
+#include <multi_processing.h> // for print_code(), print_status()
 
 /*
  * This example demostrates how processes become zombies in Linux...
@@ -52,51 +53,20 @@
  * - catting files from the /proc folder (done in two ways in this example).
  * - top(1)
  *
- * EXTRA_LINK_FLAGS=-lprocps
- *
+ * EXTRA_LINK_CMDS=pkg-config --libs libprocps
  */
-void print_status(int status) {
-	if (WIFEXITED(status)) {
-		TRACE("child exited normally with status %d", WEXITSTATUS(status));
-	}
-	if (WIFSTOPPED(status)) {
-		TRACE("child was stopped with signal %s", strsignal(WSTOPSIG(status)));
-	}
-	if (WIFSIGNALED(status)) {
-		TRACE("child was signaled with signal %s", strsignal(WTERMSIG(status)));
-	}
-}
-
-void print_code(int code) {
-	switch (code) {
-	case CLD_EXITED:
-		TRACE("child exited of it's own accord");
-		break;
-
-	case CLD_KILLED:
-		TRACE("child was killed");
-		break;
-
-	case CLD_STOPPED:
-		TRACE("child was stopped");
-		break;
-
-	case CLD_CONTINUED:
-		TRACE("child was continued");
-		break;
-	}
-}
 
 // print the state of a process in 3 different ways...
 static inline void print_state(pid_t pid) {
 	my_system("ps --no-headers -o comm,state %d", pid);
 	my_system("cat /proc/%d/status | grep State", pid);
+	// the function get_proc_stats is declared by the procps headers
+	// but does not exist in the procps shared object...
 	/*
-	 * get_proc_stats does not seem to work since move to new ubuntu (12.10)
-	 * proc_t myproc;
-	 * get_proc_stats(pid,&myproc);
-	 * printf("pid is %d, state is %c\n",pid, myproc.state);
-	 */
+	proc_t myproc;
+	get_proc_stats(pid,&myproc);
+	printf("pid is %d, state is %c\n",pid, myproc.state);
+	*/
 }
 
 int main(int argc, char** argv, char** envp) {

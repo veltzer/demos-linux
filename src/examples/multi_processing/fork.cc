@@ -26,6 +26,7 @@
 #include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <string.h>	// for strsignal(3)
 #include <us_helper.h>	// for TRACE(), CHECK_NOT_M1()
+#include <multi_processing.h> // for print_code(), print_status()
 
 /*
  * This example explains how parents should wait for their children
@@ -34,38 +35,6 @@
  * ofcourse, alter it to use one of the simpler apis:
  * wait, waitpid, wait3, wait4...
  */
-
-void print_status(int status) {
-	if (WIFEXITED(status)) {
-		TRACE("child exited normally with status %d", WEXITSTATUS(status));
-	}
-	if (WIFSTOPPED(status)) {
-		TRACE("child was stopped with signal %s", strsignal(WSTOPSIG(status)));
-	}
-	if (WIFSIGNALED(status)) {
-		TRACE("child was signaled with signal %s", strsignal(WTERMSIG(status)));
-	}
-}
-
-void print_code(int code) {
-	switch (code) {
-	case CLD_EXITED:
-		TRACE("child exited of it's own accord");
-		break;
-
-	case CLD_KILLED:
-		TRACE("child was killed");
-		break;
-
-	case CLD_STOPPED:
-		TRACE("child was stopped");
-		break;
-
-	case CLD_CONTINUED:
-		TRACE("child was continued");
-		break;
-	}
-}
 
 int main(int argc, char** argv, char** envp) {
 	TRACE("this is the parent");
