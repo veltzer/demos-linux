@@ -68,7 +68,7 @@ void make_child(const int niceval, int* const prog, int core) {
 			sum+=j;
 		}
 		// this barrier is really necessary. remove it and you wont see
-		// progress at all... 
+		// progress at all...
 		asm volatile ("" ::: "memory");
 		*prog=*prog+1;
 	}
