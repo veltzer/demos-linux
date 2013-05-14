@@ -1,4 +1,6 @@
 - show how to exit cleanly by breaking out of syscalls in other threads
 	(siginterrupt(2)).
 - show how to cleanup after threads.
-- show how to intercept signals and perform some cleanup code.
+- show how to intercept signals (SIGSEGV?) and perform some cleanup code.
+- show how to use on_exit(3) (although it is deprecated).
+- show C++ patterns for doing cleanup code.
