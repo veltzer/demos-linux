@@ -23,67 +23,14 @@
 #include <string.h>	// for strsignal(3)
 #include <stdio.h>	// for printf(3)
 #include <signal.h>	// for signal names
-#include <us_helper.h>	// for ARRAY_SIZEOF()
+#include <us_signals.h> // for print_signal_names()
 
 /*
  * This is an example of using strsignal(3) to print out signal names.
- * List of signals can be found in [man 7 signal]
- * You can find them in [/usr/include/asm/signal.h]
- * [kill -l] in bash (builtin) will list all signals.
- * [kill -l] or [kill --list] from [/bin/kill] will list them too.
- * [kill -L] or [kill --table] from [/bin/kill] will show them in a nice table.
+ * See the us_signals.h header file for more details.
  */
 
-typedef struct _sig_and_string {
-	int sig;
-	const char* signame;
-} sig_and_name;
-
-sig_and_name sig_vals[]={
-	{ SIGHUP, "SIGHUP" },
-	{ SIGINT, "SIGINT" },
-	{ SIGQUIT, "SIGQUIT" },
-	{ SIGILL, "SIGILL" },
-	{ SIGTRAP, "SIGTRAP" },
-	{ SIGABRT, "SIGABRT" },
-	{ SIGIOT, "SIGIOT" },
-	{ SIGBUS, "SIGBUS" },
-	{ SIGFPE, "SIGFPE" },
-	{ SIGKILL, "SIGKILL" },
-	{ SIGUSR1, "SIGUSR1" },
-	{ SIGSEGV, "SIGSEGV" },
-	{ SIGUSR2, "SIGUSR2" },
-	{ SIGPIPE, "SIGPIPE" },
-	{ SIGALRM, "SIGALRM" },
-	{ SIGTERM, "SIGTERM" },
-	{ SIGSTKFLT, "SIGSTKFLT" },
-	{ SIGCHLD, "SIGCHLD" },
-	{ SIGCONT, "SIGCONT" },
-	{ SIGSTOP, "SIGSTOP" },
-	{ SIGTSTP, "SIGTSTP" },
-	{ SIGTTIN, "SIGTTIN" },
-	{ SIGTTOU, "SIGTTOU" },
-	{ SIGURG, "SIGURG" },
-	{ SIGXCPU, "SIGXCPU" },
-	{ SIGXFSZ, "SIGXFSZ" },
-	{ SIGVTALRM, "SIGVTALRM" },
-	{ SIGPROF, "SIGPROF" },
-	{ SIGWINCH, "SIGWINCH" },
-	{ SIGIO, "SIGIO" },
-	{ SIGPOLL, "SIGPOLL" },
-	{ SIGPWR, "SIGPWR" },
-	{ SIGSYS, "SIGSYS" },
-	{ SIGUNUSED, "SIGUNUSED" },
-	{ SIGRTMIN, "SIGRTMIN" },
-	{ SIGRTMAX, "SIGRTMAX" },
-};
-
 int main(int argc, char** argv, char** envp) {
-	printf("number of signal values is %d\n", ARRAY_SIZEOF(sig_vals));
-	for(unsigned int i=0; i<ARRAY_SIZEOF(sig_vals); i++) {
-		int sig=sig_vals[i].sig;
-		const char* signame=sig_vals[i].signame;
-		printf("i=%d, sig=%d, in_code=%s, strsignal(sig)=%s\n", i, sig, signame, strsignal(sig));
-	}
+	print_signal_names();
 	return EXIT_SUCCESS;
 }
