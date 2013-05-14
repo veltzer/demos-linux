@@ -85,8 +85,8 @@ int main(int argc, char** argv, char** envp) {
 			sum+=u;
 		}
 		CHECK_NOT_M1(close(efd));
-		printf("parent counter is %u\n",counter);
-		printf("parent sum is %llu\n",sum);
+		printf("parent counter is %u\n", counter);
+		printf("parent sum is %llu\n", sum);
 		return EXIT_SUCCESS;
 	} else {
 		// child branch
@@ -95,11 +95,11 @@ int main(int argc, char** argv, char** envp) {
 		uint64_t sum=0;
 		for(unsigned int i=0; i<loop_count; i++) {
 			uint64_t u=rand()%max_rand;
-			CHECK_INT(write(efd, &u, sizeof(uint64_t)),sizeof(uint64_t));
+			CHECK_INT(write(efd, &u, sizeof(uint64_t)), sizeof(uint64_t));
 			sum+=u;
 		}
 		CHECK_NOT_M1(close(efd));
-		printf("child sum is %llu\n",sum);
+		printf("child sum is %llu\n", sum);
 		return EXIT_SUCCESS;
 	}
 }

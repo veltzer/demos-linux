@@ -58,7 +58,7 @@ int main(int argc, char** argv, char** envp) {
 	printf("Type your request: ");
 	while(fgets(obuffer, sizeof(obuffer), stdin)) {
 		// this will show you the limit of fd_set and select(2) in general...
-		//printf("size is %d\n",sizeof(readfds));
+		// printf("size is %d\n",sizeof(readfds));
 		CHECK_NOT_M1(sendto(brsock, obuffer, strlen(obuffer), 0, (struct sockaddr *) &braddress, sizeof(braddress)));
 		printf("Request sent\n");
 		timeout.tv_sec=5;

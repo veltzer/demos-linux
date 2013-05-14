@@ -37,8 +37,8 @@ static bool child_alive=true;
 static void handler(int sig, siginfo_t *si, void *unused) {
 	if(sig==SIGUSR1) {
 		got_signals++;
-		//CHECK_NOT_M1(usleep(rand()%max_sleep_time));
-		//CHECK_NOT_M1(sleep(1));
+		// CHECK_NOT_M1(usleep(rand()%max_sleep_time));
+		// CHECK_NOT_M1(sleep(1));
 	}
 	if(sig==SIGCHLD) {
 		child_alive=false;
@@ -72,16 +72,16 @@ int main(int argc, char** argv, char** envp) {
 			// of pause(2)
 			CHECK_ASSERT(ret==-1 && errno==EINTR);
 		}
-		printf("parent: got %d signals...\n",num_signals);
+		printf("parent: got %d signals...\n", num_signals);
 		return EXIT_SUCCESS;
 	} else {
 		// child
 		// no error return code for getppid(2)
 		pid_t ppid=getppid();
-		for(unsigned int i=0;i<num_signals;i++) {
-			CHECK_NOT_M1(kill(SIGUSR1,ppid));
+		for(unsigned int i=0; i<num_signals; i++) {
+			CHECK_NOT_M1(kill(SIGUSR1, ppid));
 		}
-		printf("child: send %d signals...\n",num_signals);
+		printf("child: send %d signals...\n", num_signals);
 		return EXIT_SUCCESS;
 	}
 	return EXIT_SUCCESS;
