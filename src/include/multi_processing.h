@@ -22,7 +22,7 @@
 #define __multi_processing_h
 
 #include <firstinclude.h>
-#include <us_helper.h> // for TRACE()
+#include <us_helper.h>	// for TRACE()
 #include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <string.h>	// for strsignal(3)
@@ -62,4 +62,4 @@ static inline void print_code(int code) {
 	}
 }
 
-#endif /* !__multi_processing_h */
+#endif	/* !__multi_processing_h */

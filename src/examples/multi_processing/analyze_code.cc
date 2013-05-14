@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for printf(3), fprintf(3)
-#include <multi_processing.h> // for print_status()
+#include <multi_processing.h>	// for print_status()
 
 /*
  * This executable receives the status code (exit code) of some process and prints
