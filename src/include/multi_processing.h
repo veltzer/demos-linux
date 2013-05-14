@@ -22,19 +22,23 @@
 #define __multi_processing_h
 
 #include <firstinclude.h>
-#include <us_helper.h>
+#include <us_helper.h> // for TRACE()
+#include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
+#include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
+#include <string.h>	// for strsignal(3)
 
 /* THIS IS A C FILE, NO C++ here */
 
 static inline void print_status(int status) {
+	TRACE("analyzing code [%d]\n", status);
 	if (WIFEXITED(status)) {
 		TRACE("child exited normally with status %d", WEXITSTATUS(status));
 	}
 	if (WIFSTOPPED(status)) {
-		TRACE("child was stopped with signal %s", strsignal(WSTOPSIG(status)));
+		TRACE("child was stopped with signal %d,%s", WSTOPSIG(status), strsignal(WSTOPSIG(status)));
 	}
 	if (WIFSIGNALED(status)) {
-		TRACE("child was signaled with signal %s", strsignal(WTERMSIG(status)));
+		TRACE("child was signaled with signal %d,%s", WTERMSIG(status), strsignal(WTERMSIG(status)));
 	}
 }
 
@@ -58,4 +62,4 @@ static inline void print_code(int code) {
 	}
 }
 
-#endif /* !__us_helper_h */
+#endif /* !multi_processing_h */

@@ -21,8 +21,7 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for printf(3), fprintf(3)
-#include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
-#include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
+#include <multi_processing.h> // for print_status()
 
 /*
  * This executable receives the status code (exit code) of some process and prints
@@ -38,19 +37,6 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: n<256 - the process was killed by OS signal n\n", argv[0]);
 		return EXIT_FAILURE;
 	}
-	int res=atoi(argv[1]);
-	printf("analyzing code [%d]\n", res);
-	if (WIFSIGNALED(res)) {
-		printf("Child was killed by os with signal [%d]\n", WTERMSIG(res));
-	}
-	if (WIFEXITED(res)) {
-		printf("Child was NOT killed by OS\n");
-		int return_code=WEXITSTATUS(res);
-		if (return_code) {
-			printf("Child exited but reported error [%d]\n", return_code);
-		} else {
-			printf("Child was a success\n");
-		}
-	}
+	print_status(atoi(argv[1]));
 	return EXIT_SUCCESS;
 }
