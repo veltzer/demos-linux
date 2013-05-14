@@ -25,7 +25,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <sys/types.h>	// for kill(2), getppid(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_ASSERT(), register_handler_sigaction()
-#include <us_signals.h> // for signal_get_by_name()
+#include <us_signals.h>	// for signal_get_by_name()
 
 /*
  * This example shows that you can lose signals....
@@ -57,17 +57,17 @@ static bool child_alive=true;
 static int the_signal=-1;
 
 static void handler(int sig, siginfo_t *si, void *context) {
-	//printf("started hander\n");
+	// printf("started hander\n");
 	if(sig==the_signal) {
 		got_signals++;
 		/*
-		volatile unsigned long long sum=0;
-		for(int i=0;i<100000000;i++) {
-			for(int j=0;j<10;j++) {
-				sum+=j*j;
-			}
-		}
-		*/
+		 * volatile unsigned long long sum=0;
+		 * for(int i=0;i<100000000;i++) {
+		 *      for(int j=0;j<10;j++) {
+		 *              sum+=j*j;
+		 *      }
+		 * }
+		 */
 		// if you pass 0 to % you will get a floating
 		// point exception...
 		if(max_sleep_time>0) {
@@ -79,7 +79,7 @@ static void handler(int sig, siginfo_t *si, void *context) {
 	if(sig==SIGCHLD) {
 		child_alive=false;
 	}
-	//printf("ended hander\n");
+	// printf("ended hander\n");
 }
 
 int main(int argc, char** argv, char** envp) {
@@ -114,7 +114,7 @@ int main(int argc, char** argv, char** envp) {
 		// no error return code for getppid(2)
 		pid_t ppid=getppid();
 		for(unsigned int i=0; i<num_signals; i++) {
-			CHECK_NOT_M1(kill(ppid,the_signal));
+			CHECK_NOT_M1(kill(ppid, the_signal));
 		}
 		printf("child: send %d signals...\n", num_signals);
 	}

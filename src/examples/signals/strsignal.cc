@@ -23,7 +23,7 @@
 #include <string.h>	// for strsignal(3)
 #include <stdio.h>	// for printf(3)
 #include <signal.h>	// for signal names
-#include <us_signals.h> // for print_signal_names()
+#include <us_signals.h>	// for print_signal_names()
 
 /*
  * This is an example of using strsignal(3) to print out signal names.

@@ -83,7 +83,7 @@ static sig_and_name sig_vals[]={
  */
 static inline int signal_get_by_name(const char* name) {
 	for(unsigned int i=0; i<ARRAY_SIZEOF(sig_vals); i++) {
-		if(strcmp(name,sig_vals[i].signame)==0) {
+		if(strcmp(name, sig_vals[i].signame)==0) {
 			return sig_vals[i].sig;
 		}
 	}
@@ -103,4 +103,4 @@ static inline void print_signal_names() {
 	}
 }
 
-#endif /* !__us_signals_h */
+#endif	/* !__us_signals_h */
