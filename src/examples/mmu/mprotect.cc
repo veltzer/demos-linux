@@ -54,10 +54,10 @@ int main(int argc, char** argv, char** envp) {
 	/*
 	 * for(int i=0;i<1000000;i++) {
 	 * *p=(char)random();
-	 *      if(i%1000==0) {
-	 *              fprintf(stderr,"Yes!, worked for i=%d\n",i);
-	 *      }
-	 *      p++;
+	 * if(i%1000==0) {
+	 * fprintf(stderr,"Yes!, worked for i=%d\n",i);
+	 * }
+	 * p++;
 	 * }
 	 */
 	return EXIT_SUCCESS;
