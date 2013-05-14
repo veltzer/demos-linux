@@ -27,7 +27,7 @@
 #include <string.h>	// for strsignal(3)
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), TRACE(), CHECK_1()
-#include <multi_processing.h> // for print_code(), print_status()
+#include <multi_processing.h>	// for print_code(), print_status()
 
 /*
  * This example demostrates how processes become zombies in Linux...
@@ -63,10 +63,10 @@ static inline void print_state(pid_t pid) {
 	// the function get_proc_stats is declared by the procps headers
 	// but does not exist in the procps shared object...
 	/*
-	proc_t myproc;
-	get_proc_stats(pid,&myproc);
-	printf("pid is %d, state is %c\n",pid, myproc.state);
-	*/
+	 * proc_t myproc;
+	 * get_proc_stats(pid,&myproc);
+	 * printf("pid is %d, state is %c\n",pid, myproc.state);
+	 */
 }
 
 int main(int argc, char** argv, char** envp) {

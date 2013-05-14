@@ -18,14 +18,14 @@
  * 02111-1307 USA.
  */
 
-#include<firstinclude.h>
-#include<unistd.h> // for fork(2), execlp(2)
-#include<stdlib.h> // for EXIT_SUCCCESS
-#include<sys/types.h> // for wait(2)
-#include<sys/wait.h> // for wait(2)
-#include<us_helper.h> // for CHECK_NOT_M1()
-#include<multi_processing.h> // for print_status()
-#include<stdio.h> // for printf(3)
+#include <firstinclude.h>
+#include <unistd.h>	// for fork(2), execlp(2)
+#include <stdlib.h>	// for EXIT_SUCCCESS
+#include <sys/types.h>	// for wait(2)
+#include <sys/wait.h>	// for wait(2)
+#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <multi_processing.h>	// for print_status()
+#include <stdio.h>	// for printf(3)
 
 int main(int argc, char** argv, char** envp) {
 	pid_t pid=CHECK_NOT_M1(fork());
@@ -33,12 +33,12 @@ int main(int argc, char** argv, char** envp) {
 		// parent
 		int status;
 		pid_t child_that_died=CHECK_NOT_M1(wait(&status));
-		printf("child died with pid=%d\n",child_that_died);
+		printf("child died with pid=%d\n", child_that_died);
 		print_status(status);
 		return EXIT_SUCCESS;
 	} else {
 		// child
-		CHECK_NOT_M1(execlp("/bin/ls","/bin/ls","-l",NULL));
+		CHECK_NOT_M1(execlp("/bin/ls", "/bin/ls", "-l", NULL));
 		return EXIT_SUCCESS;
 	}
 }

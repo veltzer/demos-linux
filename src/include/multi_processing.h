@@ -21,6 +21,7 @@
 #ifndef __multi_processing_h
 #define __multi_processing_h
 
+#include <firstinclude.h>
 #include <us_helper.h>
 
 /* THIS IS A C FILE, NO C++ here */

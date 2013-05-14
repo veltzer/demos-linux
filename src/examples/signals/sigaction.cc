@@ -62,19 +62,19 @@ static unsigned int counter=0;
 // this structure...
 // This function DOES NOT print all the fields of the siginfo
 // structure as there are just too many of them...
-void print_siginfo(FILE* out,siginfo_t *si) {
-	fprintf(out,"sighandler: si is %p\n", si);
-	fprintf(out,"sighandler: si_signo is: %d\n", si->si_signo);
-	fprintf(out,"sighandler: si_errno is: %d\n", si->si_errno);
-	fprintf(out,"sighandler: si_pid is: %d\n", si->si_pid);
-	fprintf(out,"sighandler: si_uid is: %d\n", si->si_uid);
-	fprintf(out,"sighandler: si_addr is: %p\n", si->si_addr);
+void print_siginfo(FILE* out, siginfo_t *si) {
+	fprintf(out, "sighandler: si is %p\n", si);
+	fprintf(out, "sighandler: si_signo is: %d\n", si->si_signo);
+	fprintf(out, "sighandler: si_errno is: %d\n", si->si_errno);
+	fprintf(out, "sighandler: si_pid is: %d\n", si->si_pid);
+	fprintf(out, "sighandler: si_uid is: %d\n", si->si_uid);
+	fprintf(out, "sighandler: si_addr is: %p\n", si->si_addr);
 }
 
 static void handler(int sig, siginfo_t *si, void *unused) {
 	printf("sighandler: counter is %d\n", counter);
 	printf("sighandler: got signal %s\n", strsignal(sig));
-	print_siginfo(stdout,si);
+	print_siginfo(stdout, si);
 	printf("sighandler: unused is %p...\n", unused);
 	printf("sighandler: psiginfo follows...\n");
 	psiginfo(si, "sighandler");

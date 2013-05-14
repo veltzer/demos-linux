@@ -132,7 +132,7 @@ int main(int argc, char** argv, char** envp) {
 		sleep(1);
 		loop++;
 	}
-	CHECK_NOT_M1(munmap(ptr,map_size));
+	CHECK_NOT_M1(munmap(ptr, map_size));
 	CHECK_NOT_M1(shm_unlink(shm_name));
 	return EXIT_SUCCESS;
 }
