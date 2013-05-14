@@ -38,6 +38,9 @@
  * sleep inside the signal handler is also problematic and also has
  * very low granularity (that is why it is not used).
  *
+ * Notice that using RT signals in linux will make sure that you do not
+ * lose signals.
+ *
  * TODO:
  * - do some kind of hard delay function in us_helper.h which is like
  * the volatile loop below and call it "busy_delay" and use that
