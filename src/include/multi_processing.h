@@ -62,4 +62,4 @@ static inline void print_code(int code) {
 	}
 }
 
-#endif /* !multi_processing_h */
+#endif /* !__multi_processing_h */
