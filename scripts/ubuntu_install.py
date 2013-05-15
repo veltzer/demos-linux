@@ -3,6 +3,10 @@
 # this script will install all the required packages that you need on
 # ubuntu to compile and work with this package.
 
+# TODO:
+# enable the dbgsym package after this script also knows how to add the
+# apt repository to the machine...
+
 import subprocess
 
 packs=[
@@ -40,10 +44,11 @@ packs=[
 	'numactl',
 	'linux-headers-generic',
 	#'linux-headers-generic-pae', # if you use a -pae kernel
-	'linux-image-3.8.0-19-generic-dbgsym', # for systemtap
+	#'linux-image-3.8.0-19-generic-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
 	'ccache', # for faster building
 	'xutils-dev', # for makedepend(1)
 	'linux-tools-common', # for perf(1)
+	'libcpufreq-dev', # for cpufreq.h
 ]
 
 args=['sudo','apt-get','install']
