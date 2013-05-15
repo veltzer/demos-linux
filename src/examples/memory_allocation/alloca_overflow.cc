@@ -58,7 +58,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(setrlimit(RLIMIT_STACK, &rlim));
 	const size_t size=1024*1024;
 	for(unsigned int i=0; i<100; i++) {
-		printf("trying to allocate %d\n", i*size);
+		printf("trying to allocate %ld\n", i*size);
 		my_func(size*i);
 	}
 	return EXIT_SUCCESS;

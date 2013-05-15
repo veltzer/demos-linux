@@ -80,8 +80,8 @@ bool stack_direction_up() __attribute__((noinline));
 bool stack_direction_up() {
 	int a;
 	int u;
-	unsigned int pa=(unsigned int)&a;
-	unsigned int pu=(unsigned int)&u;
+	unsigned long pa=(unsigned long)&a;
+	unsigned long pu=(unsigned long)&u;
 	if(pa==pu+sizeof(int)) {
 		return false;
 	}

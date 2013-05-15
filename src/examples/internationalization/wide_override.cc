@@ -30,7 +30,7 @@
 #define wchar_t char
 
 int main(int argc, char** argv, char** envp) {
-	printf("size of char is %d\n", sizeof(char));
-	printf("size of wchar_t is %d\n", sizeof(wchar_t));
+	printf("size of char is %ld\n", sizeof(char));
+	printf("size of wchar_t is %ld\n", sizeof(wchar_t));
 	return EXIT_SUCCESS;
 }

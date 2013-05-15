@@ -71,7 +71,7 @@ void *malloc_align(unsigned int size) {
 	int pages=size / ps + 1;
 	int new_size=pages * ps;
 	void* ptr=malloc(new_size);
-	unsigned int iptr=(unsigned int)ptr;
+	unsigned long iptr=(unsigned long)ptr;
 
 	iptr=(iptr / ps + 1) * ps;
 	return((void *)iptr);
@@ -114,11 +114,11 @@ int main(int argc, char** argv, char** envp) {
 	memset(pt3, 0, size);
 	memset(pt4, 0, size);
 	memset(pt5, 0, size);
-	printf("pt1 is %p (%d)\n", pt1, (unsigned int)pt1 % ps);
-	printf("pt2 is %p (%d)\n", pt2, (unsigned int)pt2 % ps);
-	printf("pt3 is %p (%d)\n", pt3, (unsigned int)pt3 % ps);
-	printf("pt4 is %p (%d)\n", pt4, (unsigned int)pt4 % ps);
-	printf("pt5 is %p (%d)\n", pt5, (unsigned int)pt5 % ps);
+	printf("pt1 is %p (%ld)\n", pt1, (unsigned long)pt1 % ps);
+	printf("pt2 is %p (%ld)\n", pt2, (unsigned long)pt2 % ps);
+	printf("pt3 is %p (%ld)\n", pt3, (unsigned long)pt3 % ps);
+	printf("pt4 is %p (%ld)\n", pt4, (unsigned long)pt4 % ps);
+	printf("pt5 is %p (%ld)\n", pt5, (unsigned long)pt5 % ps);
 	printproc(NULL);
 	void* ptr=(void*)main;
 	printf("ptr is %p\n", ptr);

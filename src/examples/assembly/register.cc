@@ -31,15 +31,23 @@ static inline unsigned int getrdtsc() {
 	asm ("rdtsc" : "=val" (val));
 	return val;
 }
-static inline unsigned int getstackpointer() {
-	unsigned int val;
+static inline unsigned long getstackpointer() {
+#if __x86_64__
+	return 0;
+#else
+	unsigned long val;
 	asm ("movl %%esp, %0" : "=r" (val));
 	return val;
+#endif
 }
-static inline unsigned int getframepointer() {
-	unsigned int val;
+static inline unsigned long getframepointer() {
+#if __x86_64__
+	return 0;
+#else
+	unsigned long val;
 	asm ("movl %%ebp, %0" : "=r" (val));
 	return val;
+#endif
 }
 
 int main(int argc, char** argv, char** envp) {
