@@ -45,7 +45,7 @@ int main(int argc, char** argv, char** envp) {
 	const int NUM_THREADS=8;
 	pthread_t threads[NUM_THREADS];
 	int t[NUM_THREADS];
-	unsigned long retval[NUM_THREADS];
+	ssize_t retval[NUM_THREADS];
 	int stime;
 	srand(time(NULL));
 	for(int i=0; i<NUM_THREADS; i++) {
