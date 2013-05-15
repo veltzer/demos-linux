@@ -67,7 +67,7 @@ static void *alloc_mem(unsigned int size)
 		order = get_order(size);
 		kaddr = (void *)__get_free_pages(GFP_KERNEL, order);
 	}
-	if (((unsigned int)kaddr) % PAGE_SIZE != 0)
+	if (((unsigned long)kaddr) % PAGE_SIZE != 0)
 		return NULL;
 	return kaddr;
 }
