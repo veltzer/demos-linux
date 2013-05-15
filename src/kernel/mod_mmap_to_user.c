@@ -25,6 +25,7 @@
 #include <linux/slab.h> /* for the kmalloc API */
 #include <linux/mman.h> /* for remap_pfn_range */
 #include <linux/pagemap.h> /* for vma structures */
+#include <linux/sched.h> /* for current */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
 #include "shared.h" /* for the ioctl numbers */

@@ -22,6 +22,7 @@
 #include <linux/module.h> /* for MODULE_* */
 #include <linux/slab.h> /* for the kmalloc API */
 #include <linux/pagemap.h> /* for vma structures */
+#include <linux/sched.h> /* for current */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
 
@@ -116,7 +117,7 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 	/* for loops */
 	unsigned int i;
 	/* some unsigned ints for address manipulation... */
-	unsigned int bpointer, offset, aligned, newsize;
+	unsigned long bpointer, offset, aligned, newsize;
 	/* the newly created vma */
 	struct vm_area_struct *vma;
 
@@ -133,7 +134,7 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 			return res;
 		}
 		PR_DEBUG("after copy");
-		bpointer = (unsigned int)b.pointer;
+		bpointer = (unsigned long)b.pointer;
 		offset = bpointer % PAGE_SIZE;
 		aligned = bpointer - offset;
 		newsize = b.size + offset;
