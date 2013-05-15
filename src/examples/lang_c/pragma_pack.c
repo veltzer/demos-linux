@@ -173,7 +173,7 @@ _Static_assert(__builtin_offsetof(s12, i1)==1, "msg");
 _Static_assert(__builtin_offsetof(s12, c2)==5, "msg");
 _Static_assert(__builtin_offsetof(s12, i2)==8, "msg");
 
-#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type))
+#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %zd\n", sizeof(type))
 
 int main(int argc, char** argv, char** envp) {
 	PRINT_SIZEOF(s1);

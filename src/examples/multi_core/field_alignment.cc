@@ -55,19 +55,19 @@ struct medium2 {
 };
 
 void myfunction(char c1, int i1, char c2) {
-	CHECK_ASSERT((int)&c1%4==0);
-	CHECK_ASSERT((int)&i1%4==0);
-	CHECK_ASSERT((int)&c2%4==0);
+	CHECK_ASSERT((unsigned long)&c1%4==0);
+	CHECK_ASSERT((unsigned long)&i1%4==0);
+	CHECK_ASSERT((unsigned long)&c2%4==0);
 }
 
 int main(int argc, char** argv, char** envp) {
-	printf("sizeof(small)=%d\n", sizeof(small));
-	printf("sizeof(medium)=%d\n", sizeof(medium));
-	printf("sizeof(medium2)=%d\n", sizeof(medium2));
+	printf("sizeof(small)=%zd\n", sizeof(small));
+	printf("sizeof(medium)=%zd\n", sizeof(medium));
+	printf("sizeof(medium2)=%zd\n", sizeof(medium2));
 	for(int i=1; i<200; i++) {
 		char* p=(char*)malloc(i);
 		CHECK_ASSERT(p!=NULL);
-		CHECK_ASSERT((int)p%4==0);
+		CHECK_ASSERT((unsigned long)p%4==0);
 	}
 	return EXIT_SUCCESS;
 }

@@ -206,7 +206,7 @@ int main(int argc, char** argv, char** envp) {
 				ssize_t ret=CHECK_NOT_M1(write(fd, buffer, len));
 				// we really should not get blocked here
 				assert(ret==len);
-				TRACE("read %d bytes and wrote %d bytes", len, ret);
+				TRACE("read %zd bytes and wrote %zd bytes", len, ret);
 			}
 			if(events[n].events & EPOLLRDHUP) {
 				int fd=events[n].data.fd;

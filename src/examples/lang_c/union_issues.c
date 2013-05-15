@@ -58,12 +58,12 @@ int main(int argc, char** argv, char** envp) {
 	printf("li.HighPart is %u\n", li.HighPart);
 	printf("li.QuadPart is %lli\n", li.QuadPart);
 	// this is the offsets of it's relevant parts...
-	printf("offset of LowPart is %d\n", OffsetOf(LARGE_INTEGER, LowPart));
-	printf("offset of HighPart is %d\n", OffsetOf(LARGE_INTEGER, HighPart));
-	printf("offset of QuadPart is %d\n", OffsetOf(LARGE_INTEGER, QuadPart));
+	printf("offset of LowPart is %zd\n", OffsetOf(LARGE_INTEGER, LowPart));
+	printf("offset of HighPart is %zd\n", OffsetOf(LARGE_INTEGER, HighPart));
+	printf("offset of QuadPart is %zd\n", OffsetOf(LARGE_INTEGER, QuadPart));
 	// or we could use the built in...
-	printf("offset of LowPart is %d\n", __builtin_offsetof(LARGE_INTEGER, LowPart));
-	printf("offset of HighPart is %d\n", __builtin_offsetof(LARGE_INTEGER, HighPart));
-	printf("offset of QuadPart is %d\n", __builtin_offsetof(LARGE_INTEGER, QuadPart));
+	printf("offset of LowPart is %zd\n", __builtin_offsetof(LARGE_INTEGER, LowPart));
+	printf("offset of HighPart is %zd\n", __builtin_offsetof(LARGE_INTEGER, HighPart));
+	printf("offset of QuadPart is %zd\n", __builtin_offsetof(LARGE_INTEGER, QuadPart));
 	return EXIT_SUCCESS;
 }

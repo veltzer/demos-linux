@@ -90,7 +90,7 @@ int main(int argc, char** argv, char** envp) {
 		klog_clear();
 		// trying to map memory
 		res=CHECK_NOT_M1(ioctl(d, 4, NULL));
-		void *p=(void *)res;
+		void *p=(void *)(unsigned long)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
@@ -105,7 +105,7 @@ int main(int argc, char** argv, char** envp) {
 		klog_clear();
 		// trying to map memory
 		res=CHECK_NOT_M1(ioctl(d, 4, NULL));
-		void *p=(void *)res;
+		void *p=(void *)(unsigned long)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
 		printproc("demo");
@@ -121,7 +121,7 @@ int main(int argc, char** argv, char** envp) {
 		for (int i=0; i < number; i++) {
 			// trying to map memory
 			res=CHECK_NOT_M1(ioctl(d, 4, NULL));
-			void *p=(void *)res;
+			void *p=(void *)(unsigned long)res;
 			printf("the pointer I got is %p\n", p);
 			// trying to unmap memory
 			res=CHECK_NOT_M1(ioctl(d, 5, NULL));

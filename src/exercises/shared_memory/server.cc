@@ -42,7 +42,7 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<MAXCLIENTS; i++) {
 		CHECK_NOT_M1(semctl(semid, i, SETVAL, 0));
 	}
-	printf("asking for %d bytes\n", sizeof(struct data) * MAXCLIENTS);
+	printf("asking for %zd bytes\n", sizeof(struct data) * MAXCLIENTS);
 	int shmid=CHECK_NOT_M1(shmget(key, sizeof(struct data) * MAXCLIENTS, IPC_CREAT | 0666));
 	struct data* smdata=(struct data*)CHECK_NOT_VOIDP(shmat(shmid, NULL, 0), (void*)-1);
 	for (int i=0; i<MAXCLIENTS; i++) {

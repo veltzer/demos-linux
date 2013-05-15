@@ -76,19 +76,19 @@ private:
 static_assert(sizeof(foo)==LEVEL2_CACHE_LINESIZE, "size of foo is wrong");
 
 void myfunction(char c, struct bar mybar, char l, struct foo myfoo) {
-	CHECK_ASSERT((int)&mybar%LEVEL2_CACHE_LINESIZE==0);
-	CHECK_ASSERT((int)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
+	CHECK_ASSERT((unsigned long)&mybar%LEVEL2_CACHE_LINESIZE==0);
+	CHECK_ASSERT((unsigned long)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
 }
 
 int main(int argc, char** argv, char** envp) {
 	printf("LEVEL2_CACHE_LINESIZE=%d\n", LEVEL2_CACHE_LINESIZE);
-	printf("sizeof(foo)=%d\n", sizeof(foo));
-	printf("sizeof(bar)=%d\n", sizeof(bar));
-	printf("sizeof(MyClass)=%d\n", sizeof(MyClass));
+	printf("sizeof(foo)=%zd\n", sizeof(foo));
+	printf("sizeof(bar)=%zd\n", sizeof(bar));
+	printf("sizeof(MyClass)=%zd\n", sizeof(MyClass));
 	struct bar mybar;
 	struct foo myfoo;
-	CHECK_ASSERT((int)&mybar%LEVEL2_CACHE_LINESIZE==0);
-	CHECK_ASSERT((int)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
+	CHECK_ASSERT((unsigned long)&mybar%LEVEL2_CACHE_LINESIZE==0);
+	CHECK_ASSERT((unsigned long)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
 	myfunction('4', mybar, '5', myfoo);
 	return EXIT_SUCCESS;
 }

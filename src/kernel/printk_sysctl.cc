@@ -38,7 +38,7 @@ int main(int argc, char** argv, char** envp) {
 	if(argc==1) {
 		/* report */
 		CHECK_NOT_M1(sysctl(name, ARRAY_SIZEOF(name), printk_params, &paramlth, 0, 0));
-		printf("got %d bytes:\n", paramlth);
+		printf("got %zd bytes:\n", paramlth);
 		printf("console_loglevel: %d\n", printk_params[0]);
 		printf("default_message_loglevel: %d\n", printk_params[1]);
 		printf("minimum_console_loglevel: %d\n", printk_params[2]);

@@ -41,7 +41,7 @@ int main(int argc, char** argv, char** envp) {
 	fprintf(stderr, "mypid is %d\n", getpid());
 	// while(pause()) {
 	// }
-	int modulu=(int)myotherstring%4096;
+	unsigned long modulu=(unsigned long)myotherstring%4096;
 	void* protectme=(void*)(myotherstring-modulu);
 	mprotect(protectme, 4096, PROT_READ|PROT_WRITE|PROT_EXEC);
 	char* p=(char*)myotherstring;

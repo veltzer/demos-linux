@@ -35,7 +35,7 @@
  * Show the results inside this source code for 32bit and 64bit linux.
  */
 
-#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %d\n", sizeof(type))
+#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %zd\n", sizeof(type))
 
 int main(int argc, char** argv, char** envp) {
 	struct utsname buf;
@@ -59,7 +59,7 @@ int main(int argc, char** argv, char** envp) {
 	// float* x={ 5, 3, 2, 1 };
 	// but this is...
 	float x[]={ 5, 3, 2, 1 };
-	printf("size of x is %d\n", sizeof(x));
+	printf("size of x is %zd\n", sizeof(x));
 	typedef struct _empty {
 	} empty;
 	PRINT_SIZEOF(empty);

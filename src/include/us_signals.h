@@ -95,7 +95,7 @@ static inline int signal_get_by_name(const char* name) {
  * Print out a table of all signal values, names and descriptions
  */
 static inline void print_signal_names() {
-	printf("number of signal values is %d\n", ARRAY_SIZEOF(sig_vals));
+	printf("number of signal values is %zd\n", ARRAY_SIZEOF(sig_vals));
 	for(unsigned int i=0; i<ARRAY_SIZEOF(sig_vals); i++) {
 		int sig=sig_vals[i].sig;
 		const char* signame=sig_vals[i].signame;

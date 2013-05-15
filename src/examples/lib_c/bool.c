@@ -34,8 +34,8 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	printf("sizeof(_Bool) is %d\n", sizeof(_Bool));
-	printf("sizeof(bool) is %d\n", sizeof(bool));
+	printf("sizeof(_Bool) is %zd\n", sizeof(_Bool));
+	printf("sizeof(bool) is %zd\n", sizeof(bool));
 	printf("_Bool is really %s\n", __stringify(_Bool));
 	printf("bool is really %s\n", __stringify(bool));
 	printf("true is really %s\n", __stringify(true));

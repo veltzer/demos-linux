@@ -50,7 +50,7 @@ typedef struct _mystruct {
  */
 
 int main(int argc, char** argv, char** envp) {
-	printf("sizeof(barestruct)=%d\n", sizeof(barestruct));
-	printf("sizeof(mystruct)=%d\n", sizeof(mystruct));
+	printf("sizeof(barestruct)=%zd\n", sizeof(barestruct));
+	printf("sizeof(mystruct)=%zd\n", sizeof(mystruct));
 	return EXIT_SUCCESS;
 }

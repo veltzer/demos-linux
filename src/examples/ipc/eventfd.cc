@@ -57,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	pid_t child_pid;
 	if((child_pid=CHECK_NOT_M1(fork()))) {
 		// parent branch
-		uint64_t sum=0;
+		unsigned long long sum=0;
 		unsigned int counter=0;
 		bool child_dead=false;
 		while(child_dead==false) {
@@ -92,7 +92,7 @@ int main(int argc, char** argv, char** envp) {
 		// child branch
 		// so we will get good random numbers
 		srand(getpid());
-		uint64_t sum=0;
+		unsigned long long sum=0;
 		for(unsigned int i=0; i<loop_count; i++) {
 			uint64_t u=rand()%max_rand;
 			CHECK_INT(write(efd, &u, sizeof(uint64_t)), sizeof(uint64_t));
