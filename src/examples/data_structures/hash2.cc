@@ -62,7 +62,7 @@ int main(int argc, char** argv, char** envp) {
 		printf("%9.9s -> %9.9s:%zd\n",
 			e.key,
 			ep ? ep->key : "NULL",
-			ep ? (unsigned long)(ep->data) : 0
+			ep ? (ssize_t)(ep->data) : 0
 			);
 	}
 	return EXIT_SUCCESS;
