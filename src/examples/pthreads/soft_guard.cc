@@ -46,7 +46,7 @@ void check_stack() {
 	if(diff<stacksize*0.2) {
 		fprintf(stderr, "You are too close to the stack edge...\n");
 		fprintf(stderr, "======================================\n");
-		fprintf(stderr, "stacksize is %ld\n", stacksize);
+		fprintf(stderr, "stacksize is %zd\n", stacksize);
 		fprintf(stderr, "stackaddr %p\n", stackaddr);
 		fprintf(stderr, "myaddr %p\n", myaddr);
 		fprintf(stderr, "diff %u\n", diff);
