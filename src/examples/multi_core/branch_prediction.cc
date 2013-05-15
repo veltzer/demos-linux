@@ -21,16 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-
-// these we stolen shamelessly from the kernel.
-// It is a good idea to use them so that if you have a compiler
-// that does not have __builtin_expect you would just define likely/unlikely
-// in a way that is appropriate to that compiler, or maybe even just
-// the identity function.
-#define likely(x) __builtin_expect((x), 1)
-#define unlikely(x) __builtin_expect((x), 0)
-// #define likely(x) x
-// #define unlikely(x) x
+#include <us_helper.h>	// for mylikely(), myunlikely()
 
 /*
  * This is an example of giving hints to the compiler about branchings.
@@ -52,9 +43,9 @@
 int main(int argc, char** argv, char** envp) {
 	int x=0;
 	long long sum=0;
-	while(likely(x<1000000000)) {
+	while(mylikely(x<1000000000)) {
 		// mispredict on purpose...
-		// while(unlikely(x<1000000000)) {
+		// while(myunlikely(x<1000000000)) {
 		// to force the compiler to actually DO the loop.
 		// moving this line to sum+=x will actually mean that the compiler
 		// will calculate the whole loop in advance!!!

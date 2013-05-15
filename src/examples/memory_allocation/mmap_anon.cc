@@ -74,7 +74,7 @@ int main(int argc, char** argv, char** envp) {
 	// lets try to access the pointer after the allocated area...
 	char* illegal=((char*)p)+size+5;
 	*illegal=8;
-	assert((unsigned int)p%getpagesize()==0);
+	assert((unsigned long)p%getpagesize()==0);
 	if(do_mlock) {
 		// this next line needs permission to lock memory (check ulimit or run as sudo)
 		CHECK_NOT_M1(mlock(p, size));

@@ -66,7 +66,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_Reactor reactor;
 	MyTime_Handler *th=new MyTime_Handler;
 	int timer_id[NUMBER_TIMERS];
-	for (int i=0; i < NUMBER_TIMERS; i++) {
+	for (long i=0; i < NUMBER_TIMERS; i++) {
 		timer_id[i]=reactor.schedule_timer(
 			th,
 			(const void *)i,// argument sent to handle_timeout()

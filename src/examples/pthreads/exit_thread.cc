@@ -36,7 +36,7 @@ void* PrintHello(void *threadid) {
 	id_ptr=(int *) threadid;
 	taskid=*id_ptr;
 	printf("Thread %d says hello\n", taskid);
-	return (void *)(taskid*2);
+	return (void *)((long)taskid*2);
 	// another option would be to call
 	// pthread_exit((void *)taskid);
 }
@@ -57,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<NUM_THREADS; i++) {
 		void* retval;
 		CHECK_ZERO(pthread_join(threads[i], &retval));
-		printf("thread %d returned value %d\n", i, (int)retval);
+		printf("thread %d returned value %p\n", i, retval);
 	}
 	return EXIT_SUCCESS;
 }

@@ -53,7 +53,7 @@ static void function(void) {
  * A function that translates an address to it's page boundary
  */
 void* page_adr(void* adr) {
-	unsigned int iptr=(unsigned int)adr;
+	unsigned long iptr=(unsigned long)adr;
 	return (void*)(iptr-iptr%getpagesize());
 }
 
