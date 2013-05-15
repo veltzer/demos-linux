@@ -55,7 +55,8 @@ packs=[
 	'libcpufreq-dev', # for cpufreq.h
 	'libboost1.49-dev', # for boost threading
 	'libboost-thread1.49.0', # for the actual library
-	'libreoffice-common', # for soffice
+	'libreoffice-common', # for soffice conversion
+	'python-uno', # for soffice conversion
 
 	# these packages are for working with linuxapi...:)
 	'vim',
