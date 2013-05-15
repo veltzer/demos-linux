@@ -4,8 +4,12 @@
 # ubuntu to compile and work with this package.
 
 # TODO:
-# enable the dbgsym package after this script also knows how to add the
+# - enable the dbgsym package after this script also knows how to add the
 # apt repository to the machine...
+# - the papi library is not supported by this procedue. have this procedue
+# install the papi library for me (either as .deb from my own repository
+# or from source).
+# - the intel compiler auto-installation is not supported.
 
 import subprocess
 

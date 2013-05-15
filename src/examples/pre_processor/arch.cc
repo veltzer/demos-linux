@@ -28,9 +28,28 @@
 int main(int argc, char** argv, char** envp) {
 #ifdef __GNUC__
 	printf("This means we are in GNUC context\n");
+#else
+	printf("This is not a GNUC compiler\n");
 #endif	// __GNUC__
 #ifdef __cplusplus
 	printf("This means that we are in c++ context\n");
+#else
+	printf("This is not a C++ context\n");
 #endif	// __cplusplus
+#if __x86_64__
+	printf("This is an intel 64 bit platform\n");
+#else
+	printf("This is not an intel 64 bit platform\n");
+#endif // __x86_64__
+#if __LP64__
+	printf("This is some kind of 64 bit platform\n");
+#else
+	printf("This is not some kind of 64 bit platform\n");
+#endif // __LP64__
+#if __i386__
+	printf("This is an intel 32 bit platform\n");
+#else
+	printf("This is not an intel 32 bit platform\n");
+#endif // __i386__
 	return EXIT_SUCCESS;
 }
