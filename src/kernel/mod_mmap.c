@@ -23,6 +23,7 @@
 #include <linux/fs.h> /* for fops */
 #include <linux/device.h> /* for struct device */
 #include <linux/slab.h> /* for the kmalloc API */
+#include <linux/sched.h> /* for current */
 #include <linux/mman.h> /* for remap_pfn_range */
 #include <linux/pagemap.h> /* for vma structures */
 #include "shared.h" /* for the ioctl numbers */
