@@ -45,7 +45,7 @@ int main(int argc, char** argv, char** envp) {
 		/* data is just an integer, instead of a
 		 * pointer to something
 		 */
-		e.data=(void*)i;
+		e.data=(void*)(unsigned long)i;
 		ep=hsearch(e, ENTER);
 		/* there should be no failures */
 		if(ep==NULL) {
@@ -59,10 +59,10 @@ int main(int argc, char** argv, char** envp) {
 		 */
 		e.key=(char*)(data[i]);
 		ep=hsearch(e, FIND);
-		printf("%9.9s -> %9.9s:%d\n",
+		printf("%9.9s -> %9.9s:%zd\n",
 			e.key,
 			ep ? ep->key : "NULL",
-			ep ? (int)(ep->data) : 0
+			ep ? (unsigned long)(ep->data) : 0
 			);
 	}
 	return EXIT_SUCCESS;

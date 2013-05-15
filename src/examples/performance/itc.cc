@@ -28,9 +28,13 @@
  */
 
 static inline unsigned long getstackpointer(void) {
+#if __x86_64
+	return 0;
+#else
 	unsigned long ret;
 	asm ("movl %%esp, %0" : "=r" (ret));
 	return ret;
+#endif // __x86_64__
 }
 
 int main(int argc, char** argv, char** envp) {

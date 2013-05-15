@@ -45,7 +45,7 @@ int main(int argc, char** argv, char** envp) {
 	const int NUM_THREADS=8;
 	pthread_t threads[NUM_THREADS];
 	int t[NUM_THREADS];
-	int retval[NUM_THREADS];
+	unsigned long retval[NUM_THREADS];
 	int stime;
 	srand(time(NULL));
 	for(int i=0; i<NUM_THREADS; i++) {
@@ -57,8 +57,8 @@ int main(int argc, char** argv, char** envp) {
 		sleep(stime);
 		void* cretval;
 		CHECK_ZERO(pthread_join(threads[i], &cretval));
-		retval[i]=(int)cretval;
-		printf("thread returned value %d\n", retval[i]);
+		retval[i]=(unsigned long)cretval;
+		printf("thread returned value %zd\n", retval[i]);
 	}
 	return EXIT_SUCCESS;
 }

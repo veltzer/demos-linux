@@ -174,7 +174,7 @@ int main(int argc, char** argv, char** envp) {
 		} else {
 			CHECK_NOT_ZERO(strftime(mybuf, date_buf_size, format_other_year, &mytm));
 		}
-		printf("%s %*d %s %s %*ld %s %s\n",
+		printf("%s %*zd %s %s %*ld %s %s\n",
 			p,
 			size_link,
 			buf.st_nlink,

@@ -61,7 +61,7 @@ static void show_data(char *data, unsigned int size) {
 static void do_test(char *data, unsigned int size, const char *name) {
 	printf("starting test named [%s]\n", name);
 	int PAGE_SIZE=getpagesize();
-	unsigned int adr=(unsigned int)data;
+	unsigned long adr=(unsigned long)data;
 	bool aligned=(adr % PAGE_SIZE==0);
 	if (aligned) {
 		printf("data %p is page aligned\n", data);

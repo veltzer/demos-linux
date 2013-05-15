@@ -66,7 +66,7 @@ public:
 
 	// this is for allocating arrays, the size that you get
 	// is SizeOfObject*NumOfObjects...
-	void *operator new[] (const unsigned int size) {
+	void *operator new[] (const size_t size) {
 		std::cout << "in new[] operator" << std::endl;
 		std::cout << "size is " << size << std::endl;
 		void *pointer=malloc(size);

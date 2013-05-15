@@ -56,7 +56,7 @@ void* func(void*) {
 	read_bytes=CHECK_NOT_M1(read(fd, buf, filesize));
 	assert(read_bytes==filesize);
 	gettimeofday(&t2, NULL);
-	printf("time of first read: %lf (%d bytes read)\n", micro_diff(&t1, &t2), read_bytes);
+	printf("time of first read: %lf (%zd bytes read)\n", micro_diff(&t1, &t2), read_bytes);
 	// seek back
 	CHECK_NOT_M1(lseek(fd, 0, SEEK_SET));
 	// second read
@@ -64,7 +64,7 @@ void* func(void*) {
 	read_bytes=CHECK_NOT_M1(read(fd, buf, filesize));
 	assert(read_bytes==filesize);
 	gettimeofday(&t2, NULL);
-	printf("time of second read: %lf (%d bytes read)\n", micro_diff(&t1, &t2), read_bytes);
+	printf("time of second read: %lf (%zd bytes read)\n", micro_diff(&t1, &t2), read_bytes);
 	// seek back
 	CHECK_NOT_M1(lseek(fd, 0, SEEK_SET));
 	// third read
@@ -72,7 +72,7 @@ void* func(void*) {
 	read_bytes=CHECK_NOT_M1(read(fd, buf, filesize));
 	assert(read_bytes==filesize);
 	gettimeofday(&t2, NULL);
-	printf("time of third read: %lf (%d bytes read)\n", micro_diff(&t1, &t2), read_bytes);
+	printf("time of third read: %lf (%zd bytes read)\n", micro_diff(&t1, &t2), read_bytes);
 	// shutdown
 	free(buf);
 	return NULL;
