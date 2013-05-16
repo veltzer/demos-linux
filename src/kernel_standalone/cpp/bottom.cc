@@ -32,8 +32,14 @@ void myfree(void *);
 int __gxx_personality_v0;
 int _Unwind_Resume;
 
+#if __i386__
+typedef unsigned int size_t;
+#else
+typedef unsigned long size_t;
+#endif // __i386__
+
 /* support code for new and delete */
-void *operator new(unsigned long x) {
+void *operator new(size_t x) {
 	return(mymalloc(x));
 }
 

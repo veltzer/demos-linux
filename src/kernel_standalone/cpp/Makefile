@@ -11,7 +11,7 @@ KVER?=$(shell uname -r)
 # fill in the directory of the kernel build system
 KDIR:=/lib/modules/$(KVER)/build
 # fill in the vervosity level you want
-V?=1
+V?=0
 
 CC_SOURCES:=$(shell find . -name "*.cc")
 CC_OBJECTS:=$(addsuffix .o,$(basename $(CC_SOURCES)))
