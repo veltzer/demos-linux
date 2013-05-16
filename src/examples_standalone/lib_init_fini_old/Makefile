@@ -1,11 +1,15 @@
+include ../../../Makefile.defs
+
 CFLAGS:=-Wall -Werror -I../../include
+
+SHARED_FLAGS:=-shared -fPIC
 
 main.$(SUFFIX_BIN): main.c libfoo.so libbar.so
 	$(Q)gcc $(CFLAGS) -o $@ main.c -L. -lbar -lfoo
 libfoo.so: foo.c
-	$(Q)gcc $(CFLAGS) -shared -o libfoo.so foo.c -Xlinker -init -Xlinker my_init -Xlinker -fini -Xlinker my_fini -Xlinker --build-id=0xaabbcc
+	$(Q)gcc $(CFLAGS) $(SHARED_FLAGS) -o libfoo.so foo.c -Xlinker -init -Xlinker my_init -Xlinker -fini -Xlinker my_fini -Xlinker --build-id=0xaabbcc
 libbar.so: bar.c
-	$(Q)gcc $(CFLAGS) -shared -o libbar.so bar.c -Xlinker -init -Xlinker my_init -Xlinker -fini -Xlinker my_fini -Xlinker --build-id=0xaabbcc
+	$(Q)gcc $(CFLAGS) $(SHARED_FLAGS) -o libbar.so bar.c -Xlinker -init -Xlinker my_init -Xlinker -fini -Xlinker my_fini -Xlinker --build-id=0xaabbcc
 
 .PHONY: clean
 clean:

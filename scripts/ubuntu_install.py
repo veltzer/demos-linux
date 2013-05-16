@@ -57,6 +57,8 @@ packs=[
 	'libboost-thread1.49.0', # for the actual library
 	'libreoffice-common', # for soffice conversion
 	'python-uno', # for soffice conversion
+	'uncrustify', # for code formatting example
+	'indent', # for code formatting example
 
 	# these packages are for working with linuxapi...:)
 	'vim',
