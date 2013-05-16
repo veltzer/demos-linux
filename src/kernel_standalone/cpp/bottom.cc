@@ -32,7 +32,7 @@ void myfree(void *);
 int __gxx_personality_v0;
 int _Unwind_Resume;
 
-#if __i386__
+#ifdef __i386__
 typedef unsigned int size_t;
 #else
 typedef unsigned long size_t;
