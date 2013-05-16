@@ -258,7 +258,7 @@ static inline void pipe_wake_writers(struct my_pipe_t *pipe)
 static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 		const char __user **ubuf) {
 	int ret;
-	pr_debug("copy_from_user: count is %d, read_pos is %d, write_pos is %d, size is %d\n",
+	pr_debug("copy_from_user: count is %d, read_pos is %zd, write_pos is %zd, size is %zd\n",
 			count, pipe->read_pos, pipe->write_pos, pipe->size);
 	#ifdef DO_COPY
 	ret = copy_from_user(pipe->data+pipe->write_pos, *ubuf, count);
@@ -288,7 +288,7 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 		char __user **ubuf)
 {
 	unsigned long ret;
-	pr_debug("copy_to_user: count is %d, read_pos is %d, write_pos is %d, size is %d\n",
+	pr_debug("copy_to_user: count is %d, read_pos is %zd, write_pos is %zd, size is %zd\n",
 			count, pipe->read_pos, pipe->write_pos, pipe->size);
 	#ifdef DO_COPY
 	pr_debug("copying to %p\n", *ubuf);
@@ -376,7 +376,7 @@ static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 		}
 		data = pipe_data(pipe);
 	}
-	pr_debug("data is %d\n", data);
+	pr_debug("data is %zd\n", data);
 	/* EOF handling */
 	if (data == 0 && pipe->writers == 0) {
 		pr_debug("signaling EOF\n");
@@ -385,7 +385,7 @@ static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 	}
 	/* now data > 0 */
 	work_size = min(data, count);
-	pr_debug("work_size is %d\n", work_size);
+	pr_debug("work_size is %zd\n", work_size);
 	/* copy_to_user data from the pipe */
 	if (pipe->read_pos <= pipe->write_pos) {
 		ret = pipe_copy_to_user(pipe, work_size, &buf);
@@ -438,10 +438,10 @@ static ssize_t pipe_write(struct file *file, const char __user *buf,
 		}
 		room = pipe_room(pipe);
 	}
-	pr_debug("room is %d\n", room);
+	pr_debug("room is %zd\n", room);
 	/* now room > 0 */
 	work_size = min(room, count);
-	pr_debug("work_size is %d\n", work_size);
+	pr_debug("work_size is %zd\n", work_size);
 	/* copy_from_user data from the pipe */
 	if (pipe->read_pos <= pipe->write_pos) {
 		first_chunk = min(work_size, pipe->size-pipe->write_pos);
