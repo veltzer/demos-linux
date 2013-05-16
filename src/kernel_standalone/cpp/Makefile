@@ -11,14 +11,22 @@ KVER?=$(shell uname -r)
 # fill in the directory of the kernel build system
 KDIR:=/lib/modules/$(KVER)/build
 # fill in the vervosity level you want
-V?=0
+V?=1
 
 CC_SOURCES:=$(shell find . -name "*.cc")
 CC_OBJECTS:=$(addsuffix .o,$(basename $(CC_SOURCES)))
 
+GCC_MACHINE:=$(shell gcc -dumpmachine)
+ifeq ($(GCC_MACHINE),x86_64-linux-gnu)
+	ARCH:=elf_x86_64
+	FLAGS:=-nostdinc -Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common -Os -fno-stack-protector -m64 -msoft-float -freg-struct-return -mpreferred-stack-boundary=3 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fomit-frame-pointer
+else
+	ARCH:=elf_i386
+	FLAGS:=-nostdinc -Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common -Os -fno-stack-protector -m32 -msoft-float -mregparm=3 -freg-struct-return -mpreferred-stack-boundary=2 -march=i686 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fomit-frame-pointer
+endif
 # this rule was also taken from running with V=1
 $(ko-m): top.o top.mod.o $(CC_OBJECTS) 
-	ld -r -m elf_i386 --build-id -o $(ko-m) top.o top.mod.o $(CC_OBJECTS)
+	ld -r -m $(ARCH) --build-id -o $(ko-m) top.o top.mod.o $(CC_OBJECTS)
 # how was this monstrosity created?
 # I ran the build with V=1 and registered the command to compile via gcc.
 # picked the same version g++ and gave it the entire flag set (especially the -f stuff).
@@ -27,7 +35,7 @@ $(ko-m): top.o top.mod.o $(CC_OBJECTS)
 # -Werror-implicit-function-declaration -Wstrict-prototypes
 # which are not relevant to C++ (the compiler told me so!)
 %.o: %.cc
-	 g++ -nostdinc -Wall -Wundef -Wno-trigraphs -fno-strict-aliasing -fno-common -Os -fno-stack-protector -m32 -msoft-float -mregparm=3 -freg-struct-return -mpreferred-stack-boundary=2 -march=i686 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -fomit-frame-pointer -Werror -c -o $@ $<
+	 g++ $(FLAGS) -Werror -c -o $@ $<
 top.o top.mod.o: top.c
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
 	-rm -f top.ko
