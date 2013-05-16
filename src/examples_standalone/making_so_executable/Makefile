@@ -1,4 +1,5 @@
 include ../../../Makefile.defs
+
 SO_LINK_NAME:=add
 SO_NAME:=lib$(SO_LINK_NAME).so
 EXE_NAME:=main.$(SUFFIX_BIN)
@@ -8,12 +9,13 @@ CFLAGS:=-O2 -g3 -Wall -Werror -I../../include
 LDFLAGS:=-Wall -Werror
 CC:=gcc
 ALL_DEPS:=Makefile
+SHARED_FLAGS:=-shared -fPIC
 
 # on Intel this usually works without the -fpic but use it none
 # the less, you can also add -nostdlib to avoid the default 
 # bahviour of linking with standard C/C++ runtime libraries.
 # this does not work
-FLAGS_FOR_SHARED_LIB:=-shared -Xlinker -e -Xlinker mymain
+FLAGS_FOR_SHARED_LIB:=$(SHARED_FLAGS) -Xlinker -e -Xlinker mymain
 #FLAGS_FOR_SHARED_LIB:=-shared
 # These are the libraries used by your library
 LIBS:=
@@ -28,7 +30,7 @@ $(SO_NAME): $(SO_OBJECTS) $(ALL_DEPS)
 main.o: main.c
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 add.o: add.c
-	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
+	$(Q)$(CC) -c $(CFLAGS) $(SHARED_FLAGS) -o $@ $<
 
 .PHONY: clean
 clean: $(ALL_DEPS)
