@@ -82,14 +82,16 @@ uintptr_t la_symbind32(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook, uin
 }
 
 uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook, uintptr_t *defcook, unsigned int *flags, const char *symname) {
-	printf("la_symbind64(): symname=%s; sym->st_value=%llx\n",
+	printf("la_symbind64(): symname=%s; sym->st_value=%zx\n",
 		symname, sym->st_value);
 	printf("ndx=%d; flags=0x%x", ndx, *flags);
 	printf("; refcook=%p; defcook=%p\n", refcook, defcook);
 	return sym->st_value;
 }
 
+#ifdef __i386__
 Elf32_Addr la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook, uintptr_t *defcook, La_i86_regs *regs, unsigned int *flags, const char *symname, long int *framesizep) {
 	printf("la_i86_gnu_pltenter(): %s (%x)\n", symname, sym->st_value);
 	return sym->st_value;
 }
+#endif // __i386__
