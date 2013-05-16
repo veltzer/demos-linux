@@ -17,6 +17,14 @@ Topics covered by the examples
 * Various compiler directives
 * Many more...
 
+Platforms supported
+-------------------
+* i386
+* ia64
+Other platforms will be supported if someone is willing to do the work.
+I usually work on intel 32 bit so I regularly check the code on ia32 and occasionaly
+use a virtual machine to check that the code works on ia64.
+
 Contributing
 ------------
 This project needs help. fork me and commit.
