@@ -52,7 +52,7 @@ static ssize_t write_null(struct file *file, const char __user *buf,
 	/* remmember to increment the position to let the user think that
 	he is actually writing something...
 	*/
-	pr_info("count is %d\n", count);
+	pr_info("count is %zd\n", count);
 	*ppos += count;
 	return count;
 }
