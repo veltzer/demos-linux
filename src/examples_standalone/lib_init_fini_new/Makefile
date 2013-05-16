@@ -1,13 +1,16 @@
+include ../../../Makefile.defs
+
 ALL:=main.$(SUFFIX_BIN) libfoo.so libbar.so
 
 CXXFLAGS=-I../../include
+SHARED_FLAGS:=-shared -fPIC
 
 main.$(SUFFIX_BIN): main.cc libfoo.so libbar.so
 	$(Q)g++ $(CXXFLAGS) -o $@ $< -L. -lfoo -lbar -lpthread
 libfoo.so: foo.cc
-	$(Q)g++ $(CXXFLAGS) -shared -o $@ $<
+	$(Q)g++ $(CXXFLAGS) $(SHARED_FLAGS) -o $@ $<
 libbar.so: bar.cc
-	$(Q)g++ $(CXXFLAGS) -shared -o $@ $<
+	$(Q)g++ $(CXXFLAGS) $(SHARED_FLAGS) -o $@ $<
 
 .PHONY: clean
 clean:
