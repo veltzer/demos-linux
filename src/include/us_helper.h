@@ -513,6 +513,8 @@ static inline void* run_high_priority(void* (*func)(void*), void* pval, int prio
 	CHECK_ZERO(pthread_join(mythread, &retval));
 	return retval;
 }
+const int STANDARD_LOW_PRIORITY=1;
+const int STANDARD_MID_PRIORITY=47;
 const int STANDARD_HIGH_PRIORITY=90;
 
 /*

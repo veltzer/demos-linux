@@ -85,6 +85,10 @@ void* measure(void* val) {
 int main(int argc, char** argv, char** envp) {
 	printf("low priority running\n");
 	measure(NULL);
+	printf("low priority running\n");
+	run_high_priority(measure, NULL, STANDARD_LOW_PRIORITY);
+	printf("mid priority running\n");
+	run_high_priority(measure, NULL, STANDARD_MID_PRIORITY);
 	printf("high priority running\n");
 	run_high_priority(measure, NULL, STANDARD_HIGH_PRIORITY);
 	return EXIT_SUCCESS;
