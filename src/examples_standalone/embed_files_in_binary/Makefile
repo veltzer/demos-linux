@@ -1,9 +1,9 @@
 include ../../../Makefile.defs
 CXXFLAGS:=-I../../include
 
-GCC_MACHINE:=$(shell gcc -dumpmachine)
 ARCH:=i386
 # use objcopy --info to see all supported output formats
+GCC_MACHINE:=$(shell gcc -dumpmachine)
 ifeq ($(GCC_MACHINE),x86_64-linux-gnu)
 	OUT_FORMAT:=elf64-x86-64
 else
