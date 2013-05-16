@@ -133,7 +133,7 @@ static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 		const char __user **ubuf)
 {
 	int ret;
-	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d\n",
+	pr_debug("count is %d, read_pos is %zd, write_pos is %zd, size is %zd\n",
 			count, pipe->read_pos, pipe->write_pos, pipe->size);
 	#ifdef DO_COPY
 	ret = copy_from_user(pipe->data+pipe->write_pos, *ubuf, count);
@@ -155,7 +155,7 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 		char __user **ubuf)
 {
 	int ret;
-	pr_debug("count is %d, read_pos is %d, write_pos is %d, size is %d\n",
+	pr_debug("count is %d, read_pos is %zd, write_pos is %zd, size is %zd\n",
 			count, pipe->read_pos, pipe->write_pos, pipe->size);
 	#ifdef DO_COPY
 	ret = copy_to_user(*ubuf, pipe->data+pipe->read_pos, count);
@@ -199,7 +199,7 @@ static ssize_t pipe_read(struct file *file, char __user *buf, size_t count,
 		return 0;
 	/* now data > 0 */
 	work_size = min(data, count);
-	pr_debug("work_size is %d\n", work_size);
+	pr_debug("work_size is %zd\n", work_size);
 	/* copy_to_user data from the pipe */
 	if (pipe->read_pos <= pipe->write_pos) {
 		ret = pipe_copy_to_user(pipe, work_size, &buf);
@@ -239,7 +239,7 @@ static ssize_t pipe_write(struct file *file, const char __user *buf,
 		return 0;
 	/* now room > 0 */
 	work_size = min(room, count);
-	pr_debug("work_size is %d\n", work_size);
+	pr_debug("work_size is %zd\n", work_size);
 	/* copy_from_user data from the pipe */
 	if (pipe->read_pos <= pipe->write_pos) {
 		first_chunk = min(work_size, pipe->size-pipe->write_pos);
