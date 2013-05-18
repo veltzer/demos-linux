@@ -25,28 +25,38 @@
 #include <firstinclude.h>
 #include <unistd.h>	// for fork(2), execv(2)
 #include <stdlib.h>	// for EXIT_SUCCCESS
-#include <sys/types.h>	// for wait(2)
-#include <sys/wait.h>	// for wait(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <sys/types.h>	// for wait(2), WIFSIGNALED(3)
+#include <sys/wait.h>	// for wait(2), WIFSIGNALED(3)
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE()
 #include <multi_processing.h>	// for print_status()
-#include <stdio.h>	// for printf(3)
 
-int main(int argc, char** argv, char** envp) {
+const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";
+const char* const args[]={
+	process_to_exec
+};
+
+void fork_a_child() {
+	TRACE("forking a child");
 	pid_t pid=CHECK_NOT_M1(fork());
 	if(pid) {
 		// parent
+		return;
+	}
+	// child
+	CHECK_NOT_M1(execv(process_to_exec, (char* const*)args));
+}
+
+int main(int argc, char** argv, char** envp) {
+	fork_a_child();
+	TRACE("parent starts monitoring");
+	while(true) {
 		int status;
 		pid_t child_that_died=CHECK_NOT_M1(wait(&status));
-		printf("child died with pid=%d\n", child_that_died);
+		TRACE("child died with pid=%d", child_that_died);
 		print_status(status);
-		return EXIT_SUCCESS;
-	} else {
-		// child
-		const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";
-		const char* const args[]={
-			process_to_exec
-		};
-		CHECK_NOT_M1(execv(process_to_exec, (char* const*)args));
-		return EXIT_SUCCESS;
+		if(WIFSIGNALED(status)) {
+			fork_a_child();
+		}
 	}
+	return EXIT_SUCCESS;
 }

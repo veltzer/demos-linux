@@ -30,7 +30,7 @@
 /* THIS IS A C FILE, NO C++ here */
 
 static inline void print_status(int status) {
-	TRACE("analyzing code [%d]\n", status);
+	TRACE("analyzing code [%d]", status);
 	if (WIFEXITED(status)) {
 		TRACE("child exited normally with status %d", WEXITSTATUS(status));
 	}
