@@ -19,28 +19,24 @@
  */
 
 #include <firstinclude.h>
-#define ACE_NTRACE 1
-#include <ace/Task.h>	// for ACE_Task_Base
-#include <sched.h>	// for sched_yield(2)
-#include <assert.h>	// for assert(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, atoi(3), EXIT_FAILURE
+#define ACE_TRACE 0
+#include <ace/Task.h>
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This is a solution to the exercise.
- *
- * Try to run this with "taskset 1" and more to see the difference in performance.
- *
+ * Another solution to the exercise. This time trying to solve using ACE
+ * conditions = number of threads.
+ */
+
+/*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
  * EXTRA_LINK_CMDS=pkg-config --libs ACE
- *
  */
 
 // number of threads we will use
 unsigned int num_threads;
-// number of attempts each thread will try
-unsigned int attempts=10000;
-// should the threads yield one for the other ?
-bool yield;
+// number of attempts
+unsigned int attempts;
 // should we write debug messages ?
 bool debug;
 
@@ -48,7 +44,9 @@ class SharedResource {
 private:
 	// This is the ACE mutex that wraps the OS mutex which we will
 	// use to prevent simultaneous access to the resource.
-	ACE_Thread_Mutex mutex;
+	ACE_Condition_Thread_Mutex **cond;
+	// This is to protect the methods
+	ACE_Thread_Mutex m;
 	// This is the actual counter. We will initialize it in the constructor.
 	unsigned int LockedCounter;
 	// This is the attempt counter. We will initialize it in the constructor.
@@ -56,49 +54,42 @@ private:
 
 public:
 	SharedResource() {
+		cond=new ACE_Condition_Thread_Mutex*[num_threads];
+		for(unsigned int i=0;i<num_threads;i++) {
+			cond[i]=new ACE_Condition_Thread_Mutex(m);
+		}
 		LockedCounter=0;
 		AttemptCounter=0;
 	}
-
 	// No need for any locking for getting the value
 	unsigned int getLockedCounter() {
 		return(LockedCounter);
 	}
-
 	// No need for any locking for getting the value
 	unsigned int getAttemptCounter() {
 		return(AttemptCounter);
 	}
-
 	// This method only attempts one increase
 	void attemptIncreaseValue(unsigned int value) {
 		if(debug) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) waiting for lock\n")));
 		}
-		// wait until mutex is acquired
-		mutex.acquire();
+		m.acquire();
 		AttemptCounter++;
 		if(debug) {
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Trying to update variable modulu=%d value=%d\n"), LockedCounter % num_threads, value));
 		}
-		if (LockedCounter % num_threads==value) {
-			if(debug) {
-				ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
-			}
-			LockedCounter++;
+		while(LockedCounter % num_threads!=value) {
+			cond[value]->wait();
 		}
-		mutex.release();
 		if(debug) {
-			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) released lock\n")));
+			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) increasing counter\n")));
 		}
-		if(yield) {
-			// two alternatives for yielding: the ACE and the native OS one...
-			ACE_OS::thr_yield();
-			/*
-			int ret=sched_yield();
-			assert(ret!=-1);
-			*/
-		}
+		LockedCounter++;
+		value++;
+		value%=num_threads;
+		cond[value]->signal();
+		m.release();
 	}
 };
 
@@ -121,19 +112,18 @@ public:
 	}
 };
 
-int ACE_TMAIN(int argc, ACE_TCHAR ** argv) {
-	if(argc!=5) {
-		fprintf(stderr,"%s: usage: %s [num_threads] [attempts] [yield] [debug]\n", argv[0], argv[0]);
-		fprintf(stderr,"%s: example: %s 3 10000 0 0\n", argv[0], argv[0]);
+int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
+	if(argc!=4) {
+		fprintf(stderr,"%s: usage: %s [num_threads] [attempts] [debug]\n", argv[0], argv[0]);
+		fprintf(stderr,"%s: example: %s 3 10000 0\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// parameters
 	num_threads=atoi(argv[1]);
 	attempts=atoi(argv[2]);
-	yield=atoi(argv[3]);
-	debug=atoi(argv[4]);
+	debug=atoi(argv[3]);
 
-	// real code starts here
+	// real code
 	SharedResource sharedResource;
 	HA_CommandHandler* handlers[num_threads];
 	for(unsigned int i=0; i<num_threads; i++) {
@@ -145,7 +135,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR ** argv) {
 	for(unsigned int i=0; i<num_threads; i++) {
 		handlers[i]->wait();
 	}
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) LockedCounter=%d\n"), sharedResource.getLockedCounter()));
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) AttemptCounter=%d\n"), sharedResource.getAttemptCounter()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) LockedCounter=%u\n"), sharedResource.getLockedCounter()));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) GeneralCounter=%u\n"), sharedResource.getAttemptCounter()));
 	return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 Exercise 3
+
 Write a program that will update a single variable called LockedCounter.
 We have to protect the variable so that only one thread will be able to update it.
 We will use 3 threads.

@@ -14,3 +14,5 @@ pthread_rwlock_unlock (3posix) - unlock a read-write lock object
 pthread_rwlock_destroy (3posix) - destroy and initialize a read-write lock object
 
 Demonstrate the use of your lock and show that it actually works.
+
+TODO: the bonus is not yet solved.
