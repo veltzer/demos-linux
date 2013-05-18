@@ -50,7 +50,8 @@
  * - we are doing async IO here all over. This means that when you are notified that there is data you
  * to read fast (without blocking) and then you get to write fast.
  *
- * TODO: check what happens when we write large amounts of data to the output. Will the async write come up short?
+ * TODO:
+ * - check what happens when we write large amounts of data to the output. Will the async write come up short?
  */
 
 int get_backlog() {
@@ -199,8 +200,10 @@ int main(int argc, char** argv, char** envp) {
 				char buffer[buflen];
 				int fd=events[n].data.fd;
 				ssize_t len=CHECK_NOT_M1(read(fd, buffer, buflen));
-				// TODO: how do we know that we do not
-				// block here?
+				/*
+				 * TODO:
+				 * - how do we know that we do not block here?
+				 */
 				ssize_t ret=CHECK_NOT_M1(write(fd, buffer, len));
 				// we really should not get blocked here
 				assert(ret==len);
@@ -215,9 +218,11 @@ int main(int argc, char** argv, char** envp) {
 		}
 	}
 exit:
-	// TODO:
-	// - close the socket
-	// - close the signal fd
-	// - clean the epollfd
+	/*
+	 * TODO:
+	 * - close the socket
+	 * - close the signal fd
+	 * - clean the epollfd
+	 */
 	return EXIT_SUCCESS;
 }

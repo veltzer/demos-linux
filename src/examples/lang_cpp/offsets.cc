@@ -35,9 +35,11 @@
 
 // alternativly we could have used the builtin __builtin_offsetof(field,struct)
 
-// TODO:
-// We still need to show how the mechanism of accessing a child field from an overridden
-// method in the parent works when there is multiple inheritance involved...
+/*
+ * TODO:
+ * - We still need to show how the mechanism of accessing a child field from an overridden
+ * method in the parent works when there is multiple inheritance involved...
+ */
 
 class NameEmpty {
 };

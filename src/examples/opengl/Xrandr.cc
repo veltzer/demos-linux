@@ -41,7 +41,10 @@ int main(int argc, char** argv, char** envp) {
 	//
 	Display* dpy=XOpenDisplay(NULL);
 	assert(dpy!=NULL);
-	// TODO: How do I know if the next function call was successful?
+	/*
+	 * TODO:
+	 * - How do I know if the next function call was successful?
+	 */
 	Window root=DefaultRootWindow(dpy);
 	int event_base_return, error_base_return;
 	Bool res=XRRQueryExtension(dpy, &event_base_return, &error_base_return);

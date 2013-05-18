@@ -30,7 +30,6 @@
  * - In this file the three parameters: database name,
  * database user and the password are hardcoded. Get
  * them out of here to some outside xml options file
- * TODOEND
  *
  * EXTRA_LINK_FLAGS=-lmysqlclient
  */

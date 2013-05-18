@@ -66,7 +66,10 @@ public:
 		symbols=backtrace_symbols(array, nSize);
 	}
 
-	// TODO: need to C++'ize the next two methods
+	/*
+	 * TODO:
+	 * - need to C++'ize the next two methods
+	 */
 	void release() {
 		free(symbols);
 	}

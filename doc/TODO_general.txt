@@ -3,3 +3,15 @@ c++ userspace and kernel stuff:
 - find out why rdtsc doesnt work well on my multi core machine.
 	fix it.
 - do an example of libevent in linux.
+
+- find a general solution for storing TODO items inside source files.
+	the idea is that I will be able to extract all of those
+	todo items easily and track them.
+	Each TODO item should be able to be a multi lined item.
+	I should be able to identify them easily.
+	I should be able to put them into both types of comments
+		(// and /* ... */)
+	I should be able to put them into the begining and in the
+	middle of the code.
+	I should know when the TODO item ends.
+  convert all TODO items to this type of notation.

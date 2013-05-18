@@ -38,6 +38,9 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(hcreate(50));
 	// next function does not return any status...
 	hdestroy();
-	// TODO: show more of the hash here
+	/*
+	 * TODO:
+	 * - show more of the hash here
+	 */
 	return EXIT_SUCCESS;
 }
