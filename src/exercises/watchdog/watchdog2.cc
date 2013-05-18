@@ -45,6 +45,10 @@ static pid_t child_pid;
 
 static void handler(int sig, siginfo_t *si, void *unused) {
 	int status;
+	// WNOHANG is here to make sure that we do not hang. Since this is a SIGCHLD
+	// handler then we can be certain that the first call to waitpid(2) will not
+	// hang. If we were monitoring more than one child, and because we are afraid
+	// of signal loss, we would do a 'pumping loop' here...
 	pid_t child_that_died=CHECK_NOT_M1(waitpid(child_pid, &status, WNOHANG));
 	CHECK_ASSERT(child_that_died==child_pid);
 	child_pid=-1;
