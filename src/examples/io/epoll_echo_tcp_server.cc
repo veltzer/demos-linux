@@ -50,9 +50,7 @@
  * - we are doing async IO here all over. This means that when you are notified that there is data you
  * to read fast (without blocking) and then you get to write fast.
  *
- * TODO:
- * - check what happens when we write large amounts of data to the output. Will the async write come up
- * short?
+ * TODO: check what happens when we write large amounts of data to the output. Will the async write come up short?
  */
 
 int get_backlog() {
