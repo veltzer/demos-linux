@@ -25,15 +25,20 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCCESS, abort(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
-#include <stdio.h>	// for printf(3)
+#include <stdlib.h>	// for EXIT_SUCCCESS, abort(3), srand(3), rand(3)
+#include <sys/types.h>	// for getpid(2)
+#include <unistd.h>	// for sleep(3), getpid(2)
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE()
 
 int main(int argc, char** argv, char** envp) {
 	const unsigned int min_sleep=5;
 	const unsigned int max_sleep=10;
+	srand(getpid());
 	int sleep_time=min_sleep+rand()%(max_sleep-min_sleep);
-	printf("child: sleeping for %d seconds\n", sleep_time);
+	TRACE("sleeping for %d seconds", sleep_time);
 	CHECK_ZERO(sleep(sleep_time));
+	// no return value for abort(3)
+	TRACE("dying");
+	abort();
 	return EXIT_SUCCESS;
 }
