@@ -21,16 +21,18 @@
 /*
  * This is a solution to the watchdog exercise
  *
- * This is a simple solution. In this one the parent
- * just blocks and wait for the child to die using wait(2).
+ * This solution is better in that it is based on signal handling
+ * and does not block the parent. Instead the parent is doing
+ * a non-busy ever loop using pause(2).
  */
 
 #include <firstinclude.h>
-#include <unistd.h>	// for fork(2), execv(2)
+#include <unistd.h>	// for fork(2), execv(2), pause(2)
 #include <stdlib.h>	// for EXIT_SUCCCESS
-#include <sys/types.h>	// for wait(2), WIFSIGNALED(3)
-#include <sys/wait.h>	// for wait(2), WIFSIGNALED(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE()
+#include <signal.h>	// for SIGCHLD
+#include <sys/types.h>	// for waitpid(2), WIFSIGNALED(3)
+#include <sys/wait.h>	// for waitpid(2), WIFSIGNALED(3)
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), register_handler_sigaction(), CHECK_ASSERT()
 #include <multi_processing.h>	// for print_status()
 
 const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";
@@ -38,11 +40,27 @@ const char* const args[]={
 	process_to_exec
 };
 
+static bool fork_again;
+static pid_t child_pid;
+
+static void handler(int sig, siginfo_t *si, void *unused) {
+	int status;
+	pid_t child_that_died=CHECK_NOT_M1(waitpid(child_pid, &status, WNOHANG));
+	CHECK_ASSERT(child_that_died==child_pid);
+	child_pid=-1;
+	TRACE("child died with pid=%d", child_that_died);
+	print_status(status);
+	if(WIFSIGNALED(status)) {
+		fork_again=true;
+	}
+}
+
 static void fork_a_child() {
 	TRACE("forking a child");
-	pid_t pid=CHECK_NOT_M1(fork());
-	if(pid) {
+	child_pid=CHECK_NOT_M1(fork());
+	if(child_pid) {
 		// parent
+		fork_again=false;
 		return;
 	}
 	// child
@@ -50,16 +68,16 @@ static void fork_a_child() {
 }
 
 int main(int argc, char** argv, char** envp) {
+	register_handler_sigaction(SIGCHLD, handler);
 	fork_a_child();
 	TRACE("parent starts monitoring");
 	while(true) {
-		int status;
-		pid_t child_that_died=CHECK_NOT_M1(wait(&status));
-		TRACE("child died with pid=%d", child_that_died);
-		print_status(status);
-		if(WIFSIGNALED(status)) {
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
+		if(fork_again)
 			fork_a_child();
-		}
 	}
 	return EXIT_SUCCESS;
 }

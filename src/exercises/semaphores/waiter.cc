@@ -42,7 +42,11 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_NOT_M1(semctl(semid, i, SETVAL, 1));
 	}
 	// a non busy busy wait
-	while(true)
-		pause();
+	while(true) {
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
+	}
 	return EXIT_SUCCESS;
 }

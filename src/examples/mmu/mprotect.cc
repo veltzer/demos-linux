@@ -24,6 +24,7 @@
 #include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <sys/mman.h>	// for mprotect(2)
+#include <us_helper.h>	// for CHECK_ASSERT()
 
 /*
  * This example shows that regular strings (char*) are not protected
@@ -39,7 +40,10 @@ int main(int argc, char** argv, char** envp) {
 	fprintf(stderr, "mystring is %p\n", mystring);
 	fprintf(stderr, "myotherstring is %p\n", myotherstring);
 	fprintf(stderr, "mypid is %d\n", getpid());
-	// while(pause()) {
+	// while(true) {
+	//	int ret=pause();
+	//	// this is what is guaranteed by a clean exit of pause(2)
+	//	CHECK_ASSERT(ret==-1 && errno==EINTR);
 	// }
 	unsigned long modulu=(unsigned long)myotherstring%4096;
 	void* protectme=(void*)(myotherstring-modulu);

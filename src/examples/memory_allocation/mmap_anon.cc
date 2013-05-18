@@ -24,7 +24,7 @@
 #include <sys/mman.h>	// for mmap(2), munmap(2)
 #include <unistd.h>	// for getpagesize(2)
 #include <assert.h>	// for assert(3)
-#include <us_helper.h>	// for CHECK_NOT_VOIDP(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_VOIDP(), CHECK_ZERO(), CHECK_ASSERT()
 
 /*
  * This application demonstrates the use of anonymous memory mappings to get
@@ -69,7 +69,10 @@ int main(int argc, char** argv, char** envp) {
 	print_stats();
 	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), MAP_FAILED);
 	printproc(NULL);
-	// while(pause()) {
+	// while(true) {
+	// 	int ret=pause();
+	//	// this is what is guaranteed by a clean exit of pause(2)
+	//	CHECK_ASSERT(ret==-1 && errno==EINTR);
 	// }
 	// lets try to access the pointer after the allocated area...
 	char* illegal=((char*)p)+size+5;

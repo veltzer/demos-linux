@@ -121,7 +121,8 @@ int main(int argc, char *argv[]) {
 		errormessage("Problem writing to MIDI output: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);
 	}
-	CHECK_ZERO(sleep(1));	// pause the program for one second to allow note to sound.
+	// sleep(3) for one second to allow note to sound.
+	CHECK_ZERO(sleep(1));
 	if ((status=snd_rawmidi_write(midiout, noteoff, 3)) < 0) {
 		errormessage("Problem writing to MIDI output: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);

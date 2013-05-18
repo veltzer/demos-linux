@@ -23,7 +23,7 @@
 #include <unistd.h>	// for daemon(3), pause(2), getpid(2), getppid(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 
 /*
  * This is an example of using the daemon(3) function.
@@ -43,7 +43,10 @@ int main(int argc, char** argv, char** envp) {
 	syslog(LOG_ERR, "after daemon(3) ,I am id [%d], my parent is [%d]\n", getpid(), getppid());
 	closelog();
 	while(true) {
-		pause();
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
 	return EXIT_SUCCESS;
 }
