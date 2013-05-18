@@ -26,7 +26,7 @@
 #include <sys/mman.h>	// for mprotect(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_INT()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_ZERO()
 
 /*
  * This example shows that you can continue to use a file after it has
@@ -50,7 +50,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_INT(sscanf(buffer, "%d", &a), 1);
 		fprintf(stderr, "number is %d, counter is %d\n", a, counter);
 		counter++;
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 		CHECK_NOT_M1(lseek(fd, 0, SEEK_SET));
 	}
 	CHECK_NOT_M1(close(fd));

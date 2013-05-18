@@ -25,7 +25,8 @@
 #include <unistd.h>	// for rmdir(2), stat(2), unlink(2), sleep(3)
 #include <stdio.h>	// for snprintf(3), printf(3)
 #include <time.h>	// for time(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
@@ -80,7 +81,7 @@ int main(int argc, char** argv, char** envp) {
 	show_mtime(dirname3);
 	// lets sleep before we create the file to allow at least
 	// one second (the regular stat(2) time resolution) to elapse...
-	sleep(2);
+	CHECK_ZERO(sleep(2));
 	// now lets create a file inside the directory...
 	int d=CHECK_NOT_M1(open(fullname, O_CREAT|O_EXCL, mode_all));
 	// lets close the file

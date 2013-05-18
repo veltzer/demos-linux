@@ -33,7 +33,7 @@ void *worker(void *p) {
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
 	TRACE("pthread_self is %lu", t);
-	sleep(60);
+	CHECK_ZERO(sleep(60));
 	TRACE("ending thread %d", num);
 	return(NULL);
 }

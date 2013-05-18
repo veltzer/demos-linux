@@ -49,7 +49,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
 	klog_show_clear();
 	// sleep for 1 second to allow us to see the results
-	// sleep(1);
+	// CHECK_ZERO(sleep(1));
 
 	klog_clear();
 	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_TSC, 1000));

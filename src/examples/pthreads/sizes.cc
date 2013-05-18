@@ -54,7 +54,7 @@ void *worker(void *p) {
 	int num=*(int *)p;
 	ensure_space((num+1)*100*1024);
 	fprintf(stderr, "starting thread %d\n", num);
-	sleep(100);
+	CHECK_ZERO(sleep(100));
 	fprintf(stderr, "ending thread %d\n", num);
 	return(NULL);
 }
@@ -73,7 +73,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO(pthread_attr_setstacksize(attrs+i, (i+1)*1024*1024));
 		CHECK_ZERO(pthread_create(threads + i, attrs+i, worker, ids + i));
 		CHECK_ZERO(pthread_attr_destroy(attrs+i));
-		sleep(5);
+		CHECK_ZERO(sleep(5));
 	}
 	fprintf(stderr, "main ended creating threads\n");
 	for(int i=0; i<num; i++) {

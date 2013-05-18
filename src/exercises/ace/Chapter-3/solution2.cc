@@ -55,7 +55,7 @@ private:
 public:
 	SharedResource() {
 		cond=new ACE_Condition_Thread_Mutex*[num_threads];
-		for(unsigned int i=0;i<num_threads;i++) {
+		for(unsigned int i=0; i<num_threads; i++) {
 			cond[i]=new ACE_Condition_Thread_Mutex(m);
 		}
 		LockedCounter=0;
@@ -114,8 +114,8 @@ public:
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	if(argc!=4) {
-		fprintf(stderr,"%s: usage: %s [num_threads] [attempts] [debug]\n", argv[0], argv[0]);
-		fprintf(stderr,"%s: example: %s 3 10000 0\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [num_threads] [attempts] [debug]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 3 10000 0\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// parameters

@@ -49,7 +49,7 @@ static void *worker(void *p) {
 		// CHECK_NOT_M1(usleep(1000));
 		INFO("doing work (%d)", td->num);
 		// sleep for a random time
-		sleep(rand()%td->max_sleep_time+td->min_sleep_time);
+		CHECK_ZERO(sleep(rand()%td->max_sleep_time+td->min_sleep_time));
 		INFO("stopped_sleeping (%d)", td->num);
 	}
 	INFO("end thread %d", td->num);

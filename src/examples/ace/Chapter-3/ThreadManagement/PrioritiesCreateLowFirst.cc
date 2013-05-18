@@ -24,6 +24,7 @@
 #include <ace/Log_Msg.h>
 #include <ace/OS_NS_unistd.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
@@ -54,11 +55,11 @@ public:
 		// If we cancel the following condition than the LowPriorit will win the race
 		// since the Highpriority will start too late to win.
 		if (++counter==1) {
-			sleep(1);
+			CHECK_ZERO(sleep(1));
 		}
 		// Simulate compute bound task.
 		for (int i=0; i < 100; i++) {
-			sleep(1);
+			CHECK_ZERO(sleep(1));
 		}
 	}
 

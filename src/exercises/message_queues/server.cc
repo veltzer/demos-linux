@@ -72,7 +72,7 @@ void DoChild() {
 			printf("\n\nAll Queues cleared.\nBiggest queue was %d containing %d bytes.",
 				biggestQID, biggestQueueSize);
 		}
-		sleep(5);
+		CHECK_ZERO(sleep(5));
 	}
 	exit(EXIT_SUCCESS);
 }

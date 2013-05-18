@@ -45,11 +45,11 @@ int main(int argc, char** argv, char** envp) {
 		fd=CHECK_NOT_M1(open(filename, O_RDWR));
 		fd2=CHECK_NOT_M1(open(filename, O_RDWR));
 		CHECK_NOT_M1(usleep(1000000));
-		// sleep(1);
+		// CHECK_ZERO(sleep(1));
 		CHECK_NOT_M1(close(fd));
 		CHECK_NOT_M1(close(fd2));
 		CHECK_NOT_M1(usleep(1000000));
-		// sleep(1);
+		// CHECK_ZERO(sleep(1));
 	}
 	return(0);
 }

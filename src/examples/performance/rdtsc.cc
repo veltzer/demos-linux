@@ -22,10 +22,11 @@
 #include <sys/time.h>
 #include <time.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h>	// for usleep(3)
 #include <cpufreq.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <unistd.h>	// for sleep(3)
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 
 /*
  * This is a demo which shows how, on i386 platforms, to read the rdtsc
@@ -59,7 +60,7 @@ void long_task(void) {
 	 * const int sleep_time=100;
 	 * CHECK_NOT_M1(usleep(sleep_time));
 	 */
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 	/*
 	 * This doesn't really work since the compiler eliminates
 	 * the entire loop when optimizing...:)

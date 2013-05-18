@@ -95,9 +95,9 @@ public:
 			// two alternatives for yielding: the ACE and the native OS one...
 			ACE_OS::thr_yield();
 			/*
-			int ret=sched_yield();
-			assert(ret!=-1);
-			*/
+			 * int ret=sched_yield();
+			 * assert(ret!=-1);
+			 */
 		}
 	}
 };
@@ -123,8 +123,8 @@ public:
 
 int ACE_TMAIN(int argc, ACE_TCHAR ** argv) {
 	if(argc!=5) {
-		fprintf(stderr,"%s: usage: %s [num_threads] [attempts] [yield] [debug]\n", argv[0], argv[0]);
-		fprintf(stderr,"%s: example: %s 3 10000 0 0\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [num_threads] [attempts] [yield] [debug]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 3 10000 0 0\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// parameters

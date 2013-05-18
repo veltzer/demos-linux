@@ -85,7 +85,7 @@ Elf32_Addr la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refc
 	printf("la_i86_gnu_pltenter(): %s (%x)\n", symname, sym->st_value);
 	return sym->st_value;
 }
-#endif // __i386__
+#endif	// __i386__
 
 #if __x86_64__
 uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook, uintptr_t *defcook, unsigned int *flags, const char *symname) {
@@ -95,4 +95,4 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook, uin
 	printf("; refcook=%p; defcook=%p\n", refcook, defcook);
 	return sym->st_value;
 }
-#endif // __x86_64__
+#endif	// __x86_64__

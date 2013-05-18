@@ -20,9 +20,11 @@
 
 #include <firstinclude.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>	// for sleep(3)
+#include <stdlib.h>	// for EXIT_FAIURE, EXIT_SUCCESS
 #include <signal.h>	// for signal(2)
 #include <alsa/asoundlib.h>
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * An example of playing midi.
@@ -211,7 +213,7 @@ void parse_sequence() {
 void sigterm_exit(int sig) {
 	clear_queue();
 	// I removed this sleep...
-	// sleep(2);
+	// CHECK_ZERO(sleep(2));
 	snd_seq_stop_queue(seq_handle, queue_id, NULL);
 	snd_seq_free_queue(seq_handle, queue_id);
 	exit(EXIT_SUCCESS);

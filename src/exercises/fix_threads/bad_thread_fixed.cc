@@ -35,7 +35,7 @@ void* PrintHello(void *threadid) {
 	id_ptr=(int *) threadid;
 	int stime;
 	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
-	sleep(stime);
+	CHECK_ZERO(sleep(stime));
 	taskid=*id_ptr;
 	printf("Thread %d says hello\n", taskid);
 	return threadid;
@@ -54,7 +54,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	for(int i=0; i<NUM_THREADS; i++) {
 		stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
-		sleep(stime);
+		CHECK_ZERO(sleep(stime));
 		void* cretval;
 		CHECK_ZERO(pthread_join(threads[i], &cretval));
 		retval[i]=(unsigned long)cretval;

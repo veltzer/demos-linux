@@ -19,8 +19,9 @@
  */
 
 #include <firstinclude.h>
+#include <unistd.h>	// for sleep(3)
 #include <pthread.h>	// for pthread_spin_init(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_spin_destroy(3), pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for TRACE()
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO()
 
 /*
  * This is a demo for thread spin locks.
@@ -38,10 +39,10 @@ static void *worker(void *p) {
 		// TRACE("before lock");
 		CHECK_ZERO(pthread_spin_lock(&mylock));
 		TRACE("sleeping");
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 		CHECK_ZERO(pthread_spin_unlock(&mylock));
 		// TRACE("after lock");
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 	}
 	return(NULL);
 }

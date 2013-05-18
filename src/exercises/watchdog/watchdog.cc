@@ -18,38 +18,35 @@
  * 02111-1307 USA.
  */
 
-#include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
-
 /*
- * This shows how to use preprocessor defines...
+ * This is a solution to the watchdog exercise
  */
+
+#include <firstinclude.h>
+#include <unistd.h>	// for fork(2), execv(2)
+#include <stdlib.h>	// for EXIT_SUCCCESS
+#include <sys/types.h>	// for wait(2)
+#include <sys/wait.h>	// for wait(2)
+#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <multi_processing.h>	// for print_status()
+#include <stdio.h>	// for printf(3)
+
 int main(int argc, char** argv, char** envp) {
-#ifdef __GNUC__
-	printf("This means we are in GNUC context\n");
-#else
-	printf("This is not a GNUC compiler\n");
-#endif	// __GNUC__
-#ifdef __cplusplus
-	printf("This means that we are in c++ context\n");
-#else
-	printf("This is not a C++ context\n");
-#endif	// __cplusplus
-#if __x86_64__
-	printf("This is an intel 64 bit platform\n");
-#else
-	printf("This is not an intel 64 bit platform\n");
-#endif	// __x86_64__
-#if __LP64__
-	printf("This is some kind of 64 bit platform\n");
-#else
-	printf("This is not some kind of 64 bit platform\n");
-#endif	// __LP64__
-#if __i386__
-	printf("This is an intel 32 bit platform\n");
-#else
-	printf("This is not an intel 32 bit platform\n");
-#endif	// __i386__
-	return EXIT_SUCCESS;
+	pid_t pid=CHECK_NOT_M1(fork());
+	if(pid) {
+		// parent
+		int status;
+		pid_t child_that_died=CHECK_NOT_M1(wait(&status));
+		printf("child died with pid=%d\n", child_that_died);
+		print_status(status);
+		return EXIT_SUCCESS;
+	} else {
+		// child
+		const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";
+		const char* const args[]={
+			process_to_exec
+		};
+		CHECK_NOT_M1(execv(process_to_exec, (char* const*)args));
+		return EXIT_SUCCESS;
+	}
 }

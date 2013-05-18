@@ -26,7 +26,7 @@
 #include <sys/types.h>	// for semop(2), ftok(3), semget(2)
 #include <sys/ipc.h>	// for semop(2), ftok(3), semget(2)
 #include <sys/sem.h>	// for semop(2), semget(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 #include "phil.hh"
 
 static int semid;
@@ -36,7 +36,7 @@ void think(int id) {
 	printf("Philosopher %d is busy thinking\n", id);
 	srand(time(NULL));
 	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
-	sleep(stime);
+	CHECK_ZERO(sleep(stime));
 	printf("Philosopher %d finished thinking\n", id);
 }
 
@@ -45,7 +45,7 @@ void eat(int id) {
 	printf("Philosopher %d is busy eating\n", id);
 	srand(time(NULL));
 	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
-	sleep(stime);
+	CHECK_ZERO(sleep(stime));
 	printf("Philosopher %d finished eating\n", id);
 }
 

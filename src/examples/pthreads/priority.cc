@@ -22,11 +22,11 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <unistd.h>	// for sleep(3)
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <us_helper.h>	// for print_scheduling_info()
+#include <us_helper.h>	// for print_scheduling_info(), CHECK_ZERO()
 
 /*
  * This example explores how to use thread priorities
@@ -59,7 +59,7 @@ void *thread_body(void *arg) {
 	while(true) {
 		// pthread_barrier_wait(&mybarrier);
 		print_scheduling_info();
-		sleep(10);
+		CHECK_ZERO(sleep(10));
 	}
 	return(NULL);
 }

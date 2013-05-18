@@ -18,8 +18,18 @@
  * 02111-1307 USA.
  */
 
+/*
+ * This is a classic example of the fork/exec/wait paradigm in Linux/Unix
+ * multi processing.
+ *
+ * Notes:
+ * - we use execl(3) because we have the full path of the executable and
+ * do not want to waste time searching for it by using the PATH environment
+ * variable.
+ */
+
 #include <firstinclude.h>
-#include <unistd.h>	// for fork(2), execlp(2)
+#include <unistd.h>	// for fork(2), execl(3)
 #include <stdlib.h>	// for EXIT_SUCCCESS
 #include <sys/types.h>	// for wait(2)
 #include <sys/wait.h>	// for wait(2)
@@ -38,7 +48,7 @@ int main(int argc, char** argv, char** envp) {
 		return EXIT_SUCCESS;
 	} else {
 		// child
-		CHECK_NOT_M1(execlp("/bin/ls", "/bin/ls", "-l", NULL));
+		CHECK_NOT_M1(execl("/bin/ls", "/bin/ls", "-l", NULL));
 		return EXIT_SUCCESS;
 	}
 }

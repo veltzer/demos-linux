@@ -38,16 +38,16 @@ static void *worker(void *p) {
 	while(counter<10) {
 		TRACE("%d before lock", id);
 		CHECK_ZERO(pthread_mutex_lock(&mylock));
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 		// this simulates a bug. see what this thread is doing using
 		// strace on the process or thread id.
 		if(id==1 && counter==10) {
-			sleep(1000);
+			CHECK_ZERO(sleep(1000));
 		}
 		CHECK_ZERO(pthread_mutex_unlock(&mylock));
 		counter++;
 		TRACE("%d after lock", id);
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 	}
 	return(NULL);
 }

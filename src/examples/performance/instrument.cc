@@ -22,6 +22,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * This is a demo of how to use the instrumentation feature of the gnu compiler.
@@ -44,7 +45,7 @@
  * OPTION_WITHOUT_FUNCTION_ATTRIBUTES=-finstrument-functions -finstrument-functions-exclude-function-list=__cyg_profile_func_enter,__cyg_profile_func_exit,printf
  */
 void long_task(void) {
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 }
 
 extern "C" void __cyg_profile_func_enter(void *this_fn, void *call_site) __attribute__((no_instrument_function));

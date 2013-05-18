@@ -40,11 +40,11 @@ static void * thread_func(void *ignored_argument) {
 	 * immediately react to a cancellation request */
 	CHECK_ZERO(pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL));
 	TRACE("started; cancellation disabled");
-	sleep(5);
+	CHECK_ZERO(sleep(5));
 	TRACE("about to enable cancellation");
 	CHECK_ZERO(pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL));
-	/* sleep() is a cancellation point */
-	sleep(1000);	/* Should get canceled while we sleep */
+	/* sleep(3) is a cancellation point */
+	CHECK_ZERO(sleep(1000));/* Should get canceled while we sleep */
 	/* Should never get here */
 	TRACE("not canceled!");
 	return NULL;
@@ -57,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	/* Start a thread and then send it a cancellation request */
 
 	CHECK_ZERO(pthread_create(&thr, NULL, &thread_func, NULL));
-	sleep(2);	/* Give thread a chance to get started */
+	CHECK_ZERO(sleep(2));	/* Give thread a chance to get started */
 	TRACE("sending cancellation request");
 	CHECK_ZERO(pthread_cancel(thr));
 	/* Join with thread to see what its exit status was */

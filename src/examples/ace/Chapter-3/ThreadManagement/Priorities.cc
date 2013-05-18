@@ -23,7 +23,9 @@
 #include <ace/Task.h>
 #include <ace/Log_Msg.h>
 #include <ace/OS_NS_unistd.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <unistd.h>	// for sleep(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
@@ -53,7 +55,7 @@ public:
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Processing message %C\n"), name_));
 		// Simulate compute bound task.
 		for(int i=0; i<100; i++) {
-			sleep(1);
+			CHECK_ZERO(sleep(1));
 		}
 	}
 
