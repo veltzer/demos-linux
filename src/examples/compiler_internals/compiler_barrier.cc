@@ -24,55 +24,55 @@
 #include <us_helper.h>	// for CHECK_NOT_NULL()
 
 /*
- *	This is an example of a compiler barrier
- *	This example needs to be compiled with optimizations to see it in action.
- *	View the resulting assembly code with:
- *	objdump --disassemble --line-numbers --source --demangle barrier
+ * This is an example of a compiler barrier
+ * This example needs to be compiled with optimizations to see it in action.
+ * View the resulting assembly code with:
+ * objdump --disassemble --line-numbers --source --demangle barrier
  *
- *	The gcc compiler barrier
- *	========================
- *	is the asm(memory) one. It is not a CPU reordering barrier - just a compiler
- *	one.
- *	It seems that gcc does not have the notion of a *read* vs *write*
- *	barrier which could come in handly instead of this dominating
- *	*FULL* barrier.
+ * The gcc compiler barrier
+ * ========================
+ * is the asm(memory) one. It is not a CPU reordering barrier - just a compiler
+ * one.
+ * It seems that gcc does not have the notion of a *read* vs *write*
+ * barrier which could come in handly instead of this dominating
+ * *FULL* barrier.
  *
- *	Function call barriers
- *	======================
- *	On some platforms/compilers these are also memory barriers but not so in gcc
- *	that assumes that functions that are called do not change the content of registers
- *	(and if they do, they put back everything the way they found it...). In any case
- *	you cannot really rely on them since you are not sure which functions are macros,
- *	inlines etc. Better to use an official compiler barrier. I picked a function that
- *	is definately not an inlined one and still this it does not perform well as
- *	a compiler barrier (srandom on gcc 4.5.2).
+ * Function call barriers
+ * ======================
+ * On some platforms/compilers these are also memory barriers but not so in gcc
+ * that assumes that functions that are called do not change the content of registers
+ * (and if they do, they put back everything the way they found it...). In any case
+ * you cannot really rely on them since you are not sure which functions are macros,
+ * inlines etc. Better to use an official compiler barrier. I picked a function that
+ * is definately not an inlined one and still this it does not perform well as
+ * a compiler barrier (srandom on gcc 4.5.2).
  *
- *	Machine memory barriers
- *	=======================
- *	is the __sync_synchronize() one. There doesn't seem to be a read vs write
- *	one. This does not serve as a compiler barrier as is evident as a result
- *	of this program.
+ * Machine memory barriers
+ * =======================
+ * is the __sync_synchronize() one. There doesn't seem to be a read vs write
+ * one. This does not serve as a compiler barrier as is evident as a result
+ * of this program.
  *
- *	Empty assembly block
- *	====================
- *	Used to work in some versions of gcc but stopped working. Better not to use.
+ * Empty assembly block
+ * ====================
+ * Used to work in some versions of gcc but stopped working. Better not to use.
  *
- *	Notes:
- *	- the loop that you see in the code forces the compiler to use a register
- *	to hold the 'a' variable (if you compile with optimisation ofcourse).
- *	- if you disassemble the code you see that the compiler writes the loop variable
- *	(a in our case) back to it's natural place on the stack right after the loop.
- *	- after the loop suprisingly, the compiler is certain that the register is still
- *	holding the right value for a and so uses it in the print...
- *	- without a good compiler barrier the compiler is certain that the value in the
- *	register is synchronized with the memory location.
+ * Notes:
+ * - the loop that you see in the code forces the compiler to use a register
+ * to hold the 'a' variable (if you compile with optimisation ofcourse).
+ * - if you disassemble the code you see that the compiler writes the loop variable
+ * (a in our case) back to it's natural place on the stack right after the loop.
+ * - after the loop suprisingly, the compiler is certain that the register is still
+ * holding the right value for a and so uses it in the print...
+ * - without a good compiler barrier the compiler is certain that the value in the
+ * register is synchronized with the memory location.
  *
- *	References:
- *	http://ridiculousfish.com/blog/archives/2007/02/17/barrier/
+ * References:
+ * http://ridiculousfish.com/blog/archives/2007/02/17/barrier/
  *
- *	TODO:
- *	- make this program show the instructions that are emitted for main so
- *	that people could see the assembly code generated.
+ * TODO:
+ * - make this program show the instructions that are emitted for main so
+ * that people could see the assembly code generated.
  */
 
 // a small function to tell you if the stack direction is up or down...

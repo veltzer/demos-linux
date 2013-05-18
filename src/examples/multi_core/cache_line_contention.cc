@@ -188,7 +188,10 @@ int main(int argc, char** argv, char** envp) {
 	}
 	// TRACE("created threads");
 	// TRACE("joining threads");
-	// TODO: time all of this
+	/*
+	 * TODO:
+	 * - time all of this.
+	 */
 	for(int i=0; i<real_threads; i++) {
 		CHECK_ZERO(pthread_join(threads[i], rets+i));
 	}
