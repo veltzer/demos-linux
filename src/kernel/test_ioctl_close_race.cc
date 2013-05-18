@@ -100,7 +100,7 @@ void *function_long(void *p) {
 }
 
 void *function_close(void *p) {
-	sleep(2);
+	CHECK_ZERO(sleep(2));
 	fprintf(stdout, "c");
 	fflush(stdout);
 	CHECK_NOT_M1(close(fd));

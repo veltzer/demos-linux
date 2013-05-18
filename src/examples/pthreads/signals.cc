@@ -86,7 +86,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	printf("main ended creating threads\n");
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 	register_handler_sigaction(SIGUSR2, handler);
 	printf("main started joining threads\n");
 	for (int i=0; i < num; i++) {

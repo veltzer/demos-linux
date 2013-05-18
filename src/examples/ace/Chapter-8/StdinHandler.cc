@@ -23,7 +23,9 @@
 #include <ace/Stream.h>
 #include <ace/Task.h>
 #include <ace/Message_Block.h>
+#include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
@@ -71,7 +73,7 @@ int Producer::svc(void) {
 	if(ProducerData) {
 		while(true) {
 			printf("Second Program Running\n");
-			sleep(1);
+			CHECK_ZERO(sleep(1));
 		}
 	}
 	while(true) {

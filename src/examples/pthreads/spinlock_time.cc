@@ -19,8 +19,10 @@
  */
 
 #include <firstinclude.h>
-#include <pthread.h>	// for pthread_spin_init/lock/unlock/destroy(3)
-#include <us_helper.h>	// for TRACE()
+#include <unistd.h>	// for sleep(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <pthread.h>	// for pthread_spin_init(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_spin_destroy(3), pthread_create(3), pthread_join(3), pthread_spinlock_t, pthread_t
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO()
 
 /*
  * This example examines the time it takes to lock and unlock a spin lock.
@@ -29,7 +31,7 @@
  * time indeed.
  *
  * TODO:
- * - remove the run high priority function from this code.
+ * - enable to run this via high priority and show dead locks.
  * - show the results.
  *
  * EXTRA_LINK_FLAGS=-lpthread
@@ -41,10 +43,10 @@ static void *worker(void *not_used) {
 	while(true) {
 		TRACE("before lock");
 		CHECK_ZERO(pthread_spin_lock(&mylock));
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 		CHECK_ZERO(pthread_spin_unlock(&mylock));
 		TRACE("after lock");
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 	}
 	return(NULL);
 }

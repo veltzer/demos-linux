@@ -52,7 +52,7 @@ void check_stack() {
 		fprintf(stderr, "diff %u\n", diff);
 		for(int i=10; i>0; i--) {
 			fprintf(stderr, "I will die in %2d seconds...\r", i);
-			sleep(1);
+			CHECK_ZERO(sleep(1));
 		}
 		fprintf(stderr, "\n");
 		exit(-1);

@@ -23,6 +23,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <papi.h>	// for PAPI_* functions
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * Demo for using the PAPI performance counters library.
@@ -70,7 +71,7 @@ int main(int argc, char** argv, char** envp) {
 	ret=PAPI_read_counters(arr, counters);
 	printf("ret is %d\n", ret);
 	print_counters(arr, counters);
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 	ret=PAPI_read_counters(arr, counters);
 	printf("ret is %d\n", ret);
 	print_counters(arr, counters);

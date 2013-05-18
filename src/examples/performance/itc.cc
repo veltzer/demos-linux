@@ -22,6 +22,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * Demo for a performance counter on i64...
@@ -34,12 +35,12 @@ static inline unsigned long getstackpointer(void) {
 	unsigned long ret;
 	asm ("movl %%esp, %0" : "=r" (ret));
 	return ret;
-#endif // __x86_64__
+#endif	// __x86_64__
 }
 
 int main(int argc, char** argv, char** envp) {
 	printf("stackpointer is %lu\n", getstackpointer());
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 	printf("stackpointer is %lu\n", getstackpointer());
 	return EXIT_SUCCESS;
 }

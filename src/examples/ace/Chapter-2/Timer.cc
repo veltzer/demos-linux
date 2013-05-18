@@ -22,6 +22,7 @@
 #include <ace/Timer_Queue.h>
 #include <ace/Reactor.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * This example will create 10 timers. As soon that all of them are created
@@ -52,7 +53,7 @@ public:
 		ACE_DEBUG((LM_DEBUG, "%t %d: Timer #%d timed out at %d!\n", count, current_count, tv.sec()));
 		// If all timers done then set done flag
 		count++;
-		sleep(3);
+		CHECK_ZERO(sleep(3));
 		if (count==NUMBER_TIMERS-1) {
 			done=true;
 		}

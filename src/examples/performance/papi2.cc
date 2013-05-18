@@ -23,7 +23,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_INT()
+#include <us_helper.h>	// for CHECK_INT(), CHECK_ZERO()
 
 /*
  * Demo for using the PAPI performance counters library.
@@ -52,7 +52,7 @@ int main(int argc, char** argv, char** envp) {
 	/* Start counting events */
 	CHECK_INT(PAPI_start_counters(Events, NUM_EVENTS), PAPI_OK);
 	/* Do some computation here */
-	// sleep(atoi(argv[1]));
+	// CHECK_ZERO(sleep(atoi(argv[1])));
 	dummy_work(atoi(argv[1]));
 	/* Stop counting events */
 	CHECK_INT(PAPI_stop_counters(values, NUM_EVENTS), PAPI_OK);

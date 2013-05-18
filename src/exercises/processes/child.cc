@@ -24,6 +24,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE, atoi(3)
+#include <us_helper.h>	// for CHECK_ZERO()
 
 int main(int argc, char** argv, char** envp) {
 	if (argc < 2) {
@@ -45,7 +46,7 @@ int main(int argc, char** argv, char** envp) {
 		break;
 	}
 	while(true) {
-		sleep(2);
+		CHECK_ZERO(sleep(2));
 		kill(getppid(), sigme);
 	}
 	return EXIT_SUCCESS;

@@ -21,7 +21,9 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO(), gettid()
+#include <iostream>	// for std::cout, std::endl
+#include <unistd.h>	// for sleep(3)
 #include "mythread.hh"
 #include "mymutex.hh"
 
@@ -46,10 +48,6 @@ void MyThread::join() {
 	CHECK_ZERO(pthread_join(myid, NULL));
 }
 
-#include <iostream>	// for std::cout, std::endl
-#include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for gettid()
-
 class ImpThread : public MyThread {
 private:
 	int limit;
@@ -68,7 +66,7 @@ protected:
 			m.lock();
 			std::cout << "Hello from thread " << tid << " num is " << i << std::endl;
 			m.unlock();
-			sleep(sleep_time);
+			CHECK_ZERO(sleep(sleep_time));
 		}
 		std::cout << "thread " << tid << " ending" << std::endl;
 	}

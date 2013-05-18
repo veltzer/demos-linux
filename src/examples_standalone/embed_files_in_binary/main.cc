@@ -34,23 +34,23 @@
  */
 
 extern "C" {
-	extern char _binary_data_txt_start;
-	extern char _binary_data_txt_end;
+extern char _binary_data_txt_start;
+extern char _binary_data_txt_end;
 }
 
 int main(int argc, char** argv, char** envp) {
 	const size_t bufsize=16384;
 	char buffer[bufsize];
-	int fd=CHECK_NOT_M1(open("data.txt",O_RDONLY));
+	int fd=CHECK_NOT_M1(open("data.txt", O_RDONLY));
 	char* ptr=buffer;
 	size_t left=bufsize;
-	ssize_t read_size=CHECK_NOT_M1(read(fd,ptr,left));
+	ssize_t read_size=CHECK_NOT_M1(read(fd, ptr, left));
 	while(read_size>0) {
 		ptr+=read_size;
 		left-=read_size;
-		read_size=CHECK_NOT_M1(read(fd,ptr,left));
+		read_size=CHECK_NOT_M1(read(fd, ptr, left));
 	}
-	printf("The next line should say [%s]\n",buffer);
+	printf("The next line should say [%s]\n", buffer);
 	char *p=&_binary_data_txt_start;
 	while(p!=&_binary_data_txt_end)
 		putchar(*p++);

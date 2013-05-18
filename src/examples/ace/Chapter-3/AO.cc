@@ -153,7 +153,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	for(int i=0; i<numResults; i++) {
 		results[i]=controller.status_update();
 	}
-	ACE_DEBUG((LM_DEBUG, ACE_TEXT("We simulate doing other work by sleep(5)\n")));
+	ACE_DEBUG((LM_DEBUG, ACE_TEXT("We simulate doing other work by sleep(3)\n")));
 	// Do other work.
 	ACE_OS::sleep(5);
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("------Until now we did not request any data----\n")));

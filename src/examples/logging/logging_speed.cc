@@ -107,7 +107,7 @@ void* func(void*) {
 	// print timing...
 	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
 	// let io buffers be flushed...
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 
 	test="regular file operations (nonbuffreed, flushed, synchroneous)";
 	FILE* f=fopen("/tmp/syslog_test", "w+");
@@ -125,7 +125,7 @@ void* func(void*) {
 	// print timing...
 	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
 	// let io buffers be flushed...
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 
 	test="regular file operations (buffered, non flushed, non synchronized)";
 	f=fopen("/tmp/syslog_test", "w+");
@@ -142,7 +142,7 @@ void* func(void*) {
 	// print timing...
 	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
 	// let io buffers be flushed...
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 
 	// now lets measure how long it would take to memcpy...
 	test="fastlog";
@@ -157,7 +157,7 @@ void* func(void*) {
 	// print timing...
 	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
 	// let io buffers be flushed...
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 
 	return NULL;
 }

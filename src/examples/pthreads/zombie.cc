@@ -90,7 +90,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO(pthread_mutex_lock(&mutex_end));
 	// since the thead called the unlock just before it ended wait just a tiny
 	// weeny bit more...
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 	// CHECK_ZERO(pthread_join(thread,NULL));
 
 	// now the thread is dead, lets print it's state (same as before...)

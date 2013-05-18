@@ -24,7 +24,7 @@
 #include <unistd.h>	// for pause(2), getpid(2), sleep(3)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <us_helper.h>	// for register_handler_signal(), CHECK_ASSERT()
+#include <us_helper.h>	// for register_handler_signal(), CHECK_ASSERT(), CHECK_ZERO()
 
 /*
  * This is a simple example which shows how to do signal handling with the
@@ -57,7 +57,7 @@ static void handler(int sig) {
 	psignal(sig, "handler");
 	printf("handler: start %d handler, sig is %d, name is %s\n", counter, sig, strsignal(sig));
 	printf("handler: sleeping for 10 seconds...\n");
-	// sleep(10);
+	// CHECK_ZERO(sleep(10));
 	printf("handler: end\n");
 }
 

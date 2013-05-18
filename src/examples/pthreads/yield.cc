@@ -24,7 +24,7 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for TRACE()
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO(), CHECK_NOT_M1()
 
 /*
  * This is a demo for the sched_yield(2) or for pthread_yield(3) which are
@@ -120,7 +120,7 @@ int main(int argc, char** argv, char** envp) {
 	for(unsigned int i=0; i<num; i++) {
 		CHECK_ZERO(pthread_create(threads + i, NULL, worker, NULL));
 	}
-	// sleep(1);
+	// CHECK_ZERO(sleep(1));
 	TRACE("created threads, now joining...");
 	for(unsigned int i=0; i<num; i++) {
 		CHECK_ZERO(pthread_join(threads[i], NULL));

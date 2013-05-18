@@ -46,7 +46,7 @@
  * the volatile loop below and call it "busy_delay" and use that
  * instead of usleep.
  * - try using nanosleep(2) inside the loop instead of usleep(2) or
- * sleep(2) or a busy delay.
+ * sleep(3) or a busy delay.
  * - allow the user to select the signal to be sent from the command
  * line.
  */

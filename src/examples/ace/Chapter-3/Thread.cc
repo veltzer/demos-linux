@@ -68,7 +68,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	// and have the process exit. This way of using join is non-portable
 	// and may not work on a system using pthreads.
 	int check_count=0;
-	// sleep(30);
+	// CHECK_ZERO(sleep(30));
 	while(ACE_Thread::join(threads[check_count], NULL, NULL)==0) {
 		check_count++;
 	}

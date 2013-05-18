@@ -90,14 +90,18 @@
 //
 
 #include <firstinclude.h>
-#include <alsa/asoundlib.h>	/* Interface to the ALSA system */
-#include <unistd.h>	/* for sleep() function */
+#include <alsa/asoundlib.h>	// for snd_rawmidi_open(3)
+#include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h>	// for CHECK_ZERO()
 
-// function declarations:
-void errormessage(const char *format, ...);
-
-// /////////////////////////////////////////////////////////////////////////
+void errormessage(const char *format, ...) {
+	va_list ap;
+	va_start(ap, format);
+	vfprintf(stderr, format, ap);
+	va_end(ap);
+	putc('\n', stderr);
+}
 
 int main(int argc, char *argv[]) {
 	int status;
@@ -117,7 +121,7 @@ int main(int argc, char *argv[]) {
 		errormessage("Problem writing to MIDI output: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);
 	}
-	sleep(1);	// pause the program for one second to allow note to sound.
+	CHECK_ZERO(sleep(1));	// pause the program for one second to allow note to sound.
 	if ((status=snd_rawmidi_write(midiout, noteoff, 3)) < 0) {
 		errormessage("Problem writing to MIDI output: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);
@@ -125,14 +129,4 @@ int main(int argc, char *argv[]) {
 	snd_rawmidi_close(midiout);
 	midiout=NULL;	// snd_rawmidi_close() does not clear invalid pointer,
 	return EXIT_SUCCESS;	// so might be a good idea to erase it after closing.
-}
-
-// error -- Print an error message.
-
-void errormessage(const char *format, ...) {
-	va_list ap;
-	va_start(ap, format);
-	vfprintf(stderr, format, ap);
-	va_end(ap);
-	putc('\n', stderr);
 }

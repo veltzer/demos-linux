@@ -120,7 +120,7 @@ int main(int argc, char** argv, char** envp) {
 	printf("doing critical 1\n");
 	critical1();
 	cri1done=1;
-	sleep(15);
+	CHECK_ZERO(sleep(15));
 	printf("doing critical 2\n");
 	critical2();
 	cri2done=1;

@@ -105,7 +105,7 @@ int main(int argc, char** argv, char** envp) {
 		TRACE("going to sleep so that the child would become a zombie");
 		TRACE("you can now see the child zombie on the command line");
 		TRACE("using tools like top, ps, /proc and more");
-		sleep(100);
+		CHECK_ZERO(sleep(100));
 		// print the state of the child (now he should be a zombie...).
 		print_state(child_pid);
 		// now lets take the return code from the child...

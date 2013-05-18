@@ -25,7 +25,7 @@
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 #include <stdio.h>	// for fprintf(3)
-#include <us_helper.h>	// for my_system()
+#include <us_helper.h>	// for my_system(), CHECK_ZERO()
 
 /*
  * This example shows syslog basic usage. At the end it demostrates that the log
@@ -135,7 +135,7 @@ int main(int argc, char** argv, char** envp) {
 	// show that the socket is not there after closelog(3)
 	my_system("ls -l /proc/%d/fd | grep socket", getpid());
 	// let syslogd (the process) a chance to actually put the data in the log
-	sleep(1);
+	CHECK_ZERO(sleep(1));
 	// show my own log (diregard other logs from other programs)
 	my_system("cat /var/log/syslog | grep %s | grep %d", myname, getpid());
 	return EXIT_SUCCESS;

@@ -26,7 +26,7 @@
 #include <time.h>	// for localtime_r(3), strftime(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO(), CHECK_ZERO()
 
 /*
  * This is a simple shared memory client that works well with the shared memory
@@ -60,7 +60,7 @@ int main(int argc, char** argv, char** envp) {
 			time_string,
 			dateptr->mypid
 			);
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 	}
 	CHECK_NOT_M1(shmdt(ptr));
 	printf("disconnected from shared memory\n");

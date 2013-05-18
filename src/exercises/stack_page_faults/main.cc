@@ -22,6 +22,7 @@
 #include <unistd.h>	// for getpagesize(2), sleep(3)
 #include <stdio.h>	// for printf(3)
 #include <strings.h>	// for bzero(3)
+#include <us_helper.h>	// for CHECK_ZERO()
 
 void myfunc(int arg) {
 	int myarray[arg];
@@ -35,7 +36,7 @@ int main(int argc, char** argv, char** envp) {
 	while(true) {
 		printf("size is %d\n", size);
 		myfunc(size);
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 		size+=pagesize;
 	}
 	return 0;

@@ -26,7 +26,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <string.h>	// for strsignal(3)
 #include <signal.h>	// for kill(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE()
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
 
 /*
  * This example demostrates what happens when a processes father dies...
@@ -55,7 +55,7 @@ int main(int argc, char** argv, char** envp) {
 			// now lets signal our parent that its ok to die...
 			CHECK_NOT_M1(kill(getppid(), SIGUSR1));
 			// lets wait a while to make sure the parent really dies..
-			sleep(1);
+			CHECK_ZERO(sleep(1));
 			// now lets print our parent again...
 			TRACE("my parent pid is %d", getppid());
 			return 0;

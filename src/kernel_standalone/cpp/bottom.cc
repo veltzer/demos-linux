@@ -36,7 +36,7 @@ int _Unwind_Resume;
 typedef unsigned int size_t;
 #else
 typedef unsigned long size_t;
-#endif // __i386__
+#endif	// __i386__
 
 /* support code for new and delete */
 void *operator new(size_t x) {

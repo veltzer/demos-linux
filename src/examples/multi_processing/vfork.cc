@@ -27,7 +27,7 @@
 #include <string.h>	// for strsignal(3)
 #include <sys/types.h>	// for vfork(2)
 #include <unistd.h>	// for vfork(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 #include <multi_processing.h>	// for print_code(), print_status()
 
 /*
@@ -53,7 +53,7 @@ int main(int argc, char** argv, char** envp) {
 		global_data++;
 		// while(true) {
 		// }
-		sleep(10);
+		CHECK_ZERO(sleep(10));
 	} else {
 		TRACE("this is the parent");
 		bool over=false;

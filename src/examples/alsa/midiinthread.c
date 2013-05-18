@@ -31,10 +31,11 @@
 // Description:	Read ALSA Raw MIDI input using threads.
 
 #include <firstinclude.h>
-#include <alsa/asoundlib.h>	/* for alsa interface */
-#include <pthread.h>	/* for threading */
-#include <unistd.h>	/* for sleep() function */
+#include <alsa/asoundlib.h>	// for alsa interface
+#include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <pthread.h>	// for pthread_create(3)
+#include <us_helper.h>	// for CHECK_ZERO()
 
 // function declarations:
 void errormessage(const char *format, ...);
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]) {
 		errormessage("Unable to create MIDI input thread.");
 		exit(EXIT_FAILURE);
 	}
-	sleep(60);	// do nothing for a while; thread does all the work.
+	CHECK_ZERO(sleep(60));	// do nothing for a while; thread does all the work.
 	snd_rawmidi_close(midiin);
 	midiin=NULL;	// snd_rawmidi_close() does not clear invalid pointer,
 	printf("\n");	// so might be a good idea to erase it after closing.

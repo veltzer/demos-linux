@@ -129,7 +129,7 @@ int main(int argc, char** argv, char** envp) {
 		}
 		// printf("\r");
 		fflush(stdout);
-		sleep(1);
+		CHECK_ZERO(sleep(1));
 		loop++;
 	}
 	CHECK_NOT_M1(munmap(ptr, map_size));
