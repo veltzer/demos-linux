@@ -21,6 +21,7 @@
 #include <firstinclude.h>
 #include <unistd.h>	// for pause(2)
 #include <stdio.h>	// for printf(3)
+#include <us_helper.h>	// for CHECK_ASSERT()
 
 /*
  * This example is to be used for showing:
@@ -38,7 +39,10 @@ int myarray[10000]={1};
 
 int main(int argc, char** argv, char** envp) {
 	while(true) {
-		pause();
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
 		printf("got some signal...\n");
 	}
 	return 0;

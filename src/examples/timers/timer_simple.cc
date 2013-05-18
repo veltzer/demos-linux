@@ -24,7 +24,7 @@
 #include <signal.h>	// for timer_create(2), signal(2)
 #include <time.h>	// for timer_create(2), timer_settime(2), timer_delete(2)
 #include <unistd.h>	// for pause(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT(), CHECK_ASSERT()
 
 /*
  * This is a standard pthread demo
@@ -45,7 +45,10 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(timer_create(CLOCK_MONOTONIC, &sigev, &timerid));
 	CHECK_NOT_M1(timer_settime(timerid, 0, &tick, NULL));
 	while(true) {
-		pause();
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
 	CHECK_NOT_M1(timer_delete(timerid));
 	return EXIT_SUCCESS;

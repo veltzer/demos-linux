@@ -104,8 +104,7 @@ int main(int argc, char** argv, char** envp) {
 		// a non busy busy wait loop
 		while(child_alive) {
 			int ret=pause();
-			// this is what is guaranteed by a clean exit
-			// of pause(2)
+			// this is what is guaranteed by a clean exit of pause(2)
 			CHECK_ASSERT(ret==-1 && errno==EINTR);
 		}
 		printf("parent: got %d signals...\n", got_signals);

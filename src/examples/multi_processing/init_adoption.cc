@@ -26,7 +26,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <string.h>	// for strsignal(3)
 #include <signal.h>	// for kill(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO(), CHECK_ASSERT()
 
 /*
  * This example demostrates what happens when a processes father dies...
@@ -62,14 +62,20 @@ int main(int argc, char** argv, char** envp) {
 		} else {
 			TRACE("this is the parent, pid is %d", getpid());
 			// lets wait for a signal that it's ok to die...
-			pause();
+			int ret=pause();
+			// this is what is guaranteed by a clean exit
+			// of pause(2)
+			CHECK_ASSERT(ret==-1 && errno==EINTR);
 			// lets die
 			return 0;
 		}
 	} else {
 		TRACE("this is the gparent, pid is %d", getpid());
 		// lets wait for a signal that it's ok to die...
-		pause();
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
 		// lets die
 		return 0;
 	}

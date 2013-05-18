@@ -22,7 +22,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for nice(2), fork(2), pause(2)
 #include <stdlib.h>	// for exit(3)
-#include <us_helper.h>	// CHECK_NOT_M1()
+#include <us_helper.h>	// CHECK_NOT_M1(), CHECK_ASSERT()
 
 /*
  * This demo is to be used when demoing nice level.
@@ -74,7 +74,10 @@ int main(int argc, char** argv, char** envp) {
 	make_child(3);
 	// a non busy wait busy wait loop...:)
 	while(true) {
-		pause();
+		int ret=pause();
+		// this is what is guaranteed by a clean exit
+		// of pause(2)
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
 	return EXIT_SUCCESS;
 }
