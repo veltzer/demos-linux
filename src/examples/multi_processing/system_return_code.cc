@@ -18,21 +18,16 @@
  * 02111-1307 USA.
  */
 
-#include <stdlib.h>	// for EXIT_SUCCESS, system(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <firstinclude.h>
+#include <stdlib.h>	// for system(3), EXIT_SUCCESS
+#include <multi_processing.h>	// for print_status()
 
 /*
- * This is a most basic example of how to call the system(3)
- * library function.
- *
- * TODO:
- * - show redirection
- * - show environment variable substitution.
- * - show pipes.
- * - show more?!?
+ * This examples demostrates how to parse the return code
+ * from system(3)
  */
 
 int main(int argc, char** argv, char** envp) {
-	CHECK_NOT_M1(system("ls -l"));
+	print_status(system("/bin/ls /foo"));
 	return EXIT_SUCCESS;
 }
