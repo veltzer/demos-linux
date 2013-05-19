@@ -244,6 +244,12 @@ static inline int check_int(int val, const char *msg, int expected, const char* 
 	}
 	return val;
 }
+static inline int check_not_int(int val, const char *msg, int expected, const char* file, const char* base_file, const char* function, const int line) {
+	if(myunlikely(val==expected)) {
+		handle_error(val, msg, file, base_file, function, line);
+	}
+	return val;
+}
 static inline char* check_charp(char* val, const char *msg, char* expected, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=expected)) {
 		handle_error(0, msg, file, base_file, function, line);
@@ -282,6 +288,7 @@ static inline int check_gezero(int val, const char* msg, const char* file, const
 #define CHECK_VOIDP(v, e) check_not_voidp(v, __stringify(v), e, __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_SIGT(v, e) check_not_sigt(v, __stringify(v), e, __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_INT(v, e) check_int(v, __stringify(v), e, __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_INT(v, e) check_not_int(v, __stringify(v), e, __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_CHARP(v, e) check_charp(v, __stringify(v), e, __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_IN_RANGE(v, min, max) check_in_range(v, __stringify(v), min, max, __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_POSITIVE(v) check_positive(v, __stringify(v), __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
@@ -405,7 +412,7 @@ static inline void my_system(const char *fmt, ...) {
 	va_start(args, fmt);
 	vsnprintf(str, cmd_size, fmt, args);
 	va_end(args);
-	fprintf(stderr, "doing [%s]\n", str);
+	//fprintf(stderr, "doing [%s]\n", str);
 	CHECK_NOT_M1(system(str));
 }
 

@@ -3,6 +3,6 @@
 #include<stdio.h>
 
 int main(int argc,char** argv,char** envp) {
-	printf("Hey, look at me!, I'm a C++ script!\n");
+	printf("Hey, look at me!, I'm a C script!\n");
 	return(0);
 }
