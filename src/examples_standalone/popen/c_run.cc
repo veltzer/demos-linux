@@ -28,7 +28,7 @@
  * Example for using the shbang line to run C code
  */
 
-// #define DEBUG
+// #define DO_DEBUG
 
 /*
  * cut all but the first line in the file and return the temp file holding the result
@@ -41,16 +41,16 @@ void cut_first_line(const char* filename, FILE* output) {
 	int ret=CHECK_NOT_M1(getline(&lineptr, &n, input));
 	while(ret>0) {
 		if(active) {
-#ifdef DEBUG
+#ifdef DO_DEBUG
 			fprintf(stderr, "writing out [%s]\n", lineptr);
-#endif	// DEBUG
-			CHECK_INT(fputs(lineptr, output), EOF);
+#endif	// DO_DEBUG
+			CHECK_NOT_INT(fputs(lineptr, output), EOF);
 		} else {
 			active=1;
 		}
-		ret=CHECK_NOT_M1(getline(&lineptr, &n, input));
+		ret=getline(&lineptr, &n, input);
 	}
-	CHECK_INT(fclose(input), EOF);
+	CHECK_ZERO(fclose(input));
 }
 
 int main(int argc, char** argv, char** envp) {
@@ -63,16 +63,16 @@ int main(int argc, char** argv, char** envp) {
 	char tmpl[]="/tmp/crun.XXXXXX";
 	// create a filename for the executable
 	int fd=CHECK_NOT_M1(mkstemp(tmpl));
-#ifdef DEBUG
+#ifdef DO_DEBUG
 	fprintf(stderr, "tmpl is [%s]\n", tmpl);
-#endif	// DEBUG
+#endif	// DO_DEBUG
 	// run the compiler until eof...
 	const int max=1024;
 	char cmd[max];
 	sprintf(cmd, "gcc -x c -o %s -O2 -", tmpl);
-#ifdef DEBUG
+#ifdef DO_DEBUG
 	fprintf(stderr, "cmd is [%s]\n", cmd);
-#endif	// DEBUG
+#endif	// DO_DEBUG
 	FILE* handle=(FILE*)CHECK_NOT_NULL(popen(cmd, "w"));
 	cut_first_line(filename, handle);
 	CHECK_NOT_M1(pclose(handle));
