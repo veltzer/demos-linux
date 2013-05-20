@@ -27,16 +27,12 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO(), CHECK_ZERO()
+#include "shared.h"
 
 /*
  * This is a simple shared memory client that works well with the shared memory
  * server in shm_server.cc.
  */
-
-struct data {
-	pid_t mypid;
-	time_t now;
-};
 
 int main(int argc, char** argv, char** envp) {
 	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
@@ -46,9 +42,9 @@ int main(int argc, char** argv, char** envp) {
 	// memory exists...
 	int shmid=CHECK_NOT_M1(shmget(key, 0, 0));
 	void* ptr=CHECK_NOT_VOIDP(shmat(shmid, NULL, 0), (void*)-1);
-	struct data* dateptr=(struct data*)ptr;
-	printf("connected to shared memory\n");
-	for(int count=0; count<10; count++) {
+	shared_data* dateptr=(shared_data*)ptr;
+	printf("connected to shared memory at address %p\n",dateptr);
+	for(int count=0; count<10000; count++) {
 		struct tm mytm;
 		CHECK_NOT_NULL(localtime_r(&dateptr->now, &mytm));
 		const unsigned int time_string_length=40;
@@ -58,7 +54,7 @@ int main(int argc, char** argv, char** envp) {
 		printf("%d: Got date %s from process %d\n",
 			count,
 			time_string,
-			dateptr->mypid
+			dateptr->pid
 			);
 		CHECK_ZERO(sleep(1));
 	}

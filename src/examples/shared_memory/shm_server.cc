@@ -28,16 +28,13 @@
 #include <stdio.h>	// for printf(3)
 #include <signal.h>	// for signal(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_SIGT(), CHECK_ZERO()
+#include "shared.h"
 
 /*
  * This is a simple shared memory server that works well with the shared memory
  * client in shm_client.cc.
  */
 
-struct data {
-	pid_t mypid;
-	time_t now;
-};
 bool cont=true;
 
 void sigterm_exit(int sig) {
@@ -53,17 +50,18 @@ int main(int argc, char** argv, char** envp) {
 	// remove the old shm, if it exists
 	// add IPC_EXCL if you want the following to fail if the shared
 	// memory exists...
-	int shmid=CHECK_NOT_M1(shmget(key, sizeof(struct data), IPC_CREAT|IPC_EXCL|0666));
+	int shmid=CHECK_NOT_M1(shmget(key, sizeof(shared_data), IPC_CREAT|IPC_EXCL|0666));
 	printf("shmid is %d\n", shmid);
 	void* ptr=CHECK_NOT_VOIDP(shmat(shmid, NULL, 0), (void*)-1);
-	struct data* dateptr=(struct data*)ptr;
+	shared_data* dateptr=(shared_data*)ptr;
+	printf("pointer is %p\n",dateptr);
 	int count=0;
 	printf("shared memory was created, you can now run the client\n");
 	printf("you can see info about the shared memory using \"ipcs -m -i %d\"\n", shmid);
 	printf("you can remove the shared memory using \"ipcrm -M 0x%x\"\n", key);
 	printf("or using \"ipcrm -m %d\"\n", shmid);
+	dateptr->pid=getpid();
 	while(cont) {
-		dateptr->mypid=getpid();
 		dateptr->now=time(NULL);
 		CHECK_ZERO(sleep(1));
 		printf("updated the shared memory (%d)\n", count);
