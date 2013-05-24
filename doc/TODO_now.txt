@@ -12,6 +12,7 @@ situation.
 	- do a function that prints timespecs nicely.
 
 - get more examples from http://www.linuxprogrammingblog.com/
+- http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
 
 slides:
 - write slides about room for optimization.
