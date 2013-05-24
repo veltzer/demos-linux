@@ -20,8 +20,10 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
-#include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <unistd.h>	// for sleep(3), getpid(2)
+#include <sys/types.h>	// for getpid(2)
+#include <sched.h>	// for sched_getcpu(2)
+#include <us_helper.h>	// for CHECK_ZERO(), TRACE(), gettid(2)
 
 /*
  * This is a standard pthread demo
@@ -32,7 +34,10 @@ void *worker(void *p) {
 	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
-	TRACE("pthread_self is %lu", t);
+	TRACE("thread %d: pthread_self is %lu", num, t);
+	TRACE("thread %d: gettid() is %d", num, gettid());
+	TRACE("thread %d: getpid() is %d", num, getpid());
+	TRACE("thread %d: sched_getcpu() is %d", num, sched_getcpu());
 	CHECK_ZERO(sleep(60));
 	TRACE("ending thread %d", num);
 	return(NULL);

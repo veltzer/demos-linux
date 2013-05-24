@@ -27,12 +27,14 @@
  * This is the first file you should include from user space apps
  */
 
+// needed for SCHED_IDLE, SCHED_BATCH, sched_getcpu() and more
 #ifndef _GNU_SOURCE
-#define _GNU_SOURCE	// needed for SCHED_IDLE, SCHED_BATCH
+#define _GNU_SOURCE
 #endif	// _GNU_SOURCE
 
+// Needed to get REG_EIP from ucontext.h and more
 #ifndef __USE_GNU
-#define __USE_GNU	// Needed to get REG_EIP from ucontext.h
+#define __USE_GNU
 #endif	// __USE_GNU
 
 #endif	/* !__firstinclude_h */

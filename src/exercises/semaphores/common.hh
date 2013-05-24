@@ -29,8 +29,12 @@
 #include <string.h>
 #include <unistd.h>
 
-const int NPHIL=5;
-const char* KEYFILE="/etc/passwd";
+const unsigned int MIN_SLEEP=1;
+const unsigned int MAX_SLEEP=10;
+const unsigned int NPHIL=5;
+const int FTOK_PROJID='x';
+// this must be a real filename otherwise ftok(3) will not work...
+const char* FTOK_PATHNAME="/etc/passwd";
 
 union semun {
 	int val;/* value for SETVAL */
