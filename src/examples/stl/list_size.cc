@@ -27,8 +27,15 @@
 /*
  * Example showing that list.size() in STL is O(N)!
  *
+ * Notes:
+ * - there is a claim by one of the participants in the blog that in C++11
+ * list.size() is const time. This example is compiled with C++11 support
+ * and clearly shows that this is not the case.
+ *
  * References:
  * http://www.linuxprogrammingblog.com/std-list-size-complexity
+ *
+ * EXTRA_COMPILE_FLAGS=-std=c++11
  */
 
 
