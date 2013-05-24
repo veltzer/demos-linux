@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 - the license in the files is LGPL while the master license and
 the README.md talke about GPL3. Make up my mind and fix this
 situation.
-=======
+
 - implement condition using event fds
 	- demostrate the use.
 - add features to my epoll echo server:
@@ -11,7 +10,6 @@ situation.
 	- add http protocol support.
 - fix bugs in my timerfd example.
 	- do a function that prints timespecs nicely.
->>>>>>> 0feeb4bcbb7159e6cac9384789ead964ad8d96ba
 
 - get more examples from http://www.linuxprogrammingblog.com/
 
