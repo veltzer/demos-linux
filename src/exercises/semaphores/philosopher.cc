@@ -19,7 +19,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE, rand(3), srand(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE, rand(3), srand(3), atoi()
 #include <time.h>	// for time(2)
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for printf(3)
@@ -27,85 +27,56 @@
 #include <sys/ipc.h>	// for semop(2), ftok(3), semget(2)
 #include <sys/sem.h>	// for semop(2), semget(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
-#include "phil.hh"
+#include "common.hh"
 
-static int semid;
-
-void think(int id) {
+void activity(int semid, int id, const char* activity) {
 	int stime;
-	printf("Philosopher %d is busy thinking\n", id);
-	srand(time(NULL));
-	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
+	printf("Philosopher %d is busy %s\n", id, activity);
+	stime=MIN_SLEEP+rand()%(MAX_SLEEP-MIN_SLEEP);
 	CHECK_ZERO(sleep(stime));
-	printf("Philosopher %d finished thinking\n", id);
+	printf("Philosopher %d finished %s\n", id, activity);
 }
 
-void eat(int id) {
-	int stime;
-	printf("Philosopher %d is busy eating\n", id);
-	srand(time(NULL));
-	stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
-	CHECK_ZERO(sleep(stime));
-	printf("Philosopher %d finished eating\n", id);
-}
-
-void putForks(int id) {
+void forks(int semid, int id, int amount) {
 	int next;
 	if(id==NPHIL-1)
 		next=0;
 	else
 		next=id+1;
-	printf("Philosopher %d is replacing the forks\n", id);
+	printf("Philosopher %d is starting handling forks with amount %d\n", id, amount);
 	struct sembuf sops[2];
 	sops[0].sem_num=id;
-	sops[0].sem_op=1;
+	sops[0].sem_op=amount;
 	sops[0].sem_flg=0;
 	sops[1].sem_num=next;
-	sops[1].sem_op=1;
+	sops[1].sem_op=amount;
 	sops[1].sem_flg=0;
 	CHECK_NOT_M1(semop(semid, sops, 2));
-	printf("Philosopher %d replaced the forks\n", id);
-}
-
-void pickForks(int id) {
-	int next;
-	if(id==NPHIL-1)
-		next=0;
-	else
-		next=id+1;
-	printf("Philosopher %d is trying to pick up the forks\n", id);
-	struct sembuf sops[2];
-	sops[0].sem_num=id;
-	sops[0].sem_op=-1;
-	sops[0].sem_flg=0;
-	sops[1].sem_num=next;
-	sops[1].sem_op=-1;
-	sops[1].sem_flg=0;
-	CHECK_NOT_M1(semop(semid, sops, 2));
-	printf("Philosopher %d finally picked the forks\n", id);
+	printf("Philosopher %d is ending handling forks with amount %d\n", id, amount);
 }
 
 int main(int argc, char** argv, char** envp) {
-	key_t key;
-	int id;
 	if(argc!=2) {
-		fprintf(stderr, "Usage: %s [0-%d]\n", argv[0], NPHIL-1);
+		fprintf(stderr, "%s: usage: %s [0-%d)\n", argv[0], argv[0], NPHIL);
 		exit(EXIT_FAILURE);
 	}
-	if((argv[1][0]>='0') && (argv[1][0] <='5') && (strlen(argv[1])==1))
-		id=atoi(argv[1]);
-	else {
-		fprintf(stderr, "bad argument %c, Argument must be numeric value between 0 and 5\n", argv[1][0]);
+	// parameters
+	int id=atoi(argv[1]);
+	if(id<(int)0 || id>=(int)NPHIL) {
+		fprintf(stderr, "%s: bad argument %s, argument must be numeric value between 0 and %d\n", argv[0], argv[1], NPHIL);
 		exit(EXIT_FAILURE);
 	}
-	key=CHECK_NOT_M1(ftok(KEYFILE, 'x'));
+	// so things will not be boring..
+	srand(time(NULL));
+	// create the key
+	key_t key=CHECK_NOT_M1(ftok(FTOK_PATHNAME, FTOK_PROJID));
 
-	semid=CHECK_NOT_M1(semget(key, 0, 0));
+	int semid=CHECK_NOT_M1(semget(key, 0, 0));
 	while(true) {
-		pickForks(id);
-		eat(id);
-		putForks(id);
-		think(id);
+		forks(semid, id, -1);
+		activity(semid, id, "eating");
+		forks(semid, id, 1);
+		activity(semid, id, "sleeping");
 	}
 	return EXIT_SUCCESS;
 }
