@@ -1,0 +1,2 @@
+- add timeouts when a client does not do anything.
+- do the writing correctly.

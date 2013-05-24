@@ -156,6 +156,7 @@ int main(int argc, char** argv, char** envp) {
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {
+			// someone is trying to connect
 			if(events[n].data.fd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen;

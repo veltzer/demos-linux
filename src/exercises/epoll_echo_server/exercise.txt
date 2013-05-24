@@ -1,0 +1,21 @@
+A high performance echo server written in C on Linux
+====================================================
+This exercise requires you to build a multi-client echo
+server in C under linux.
+
+Design:
+The design of the server is based on the epoll(2) subsystem.
+So you would use just one thread to serve multiple clients.
+Your server would receive a service directory. Whenever a request for
+a file from the service directory comes along then it would just serve
+the content of that file.
+The server would still service *MULTIPLE* clients simultaneously but
+*IT WOULD* not be multi-threaded.
+
+Testing that it works:
+You would test your server by connecting to it using multiple telnet
+session.
+
+Handling errors:
+Remmember to handle errors from *ALL* system calls (you never know when
+one of them breaks).

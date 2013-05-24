@@ -116,7 +116,7 @@ void doParent(int semid, struct data * smdata, int myID) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc < 2) {
-		fprintf(stderr, "Usage: %s MyID\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s MyID\n", argv[0], argv[0]);
 		exit(errno);
 	}
 	int myID=atoi(argv[1]);

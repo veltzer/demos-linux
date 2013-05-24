@@ -19,34 +19,34 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, exit(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/types.h>	// for semctl(2), ftok(3), semget(2)
 #include <sys/ipc.h>	// for semctl(2), ftok(3), semget(2)
 #include <sys/sem.h>	// for semctl(2), semget(2)
-#include <signal.h>	// for signal(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
-#include "phil.hh"
+#include <us_helper.h>	// for CHECK_NOT_M1(), register_signal_handler(), CHECK_ASSERT()
+#include "common.hh"
 
-static int semid;
+static bool over=false;
 
 void clean(int sig) {
-	CHECK_NOT_M1(semctl(semid, 0, IPC_RMID, 0));
-	exit(0);
+	over=true;
 }
 
 int main(int argc, char** argv, char** envp) {
-	CHECK_NOT_SIGT(signal(SIGINT, clean), SIG_ERR);
-	key_t key=CHECK_NOT_M1(ftok(KEYFILE, 'x'));
-	semid=CHECK_NOT_M1(semget(key, NPHIL, IPC_CREAT | 0666));
-	for(int i=0; i<NPHIL; i++) {
+	register_handler_signal(SIGINT, clean);
+	key_t key=CHECK_NOT_M1(ftok(FTOK_PATHNAME, FTOK_PROJID));
+	int semid=CHECK_NOT_M1(semget(key, NPHIL, IPC_CREAT | 0666));
+	for(unsigned int i=0; i<NPHIL; i++) {
 		CHECK_NOT_M1(semctl(semid, i, SETVAL, 1));
 	}
 	// a non busy busy wait
-	while(true) {
+	while(!over) {
 		int ret=pause();
 		// this is what is guaranteed by a clean exit
 		// of pause(2)
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
+	// destroy the semaphore
+	CHECK_NOT_M1(semctl(semid, 0, IPC_RMID, 0));
 	return EXIT_SUCCESS;
 }
