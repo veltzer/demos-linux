@@ -1,3 +1,7 @@
+- the license in the files is LGPL while the master license and
+the README.md talke about GPL3. Make up my mind and fix this
+situation.
+
 - get more examples from http://www.linuxprogrammingblog.com/
 
 slides:
