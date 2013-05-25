@@ -48,7 +48,7 @@ int system_clone(const char *command) {
 		// no need to check return code since if we get to
 		// the line after execl it is sure that we have an
 		// error
-		execl("/bin/sh","/bin/sh","-c",command,NULL);
+		execl("/bin/sh", "/bin/sh", "-c", command, NULL);
 		// according to system(3) specifications
 		exit(127);
 	}

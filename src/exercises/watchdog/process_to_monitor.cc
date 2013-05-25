@@ -40,6 +40,6 @@ int main(int argc, char** argv, char** envp) {
 	// no return value for abort(3)
 	TRACE("dying");
 	*(char*)0=0;
-	//abort();
+	// abort();
 	return EXIT_SUCCESS;
 }

@@ -70,9 +70,9 @@ int main(int argc, char** argv, char** envp) {
 	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), MAP_FAILED);
 	printproc(NULL);
 	// while(true) {
-	// 	int ret=pause();
-	//	// this is what is guaranteed by a clean exit of pause(2)
-	//	CHECK_ASSERT(ret==-1 && errno==EINTR);
+	// int ret=pause();
+	// // this is what is guaranteed by a clean exit of pause(2)
+	// CHECK_ASSERT(ret==-1 && errno==EINTR);
 	// }
 	// lets try to access the pointer after the allocated area...
 	char* illegal=((char*)p)+size+5;
