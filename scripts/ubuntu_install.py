@@ -48,7 +48,7 @@ packs=[
 	'numactl',
 	'linux-headers-generic',
 	#'linux-headers-generic-pae', # if you use a -pae kernel
-	#'linux-image-3.8.0-19-generic-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
+	#'linux-image-3.8.0-22-generic-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
 	'ccache', # for faster building
 	'xutils-dev', # for makedepend(1)
 	'linux-tools-common', # for perf(1)
