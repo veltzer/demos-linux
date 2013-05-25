@@ -38,7 +38,6 @@
  * EXTRA_COMPILE_FLAGS=-std=c++11
  */
 
-
 int main(int argc, char** argv, char** envp) {
 	std::list<int> l;
 	const unsigned int size_of_list=1000000;
@@ -46,13 +45,13 @@ int main(int argc, char** argv, char** envp) {
 		l.push_back (i);
 	std::cout << "size of list is " << size_of_list << std::endl;
 	measure m;
-	measure_start(&m,"one l.size()");
+	measure_start(&m, "one l.size()");
 	volatile __attribute__((unused)) int s;
 	const unsigned int attempts=1000;
 	for (unsigned int i = 0; i < attempts; i++) {
 		s=l.size();
 	}
-	measure_end(&m,"one l.size()");
-	measure_print(&m,"one l.size()", attempts);
+	measure_end(&m, "one l.size()");
+	measure_print(&m, "one l.size()", attempts);
 	return EXIT_SUCCESS;
 }

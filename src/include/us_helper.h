@@ -412,7 +412,7 @@ static inline void my_system(const char *fmt, ...) {
 	va_start(args, fmt);
 	vsnprintf(str, cmd_size, fmt, args);
 	va_end(args);
-	//fprintf(stderr, "doing [%s]\n", str);
+	// fprintf(stderr, "doing [%s]\n", str);
 	CHECK_NOT_M1(system(str));
 }
 
