@@ -583,6 +583,10 @@ static inline size_t pthread_get_current_stack_size() {
 
 /*
  * prefault the entire stack for the current thread
+ * TODO:
+ * - the 0.9 in the next function is a cop-out. Find where we are
+ * at the stack, find where the stack begins, calculate how much
+ * there is to prefault and prefault it
  */
 static inline void stack_prefault() {
 	size_t stacksize=pthread_get_current_stack_size();
