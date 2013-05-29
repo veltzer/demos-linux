@@ -55,8 +55,8 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &param));
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
-	/* Pre-fault our stack */
-	stack_prefault();
+	/* Pre-fault our stack - this is useless because of mlock(2) */
+	//stack_prefault();
 	/* get the current time */
 	struct timespec t;
 	clock_gettime(CLOCK_MONOTONIC, &t);
@@ -69,10 +69,8 @@ int main(int argc, char** argv, char** envp) {
 		 * ...
 		 * calculate next shot */
 		t.tv_nsec+=interval;
-		while(t.tv_nsec>=NSEC_PER_SEC) {
-			t.tv_nsec-=NSEC_PER_SEC;
-			t.tv_sec++;
-		}
+		t.tv_sec+=t.tv_nsec/NSEC_PER_SEC;
+		t.tv_nsec%=NSEC_PER_SEC;
 	}
 	return EXIT_SUCCESS;
 }

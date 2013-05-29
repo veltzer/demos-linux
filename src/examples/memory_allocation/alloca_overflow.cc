@@ -44,10 +44,19 @@
  * automatically enabled for any thread calling alloca.
  */
 
+void do_something() {
+	printf("something...\n");
+}
+
+
 void my_func(size_t size) {
 	char* p=(char*)alloca(size);
+	// this will show that we can use the memory
 	p[0]=0;
-	// bzero(p,size);
+	// this will REALLY allocate and will cause a segfault...
+	//bzero(p,size);
+	// this will actually work, creating a "hole" in the stack...
+	do_something();
 }
 
 int main(int argc, char** argv, char** envp) {

@@ -46,12 +46,17 @@ packs=[
 	'libasound2-doc',
 	'libasound2-dev',
 	'numactl',
+
+	# kernel stuff
 	'linux-headers-generic',
+	'linux-headers-3.8.0-22-lowlatency',
+	'linux-headers-3.8.0-22-generic',
 	#'linux-headers-generic-pae', # if you use a -pae kernel
 	#'linux-image-3.8.0-22-generic-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
+
+	'linux-tools-common', # for perf(1)
 	'ccache', # for faster building
 	'xutils-dev', # for makedepend(1)
-	'linux-tools-common', # for perf(1)
 	'libcpufreq-dev', # for cpufreq.h
 	'libboost1.49-dev', # for boost threading
 	'libboost-thread1.49.0', # for the actual library

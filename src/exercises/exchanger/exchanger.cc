@@ -28,6 +28,16 @@
 /*
  * A solution to the exchanger/randezvous exercise...
  *
+ * Notes:
+ * - The reason we don't "null" the Exchanger when the second thread
+ * comes in and gives it's value is that the first thread is still
+ * in the lock. If the second thread by chance will get into the lock
+ * (again) before the first thread wakes up, it may accidentaly wake
+ * itself up.
+ * - The same reason (above) is why we have the delay loop at the
+ * begining of the 'get' method and why we are using two conditions
+ * instead of just one.
+ *
  * References:
  * http://stackoverflow.com/questions/3209918/how-to-implement-an-exchanger-rendezvous-pattern-in-c
  *
@@ -36,6 +46,13 @@
  */
 
 template <class T> class Exchanger {
+private:
+	boost::mutex m;
+	boost::condition_variable cv_main;
+	boost::condition_variable cv_overflow;
+	T *ptr;
+	enum { EMPTY, FIRST_ARRIVED, SECOND_ARRIVED } state;
+
 public:
 	Exchanger() : ptr(0), state(EMPTY) {
 	}
@@ -59,16 +76,13 @@ public:
 				cv_main.wait(lock);
 			}
 			assert(state == SECOND_ARRIVED);
-
 			ptr = 0;
 			state = EMPTY;
-
 			// Wake up any threads that happened to get
 			// the mutex after the other side of the
 			// exchanger notified us but before we woke up.
 			cv_overflow.notify_all();
 			break;
-
 		case FIRST_ARRIVED:
 			assert(ptr);
 			state = SECOND_ARRIVED;
@@ -80,13 +94,6 @@ public:
 		}
 	}
 
-private:
-	boost::mutex m;
-	boost::condition_variable cv_main;
-	boost::condition_variable cv_overflow;
-	T *ptr;
-
-	enum { EMPTY, FIRST_ARRIVED, SECOND_ARRIVED } state;
 };
 
 class Worker {
@@ -121,7 +128,7 @@ int main(int argc, char** argv, char** envp) {
 	srand(0);
 	Exchanger<unsigned int> e;
 	unsigned int max_sleep_time=1000;
-	unsigned int loop_count=1000000;
+	unsigned int loop_count=10000;
 	Worker w1(e, max_sleep_time, loop_count, 100, 200);
 	Worker w2(e, max_sleep_time, loop_count, 200, 300);
 

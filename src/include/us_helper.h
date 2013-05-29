@@ -572,13 +572,10 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
 /*
  * get the current threads stack size
  */
-static inline size_t pthread_get_current_stack_size() {
+static inline void mypthread_attr_getstack(void** stackaddr,size_t* stacksize) {
 	pthread_attr_t at;
-	void* stackaddr;
-	size_t stacksize;
 	CHECK_ZERO(pthread_getattr_np(pthread_self(), &at));
-	CHECK_ZERO(pthread_attr_getstack(&at, &stackaddr, &stacksize));
-	return stacksize;
+	CHECK_ZERO(pthread_attr_getstack(&at, stackaddr, stacksize));
 }
 
 /*
@@ -589,10 +586,23 @@ static inline size_t pthread_get_current_stack_size() {
  * there is to prefault and prefault it
  */
 static inline void stack_prefault() {
-	size_t stacksize=pthread_get_current_stack_size();
+	void* stackaddr;
+	size_t stacksize;
+	mypthread_attr_getstack(&stackaddr,&stacksize);
+	// old code
 	/* prefault less than the stacksize because when we were called some
 	 * of the stack was already used... */
+	/*
 	size_t prefault_size=(int)(stacksize*0.9);
+	unsigned char dummy[prefault_size];
+	memset(&dummy, 0, prefault_size);
+	*/
+	// new code
+	int a;
+	char* pa=(char*)&a;
+	size_t diff=(char*)stackaddr-pa;
+	size_t prefault_size=stacksize-diff;
+	printf("prefault_size is %d\n",prefault_size);
 	unsigned char dummy[prefault_size];
 	memset(&dummy, 0, prefault_size);
 }
