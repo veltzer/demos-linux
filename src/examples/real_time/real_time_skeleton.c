@@ -36,6 +36,11 @@
  * Kudos to Gilad Ben-Yosef for providing the basis upon which this code
  * was built.
  *
+ * TODO:
+ * - show that this app does not do any page faults. Do this by not having
+ * it do an infinite loop and just looking at it's page faults. Or maybe
+ * printing it's page faults while it is running?
+ *
  * EXTRA_LINK_FLAGS=-lpthread -lrt
  */
 
@@ -47,6 +52,12 @@ const int MY_PRIORITY=49;
 const int NSEC_PER_SEC=1000000000;
 /* The interval size (50us which is 50000ns in our case) */
 const int interval=50000;
+		
+static inline void add_nanos_to_timespec(struct timespec* t,int interval) {
+	t->tv_nsec+=interval;
+	t->tv_sec+=t->tv_nsec/NSEC_PER_SEC;
+	t->tv_nsec%=NSEC_PER_SEC;
+}
 
 int main(int argc, char** argv, char** envp) {
 	/* Declare ourself as a real time task */
@@ -56,18 +67,19 @@ int main(int argc, char** argv, char** envp) {
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
 	/* Pre-fault our stack - this is useless because of mlock(2) */
-	//stack_prefault();
+	stack_prefault();
 	/* get the current time */
 	struct timespec t;
 	clock_gettime(CLOCK_MONOTONIC, &t);
 	/* start after one second */
-	t.tv_sec++;
+	add_nanos_to_timespec(&t,interval);
 	while(true) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
 		/* do the stuff
 		 * ...
 		 * calculate next shot */
+		add_nanos_to_timespec(&t,interval);
 		t.tv_nsec+=interval;
 		t.tv_sec+=t.tv_nsec/NSEC_PER_SEC;
 		t.tv_nsec%=NSEC_PER_SEC;
