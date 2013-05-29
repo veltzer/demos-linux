@@ -27,35 +27,66 @@
 #include <us_helper.h>	// for CHECK_ZERO()
 
 /*
- * This is a solution to the spin locks exercise.
+ * This is a solution to the conditions using eventfd exercise.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-// this is the spin lock implementation (pthread "like")
-typedef struct _mypthread_spinlock_t {
-	int val;
-} mypthread_spinlock_t;
+// this is the condition implementation (pthread "like")
+const unsigned int MAX_FD=100;
+typedef struct _mypthread_cond_t {
+	int fds[MAX_FD];
+	bool waiting[MAX_FD];
+} mypthread_cond_t;
 
-int mypthread_spin_init(mypthread_spinlock_t* lock) {
-	lock->val=0;
+int mypthread_cond_init(mypthread_cond_t *cond) {
+	for(unsigned int i=0;i<MAX_FD;i++) {
+		cond->fds[i]=CHECK_NOT_M1(eventfd(0,0));
+		cond->waiting[i]=false;
+	}
+	cond->waiters=0;
 	return 0;
 }
-int mypthread_spin_destroy(mypthread_spinlock_t* lock) {
-	// do nothing
-	return 0;
-}
-int mypthread_spin_lock(mypthread_spinlock_t* lock) {
-	// lets spin!...
-	while(!__sync_bool_compare_and_swap(&(lock->val), 0, 1)) {
-		// on platforms where atomic ops are NOT compiler
-		// barrier you need to add a compiler barrier on
-		// lock->val right here inside the loop...
+
+int mypthread_cond_signal(mypthread_cond_t *cond) {
+	for(unsigned int i=0;i<MAX_FD;i++) {
+		if(cond->waiting[i]) {
+			uint64_t u=1;
+			CHECK_INT(write(cond->efd[i], &u, sizeof(uint64_t)), sizeof(uint64_t));
+			break;
+		}
 	}
 	return 0;
 }
-int mypthread_spin_unlock(mypthread_spinlock_t* lock) {
-	__sync_bool_compare_and_swap(&(lock->val), 1, 0);
+
+int mypthread_cond_broadcast(mypthread_cond_t *cond) {
+	for(unsigned int i=0;i<MAX_FD;i++) {
+		if(cond->waiting[i]) {
+			uint64_t u=1;
+			CHECK_INT(write(cond->efd[i], &u, sizeof(uint64_t)), sizeof(uint64_t));
+		}
+	}
+	return 0;
+}
+
+int mypthread_cond_wait(mypthread_cond_t *cond, pthread_mutex_t *mutex) {
+	int mynumber=-1;
+	for(unsigned int i=0;i<MAX_FD;i++) {
+		if(!cond->waiting[i]) {
+			mynumber=i;
+			break;
+		}
+	}
+	CHECK_ASSERT(mynumber!=-1);
+	cond->waiting[mynumber]=true;
+	CHECK_ZERO(pthread_mutex_unlock(mutex));
+	CHECK_INT(read(cond->efd[mynumber],&u,sizeof(uint64_t)),sizeof(uint64_t));
+	CHECK_ZERO(pthread_mutex_lock(mutex));
+	cond->waiting[mynumber]=false;
+	return 0;
+}
+
+int mypthread_cond_destroy(mypthread_cond_t *cond) {
 	return 0;
 }
 

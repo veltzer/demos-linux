@@ -5,5 +5,6 @@ Implement the following pthread functions using eventfd(2):
 	pthread_cond_signal (3) - operations on conditions
 	pthread_cond_wait (3) - operations on conditions
 Bonus: suggest a way to improve the pthread_conf API to enable to signal
-	a specific thread. Implement your enhancement. Demonstrate using
-	a fine grained readers/writer lock.
+	a specific thread. Implement your enhancement. Demonstrate by using
+	your newly defined condition API to implement a fine grained
+	readers/writer lock.
