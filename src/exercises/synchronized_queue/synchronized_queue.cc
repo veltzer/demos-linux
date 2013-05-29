@@ -24,7 +24,7 @@
 #include <unistd.h>	// for sysconf(3), usleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <list>	// for STL list
+#include <list>	// for std::list<T>
 #include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
 
 /*

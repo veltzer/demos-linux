@@ -485,7 +485,7 @@ sloccount:
 .PHONY: count_files
 count_files:
 	$(info doing [$@])
-	$(Q)find . -name "*.cc" -or -name "*.c" | wc -l
+	$(Q)echo number of C++ or C files (no headers): `find . -name "*.cc" -or -name "*.c" | wc -l`
 
 # web page
 .PHONY: install
