@@ -1,3 +1,5 @@
+include ../../../Makefile.defs
+
 SOURCES:=$(shell find . -name "*.cc")
 OBJECTS:=$(addsuffix .o,$(basename $(SOURCES)))
 CXXFLAGS:=-Wall -Werror -I../../include
