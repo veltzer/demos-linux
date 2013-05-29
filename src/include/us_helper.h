@@ -32,7 +32,7 @@
 #include <stdarg.h>	// for vsnprintf(3), va_start(3), va_list(3), va_end(3)
 #include <sys/types.h>	// for getpid(2), gettid(2)
 #include <sys/syscall.h>// for syscall(2)
-#include <unistd.h>	// for getpid(2), syscall(2), sysconf(2)
+#include <unistd.h>	// for getpid(2), syscall(2), sysconf(2), getpagesize(2)
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <string.h>	// for strncpy(3), strerror(3)
 #include <sys/time.h>	// for getpriority(2)
@@ -600,9 +600,8 @@ static inline void stack_prefault() {
 	// new code
 	int a;
 	char* pa=(char*)&a;
-	size_t diff=(char*)stackaddr-pa;
-	size_t prefault_size=stacksize-diff;
-	printf("prefault_size is %d\n",prefault_size);
+	size_t diff=pa-(char*)stackaddr;
+	size_t prefault_size=diff-getpagesize();
 	unsigned char dummy[prefault_size];
 	memset(&dummy, 0, prefault_size);
 }
