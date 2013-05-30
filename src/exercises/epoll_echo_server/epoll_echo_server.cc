@@ -166,13 +166,13 @@ int main(int argc, char** argv, char** envp) {
 				ev.data.fd=conn_sock;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
 			} else {
-				TRACE("got activity on fd %d", events[n].data.fd);
+				// TRACE("got activity on fd %d", events[n].data.fd);
 				char printbuff[1024];
 				print_events(printbuff, 1024, events[n].events);
-				TRACE("got events %s", printbuff);
+				// TRACE("got events %s", printbuff);
 				if(events[n].events & EPOLLRDHUP) {
 					int fd=events[n].data.fd;
-					TRACE("closing the fd %d", fd);
+					// TRACE("closing the fd %d", fd);
 					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL));
 					CHECK_NOT_M1(close(fd));
 				} else {
@@ -181,9 +181,9 @@ int main(int argc, char** argv, char** envp) {
 						char buffer[buflen];
 						int fd=events[n].data.fd;
 						ssize_t len=CHECK_NOT_M1(read(fd, buffer, buflen));
-						// FIXME (handle short writes!)
-						ssize_t ret=CHECK_NOT_M1(write(fd, buffer, len));
-						TRACE("read %zd bytes and wrote %zd bytes", len, ret);
+						// TODO: handle short writes!
+						CHECK_INT(write(fd, buffer, len), len);
+						// TRACE("read %zd bytes and wrote %zd bytes", len, ret);
 					}
 				}
 			}

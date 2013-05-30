@@ -232,7 +232,7 @@ void ExitProgram() {
 
 // CHECK EVENTS
 void CheckKeyboard() {
-	/* FIXME: XKeysymToString is deprecated
+	/* TODO: XKeysymToString is deprecated
 	 * if(XCheckWindowEvent(dpy, win, KeyPressMask, &xev)) {
 	 * char* key_string=XKeysymToString(XKeycodeToKeysym(dpy, xev.xkey.keycode, 0));
 	 * if(strncmp(key_string, "Left", 4)==0) {

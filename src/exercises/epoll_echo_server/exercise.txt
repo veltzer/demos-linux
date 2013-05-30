@@ -19,3 +19,6 @@ session.
 Handling errors:
 Remmember to handle errors from *ALL* system calls (you never know when
 one of them breaks).
+
+Bonus:
+- have timeouts for threads.

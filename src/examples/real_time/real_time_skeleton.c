@@ -52,8 +52,8 @@ const int MY_PRIORITY=49;
 const int NSEC_PER_SEC=1000000000;
 /* The interval size (50us which is 50000ns in our case) */
 const int interval=50000;
-		
-static inline void add_nanos_to_timespec(struct timespec* t,int interval) {
+
+static inline void add_nanos_to_timespec(struct timespec* t, int interval) {
 	t->tv_nsec+=interval;
 	t->tv_sec+=t->tv_nsec/NSEC_PER_SEC;
 	t->tv_nsec%=NSEC_PER_SEC;
@@ -72,14 +72,14 @@ int main(int argc, char** argv, char** envp) {
 	struct timespec t;
 	clock_gettime(CLOCK_MONOTONIC, &t);
 	/* start after one second */
-	add_nanos_to_timespec(&t,interval);
+	add_nanos_to_timespec(&t, interval);
 	while(true) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
 		/* do the stuff
 		 * ...
 		 * calculate next shot */
-		add_nanos_to_timespec(&t,interval);
+		add_nanos_to_timespec(&t, interval);
 		t.tv_nsec+=interval;
 		t.tv_sec+=t.tv_nsec/NSEC_PER_SEC;
 		t.tv_nsec%=NSEC_PER_SEC;

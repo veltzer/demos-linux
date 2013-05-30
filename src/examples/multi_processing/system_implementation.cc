@@ -18,6 +18,7 @@
  * 02111-1307 USA.
  */
 
+#include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3)
 #include <unistd.h>	// for fork(2), execl(2)
 #include <sys/types.h>	// for waitpid(2)

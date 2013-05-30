@@ -63,9 +63,9 @@ static void handler(int sig, siginfo_t *si, void *context) {
 		/*
 		 * volatile unsigned long long sum=0;
 		 * for(int i=0;i<100000000;i++) {
-		 *      for(int j=0;j<10;j++) {
-		 *              sum+=j*j;
-		 *      }
+		 * for(int j=0;j<10;j++) {
+		 * sum+=j*j;
+		 * }
 		 * }
 		 */
 		// if you pass 0 to % you will get a floating

@@ -572,7 +572,7 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
 /*
  * get the current threads stack size
  */
-static inline void mypthread_attr_getstack(void** stackaddr,size_t* stacksize) {
+static inline void mypthread_attr_getstack(void** stackaddr, size_t* stacksize) {
 	pthread_attr_t at;
 	CHECK_ZERO(pthread_getattr_np(pthread_self(), &at));
 	CHECK_ZERO(pthread_attr_getstack(&at, stackaddr, stacksize));
@@ -588,15 +588,15 @@ static inline void mypthread_attr_getstack(void** stackaddr,size_t* stacksize) {
 static inline void stack_prefault() {
 	void* stackaddr;
 	size_t stacksize;
-	mypthread_attr_getstack(&stackaddr,&stacksize);
+	mypthread_attr_getstack(&stackaddr, &stacksize);
 	// old code
 	/* prefault less than the stacksize because when we were called some
 	 * of the stack was already used... */
 	/*
-	size_t prefault_size=(int)(stacksize*0.9);
-	unsigned char dummy[prefault_size];
-	memset(&dummy, 0, prefault_size);
-	*/
+	 * size_t prefault_size=(int)(stacksize*0.9);
+	 * unsigned char dummy[prefault_size];
+	 * memset(&dummy, 0, prefault_size);
+	 */
 	// new code
 	int a;
 	char* pa=(char*)&a;

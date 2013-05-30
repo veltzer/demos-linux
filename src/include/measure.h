@@ -23,6 +23,7 @@
 
 /* THIS IS A C FILE, NO C++ here */
 
+#include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <sys/time.h>	// for gettimeofday(2), struct timeval
 #include <us_helper.h>	// for micro_diff()
