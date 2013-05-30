@@ -93,7 +93,6 @@ public:
 			break;
 		}
 	}
-
 };
 
 class Worker {

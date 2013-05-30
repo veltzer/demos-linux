@@ -18,6 +18,7 @@
  * 02111-1307 USA.
  */
 
+#include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, system(3)
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
