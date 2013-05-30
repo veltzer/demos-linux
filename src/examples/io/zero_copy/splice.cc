@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for exit(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2), splice(2), fcntl(2)
@@ -37,8 +37,7 @@
  * it is using (it doesn't use zero-copy!).
  */
 
-void copy_file(const char* filein, const char* fileout) {
-	const size_t splice_size=getpagesize()*8;
+void copy_file(const char* filein, const char* fileout,const size_t splice_size) {
 	// lets create a pipe
 	int pipe_fds[2];
 	// lets make the pipe big!
@@ -62,7 +61,7 @@ void copy_file(const char* filein, const char* fileout) {
 		 * TODO:
 		 * - handle short splices...
 		 */
-		CHECK_NOT_M1(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE));
+		CHECK_INT(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE),ret);
 	}
 	CHECK_NOT_M1(ret);
 	CHECK_NOT_M1(close(pipe_fds[0]));
@@ -72,12 +71,13 @@ void copy_file(const char* filein, const char* fileout) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=3) {
-		fprintf(stderr, "usage: %s [infile] [outfile]\n", argv[0]);
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage: %s [infile] [outfile] [splice_size_pages]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	copy_file(filein, fileout);
+	const size_t splice_size=getpagesize()*atoi(argv[3]);
+	copy_file(filein, fileout,splice_size);
 	return EXIT_SUCCESS;
 }
