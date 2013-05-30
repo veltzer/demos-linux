@@ -23,12 +23,14 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * Show size of very small objects in C++
+ * Demo that shows sizes of very small objects in C++
  *
- * Conclusions: (for gcc 4.7.2)
- * 1. minimal object size is 1 (Empty proves it)
+ * Conclusions: (for gcc 4.7.3)
+ * 1. Minimal object size is 1 (Empty proves it)
  * 2. Packing, for small objects can be less than 4 (Char and Short prove it)
  * 3. Packing, for larger objects is 4 byte aligned (CharIntChar proves it).
+ * 4. You can have combinations of smaller than 4 byte packing and 4
+ * byte aligned packing (CharChatInt proves it).
  */
 
 class Empty {
@@ -56,6 +58,11 @@ class CharIntChar {
 	int i;
 	char c2;
 };
+class CharCharInt {
+	char c1;
+	char c2;
+	int i;
+};
 class ShortInt {
 	short s;
 	int i;
@@ -73,8 +80,8 @@ int main(int argc, char** argv, char** envp) {
 	std::cout << "CharInt: " << sizeof(CharInt) << std::endl;
 	std::cout << "IntChar: " << sizeof(IntChar) << std::endl;
 	std::cout << "CharIntChar: " << sizeof(CharIntChar) << std::endl;
+	std::cout << "CharCharInt: " << sizeof(CharCharInt) << std::endl;
 	std::cout << "ShortInt: " << sizeof(ShortInt) << std::endl;
 	std::cout << "IntShort: " << sizeof(IntShort) << std::endl;
-	// std::cout << ": " << sizeof() << std::endl;
 	return EXIT_SUCCESS;
 }
