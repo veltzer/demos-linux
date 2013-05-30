@@ -62,9 +62,13 @@ int main(int argc, char** argv, char** envp) {
 	std::cout << "sizeof(A1) is " << sizeof(A1) << std::endl;
 	std::cout << "sizeof(A2) is " << sizeof(A2) << std::endl;
 	A2 obj1(4), obj2(5);
+	// this is the vtable
+	void** vp1=(void**)&obj1;
+	void** vp2=(void**)&obj2;
+	assert(*vp1==*vp2);
+	// this is where the data is
 	int* p1=(int*)&obj1;
 	int* p2=(int*)&obj2;
-	assert(*p1==*p2);
 	assert(4==*(p1+1));
 	assert(5==*(p2+1));
 	return EXIT_SUCCESS;
