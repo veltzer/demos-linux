@@ -3,16 +3,17 @@
 	cc, hh: C++
 
 - includes:
-	#include<stdio.h> // for printf(3) 
-	* no space after the include keyword
+	#include <stdio.h> // for printf(3) 
+	* space after the include keyword
+- first include in every file should be:
+	#include <firstinclude.h>
 - return from main:
 	return EXIT_SUCCESS, EXIT_FAILURE
 	(unless I have a better error code).
 - main prototype:
 	int main(int argc,char** argv,char** envp) {
 	}
-- functions:
-	open on the same line:
+- functions and braces open on the same line:
 	int add(int a,int b) {
 		return a+b;
 	}
@@ -29,3 +30,5 @@
 	...
 	#endif /* !_file_name_abs_h */
 	rationale: if it's good enough for GNU it's good enough for me
+
+- use TODO: instead of FIXME for items to do.
