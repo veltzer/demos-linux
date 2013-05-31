@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # this script will install all the required packages that you need on
 # ubuntu to compile and work with this package.
@@ -12,6 +12,10 @@
 # - the intel compiler auto-installation is not supported.
 
 import subprocess
+import os
+
+release=os.uname().release
+print('release is',release)
 
 packs=[
 	'libncurses5',
@@ -49,10 +53,9 @@ packs=[
 
 	# kernel stuff
 	'linux-headers-generic',
-	'linux-headers-3.8.0-22-lowlatency',
-	'linux-headers-3.8.0-22-generic',
+	'linux-headers-'+release,
+	'linux-image-'+release+'-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
 	#'linux-headers-generic-pae', # if you use a -pae kernel
-	#'linux-image-3.8.0-22-generic-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
 
 	'linux-tools-common', # for perf(1)
 	'ccache', # for faster building
