@@ -27,7 +27,7 @@
 int main(int argc, char** argv, char** envp) {
 	int num;
 	CHECK_INT(scanf("%d", &num), 1);
-	while(1) {
+	while(true) {
 		int i;
 		int u;
 		for(i=0, u=num-1; i<num; i++, u--) {

@@ -80,7 +80,7 @@ void doParent(int semid, struct data * smdata, int myID) {
 	int reminder;
 	int spaceLeft;
 	struct sembuf sops[2];
-	while(1) {
+	while(true) {
 		printf("To: ");
 		CHECK_CHARP(fgets(Sto, 7, stdin), Sto);
 		toID=atoi(Sto);

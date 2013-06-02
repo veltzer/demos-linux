@@ -20,6 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
+#include <stdbool.h>	// for true
 
 int main(int argc, char** argv, char** envp) {
 	long long ll=0;
@@ -27,7 +28,7 @@ int main(int argc, char** argv, char** envp) {
 	// it knows that back==ll and will not do the actual convesion...
 	volatile float f=0;
 	long long back=0;
-	while(1) {
+	while(true) {
 		f=(float)ll;
 		back=(long long)f;
 		if(ll!=back) {

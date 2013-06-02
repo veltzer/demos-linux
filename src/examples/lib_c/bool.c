@@ -31,6 +31,9 @@
  * compiler since the results will be different. In a C++ compiler,
  * _Bool is bool which is a built in type and true and false are built
  * ins.
+ *
+ * References:
+ * http://stackoverflow.com/questions/1608318/is-bool-a-native-c-type
  */
 
 int main(int argc, char** argv, char** envp) {

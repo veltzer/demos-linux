@@ -24,6 +24,7 @@
 #include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/syscall.h> // for syscall(2)
 #include <string.h> // for strlen(3)
+#include <stdbool.h>	// for true
 
 /*
  * Must implement the add function, as main actually calls it...
@@ -91,7 +92,7 @@ inline void do_write() {
 // this succeeds
 inline void do_endless_loop() {
 	volatile int i=0;
-	while(1) {
+	while(true) {
 		i++;
 	}
 }
