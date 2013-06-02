@@ -2,8 +2,6 @@
 the README.md talke about GPL3. Make up my mind and fix this
 situation.
 
-- implement condition using event fds
-	- demostrate the use.
 - add features to my epoll echo server:
 	- add timeout support.
 	- handle writes well.
