@@ -44,7 +44,7 @@ void doParent(int msqid, long myID)
 	message_buf sbuf;
 	setbuf(stdin, 0);
 	setbuf(stdout, 0);
-	while(1) {
+	while(true) {
 		printf("Call ID: ");
 		CHECK_CHARP(fgets(SsubscriberID, sizeof(SsubscriberID)-1, stdin), SsubscriberID);
 		sbuf.mtype=atoi(SsubscriberID);

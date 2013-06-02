@@ -33,6 +33,7 @@
 #include <firstinclude.h>
 #include <alsa/asoundlib.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdbool.h>	// for true
 
 // function declarations:
 int getArgsExpected(int midicommand);
@@ -74,7 +75,7 @@ void echomidi(snd_rawmidi_t* midiin, snd_rawmidi_t* midiout) {
 	int transpose=6;// transposition for note out
 	int newnote;	// temp storage for output note
 	int status;	// storage for error codes
-	while(1) {
+	while(true) {
 		if ((status=snd_rawmidi_read(midiin, &readbuffer, 1)) < 0) {
 			errormessage("Problem reading MIDI input: %s", snd_strerror(status));
 		}
