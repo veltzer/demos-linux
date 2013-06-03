@@ -191,7 +191,7 @@ int main(int argc, char** argv, char** envp) {
 				 * TODO:
 				 * - how do we know that we do not block here?
 				 */
-				CHECK_INT(write(fd, buffer, len),len);
+				CHECK_INT(write(fd, buffer, len), len);
 				TRACE("read %zd bytes and wrote %zd bytes", len, len);
 			}
 			if(events[n].events & EPOLLRDHUP) {
