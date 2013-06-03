@@ -31,6 +31,7 @@
 #include <pthread.h>	// for pthread_create(3)
 #include <sys/un.h>	// for sockaddr_un
 #include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
+#include <network_utils.h>	// for get_backlog()
 
 /*
  * This is a unix socket server demo.
@@ -40,17 +41,6 @@
  */
 
 const char* filename="/tmp/myunixsocket";
-
-int get_backlog() {
-	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename="/proc/sys/net/core/somaxconn";
-	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
-	const unsigned int size=256;
-	char buf[size];
-	CHECK_NOT_M1(read(fd, buf, size));
-	CHECK_NOT_M1(close(fd));
-	return atoi(buf);
-}
 
 void *worker(void* arg) {
 	int fd=*((int*)arg);
