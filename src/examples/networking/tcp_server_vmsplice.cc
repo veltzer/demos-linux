@@ -20,14 +20,13 @@
 
 #include <firstinclude.h>
 #include <sys/uio.h>	// for vmsplice(2), struct iovec
-#include <sys/types.h>	// for socket(2), bind(2), open(2), listen(2), accept(2), recv(2), setsockopt(2)
+#include <sys/types.h>	// for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2)
 #include <sys/socket.h>	// for socket(2), bind(2), listen(2), accept(2), recv(2), setsockopt(2), inet_addr(3)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for printf(3), atoi(3)
 #include <netdb.h>	// for getservbyname(3)
 #include <arpa/inet.h>	// for ntohs(3)
-#include <sys/stat.h>	// for open(2)
-#include <fcntl.h>	// for open(2), vmsplice(2), splice(2)
+#include <fcntl.h>	// for vmsplice(2), splice(2)
 #include <unistd.h>	// for read(2), close(2), pipe(2)
 #include <pthread.h>	// for pthread_create(3)
 #include <netinet/in.h>	// for sockaddr_in, inet_addr(3)
@@ -36,23 +35,13 @@
 #include <stdlib.h>	// for rand(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <assert.h>	// for assert(3)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_NOT_VOIDP()
+#include <network_utils.h>	// for get_backlog(), print_servent()
 
 /*
  * This is an example of using vmsplice to send mucho data to clients.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-
-int get_backlog() {
-	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename="/proc/sys/net/core/somaxconn";
-	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
-	const unsigned int size=256;
-	char buf[size];
-	CHECK_NOT_M1(read(fd, buf, size));
-	CHECK_NOT_M1(close(fd));
-	return atoi(buf);
-}
 
 void *worker(void* arg) {
 	int fd=*((int*)arg);

@@ -25,11 +25,9 @@
 #include <sys/types.h>	// for accept4(2)
 #include <sys/socket.h>	// for accept4(2)
 #include <netinet/in.h>	// for sockaddr_in
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE()
-#include <sys/types.h>	// for open(2)
-#include <sys/stat.h>	// for open(2)
-#include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2), close(2), write(2)
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
+#include <network_utils.h> // for get_backlog()
 
 /*
  * This is a solution to the echo server exercise.
@@ -47,17 +45,6 @@
  * - check what happens when we write large amounts of data to the output. Will the async write come up
  * short?
  */
-
-int get_backlog() {
-	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename="/proc/sys/net/core/somaxconn";
-	const unsigned int size=256;
-	char buf[size];
-	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
-	CHECK_NOT_M1(read(fd, buf, size));
-	CHECK_NOT_M1(close(fd));
-	return atoi(buf);
-}
 
 void print_events(char* buffer, size_t size, uint32_t events) {
 	char* p=buffer;
