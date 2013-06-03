@@ -32,7 +32,7 @@
 #include <netinet/in.h>	// for sockaddr_in, inet_addr(3)
 #include <arpa/inet.h>	// for inet_addr(3)
 #include <sys/mman.h>	// for mmap(2)
-#include <stdlib.h>	// for rand(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for rand(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <assert.h>	// for assert(3)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_NOT_VOIDP()
 #include <network_utils.h>	// for get_backlog(), print_servent()
@@ -101,8 +101,8 @@ int main(int argc, char** argv, char** envp) {
 	// char ibuffer[1000], obuffer[1000];
 	//
 	if(argc!=3) {
-		fprintf(stderr, "usage: %s [host] [port]\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);

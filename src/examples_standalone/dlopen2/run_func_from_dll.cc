@@ -26,7 +26,7 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=4) {
-		fprintf(stderr, "usage: %s [library] [function] [value]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [library] [function] [value]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* p_lib=argv[1];

@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for malloc(3), free(3), atoi(3), EXIT_SUCCESS
+#include <stdlib.h>	// for malloc(3), free(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #ifdef DMALLOC
 #include <dmalloc.h>
 #endif	// DMALLOC
@@ -31,7 +31,7 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr, "usage: memory_error [number of error to perform]\n");
+		fprintf(stderr, "%s: usage: %s [number of error to perform]\n", argv[0], argv[0]);
 		fprintf(stderr, "\t0 - write before the buffer and free\n");
 		fprintf(stderr, "\t1 - write after the buffer and free\n");
 		fprintf(stderr, "\t2 - write before the buffer and dont free\n");
@@ -40,7 +40,7 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "\t5 - read after the buffer\n");
 		fprintf(stderr, "\t6 - forget to release the buffer\n");
 		fprintf(stderr, "\t7 - release the buffer twice\n");
-		return 1;
+		return EXIT_FAILURE;
 	}
 	unsigned int type=atoi(argv[1]);
 	const int size=100;

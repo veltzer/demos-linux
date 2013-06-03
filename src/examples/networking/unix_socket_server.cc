@@ -30,6 +30,7 @@
 #include <unistd.h>	// for read(2), close(2), unlink(2)
 #include <pthread.h>	// for pthread_create(3)
 #include <sys/un.h>	// for sockaddr_un
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
 #include <network_utils.h>	// for get_backlog()
 
@@ -66,8 +67,8 @@ void *worker(void* arg) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=1) {
-		fprintf(stderr, "usage: %s\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_UNIX, SOCK_STREAM, 0));

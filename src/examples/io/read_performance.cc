@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), fprintf(3)
-#include <stdlib.h>	// for malloc(3), atoi(3), free(3), EXIT_SUCCESS
+#include <stdlib.h>	// for malloc(3), atoi(3), free(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/types.h>	// for open(2), lseek(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
@@ -80,8 +80,8 @@ void* func(void*) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr, "usage: %s [filename]\n", argv[0]);
-		return -1;
+		fprintf(stderr, "%s: usage: %s [filename]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	filename=argv[1];
 	// lets open the file

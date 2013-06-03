@@ -93,7 +93,7 @@ void print_events(char* buffer, size_t size, uint32_t events) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "usage: %s [host] [port]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* host=argv[1];
