@@ -20,6 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for malloc(3), calloc(3), realloc(3), free(3)
+#include <stddef.h>	// for size_t
 
 /*
  * This example shows how to correctly define your own malloc functions so that gcc will

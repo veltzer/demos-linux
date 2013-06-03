@@ -23,3 +23,6 @@
 
 void D::bar(void) {
 }
+
+D::~D(void) {
+}

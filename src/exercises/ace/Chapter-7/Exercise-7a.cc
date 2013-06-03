@@ -156,6 +156,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 				break;
 			default:
 				index=2;
+                break;
 			}
 			StoreMessages(shared[index], buffer);
 		}

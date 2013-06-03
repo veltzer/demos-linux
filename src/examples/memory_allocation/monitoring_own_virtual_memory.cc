@@ -24,7 +24,7 @@
 #include <sys/time.h>	// for getrusage(2)
 #include <sys/resource.h>	// for getrusage(2)
 #include <strings.h>	// for bzero(3)
-#include <us_helper.h>	// for CHECK_NOT_NULL()
+#include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
 
 /*
  * This is an example which shows how to monitor your own virtual memory using getrusage
