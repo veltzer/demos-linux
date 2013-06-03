@@ -19,7 +19,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, atoi(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <malloc.h>	// for malloc_stats(3)
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
 #include <unistd.h>	// for sleep(3)
@@ -55,8 +55,8 @@ void *worker(void *p) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr, "usage: %s [num_threads]\n", argv[0]);
-		return -1;
+		fprintf(stderr, "%s: usage: %s [num_threads]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	const int num=atoi(argv[1]);
 	pthread_t* threads=new pthread_t[num];

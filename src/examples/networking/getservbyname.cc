@@ -30,7 +30,7 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "usage: %s [service-name] [protocol-name]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [service-name] [protocol-name]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// getservbyname() - opens the etc.services file and returns the

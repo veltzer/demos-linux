@@ -99,7 +99,7 @@ void print_events(char* buffer, size_t size, uint32_t events) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr, "usage: %s [port]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [port]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const unsigned int port=atoi(argv[1]);
