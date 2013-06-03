@@ -110,7 +110,7 @@ void top_func() {
 int main(int argc, char** argv, char** envp) {
 	try {
 		top_func();
-	} catch (TracedException e) {
+	} catch (TracedException& e) {
 		e.print();
 	}
 	return EXIT_SUCCESS;

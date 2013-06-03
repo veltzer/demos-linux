@@ -40,6 +40,9 @@ void* MyThread::realsvc(void* arg) {
 MyThread::MyThread() {
 }
 
+MyThread::~MyThread() {
+}
+
 void MyThread::start() {
 	CHECK_ZERO(pthread_create(&myid, NULL, realsvc, (void*)this));
 }

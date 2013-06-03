@@ -23,4 +23,5 @@
 
 int debug() {
 	printf("Hello from debug");
+    return 0;
 }

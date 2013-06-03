@@ -78,6 +78,7 @@ int main(int argc, char** argv, char** envp) {
 			break;
 		default:
 			printf("?? getopt returned character code 0%o ??\n", c);
+            break;
 		}
 	}
 	if (optind < argc) {

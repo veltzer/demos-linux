@@ -64,11 +64,12 @@ void* functionCount1(void*) {
 			}
 		}
 		CHECK_ZERO(pthread_mutex_unlock(&condition_mutex));
-		if(done) {
-			printf("functionCount1 exiting...\n");
-			return(NULL);
-		}
+        if(done) {
+    		printf("functionCount1 exiting...\n");
+            break;
+        }
 	}
+    return NULL;
 }
 
 void *functionCount2(void*) {
@@ -85,11 +86,12 @@ void *functionCount2(void*) {
 			}
 		}
 		CHECK_ZERO(pthread_mutex_unlock(&condition_mutex));
-		if(done) {
-			printf("functionCount2 exiting...\n");
-			return(NULL);
-		}
+        if(done) {
+    		printf("functionCount2 exiting...\n");
+            break;
+        }
 	}
+	return(NULL);
 }
 int main(int argc, char** argv, char** envp) {
 	pthread_t thread1, thread2;

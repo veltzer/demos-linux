@@ -58,7 +58,7 @@ int main(int argc, char** argv, char** envp) {
 	try {
 		syscall(pipe(fd), -1);
 		syscall(signal(SIGPIPE, myhandler), SIG_ERR);
-	} catch (std::exception e) {
+	} catch (std::exception& e) {
 		std::cerr << "cought exception" << std::endl;
 	}
 	return EXIT_SUCCESS;

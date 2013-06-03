@@ -22,6 +22,7 @@
 
 class D {
 	public:
+        virtual ~D(void);
 		void foo(void);
 		virtual void zoo(void);
 		virtual void bar(void);

@@ -68,8 +68,11 @@ ifeq ($(OPT),1)
 CXXFLAGS:=$(CXXFLAGS) -O2
 CFLAGS:=$(CFLAGS) -O2
 endif
-CXXFLAGS:=$(CXXFLAGS) -Wall -Werror -I$(US_INCLUDE)
-CFLAGS:=$(CFLAGS) -Wall -Werror -I$(US_INCLUDE)
+WARN_FLAGS:=-Wall -Werror
+#WARN_FLAGS:=-Wall -Werror -pedantic
+#WARN_FLAGS:=-Wall -Wextra -Werror
+CXXFLAGS:=$(CXXFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
+CFLAGS:=$(CFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 
 # dependency on the makefile itself
 ifeq ($(DO_ALL_DEPS),1)
