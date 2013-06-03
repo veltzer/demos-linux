@@ -37,7 +37,7 @@
  * it is using (it doesn't use zero-copy!).
  */
 
-void copy_file(const char* filein, const char* fileout,const size_t splice_size) {
+void copy_file(const char* filein, const char* fileout, const size_t splice_size) {
 	// lets create a pipe
 	int pipe_fds[2];
 	// lets make the pipe big!
@@ -61,7 +61,7 @@ void copy_file(const char* filein, const char* fileout,const size_t splice_size)
 		 * TODO:
 		 * - handle short splices...
 		 */
-		CHECK_INT(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE),ret);
+		CHECK_INT(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE), ret);
 	}
 	CHECK_NOT_M1(ret);
 	CHECK_NOT_M1(close(pipe_fds[0]));
@@ -78,6 +78,6 @@ int main(int argc, char** argv, char** envp) {
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
 	const size_t splice_size=getpagesize()*atoi(argv[3]);
-	copy_file(filein, fileout,splice_size);
+	copy_file(filein, fileout, splice_size);
 	return EXIT_SUCCESS;
 }

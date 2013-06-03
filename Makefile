@@ -479,12 +479,12 @@ format_uncrustify: $(ALL_DEPS)
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l CPP $(ALL_US_CC)
 .PHONY: format_astyle
 format_astyle: $(ALL_DEPS)
-	$(error disabled by Mark)
+	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
-	$(error disabled by Mark)
+	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)indent $(ALL_US)
 

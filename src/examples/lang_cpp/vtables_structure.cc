@@ -19,7 +19,7 @@
  */
 
 #include <firstinclude.h>
-//#include <iostream>	// for std::cout, std::endl
+// #include <iostream>	// for std::cout, std::endl
 #include <assert.h>	// for assert(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
@@ -45,7 +45,7 @@ public:
 	}
 };
 
-class B:public A {
+class B : public A {
 public:
 	virtual void vbmethod0() {
 	}
