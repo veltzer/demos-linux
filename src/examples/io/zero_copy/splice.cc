@@ -26,18 +26,14 @@
 #include <fcntl.h>	// for open(2), splice(2), fcntl(2)
 #include <unistd.h>	// getpagesize(2), fcntl(2)
 #include <us_helper.h>	// for CHECK_NOT_M1()
+#include <limits.h>	// for INT_MAX
 
 /*
  * This demos shows how to use splice(2) to avoid copy to/from user space.
  * The demo itself is just a simple version of cp(1)
- *
- * Notes:
- * - we call splice(2) many times with size of 32768 which is 8*4096=8*pagesize
- * This size was decided upon by stracing GNU coreutils cp and seeing what size
- * it is using (it doesn't use zero-copy!).
  */
 
-void copy_file(const char* filein, const char* fileout, const size_t splice_size) {
+void copy_file(const char* filein, const char* fileout, const bool setbufsize, const size_t buf_size) {
 	// lets create a pipe
 	int pipe_fds[2];
 	// lets make the pipe big!
@@ -46,22 +42,24 @@ void copy_file(const char* filein, const char* fileout, const size_t splice_size
 	// size_t pipe_size=CHECK_NOT_M1(fcntl(pipe_fds[0],F_GETPIPE_SZ));
 	// printf("pipe_size is %d\n",pipe_size);
 	// lets set the pipe size
-	CHECK_NOT_M1(fcntl(pipe_fds[0], F_SETPIPE_SZ, splice_size));
+	if(setbufsize) {
+		CHECK_NOT_M1(fcntl(pipe_fds[0], F_SETPIPE_SZ, buf_size));
+	}
 	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE, 0666));
 	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
 	// we need the return value outside the loop
-	int ret;
+	ssize_t ret;
 	// this is the main copy loop
 	// we go out of the loop because of error or eof
 	// >0: would have kept us in the loop
 	// =0: that is ok - it is end of file
 	// -1: error
-	while((ret=splice(fdin, 0, pipe_fds[1], 0, splice_size, SPLICE_F_MOVE))>0) {
-		/*
-		 * TODO:
-		 * - handle short splices...
-		 */
-		CHECK_INT(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE), ret);
+	while((ret=splice(fdin, 0, pipe_fds[1], 0, INT_MAX, SPLICE_F_MOVE))>0) {
+		// now splice everything we got...
+		do {
+			ssize_t len=CHECK_NOT_M1(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE));
+			ret-=len;
+		} while(ret>0);
 	}
 	CHECK_NOT_M1(ret);
 	CHECK_NOT_M1(close(pipe_fds[0]));
@@ -71,13 +69,16 @@ void copy_file(const char* filein, const char* fileout, const size_t splice_size
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=4) {
-		fprintf(stderr, "%s: usage: %s [infile] [outfile] [splice_size_pages]\n", argv[0], argv[0]);
+	if(argc!=5) {
+		fprintf(stderr, "%s: usage: %s [infile] [outfile] [setbufsize] [num_pages]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: try to use setbufsize=1 and num_pages=8 to match what is going on in the official cp(1)\n", argv[0]);
+		fprintf(stderr, "%s: which was derived by strac(1)ing cp(1)\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	const size_t splice_size=getpagesize()*atoi(argv[3]);
-	copy_file(filein, fileout, splice_size);
+	bool setbufsize=atoi(argv[3]);
+	const unsigned int num_pages=atoi(argv[4]);
+	copy_file(filein, fileout, setbufsize, num_pages*getpagesize());
 	return EXIT_SUCCESS;
 }
