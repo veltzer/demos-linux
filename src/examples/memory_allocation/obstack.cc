@@ -23,7 +23,8 @@
 #include <stdlib.h>	// for malloc(3)
 #include <sys/time.h>	// for gettimeofday(2)
 #include <obstack.h>	// for obstack_*(3)
-#include <us_helper.h>	// for CHECK_NOT_NULL()
+#include <us_helper.h>	// for CHECK_NOT_NULL(), run_high_priority()
+#include <measure.h>	// for measure, measure_start(), measure_end(), measure_print()
 
 /*
  * This example shows how to use obstacks...
@@ -33,43 +34,54 @@
  * - notice the speed of obstack compared to the speed of malloc.
  * because this is an uncontended case with just a single thread
  * then malloc and obstack perform roughly the same (malloc
- * on occasion a little slower...)
+ * a little slower...)
+ * - if you remove the CHECK_NOT_NULL() on the return from malloc
+ * then the whole malloc may be totally optimized out and so the
+ * measurements will turn out 0...:)
  *
  * TODO:
  * - add multi threading and releases to really show the difference
  * between obstacks and malloc.
  *
+ * References:
+ * 'info libc' and search for 'obstack'
+ *
+ * EXTRA_LINK_FLAGS=-lpthread
  */
 
 // these are needed so that obstacks would work fine...
 #define obstack_chunk_alloc xmalloc
 #define obstack_chunk_free free
+
 void* xmalloc(size_t size) {
 	register void* value=CHECK_NOT_NULL(malloc(size));
 	return value;
 }
 
-int main(int argc, char** argv, char** envp) {
+void* func(void*) {
 	static struct obstack myobstack;
 	obstack_init(&myobstack);
-	struct timeval t1, t2;
-	const unsigned int loop=100000;
+	measure m;
+	const unsigned int loop=10000000;
 	const unsigned int size_to_alloc=100;
 
-	printf("testing obstack_alloc...\n");
-	gettimeofday(&t1, NULL);
+	measure_start(&m, "obstack_alloc");
 	for(unsigned int i=0; i<loop; i++) {
-		obstack_alloc(&myobstack, size_to_alloc);
+		CHECK_NOT_NULL(obstack_alloc(&myobstack, size_to_alloc));
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one call: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m, "obstack_alloc");
+	measure_print(&m, "obstack_alloc", loop);
 
-	printf("testing malloc...\n");
-	gettimeofday(&t1, NULL);
+	measure_start(&m, "malloc");
 	for(unsigned int i=0; i<loop; i++) {
-		void* p __attribute__((unused))=malloc(size_to_alloc);
+		CHECK_NOT_NULL(malloc(size_to_alloc));
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one call: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m, "malloc");
+	measure_print(&m, "malloc", loop);
+	return NULL;
+}
+
+int main(int argc, char** argv, char** envp) {
+	run_high_priority(func, NULL, STANDARD_HIGH_PRIORITY);
 	return EXIT_SUCCESS;
 }

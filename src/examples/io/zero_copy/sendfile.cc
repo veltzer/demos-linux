@@ -46,8 +46,8 @@
 
 void copy_file(const char* filein, const char* fileout) {
 	size_t sendfile_bufsize=getpagesize();
-	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY, 0666));
-	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
+	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY | O_LARGEFILE, 0666));
+	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC | O_LARGEFILE, 0666));
 	// this is the main copy loop
 	// we go out of the loop because of error or eof
 	// >0: would have kept us in the loop

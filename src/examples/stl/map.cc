@@ -19,39 +19,29 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for atoi(3)
-#include <string.h>	// for memset(3)
-#include <us_helper.h>	// for my_system(), TRACE()
+#include <iostream>	// for std::cout, std::endl
+#include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example explores how static data (data segement) affects binary size
- * and speed
+ * An example of using an STL map.
  *
- * Notes:
- * - if you initialize the array to 0 (first example) then the binary is small.
- * - if you do not initialize the array (second example) then the binary is small.
- * - if you initialize the array to anything which is not 0 then the binary is large.
+ * References:
+ * http://www.yolinux.com/TUTORIALS/LinuxTutorialC++STL.html#LIST
  */
 
-const unsigned int size=1000000;
-// first example
-int myarray[size]={ 0 };
-// second example
-// int myarray[size];
-// third example
-//int myarray[size]={ 3 };
-
 int main(int argc, char** argv, char** envp) {
-	unsigned int sum=0;
-	for(int i=0; i<argc; i++) {
-		sum+=atoi(argv[i]);
+	std::map<int,int> m;
+	m[6]=7;
+	m[5]=3;
+	// lets print the size of the map
+	std::cout << "size of the map is " << m.size() << std::endl;
+	if(m.find(6)!=m.end()) {
+		std::cout << "6 is in the map" << std::endl;
+		std::cout << "its partner is" << m.find(6)->second << std::endl;
 	}
-	memset(myarray, sum, sizeof(int)*size);
-	sum=0;
-	for(unsigned int l=0; l<size; l++) {
-		sum+=myarray[l];
+	for(std::map<int,int>::iterator ii=m.begin(); ii!=m.end(); ++ii) {
+		std::cout << (*ii).first << ": " << (*ii).second << std::endl;
 	}
-	TRACE("sum is %u\n", sum);
-	my_system("ls -l %s", argv[0]);
 	return EXIT_SUCCESS;
 }
