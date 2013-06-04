@@ -22,7 +22,7 @@
 
 class B {
 	public:
-        virtual ~B(void);
+		virtual ~B(void);
 		void foo(void);
 		virtual void bar(void);
 		virtual void zoo(void);

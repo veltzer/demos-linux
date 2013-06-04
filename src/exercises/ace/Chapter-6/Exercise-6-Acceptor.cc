@@ -91,7 +91,7 @@ public:
 				ACE_OS::exit(EXIT_FAILURE);
 			}
 		}
-        return 0;
+		return 0;
 	}
 };
 
