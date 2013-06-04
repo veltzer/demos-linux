@@ -57,8 +57,7 @@ void copy_file(const char* filein, const char* fileout, const bool setbufsize, c
 	while((ret=splice(fdin, 0, pipe_fds[1], 0, INT_MAX, SPLICE_F_MOVE))>0) {
 		// now splice everything we got...
 		do {
-			ssize_t len=CHECK_NOT_M1(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE));
-			ret-=len;
+			ret-=CHECK_NOT_M1(splice(pipe_fds[0], 0, fdout, 0, ret, SPLICE_F_MOVE));
 		} while(ret>0);
 	}
 	CHECK_NOT_M1(ret);
