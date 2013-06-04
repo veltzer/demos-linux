@@ -27,7 +27,7 @@
  * An example of using an STL map.
  *
  * References:
- * http://www.yolinux.com/TUTORIALS/LinuxTutorialC++STL.html#LIST
+ * http://www.yolinux.com/TUTORIALS/CppStlMultiMap.html
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -38,7 +38,7 @@ int main(int argc, char** argv, char** envp) {
 	std::cout << "size of the map is " << m.size() << std::endl;
 	if(m.find(6)!=m.end()) {
 		std::cout << "6 is in the map" << std::endl;
-		std::cout << "its partner is" << m.find(6)->second << std::endl;
+		std::cout << "its partner is " << m.find(6)->second << std::endl;
 	}
 	for(std::map<int,int>::iterator ii=m.begin(); ii!=m.end(); ++ii) {
 		std::cout << (*ii).first << ": " << (*ii).second << std::endl;
