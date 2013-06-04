@@ -110,7 +110,7 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 			break;
 		default:
 			fprintf(stderr, "?? getopt returned character code 0%o ??\n", c);
-            break;
+			break;
 		}
 	}
 	if(argc-optind<1) {

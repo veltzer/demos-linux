@@ -31,7 +31,7 @@ private:
 
 public:
 	MyThread();
-    virtual ~MyThread();
+	virtual ~MyThread();
 	void start();
 	void join();
 

@@ -59,7 +59,7 @@ public:
 	int close() {
 		if (client_stream_.close()==-1) {
 			ACE_ERROR_RETURN((LM_ERROR, "(%P|%t) %p\n", "close"), -1);
-            return -1;
+			return -1;
 		} else {
 			return(0);
 		}
@@ -129,5 +129,5 @@ int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	ACE_OS::sleep(FinalDelay);
 	client1.close();
 	client2.close();
-    return 0;
+	return 0;
 }
