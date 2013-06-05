@@ -35,15 +35,15 @@
 #include <sys/select.h>	// for select(2)
 
 /*
- * This is a demo of a simple echo socket server implementation in pure C
- * in Linux
+ * This is a tcp server listening on two tcp ports using select(2)
+ * and pthreads.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-// const unsigned int port=7000;
-const char* serv_name="http-alt";
-const char* serv_proto="tcp";
+//const unsigned int port=7000;
+//const char* serv_name="http-alt";
+//const char* serv_proto="tcp";
 
 void *worker(void* arg) {
 	int fd=*((int*)arg);
@@ -123,20 +123,25 @@ int main(int argc, char** argv, char** envp) {
 		FD_SET(sockfd2, &rfds);
 		CHECK_NOT_M1(select(my_max(sockfd,sockfd2)+1, &rfds, NULL, NULL, NULL));
 		struct sockaddr_in client;
+		// address length must be properly initialised
+		// or the call to accept(2) will fail...
 		socklen_t addrlen=sizeof(client);
-		int fd;
 		if(FD_ISSET(sockfd, &rfds)) {
-			fd=CHECK_NOT_M1(accept(sockfd, (struct sockaddr *)&client, &addrlen));
-			//fd=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&client, &addrlen, SOCK_NONBLOCK));
-		} else {
-			fd=CHECK_NOT_M1(accept(sockfd2, (struct sockaddr *)&client, &addrlen));
-			//fd=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&client, &addrlen, SOCK_NONBLOCK));
+			int fd=CHECK_NOT_M1(accept(sockfd, (struct sockaddr *)&client, &addrlen));
+			printf("accepted fd %d\n", fd);
+			// spawn a thread to handle the connection to that client...
+			pthread_t thread;
+			int* p=new int(fd);
+			CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
 		}
-		printf("accepted fd %d\n", fd);
-		// spawn a thread to handle the connection to that client...
-		pthread_t thread;
-		int* p=new int(fd);
-		CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
+		if(FD_ISSET(sockfd2, &rfds)) {
+			int fd=CHECK_NOT_M1(accept(sockfd2, (struct sockaddr *)&client, &addrlen));
+			printf("accepted fd %d\n", fd);
+			// spawn a thread to handle the connection to that client...
+			pthread_t thread;
+			int* p=new int(fd);
+			CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
+		}
 	}
 	return EXIT_SUCCESS;
 }
