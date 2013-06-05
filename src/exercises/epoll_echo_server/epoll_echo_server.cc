@@ -143,8 +143,9 @@ int main(int argc, char** argv, char** envp) {
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {
+			int currfd=events[n].data.fd;
 			// someone is trying to connect
-			if(events[n].data.fd==sockfd) {
+			if(currfd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen;
 				int conn_sock=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
@@ -154,22 +155,20 @@ int main(int argc, char** argv, char** envp) {
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
 			} else {
 				// TRACE("got activity on fd %d", events[n].data.fd);
-				char printbuff[1024];
-				print_events(printbuff, 1024, events[n].events);
+				//char printbuff[1024];
+				//print_events(printbuff, 1024, events[n].events);
 				// TRACE("got events %s", printbuff);
 				if(events[n].events & EPOLLRDHUP) {
-					int fd=events[n].data.fd;
 					// TRACE("closing the fd %d", fd);
-					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL));
-					CHECK_NOT_M1(close(fd));
+					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, currfd, NULL));
+					CHECK_NOT_M1(close(currfd));
 				} else {
 					if(events[n].events & EPOLLIN) {
 						const int buflen=1024;
 						char buffer[buflen];
-						int fd=events[n].data.fd;
-						ssize_t len=CHECK_NOT_M1(read(fd, buffer, buflen));
+						ssize_t len=CHECK_NOT_M1(read(currfd, buffer, buflen));
 						// TODO: handle short writes!
-						CHECK_INT(write(fd, buffer, len), len);
+						CHECK_INT(write(currfd, buffer, len), len);
 						// TRACE("read %zd bytes and wrote %zd bytes", len, ret);
 					}
 				}
