@@ -21,23 +21,16 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include <sys/types.h>	// for open(2)
-#include <sys/stat.h>	// for open(2)
+#include <sys/types.h>	// for open(2), fstat(2), struct stat
+#include <sys/stat.h>	// for open(2), fstat(2), struct stat
 #include <fcntl.h>	// for open(2), splice(2), tee(2)
+#include <unistd.h>	// for close(2), fstat(2), struct stat, pipe(2)
 #include <limits.h>	// for INT_MAX
-#include <unistd.h>	// for close(2)
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
- * This example demonstrates how to implement tee(1) using tee(2)
- * by using zero copy as much as possible.
- *
- * Notes:
- * - this tee(1) is very limited. Both stdin and stdout HAVE to be pipes.
- * This means that if you don't want to see errors you should run this program
- * like this:
- * cat /etc/passwd | [this program] [outfile] | cat
- * both pipes are neccessary
+ * This is an improvement of the tee(1) implementation so that it
+ * would be able to use non pipe stdin and stdout.
  *
  * References:
  * http://www.scribd.com/doc/4006475/Splice-Tee-VMsplice-zero-copy-in-Linux
@@ -48,37 +41,53 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: usage: %s [outfile]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
+	// parameters
 	const char* fileout=argv[1];
+
+	// code
+	struct stat stdin_buf, stdout_buf;
+	CHECK_NOT_M1(fstat(STDIN_FILENO,&stdin_buf));
+	CHECK_NOT_M1(fstat(STDOUT_FILENO,&stdout_buf));
+	bool is_pipe_in=S_ISFIFO(stdin_buf.st_mode);
+	bool is_pipe_out=S_ISFIFO(stdout_buf.st_mode);
+	int real_fdin, real_fdout;
+	int pipe_in[2];
+	int pipe_out[2];
+	if(is_pipe_in) {
+		real_fdin=STDIN_FILENO;
+	} else {
+		CHECK_NOT_M1(pipe(pipe_in));
+		real_fdin=pipe_in[0];
+	}
+	if(is_pipe_out) {
+		real_fdout=STDOUT_FILENO;
+	} else {
+		CHECK_NOT_M1(pipe(pipe_out));
+		real_fdout=pipe_out[1];
+	}
 	int fd=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
-	// this version is from the slides referenced above
-	// and will spin (100% CPU) when there is no input
-	/*
+	ssize_t ret;
+	bool stop_input=false;
+	bool stop_output=false;
 	do {
-		// TODO: check if the non blocking here is a must
-		ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
-		if(len==-1) {
-			if(errno==EAGAIN) {
-				continue;
-			}
-			CHECK_NOT_M1(len);
-		} else {
-			if(len==0) {
-				break;
-			}
-			while (len>0) {
-				len-=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, len, SPLICE_F_MOVE));
+		if(!is_pipe_in && !stop_input) {
+			ssize_t ret_inner=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, pipe_in[1], NULL, INT_MAX, SPLICE_F_MOVE));
+			if(ret_inner==0) {
+				stop_input=true;
+				CHECK_NOT_M1(close(pipe_in[1]));
 			}
 		}
-	} while(true);
-	*/
-	// a shorter, cleaner version which does not spin...
-	ssize_t ret;
-	do {
-		ret=CHECK_NOT_M1(tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, 0));
+		ret=CHECK_NOT_M1(tee(real_fdin, real_fdout, INT_MAX, 0));
+		if(!is_pipe_out && !stop_output && ret>0) {
+			ssize_t ret_inner=CHECK_NOT_M1(splice(pipe_out[0], NULL, STDOUT_FILENO, NULL, INT_MAX, SPLICE_F_MOVE));
+			if(ret_inner==0) {
+				stop_output=true;
+			}
+		}
 		ssize_t len=ret;
 		while (len>0) {
-			// the INT_MAX on the next line could be replaced by 'len'
-			len-=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, INT_MAX, SPLICE_F_MOVE));
+			// the INT_MAX on the next line could be replaced with 'len'
+			len-=CHECK_NOT_M1(splice(real_fdin, NULL, fd, NULL, INT_MAX, SPLICE_F_MOVE));
 		}
 	} while(ret>0);
 	CHECK_NOT_M1(close(fd));
