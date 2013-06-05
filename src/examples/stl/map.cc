@@ -31,7 +31,7 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	std::map<int,int> m;
+	std::map<int, int> m;
 	m[6]=7;
 	m[5]=3;
 	// lets print the size of the map
@@ -40,7 +40,7 @@ int main(int argc, char** argv, char** envp) {
 		std::cout << "6 is in the map" << std::endl;
 		std::cout << "its partner is " << m.find(6)->second << std::endl;
 	}
-	for(std::map<int,int>::iterator ii=m.begin(); ii!=m.end(); ++ii) {
+	for(std::map<int, int>::iterator ii=m.begin(); ii!=m.end(); ++ii) {
 		std::cout << (*ii).first << ": " << (*ii).second << std::endl;
 	}
 	return EXIT_SUCCESS;

@@ -155,11 +155,11 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
  */
 static inline void handle_error(const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	/*
-	// this is for pthread type errors
-	if(seterrno) {
-		errno=errno_val;
-	}
-	*/
+	 * // this is for pthread type errors
+	 * if(seterrno) {
+	 *      errno=errno_val;
+	 * }
+	 */
 	error_at_line(EXIT_FAILURE, errno, base_file, line, "function is %s, code is %s", function, msg);
 
 	// old code follows

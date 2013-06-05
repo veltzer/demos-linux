@@ -28,7 +28,7 @@
 #include <unistd.h>	// for read(2), close(2), write(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
-#include <map>		// for std::map<T1,T2>, std::map<T1,T2>::iterator
+#include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
 #include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
@@ -98,8 +98,8 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	std::map<int,int> fdmap;
-	std::map<int,int> timermap;
+	std::map<int, int> fdmap;
+	std::map<int, int> timermap;
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);
 	printf("contact me at host %s port %d\n", host, port);
@@ -163,7 +163,7 @@ int main(int argc, char** argv, char** envp) {
 			}
 			// is it an IO event?
 			if(fdmap.find(currfd)!=fdmap.end()) {
-				//int timerfd=fdmap.find(currfd)->second;
+				// int timerfd=fdmap.find(currfd)->second;
 				// TRACE("got activity on fd %d", events[n].data.fd);
 				char printbuff[1024];
 				print_events(printbuff, 1024, events[n].events);
@@ -185,7 +185,7 @@ int main(int argc, char** argv, char** envp) {
 			}
 			// is it a timer event?
 			if(timermap.find(currfd)!=timermap.end()) {
-				//int realfd=timermap.find(currfd)->second;
+				// int realfd=timermap.find(currfd)->second;
 			}
 		}
 	}
