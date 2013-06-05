@@ -381,8 +381,12 @@ check_while1:
 check_usage:
 	$(info doing [$@])
 	@scripts/wrapper_noerr.py git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_pthread
+check_pthread:
+	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep "CHECK_ZERO\(pthread" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread
 
 .PHONY: check_dots
 check_dots:
