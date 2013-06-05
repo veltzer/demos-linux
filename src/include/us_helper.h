@@ -617,4 +617,15 @@ static inline void stack_prefault() {
 	memset(&dummy, 0, prefault_size);
 }
 
+/*
+ * A standard max function
+ */
+static inline int my_max(int a, int b) {
+	if(a>b) {
+		return a;
+	} else {
+		return b;
+	}
+}
+
 #endif	/* !__us_helper_h */

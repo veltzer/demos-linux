@@ -37,15 +37,15 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=4) {
-		fprintf(stderr, "%s: usage: %s [numthreads] [numrequests] [port]\n", argv[0], argv[0]);
+	if(argc!=3) {
+		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// lets take the parameters
 	// unsigned int numthreads=atoi(argv[1]);
 	// unsigned int numrequests=atoi(argv[2]);
-	const char* host=argv[3];
-	unsigned int port=atoi(argv[4]);
+	const char* host=argv[1];
+	unsigned int port=atoi(argv[2]);
 
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
