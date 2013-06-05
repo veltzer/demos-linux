@@ -25,7 +25,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <string.h>	// for strncpy(3)
 #include <sys/prctl.h>	// for prctl(2)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This exapmle shows how to set thread names in Linux.
@@ -74,8 +74,8 @@ void* doit(void* arg) {
 	TRACE("getpid() is %d", getpid());
 	TRACE("pthread_self() is %u", (unsigned int)pthread_self());
 	print_thread_name_from_proc();
-	CHECK_ZERO(pthread_mutex_unlock(&(td->start_mutex)));
-	CHECK_ZERO(pthread_mutex_lock(&(td->end_mutex)));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&(td->start_mutex)));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&(td->end_mutex)));
 	return NULL;
 }
 
@@ -88,28 +88,28 @@ int main(int argc, char** argv, char** envp) {
 	strncpy(td1.name, "thread one", 256);
 	// strncpy(td2.name, "thread two", 256);
 	strncpy(td2.name, "תהליכון", 256);
-	CHECK_ZERO(pthread_mutex_init(&td1.start_mutex, NULL));
-	CHECK_ZERO(pthread_mutex_init(&td2.start_mutex, NULL));
-	CHECK_ZERO(pthread_mutex_init(&td1.end_mutex, NULL));
-	CHECK_ZERO(pthread_mutex_init(&td2.end_mutex, NULL));
-	CHECK_ZERO(pthread_mutex_lock(&td1.start_mutex));
-	CHECK_ZERO(pthread_mutex_lock(&td2.start_mutex));
-	CHECK_ZERO(pthread_mutex_lock(&td1.end_mutex));
-	CHECK_ZERO(pthread_mutex_lock(&td2.end_mutex));
-	CHECK_ZERO(pthread_create(&t1, NULL, doit, &td1));
-	CHECK_ZERO(pthread_create(&t2, NULL, doit, &td2));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&td1.start_mutex, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&td2.start_mutex, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&td1.end_mutex, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&td2.end_mutex, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.start_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.start_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.end_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.end_mutex));
+	CHECK_ZERO_ERRNO(pthread_create(&t1, NULL, doit, &td1));
+	CHECK_ZERO_ERRNO(pthread_create(&t2, NULL, doit, &td2));
 
 	// wait for the threads to be initialized, if we got the lock then they are...
-	CHECK_ZERO(pthread_mutex_lock(&td1.start_mutex));
-	CHECK_ZERO(pthread_mutex_lock(&td2.start_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.start_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.start_mutex));
 
 	// now that both threads have set their name, show the threads with their names...
 	my_system("ps -p %d -L", getpid());
 	// let the threads die (if we do not unlock they will wait forever...)
-	CHECK_ZERO(pthread_mutex_unlock(&td1.end_mutex));
-	CHECK_ZERO(pthread_mutex_unlock(&td2.end_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td1.end_mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td2.end_mutex));
 	// join the theads so that everything will be clean...
-	CHECK_ZERO(pthread_join(t1, NULL));
-	CHECK_ZERO(pthread_join(t2, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(t1, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(t2, NULL));
 	return EXIT_SUCCESS;
 }

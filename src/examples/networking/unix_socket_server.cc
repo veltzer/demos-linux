@@ -31,7 +31,7 @@
 #include <pthread.h>	// for pthread_create(3)
 #include <sys/un.h>	// for sockaddr_un
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO_ERRNO()
 #include <network_utils.h>	// for get_backlog()
 
 /*
@@ -106,7 +106,7 @@ int main(int argc, char** argv, char** envp) {
 		// spawn a thread to handle the connection to that client...
 		pthread_t thread;
 		int* p=new int(fd);
-		CHECK_ZERO(pthread_create(&thread, NULL, worker, p));
+		CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
 	}
 	return EXIT_SUCCESS;
 }

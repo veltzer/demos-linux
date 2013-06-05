@@ -24,7 +24,7 @@
 #include <unistd.h>	// for sysconf(3), usleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This is a solution to the readers/writer lock exercise.
@@ -43,8 +43,8 @@ typedef struct _mypthread_rwlock_t {
 } mypthread_rwlock_t;
 
 int mypthread_rwlock_init(mypthread_rwlock_t* lock) {
-	CHECK_ZERO(pthread_cond_init(&lock->mycond, NULL));
-	CHECK_ZERO(pthread_mutex_init(&lock->mymutex, NULL));
+	CHECK_ZERO_ERRNO(pthread_cond_init(&lock->mycond, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&lock->mymutex, NULL));
 	lock->readers=0;
 	lock->writers=0;
 	lock->readers_waiting=0;
@@ -52,44 +52,44 @@ int mypthread_rwlock_init(mypthread_rwlock_t* lock) {
 	return 0;
 }
 int mypthread_rwlock_destroy(mypthread_rwlock_t* lock) {
-	CHECK_ZERO(pthread_cond_destroy(&lock->mycond));
-	CHECK_ZERO(pthread_mutex_destroy(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_cond_destroy(&lock->mycond));
+	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&lock->mymutex));
 	return 0;
 }
 int mypthread_rwlock_rdlock(mypthread_rwlock_t* lock) {
-	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&lock->mymutex));
 	lock->readers_waiting++;
 	while(lock->writers>0) {
-		CHECK_ZERO(pthread_cond_wait(&lock->mycond, &lock->mymutex));
+		CHECK_ZERO_ERRNO(pthread_cond_wait(&lock->mycond, &lock->mymutex));
 	}
 	lock->readers++;
 	lock->readers_waiting--;
-	CHECK_ZERO(pthread_mutex_unlock(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&lock->mymutex));
 	return 0;
 }
 int mypthread_rwlock_wrlock(mypthread_rwlock_t* lock) {
-	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&lock->mymutex));
 	lock->writers_waiting++;
 	while(lock->readers>0 || lock->writers>0) {
-		CHECK_ZERO(pthread_cond_wait(&lock->mycond, &lock->mymutex));
+		CHECK_ZERO_ERRNO(pthread_cond_wait(&lock->mycond, &lock->mymutex));
 	}
 	lock->writers++;
 	lock->writers_waiting--;
-	CHECK_ZERO(pthread_mutex_unlock(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&lock->mymutex));
 	return 0;
 }
 int mypthread_rwlock_unlock(mypthread_rwlock_t* lock) {
-	CHECK_ZERO(pthread_mutex_lock(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&lock->mymutex));
 	if(lock->readers) {
 		// I am a reader
 		lock->readers--;
-		CHECK_ZERO(pthread_cond_broadcast(&lock->mycond));
+		CHECK_ZERO_ERRNO(pthread_cond_broadcast(&lock->mycond));
 	} else {
 		// I am a writer
 		lock->writers--;
-		CHECK_ZERO(pthread_cond_broadcast(&lock->mycond));
+		CHECK_ZERO_ERRNO(pthread_cond_broadcast(&lock->mycond));
 	}
-	CHECK_ZERO(pthread_mutex_unlock(&lock->mymutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&lock->mymutex));
 	return 0;
 }
 
@@ -153,12 +153,12 @@ int main(int argc, char** argv, char** envp) {
 		tds[i].reader=(i%2==0);
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
-		CHECK_ZERO(pthread_attr_init(attrs+i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
-		CHECK_ZERO(pthread_create(threads+i, attrs+i, worker, tds+i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs+i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
+		CHECK_ZERO_ERRNO(pthread_create(threads+i, attrs+i, worker, tds+i));
 	}
 	for(int i=0; i<thread_num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	CHECK_ZERO(mypthread_rwlock_destroy(&lock));
 	delete threads;

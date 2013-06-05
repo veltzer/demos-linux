@@ -25,7 +25,7 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 #include "shared.h"	// for the ioctl codes
 
 /*
@@ -64,13 +64,13 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_INIT, NULL));
 
 	pthread_t thread_wait1, thread_wait2;
-	CHECK_ZERO(pthread_create(&thread_wait1, NULL, wait_function, NULL));
-	CHECK_ZERO(pthread_create(&thread_wait2, NULL, wait_function, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread_wait1, NULL, wait_function, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread_wait2, NULL, wait_function, NULL));
 	waitkey("press any key to wake the thread up");
 	// waking the thread
 	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_COMPLETE_ALL, NULL));
-	CHECK_ZERO(pthread_join(thread_wait1, NULL));
-	CHECK_ZERO(pthread_join(thread_wait2, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread_wait1, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread_wait2, NULL));
 	CHECK_NOT_M1(close(fd));
 	return(0);
 }

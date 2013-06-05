@@ -26,7 +26,7 @@
 #include <sys/types.h>	// for gettid(2)
 #include <sys/syscall.h>// for syscall(2)
 #include <strings.h>	// for bzero(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This test shows how to test for bad stack state (distance from
@@ -37,10 +37,10 @@
 
 void check_stack() {
 	pthread_attr_t at;
-	CHECK_ZERO(pthread_getattr_np(pthread_self(), &at));
+	CHECK_ZERO_ERRNO(pthread_getattr_np(pthread_self(), &at));
 	void* stackaddr;
 	size_t stacksize;
-	CHECK_ZERO(pthread_attr_getstack(&at, &stackaddr, &stacksize));
+	CHECK_ZERO_ERRNO(pthread_attr_getstack(&at, &stackaddr, &stacksize));
 	void* myaddr=&at;
 	unsigned int diff=(char*)myaddr-(char*)stackaddr;
 	if(diff<stacksize*0.2) {
@@ -57,7 +57,7 @@ void check_stack() {
 		fprintf(stderr, "\n");
 		exit(-1);
 	}
-	CHECK_ZERO(pthread_attr_destroy(&at));
+	CHECK_ZERO_ERRNO(pthread_attr_destroy(&at));
 }
 
 typedef struct big_struct {
@@ -78,7 +78,7 @@ void* doit(void*) {
 
 int main(int argc, char** argv, char** envp) {
 	pthread_t t;
-	CHECK_ZERO(pthread_create(&t, NULL, doit, NULL));
-	CHECK_ZERO(pthread_join(t, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&t, NULL, doit, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(t, NULL));
 	return EXIT_SUCCESS;
 }

@@ -25,7 +25,7 @@
 #include <pthread.h>
 #include <unistd.h>	// for sleep(3)
 #include <strings.h>	// for bzero(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This is an example of setting thread stack sizes
@@ -69,15 +69,15 @@ int main(int argc, char** argv, char** envp) {
 	fprintf(stderr, "main starting\n");
 	for(int i=0; i<num; i++) {
 		ids[i]=i;
-		CHECK_ZERO(pthread_attr_init(attrs+i));
-		CHECK_ZERO(pthread_attr_setstacksize(attrs+i, (i+1)*1024*1024));
-		CHECK_ZERO(pthread_create(threads + i, attrs+i, worker, ids + i));
-		CHECK_ZERO(pthread_attr_destroy(attrs+i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs+i));
+		CHECK_ZERO_ERRNO(pthread_attr_setstacksize(attrs+i, (i+1)*1024*1024));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs+i, worker, ids + i));
+		CHECK_ZERO_ERRNO(pthread_attr_destroy(attrs+i));
 		CHECK_ZERO(sleep(5));
 	}
 	fprintf(stderr, "main ended creating threads\n");
 	for(int i=0; i<num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets + i));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	fprintf(stderr, "main ended\n");
 	return EXIT_SUCCESS;

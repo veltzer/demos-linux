@@ -23,7 +23,7 @@
 #include <unistd.h>	// for sleep(3), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <sched.h>	// for sched_getcpu(2)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE(), gettid(2)
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE(), gettid(2)
 
 /*
  * This is a standard pthread demo
@@ -52,11 +52,11 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("main starting");
 	for(int i=0; i<num; i++) {
 		ids[i]=i;
-		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("main ended creating threads");
 	for (int i=0; i < num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets + i));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");
 	return EXIT_SUCCESS;

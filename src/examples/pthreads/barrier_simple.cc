@@ -23,7 +23,7 @@
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_barrier_t, pthread_create(3)
 #include <unistd.h>	// for sysconf(3), usleep(3), sleep(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(3)
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_ONEOFTWO(), INFO(), CHECK_NOT_M1(), print_cpu_set()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_ONEOFTWO(), INFO(), CHECK_NOT_M1(), print_cpu_set()
 
 /*
  * This demo shows off pthread barriers which are a way to synchronize a number of threads.
@@ -73,7 +73,7 @@ int main(int argc, char** argv, char** envp) {
 	void** rets=new void*[thread_num];
 	pthread_barrier_t bar;
 
-	CHECK_ZERO(pthread_barrier_init(&bar, NULL, thread_num));
+	CHECK_ZERO_ERRNO(pthread_barrier_init(&bar, NULL, thread_num));
 	INFO("start creating threads");
 	for(int i=0; i<thread_num; i++) {
 		data[i].num=i;
@@ -84,19 +84,19 @@ int main(int argc, char** argv, char** envp) {
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
 		// print_cpu_set(stderr,cpu_sets + i);
-		CHECK_ZERO(pthread_attr_init(attrs + i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
-		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, data + i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, data + i));
 	}
 	// give the threads a chance to print their start messages
 	CHECK_NOT_M1(usleep(1000));
 	INFO("created threads");
 	INFO("joining threads");
 	for(int i=0; i<thread_num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets+i));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets+i));
 	}
 	INFO("joined threads");
-	CHECK_ZERO(pthread_barrier_destroy(&bar));
+	CHECK_ZERO_ERRNO(pthread_barrier_destroy(&bar));
 	INFO("ended");
 	return EXIT_SUCCESS;
 }

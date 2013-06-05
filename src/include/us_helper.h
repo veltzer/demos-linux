@@ -527,8 +527,8 @@ static inline void* run_high_priority(void* (*func)(void*), void* pval, int prio
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
 	pthread_attr_setschedparam(&myattr, &myparam);
-	CHECK_ZERO(pthread_create(&mythread, &myattr, func, pval));
-	CHECK_ZERO(pthread_join(mythread, &retval));
+	CHECK_ZERO_ERRNO(pthread_create(&mythread, &myattr, func, pval));
+	CHECK_ZERO_ERRNO(pthread_join(mythread, &retval));
 	return retval;
 }
 const int STANDARD_LOW_PRIORITY=1;
@@ -585,8 +585,8 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
  */
 static inline void mypthread_attr_getstack(void** stackaddr, size_t* stacksize) {
 	pthread_attr_t at;
-	CHECK_ZERO(pthread_getattr_np(pthread_self(), &at));
-	CHECK_ZERO(pthread_attr_getstack(&at, stackaddr, stacksize));
+	CHECK_ZERO_ERRNO(pthread_getattr_np(pthread_self(), &at));
+	CHECK_ZERO_ERRNO(pthread_attr_getstack(&at, stackaddr, stacksize));
 }
 
 /*

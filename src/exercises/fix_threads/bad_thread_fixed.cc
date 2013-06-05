@@ -23,7 +23,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, rand(3), srand(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 #include <time.h>	// for time(2)
 
 /*
@@ -50,13 +50,13 @@ int main(int argc, char** argv, char** envp) {
 	srand(time(NULL));
 	for(int i=0; i<NUM_THREADS; i++) {
 		t[i]=i;
-		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *) &t[i]));
+		CHECK_ZERO_ERRNO(pthread_create(&threads[i], NULL, PrintHello, (void *) &t[i]));
 	}
 	for(int i=0; i<NUM_THREADS; i++) {
 		stime=1+(int) (10.0*rand()/(RAND_MAX+1.0));
 		CHECK_ZERO(sleep(stime));
 		void* cretval;
-		CHECK_ZERO(pthread_join(threads[i], &cretval));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], &cretval));
 		retval[i]=(unsigned long)cretval;
 		printf("thread returned value %zd\n", retval[i]);
 	}

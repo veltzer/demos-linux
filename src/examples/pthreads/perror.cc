@@ -26,7 +26,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This is a demo which shows that perror, errno etc all work on a thread
@@ -66,9 +66,9 @@ int main(int argc, char** argv, char** envp) {
 	int ids[num];
 	void* rets[num];
 
-	CHECK_ZERO(pthread_create(&thread1, NULL, worker1, ids + 0));
-	CHECK_ZERO(pthread_create(&thread2, NULL, worker2, ids + 1));
-	CHECK_ZERO(pthread_join(thread1, rets + 0));
-	CHECK_ZERO(pthread_join(thread2, rets + 1));
+	CHECK_ZERO_ERRNO(pthread_create(&thread1, NULL, worker1, ids + 0));
+	CHECK_ZERO_ERRNO(pthread_create(&thread2, NULL, worker2, ids + 1));
+	CHECK_ZERO_ERRNO(pthread_join(thread1, rets + 0));
+	CHECK_ZERO_ERRNO(pthread_join(thread2, rets + 1));
 	return EXIT_SUCCESS;
 }

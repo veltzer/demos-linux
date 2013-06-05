@@ -25,7 +25,7 @@
 #include <unistd.h>	// for sysconf(3), usleep(3), getopt_long(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(2)
 #include <getopt.h>	// for struct option
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), TRACE(), print_cpu_set(), micro_diff()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1(), TRACE(), print_cpu_set(), micro_diff()
 
 /*
  * This demo shows the difference in speed of running two threads using the same cache line
@@ -169,17 +169,17 @@ int main(int argc, char** argv, char** envp) {
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(atoi(argv[optind+i]), cpu_sets+i);
 		// print_cpu_set(stderr,cpu_sets + i);
-		CHECK_ZERO(pthread_attr_init(attrs + i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		if(i==thread_num-1 && doObserver) {
-			CHECK_ZERO(pthread_create(threads + i, attrs + i, observer, data + i));
+			CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, observer, data + i));
 		} else {
 			switch(type) {
 			case 0:
-				CHECK_ZERO(pthread_create(threads + i, attrs + i, shared_worker, data + i));
+				CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, shared_worker, data + i));
 				break;
 			case 1:
-				CHECK_ZERO(pthread_create(threads + i, attrs + i, nonshared_worker, data + i));
+				CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, nonshared_worker, data + i));
 				break;
 			default:
 				fprintf(stderr, "bad type of thread (%d)\n", type);
@@ -194,7 +194,7 @@ int main(int argc, char** argv, char** envp) {
 	 * - time all of this.
 	 */
 	for(int i=0; i<real_threads; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets+i));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets+i));
 	}
 	gettimeofday(&t2, NULL);
 	printf("time in micro: %lf\n", micro_diff(&t1, &t2));
