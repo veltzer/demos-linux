@@ -35,11 +35,11 @@
 
 const unsigned int size=1000000;
 // first example
-// int myarray[size]={ 0 };
+int myarray[size]={ 0 };
 // second example
 // int myarray[size];
 // third example
-int myarray[size]={ 3 };
+// int myarray[size]={ 3 };
 
 int main(int argc, char** argv, char** envp) {
 	unsigned int sum=0;

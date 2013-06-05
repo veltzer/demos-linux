@@ -68,8 +68,11 @@ ifeq ($(OPT),1)
 CXXFLAGS:=$(CXXFLAGS) -O2
 CFLAGS:=$(CFLAGS) -O2
 endif
-CXXFLAGS:=$(CXXFLAGS) -Wall -Werror -I$(US_INCLUDE)
-CFLAGS:=$(CFLAGS) -Wall -Werror -I$(US_INCLUDE)
+WARN_FLAGS:=-Wall -Werror
+#WARN_FLAGS:=-Wall -Werror -pedantic
+#WARN_FLAGS:=-Wall -Wextra -Werror
+CXXFLAGS:=$(CXXFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
+CFLAGS:=$(CFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 
 # dependency on the makefile itself
 ifeq ($(DO_ALL_DEPS),1)
@@ -370,8 +373,20 @@ check_perror:
 check_fixme:
 	$(info doing [$@])
 	@scripts/wrapper_noerr.py git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_while1
+check_while1:
+	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_usage
+check_usage:
+	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_pthread
+check_pthread:
+	$(info doing [$@])
+	@scripts/wrapper_noerr.py git grep -l "CHECK_ZERO\(pthread" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread
 
 .PHONY: check_dots
 check_dots:
@@ -471,12 +486,12 @@ format_uncrustify: $(ALL_DEPS)
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l CPP $(ALL_US_CC)
 .PHONY: format_astyle
 format_astyle: $(ALL_DEPS)
-	$(error disabled by Mark)
+	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
 .PHONY: format_indent
 format_indent: $(ALL_DEPS)
-	$(error disabled by Mark)
+	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)indent $(ALL_US)
 

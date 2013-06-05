@@ -47,9 +47,11 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 
 		case ':':
 			ACE_ERROR_RETURN ((LM_ERROR, ACE_TEXT("-%c requires an argument\n"), cmd_opts.opt_opt()), -1);
+			break;
 
 		default:
 			ACE_ERROR_RETURN ((LM_ERROR, ACE_TEXT("Parse error.\n")), -1);
+			break;
 		}
 	}
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("Config file is %s\n"), config_file));

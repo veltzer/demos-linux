@@ -55,7 +55,7 @@ double my_double_func(double a, double b) __attribute__((noinline));
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "usage %s [float] [double]\n", argv[0]);
+		fprintf(stderr, "%s: usage %s [float] [double]\n", argv[0], argv[0]);
 		return -1;
 	}
 	// a float and double which will NEVER be optimized away by the compiler

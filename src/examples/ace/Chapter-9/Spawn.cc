@@ -169,6 +169,7 @@ public:
 				return(str);
 			}
 		}
+		return NULL;
 	}
 };
 

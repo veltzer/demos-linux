@@ -21,5 +21,8 @@
 #include <firstinclude.h>
 #include "c.h"
 
+C::~C(void) {
+}
+
 void C::zoo(void) {
 }

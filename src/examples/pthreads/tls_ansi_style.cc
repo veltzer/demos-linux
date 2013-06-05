@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This is a demo of thread local storage using gcc __thread storage modifier.
@@ -46,11 +46,11 @@ int main(int argc, char** argv, char** envp) {
 	for(unsigned int i=0; i<num; i++) {
 		int* p=new int(i);
 		TRACE("allocated %p", p);
-		CHECK_ZERO(pthread_create(threads + i, NULL, worker, p));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
 	}
 	TRACE("created threads, now joining...");
 	for(unsigned int i=0; i<num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	TRACE("end");
 	return EXIT_SUCCESS;

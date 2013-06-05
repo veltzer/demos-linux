@@ -22,7 +22,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_t
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This example shows how to exit threads (pthread_exit and return
@@ -51,12 +51,12 @@ int main(int argc, char** argv, char** envp) {
 	}
 	// start all threads giving each it's input
 	for(int i=0; i<NUM_THREADS; i++) {
-		CHECK_ZERO(pthread_create(&threads[i], NULL, PrintHello, (void *)(t+i)));
+		CHECK_ZERO_ERRNO(pthread_create(&threads[i], NULL, PrintHello, (void *)(t+i)));
 	}
 	// wait for all threads to finish, order does not matter
 	for(int i=0; i<NUM_THREADS; i++) {
 		void* retval;
-		CHECK_ZERO(pthread_join(threads[i], &retval));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], &retval));
 		printf("thread %d returned value %p\n", i, retval);
 	}
 	return EXIT_SUCCESS;

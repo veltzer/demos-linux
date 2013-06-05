@@ -24,7 +24,7 @@
 #include <sys/socket.h>	// for socket(2), recv(2), connect(2), send(2), inet_addr(3)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for printf(3), atoi(3), snprintf(3)
-#include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS
 #include <unistd.h>	// for close(2)
 #include <sys/un.h>	// for sockaddr_un
 #include <string.h>	// for strlen(3)
@@ -40,8 +40,8 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=4) {
-		fprintf(stderr, "usage: %s [host] [port] [file]\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: usage: %s [host] [port] [file]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);

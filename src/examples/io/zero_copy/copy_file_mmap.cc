@@ -30,24 +30,24 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 /*
- * This example shows a more efficient copy of file in israel.
+ * This example shows a more efficient copy of file using mmap.
  */
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "usage: %s [infile] [outfile]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [infile] [outfile]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	int source=CHECK_NOT_M1(open(filein, O_RDONLY));
+	int source=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE));
 	struct stat statbuf;
 	fstat (source, &statbuf);
 	size_t len=statbuf.st_size;
-	int target=CHECK_NOT_M1(open(fileout, O_RDWR|O_CREAT, statbuf.st_mode));
+	int target=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_LARGEFILE, statbuf.st_mode));
 	CHECK_NOT_M1(ftruncate(target, len));
-	void* src=CHECK_NOT_VOIDP(mmap(0, len, PROT_READ, MAP_PRIVATE, source, 0), MAP_FAILED);
-	void* dest=CHECK_NOT_VOIDP(mmap(0, len, PROT_READ|PROT_WRITE, MAP_SHARED, target, 0), MAP_FAILED);
+	void* src=CHECK_NOT_VOIDP(mmap(NULL, len, PROT_READ, MAP_PRIVATE, source, 0), MAP_FAILED);
+	void* dest=CHECK_NOT_VOIDP(mmap(NULL, len, PROT_READ|PROT_WRITE, MAP_SHARED, target, 0), MAP_FAILED);
 	CHECK_NOT_M1(close(source));
 	CHECK_NOT_M1(close(target));
 	memcpy(dest, src, len);

@@ -23,7 +23,7 @@
 #include <unistd.h>	// for fork(2), _exit(2), sleep(3)
 #include <sys/wait.h>	// for waitpid(2)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO()
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
 
 /*
  * EXTRA_LINK_FLAGS=-lpthread
@@ -81,11 +81,11 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("before pthread_create");
 	for(int i=0; i<num; i++) {
 		ids[i]=i;
-		CHECK_ZERO(pthread_create(threads+i, NULL, worker, ids+i));
+		CHECK_ZERO_ERRNO(pthread_create(threads+i, NULL, worker, ids+i));
 	}
 	TRACE("created threads");
 	for (int i=0; i < num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets + i));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("end");
 	return EXIT_SUCCESS;

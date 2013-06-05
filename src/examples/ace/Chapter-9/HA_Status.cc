@@ -58,9 +58,11 @@ int HA_Status::init(int argc, ACE_TCHAR *argv[]) {	// Do ACE_Get_Opt and get con
 
 		case ':':
 			ACE_ERROR_RETURN ((LM_ERROR, ACE_TEXT("-%c requires an argument\n"), cmd_opts.opt_opt()), -1);
+			break;
 
 		default:
 			ACE_ERROR_RETURN ((LM_ERROR, ACE_TEXT("Parse error.\n")), -1);
+			break;
 		}
 	}
 	ACE_Configuration_Heap config;

@@ -26,7 +26,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 #include "shared.h"	// for ioctl numbers
 
 /*
@@ -122,14 +122,14 @@ int main(int argc, char** argv, char** envp) {
 	fd2=CHECK_NOT_M1(open(filename, O_RDWR));
 
 	pthread_t thread_empty, thread_short, thread_long, thread_close;
-	CHECK_ZERO(pthread_create(&thread_empty, NULL, function_empty, NULL));
-	CHECK_ZERO(pthread_create(&thread_short, NULL, function_short, NULL));
-	CHECK_ZERO(pthread_create(&thread_long, NULL, function_long, NULL));
-	CHECK_ZERO(pthread_create(&thread_close, NULL, function_close, NULL));
-	CHECK_ZERO(pthread_join(thread_empty, NULL));
-	CHECK_ZERO(pthread_join(thread_short, NULL));
-	CHECK_ZERO(pthread_join(thread_long, NULL));
-	CHECK_ZERO(pthread_join(thread_close, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread_empty, NULL, function_empty, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread_short, NULL, function_short, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread_long, NULL, function_long, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread_close, NULL, function_close, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread_empty, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread_short, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread_long, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread_close, NULL));
 	// CHECK_NOT_M1(close(fd));
 	CHECK_NOT_M1(close(fd2));
 	fprintf(stdout, "\nALL DONE\n");

@@ -20,13 +20,14 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <sys/sendfile.h>	// for senffile(2)
 #include <unistd.h>	// getpagesize(2)
 #include <us_helper.h>	// for CHECK_NOT_M1()
+#include <limits.h>	// for INT_MAX
 
 /*
  * This demos shows how to use sendfile(2) to avoid copy to/from user space.
@@ -45,18 +46,17 @@
  */
 
 void copy_file(const char* filein, const char* fileout) {
-	size_t sendfile_bufsize=getpagesize();
-	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY, 0666));
-	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
+	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY | O_LARGEFILE, 0666));
+	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC | O_LARGEFILE, 0666));
 	// this is the main copy loop
 	// we go out of the loop because of error or eof
 	// >0: would have kept us in the loop
 	// =0: that is ok - it is end of file
 	// -1: error
 	// we need the return value outside the loop
-	int ret=CHECK_NOT_M1(sendfile(fdout, fdin, NULL, sendfile_bufsize));
+	ssize_t ret=CHECK_NOT_M1(sendfile(fdout, fdin, NULL, INT_MAX));
 	while(ret>0) {
-		ret=CHECK_NOT_M1(sendfile(fdout, fdin, NULL, sendfile_bufsize));
+		ret=CHECK_NOT_M1(sendfile(fdout, fdin, NULL, INT_MAX));
 	}
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
@@ -64,7 +64,7 @@ void copy_file(const char* filein, const char* fileout) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "usage: %s [infile] [outfile]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [infile] [outfile]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];

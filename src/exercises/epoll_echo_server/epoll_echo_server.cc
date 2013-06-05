@@ -25,11 +25,9 @@
 #include <sys/types.h>	// for accept4(2)
 #include <sys/socket.h>	// for accept4(2)
 #include <netinet/in.h>	// for sockaddr_in
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE()
-#include <sys/types.h>	// for open(2)
-#include <sys/stat.h>	// for open(2)
-#include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2), close(2), write(2)
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
+#include <network_utils.h>	// for get_backlog()
 
 /*
  * This is a solution to the echo server exercise.
@@ -47,17 +45,6 @@
  * - check what happens when we write large amounts of data to the output. Will the async write come up
  * short?
  */
-
-int get_backlog() {
-	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename="/proc/sys/net/core/somaxconn";
-	const unsigned int size=256;
-	char buf[size];
-	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
-	CHECK_NOT_M1(read(fd, buf, size));
-	CHECK_NOT_M1(close(fd));
-	return atoi(buf);
-}
 
 void print_events(char* buffer, size_t size, uint32_t events) {
 	char* p=buffer;
@@ -106,7 +93,7 @@ void print_events(char* buffer, size_t size, uint32_t events) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
-		fprintf(stderr, "usage: %s [host] [port]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* host=argv[1];
@@ -156,8 +143,9 @@ int main(int argc, char** argv, char** envp) {
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {
+			int currfd=events[n].data.fd;
 			// someone is trying to connect
-			if(events[n].data.fd==sockfd) {
+			if(currfd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen;
 				int conn_sock=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
@@ -167,22 +155,20 @@ int main(int argc, char** argv, char** envp) {
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
 			} else {
 				// TRACE("got activity on fd %d", events[n].data.fd);
-				char printbuff[1024];
-				print_events(printbuff, 1024, events[n].events);
+				// char printbuff[1024];
+				// print_events(printbuff, 1024, events[n].events);
 				// TRACE("got events %s", printbuff);
 				if(events[n].events & EPOLLRDHUP) {
-					int fd=events[n].data.fd;
 					// TRACE("closing the fd %d", fd);
-					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL));
-					CHECK_NOT_M1(close(fd));
+					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, currfd, NULL));
+					CHECK_NOT_M1(close(currfd));
 				} else {
 					if(events[n].events & EPOLLIN) {
 						const int buflen=1024;
 						char buffer[buflen];
-						int fd=events[n].data.fd;
-						ssize_t len=CHECK_NOT_M1(read(fd, buffer, buflen));
+						ssize_t len=CHECK_NOT_M1(read(currfd, buffer, buflen));
 						// TODO: handle short writes!
-						CHECK_INT(write(fd, buffer, len), len);
+						CHECK_INT(write(currfd, buffer, len), len);
 						// TRACE("read %zd bytes and wrote %zd bytes", len, ret);
 					}
 				}

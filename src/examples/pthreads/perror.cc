@@ -25,7 +25,8 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This is a demo which shows that perror, errno etc all work on a thread
@@ -34,44 +35,40 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 void *worker1(void *p) {
-	fprintf(stderr, "worker1 starting thread\n");
-	fprintf(stderr, "test 1: with no error\n");
+	TRACE("worker1 starting thread");
+	TRACE("test 1: with no error");
 	int err=errno;
-	fprintf(stderr, "errno is %d (%s)\n", err, strerror(err));
-	fprintf(stderr, "test 2: doing something illegal\n");
+	TRACE("errno is %d (%s)", err, strerror(err));
+	TRACE("test 2: doing something illegal");
 	open("/etc/nonexistant", O_RDWR);
 	err=errno;
-	fprintf(stderr, "errno is %d (%s)\n", err, strerror(err));
-	fprintf(stderr, "test 3: setting error myself\n");
+	TRACE("errno is %d (%s)", err, strerror(err));
+	TRACE("test 3: setting error myself");
 	errno=3;
 	err=3;
 	perror("msg from perror");
-	fprintf(stderr, "errno is %d (%s)\n", err, strerror(err));
-	fprintf(stderr, "worker1 ending thread\n");
+	TRACE("errno is %d (%s)", err, strerror(err));
+	TRACE("worker1 ending thread");
 	return(NULL);
 }
 
 void *worker2(void *p) {
-	fprintf(stderr, "worker2 starting thread\n");
-	fprintf(stderr, "errno is %d\n", errno);
+	TRACE("worker2 starting thread");
+	TRACE("errno is %d", errno);
 	perror("printing perror");
-	fprintf(stderr, "worker2 ending thread\n");
+	TRACE("worker2 ending thread");
 	return(NULL);
 }
 
 int main(int argc, char** argv, char** envp) {
-	pthread_t thread1;
-	pthread_t thread2;
+	pthread_t thread1, thread2;
 	const int num=2;
 	int ids[num];
 	void* rets[num];
 
-	fprintf(stderr, "main starting\n");
-	CHECK_ZERO(pthread_create(&thread1, NULL, worker1, ids + 0));
-	CHECK_ZERO(pthread_create(&thread2, NULL, worker2, ids + 1));
-	fprintf(stderr, "main ended creating threads\n");
-	CHECK_ZERO(pthread_join(thread1, rets + 0));
-	CHECK_ZERO(pthread_join(thread1, rets + 1));
-	fprintf(stderr, "main ended\n");
+	CHECK_ZERO_ERRNO(pthread_create(&thread1, NULL, worker1, ids + 0));
+	CHECK_ZERO_ERRNO(pthread_create(&thread2, NULL, worker2, ids + 1));
+	CHECK_ZERO_ERRNO(pthread_join(thread1, rets + 0));
+	CHECK_ZERO_ERRNO(pthread_join(thread2, rets + 1));
 	return EXIT_SUCCESS;
 }

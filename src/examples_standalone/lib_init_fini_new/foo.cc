@@ -28,7 +28,7 @@ void foo_init(void) __attribute__((constructor));
 void foo_init105(void) {
 	TRACE("start");
 }
-void foo_init105(void) __attribute__((constructor(105)));
+void foo_init105(void) __attribute__((constructor(105), unused));
 void foo_init104(void) {
 	TRACE("start");
 }

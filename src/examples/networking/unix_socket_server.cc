@@ -30,7 +30,9 @@
 #include <unistd.h>	// for read(2), close(2), unlink(2)
 #include <pthread.h>	// for pthread_create(3)
 #include <sys/un.h>	// for sockaddr_un
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO()
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO_ERRNO()
+#include <network_utils.h>	// for get_backlog()
 
 /*
  * This is a unix socket server demo.
@@ -40,17 +42,6 @@
  */
 
 const char* filename="/tmp/myunixsocket";
-
-int get_backlog() {
-	// read the data from the /proc/sys/net/core/somaxconn virtual file...
-	const char* filename="/proc/sys/net/core/somaxconn";
-	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
-	const unsigned int size=256;
-	char buf[size];
-	CHECK_NOT_M1(read(fd, buf, size));
-	CHECK_NOT_M1(close(fd));
-	return atoi(buf);
-}
 
 void *worker(void* arg) {
 	int fd=*((int*)arg);
@@ -76,8 +67,8 @@ void *worker(void* arg) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=1) {
-		fprintf(stderr, "usage: %s\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_UNIX, SOCK_STREAM, 0));
@@ -115,7 +106,7 @@ int main(int argc, char** argv, char** envp) {
 		// spawn a thread to handle the connection to that client...
 		pthread_t thread;
 		int* p=new int(fd);
-		CHECK_ZERO(pthread_create(&thread, NULL, worker, p));
+		CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
 	}
 	return EXIT_SUCCESS;
 }

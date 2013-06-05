@@ -23,7 +23,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_spin_init(3), pthread_spin_destroy(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_attr_init(3), pthread_attr_setaffinity_np(3)
 #include <unistd.h>	// for sysconf(3), sleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This is a demo for using pthread spin locks...
@@ -42,7 +42,7 @@ void *worker(void *p) {
 	fprintf(pfile, "starting thread %d\n", num);
 	int success=0;
 	while(success<loops) {
-		CHECK_ZERO(pthread_spin_lock(&lock));
+		CHECK_ZERO_ERRNO(pthread_spin_lock(&lock));
 		if(counter%cpu_num==num) {
 			fprintf(pfile, "thread %d caught lock\n", num);
 			CHECK_ZERO(sleep(1));
@@ -50,7 +50,7 @@ void *worker(void *p) {
 			success++;
 			fprintf(pfile, "thread %d released lock\n", num);
 		}
-		CHECK_ZERO(pthread_spin_unlock(&lock));
+		CHECK_ZERO_ERRNO(pthread_spin_unlock(&lock));
 	}
 	fprintf(pfile, "ending thread %d\n", num);
 	return(NULL);
@@ -64,20 +64,20 @@ int main(int argc, char** argv, char** envp) {
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
 
 	fprintf(pfile, "main starting\n");
-	CHECK_ZERO(pthread_spin_init(&lock, PTHREAD_PROCESS_PRIVATE));
+	CHECK_ZERO_ERRNO(pthread_spin_init(&lock, PTHREAD_PROCESS_PRIVATE));
 	for(int i=0; i<thread_num; i++) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
-		CHECK_ZERO(pthread_attr_init(attrs+i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
-		CHECK_ZERO(pthread_create(threads+i, attrs+i, worker, ids+i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs+i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
+		CHECK_ZERO_ERRNO(pthread_create(threads+i, attrs+i, worker, ids+i));
 	}
 	fprintf(pfile, "main ended creating threads\n");
 	for(int i=0; i<thread_num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
-	CHECK_ZERO(pthread_spin_destroy(&lock));
+	CHECK_ZERO_ERRNO(pthread_spin_destroy(&lock));
 	delete threads;
 	delete attrs;
 	delete ids;

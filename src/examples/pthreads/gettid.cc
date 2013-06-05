@@ -22,7 +22,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <sys/types.h>	// for gettid(2), getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <us_helper.h>	// for TRACE()
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
 
 /*
  * This demo explored gettid() and getpid() issues on linux
@@ -52,9 +52,9 @@ void* doit(void*) {
 int main(int argc, char** argv, char** envp) {
 	report();
 	pthread_t t1, t2;
-	CHECK_ZERO(pthread_create(&t1, NULL, doit, NULL));
-	CHECK_ZERO(pthread_create(&t2, NULL, doit, NULL));
-	CHECK_ZERO(pthread_join(t1, NULL));
-	CHECK_ZERO(pthread_join(t2, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&t1, NULL, doit, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&t2, NULL, doit, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(t1, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(t2, NULL));
 	return EXIT_SUCCESS;
 }

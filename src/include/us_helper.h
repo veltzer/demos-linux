@@ -153,12 +153,16 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
  * and will throw an exception if any of them pops up.
  * I removed "throw new std::exception();" from the following functions.
  */
-static inline void handle_error(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
+static inline void handle_error(int replace_errno, int new_errno, int usebadval, int badval, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	// this is for pthread type errors
-	if(val!=0) {
-		errno=val;
+	if(replace_errno) {
+		errno=new_errno;
 	}
-	error_at_line(EXIT_FAILURE, errno, base_file, line, "function is %s, code is %s", function, msg);
+	if(usebadval) {
+		error_at_line(EXIT_FAILURE, errno, base_file, line, "function is %s, msg is %s, bad value is %d", function, msg, badval);
+	} else {
+		error_at_line(EXIT_FAILURE, errno, base_file, line, "function is %s, msg is %s", function, msg);
+	}
 
 	// old code follows
 	// int save_errno=errno;
@@ -174,109 +178,116 @@ static inline void handle_error(int val, const char* msg, const char* file, cons
 }
 static inline int check_zero(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=0)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
+	}
+	return val;
+}
+static inline int check_zero_errno(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
+	if(myunlikely(val!=0)) {
+		handle_error(1, val, 0, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_not_zero(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val==0)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_not_m1(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val==-1)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_1(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=1)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_not_negative(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val<0)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline void* check_not_null(void* val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val==NULL)) {
-		handle_error(0, msg, file, base_file, function, line);
+		handle_error(0, 0, 0, 0, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_oneoftwo(int val, const char* msg, int e1, int e2, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=e1 && val!=e2)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_assert(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(!val)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline void* check_not_voidp(void* val, const char *msg, void* errval, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val==errval)) {
-		handle_error(0, msg, file, base_file, function, line);
+		handle_error(0, 0, 0, 0, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline void* check_voidp(void* val, const char *msg, void* errval, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=errval)) {
-		handle_error(0, msg, file, base_file, function, line);
+		handle_error(0, 0, 0, 0, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline sighandler_t check_not_sigt(sighandler_t val, const char *msg, sighandler_t errval, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val==errval)) {
-		handle_error(0, msg, file, base_file, function, line);
+		handle_error(0, 0, 0, 0, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_int(int val, const char *msg, int expected, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=expected)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_not_int(int val, const char *msg, int expected, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val==expected)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline char* check_charp(char* val, const char *msg, char* expected, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val!=expected)) {
-		handle_error(0, msg, file, base_file, function, line);
+		handle_error(0, 0, 0, 0, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_in_range(int val, const char *msg, int min, int max, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val<min || val>=max)) {
 		fprintf(stderr, "val is %d, min is %d, max is %d\n", val, min, max);
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_positive(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val<=0)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 static inline int check_gezero(int val, const char* msg, const char* file, const char* base_file, const char* function, const int line) {
 	if(myunlikely(val<0)) {
-		handle_error(val, msg, file, base_file, function, line);
+		handle_error(0, 0, 1, val, msg, file, base_file, function, line);
 	}
 	return val;
 }
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v), __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ZERO_ERRNO(v) check_zero_errno(v, __stringify(v), __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_ZERO(v) check_not_zero(v, __stringify(v), __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v), __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
 #define CHECK_1(v) check_1(v, __stringify(v), __FILE__, __BASE_FILE__, __FUNCTION__, __LINE__)
@@ -516,8 +527,8 @@ static inline void* run_high_priority(void* (*func)(void*), void* pval, int prio
 	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
 	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
 	pthread_attr_setschedparam(&myattr, &myparam);
-	CHECK_ZERO(pthread_create(&mythread, &myattr, func, pval));
-	CHECK_ZERO(pthread_join(mythread, &retval));
+	CHECK_ZERO_ERRNO(pthread_create(&mythread, &myattr, func, pval));
+	CHECK_ZERO_ERRNO(pthread_join(mythread, &retval));
 	return retval;
 }
 const int STANDARD_LOW_PRIORITY=1;
@@ -574,8 +585,8 @@ static inline void register_handler_sigaction(int sig, sig_handler handler) {
  */
 static inline void mypthread_attr_getstack(void** stackaddr, size_t* stacksize) {
 	pthread_attr_t at;
-	CHECK_ZERO(pthread_getattr_np(pthread_self(), &at));
-	CHECK_ZERO(pthread_attr_getstack(&at, stackaddr, stacksize));
+	CHECK_ZERO_ERRNO(pthread_getattr_np(pthread_self(), &at));
+	CHECK_ZERO_ERRNO(pthread_attr_getstack(&at, stackaddr, stacksize));
 }
 
 /*

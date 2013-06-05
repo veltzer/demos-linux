@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This example creates a pthread_mutex which is a futex, grabs it and releases
@@ -52,27 +52,27 @@ int main(int argc, char** argv, char** envp) {
 
 	// this is creation of pthread using the init function...
 	// pthread_mutex_t mutex;
-	// CHECK_ZERO(pthread_mutex_init(&mutex,NULL));
+	// CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex,NULL));
 
 	// this is a shared mutex version
 	pthread_mutex_t mutex;
 	pthread_mutexattr_t attr;
-	CHECK_ZERO(pthread_mutexattr_init(&attr));
-	CHECK_ZERO(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED));
-	// CHECK_ZERO(pthread_mutexattr_setpshared(&attr,PTHREAD_PROCESS_PRIVATE));
-	CHECK_ZERO(pthread_mutex_init(&mutex, &attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_init(&attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED));
+	// CHECK_ZERO_ERRNO(pthread_mutexattr_setpshared(&attr,PTHREAD_PROCESS_PRIVATE));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex, &attr));
 
 	printf("before critical section\n");
-	CHECK_ZERO(pthread_mutex_lock(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex));
 	/*
 	 * printf("here is a bug...\n");
-	 * CHECK_ZERO(pthread_mutex_lock(&mutex));
+	 * CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex));
 	 */
 	// TRACE("mutex address is %p", &mutex);
 	printf("in critical section\n");
-	CHECK_ZERO(pthread_mutex_unlock(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex));
 	printf("after critical section\n");
-	CHECK_ZERO(pthread_mutex_destroy(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex));
 	// //TRACE("ended");
 	return EXIT_SUCCESS;
 }

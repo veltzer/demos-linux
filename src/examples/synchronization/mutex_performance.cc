@@ -26,7 +26,7 @@
 #include <sys/types.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/sem.h>	// for semget(3), semctl(3), semop(3)
-#include <us_helper.h>	// for micro_diff, CHECK_ZERO
+#include <us_helper.h>	// for micro_diff, CHECK_ZERO_ERRNO()
 
 /*
  * This demo shows the difference between regular pthread mutex (which is a
@@ -53,8 +53,8 @@ void measure(pthread_mutex_t* mutex, sem_t* sem, int semid, const char* name) {
 	gettimeofday(&t1, NULL);
 	for(unsigned int i=0; i < loop; i++) {
 		if(mutex) {
-			CHECK_ZERO(pthread_mutex_lock(mutex));
-			CHECK_ZERO(pthread_mutex_unlock(mutex));
+			CHECK_ZERO_ERRNO(pthread_mutex_lock(mutex));
+			CHECK_ZERO_ERRNO(pthread_mutex_unlock(mutex));
 		}
 		if(sem) {
 			CHECK_ZERO(sem_wait(sem));
@@ -104,16 +104,16 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO(sem_init(&sem_shared, 1, 1));
 
 	pthread_mutexattr_t attr;
-	CHECK_ZERO(pthread_mutexattr_init(&attr));
-	CHECK_ZERO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_FAST_NP));
-	CHECK_ZERO(pthread_mutex_init(&mutex_fast, &attr));
-	CHECK_ZERO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP));
-	CHECK_ZERO(pthread_mutex_init(&mutex_recursive, &attr));
-	CHECK_ZERO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK_NP));
-	CHECK_ZERO(pthread_mutex_init(&mutex_errorcheck, &attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_init(&attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_FAST_NP));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_fast, &attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_recursive, &attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK_NP));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_errorcheck, &attr));
 	run_high_priority(work, NULL, STANDARD_HIGH_PRIORITY);
-	CHECK_ZERO(pthread_mutex_destroy(&mutex_fast));
-	CHECK_ZERO(pthread_mutex_destroy(&mutex_recursive));
-	CHECK_ZERO(pthread_mutex_destroy(&mutex_errorcheck));
+	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_fast));
+	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_recursive));
+	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_errorcheck));
 	return EXIT_SUCCESS;
 }
