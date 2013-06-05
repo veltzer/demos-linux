@@ -151,7 +151,7 @@ int main(int argc, char** argv, char** envp) {
 			// someone is trying to connect
 			if(currfd==sockfd) {
 				struct sockaddr_in local;
-				socklen_t addrlen;
+				socklen_t addrlen=sizeof(local);
 				int conn_sock=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
 				struct epoll_event ev;
 				ev.events=EPOLLIN|EPOLLET|EPOLLOUT|EPOLLRDHUP;
