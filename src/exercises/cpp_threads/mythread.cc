@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO(), gettid()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), gettid()
 #include <iostream>	// for std::cout, std::endl
 #include <unistd.h>	// for sleep(3)
 #include "mythread.hh"
@@ -44,11 +44,11 @@ MyThread::~MyThread() {
 }
 
 void MyThread::start() {
-	CHECK_ZERO(pthread_create(&myid, NULL, realsvc, (void*)this));
+	CHECK_ZERO_ERRNO(pthread_create(&myid, NULL, realsvc, (void*)this));
 }
 
 void MyThread::join() {
-	CHECK_ZERO(pthread_join(myid, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(myid, NULL));
 }
 
 class ImpThread : public MyThread {

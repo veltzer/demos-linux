@@ -30,7 +30,7 @@
 #include <netinet/in.h>	// for sockaddr_in, inet_addr(3)
 #include <arpa/inet.h>	// for inet_addr(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 
 /*
  * This is a tcp client demo.
@@ -102,10 +102,10 @@ int main(int argc, char** argv, char** envp) {
 	pthread_t* threads=new pthread_t[numthreads];
 	for(unsigned int i=0; i<numthreads; i++) {
 		int* p=new int(i);
-		CHECK_ZERO(pthread_create(&threads[i], NULL, worker, p));
+		CHECK_ZERO_ERRNO(pthread_create(&threads[i], NULL, worker, p));
 	}
 	for(unsigned int i=0; i<numthreads; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	return EXIT_SUCCESS;
 }

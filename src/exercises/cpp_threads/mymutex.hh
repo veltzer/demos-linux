@@ -23,7 +23,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_destroy(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 class MyMutex {
 private:
@@ -31,16 +31,16 @@ private:
 
 public:
 	MyMutex() {
-		CHECK_ZERO(pthread_mutex_init(&mylock, NULL));
+		CHECK_ZERO_ERRNO(pthread_mutex_init(&mylock, NULL));
 	}
 	~MyMutex() {
-		CHECK_ZERO(pthread_mutex_destroy(&mylock));
+		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mylock));
 	}
 	void lock() {
-		CHECK_ZERO(pthread_mutex_lock(&mylock));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mylock));
 	}
 	void unlock() {
-		CHECK_ZERO(pthread_mutex_unlock(&mylock));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mylock));
 	}
 };
 

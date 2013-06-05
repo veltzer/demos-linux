@@ -24,7 +24,7 @@
 #include <unistd.h>	// for sysconf(3), sleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This is an example of writing your own spin locks...
@@ -97,13 +97,13 @@ int main(int argc, char** argv, char** envp) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
-		CHECK_ZERO(pthread_attr_init(attrs+i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
-		CHECK_ZERO(pthread_create(threads+i, attrs+i, worker, ids+i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs+i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
+		CHECK_ZERO_ERRNO(pthread_create(threads+i, attrs+i, worker, ids+i));
 	}
 	fprintf(pfile, "main ended creating threads\n");
 	for(int i=0; i<thread_num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	CHECK_ZERO(mypthread_spin_destroy(&lock));
 	delete threads;

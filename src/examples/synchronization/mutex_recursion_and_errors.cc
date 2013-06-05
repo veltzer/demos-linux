@@ -26,7 +26,7 @@
 #include <sys/types.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/sem.h>	// for semget(3), semctl(3), semop(3)
-#include <us_helper.h>	// for micro_diff(), CHECK_ZERO()
+#include <us_helper.h>	// for micro_diff(), CHECK_ZERO_ERRNO()
 
 /*
  * This demo shows that the default pthread_mutex is non recursive, it boggs you in an
@@ -65,12 +65,12 @@ int main(int argc, char** argv, char** envp) {
 	// pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
 	// pthread_mutex_t mutex=PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP;
 	pthread_mutex_t mutex=PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
-	// CHECK_ZERO(pthread_mutex_init(&mutex,NULL));
-	CHECK_ZERO(pthread_mutex_lock(&mutex));
-	CHECK_ZERO(pthread_mutex_lock(&mutex));
-	CHECK_ZERO(pthread_mutex_unlock(&mutex));
-	CHECK_ZERO(pthread_mutex_unlock(&mutex));
-	CHECK_ZERO(pthread_mutex_destroy(&mutex));
+	// CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex,NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex));
 	printf("main ended\n");
 	return EXIT_SUCCESS;
 }

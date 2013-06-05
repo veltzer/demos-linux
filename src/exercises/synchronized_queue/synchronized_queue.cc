@@ -25,7 +25,7 @@
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <list>	// for std::list<T>
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This is a solution to the synchronized queue exercise.
@@ -42,33 +42,33 @@ private:
 
 public:
 	SynchronizedQueue() {
-		CHECK_ZERO(pthread_mutex_init(&mymutex, NULL));
-		CHECK_ZERO(pthread_cond_init(&mycond, NULL));
+		CHECK_ZERO_ERRNO(pthread_mutex_init(&mymutex, NULL));
+		CHECK_ZERO_ERRNO(pthread_cond_init(&mycond, NULL));
 		waiters=0;
 	}
 	void put(const T& t) {
-		CHECK_ZERO(pthread_mutex_lock(&mymutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mymutex));
 		mylist.push_back(t);
 		// only wake up one getter if there are any getters
 		// We only wake up one because we only put one data
 		// element on the queue. If another putter comes
 		// along he will wake up another one...
 		if(waiters>0) {
-			CHECK_ZERO(pthread_cond_signal(&mycond));
+			CHECK_ZERO_ERRNO(pthread_cond_signal(&mycond));
 		}
-		CHECK_ZERO(pthread_mutex_unlock(&mymutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mymutex));
 	}
 	T get() {
-		CHECK_ZERO(pthread_mutex_lock(&mymutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mymutex));
 		waiters++;
 		while (mylist.empty()) {
-			CHECK_ZERO(pthread_cond_wait(&mycond, &mymutex));
+			CHECK_ZERO_ERRNO(pthread_cond_wait(&mycond, &mymutex));
 		}
 		// the list is not empty so we can take an element
 		T t=mylist.front();
 		mylist.pop_front();
 		waiters--;
-		CHECK_ZERO(pthread_mutex_unlock(&mymutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mymutex));
 		return t;
 	}
 };
@@ -124,12 +124,12 @@ int main(int argc, char** argv, char** envp) {
 		tds[i].queue=&queue;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
-		CHECK_ZERO(pthread_attr_init(attrs+i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
-		CHECK_ZERO(pthread_create(threads+i, attrs+i, worker, tds+i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs+i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
+		CHECK_ZERO_ERRNO(pthread_create(threads+i, attrs+i, worker, tds+i));
 	}
 	for(unsigned int i=0; i<thread_num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	delete threads;
 	delete attrs;

@@ -34,7 +34,7 @@
 #include <sys/mman.h>	// for mmap(2)
 #include <stdlib.h>	// for rand(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <assert.h>	// for assert(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_NOT_VOIDP()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_VOIDP()
 #include <network_utils.h>	// for get_backlog(), print_servent()
 
 /*
@@ -148,7 +148,7 @@ int main(int argc, char** argv, char** envp) {
 		// spawn a thread to handle the connection to that client...
 		pthread_t thread;
 		int* p=new int(fd);
-		CHECK_ZERO(pthread_create(&thread, NULL, worker, p));
+		CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
 	}
 	return EXIT_SUCCESS;
 }

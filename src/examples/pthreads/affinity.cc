@@ -22,7 +22,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h>	// for sysconf(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO()
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
 
 /*
  * This shows how to create threads with a certain affinity
@@ -60,13 +60,13 @@ int main(int argc, char** argv, char** envp) {
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
 		print_cpu_set(cpu_sets + i);
-		CHECK_ZERO(pthread_attr_init(attrs + i));
-		CHECK_ZERO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
-		CHECK_ZERO(pthread_create(threads + i, attrs + i, worker, ids + i));
+		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
+		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	fprintf(stderr, "main ended creating threads\n");
 	for(int i=0; i<num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	TRACE("main ended");
 	return EXIT_SUCCESS;
