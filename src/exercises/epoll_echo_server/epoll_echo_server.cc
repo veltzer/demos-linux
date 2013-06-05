@@ -155,8 +155,8 @@ int main(int argc, char** argv, char** envp) {
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
 			} else {
 				// TRACE("got activity on fd %d", events[n].data.fd);
-				//char printbuff[1024];
-				//print_events(printbuff, 1024, events[n].events);
+				// char printbuff[1024];
+				// print_events(printbuff, 1024, events[n].events);
 				// TRACE("got events %s", printbuff);
 				if(events[n].events & EPOLLRDHUP) {
 					// TRACE("closing the fd %d", fd);

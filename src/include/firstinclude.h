@@ -35,7 +35,7 @@
 // needed for big files
 #ifndef _LARGEFILE64_SOURCE
 #define _LARGEFILE64_SOURCE
-#endif // _LARGEFILE64_SOURCE
+#endif	// _LARGEFILE64_SOURCE
 
 // Needed to get REG_EIP from ucontext.h and more
 #ifndef __USE_GNU

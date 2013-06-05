@@ -31,7 +31,7 @@
 /*
  * This example demonstrates how to implement tee(1) using tee(2)
  * by using zero copy as much as possible.
- * This example is bad as it spins when there is no input. 
+ * This example is bad as it spins when there is no input.
  *
  * Notes:
  * - this tee(1) is very limited. Both stdin and stdout HAVE to be pipes.

@@ -62,7 +62,7 @@ extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) {
 }
 
 void long_task(void) {
-	//CHECK_ZERO(sleep(1));
+	// CHECK_ZERO(sleep(1));
 	sleep(1);
 }
 

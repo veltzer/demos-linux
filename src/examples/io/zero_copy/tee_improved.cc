@@ -46,8 +46,8 @@ int main(int argc, char** argv, char** envp) {
 
 	// code
 	struct stat stdin_buf, stdout_buf;
-	CHECK_NOT_M1(fstat(STDIN_FILENO,&stdin_buf));
-	CHECK_NOT_M1(fstat(STDOUT_FILENO,&stdout_buf));
+	CHECK_NOT_M1(fstat(STDIN_FILENO, &stdin_buf));
+	CHECK_NOT_M1(fstat(STDOUT_FILENO, &stdout_buf));
 	bool is_pipe_in=S_ISFIFO(stdin_buf.st_mode);
 	bool is_pipe_out=S_ISFIFO(stdout_buf.st_mode);
 	int real_fdin, real_fdout;
