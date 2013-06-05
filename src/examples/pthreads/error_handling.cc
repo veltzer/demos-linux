@@ -19,7 +19,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3), perror(3)
+#include <stdio.h>	// for fprintf(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <errno.h>	// for errno
 #include <sys/types.h>	// for open(2)
