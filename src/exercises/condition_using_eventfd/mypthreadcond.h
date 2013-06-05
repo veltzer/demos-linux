@@ -27,7 +27,7 @@
 #include <unistd.h>	// for close(2), read(2), write(2)
 #include <sys/eventfd.h>// for eventfd(2)
 #include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3)
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_INT(), CHECK_NOT_M1(), CHECK_ASSERT()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_INT(), CHECK_NOT_M1(), CHECK_ASSERT()
 
 // this is the condition implementation (pthread "like")
 const unsigned int MAX_FD=100;
@@ -75,10 +75,10 @@ static inline int mypthread_cond_wait(mypthread_cond_t *cond, pthread_mutex_t *m
 	}
 	CHECK_ASSERT(mynumber!=-1);
 	cond->waiting[mynumber]=true;
-	CHECK_ZERO(pthread_mutex_unlock(mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(mutex));
 	uint64_t u;
 	CHECK_INT(read(cond->efd[mynumber], &u, sizeof(uint64_t)), sizeof(uint64_t));
-	CHECK_ZERO(pthread_mutex_lock(mutex));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(mutex));
 	cond->waiting[mynumber]=false;
 	return 0;
 }

@@ -20,7 +20,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for malloc(3), atoi(3), free(3), EXIT_SUCCESS
+#include <stdlib.h>	// for malloc(3), atoi(3), free(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
@@ -72,8 +72,8 @@ void* func(void*) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=7) {
-		fprintf(stderr, "usage: %s [filename] [bufsize] [count] [binnumber] [binsize] [binmean]\n", argv[0]);
-		return -1;
+		fprintf(stderr, "%s: usage: %s [filename] [bufsize] [count] [binnumber] [binsize] [binmean]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	filename=argv[1];
 	bufsize=atoi(argv[2]);

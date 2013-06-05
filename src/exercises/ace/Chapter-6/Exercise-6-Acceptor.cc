@@ -80,8 +80,6 @@ public:
 		ACE_DEBUG((LM_DEBUG, "Starting server at port %d\n", server_addr_.get_port_number()));
 // Performs the iterative server activities.
 		while(true) {
-#define TIMEOUT
-#ifdef TIMEOUT
 			ACE_Time_Value timeout(ACE_DEFAULT_TIMEOUT);
 			if (peer_acceptor_.accept(new_stream_, &client_addr_, &timeout)==-1) {
 				ACE_ERROR((LM_ERROR, "%p\n", "accept"));
@@ -92,8 +90,8 @@ public:
 				handle_connection();
 				ACE_OS::exit(EXIT_FAILURE);
 			}
-#endif	/* TIMEOUT */
 		}
+		return 0;
 	}
 };
 

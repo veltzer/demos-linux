@@ -24,7 +24,7 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO(), CHECK_NOT_M1()
+#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This is a demo for the sched_yield(2) or for pthread_yield(3) which are
@@ -94,14 +94,14 @@ void *worker(void *p) {
 			#ifdef USE_SCHED_YIELD
 			CHECK_NOT_M1(sched_yield());
 			#else
-			CHECK_ZERO(pthread_yield());
+			CHECK_ZERO_ERRNO(pthread_yield());
 			#endif
 		}
 #else	// DO_ONEYIELD
 		#ifdef USE_SCHED_YIELD
 		CHECK_NOT_M1(sched_yield());
 		#else
-		CHECK_ZERO(pthread_yield());
+		CHECK_ZERO_ERRNO(pthread_yield());
 		#endif
 #endif	// DO_ONEYIELD
 	}
@@ -115,15 +115,15 @@ int main(int argc, char** argv, char** envp) {
 	const unsigned int num=2;
 	pthread_t threads[num];
 #ifdef DO_BARRIER
-	CHECK_ZERO(pthread_barrier_init(&barrier, NULL, num));
+	CHECK_ZERO_ERRNO(pthread_barrier_init(&barrier, NULL, num));
 #endif	// DO_BARRIER
 	for(unsigned int i=0; i<num; i++) {
-		CHECK_ZERO(pthread_create(threads + i, NULL, worker, NULL));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, NULL));
 	}
 	// CHECK_ZERO(sleep(1));
 	TRACE("created threads, now joining...");
 	for(unsigned int i=0; i<num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], NULL));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	TRACE("end");
 	return EXIT_SUCCESS;

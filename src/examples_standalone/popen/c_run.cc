@@ -56,7 +56,7 @@ void cut_first_line(const char* filename, FILE* output) {
 int main(int argc, char** argv, char** envp) {
 	// handle command line
 	if(argc!=2) {
-		fprintf(stderr, "usage: %s [cshell file]\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [cshell file]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filename=argv[1];

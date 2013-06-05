@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_setcancelstate(3)
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This demo is a pthread_cancel demo and was copied from the pthread_cancel
@@ -38,11 +38,11 @@
 static void * thread_func(void *ignored_argument) {
 	/* Disable cancellation for a while, so that we don't
 	 * immediately react to a cancellation request */
-	CHECK_ZERO(pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL));
+	CHECK_ZERO_ERRNO(pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL));
 	TRACE("started; cancellation disabled");
 	CHECK_ZERO(sleep(5));
 	TRACE("about to enable cancellation");
-	CHECK_ZERO(pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL));
+	CHECK_ZERO_ERRNO(pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL));
 	/* sleep(3) is a cancellation point */
 	CHECK_ZERO(sleep(1000));/* Should get canceled while we sleep */
 	/* Should never get here */
@@ -56,12 +56,12 @@ int main(int argc, char** argv, char** envp) {
 
 	/* Start a thread and then send it a cancellation request */
 
-	CHECK_ZERO(pthread_create(&thr, NULL, &thread_func, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thr, NULL, &thread_func, NULL));
 	CHECK_ZERO(sleep(2));	/* Give thread a chance to get started */
 	TRACE("sending cancellation request");
-	CHECK_ZERO(pthread_cancel(thr));
+	CHECK_ZERO_ERRNO(pthread_cancel(thr));
 	/* Join with thread to see what its exit status was */
-	CHECK_ZERO(pthread_join(thr, &res));
+	CHECK_ZERO_ERRNO(pthread_join(thr, &res));
 	if (res==PTHREAD_CANCELED)
 		TRACE("thread was canceled");
 	else

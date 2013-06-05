@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This is a demo of a multi-threaded application which does some work.
@@ -48,11 +48,11 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("main starting");
 	for(int i=0; i<num; i++) {
 		ids[i]=i;
-		CHECK_ZERO(pthread_create(threads + i, NULL, worker, ids + i));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("main ended creating threads");
 	for (int i=0; i < num; i++) {
-		CHECK_ZERO(pthread_join(threads[i], rets + i));
+		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("main ended");
 	return EXIT_SUCCESS;

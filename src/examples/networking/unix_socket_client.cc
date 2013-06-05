@@ -23,7 +23,7 @@
 #include <sys/socket.h>	// for socket(2), recv(2), connect(2), send(2)
 #include <strings.h>	// for bzero(3)
 #include <stdio.h>	// for printf(3), atoi(3), snprintf(3)
-#include <stdlib.h>	// for exit(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h>	// for close(2)
 #include <sys/un.h>	// for sockaddr_un
 #include <string.h>	// for strlen(3)
@@ -38,8 +38,8 @@ const char* filename="/tmp/myunixsocket";
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=1) {
-		fprintf(stderr, "usage: %s\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_UNIX, SOCK_STREAM, 0));

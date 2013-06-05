@@ -23,7 +23,7 @@
 #include <string.h>	// for strncpy(3)
 #include <sys/prctl.h>	// for prctl(2)
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), TRACE()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), TRACE()
 
 /*
  * This example creates a zombie thread.
@@ -56,11 +56,11 @@ void *worker(void *) {
 	set_thread_name("child");
 	tid=gettid();
 	// lets notify the parent thread that we did initialisation...
-	CHECK_ZERO(pthread_mutex_unlock(&mutex_init));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_init));
 	// wait till the parent tells us to continue...
-	CHECK_ZERO(pthread_mutex_lock(&mutex_start));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_start));
 	// lets notify the parent thread that we're dead...
-	CHECK_ZERO(pthread_mutex_unlock(&mutex_end));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_end));
 	TRACE("end");
 	return(NULL);
 }
@@ -70,28 +70,28 @@ int main(int argc, char** argv, char** envp) {
 	pthread_t thread;
 
 	TRACE("main started");
-	CHECK_ZERO(pthread_mutex_init(&mutex_init, NULL));
-	CHECK_ZERO(pthread_mutex_init(&mutex_start, NULL));
-	CHECK_ZERO(pthread_mutex_init(&mutex_end, NULL));
-	CHECK_ZERO(pthread_mutex_lock(&mutex_init));
-	CHECK_ZERO(pthread_mutex_lock(&mutex_start));
-	CHECK_ZERO(pthread_mutex_lock(&mutex_end));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_init, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_start, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_end, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_init));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_start));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_end));
 
-	CHECK_ZERO(pthread_create(&thread, NULL, worker, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, NULL));
 	TRACE("main created thread");
 	// wait till the thread has done initialisation
-	CHECK_ZERO(pthread_mutex_lock(&mutex_init));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_init));
 	// ok, the thread is initialized, lets print it's state
 	my_system("ps --no-headers -L -p %d -o pid,lwp,comm", getpid());
 	// signal the thead to continue...
-	CHECK_ZERO(pthread_mutex_unlock(&mutex_start));
+	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_start));
 
 	// wait till the thread is over...
-	CHECK_ZERO(pthread_mutex_lock(&mutex_end));
+	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_end));
 	// since the thead called the unlock just before it ended wait just a tiny
 	// weeny bit more...
 	CHECK_ZERO(sleep(1));
-	// CHECK_ZERO(pthread_join(thread,NULL));
+	// CHECK_ZERO_ERRNO(pthread_join(thread,NULL));
 
 	// now the thread is dead, lets print it's state (same as before...)
 	my_system("ps --no-headers -L -p %d -o pid,lwp,comm", getpid());

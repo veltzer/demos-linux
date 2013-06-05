@@ -144,6 +144,7 @@ int main(int argc, char** argv, char** envp) {
 			fprintf(stderr, "Enter msg_perm.mode: ");
 			CHECK_INT(scanf("%hd", &msgCtlBuf.msg_perm.mode), 1);
 			CHECK_NOT_M1(msgctl(msqid, IPC_SET, &msgCtlBuf));
+			break;
 		}
 	}
 	return EXIT_SUCCESS;

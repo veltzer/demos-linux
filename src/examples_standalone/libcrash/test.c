@@ -64,11 +64,13 @@ int main(int argc,char** argv,char** envp) {
 void* kill_malloc(size_t size, const void *caller) {
 	printf("Malloc called from %p\n", caller);
 	abort();
+	return NULL;
 }
 
 void * kill_realloc(void *ptr, size_t size, const void *caller) {
 	printf("Realloc called from %p\n", caller);
 	abort();
+	return NULL;
 }
 
 void kill_free(void *ptr, const void *caller) {
@@ -79,6 +81,7 @@ void kill_free(void *ptr, const void *caller) {
 void * kill_memalign(size_t alignment, size_t size, const void *caller) {
 	printf("Memalign called from %p\n", caller);
 	abort();
+	return NULL;
 }
 
 /* This function generaters a fault.

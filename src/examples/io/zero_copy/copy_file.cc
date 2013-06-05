@@ -24,7 +24,7 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <unistd.h>	// for read(2), write(2), close(2)
+#include <unistd.h>	// for read(2), write(2), close(2), getpagesize()
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
@@ -32,18 +32,16 @@
  * read(2) and write(2) system calls, handling short reads appropriately.
  */
 
-void copy_file(const char* filein, const char* fileout) {
-	const unsigned int bufsize=4096;
+void copy_file(const char* filein, const char* fileout, const unsigned int bufsize) {
 	char buf[bufsize];
-	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY, 0666));
-	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC, 0666));
-	ssize_t read_bytes;
+	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE, 0666));
+	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
 	// this is the main copy loop
 	// we go out of the loop because of error or eof
 	// >0: would have kept us in the loop
 	// =0: that is ok - it is end of file
 	// -1: error
-	read_bytes=CHECK_NOT_M1(read(fdin, buf, bufsize));
+	ssize_t read_bytes=CHECK_NOT_M1(read(fdin, buf, bufsize));
 	while(read_bytes>0) {
 		char* pointer=buf;
 		ssize_t written_bytes=0;
@@ -61,12 +59,13 @@ void copy_file(const char* filein, const char* fileout) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=3) {
-		fprintf(stderr, "usage: %s [infile] [outfile]\n", argv[0]);
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage: %s [infile] [outfile] [num_pages]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	copy_file(filein, fileout);
+	unsigned int num_pages=atoi(argv[3]);
+	copy_file(filein, fileout, num_pages*getpagesize());
 	return EXIT_SUCCESS;
 }

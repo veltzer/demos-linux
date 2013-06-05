@@ -41,12 +41,16 @@
  * - Since I do not wish to instrument main then I put an attribute on it not to be
  * instrumented.
  *
- * EXTRA_COMPILE_FLAGS=-finstrument-functions -finstrument-functions-exclude-function-list=printf
+ * EXTRA_COMPILE_FLAGS=-finstrument-functions -finstrument-functions-exclude-function-list=printf,sleep
  * OPTION_WITHOUT_FUNCTION_ATTRIBUTES=-finstrument-functions -finstrument-functions-exclude-function-list=__cyg_profile_func_enter,__cyg_profile_func_exit,printf
+ *
+ * TODO:
+ * - show how to get the arguments to the function which is being instrumented. use the
+ * reference for that.
+ *
+ * References:
+ * http://linuxgazette.net/151/melinte.html
  */
-void long_task(void) {
-	CHECK_ZERO(sleep(1));
-}
 
 extern "C" void __cyg_profile_func_enter(void *this_fn, void *call_site) __attribute__((no_instrument_function));
 extern "C" void __cyg_profile_func_enter(void *this_fn, void *call_site) {
@@ -55,6 +59,11 @@ extern "C" void __cyg_profile_func_enter(void *this_fn, void *call_site) {
 extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) __attribute__((no_instrument_function));
 extern "C" void __cyg_profile_func_exit(void *this_fn, void *call_site) {
 	printf("exiting %p,%p\n", this_fn, call_site);
+}
+
+void long_task(void) {
+	// CHECK_ZERO(sleep(1));
+	sleep(1);
 }
 
 int main(int argc, char** argv, char** envp) __attribute__((no_instrument_function));

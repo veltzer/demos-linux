@@ -22,6 +22,7 @@
 
 class A {
 	public:
+		virtual ~A(void);
 		void foo(void);
 		virtual void bar(void);
 		virtual void zoo(void);

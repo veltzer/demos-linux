@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <pthread.h>	// for pthread_mutex_t, pthread_cond_t, pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_cond_wait(3), pthread_create(3), pthread_join(3), pthread_t
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This is an example that shows how to use pthread conditions.
@@ -47,55 +47,57 @@ bool done=false;
 
 void* functionCount1(void*) {
 	while(true) {
-		CHECK_ZERO(pthread_mutex_lock(&condition_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&condition_mutex));
 		while((count>=COUNT_RANGE_MIN && count<=COUNT_RANGE_MAX) && !done) {
-			CHECK_ZERO(pthread_cond_wait(&condition_cond, &condition_mutex));
+			CHECK_ZERO_ERRNO(pthread_cond_wait(&condition_cond, &condition_mutex));
 		}
 		if(!done) {
 			count++;
 			printf("Counter value functionCount1: %d\n", count);
 			if(count==COUNT_DONE) {
 				done=true;
-				CHECK_ZERO(pthread_cond_signal(&condition_cond));
+				CHECK_ZERO_ERRNO(pthread_cond_signal(&condition_cond));
 			} else {
 				if(count==COUNT_RANGE_MIN) {
-					CHECK_ZERO(pthread_cond_signal(&condition_cond));
+					CHECK_ZERO_ERRNO(pthread_cond_signal(&condition_cond));
 				}
 			}
 		}
-		CHECK_ZERO(pthread_mutex_unlock(&condition_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&condition_mutex));
 		if(done) {
 			printf("functionCount1 exiting...\n");
-			return(NULL);
+			break;
 		}
 	}
+	return NULL;
 }
 
 void *functionCount2(void*) {
 	while(true) {
-		CHECK_ZERO(pthread_mutex_lock(&condition_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&condition_mutex));
 		while((count<COUNT_RANGE_MIN || count>COUNT_RANGE_MAX) && !done) {
-			CHECK_ZERO(pthread_cond_wait(&condition_cond, &condition_mutex));
+			CHECK_ZERO_ERRNO(pthread_cond_wait(&condition_cond, &condition_mutex));
 		}
 		if(!done) {
 			count++;
 			printf("Counter value functionCount2: %d\n", count);
 			if(count==COUNT_RANGE_MAX+1) {
-				CHECK_ZERO(pthread_cond_signal(&condition_cond));
+				CHECK_ZERO_ERRNO(pthread_cond_signal(&condition_cond));
 			}
 		}
-		CHECK_ZERO(pthread_mutex_unlock(&condition_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&condition_mutex));
 		if(done) {
 			printf("functionCount2 exiting...\n");
-			return(NULL);
+			break;
 		}
 	}
+	return(NULL);
 }
 int main(int argc, char** argv, char** envp) {
 	pthread_t thread1, thread2;
-	CHECK_ZERO(pthread_create(&thread1, NULL, &functionCount1, NULL));
-	CHECK_ZERO(pthread_create(&thread2, NULL, &functionCount2, NULL));
-	CHECK_ZERO(pthread_join(thread1, NULL));
-	CHECK_ZERO(pthread_join(thread2, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread1, NULL, &functionCount1, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread2, NULL, &functionCount2, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread1, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread2, NULL));
 	return EXIT_SUCCESS;
 }
