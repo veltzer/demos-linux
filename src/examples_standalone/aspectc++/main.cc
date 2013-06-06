@@ -1,6 +1,6 @@
-#include "hello.h"
+#include "hello.hh"
 
 int main(){
-  hello(); //print "Hello"
-  return 0;
+	hello(); //print "Hello"
+	return 0;
 }
