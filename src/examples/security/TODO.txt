@@ -1,1 +1,2 @@
 - example of the difference between effective and real uid.
+- show examples of capabilities.
