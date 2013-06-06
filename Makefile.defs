@@ -1,4 +1,8 @@
+# suffix for c++ source files
+SUFFIX_CC:=cc
 # suffix for binary files
 SUFFIX_BIN:=elf
 # suffix for c++ object files
 SUFFIX_OO:=oo
+# suffix for dependency files
+SUFFIX_DEP:=d

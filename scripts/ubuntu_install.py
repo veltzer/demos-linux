@@ -50,6 +50,7 @@ packs=[
 	'libasound2-doc',
 	'libasound2-dev',
 	'numactl',
+	'aspectc++',
 
 	# kernel stuff
 	'linux-headers-generic',
