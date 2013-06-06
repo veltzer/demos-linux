@@ -77,7 +77,7 @@ int main(int argc, char** argv, char** envp) {
 		printf("Sending to %s from spoofed %s\n", inet_ntoa(ip->ip_dst), argv[1]);
 		/* Ip structure, check the ip.h */
 		ip->ip_v=4;
-		ip->ip_hl=sizeof *ip >> 2;
+		ip->ip_hl=sizeof(*ip) >> 2;
 		ip->ip_tos=0;
 		ip->ip_len=htons(sizeof(buf));
 		ip->ip_id=htons(4321);
