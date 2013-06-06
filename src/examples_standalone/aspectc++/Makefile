@@ -5,7 +5,7 @@ SOURCES := $(wildcard *.$(SUFFIX_CC))
 PROG = hello.$(SUFFIX_BIN)
 OBJECTS := $(addsuffix .$(SUFFIX_OO),$(basename $(SOURCES)))
 DEPS    := $(addsuffix .$(SUFFIX_DEP),$(basename $(SOURCES)))
-HEADERS := $(wildcard *.h)
+HEADERS := $(wildcard *.$(SUFFIx_HH))
 ASPECTS := $(wildcard *.ah)
 
 .PHONY: all
