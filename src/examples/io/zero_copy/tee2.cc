@@ -31,7 +31,7 @@
 /*
  * This example demonstrates how to implement tee(1) using tee(2)
  * by using zero copy as much as possible.
- * This example is bad as it spins when there is no input.
+ * This version does not spin as the bad version does.
  *
  * Notes:
  * - this tee(1) is very limited. Both stdin and stdout HAVE to be pipes.
@@ -51,24 +51,18 @@ int main(int argc, char** argv, char** envp) {
 	}
 	const char* fileout=argv[1];
 	int fd=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
+	ssize_t splice_pos=0;
+	ssize_t tee_pos=0;
+	ssize_t ret;
 	do {
-		//ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
-		// better to block
-		ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, 0);
-		if(len==-1) {
-			if(errno==EAGAIN) {
-				continue;
-			}
-			CHECK_NOT_M1(len);
-		} else {
-			if(len==0) {
-				break;
-			}
-			while (len>0) {
-				len-=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, len, SPLICE_F_MOVE));
-			}
-		}
-	} while(true);
+		ret=CHECK_NOT_M1(tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, 0));
+		tee_pos+=ret;
+		splice_pos+=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, tee_pos-splice_pos, SPLICE_F_MOVE | SPLICE_F_NONBLOCK));
+	} while(ret>0);
+
+	while(splice_pos<tee_pos) {
+		splice_pos+=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, tee_pos-splice_pos, SPLICE_F_MOVE));
+	}
 	CHECK_NOT_M1(close(fd));
 	return EXIT_SUCCESS;
 }
