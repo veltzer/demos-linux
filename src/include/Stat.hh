@@ -18,16 +18,16 @@
  * 02111-1307 USA.
  */
 
-#ifndef __stat_h
-#define __stat_h
+#ifndef __Stat_h
+#define __Stat_h
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <math.h>
-#include <values.h>
+#include <stdio.h>	// for printf(3)
+#include <math.h>	// for floor(3)
+#include <values.h>	// for MINDOUBLE, MAXDOUBLE
 
 /*
- * Statistics collecting object
+ * Statistics collecting object.
  */
 
 class Stat {
@@ -140,4 +140,4 @@ public:
 	}
 };
 
-#endif	/* !__stat_h */
+#endif	/* !__Stat_h */
