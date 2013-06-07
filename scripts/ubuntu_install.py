@@ -15,7 +15,7 @@ import subprocess
 import os
 
 release=os.uname().release
-print('release is',release)
+#print('release is',release)
 
 packs=[
 	'libncurses5',
