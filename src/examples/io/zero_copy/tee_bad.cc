@@ -32,6 +32,9 @@
  * This example demonstrates how to implement tee(1) using tee(2)
  * by using zero copy as much as possible.
  * This example is bad as it spins when there is no input.
+ * It could be easily fixed by removing the SPLICE_F_NONBLOCK flag,
+ * but then it could also be coded in a more elegant way. See tee.cc
+ * for an example of this...
  *
  * Notes:
  * - this tee(1) is very limited. Both stdin and stdout HAVE to be pipes.
@@ -52,9 +55,7 @@ int main(int argc, char** argv, char** envp) {
 	const char* fileout=argv[1];
 	int fd=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
 	do {
-		// ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
-		// better to block
-		ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, 0);
+		ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
 		if(len==-1) {
 			if(errno==EAGAIN) {
 				continue;
