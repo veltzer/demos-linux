@@ -26,7 +26,7 @@
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for close(2), write(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), run_high_priority(), getticks()
-#include <stat.hh>	// for Stat(O)
+#include <Stat.hh>	// for Stat:Object
 
 /*
  * This example explores the performance of the write system call...
