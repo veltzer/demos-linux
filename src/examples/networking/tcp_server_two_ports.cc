@@ -30,7 +30,7 @@
 #include <netinet/in.h>	// for sockaddr_in, inet_addr(3)
 #include <arpa/inet.h>	// for inet_addr(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_NULL()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_NULL(), my_max()
 #include <network_utils.h>	// for get_backlog(), print_servent()
 #include <sys/select.h>	// for select(2)
 
