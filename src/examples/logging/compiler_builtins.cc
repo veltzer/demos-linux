@@ -21,16 +21,17 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include "compiler_builtins.hh"	// for print_from_header()
 
 /*
  * This example explores compiler builtins like:
- * __FILE__, __LINE__, __func__, __FUNCTION__, __PRETTY_FUNCTION__
+ * __FILE__, __LINE__, __func__, __FUNCTION__, __PRETTY_FUNCTION__, __BASE_FILE__
  * Which can be used in order to produce better error/logging/debug/warning messages.
  *
  * Notice that if you put the prints, even in an inline function, then you get the data
  * for the ** inline function ** which is the calee and not for the caller. This is
- * probably not what you want. A way to solve this is to use a macro (also demonstrated
- * below).
+ * probably what you want. A way to change this behaviour is to use a macro
+ * (also demonstrated below).
  *
  * Notice that __FILE__ and __LINE__ are different from __func__, __FUNCTION__ and
  * __PRETTY_FUNCTION__ in that the former are supplied by the pre processor and the latter
@@ -42,29 +43,10 @@
  * However, you can use function entry and exit handlers, either explicit or implicit,
  * to facilitate this.
  *
- * TODO:
+ * Another important issue is the difference between __BASE_FILE__ and __FILE__. Usually
+ * you want __FILE__ since __BASE_FILE__ is not where you are but rather the main file
+ * which you are compiling.
  */
-
-inline void print_builtins() {
-	printf("__BASE_FILE__ is %s\n", __BASE_FILE__);
-	printf("__FILE__ is %s\n", __FILE__);
-	printf("__LINE__ is %d\n", __LINE__);
-	printf("__func__ is %s\n", __func__);
-	printf("__FUNCTION__ is %s\n", __FUNCTION__);
-	printf("__PRETTY_FUNCTION__ is %s\n", __PRETTY_FUNCTION__);
-}
-// even this will NOT cause the printing to be of the caller...
-void print_builtins() __attribute__((always_inline));
-void print_builtins() __attribute__((flatten));
-// void print_builtins() __attribute__((artificial));
-
-#define PRINT_BUILTINS() \
-	printf("__BASE_FILE__ is %s\n", __BASE_FILE__);	\
-	printf("__FILE__ is %s\n", __FILE__); \
-	printf("__LINE__ is %d\n", __LINE__); \
-	printf("__func__ is %s\n", __func__); \
-	printf("__FUNCTION__ is %s\n", __FUNCTION__); \
-	printf("__PRETTY_FUNCTION__ is %s\n", __PRETTY_FUNCTION__)
 
 class A {
 public:
@@ -78,6 +60,8 @@ int main(int argc, char** argv, char** envp) {
 	PRINT_BUILTINS();
 	printf("Here is a print using the inline function:\n");
 	print_builtins();
+	printf("Here is a print from the header file:\n");
+	print_from_header();
 	A a;
 	a.thisMethod(5, 6);
 	return EXIT_SUCCESS;
