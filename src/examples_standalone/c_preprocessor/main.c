@@ -24,7 +24,7 @@
 
 /*
 * This is an example shows how to determine an include file at compile time
-* in a way which is dependant on compile time macros. You could do this using
+* in a way which is dependent on compile time macros. You could do this using
 * #ifdef but the idea is that you do not want to change this code as you add
 * more include files.
 *
