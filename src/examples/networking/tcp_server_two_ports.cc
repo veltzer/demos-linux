@@ -32,7 +32,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_NULL(), my_max()
 #include <network_utils.h>	// for get_backlog(), print_servent()
-#include <sys/select.h>	// for select(2)
+#include <Selector.hh>	// for Selector:Object
 
 /*
  * This is a tcp server listening on two tcp ports using select(2)
@@ -66,77 +66,60 @@ void *worker(void* arg) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=5) {
-		fprintf(stderr, "%s: usage: %s [host] [port] [host2] [port2]\n", argv[0], argv[0]);
+	if(argc!=3) {
+		fprintf(stderr, "%s: usage: %s [port1] [port2]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	const char* host=argv[1];
-	const unsigned int port=atoi(argv[2]);
-	const char* host2=argv[3];
-	const unsigned int port2=atoi(argv[4]);
-	printf("contact me at host %s port %d\n", host, port);
-	printf("contact me at host2 %s port2 %d\n", host2, port2);
-
-	// lets get the port number using getservbyname(3)
-	// struct servent* p_servent=(struct servent*)CHECK_NOT_NULL(getservbyname(serv_name,serv_proto));
-	// print_servent(p_servent);
+	const unsigned int port1=atoi(argv[1]);
+	const unsigned int port2=atoi(argv[2]);
+	printf("contact me at localhost:%d\n", port1);
+	printf("contact me at localhost:%d\n", port2);
 
 	// lets open the socket
-	int sockfd=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
-	printf("opened socket with sockfd %d\n", sockfd);
+	int sockfd1=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
 	int sockfd2=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
-	printf("opened socket with sockfd2 %d\n", sockfd2);
 
 	// lets make the socket reusable
 	int optval=1;
-	CHECK_NOT_M1(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)));
+	CHECK_NOT_M1(setsockopt(sockfd1, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)));
 	CHECK_NOT_M1(setsockopt(sockfd2, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)));
-	printf("setsockopt was ok\n");
 
 	// lets create the address
 	struct sockaddr_in server;
 	bzero(&server, sizeof(server));
 	server.sin_family=AF_INET;
-	// server.sin_addr.s_addr=inet_addr(host);
 	server.sin_addr.s_addr=INADDR_ANY;
-	// server.sin_addr.s_addr=0xff000000;
-	// server.sin_port=p_servent->s_port;
-	server.sin_port=htons(port);
 
 	// lets bind to the socket to the address
-	CHECK_NOT_M1(bind(sockfd, (struct sockaddr *)&server, sizeof(server)));
+	server.sin_port=htons(port1);
+	CHECK_NOT_M1(bind(sockfd1, (struct sockaddr *)&server, sizeof(server)));
 	server.sin_port=htons(port2);
 	CHECK_NOT_M1(bind(sockfd2, (struct sockaddr *)&server, sizeof(server)));
-	printf("bind was successful\n");
 
 	// lets listen in...
 	int backlog=get_backlog();
-	printf("backlog is %d\n", backlog);
-	CHECK_NOT_M1(listen(sockfd, backlog));
+	CHECK_NOT_M1(listen(sockfd1, backlog));
 	CHECK_NOT_M1(listen(sockfd2, backlog));
-	printf("listen was successful\n");
+	Selector s;
 	while(true) {
 		// lets select(2)
-		fd_set rfds;
-		FD_ZERO(&rfds);
-		FD_SET(sockfd, &rfds);
-		FD_SET(sockfd2, &rfds);
-		CHECK_NOT_M1(select(my_max(sockfd, sockfd2)+1, &rfds, NULL, NULL, NULL));
+		s.null();
+		s.addReadFd(sockfd1);
+		s.addReadFd(sockfd2);
+		s.doSelect();
 		struct sockaddr_in client;
 		// address length must be properly initialised
 		// or the call to accept(2) will fail...
 		socklen_t addrlen=sizeof(client);
-		if(FD_ISSET(sockfd, &rfds)) {
-			int fd=CHECK_NOT_M1(accept(sockfd, (struct sockaddr *)&client, &addrlen));
-			printf("accepted fd %d\n", fd);
+		if(s.isReadActive(sockfd1)) {
+			int fd=CHECK_NOT_M1(accept(sockfd1, (struct sockaddr *)&client, &addrlen));
 			// spawn a thread to handle the connection to that client...
 			pthread_t thread;
 			int* p=new int(fd);
 			CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, p));
 		}
-		if(FD_ISSET(sockfd2, &rfds)) {
+		if(s.isReadActive(sockfd2)) {
 			int fd=CHECK_NOT_M1(accept(sockfd2, (struct sockaddr *)&client, &addrlen));
-			printf("accepted fd %d\n", fd);
 			// spawn a thread to handle the connection to that client...
 			pthread_t thread;
 			int* p=new int(fd);
