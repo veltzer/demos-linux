@@ -36,24 +36,17 @@
 void copy_file(const char* filein, const char* fileout, const bool setbufsize, const size_t buf_size) {
 	// lets create a pipe
 	int pipe_fds[2];
-	// lets make the pipe big!
 	CHECK_NOT_M1(pipe(pipe_fds));
 	// lets get the pipe size
 	// size_t pipe_size=CHECK_NOT_M1(fcntl(pipe_fds[0],F_GETPIPE_SZ));
 	// printf("pipe_size is %d\n",pipe_size);
-	// lets set the pipe size
+	// lets make the pipe big for better performance
 	if(setbufsize) {
 		CHECK_NOT_M1(fcntl(pipe_fds[0], F_SETPIPE_SZ, buf_size));
 	}
 	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE, 0666));
 	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
-	// we need the return value outside the loop
 	ssize_t ret;
-	// this is the main copy loop
-	// we go out of the loop because of error or eof
-	// >0: would have kept us in the loop
-	// =0: that is ok - it is end of file
-	// -1: error
 	do {
 		ret=CHECK_NOT_M1(splice(fdin, 0, pipe_fds[1], 0, INT_MAX, SPLICE_F_MOVE));
 		ssize_t len=ret;

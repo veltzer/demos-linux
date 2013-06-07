@@ -136,12 +136,12 @@ static void* worker(void* c) {
 		}
 	}
 	ACE_DEBUG((LM_DEBUG, "(%t) exiting\n"));
-	return(0);
+	return(NULL);
 }
 
 extern "C" void handler(int signum) {
 	ACE_DEBUG((LM_DEBUG, "signal=%S\n", signum));
-	ACE_Thread_Manager::instance()->exit(0);
+	ACE_Thread_Manager::instance()->exit(EXIT_SUCCESS);
 }
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {

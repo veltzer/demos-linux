@@ -59,5 +59,5 @@ void die(void) {
 void print_message_function(void *dummy) {
 	printf("Morituri te salutant!\n");
 	die();
-	pthread_exit(0);
+	pthread_exit(EXIT_SUCCESS);
 }

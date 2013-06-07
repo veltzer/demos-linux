@@ -19,8 +19,8 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h>	// for fprintf(3), stderr
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/gl.h>
@@ -34,16 +34,16 @@
  * EXTRA_LINK_FLAGS=-lX11 -lGL -lGLU
  */
 
-Display* dpy;
-Window root;
-GLint att[]={ GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-XVisualInfo* vi;
-Colormap cmap;
-XSetWindowAttributes swa;
-Window win;
-GLXContext glc;
-XWindowAttributes gwa;
-XEvent xev;
+static Display* dpy;
+static Window root;
+static GLint att[]={ GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+static XVisualInfo* vi;
+static Colormap cmap;
+static XSetWindowAttributes swa;
+static Window win;
+static GLXContext glc;
+static XWindowAttributes gwa;
+static XEvent xev;
 
 void DrawAQuad() {
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -68,14 +68,14 @@ void DrawAQuad() {
 int main(int argc, char** argv, char** envp) {
 	dpy=XOpenDisplay(NULL);
 	if(dpy==NULL) {
-		printf("cannot connect to X server\n");
-		exit(0);
+		fprintf(stderr,"cannot connect to X server\n");
+		exit(EXIT_FAILURE);
 	}
 	root=DefaultRootWindow(dpy);
 	vi=glXChooseVisual(dpy, 0, att);
 	if(vi==NULL) {
-		printf("no appropriate visual found\n");
-		exit(0);
+		fprintf(stderr,"no appropriate visual found\n");
+		exit(EXIT_FAILURE);
 	}
 	// printf("tvisual %p selected\n", (void *)vi->visualid); }/* %p creates hexadecimal output like in glxinfo */
 	cmap=XCreateColormap(dpy, root, vi->visual, AllocNone);
@@ -101,7 +101,7 @@ int main(int argc, char** argv, char** envp) {
 			glXDestroyContext(dpy, glc);
 			XDestroyWindow(dpy, win);
 			XCloseDisplay(dpy);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 	}
 	return EXIT_SUCCESS;
