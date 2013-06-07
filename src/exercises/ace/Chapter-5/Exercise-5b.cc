@@ -178,7 +178,7 @@ public:
 	int signum;
 
 public:
-	CatchSignal(int isignum) : signum(isignum) {
+	CatchSignal(int isignum) : listener(NULL), signum(isignum) {
 	}
 	virtual ~CatchSignal() {
 	}

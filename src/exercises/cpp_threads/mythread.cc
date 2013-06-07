@@ -37,7 +37,7 @@ void* MyThread::realsvc(void* arg) {
 	return NULL;
 }
 
-MyThread::MyThread() {
+MyThread::MyThread():myid(-1) {
 }
 
 MyThread::~MyThread() {

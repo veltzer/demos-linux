@@ -329,68 +329,72 @@ check_ws:
 .PHONY: check_main
 check_main:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
-	@scripts/ok_wrapper.pl git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_ace_include
 check_ace_include:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	@scripts/ok_wrapper.pl git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
-	@scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
 # enable this when you have the balls...
 #@scripts/ok_wrapper.pl git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_license
 check_license:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 # " =" cannot be checked because of void foo(void* =0) and that is the reason for the next
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	@scripts/ok_wrapper.pl git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/ok_wrapper.pl git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone \| grep -v makefiles
+	$(Q)scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone \| grep -v makefiles
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR \| grep -v \", CHECK_\"
+	$(Q)scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR \| grep -v \", CHECK_\"
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
+	$(Q)scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_fixme
 check_fixme:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/wrapper_noerr.py git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_while1
 check_while1:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/wrapper_noerr.py git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage
 check_usage:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/wrapper_noerr.py git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_pthread
 check_pthread:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep -l "CHECK_ZERO\(pthread" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/wrapper_noerr.py git grep -l "CHECK_ZERO\(pthread" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage
 check_usage_2:
 	$(info doing [$@])
-	@scripts/wrapper_noerr.py git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/wrapper_noerr.py git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
+.PHONY: check_gitignore
+check_gitignore:
+	$(info doing [$@])
+	$(Q)find . -mindepth 2 -and -name ".gitignore"
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2 check_gitignore
 
 .PHONY: check_dots
 check_dots:
