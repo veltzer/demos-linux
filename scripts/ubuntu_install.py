@@ -54,8 +54,8 @@ packs=[
 
 	# kernel stuff
 	'linux-headers-generic',
-	'linux-headers-'+release,
-	'linux-image-'+release+'-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
+	#'linux-headers-'+release,
+	#'linux-image-'+release+'-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
 	#'linux-headers-generic-pae', # if you use a -pae kernel
 
 	'linux-tools-common', # for perf(1)
