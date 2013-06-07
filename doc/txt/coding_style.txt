@@ -1,6 +1,9 @@
 - names of files:
-	c, h: C
-	cc, hh: C++
+	extensions:
+		c, h: C
+		cc, hh: C++
+	C++ header files will be called by the name of the object they implement:
+		Stat.hh, Selector.hh etc...
 
 - includes:
 	#include <stdio.h> // for printf(3) 
