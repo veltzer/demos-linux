@@ -20,12 +20,13 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, malloc(3), free(3)
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2), write(2), close(2), getpagesize()
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <sys/select.h>	// for select(2), FD_ZERO(), FD_SET(), FD_ISSET()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL(), my_max()
 
 /*
  * This example shows how to copy a copy file program using the select system
@@ -42,112 +43,109 @@
  * simple read+write implementation a write will never be issued while a read is runnig
  * which in this implementation we could issue a write while a read is going on. This is
  * especially useful when you are copying files between two different hard disks.
- *
- * TODO:
- * - implement this example.
  */
 
 class Pipe {
-	private:
-		char* buf;
-		size_t size;
-		size_t pos_read;
-		size_t pos_write;
-	public:
-		inline Pipe(const size_t isize) {
-			size=isize;
-			pos_read=0;
-			pos_write=0;
-			buf=(char*)CHECK_NOT_NULL(malloc(isize));
+private:
+	char* buf;
+	size_t size;
+	size_t pos_read;
+	size_t pos_write;
+
+public:
+	inline Pipe(const size_t isize) {
+		size=isize;
+		pos_read=0;
+		pos_write=0;
+		buf=(char*)CHECK_NOT_NULL(malloc(isize));
+	}
+	inline ~Pipe() {
+		free(buf);
+	}
+	/* return the empty room of a pipe */
+	inline size_t room() {
+		if (pos_read <= pos_write)
+			return size-pos_write+pos_read-1;
+		else
+			return pos_read-pos_write-1;
+	}
+	/* return the occupied room of a pipe */
+	inline size_t data() {
+		if (pos_read <= pos_write)
+			return pos_write-pos_read;
+		else
+			return size-pos_read+pos_write;
+	}
+	inline bool haveData() {
+		return data()>0;
+	}
+	inline bool haveRoom() {
+		return room()>0;
+	}
+	inline bool canRead() {
+		return haveRoom();
+	}
+	inline bool canWrite() {
+		return haveData();
+	}
+	/* read data into the buffer (at pos_write) */
+	inline bool doRead(int fd) {
+		size_t count;
+		if (pos_read <= pos_write) {
+			count = size-pos_write;
+		} else {
+			count = pos_write-pos_read;
 		}
-		inline ~Pipe() {
-			free(buf);
+		ssize_t len=CHECK_NOT_M1(read(fd, buf+pos_write, count));
+		pos_write+=len;
+		pos_write%=size;
+		return len==0;
+	}
+	/* write data from the buffer (at pos_read) */
+	inline void doWrite(int fd) {
+		size_t count;
+		if (pos_read <= pos_write) {
+			count = pos_write-pos_read;
+		} else {
+			count = size-pos_read;
 		}
-		/* return the empty room of a pipe */
-		inline size_t room() {
-			if (pos_read <= pos_write)
-				return size-pos_write+pos_read-1;
-			else
-				return pos_read-pos_write-1;
-		}
-		/* return the occupied room of a pipe */
-		inline size_t data() {
-			if (pos_read <= pos_write)
-				return pos_write-pos_read;
-			else
-				return size-pos_read+pos_write;
-		}
-		inline bool haveData() {
-			return data()>0;
-		}
-		inline bool haveRoom() {
-			return room()>0;
-		}
-		inline bool canRead() {
-			return haveRoom();
-		}
-		inline bool canWrite() {
-			return haveData();
-		}
-		/* read data into the buffer (at pos_write) */
-		inline bool doRead(int fd) {
-			ssize_t len;
-			if (pos_read <= pos_write) {
-				len=CHECK_NOT_M1(read(fd,buf+pos_write,size-pos_write));
-			} else {
-				len=CHECK_NOT_M1(read(fd,buf+pos_write,pos_write-pos_read));
-			}
-			pos_write+=len;
-			pos_write%=size;
-			return len==0;
-		}
-		/* write data from the buffer (at pos_read) */
-		inline void doWrite(int fd) {
-			ssize_t len;
-			if (pos_read <= pos_write) {
-				len=CHECK_NOT_M1(write(fd,buf+pos_read,pos_write-pos_read));
-			} else {
-				len=CHECK_NOT_M1(write(fd,buf+pos_read,size-pos_read));
-			}
-			pos_read+=len;
-			pos_read%=size;
-		}
+		ssize_t len=CHECK_NOT_M1(write(fd, buf+pos_read, count));
+		pos_read+=len;
+		pos_read%=size;
+	}
 };
 
 class Selector {
-	private:
-		fd_set rfds;
-		fd_set wfds;
-		int fd_max;
-	public:
-		inline Selector() {
-		}
-		inline void null() {
-			FD_ZERO(&rfds);
-			FD_ZERO(&wfds);
-			fd_max=0;
-		}
-		inline void addReadFd(int fd) {
-			FD_SET(fd, &rfds);
-			if(fd>fd_max) {
-				fd_max=fd;
-			}
-		}
-		inline void addWriteFd(int fd) {
-			FD_SET(fd, &wfds);
-			if(fd>fd_max) {
-				fd_max=fd;
-			}
-		}
-		inline bool isReadActive(int fd) {
-			return FD_ISSET(fd,&rfds);
-		}
-		inline bool isWriteActive(int fd) {
-			return FD_ISSET(fd,&wfds);
-		}
-		inline void doSelect() {
-			CHECK_NOT_M1(select(fd_max+1, &rfds, &wfds, NULL, NULL));
-		}
+private:
+	fd_set rfds;
+	fd_set wfds;
+	int fd_max;
+
+public:
+	inline Selector() {
+	}
+	inline void null() {
+		FD_ZERO(&rfds);
+		FD_ZERO(&wfds);
+		fd_max=0;
+	}
+	inline void addReadFd(int fd) {
+		FD_SET(fd, &rfds);
+		fd_max=my_max(fd_max, fd);
+	}
+	inline void addWriteFd(int fd) {
+		FD_SET(fd, &wfds);
+		fd_max=my_max(fd_max, fd);
+	}
+	inline bool isReadActive(int fd) {
+		return FD_ISSET(fd, &rfds);
+	}
+	inline bool isWriteActive(int fd) {
+		return FD_ISSET(fd, &wfds);
+	}
+	inline void doSelect() {
+		CHECK_NOT_M1(select(fd_max+1, &rfds, &wfds, NULL, NULL));
+	}
 };
 
 void copy_file(const char* filein, const char* fileout, const unsigned int bufsize) {
