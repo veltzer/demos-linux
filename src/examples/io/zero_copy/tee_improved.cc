@@ -31,9 +31,6 @@
 /*
  * This is an improvement of the tee(1) implementation so that it
  * would be able to use non pipe stdin and stdout.
- *
- * References:
- * http://www.scribd.com/doc/4006475/Splice-Tee-VMsplice-zero-copy-in-Linux
  */
 
 int main(int argc, char** argv, char** envp) {

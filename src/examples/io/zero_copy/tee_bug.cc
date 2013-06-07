@@ -29,19 +29,17 @@
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
- * This example demonstrates how to implement tee(1) using tee(2)
- * by using zero copy as much as possible.
- * This version does not spin as the bad version does.
+ * This example is an attempt to improve the basic tee.cc solution by
+ * not blocking on the splice(2) system call.
  *
- * Notes:
- * - this tee(1) is very limited. Both stdin and stdout HAVE to be pipes.
- * This means that if you don't want to see errors you should run this program
- * like this:
- * cat /etc/passwd | [this program] [outfile] | cat
- * both pipes are neccessary
+ * The problem with this solution is that if we get a short splice then
+ * some data is left in the input stream and this data could be tee(2)ed
+ * again. This is because tee(2) does not remember what data it has
+ * already tee(2)ed out and just tee(2)s anything it finds.
  *
- * References:
- * http://www.scribd.com/doc/4006475/Splice-Tee-VMsplice-zero-copy-in-Linux
+ * TODO:
+ * - show indeed that this is a bug. Produce a real scenario where this produces
+ * the wrong output and show that it is wrong.
  */
 
 int main(int argc, char** argv, char** envp) {
