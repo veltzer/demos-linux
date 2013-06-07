@@ -31,29 +31,34 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
-struct itimerval timer;
-int pipefd[2];
-int gotusr1=0;
-int gotusr2=0;
-
-int child1pid, child2pid;
+static struct itimerval timer;
+static int pipefd[2];
+static int gotusr1=0;
+static int gotusr2=0;
+static int child1pid;
+static int child2pid;
 
 void sigIntHandler(int gotsig) {
 	kill(child1pid, SIGKILL);
 	kill(child2pid, SIGKILL);
 	CHECK_NOT_M1(unlink("np"));
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void sigChildHandler(int gotsig) {
-	int status;
 	pid_t pid;
-	while((pid=wait3(&status, WNOHANG, NULL))>0) {
-		if(WIFEXITED(status))
-			printf("Child %d exited. Status: %d\n", pid, WEXITSTATUS(status));
-		if(WIFSIGNALED(status))
-			printf("Child %d killed. Signal: %d\n", pid, WTERMSIG(status));
-	}
+	do {
+		int status;
+		pid=CHECK_NOT_M1(wait3(&status, WNOHANG, NULL));
+		if(pid>0) {
+			if(WIFEXITED(status)) {
+				printf("Child %d exited. Status: %d\n", pid, WEXITSTATUS(status));
+			}
+			if(WIFSIGNALED(status)) {
+				printf("Child %d killed. Signal: %d\n", pid, WTERMSIG(status));
+			}
+		}
+	} while(pid>0);
 }
 
 void sigUsrxHandler(int gotsig) {
@@ -78,15 +83,13 @@ void sigUsrxHandler(int gotsig) {
 	}
 }
 
-void doChild(const char * chld)
-{
+void doChild(const char* chld) {
 	execl("./child", "./child", chld, NULL);
 	fprintf(stderr, "execl child %s failed: %s\n", chld, strerror(errno));
 	exit(errno);
 }
 
-void startChild1()
-{
+void startChild1() {
 	child1pid=CHECK_NOT_M1(fork());
 	// child
 	if(child1pid==0) {
@@ -94,12 +97,11 @@ void startChild1()
 		dup2(pipefd[1], 1);
 		close(pipefd[1]);
 		doChild("1");
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
 
-void startChild2()
-{
+void startChild2() {
 	child2pid=CHECK_NOT_M1(fork());
 	// child
 	if(child2pid==0) {
@@ -107,7 +109,7 @@ void startChild2()
 		dup2(pipefd[0], 0);
 		close(pipefd[0]);
 		doChild("2");
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
 

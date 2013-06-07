@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
+#include <stdlib.h>	// for exit(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <errno.h>
 #include <assert.h>
 #include <string.h>
@@ -132,7 +132,7 @@ static inline char * code2str(int code, int signal) {
 	return "Unhandled signal handler";
 }
 
-/* Call this to reboot. Production version must be asaync-signal safe */
+/* Call this to reboot. Production version must be async-signal safe */
 static void inline do_reboot(void) {
 
 #ifdef NDEBUG
@@ -145,7 +145,7 @@ static void inline do_reboot(void) {
 #else /* NDEBUG */
 
 	fprintf(stderr, "Boo!!! would have rebooted but running in debug mode. Have a nice day.\n");
-	exit(3);
+	exit(EXIT_FAILURE);
 
 #endif /* NDEBUG */
 
@@ -303,7 +303,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	while(-1==ret && EINTR==errno) {
 
 		mb();
-		if(terminate_flag) exit(0);
+		if(terminate_flag) exit(EXIT_SUCCESS);
 
 		ret=select(fd+1, &rfds, NULL, NULL, NULL);
 	}
@@ -350,7 +350,7 @@ void crashd_main(char daemonise_flag, const char * progname, int pfd[])
 	/* Go process the crash */
 	handle_crash();
 
-	exit(0);
+	exit(EXIT_SUCCESS);
 
 bail_out:
 	/* Oy very... if we got here it means that the crash daemon has itself

@@ -19,15 +19,14 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/wait.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <stdio.h>	// for printf(3)
+#include <sys/types.h>	// for open(2), waitpid(2)
+#include <sys/stat.h>	// for open(2)
+#include <fcntl.h>	// for open(2)
+#include <stdlib.h>	// for EXIT_SUCCESS, exit(3)
+#include <unistd.h>	// for close(2), fork(2)
+#include <sys/wait.h>	// for waitpid(2)
+#include <us_helper.h>	// for CHECK_NOT_M1(), my_system(), klog_show(), klog_clear(), waitkey()
 
 /*
  * This is a test which will explain which methods in the driver are
@@ -63,9 +62,9 @@
  */
 
 // file descriptor
-int d, d2;
+static int d, d2;
 // file to be used
-const char *filename="/dev/mod_open_close_release";
+static const char *filename="/dev/mod_open_close_release";
 
 void do_open_close(void) {
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
@@ -90,7 +89,7 @@ pid_t run_in_process(void (*f)(void)) {
 	pid_t pid=CHECK_NOT_M1(fork());
 	if (pid==0) {
 		f();
-		exit(0);
+		exit(EXIT_SUCCESS);
 	} else {
 		return(pid);
 	}
@@ -161,5 +160,5 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(waitpid(c1, &status, 0));
 	klog_show();
 	waitkey(NULL);
-	return(0);
+	return EXIT_SUCCESS;
 }

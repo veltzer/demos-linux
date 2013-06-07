@@ -69,21 +69,21 @@ int main(int argc, char** argv, char** envp) {
 	long myID;
 	if(argc!=2) {
 		fprintf(stderr, "%s: usage: %s MirsID\n", argv[0], argv[0]);
-		exit(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
 	if((myID=atoi(argv[1]))<1) {
 		fprintf(stderr, "MirsID must be numeric positive greater than 0 and uniq (not checked)\n");
-		exit(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
 	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
 	int msqid=CHECK_NOT_M1(msgget(key, 0));
 	switch (CHECK_NOT_M1(fork())) {
 	case 0:
 		doChild(msqid, myID);
-		exit(0);
+		return EXIT_SUCCESS;
 	default:
 		doParent(msqid, myID);
-		exit(0);
+		return EXIT_SUCCESS;
 	}
 	return EXIT_SUCCESS;
 }

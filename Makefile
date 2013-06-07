@@ -393,8 +393,12 @@ check_usage_2:
 check_gitignore:
 	$(info doing [$@])
 	$(Q)find . -mindepth 2 -and -name ".gitignore"
+.PHONY: check_exitzero
+check_exitzero:
+	$(info doing [$@])
+	$(Q)scripts/wrapper_noerr.py git grep -l 'exit\(0\)' -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2 check_gitignore
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2 check_gitignore check_exitzero
 
 .PHONY: check_dots
 check_dots:

@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for nice(2), fork(2), pause(2)
-#include <stdlib.h>	// for exit(3)
+#include <stdlib.h>	// for exit(3), EXIT_SUCCESS
 #include <us_helper.h>	// CHECK_NOT_M1(), CHECK_ASSERT()
 
 /*
@@ -61,7 +61,7 @@ pid_t make_child(int nice_val) {
 			}
 			i++;
 		}
-		exit(0);
+		exit(EXIT_SUCCESS);
 		return -1;
 	} else {
 		return child_pid;

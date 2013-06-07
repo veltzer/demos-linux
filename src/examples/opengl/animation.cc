@@ -19,8 +19,8 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdio.h>	// for fprintf(3), stderr
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 #include <string.h>
 #include <unistd.h>	// for usleep(3)
 #include <math.h>
@@ -41,28 +41,27 @@
  */
 
 // GLOBAL IDENTIFIERS
-Display* dpy;
-Window root, win;
-GLint att[]={
+static Display* dpy;
+static Window root, win;
+static GLint att[]={
 	GLX_RGBA,
 	GLX_DEPTH_SIZE,
 	24,
 	GLX_DOUBLEBUFFER,
 	None
 };
-XVisualInfo* vi;
-GLXContext glc;
-Colormap cmap;
-XSetWindowAttributes swa;
-XWindowAttributes wa;
-XEvent xev;
+static XVisualInfo* vi;
+static GLXContext glc;
+static Colormap cmap;
+static XSetWindowAttributes swa;
+static XWindowAttributes wa;
 
-float TimeCounter, LastFrameTimeCounter, DT, prevTime=0.0, FPS;
-struct timeval tv, tv0;
-int Frame=1, FramesPerFPS;
+static float TimeCounter, LastFrameTimeCounter, DT, prevTime=0.0, FPS;
+static struct timeval tv, tv0;
+static int Frame=1, FramesPerFPS;
 
-GLfloat rotation_matrix[16];
-float rot_z_vel=50.0, rot_y_vel=30.0;
+static GLfloat rotation_matrix[16];
+static float rot_z_vel=50.0, rot_y_vel=30.0;
 
 // DRAW A CUBE
 void DrawCube(float size) {
@@ -154,17 +153,17 @@ void ExposeFunc() {
 // CREATE A GL CAPABLE WINDOW
 void CreateWindow() {
 	if((dpy=XOpenDisplay(NULL))==NULL) {
-		printf("\n\tcannot connect to x server\n\n");
-		exit(0);
+		fprintf(stderr,"cannot connect to x server\n");
+		exit(EXIT_FAILURE);
 	}
 	root=DefaultRootWindow(dpy);
 	if((vi=glXChooseVisual(dpy, 0, att))==NULL) {
-		printf("\n\tno matching visual\n\n");
-		exit(0);
+		fprintf(stderr,"no matching visual\n");
+		exit(EXIT_FAILURE);
 	}
 	if((cmap=XCreateColormap(dpy, root, vi->visual, AllocNone))==0) {
-		printf("\n\tcannot create colormap\n\n");
-		exit(0);
+		fprintf(stderr,"cannot create colormap\n");
+		exit(EXIT_FAILURE);
 	}
 	swa.event_mask=KeyPressMask;
 	swa.colormap=cmap;
@@ -179,8 +178,8 @@ void SetupGL() {
 	XFontStruct* font_struct;
 	// CREATE GL CONTEXT AND MAKE IT CURRENT
 	if((glc=glXCreateContext(dpy, vi, NULL, GL_TRUE))==NULL) {
-		printf("\n\tcannot create gl context\n\n");
-		exit(0);
+		fprintf(stderr,"cannot create gl context\n");
+		exit(EXIT_FAILURE);
 	}
 	glXMakeCurrent(dpy, win, glc);
 	glEnable(GL_DEPTH_TEST);
@@ -227,7 +226,7 @@ void ExitProgram() {
 	glXDestroyContext(dpy, glc);
 	XDestroyWindow(dpy, win);
 	XCloseDisplay(dpy);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 // CHECK EVENTS
