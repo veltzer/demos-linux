@@ -21,7 +21,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <sys/capability.h> // for cap_get_proc(3), cap_set_flag(3)
+#include <sys/capability.h>	// for cap_get_proc(3), cap_set_flag(3)
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*

@@ -41,9 +41,9 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-//const unsigned int port=7000;
-//const char* serv_name="http-alt";
-//const char* serv_proto="tcp";
+// const unsigned int port=7000;
+// const char* serv_name="http-alt";
+// const char* serv_proto="tcp";
 
 void *worker(void* arg) {
 	int fd=*((int*)arg);
@@ -121,7 +121,7 @@ int main(int argc, char** argv, char** envp) {
 		FD_ZERO(&rfds);
 		FD_SET(sockfd, &rfds);
 		FD_SET(sockfd2, &rfds);
-		CHECK_NOT_M1(select(my_max(sockfd,sockfd2)+1, &rfds, NULL, NULL, NULL));
+		CHECK_NOT_M1(select(my_max(sockfd, sockfd2)+1, &rfds, NULL, NULL, NULL));
 		struct sockaddr_in client;
 		// address length must be properly initialised
 		// or the call to accept(2) will fail...

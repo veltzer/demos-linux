@@ -163,7 +163,6 @@ static inline void handle_error(int replace_errno, int new_errno, int usebadval,
 	} else {
 		error_at_line(EXIT_FAILURE, errno, base_file, line, "function is %s, msg is %s", function, msg);
 	}
-
 	// old code follows
 	// int save_errno=errno;
 	// err(EXIT_FAILURE,"code is %s",msg);

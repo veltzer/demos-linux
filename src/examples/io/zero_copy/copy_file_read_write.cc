@@ -41,8 +41,9 @@ void copy_file(const char* filein, const char* fileout, const unsigned int bufsi
 	// >0: would have kept us in the loop
 	// =0: that is ok - it is end of file
 	// -1: error
-	ssize_t read_bytes=CHECK_NOT_M1(read(fdin, buf, bufsize));
-	while(read_bytes>0) {
+	ssize_t read_bytes;
+	do {
+		read_bytes=CHECK_NOT_M1(read(fdin, buf, bufsize));
 		char* pointer=buf;
 		ssize_t written_bytes=0;
 		ssize_t to_write=read_bytes;
@@ -52,8 +53,7 @@ void copy_file(const char* filein, const char* fileout, const unsigned int bufsi
 			pointer+=write_bytes;
 			written_bytes+=write_bytes;
 		}
-		read_bytes=CHECK_NOT_M1(read(fdin, buf, bufsize));
-	}
+	} while(read_bytes>0);
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
 }
@@ -65,7 +65,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	unsigned int num_pages=atoi(argv[3]);
+	const unsigned int num_pages=atoi(argv[3]);
 	copy_file(filein, fileout, num_pages*getpagesize());
 	return EXIT_SUCCESS;
 }

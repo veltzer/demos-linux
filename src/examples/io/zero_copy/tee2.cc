@@ -59,7 +59,6 @@ int main(int argc, char** argv, char** envp) {
 		tee_pos+=ret;
 		splice_pos+=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, tee_pos-splice_pos, SPLICE_F_MOVE | SPLICE_F_NONBLOCK));
 	} while(ret>0);
-
 	while(splice_pos<tee_pos) {
 		splice_pos+=CHECK_NOT_M1(splice(STDIN_FILENO, NULL, fd, NULL, tee_pos-splice_pos, SPLICE_F_MOVE));
 	}
