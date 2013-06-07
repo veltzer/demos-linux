@@ -28,8 +28,16 @@
 #include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
- * This demo shows how to correctly code a simple file copy using the
- * read(2) and write(2) system calls, handling short reads appropriately.
+ * This example shows how to copy a copy file program using the select system
+ * call.
+ *
+ * The idea is to have a buffer of a certain size. When there is room in the buffer
+ * keep calling read. When there is data in the buffer keep calling write. Handle
+ * the buffer in a circular way. No need for any synchronization in this implementation
+ * since only one thread is doing all the work.
+ *
+ * TODO:
+ * - implement this example.
  */
 
 void copy_file(const char* filein, const char* fileout, const unsigned int bufsize) {
