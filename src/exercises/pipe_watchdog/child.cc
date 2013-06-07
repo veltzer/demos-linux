@@ -69,7 +69,7 @@ void do2() {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc < 2) {
-		fprintf(stderr, "%s: Usage: %s 1 or 2\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s 1 or 2\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	int me=atoi(argv[1]);

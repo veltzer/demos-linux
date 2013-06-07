@@ -52,7 +52,7 @@ int main(int argc, char** argv, char** envp) {
 	const char* fileout=argv[1];
 	int fd=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
 	do {
-		//ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
+		// ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
 		// better to block
 		ssize_t len=tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, 0);
 		if(len==-1) {

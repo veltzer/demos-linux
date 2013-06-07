@@ -19,22 +19,22 @@
  */
 
 #include <firstinclude.h>
-#include <sys/types.h>	// for kill(2)
-#include <signal.h>	// for kill(2)
+#include <sys/types.h>	// for kill(2), SIGUSR1
+#include <signal.h>	// for kill(2), SIGUSR1
 #include <unistd.h>	// for sleep(3)
-#include <stdio.h>	// for fprintf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE, atoi(3)
+#include <stdio.h>	// for fprintf(3), stderr
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <us_helper.h>	// for CHECK_ZERO()
 
 int main(int argc, char** argv, char** envp) {
 	if (argc < 2) {
-		fprintf(stderr, "Usage: %s 1 or 2\n", argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: usage: %s 1 or 2\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
 	}
 	int me=atoi(argv[1]);
 	if (me < 0 || me > 2) {
 		fprintf(stderr, "I said 1 or 2\n");
-		exit(EXIT_FAILURE);
+		return EXIT_FAILURE;
 	}
 	int sigme=0;
 	switch(me) {
@@ -47,7 +47,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	while(true) {
 		CHECK_ZERO(sleep(2));
-		kill(getppid(), sigme);
+		CHECK_NOT_M1(kill(getppid(), sigme));
 	}
 	return EXIT_SUCCESS;
 }

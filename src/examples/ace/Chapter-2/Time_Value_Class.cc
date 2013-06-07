@@ -26,7 +26,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * Usage example: Time_Value_Class -e 36000 -i 1200
+ * usage example: Time_Value_Class -e 36000 -i 1200
  * Where: 1200 means 20 minutes
  * 36000 means 10 hours
  *

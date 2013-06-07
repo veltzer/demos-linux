@@ -34,7 +34,7 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc<2) {
-		fprintf(stderr, "%s: Usage: %s [pid]...\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [pid]...\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	for(int i=1; i<argc; i++) {

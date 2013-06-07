@@ -54,10 +54,10 @@ void copy_file(const char* filein, const char* fileout) {
 	// =0: that is ok - it is end of file
 	// -1: error
 	// we need the return value outside the loop
-	ssize_t ret=CHECK_NOT_M1(sendfile(fdout, fdin, NULL, INT_MAX));
-	while(ret>0) {
+	ssize_t ret;
+	do {
 		ret=CHECK_NOT_M1(sendfile(fdout, fdin, NULL, INT_MAX));
-	}
+	} while(ret>0);
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
 }

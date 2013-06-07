@@ -57,7 +57,7 @@ static void * worker(void *arguments) {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	if(argc<2) {
-		ACE_OS::printf("Usage: %s <number_of_threads> <number_of_iterations>\n", argv[0]);
+		ACE_OS::printf("%s: usage: %s <number_of_threads> <number_of_iterations>\n", argv[0], argv[0]);
 		ACE_OS::exit(EXIT_FAILURE);
 	}
 	// Setup the arguments

@@ -49,7 +49,7 @@ int main(int argc, char** argv, char** envp) {
 	int offset;
 	int num=100;
 	if(argc !=4) {
-		printf("\nUsage: %s [saddress] [dstaddress] [number]\n", argv[0]);
+		printf("%s: usage: %s [saddress] [dstaddress] [number]\n", argv[0], argv[0]);
 		printf("- saddress is the spoofed source address\n");
 		printf("- dstaddress is the target\n");
 		printf("- number is the number of packets to send, 100 is the default\n");

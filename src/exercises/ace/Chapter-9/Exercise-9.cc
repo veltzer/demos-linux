@@ -103,7 +103,7 @@ int ReceiveMessage(ACE_SOCK_Stream *peer) {
 int ACE_TMAIN(int argc, ACE_TCHAR *argv[]) {
 	SignalableTask handler;
 	if (argc < 3) {
-		ACE_DEBUG((LM_DEBUG, ACE_TEXT("Usage: %s Port1 Port2\n"), argv[0]));
+		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%s: usage: %s Port1 Port2\n"), argv[0], argv[0]));
 		return(1);
 	}
 	if (argc > 3) {

@@ -50,7 +50,7 @@ static void* worker(void *arg) {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	if(argc<2) {
-		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n", argv[0]));
+		ACE_DEBUG((LM_DEBUG, "%s: usage: %s <number of threads>\n", argv[0], argv[0]));
 	}
 	int n_threads=ACE_OS::atoi(argv[1]);
 	// Setup the random number generator

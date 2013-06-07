@@ -67,7 +67,7 @@ static void* worker(void *arg) {
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	if(argc<2) {
-		ACE_DEBUG((LM_DEBUG, "Usage: %s <number of threads>\n", argv[0]));
+		ACE_DEBUG((LM_DEBUG, "%s: usage: %s <number of threads>\n", argv[0], argv[0]));
 		ACE_OS::exit(EXIT_FAILURE);
 	}
 	// setup the random number generator
