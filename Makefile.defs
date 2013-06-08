@@ -8,6 +8,8 @@ SUFFIX_CC:=cc
 SUFFIX_HH:=hh
 # suffix for binary files
 SUFFIX_BIN:=elf
+# suffix for C and assembly object files
+SUFFIX_O:=o
 # suffix for c++ object files
 SUFFIX_OO:=oo
 # suffix for dependency files
