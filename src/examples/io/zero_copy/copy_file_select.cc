@@ -54,10 +54,10 @@ void copy_file(const char* filein, const char* fileout, const unsigned int bufsi
 	bool eof=false;
 	do {
 		s.null();
-		if(p.canRead() && !eof) {
+		if(p.canPush() && !eof) {
 			s.addReadFd(fdin);
 		}
-		if(p.canWrite()) {
+		if(p.canPull()) {
 			s.addWriteFd(fdout);
 		}
 		s.doSelect();
@@ -65,14 +65,14 @@ void copy_file(const char* filein, const char* fileout, const unsigned int bufsi
 		// we will have more to write. If we handle the write first then we will
 		// have more room to read into.
 		if (s.isReadActive(fdin)) {
-			if(p.doRead(fdin)) {
+			if(p.push(fdin)) {
 				eof=true;
 			}
 		}
 		if (s.isWriteActive(fdout)) {
-			p.doWrite(fdout);
+			p.pull(fdout);
 		}
-	} while (!eof || p.canWrite());
+	} while (!eof || p.canPull());
 	CHECK_NOT_M1(close(fdin));
 	CHECK_NOT_M1(close(fdout));
 }

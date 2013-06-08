@@ -68,13 +68,13 @@ void DrawAQuad() {
 int main(int argc, char** argv, char** envp) {
 	dpy=XOpenDisplay(NULL);
 	if(dpy==NULL) {
-		fprintf(stderr,"cannot connect to X server\n");
+		fprintf(stderr, "cannot connect to X server\n");
 		exit(EXIT_FAILURE);
 	}
 	root=DefaultRootWindow(dpy);
 	vi=glXChooseVisual(dpy, 0, att);
 	if(vi==NULL) {
-		fprintf(stderr,"no appropriate visual found\n");
+		fprintf(stderr, "no appropriate visual found\n");
 		exit(EXIT_FAILURE);
 	}
 	// printf("tvisual %p selected\n", (void *)vi->visualid); }/* %p creates hexadecimal output like in glxinfo */
