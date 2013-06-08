@@ -153,16 +153,16 @@ void ExposeFunc() {
 // CREATE A GL CAPABLE WINDOW
 void CreateWindow() {
 	if((dpy=XOpenDisplay(NULL))==NULL) {
-		fprintf(stderr,"cannot connect to x server\n");
+		fprintf(stderr, "cannot connect to x server\n");
 		exit(EXIT_FAILURE);
 	}
 	root=DefaultRootWindow(dpy);
 	if((vi=glXChooseVisual(dpy, 0, att))==NULL) {
-		fprintf(stderr,"no matching visual\n");
+		fprintf(stderr, "no matching visual\n");
 		exit(EXIT_FAILURE);
 	}
 	if((cmap=XCreateColormap(dpy, root, vi->visual, AllocNone))==0) {
-		fprintf(stderr,"cannot create colormap\n");
+		fprintf(stderr, "cannot create colormap\n");
 		exit(EXIT_FAILURE);
 	}
 	swa.event_mask=KeyPressMask;
@@ -178,7 +178,7 @@ void SetupGL() {
 	XFontStruct* font_struct;
 	// CREATE GL CONTEXT AND MAKE IT CURRENT
 	if((glc=glXCreateContext(dpy, vi, NULL, GL_TRUE))==NULL) {
-		fprintf(stderr,"cannot create gl context\n");
+		fprintf(stderr, "cannot create gl context\n");
 		exit(EXIT_FAILURE);
 	}
 	glXMakeCurrent(dpy, win, glc);

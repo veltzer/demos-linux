@@ -29,7 +29,13 @@
 /*
  * This is a circular pipe class. It holds a buffer and handles two circular
  * pointers to it.
+ *
+ * Data already in this pipe starts with pos_read and upto pos_write. So reading
+ * from the pipe is from pos_read and writing to it is from pos_write.
  */
+
+// release the next line if you want to debug the pipe...
+//#define PIPE_DEBUG
 
 class CircularPipe {
 private:
@@ -43,17 +49,10 @@ public:
 		size=isize;
 		pos_read=0;
 		pos_write=0;
-		buf=(char*)CHECK_NOT_NULL(malloc(isize));
+		buf=(char*)CHECK_NOT_NULL(malloc(size));
 	}
 	inline ~CircularPipe() {
 		free(buf);
-	}
-	/* return the empty room of a pipe */
-	inline size_t room() {
-		if (pos_read <= pos_write)
-			return size-pos_write+pos_read-1;
-		else
-			return pos_read-pos_write-1;
 	}
 	/* return the occupied room of a pipe */
 	inline size_t data() {
@@ -62,33 +61,48 @@ public:
 		else
 			return size-pos_read+pos_write;
 	}
+	/* return the empty room of a pipe */
+	inline size_t room() {
+		if (pos_read <= pos_write)
+			return size-pos_write+pos_read-1;
+		else
+			return pos_read-pos_write-1;
+	}
 	inline bool haveData() {
 		return data()>0;
 	}
 	inline bool haveRoom() {
 		return room()>0;
 	}
-	inline bool canRead() {
+	inline bool canPush() {
 		return haveRoom();
 	}
-	inline bool canWrite() {
+	inline bool canPull() {
 		return haveData();
 	}
-	/* read data into the buffer (at pos_write) */
-	inline bool doRead(int fd) {
+	/* read data into the pipe (at pos_read) */
+	inline bool push(int fd) {
 		size_t count;
 		if (pos_read <= pos_write) {
 			count = size-pos_write;
+			if (pos_read==0) {
+				count--;
+			}
 		} else {
-			count = pos_write-pos_read;
+			count = pos_read-pos_write-1;
 		}
 		ssize_t len=CHECK_NOT_M1(read(fd, buf+pos_write, count));
+#ifdef PIPE_DEBUG
+		printf("read: rp=%d, wp=%d, c=%d, l=%d\n", pos_read, pos_write, count,len);
+#endif /* PIPE_DEBUG */
 		pos_write+=len;
 		pos_write%=size;
 		return len==0;
 	}
-	/* write data from the buffer (at pos_read) */
-	inline void doWrite(int fd) {
+	/* write data from the pipe (at pos_write) */
+	inline void pull(int fd) {
+		//printf("pos_read is %d\n",pos_read);
+		//printf("pos_write is %d\n",pos_write);
 		size_t count;
 		if (pos_read <= pos_write) {
 			count = pos_write-pos_read;
@@ -96,6 +110,9 @@ public:
 			count = size-pos_read;
 		}
 		ssize_t len=CHECK_NOT_M1(write(fd, buf+pos_read, count));
+#ifdef PIPE_DEBUG
+		printf("write: rp=%d, wp=%d, c=%d, l=%d\n", pos_read, pos_write, count, len);
+#endif /* PIPE_DEBUG */
 		pos_read+=len;
 		pos_read%=size;
 	}
