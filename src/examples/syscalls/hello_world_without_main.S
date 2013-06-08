@@ -1,4 +1,9 @@
-# An example of how to write a classic "Hello, World!\n" program in assembly
+/*
+ * This is an extension of the exit_without_main.S example. See
+ * its documentation for more info.
+ *
+ * EXTRA_LINK_FLAGS=-nostdlib -Xlinker --strip-all -Xlinker --build-id=none
+ */
 
 #include <asm/unistd.h>
 #include <syscall.h>
@@ -7,9 +12,9 @@
 hello:
 	.string	"Hello, World!\n"
 .text
-.global	main
-.type main, @function
-main:
+.global _start
+.type _start, @function
+_start:
 	## write(1,hello,14)
 	movl $SYS_write, %eax
 	movl $1, %ebx
