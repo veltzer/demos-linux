@@ -9,6 +9,7 @@
 
 .text
 .global main
+.type main, @function
 main:
 	## the system call we want (from syscall.h)
 	movl $SYS_exit, %eax
