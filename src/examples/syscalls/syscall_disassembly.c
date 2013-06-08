@@ -19,16 +19,22 @@
  */
 
 #include <firstinclude.h>
-#include <unistd.h>	// for write(2)
-#include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdio.h>	// for fprintf(3), stderr
+#include <us_helper.h>	// for my_system()
 
 /*
- * This is an example of how to do the classic "Hello, World!\n"
- * program using the write(2) system call...
+ * This example shows the disassembly of a single system call.
+ *
+ * We must link static to have the code we need...
+ * EXTRA_LINK_FLAGS=-static
  */
 
 int main(int argc, char** argv, char** envp) {
-	CHECK_NOT_M1(write(1,"Hello, World!\n",14));
+	if(argc!=1) {
+		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
+	}
+	my_system("objdump --disassemble-all %s | grep -A10 \\<_exit\\>:", argv[0]);
 	return EXIT_SUCCESS;
 }

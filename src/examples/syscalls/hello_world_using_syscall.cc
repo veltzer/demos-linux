@@ -18,10 +18,11 @@
  * 02111-1307 USA.
  */
 
-#include <firstinclude.h>
+//#include <firstinclude.h>
 #include <unistd.h>	// syscall(2)
 #include <sys/syscall.h>// for syscall(2), SYS_write definitions
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <stdlib.h>	// for EXIT_SUCCESS
+//#include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an example of how to do the classic "Hello, World!\n"
@@ -29,6 +30,7 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	CHECK_NOT_M1(syscall(SYS_write,1,"Hello, World!\n",14));
+	//CHECK_NOT_M1(syscall(SYS_write,1,"Hello, World!\n",14));
+	syscall(SYS_write,1,"Hello, World!\n",14);
 	return EXIT_SUCCESS;
 }

@@ -1,5 +1,0 @@
-- show disassembly of calling syscall.
-- add a sample of calling a syscall without the aid of the glibc library
-	(open for instance).
-	using that using syscall and filling in the arguments myself.
-- do an example of calling a syscall using pure assembly.

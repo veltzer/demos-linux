@@ -97,6 +97,7 @@ CLEAN:=
 CLEAN_DIRS:=
 
 # user space applications (c and c++)
+S_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.S")
 CC_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
 C_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
 ALL_C:=$(shell scripts/find_wrapper.sh . -name "*.c")
@@ -112,11 +113,13 @@ CC_PRE:=$(addsuffix .p,$(basename $(CC_SRC)))
 C_PRE:=$(addsuffix .p,$(basename $(C_SRC)))
 CC_DIS:=$(addsuffix .dis,$(basename $(CC_SRC)))
 C_DIS:=$(addsuffix .dis,$(basename $(C_SRC)))
+S_OBJ:=$(addsuffix .$(SUFFIX_O),$(basename $(S_SRC)))
 CC_OBJ:=$(addsuffix .$(SUFFIX_OO),$(basename $(CC_SRC)))
 C_OBJ:=$(addsuffix .o,$(basename $(C_SRC)))
+S_EXE:=$(addsuffix .$(SUFFIX_BIN),$(basename $(S_SRC)))
 CC_EXE:=$(addsuffix .$(SUFFIX_BIN),$(basename $(CC_SRC)))
 C_EXE:=$(addsuffix .$(SUFFIX_BIN),$(basename $(C_SRC)))
-ALL:=$(ALL) $(CC_EXE) $(C_EXE)
+ALL:=$(ALL) $(S_EXE) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_ASX) $(C_ASX) $(CC_PRE) $(C_PRE)
 
 # kernel modules
@@ -219,12 +222,18 @@ $(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 $(C_OBJ): %.o: %.c $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+$(S_OBJ): %.o: %.S $(ALL_DEPS) scripts/compile_wrapper.py
+	$(info doing [$@])
+	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
 $(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
 $(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
+$(S_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
+	$(info doing [$@])
+	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
 $(CC_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
 	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
@@ -239,9 +248,9 @@ $(C_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 	$(info doing [$@])
+	$(Q)objdump --disassemble --source --demangle $< > $@
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
 #	$(Q)objdump --demangle --source --disassemble --no-show-raw-insn --section=.text $< > $@
-	$(Q)objdump --disassemble --source --demangle $< > $@
 
 # rule about how to check kernel source files
 $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
@@ -286,6 +295,8 @@ debug:
 	$(info C_SRC is $(C_SRC))
 	$(info C_DIS is $(C_DIS))
 	$(info C_EXE is $(C_EXE))
+	$(info S_OBJ is $(S_OBJ))
+	$(info S_EXE is $(S_EXE))
 	$(info MOD_SRC is $(MOD_SRC))
 	$(info MOD_SA_SRC is $(MOD_SA_SRC))
 	$(info ALL is $(ALL))
