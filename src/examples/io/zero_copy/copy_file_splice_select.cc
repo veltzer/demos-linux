@@ -35,7 +35,7 @@
 void copy_file(const char* filein, const char* fileout, const bool setbufsize, const size_t buf_size) {
 	// lets create a pipe
 	int pipe_fds[2];
-	CHECK_NOT_M1(pipe2(pipe_fds,O_NONBLOCK));
+	CHECK_NOT_M1(pipe2(pipe_fds, O_NONBLOCK));
 	if(setbufsize) {
 		CHECK_NOT_M1(fcntl(pipe_fds[0], F_SETPIPE_SZ, buf_size));
 	}
@@ -62,7 +62,7 @@ void copy_file(const char* filein, const char* fileout, const bool setbufsize, c
 			}
 		}
 		if (s.isWriteActive(fdout)) {
-			data-=CHECK_INT(splice(pipe_fds[0], 0, fdout, 0, data, SPLICE_F_MOVE | SPLICE_F_NONBLOCK),data);
+			data-=CHECK_INT(splice(pipe_fds[0], 0, fdout, 0, data, SPLICE_F_MOVE | SPLICE_F_NONBLOCK), data);
 		}
 	} while(!eof || data>0);
 	CHECK_NOT_M1(close(pipe_fds[0]));
