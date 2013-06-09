@@ -28,6 +28,6 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	CHECK_NOT_M1(syscall(SYS_write,1,"Hello, World!\n",14));
+	CHECK_NOT_M1(syscall(SYS_write, 1, "Hello, World!\n", 14));
 	return EXIT_SUCCESS;
 }

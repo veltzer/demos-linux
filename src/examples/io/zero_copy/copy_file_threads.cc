@@ -32,8 +32,8 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: usage: %s [infile] [outfile] [numpages]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	//const char* filein=argv[1];
-	//const char* fileout=argv[2];
-	//const unsigned int numpages=atoi(argv[3]);
+	// const char* filein=argv[1];
+	// const char* fileout=argv[2];
+	// const unsigned int numpages=atoi(argv[3]);
 	return EXIT_SUCCESS;
 }

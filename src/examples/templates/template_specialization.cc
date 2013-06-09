@@ -17,16 +17,46 @@
  */
 
 #include <firstinclude.h>
-#include <unistd.h>	// for write(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <iostream>	// for std::cout, std::endl
 
 /*
- * This is an example of how to do the classic "Hello, World!\n"
- * program using the write(2) system call...
+ * This is an example of template specialization.
+ *
+ * References:
+ * http://www.cprogramming.com/tutorial/template_specialization.html
  */
 
+template<typename T> class Vector {
+private:
+	unsigned int size;
+
+public:
+	Vector(unsigned int isize) {
+		size=isize;
+	}
+	unsigned int getSize() {
+		return size;
+	}
+};
+
+template<> class Vector<bool> {
+private:
+	unsigned int size;
+
+public:
+	Vector(unsigned int isize) {
+		size=isize/8;
+	}
+	unsigned int getSize() {
+		return size;
+	}
+};
+
 int main(int argc, char** argv, char** envp) {
-	CHECK_NOT_M1(write(1, "Hello, World!\n", 14));
+	Vector<int> v1(100);
+	std::cout << "v1.getSize() is " << v1.getSize() << std::endl;
+	Vector<bool> v2(100);
+	std::cout << "v2.getSize() is " << v2.getSize() << std::endl;
 	return EXIT_SUCCESS;
 }

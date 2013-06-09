@@ -33,7 +33,7 @@
  */
 
 // release the next line if you want to debug the pipe...
-//#define PIPE_DEBUG
+// #define PIPE_DEBUG
 
 class CircularPipe {
 private:
@@ -91,16 +91,16 @@ public:
 		}
 		ssize_t len=CHECK_NOT_M1(read(fd, buf+pos_write, count));
 #ifdef PIPE_DEBUG
-		printf("read: rp=%d, wp=%d, c=%d, l=%d\n", pos_read, pos_write, count,len);
-#endif /* PIPE_DEBUG */
+		printf("read: rp=%d, wp=%d, c=%d, l=%d\n", pos_read, pos_write, count, len);
+#endif	/* PIPE_DEBUG */
 		pos_write+=len;
 		pos_write%=size;
 		return len==0;
 	}
 	/* write data from the pipe (at pos_write) */
 	inline void pull(int fd) {
-		//printf("pos_read is %d\n",pos_read);
-		//printf("pos_write is %d\n",pos_write);
+		// printf("pos_read is %d\n",pos_read);
+		// printf("pos_write is %d\n",pos_write);
 		size_t count;
 		if (pos_read <= pos_write) {
 			count = pos_write-pos_read;
@@ -110,7 +110,7 @@ public:
 		ssize_t len=CHECK_NOT_M1(write(fd, buf+pos_read, count));
 #ifdef PIPE_DEBUG
 		printf("write: rp=%d, wp=%d, c=%d, l=%d\n", pos_read, pos_write, count, len);
-#endif /* PIPE_DEBUG */
+#endif	/* PIPE_DEBUG */
 		pos_read+=len;
 		pos_read%=size;
 	}
