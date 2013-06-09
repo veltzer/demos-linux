@@ -17,3 +17,25 @@
  * Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  * 02111-1307 USA.
  */
+
+#include <firstinclude.h>
+#include <stdio.h>	// for fprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+
+/*
+ * This example shows how to implement a simple copy file using two threads.
+ * This is useful if the two files are on different hard drives and have different
+ * read/write bandwidths.
+ */
+
+int main(int argc, char** argv, char** envp) {
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage: %s [infile] [outfile] [numpages]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
+	}
+	//const char* filein=argv[1];
+	//const char* fileout=argv[2];
+	//const unsigned int numpages=atoi(argv[3]);
+	return EXIT_SUCCESS;
+}
