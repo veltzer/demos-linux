@@ -8,7 +8,4 @@ TODO list for the build system for these examples:
 - make the standalone folder examples use ccache too (as derived from
 	the main makefile).
 - make the kernel use ccache too?!?
-- compile all the examples on a 64 bit system (they do not compile).
-	This will probably require me to setup a 64bit virtual
-	machine using virtual box or some such.
-
+- the assembly examples will probably not compile on 64 bit. Fix that.
