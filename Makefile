@@ -357,7 +357,7 @@ check_include:
 .PHONY: check_license
 check_license:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh' '*.S'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
