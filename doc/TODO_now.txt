@@ -1,13 +1,10 @@
 examples:
+- replace the licenses and get to better license checking.
 - do copy using two threads.
 - compare the performance of all of my copy implementations using
 	some kind of script.
 - do networking select example.
 - do tee using select example.
-
-- the license in the files is LGPL while the master license and
-the README.md talke about GPL3. Make up my mind and fix this
-situation.
 
 - add features to my epoll echo server:
 	- add timeout support.
