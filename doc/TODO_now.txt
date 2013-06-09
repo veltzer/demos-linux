@@ -1,5 +1,10 @@
 examples:
-- replace the licenses and get to better license checking.
+- make the change license program use os.walk and do everything
+	on it's own.
+- do the timeout exercise for the epoll server.
+- web server using splice.
+- see that there are no warnings in eclipse.
+	(run the eclipse c++ validation tool out of eclipse).
 - do copy using two threads.
 - compare the performance of all of my copy implementations using
 	some kind of script.
