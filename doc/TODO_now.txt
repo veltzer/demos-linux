@@ -1,5 +1,4 @@
 examples:
-- do copy using splice+select.
 - do copy using two threads.
 - compare the performance of all of my copy implementations using
 	some kind of script.
