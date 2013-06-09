@@ -77,7 +77,7 @@ int main(int argc, char** argv, char** envp) {
 	if(argc!=5) {
 		fprintf(stderr, "%s: usage: %s [infile] [outfile] [setbufsize] [num_pages]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: try to use setbufsize=1 and num_pages=8 to match what is going on in the official cp(1)\n", argv[0]);
-		fprintf(stderr, "%s: which was derived by strac(1)ing cp(1)\n", argv[0]);
+		fprintf(stderr, "%s: which was derived by strace(1)ing cp(1)\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* filein=argv[1];
