@@ -16,8 +16,15 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __us_signals_h
-#define __us_signals_h
+#ifndef __signal_utils_h
+#define __signal_utils_h
+
+/*
+ * This is a collection of helper function to help with dealing
+ * with the Linux signal API
+ */
+
+/* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
 #include <us_helper.h>	// for ARRAY_SIZEOF(), CHECK_ASSERT()
@@ -101,4 +108,4 @@ static inline void print_signal_names() {
 	}
 }
 
-#endif	/* !__us_signals_h */
+#endif	/* !__signal_utils_h */

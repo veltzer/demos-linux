@@ -19,6 +19,13 @@
 #ifndef __network_utils_h
 #define __network_utils_h
 
+/*
+ * This file provides some helper functions to help deal with the Linux
+ * networking API
+ */
+
+/* THIS IS A C FILE, NO C++ here */
+
 #include <firstinclude.h>
 #include <us_helper.h>	// for CHECK_NOT_M1()
 #include <sys/types.h>	// for open(2)
@@ -27,8 +34,6 @@
 #include <unistd.h>	// for read(2), close(2)
 #include <stdlib.h>	// for atoi(3)
 #include <netdb.h>	// for getservbyname(3)
-
-/* THIS IS A C FILE, NO C++ here */
 
 static inline int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...

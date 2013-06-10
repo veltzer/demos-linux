@@ -19,6 +19,12 @@
 #ifndef __us_helper_h
 #define __us_helper_h
 
+/*
+ * This is an eclectic collection of helper functions for user space
+ * programming. Some of them, after a period of maturation, will ultimately
+ * find their resting places in other files. This is sometimes an incubator.
+ */
+
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
