@@ -27,6 +27,7 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 #include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
+#include <CircularPipe.hh>	// for CircularPipe:Object
 
 /*
  * This is a solution to the echo server exercise.
@@ -41,24 +42,35 @@
  * want to read fast (without blocking) and then you want to write fast.
  * - this solution relies on the fact that we can write writhout blocking. If we come up short then
  * we crash. This is not really a good idea. See an improvement to this exercise for a better solution.
+ *
+ * enable next line to get debug
+ * EXTRA_COMPILE_FLAGS_DUMMY=-O0 -g3
  */
 
-typedef struct bufdata {
-	char* buffer;
-	unsigned int size;
-	unsigned int write_pos;
-	unsigned int read_pos;
-} bufdata;
+inline void register_fd(int realfd, CircularPipe* cp, int epollfd, int op) {
+	struct epoll_event ev;
+	ev.events=EPOLLRDHUP;
+	if(cp->haveData()) {
+		ev.events|=EPOLLOUT;
+	}
+	if(cp->haveRoom()) {
+		ev.events|=EPOLLIN;
+	}
+	ev.data.fd=realfd;
+	CHECK_NOT_M1(epoll_ctl(epollfd, op, realfd, &ev));
+}
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=4) {
-		fprintf(stderr, "%s: usage: %s [host] [port] [bufsize]\n", argv[0], argv[0]);
+	if(argc!=5) {
+		fprintf(stderr, "%s: usage: %s [host] [port] [bufsize] [maxevents]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: for example: %s localhost 8080 4096 100\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// get the parameters
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);
 	const unsigned int bufsize=atoi(argv[3]);
+	const unsigned int maxevents=atoi(argv[3]);
 
 	// open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
@@ -82,8 +94,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(listen(sockfd, backlog));
 
 	// create the epollfd
-	const unsigned int max_events=10;
-	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
+	int epollfd=CHECK_NOT_M1(epoll_create(maxevents));
 
 	// add the listening socket to it
 	struct epoll_event ev;
@@ -92,58 +103,49 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sockfd, &ev));
 
 	// data structures
-	std::map<int, bufdata> fdbuffermap;
+	std::map<int, CircularPipe*> fdbuffermap;
 
 	// message to the user
 	printf("contact me at host %s port %d\n", host, port);
 
 	// go into the endless service loop
 	while(true) {
-		struct epoll_event events[max_events];
-		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
+		struct epoll_event events[maxevents];
+		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, maxevents, -1));
 		for(int n=0; n<nfds; n++) {
 			int currfd=events[n].data.fd;
-			// someone is trying to connect
+			TRACE("currfd is %d",currfd);
+			// connect
 			if(currfd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen=sizeof(local);
 				int realfd=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
-				struct epoll_event ev;
-				ev.events=EPOLLIN|EPOLLRDHUP;
-				ev.data.fd=realfd;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, realfd, &ev));
-				// put the data in the map
-				bufdata bd;
-				bd.buffer=(char*)CHECK_NOT_NULL(malloc(bufsize*sizeof(char)));
-				bd.size=0;
-				bd.read_pos=0;
-				bd.write_pos=0;
-				fdbuffermap[realfd]=bd;
+				CircularPipe* cp=new CircularPipe(bufsize);
+				fdbuffermap[realfd]=cp;
+				register_fd(realfd, cp, epollfd, EPOLL_CTL_ADD);
 			}
+			// can read
 			if(fdbuffermap.find(currfd)!=fdbuffermap.end() && events[n].events & EPOLLIN) {
 				int realfd=currfd;
-				char* buffer=fdbuffermap.find(realfd)->second.buffer;
-				int read_pos=fdbuffermap.find(realfd)->second.read_pos;
-				ssize_t len=CHECK_NOT_M1(read(realfd, buffer+read_pos, bufsize));
-				fdbuffermap.find(realfd)->second.read_pos+=len;
-				// now mark this fd as waiting for write
-				ev.events=EPOLLIN|EPOLLRDHUP|EPOLLOUT;
-				ev.data.fd=realfd;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_MOD, realfd, &ev));
+				CircularPipe* cp=fdbuffermap.find(realfd)->second;
+				cp->push(realfd);
+				register_fd(realfd, cp, epollfd, EPOLL_CTL_MOD);
 			}
+			// can write
 			if(fdbuffermap.find(currfd)!=fdbuffermap.end() && events[n].events & EPOLLOUT) {
 				int realfd=currfd;
-				char* buffer=fdbuffermap.find(realfd)->second.buffer;
-				int read_pos=fdbuffermap.find(realfd)->second.read_pos;
-				int write_pos=fdbuffermap.find(realfd)->second.write_pos;
-				CHECK_INT(write(realfd, buffer+write_pos, read_pos-write_pos), read_pos-write_pos);
+				CircularPipe* cp=fdbuffermap.find(realfd)->second;
+				cp->pull(realfd);
+				register_fd(realfd, cp, epollfd, EPOLL_CTL_MOD);
 			}
+			// disconnect
 			if(fdbuffermap.find(currfd)!=fdbuffermap.end() && events[n].events & EPOLLRDHUP) {
 				int realfd=currfd;
-				char* buffer=fdbuffermap.find(realfd)->second.buffer;
+				CircularPipe* cp=fdbuffermap.find(realfd)->second;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
 				CHECK_NOT_M1(close(realfd));
-				free(buffer);
+				delete cp;
+				fdbuffermap.erase(realfd);
 			}
 		}
 	}

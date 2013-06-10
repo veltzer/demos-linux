@@ -37,20 +37,20 @@
 
 class CircularPipe {
 private:
-	char* buf;
 	size_t size;
+	char* buf;
 	size_t pos_read;
 	size_t pos_write;
 
 public:
 	inline CircularPipe(const size_t isize) {
 		size=isize;
+		buf=(char*)CHECK_NOT_NULL(malloc(size));
 		pos_read=0;
 		pos_write=0;
-		buf=(char*)CHECK_NOT_NULL(malloc(size));
 	}
 	inline ~CircularPipe() {
-		free(buf);
+		free((void*)buf);
 	}
 	/* return the occupied room of a pipe */
 	inline size_t data() {

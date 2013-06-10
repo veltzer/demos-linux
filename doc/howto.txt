@@ -1,0 +1,10 @@
+This HOWTO shows how to do various things in this project
+=========================================================
+
+- how to compile an example without optimization ?
+	add a line like:
+		EXTRA_COMPILE_FLAGS=-O0 -g3
+	to the example.
+
+- how to see the command lines issued by make ?
+	make DO_MKDBG=1
