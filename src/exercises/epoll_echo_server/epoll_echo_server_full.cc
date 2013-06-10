@@ -28,15 +28,16 @@
 #include <network_utils.h>	// for get_backlog()
 #include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
 #include <CircularPipe.hh>	// for CircularPipe:Object
+#include <sys/timerfd.h>	// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
- * This is a solution to the echo server exercise which handles async writes.
+ * This is a solution to the echo server exercise.
  *
  * enable next line to get debug
  * EXTRA_COMPILE_FLAGS_DUMMY=-O0 -g3
  */
 
-inline void register_fd(int realfd, CircularPipe* cp, int epollfd, int op) {
+static inline void register_fd(int realfd, CircularPipe* cp, int epollfd, int op) {
 	struct epoll_event ev;
 	ev.events=EPOLLRDHUP;
 	if(cp->haveData()) {
@@ -47,6 +48,17 @@ inline void register_fd(int realfd, CircularPipe* cp, int epollfd, int op) {
 	}
 	ev.data.fd=realfd;
 	CHECK_NOT_M1(epoll_ctl(epollfd, op, realfd, &ev));
+}
+
+static inline void setup_timer(int timerfd) {
+	struct itimerspec new_value;
+	new_value.it_value.tv_sec=10;
+	new_value.it_value.tv_nsec=0;
+	new_value.it_interval.tv_sec=0;
+	new_value.it_interval.tv_nsec=0;
+	// dont need the old timer value
+	// 0 in the flags means relative time
+	CHECK_NOT_M1(timerfd_settime(timerfd, 0, &new_value, NULL));
 }
 
 int main(int argc, char** argv, char** envp) {
@@ -93,6 +105,8 @@ int main(int argc, char** argv, char** envp) {
 
 	// data structures
 	std::map<int, CircularPipe*> fdbuffermap;
+	std::map<int, int> fdmap;
+	std::map<int, int> timermap;
 
 	// message to the user
 	printf("contact me at host %s port %d\n", host, port);
@@ -111,13 +125,23 @@ int main(int argc, char** argv, char** envp) {
 				CircularPipe* cp=new CircularPipe(bufsize);
 				fdbuffermap[realfd]=cp;
 				register_fd(realfd, cp, epollfd, EPOLL_CTL_ADD);
+				int timerfd=CHECK_NOT_M1(timerfd_create(CLOCK_REALTIME, 0));
+				ev.events=EPOLLIN;
+				ev.data.fd=timerfd;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, timerfd, &ev));
+				setup_timer(timerfd);
+				fdmap[realfd]=timerfd;
+				timermap[timerfd]=realfd;
 			}
 			// can read
 			if(fdbuffermap.find(currfd)!=fdbuffermap.end() && events[n].events & EPOLLIN) {
 				int realfd=currfd;
+				int timerfd=fdmap.find(realfd)->second;
 				CircularPipe* cp=fdbuffermap.find(realfd)->second;
 				cp->push(realfd);
 				register_fd(realfd, cp, epollfd, EPOLL_CTL_MOD);
+				// reset the timer on the timerfd
+				setup_timer(timerfd);
 			}
 			// can write
 			if(fdbuffermap.find(currfd)!=fdbuffermap.end() && events[n].events & EPOLLOUT) {
@@ -129,11 +153,30 @@ int main(int argc, char** argv, char** envp) {
 			// disconnect
 			if(fdbuffermap.find(currfd)!=fdbuffermap.end() && events[n].events & EPOLLRDHUP) {
 				int realfd=currfd;
-				CircularPipe* cp=fdbuffermap.find(realfd)->second;
+				int timerfd=fdmap.find(realfd)->second;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, timerfd, NULL));
 				CHECK_NOT_M1(close(realfd));
+				CHECK_NOT_M1(close(timerfd));
+				CircularPipe* cp=fdbuffermap.find(realfd)->second;
 				delete cp;
 				fdbuffermap.erase(realfd);
+				fdmap.erase(realfd);
+				timermap.erase(timerfd);
+			}
+			// timeout
+			if(timermap.find(currfd)!=timermap.end()) {
+				int timerfd=currfd;
+				int realfd=timermap.find(timerfd)->second;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, timerfd, NULL));
+				CHECK_NOT_M1(close(realfd));
+				CHECK_NOT_M1(close(timerfd));
+				CircularPipe* cp=fdbuffermap.find(realfd)->second;
+				delete cp;
+				fdbuffermap.erase(realfd);
+				fdmap.erase(realfd);
+				timermap.erase(timerfd);
 			}
 		}
 	}

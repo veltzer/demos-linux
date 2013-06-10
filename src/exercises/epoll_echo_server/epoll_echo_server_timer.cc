@@ -27,7 +27,7 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 #include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
-#include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
+#include <sys/timerfd.h>	// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
  * This is a solution to the echo server exercise with timeouts for connections.
@@ -35,7 +35,7 @@
  * This solution does not handle writes correctly.
  */
 
-void setup_timer(int timerfd) {
+static inline void setup_timer(int timerfd) {
 	struct itimerspec new_value;
 	new_value.it_value.tv_sec=10;
 	new_value.it_value.tv_nsec=0;
@@ -101,7 +101,7 @@ int main(int argc, char** argv, char** envp) {
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, maxevents, -1));
 		for(int n=0; n<nfds; n++) {
 			int currfd=events[n].data.fd;
-			// is it a new connection fd?
+			// connect
 			if(currfd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen=sizeof(local);
@@ -118,9 +118,8 @@ int main(int argc, char** argv, char** envp) {
 				fdmap[realfd]=timerfd;
 				timermap[timerfd]=realfd;
 			}
-			// is it an IO event?
+			// can read
 			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLIN) {
-				TRACE("data in");
 				int realfd=currfd;
 				int timerfd=fdmap.find(realfd)->second;
 				const int buflen=1024;
@@ -131,9 +130,8 @@ int main(int argc, char** argv, char** envp) {
 				// reset the timer on the timerfd
 				setup_timer(timerfd);
 			}
-			// is it an disconnect event?
+			// disconnect 
 			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLRDHUP) {
-				TRACE("disconnect event");
 				int realfd=currfd;
 				int timerfd=fdmap.find(realfd)->second;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
@@ -143,9 +141,8 @@ int main(int argc, char** argv, char** envp) {
 				fdmap.erase(realfd);
 				timermap.erase(timerfd);
 			}
-			// is it a timer event? if so then close the connection
+			// timeout
 			if(timermap.find(currfd)!=timermap.end()) {
-				TRACE("timer expired");
 				int timerfd=currfd;
 				int realfd=timermap.find(timerfd)->second;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
