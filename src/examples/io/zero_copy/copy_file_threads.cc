@@ -17,14 +17,16 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3)
+#include <stdio.h>	// for fprintf(3), stderr
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 /*
  * This example shows how to implement a simple copy file using two threads.
  * This is useful if the two files are on different hard drives and have different
  * read/write bandwidths.
+ *
+ * TODO:
+ * - write this example
  */
 
 int main(int argc, char** argv, char** envp) {
