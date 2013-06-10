@@ -1,6 +1,4 @@
 examples:
-- make the change license program use os.walk and do everything
-	on it's own.
 - do the timeout exercise for the epoll server.
 - web server using splice.
 - see that there are no warnings in eclipse.

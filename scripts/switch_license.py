@@ -1,28 +1,44 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-import sys # for sys.argv
+"""
+This script moves over all source file and switches their license. It
+only does so if they carry the old license
+"""
 
-old_lic=open("support/old_license.txt").read()
-new_lic=open("support/license.txt").read()
+import sys # for argv
+import os # for walk
 
-#print old_lic
-#print new_lic
-#sys.exit(0)
+if len(sys.argv)>1:
+	raise ValueError('no parameters on the cmd line')
 
-for x in sys.argv[1:]:
-	try:
-		in_f=open(x)
-		f=in_f.read()
-		in_f.close()
-		#print f, old_lic
-		if f.startswith(old_lic):
-			f=new_lic+f[len(old_lic):]
-			#print f
-			in_f=open(x,"wb")
-			in_f.write(f)
+f_old=open("support/old_license.txt")
+old_lic=f_old.read()
+f_old.close()
+f_new=open("support/license.txt")
+new_lic=f_new.read()
+f_new.close()
+
+suffixes=['.c','.cc','.h','.hh','.S']
+bad_suffixes=['.mod.c']
+root_folder='.'
+for root,dirs,files in os.walk(root_folder):
+	for file in files:
+		current_file=os.path.join(root,file)
+		doit=False
+		for suf in suffixes:
+			if current_file.endswith(suf):
+				doit=True
+		for suf in bad_suffixes:
+			if current_file.endswith(suf):
+				doit=False
+		if doit:
+			in_f=open(current_file,'r')
+			f=in_f.read()
 			in_f.close()
-			print "file",x,"was license replaced..."
-		else:
-			print "file",x,"does not start with the right license"
-	except:
-		pass
+			if f.startswith(old_lic):
+				f=new_lic+f[len(old_lic):]
+				with open(current_file,'wb') as out_f:
+					out_f.write(f.encode('utf-8'))
+					print('file',current_file,'was license replaced...')
+			else:
+				print('file',current_file,'does not start with the right license')
