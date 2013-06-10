@@ -19,13 +19,18 @@
 #ifndef __multi_processing_h
 #define __multi_processing_h
 
+/*
+ * This is a collection of function to help with the linux
+ * multi processing API
+ */
+
+/* THIS IS A C FILE, NO C++ here */
+
 #include <firstinclude.h>
 #include <us_helper.h>	// for TRACE()
 #include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <string.h>	// for strsignal(3)
-
-/* THIS IS A C FILE, NO C++ here */
 
 static inline void print_status(int status) {
 	TRACE("analyzing code [%d]", status);

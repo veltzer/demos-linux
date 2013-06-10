@@ -19,6 +19,11 @@
 #ifndef __measure_h
 #define __measure_h
 
+/*
+ * This is a helper file for doing performance measurements using
+ * the gettimeofday(2) system call.
+ */
+
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>

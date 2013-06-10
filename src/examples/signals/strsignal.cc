@@ -21,11 +21,11 @@
 #include <string.h>	// for strsignal(3)
 #include <stdio.h>	// for printf(3)
 #include <signal.h>	// for signal names
-#include <us_signals.h>	// for print_signal_names()
+#include <signal_utils.h>	// for print_signal_names()
 
 /*
  * This is an example of using strsignal(3) to print out signal names.
- * See the us_signals.h header file for more details.
+ * See the signal_utils.h header file for more details.
  */
 
 int main(int argc, char** argv, char** envp) {

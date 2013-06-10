@@ -44,51 +44,6 @@
  * short?
  */
 
-void print_events(char* buffer, size_t size, uint32_t events) {
-	char* p=buffer;
-	int cursize=size;
-	if(events & EPOLLIN) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLIN "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLOUT) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLOUT "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLRDHUP) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLRDHUP "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLPRI) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLPRI "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLERR) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLERR "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLHUP) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLHUP "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLET) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLET "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLONESHOT) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLONESHOT "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-}
-
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
 		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
@@ -152,12 +107,7 @@ int main(int argc, char** argv, char** envp) {
 				ev.data.fd=conn_sock;
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
 			} else {
-				// TRACE("got activity on fd %d", events[n].data.fd);
-				// char printbuff[1024];
-				// print_events(printbuff, 1024, events[n].events);
-				// TRACE("got events %s", printbuff);
 				if(events[n].events & EPOLLRDHUP) {
-					// TRACE("closing the fd %d", fd);
 					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, currfd, NULL));
 					CHECK_NOT_M1(close(currfd));
 				} else {
@@ -167,7 +117,6 @@ int main(int argc, char** argv, char** envp) {
 						ssize_t len=CHECK_NOT_M1(read(currfd, buffer, buflen));
 						// TODO: handle short writes!
 						CHECK_INT(write(currfd, buffer, len), len);
-						// TRACE("read %zd bytes and wrote %zd bytes", len, ret);
 					}
 				}
 			}
