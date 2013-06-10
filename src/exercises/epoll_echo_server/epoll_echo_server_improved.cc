@@ -30,20 +30,9 @@
 #include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
- * This is a solution to the echo server exercise.
+ * This is a solution to the echo server exercise with timeouts for connections.
  *
- * NOTES:
- * - events arrive together. One epoll_wait can wake you up on multiple events on the same fd.
- * - EPOLLRDHUP is the event delivered when the other side hangs up.
- * - EPOLLOUT is the event delivered when writing is done. If we work edge triggered then
- * it will be delivered only once. We are supposed to check that the entire write is done.
- * - to stop polling on an fd you must first deregister it from epoll AND ONLY THEN close it (obvious).
- * - we are doing async IO here all over. This means that when you are notified that there is data you
- * to read fast (without blocking) and then you get to write fast.
- *
- * TODO:
- * - check what happens when we write large amounts of data to the output. Will the async write come up
- * short?
+ * This solution does not handle writes correctly.
  */
 
 void setup_timer(int timerfd) {
@@ -58,13 +47,13 @@ void setup_timer(int timerfd) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=3) {
-		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage: %s [host] [port] [maxevents]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);
-	printf("contact me at host %s port %d\n", host, port);
+	const unsigned int maxevents=atoi(argv[3]);
 
 	// data structures
 	std::map<int, int> fdmap;
@@ -72,12 +61,10 @@ int main(int argc, char** argv, char** envp) {
 
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
-	printf("opened socket with sockfd %d\n", sockfd);
 
 	// lets make the socket reusable
 	int optval=1;
 	CHECK_NOT_M1(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)));
-	printf("setsockopt was ok\n");
 
 	// lets create the address
 	struct sockaddr_in server;
@@ -91,27 +78,27 @@ int main(int argc, char** argv, char** envp) {
 
 	// lets bind to the socket to the address
 	CHECK_NOT_M1(bind(sockfd, (struct sockaddr *)&server, sizeof(server)));
-	printf("bind was successful\n");
 
 	// lets listen in...
 	int backlog=get_backlog();
-	printf("backlog is %d\n", backlog);
 	CHECK_NOT_M1(listen(sockfd, backlog));
-	printf("listen was successful\n");
 
 	// create the epoll fd
-	const unsigned int max_events=10;
-	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
+	int epollfd=CHECK_NOT_M1(epoll_create(maxevents));
 
 	// add the listening socket to it
 	struct epoll_event ev;
 	ev.events=EPOLLIN;
 	ev.data.fd=sockfd;
 	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sockfd, &ev));
+
+	// message to the user
+	printf("contact me at host %s port %d\n", host, port);
+
 	// go into the endless service loop
 	while(true) {
-		struct epoll_event events[max_events];
-		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
+		struct epoll_event events[maxevents];
+		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, maxevents, -1));
 		for(int n=0; n<nfds; n++) {
 			int currfd=events[n].data.fd;
 			// is it a new connection fd?
