@@ -1,4 +1,6 @@
 examples:
+- make the linuxapi project compile for new ubuntu users
+	(by default without intel compiler, without papi and without fcmp).
 - web server using splice.
 - see that there are no warnings in eclipse.
 	(run the eclipse c++ validation tool out of eclipse).
