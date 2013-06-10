@@ -1,5 +1,5 @@
 /*
- * This file is part of the linuxapi project.
+ * This file is part of the linuxapi package.
  * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
  *
  * linuxapi is free software: you can redistribute it and/or modify

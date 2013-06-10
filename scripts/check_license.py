@@ -7,10 +7,15 @@ have, at their begining, the license specified in
 'support/license.txt'
 """
 
-import sys # for sys.argv
+import sys # for argv
 import os # for walk
 
-new_lic=open("support/license.txt").read()
+if len(sys.argv)>1:
+	raise ValueError('no parameters on the cmd line')
+
+f_new=open("support/license.txt")
+new_lic=f_new.read()
+f_new.close()
 
 suffixes=['.c','.cc','.h','.hh','.S']
 bad_suffixes=['.mod.c']
