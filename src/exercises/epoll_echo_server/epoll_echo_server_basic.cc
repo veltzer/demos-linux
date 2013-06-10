@@ -26,8 +26,6 @@
 #include <unistd.h>	// for read(2), close(2), write(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
-#include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
-#include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
  * This is a solution to the echo server exercise.
@@ -39,23 +37,10 @@
  * it will be delivered only once. We are supposed to check that the entire write is done.
  * - to stop polling on an fd you must first deregister it from epoll AND ONLY THEN close it (obvious).
  * - we are doing async IO here all over. This means that when you are notified that there is data you
- * to read fast (without blocking) and then you get to write fast.
- *
- * TODO:
- * - check what happens when we write large amounts of data to the output. Will the async write come up
- * short?
+ * want to read fast (without blocking) and then you want to write fast.
+ * - this solution relies on the fact that we can write writhout blocking. If we come up short then
+ * we crash. This is not really a good idea. See an improvement to this exercise for a better solution.
  */
-
-void setup_timer(int timerfd) {
-	struct itimerspec new_value;
-	new_value.it_value.tv_sec=10;
-	new_value.it_value.tv_nsec=0;
-	new_value.it_interval.tv_sec=0;
-	new_value.it_interval.tv_nsec=0;
-	// dont need the old timer value
-	// 0 in the flags means relative time
-	CHECK_NOT_M1(timerfd_settime(timerfd, 0, &new_value, NULL));
-}
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
@@ -65,10 +50,6 @@ int main(int argc, char** argv, char** envp) {
 	const char* host=argv[1];
 	const unsigned int port=atoi(argv[2]);
 	printf("contact me at host %s port %d\n", host, port);
-
-	// data structures
-	std::map<int, int> fdmap;
-	std::map<int, int> timermap;
 
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
@@ -114,59 +95,30 @@ int main(int argc, char** argv, char** envp) {
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {
 			int currfd=events[n].data.fd;
-			// is it a new connection fd?
+			// someone is trying to connect
 			if(currfd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen=sizeof(local);
-				int realfd=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
+				int conn_sock=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
 				struct epoll_event ev;
 				ev.events=EPOLLIN|EPOLLRDHUP;
-				ev.data.fd=realfd;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, realfd, &ev));
-				int timerfd=CHECK_NOT_M1(timerfd_create(CLOCK_REALTIME, 0));
-				ev.events=EPOLLIN;
-				ev.data.fd=timerfd;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, timerfd, &ev));
-				setup_timer(timerfd);
-				fdmap[realfd]=timerfd;
-				timermap[timerfd]=realfd;
-			}
-			// is it an IO event?
-			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLIN) {
-				TRACE("data in");
-				int realfd=currfd;
-				int timerfd=fdmap.find(realfd)->second;
-				const int buflen=1024;
-				char buffer[buflen];
-				ssize_t len=CHECK_NOT_M1(read(realfd, buffer, buflen));
-				// TODO: handle short writes!
-				CHECK_INT(write(realfd, buffer, len), len);
-				// reset the timer on the timerfd
-				setup_timer(timerfd);
-			}
-			// is it an disconnect event?
-			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLRDHUP) {
-				TRACE("disconnect event");
-				int realfd=currfd;
-				int timerfd=fdmap.find(realfd)->second;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, timerfd, NULL));
-				CHECK_NOT_M1(close(realfd));
-				CHECK_NOT_M1(close(timerfd));
-				fdmap.erase(realfd);
-				timermap.erase(timerfd);
-			}
-			// is it a timer event? if so then close the connection
-			if(timermap.find(currfd)!=timermap.end()) {
-				TRACE("timer expired");
-				int timerfd=currfd;
-				int realfd=timermap.find(timerfd)->second;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, timerfd, NULL));
-				CHECK_NOT_M1(close(realfd));
-				CHECK_NOT_M1(close(timerfd));
-				fdmap.erase(realfd);
-				timermap.erase(timerfd);
+				ev.data.fd=conn_sock;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
+			} else {
+				if(events[n].events & EPOLLRDHUP) {
+					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, currfd, NULL));
+					CHECK_NOT_M1(close(currfd));
+				} else {
+					if(events[n].events & EPOLLIN) {
+						const int buflen=1024;
+						char buffer[buflen];
+						ssize_t len=CHECK_NOT_M1(read(currfd, buffer, buflen));
+						// PROBLEM: see the problem in the next line?
+						// what if we get a shorter write than len or error=-1
+						// with errno=EWOULDBLOCK?
+						CHECK_INT(write(currfd, buffer, len), len);
+					}
+				}
 			}
 		}
 	}
