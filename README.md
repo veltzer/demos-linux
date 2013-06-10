@@ -27,17 +27,17 @@ use a virtual machine to check that the code works on ia64.
 
 Contributing
 ------------
-This project needs help. fork me and commit.
-Just open a github account, modify and add examples and ask me to commit...
+This project needs help. fork, commit and request me to pull.
+Just open a github account, modify and add examples, commit and ask me to pull...
 A lot of the code is documented but some of it is not. More documentation would be welcome.
 I would give attribution to whomever contributes.
 
 License
 -------
 Code is licensed GPL3 and I hold the copyright unless explicity stolen as attributed in the source code.
-I encourage people to use this source code in courses for instruction.
-Please give me some credit for it if you do wind up using it and consider dropping
-me a note about it so I could feel good...
+I encourage people to use this source code as aid for instructing courses.
+Please give me some credit if you do wind up using this package and consider dropping
+me a note about the fact that you did use the package so I could feel good...
 
 Using it
 --------
