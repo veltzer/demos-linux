@@ -91,6 +91,17 @@ void print_events(char* buffer, size_t size, uint32_t events) {
 	}
 }
 
+void setup_timer(int timerfd) {
+	struct itimerspec new_value;
+	new_value.it_value.tv_sec=10;
+	new_value.it_value.tv_nsec=0;
+	new_value.it_interval.tv_sec=0;
+	new_value.it_interval.tv_nsec=0;
+	// dont need the old timer value
+	// 0 in the flags means relative time
+	CHECK_NOT_M1(timerfd_settime(timerfd, 0, &new_value, NULL));
+}
+
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
 		fprintf(stderr, "%s: usage: %s [host] [port]\n", argv[0], argv[0]);
@@ -146,44 +157,59 @@ int main(int argc, char** argv, char** envp) {
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {
 			int currfd=events[n].data.fd;
-			// someone is trying to connect
+			// is it a new connection fd?
 			if(currfd==sockfd) {
 				struct sockaddr_in local;
 				socklen_t addrlen=sizeof(local);
-				int conn_sock=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
+				int realfd=CHECK_NOT_M1(accept4(sockfd, (struct sockaddr*)&local, &addrlen, SOCK_NONBLOCK));
 				struct epoll_event ev;
 				ev.events=EPOLLIN|EPOLLET|EPOLLOUT|EPOLLRDHUP;
-				ev.data.fd=conn_sock;
-				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev));
+				ev.data.fd=realfd;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, realfd, &ev));
 				int timerfd=CHECK_NOT_M1(timerfd_create(CLOCK_REALTIME, 0));
-				fdmap[conn_sock]=timerfd;
-				timermap[timerfd]=conn_sock;
+				ev.events=EPOLLIN;
+				ev.data.fd=timerfd;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, timerfd, &ev));
+				setup_timer(timerfd);
+				fdmap[realfd]=timerfd;
+				timermap[timerfd]=realfd;
 			}
 			// is it an IO event?
-			if(fdmap.find(currfd)!=fdmap.end()) {
-				// int timerfd=fdmap.find(currfd)->second;
-				// TRACE("got activity on fd %d", events[n].data.fd);
-				char printbuff[1024];
-				print_events(printbuff, 1024, events[n].events);
-				// TRACE("got events %s", printbuff);
-				if(events[n].events & EPOLLRDHUP) {
-					// TRACE("closing the fd %d", fd);
-					CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, currfd, NULL));
-					CHECK_NOT_M1(close(currfd));
-				} else {
-					if(events[n].events & EPOLLIN) {
-						const int buflen=1024;
-						char buffer[buflen];
-						ssize_t len=CHECK_NOT_M1(read(currfd, buffer, buflen));
-						// TODO: handle short writes!
-						CHECK_INT(write(currfd, buffer, len), len);
-						// TRACE("read %zd bytes and wrote %zd bytes", len, ret);
-					}
-				}
+			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLIN) {
+				TRACE("data in");
+				int realfd=currfd;
+				int timerfd=fdmap.find(realfd)->second;
+				const int buflen=1024;
+				char buffer[buflen];
+				ssize_t len=CHECK_NOT_M1(read(realfd, buffer, buflen));
+				// TODO: handle short writes!
+				CHECK_INT(write(realfd, buffer, len), len);
+				// reset the timer on the timerfd
+				setup_timer(timerfd);
 			}
-			// is it a timer event?
+			// is it an disconnect event?
+			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLRDHUP) {
+				TRACE("disconnect event");
+				int realfd=currfd;
+				int timerfd=fdmap.find(realfd)->second;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, timerfd, NULL));
+				CHECK_NOT_M1(close(realfd));
+				CHECK_NOT_M1(close(timerfd));
+				fdmap.erase(realfd);
+				timermap.erase(timerfd);
+			}
+			// is it a timer event? if so then close the connection
 			if(timermap.find(currfd)!=timermap.end()) {
-				// int realfd=timermap.find(currfd)->second;
+				TRACE("timer expired");
+				int timerfd=currfd;
+				int realfd=timermap.find(timerfd)->second;
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, realfd, NULL));
+				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, timerfd, NULL));
+				CHECK_NOT_M1(close(realfd));
+				CHECK_NOT_M1(close(timerfd));
+				fdmap.erase(realfd);
+				timermap.erase(timerfd);
 			}
 		}
 	}
