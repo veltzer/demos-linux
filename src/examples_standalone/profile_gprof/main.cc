@@ -47,8 +47,8 @@ public:
 			// lets _exit on purpose to see if gprof
 			// output is there...
 			if(i==50) {
-				// _exit(-1);
-				exit(-1);
+				// _exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 			}
 			for(unsigned int j=0; j<500000; j++) {
 				sum+=i*j;

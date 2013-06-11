@@ -1,7 +1,5 @@
-This is a TODO list for the linuxapi website
-============================================
-The idea is to have a web site that discusses the C linuxapi.
-It should show the code samples from the git (or parts of them with references to the full example).
-You could seach for examples according to tags too.
-And ofcourse we need a discussion forum about each example.
-And we need to host it on a google webapp or amazon machine.
+- the idea is to have a web site that discusses the C linuxapi.
+- it should show the code samples from the git (or parts of them with references to the full example).
+- you could seach for examples according to tags too.
+- and ofcourse we need a discussion forum about each example.
+- and we need to host it on a google webapp or amazon machine.
