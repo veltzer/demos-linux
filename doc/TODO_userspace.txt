@@ -1,114 +1,68 @@
 - do an example of using /dev/rtc and /dev/hpet...
-
 - do a standalone example of lto optimizations (man gcc/search for lto).
-
 - do an example of hugetlbfs.
 - core dump example: show how an application can dump its own core
-and continue running (gcore on the cmd line, sending itself a signal,
-running the right function).
+	and continue running (gcore on the cmd line, sending itself a signal,
+	running the right function).
 - give an example of a binary that accesses it's own symbols by name.
 	ld_ functions with NULL.
 - do a user space example that compares various ways of getting a time stamp
 	(rdtsc, gettimeofday, getclock, ...)
 - do a user space program that measures the rdtsc progress vs time
 	and compares it to the values taken from the cpufreq library.
-
 - do an example that links dlls together and create a "mega dll".
-- do an example that links object files + a bunch of dlls into a "exe + dlls in one file" package. This way this exe can have backtrace capability with good symbol names. Demo it.
-
-- add my signature to all those examples with some copyright.
-
-do a demo of using the rtc in an application.
-Demo the accuracy of those sleeps as compared to an application using a regular clock
-Show that when using the RTC the interrupts are coming in (/etc/interrupts) not via
-the timer interrupts but rather through the RTC line...
-
-1. Add a demo about how to catch this exception from regular C code using signal and
+- do an example that links object files + a bunch of dlls into a "exe + dlls in one file" package.
+	This way this exe can have backtrace capability with good symbol names. Demo it.
+- do a demo of using the rtc in an application.
+	demo the accuracy of those sleeps as compared to an application using a regular clock
+	show that when using the RTC the interrupts are coming in (/etc/interrupts) not via
+	the timer interrupts but rather through the RTC line...
+- add a demo about how to catch this exception from regular C code using signal and
 	sigaction and show what can be done about it (c level).
-3. Example of how to raise exceptions on all system calls.
+- example of how to raise exceptions on all system calls.
 	C++ wrapper for all system calls.
-4. Examples of debugging malloc stuff:
+- examples of debugging malloc stuff:
 	showing statistics of malloc,
 	hooking into the malloc free hooks
 	replacing the malloc library.
-5. Expand the example BreakOut.cc to show that you can break out of other system calls too (for example shmget).
-
-1. Write an example using futexes.
-2. Write an example that demostrates priorities.
+- expand the example BreakOut.cc to show that you can break out of other system calls too (for example shmget).
+- write an example using futexes.
+- write an example that demostrates priorities.
 	a. Show an example showing different nice levels.
 	b. Show an example showing priority in the same nice level.
 	c. Show running a real time process.
 	d. Show inversion of priority.
-3. Write an example using NTPL and not posix threads.
-1. examples using NTPL.
-2. Starting a thread in suspended mode (pthread or NTPL).
-3. Show code of mutexes in pthread with timeout.
-
-This is a list of examples I need to write to demo expert
-use of signals in a C/C++ linux application.
-
-1. Application which receives a SIGTERM and in the sig handler
-marks a boolean value for the main application to check.
-The main application runs in a loop and checks the boolean
-variable regularly and stops it's work once the signal arrives.
-
-2. Application which generates a SIGSEGV by doing some illegal
-memory access. The application handles this signal in it's
-own code and then calls the default handler (which creates
-a core dump).
-
-3. Application which shows how to pass extra information using
-a signal handler.
-
-4. Application which generates an FPE, then does not core dump
-but rather continues processing. Show how to know where the FPE
-came from (extra information?).
-
-5. Show combinations of signal handlers and C++ exceptions. Where
-do they conflict and where do they match.
-
-signal demos:
-=============
-
-This is a list of examples I need to write to demo expert
-use of signals in a C/C++ linux application.
-
-1. Application which receives a SIGTERM and in the sig handler
-marks a boolean value for the main application to check.
-The main application runs in a loop and checks the boolean
-variable regularly and stops it's work once the signal arrives.
-
-2. Application which generates a SIGSEGV by doing some illegal
-memory access. The application handles this signal in it's
-own code and then calls the default handler (which creates
-a core dump).
-
-3. Application which shows how to pass extra information using
-a signal handler.
-
-4. Application which generates an FPE, then does not core dump
-but rather continues processing. Show how to know where the FPE
-came from (extra information?).
-
-5. Show combinations of signal handlers and C++ exceptions. Where
-do they conflict and where do they match.
-
+- write an example using NTPL and not posix threads.
+- examples using NTPL.
+- starting a thread in suspended mode (pthread or NTPL).
+- show code of mutexes in pthread with timeout.
+- application which receives a SIGTERM and in the sig handler
+	marks a boolean value for the main application to check.
+	The main application runs in a loop and checks the boolean
+	variable regularly and stops it's work once the signal arrives.
+- application which generates a SIGSEGV by doing some illegal
+	memory access. The application handles this signal in it's
+	own code and then calls the default handler (which creates
+	a core dump).
+- Application which shows how to pass extra information using
+	a signal handler.
+- application which generates an FPE, then does not core dump
+	but rather continues processing. Show how to know where the FPE
+	came from (extra information?).
+- Show combinations of signal handlers and C++ exceptions. Where
+	do they conflict and where do they match.
 - profile how long it takes to setup a timer from user space.
 	(this is for the userspace guys - do an example).
 - show how to break from a blocking sys call in user space using a signal.
 	show how to do this using a timer thus turning each sys call to timed.
 	show that the wakeup is pretty near the expected time (rdtsc).
 - do example of fifo and priorities in pthreads.
-
 - add example of a process doing a fork and the child (or parent) giving themselves
 	a different name so that they would appear differently in the process table
-	(show the process table from the program).
-
-creating temp files correctly:
-==============================
-mkdtemp(3), mktemp(3), tempnam(3), tmpfile(3), tmpnam(3)
-talk about the security issues involved in these.
-- there is already one example of mine which works with temp files.
-
+	(show the process table from the program). - I think I already have a sample like this.
+- creating temp files correctly:
+	mkdtemp(3), mktemp(3), tempnam(3), tmpfile(3), tmpnam(3)
+	talk about the security issues involved in these.
+	there is already one example of mine which works with temp files.
 - do a demo of two processes syncing via futex in shared memory (c++ stuff).
 - do a demo of using compare and set to sync two processes (c++ stuff).

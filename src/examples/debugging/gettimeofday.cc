@@ -17,16 +17,17 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/time.h>
+#include <stdio.h>	// for fprintf(3), stderr, printf(3)
+#include <sys/time.h>	// for gettimeofday(2)
 #include <unistd.h>	// for usleep(3)
 #include <us_helper.h>	// for CHECK_NOT_M1()
+#include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS, exit(3)
 
 /*
  * This example shows how to use gettimeofday
  * This example also shows how accurate this method of measurement is...
  */
+
 void print_timeval(struct timeval *tv, const char *name) {
 	printf("%s - sec is %lu\n", name, tv->tv_sec);
 	printf("%s - usec is %lu\n", name, tv->tv_usec);
@@ -35,12 +36,12 @@ void print_timeval(struct timeval *tv, const char *name) {
 unsigned long diff_timeval_in_micro(struct timeval *tv1, struct timeval *tv2) {
 	if (tv1->tv_sec > tv2->tv_sec) {
 		fprintf(stderr, "tv1>tv2\n");
-		exit(-1);
+		exit(EXIT_FAILURE);
 	} else {
 		if (tv1->tv_sec==tv2->tv_sec) {
 			if (tv1->tv_usec > tv2->tv_usec) {
 				fprintf(stderr, "tv1>tv2\n");
-				exit(-1);
+				exit(EXIT_FAILURE);
 			}
 		}
 	}

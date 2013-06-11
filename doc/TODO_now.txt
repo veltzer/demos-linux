@@ -1,48 +1,30 @@
 examples:
-- make the linuxapi project compile for new ubuntu users
-	(by default without intel compiler, without papi and without fcmp).
 - web server using splice.
-- see that there are no warnings in eclipse.
-	(run the eclipse c++ validation tool out of eclipse).
 - do copy using two threads.
 - compare the performance of all of my copy implementations using
 	some kind of script.
 - do networking select example.
 - do tee using select example.
-
-- add features to my epoll echo server:
-	- add timeout support.
-	- handle writes well.
-	- add http protocol support.
 - fix bugs in my timerfd example.
 	- do a function that prints timespecs nicely.
-
-- get more examples from http://www.linuxprogrammingblog.com/
-- http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
-
-slides:
-- write slides about room for optimization.
-- write slides about allocating memory fast.
-- write slides about patterns.
-	start with the proactor pattern.
-- write slides about restrict.
-- padding of structures and aligning structures in gcc and intel.
-	with examples.
-- the intel compiler:
-	- how to install it on Linux.
-	- comparison of intel compiler to gcc
-		- performance examples (already have one)
-	- compatibility of the intel compiler to the gcc compiler
-		- do example of C++ compatibility for the intel compiler.
-
-precompiled headers:
+- precompiled headers:
 	- do standalone gcc precompiled headers example in linuxapi.
 	- do standalone intel precompiled headers example in linuxapi.
 	- make the linuxapi package itself use precompiled headers.
 - mouse device driver example.
 - executable library example.
 	(still not fully done although getting there).
+
+more examples:
+- get more examples from http://www.linuxprogrammingblog.com/
+- http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
+
+build system:
+- make the linuxapi project compile for new ubuntu users
+	(by default without intel compiler, without papi and without fcmp).
+- see that there are no warnings in eclipse.
+	(run the eclipse c++ validation tool out of eclipse).
 - make a script to update the README.md file with real stats of this project.
 	(python preprocessor?). Run it whenever we release a version.
-- add a test to make sure that all source files begin with my header.
 - make sure EXIT_SUCCESS is everywhere (how do I test this?!?).
+

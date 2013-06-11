@@ -1,5 +1,3 @@
-TODO list for the build system for these examples:
-==================================================
 - add checkpatch.pl on the standalone modules too...
 - my build system does not work well for kernel samples with -j.
 	try to build all (make clean and then make -j 4) and you
@@ -9,3 +7,8 @@ TODO list for the build system for these examples:
 	the main makefile).
 - make the kernel use ccache too?!?
 - the assembly examples will probably not compile on 64 bit. Fix that.
+- kernel folder does not rebuild cleanly. Try touching the makefile
+	and seeing the kernel rebuild again and again. This is because
+	the kernel makefile does not rebuild anything in the modules
+	and so their date remains. I need to touch the modules at
+	my own makefile so that this does not happen.

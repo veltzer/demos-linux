@@ -20,6 +20,7 @@
 #include <ace/config-lite.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/Acceptor.h>
+#include <stdlib.h>	// for EXIT_FAILURE
 #include "Message_Receiver.hh"
 
 /*
@@ -102,7 +103,7 @@ int Message_Receiver::handle_input(ACE_HANDLE) {
 static void report_usage(int argc, ACE_TCHAR *argv[]) {
 	if (argc < 2) {
 		ACE_DEBUG((LM_ERROR, ACE_TEXT("%s: please use me with port\n"), argv[1]));
-		ACE_OS::exit(-1);
+		ACE_OS::exit(EXIT_FAILURE);
 	}
 }
 

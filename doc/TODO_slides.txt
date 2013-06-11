@@ -1,0 +1,13 @@
+- write slides about room for optimization.
+- write slides about allocating memory fast.
+- write slides about patterns.
+	start with the proactor pattern.
+- write slides about restrict.
+- padding of structures and aligning structures in gcc and intel.
+	with examples.
+- the intel compiler:
+	- how to install it on Linux.
+	- comparison of intel compiler to gcc
+		- performance examples (already have one)
+	- compatibility of the intel compiler to the gcc compiler
+		- do example of C++ compatibility for the intel compiler.
