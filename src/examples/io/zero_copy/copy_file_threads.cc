@@ -36,6 +36,9 @@
  * http://nandal.in/2012/04/copy-file-using-c-threads/
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ *
+ * TODO:
+ * - this example is not yet finished.
  */
 
 typedef struct _thread_data {
