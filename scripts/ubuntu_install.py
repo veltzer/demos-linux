@@ -39,17 +39,13 @@ packs=[
 	'dialog',
 	'libace-dev',
 	'iptables-dev',
-	'cpulimit', # for the cpulimit command
-	'bridge-utils', # for bridging utilities to demo creation of a bridge
-	'htop',
-	'sysprof',
-	'mutrace',
-	'iptraf',
-	'iotop',
+	'libboost1.49-dev', # for boost threading
+	'libboost-thread1.49.0', # for the actual library
 	'libpcap-dev',
 	'libasound2-doc',
 	'libasound2-dev',
-	'numactl',
+	'libdmalloc-dev',
+	'libcpufreq-dev', # for cpufreq.h
 	'aspectc++',
 
 	# kernel stuff
@@ -58,18 +54,28 @@ packs=[
 	#'linux-image-'+release+'-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
 	#'linux-headers-generic-pae', # if you use a -pae kernel
 
+	# tools
 	'linux-tools-common', # for perf(1)
-	'ccache', # for faster building
-	'xutils-dev', # for makedepend(1)
-	'libcpufreq-dev', # for cpufreq.h
-	'libboost1.49-dev', # for boost threading
-	'libboost-thread1.49.0', # for the actual library
 	'libreoffice-common', # for soffice conversion
 	'python-uno', # for soffice conversion
+	'electric-fence',
+	'schedtool',
+	'iotop', # for the iotop command
+	'jnettop', # for the jnettop command
+	'htop',
+	'sysprof',
+	'mutrace',
+	'cpulimit', # for the cpulimit command
+	'bridge-utils', # for bridging utilities to demo creation of a bridge
+	'iptraf',
+	'numactl',
+
+	# package used tools
+	'ccache', # for faster building
+	'xutils-dev', # for makedepend(1)
 	'uncrustify', # for code formatting example
 	'indent', # for code formatting example
-	'libdmalloc-dev',
-	'electric-fence',
+	'astyle', # for code formatting example
 
 	# these packages are for working with linuxapi...:)
 	'vim',

@@ -21,6 +21,7 @@ cpu:
 	taskset
 	cpulimit
 	schedtop (doesn't have a package as of yet).
+	schedtool
 
 process ids:
 	pidof
