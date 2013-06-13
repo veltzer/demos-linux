@@ -27,7 +27,7 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 #include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
-#include <sys/timerfd.h>	// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
+#include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
  * This is a solution to the echo server exercise with timeouts for connections.
@@ -94,7 +94,6 @@ int main(int argc, char** argv, char** envp) {
 
 	// message to the user
 	printf("contact me at host %s port %d\n", host, port);
-
 	// go into the endless service loop
 	while(true) {
 		struct epoll_event events[maxevents];
@@ -130,7 +129,7 @@ int main(int argc, char** argv, char** envp) {
 				// reset the timer on the timerfd
 				setup_timer(timerfd);
 			}
-			// disconnect 
+			// disconnect
 			if(fdmap.find(currfd)!=fdmap.end() && events[n].events & EPOLLRDHUP) {
 				int realfd=currfd;
 				int timerfd=fdmap.find(realfd)->second;

@@ -96,7 +96,6 @@ int main(int argc, char** argv, char** envp) {
 
 	// message to the user
 	printf("contact me at host %s port %d\n", host, port);
-
 	// go into the endless service loop
 	while(true) {
 		struct epoll_event events[maxevents];
