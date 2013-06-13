@@ -28,7 +28,7 @@
 #include <network_utils.h>	// for get_backlog()
 #include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
 #include <CircularPipe.hh>	// for CircularPipe:Object
-#include <sys/timerfd.h>	// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
+#include <sys/timerfd.h>// for timerfd_create(2), timerfd_settime(2), timerfd_gettime(2)
 
 /*
  * This is a solution to the echo server exercise.
@@ -110,7 +110,6 @@ int main(int argc, char** argv, char** envp) {
 
 	// message to the user
 	printf("contact me at host %s port %d\n", host, port);
-
 	// go into the endless service loop
 	while(true) {
 		struct epoll_event events[maxevents];
