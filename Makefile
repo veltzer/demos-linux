@@ -192,6 +192,7 @@ clean_test:
 .PHONY: clean_standalone
 clean_standalone:
 	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
+	$(Q)rm -f $(MK_STP)
 .PHONY: build_standalone
 build_standalone:
 	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
