@@ -15,7 +15,9 @@ import subprocess
 import os
 
 release=os.uname().release
+short_release=release[:release.rfind('-')]
 #print('release is',release)
+#print('short_release is',short_release)
 
 packs=[
 	'libncurses5',
@@ -50,9 +52,15 @@ packs=[
 
 	# kernel stuff
 	'linux-headers-generic',
-	#'linux-headers-'+release,
-	#'linux-image-'+release+'-dbgsym', # for systemtap - this one does not exist in the regular ubuntu archives
-	#'linux-headers-generic-pae', # if you use a -pae kernel
+	'linux-headers-lowlatency',
+	'linux-headers-'+short_release+'-generic',
+	'linux-headers-'+short_release+'-lowlatency',
+
+	# for systemtap - this one does not exist in the regular ubuntu archives
+	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
+	# it is commented out...
+	'linux-image-'+short_release+'-generic'+'-dbgsym',
+	#'linux-image-'+short_release+'-lowlatency'+'-dbgsym',
 
 	# tools
 	'linux-tools-common', # for perf(1)
