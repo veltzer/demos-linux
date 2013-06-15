@@ -23,6 +23,7 @@
 #include <sys/mman.h>	// for mlockall(2)
 #include <string.h>	// for memset(3)
 #include <us_helper.h>	// for CHECK_NOT_M1(), stack_prefault()
+#include <timespec_utils.h>	// for timespec_add_nanos()
 
 /*
  * This is a real time skeleton that shows all the critical parts of a real
@@ -46,16 +47,8 @@
  * kernel tasklets and interrupt handlers by default
  */
 const int MY_PRIORITY=49;
-/* The number of nsecs per sec. */
-const int NSEC_PER_SEC=1000000000;
 /* The interval size (50us which is 50000ns in our case) */
 const int interval=50000;
-
-static inline void add_nanos_to_timespec(struct timespec* t, int interval) {
-	t->tv_nsec+=interval;
-	t->tv_sec+=t->tv_nsec/NSEC_PER_SEC;
-	t->tv_nsec%=NSEC_PER_SEC;
-}
 
 int main(int argc, char** argv, char** envp) {
 	/* Declare ourself as a real time task */
@@ -70,17 +63,14 @@ int main(int argc, char** argv, char** envp) {
 	struct timespec t;
 	clock_gettime(CLOCK_MONOTONIC, &t);
 	/* start after one second */
-	add_nanos_to_timespec(&t, interval);
+	timespec_add_nanos(&t, interval);
 	while(true) {
 		/* wait untill next shot */
 		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t, NULL);
 		/* do the stuff
 		 * ...
 		 * calculate next shot */
-		add_nanos_to_timespec(&t, interval);
-		t.tv_nsec+=interval;
-		t.tv_sec+=t.tv_nsec/NSEC_PER_SEC;
-		t.tv_nsec%=NSEC_PER_SEC;
+		timespec_add_nanos(&t, interval);
 	}
 	return EXIT_SUCCESS;
 }

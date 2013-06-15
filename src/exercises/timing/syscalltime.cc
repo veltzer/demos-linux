@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/time.h>	// for gettimeofday(2)
-#include <us_helper.h>	// for micro_diff(), run_high_priority()
+#include <us_helper.h>	// for micro_diff(), run_priority()
 
 /*
  * A solution to the timing exercise (timing gettimeofday(2) using gettimeofday(2)).
@@ -49,6 +49,6 @@ int main(int argc, char** argv, char** envp) {
 		return EXIT_FAILURE;
 	}
 	count=atoi(argv[1]);
-	run_high_priority(func, NULL, STANDARD_HIGH_PRIORITY);
+	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

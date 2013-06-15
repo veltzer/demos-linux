@@ -44,6 +44,13 @@ typedef struct _sig_and_string {
 	const char* signame;
 } sig_and_name;
 
+/*
+ * List of all signals and their names. The reason for this is that the standard
+ * C library does not provide a translation from signal name to signal value.
+ * (it does provide the reverse translation via strsignal(3)).
+ * TODO: __stringify() does not work when placed in the definition of the following
+ * table. Investigate.
+ */
 static sig_and_name sig_vals[]={
 	{ SIGHUP, "SIGHUP" },
 	{ SIGINT, "SIGINT" },

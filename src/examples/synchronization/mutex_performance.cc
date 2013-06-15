@@ -24,7 +24,7 @@
 #include <sys/types.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/sem.h>	// for semget(3), semctl(3), semop(3)
-#include <us_helper.h>	// for micro_diff, CHECK_ZERO_ERRNO()
+#include <us_helper.h>	// for micro_diff(), CHECK_ZERO_ERRNO(), run_priority()
 
 /*
  * This demo shows the difference between regular pthread mutex (which is a
@@ -109,7 +109,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_recursive, &attr));
 	CHECK_ZERO_ERRNO(pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK_NP));
 	CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_errorcheck, &attr));
-	run_high_priority(work, NULL, STANDARD_HIGH_PRIORITY);
+	run_priority(work, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_fast));
 	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_recursive));
 	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_errorcheck));

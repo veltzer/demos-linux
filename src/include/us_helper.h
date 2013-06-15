@@ -481,12 +481,33 @@ static inline double micro_diff(struct timeval* t1, struct timeval* t2) {
 /*
  * Print the scheduling info for the current thread or process
  */
-static const char* schedulers[]={
-	"SCHED_OTHER",
-	"SCHED_FIFO",
-	"SCHED_RR",
-	"SCHED_BATCH",
-	"SCHED_IDLE",
+typedef struct _sched_policy {
+	const char* name;
+	int policy;
+} sched_policy;
+
+/*
+ * List of all schedulers, their names and values
+ * TODO:
+ * - __stringify() does not work in the definition of the following
+ * array. Need to investigate.
+ */
+static sched_policy schedulers[]={
+	{
+		"SCHED_OTHER", SCHED_OTHER
+	},
+	{
+		"SCHED_FIFO", SCHED_FIFO
+	},
+	{
+		"SCHED_RR", SCHED_RR
+	},
+	{
+		"SCHED_BATCH", SCHED_BATCH
+	},
+	{
+		"SCHED_IDLE", SCHED_IDLE
+	},
 };
 
 static inline void print_scheduling_info() {
@@ -501,7 +522,7 @@ static inline void print_scheduling_info() {
 	printf("==================================\n");
 	printf("scheduling data for the current thread...\n");
 	printf("sched_getparam returned %d\n", myparam.sched_priority);
-	printf("sched_getscheduler returned %s\n", schedulers[scheduler]);
+	printf("sched_getscheduler returned %s\n", schedulers[scheduler].name);
 	printf("==================================\n");
 }
 
@@ -515,27 +536,48 @@ static inline void print_scheduling_consts() {
 	printf("SCHED_BATCH is %d\n", SCHED_BATCH);
 	printf("SCHED_IDLE is %d\n", SCHED_IDLE);
 }
+/*
+ * Check that an integer is indeed a policy
+ */
+static inline void check_policy(int policy) {
+	CHECK_ASSERT(policy==SCHED_FIFO || policy==SCHED_OTHER);
+}
 
+const int SCHED_FIFO_LOW_PRIORITY=1;
+const int SCHED_FIFO_MID_PRIORITY=47;
+const int SCHED_FIFO_HIGH_PRIORITY=90;
 /*
  * a function to run another function in a high priority thread and wait for it to finish...
  */
-static inline void* run_high_priority(void* (*func)(void*), void* pval, int prio) {
+static inline void* run_priority(void* (*func)(void*), void* pval, int prio, int policy) {
+	check_policy(policy);
 	struct sched_param myparam;
 	void* retval;
 	pthread_attr_t myattr;
 	pthread_t mythread;
-	myparam.sched_priority=prio;
-	pthread_attr_init(&myattr);
-	pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
-	pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
-	pthread_attr_setschedparam(&myattr, &myparam);
-	CHECK_ZERO_ERRNO(pthread_create(&mythread, &myattr, func, pval));
+	if (policy==SCHED_FIFO) {
+		myparam.sched_priority=prio;
+		pthread_attr_init(&myattr);
+		pthread_attr_setinheritsched(&myattr, PTHREAD_EXPLICIT_SCHED);
+		pthread_attr_setschedpolicy(&myattr, SCHED_FIFO);
+		pthread_attr_setschedparam(&myattr, &myparam);
+		CHECK_ZERO_ERRNO(pthread_create(&mythread, &myattr, func, pval));
+	} else {
+		CHECK_ZERO_ERRNO(pthread_create(&mythread, NULL, func, pval));
+	}
 	CHECK_ZERO_ERRNO(pthread_join(mythread, &retval));
 	return retval;
 }
-const int STANDARD_LOW_PRIORITY=1;
-const int STANDARD_MID_PRIORITY=47;
-const int STANDARD_HIGH_PRIORITY=90;
+static inline int string_to_policy(const char* str) {
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(schedulers); i++) {
+		if(strcmp(str,schedulers[i].name)==0) {
+			return schedulers[i].policy;
+		}
+	}
+	CHECK_ASSERT(0);
+	return 0;
+}
 
 /*
  * A function that checks that no parameters have been passed
