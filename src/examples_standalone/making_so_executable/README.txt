@@ -23,10 +23,12 @@ fermat$
 This example still DOES NOT WORK. Running the shared object crashes. Need to find out why.
 
 approaches that I already tried:
-
+================================
 - Tried passing flags "-e myfunctionname" as entry point to the linker
 using something like:
 	FLAGS_FOR_SHARED_LIB:=-shared -Xlinker -e -Xlinker my_entry
-
 - Tried to define a standard C like "main" function in the SO with __attribute__((weak)).
 It seems to get to the right point but then crashes misteriously.
+- Tried to write the code of the lib in assembly but it also doesnt do the right thing because
+of wrong address for data.
+- next approach: see how they do it in the C library already!
