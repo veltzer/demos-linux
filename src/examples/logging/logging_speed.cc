@@ -23,7 +23,7 @@
 #include <assert.h>	// for assert(3)
 #include <pthread.h>	// for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h>	// for va_list, va_start, va_end
-#include <us_helper.h>	// for micro_diff(3)
+#include <us_helper.h>	// for micro_diff(), run_priority()
 
 /*
  * This example explores syslog speed as compared to writing to a simple file.
@@ -162,6 +162,6 @@ void* func(void*) {
 
 int main(int argc, char** argv, char** envp) {
 	print_scheduling_consts();
-	run_high_priority(func, NULL, STANDARD_HIGH_PRIORITY);
+	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

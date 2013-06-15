@@ -23,7 +23,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for close(2), write(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), run_high_priority(), getticks()
+#include <us_helper.h>	// for CHECK_NOT_M1(), run_priority(), getticks()
 #include <Stat.hh>	// for Stat:Object
 
 /*
@@ -79,6 +79,6 @@ int main(int argc, char** argv, char** envp) {
 	binnumber=atoi(argv[4]);
 	binsize=atoi(argv[5]);
 	binmean=atoi(argv[6]);
-	run_high_priority(func, NULL, STANDARD_HIGH_PRIORITY);
+	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

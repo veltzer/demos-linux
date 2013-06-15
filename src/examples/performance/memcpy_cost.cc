@@ -25,6 +25,7 @@
 #include <sched.h>	// for sched_setscheduler(2), struct sched_param
 #include <sys/mman.h>	// for mlockall(2)
 #include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1(), stack_prefault()
+#include <timespec_utils.h>	// for timespec_add_nanos()
 
 /*
  * This example explores the CPU utilisation of doing XXXM memcpy per second.
@@ -35,14 +36,13 @@
 /* we use 49 as the PRREMPT_RT use 50 as the priority of kernel tasklets
  * and interrupt handler by default */
 const int MY_PRIORITY=49;
-/* The number of nsecs per sec. */
-const int NSEC_PER_SEC=1000000000;
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
 		fprintf(stderr, "%s: usage: %s [megs] [intervals]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: megs must be divisible by intervals...\n", argv[0]);
-		fprintf(stderr, "%s: example is 90 1024 which means 90Megs in 1024 intervals\n", argv[0]);
+		fprintf(stderr, "%s: example: %s 90 1024\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: which means 90Megs in 1024 intervals\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	unsigned int megs=atoi(argv[1]);
@@ -89,11 +89,7 @@ int main(int argc, char** argv, char** envp) {
 			ptr2=buf2;
 		}
 		/* calculate next shot */
-		t.tv_nsec+=interval;
-		while(t.tv_nsec>=NSEC_PER_SEC) {
-			t.tv_nsec-=NSEC_PER_SEC;
-			t.tv_sec++;
-		}
+		timespec_add_nanos(&t, interval);
 	}
 	return EXIT_SUCCESS;
 }

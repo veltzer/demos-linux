@@ -1,13 +1,10 @@
 examples:
 - finish the multi threaded file copy example.
-- web server using splice.
-- do copy using two threads.
 - compare the performance of all of my copy implementations using
 	some kind of script.
+- web server using splice.
 - do networking select example.
 - do tee using select example.
-- fix bugs in my timerfd example.
-	- do a function that prints timespecs nicely.
 - precompiled headers:
 	- do standalone gcc precompiled headers example in linuxapi.
 	- do standalone intel precompiled headers example in linuxapi.
