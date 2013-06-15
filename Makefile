@@ -175,13 +175,13 @@ clean_manual:
 	$(Q)-rm -rf $(CLEAN_DIRS)
 
 # -x: remove everything not known to git (not only ignore rules).
+# -X: remove files in .gitignore but not everything unknown to git
 # -d: remove directories also.
 # -f: force.
-# I used to do:
-# @git clean -xdf
-# but it is too harsh
+# hard clean (may remove manually created files not yet added to the git index):
 GIT_CLEAN_FLAGS=-xdf
-#GIT_CLEAN_FLAGS=-fXd
+# soft clean (only removes .gitignore files)
+#GIT_CLEAN_FLAGS=-Xdf
 .PHONY: clean
 clean: clean_standalone
 	$(info doing [$@])
