@@ -1,0 +1,49 @@
+/*
+ * This file is part of the linuxapi package.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * linuxapi is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * linuxapi is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * This is an extension of the exit_without_main.S example. See
+ * its documentation for more info.
+ *
+ * EXTRA_LINK_FLAGS=-nostdlib -Xlinker --strip-all -Xlinker --build-id=none
+ */
+
+#include <asm/unistd.h>
+#include <syscall.h>
+
+.section	.rodata
+#.section	.data
+#.section	.text
+#.global hello
+hello:
+	.string	"Hello, World!\n"
+.text
+.global _start
+.type _start, @function
+_start:
+	## write(1,hello,14)
+	movl $SYS_write, %eax
+	movl $1, %ebx
+	movl $hello, %ecx
+	movl $14, %edx
+	int $0x80
+	
+	## _exit(7)
+	movl $7, %ebx
+	movl $SYS_exit, %eax
+	int $0x80
