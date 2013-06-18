@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for __stringify()
+#include <us_helper.h>	// for __stringify(), PRINT_SIZEOF()
 
 /*
  * This is an example of controlling the packing of structures
@@ -170,8 +170,6 @@ _Static_assert(__builtin_offsetof(s12, c1)==0, "msg");
 _Static_assert(__builtin_offsetof(s12, i1)==1, "msg");
 _Static_assert(__builtin_offsetof(s12, c2)==5, "msg");
 _Static_assert(__builtin_offsetof(s12, i2)==8, "msg");
-
-#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %zd\n", sizeof(type))
 
 int main(int argc, char** argv, char** envp) {
 	PRINT_SIZEOF(s1);

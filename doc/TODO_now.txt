@@ -1,4 +1,8 @@
 examples:
+- do example of backwards compatible C object oriented code.
+	union - to hide data.
+	size passing - to keep size constant.
+	methods.
 - finish the multi threaded file copy example.
 - compare the performance of all of my copy implementations using
 	some kind of script.

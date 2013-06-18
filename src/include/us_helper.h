@@ -74,6 +74,10 @@
  * Macro to calculate size of array
  */
 #define ARRAY_SIZEOF(a) (sizeof(a)/sizeof(a[0]))
+/*
+ * Macro to print the sizeof of a type
+ */
+#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %zd\n", sizeof(type))
 
 /*
  * getting a thread id (glibc doesnt have this)
