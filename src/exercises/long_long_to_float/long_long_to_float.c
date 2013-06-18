@@ -19,6 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdbool.h>	// for true
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 int main(int argc, char** argv, char** envp) {
 	long long ll=0;
@@ -37,5 +38,5 @@ int main(int argc, char** argv, char** envp) {
 	printf("ll is %lld\n", ll);
 	printf("f is %f\n", f);
 	printf("back is %lld\n", back);
-	return 0;
+	return EXIT_SUCCESS;
 }
