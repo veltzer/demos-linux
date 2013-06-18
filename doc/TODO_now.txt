@@ -29,4 +29,3 @@ build system:
 - make a script to update the README.md file with real stats of this project.
 	(python preprocessor?). Run it whenever we release a version.
 - make sure EXIT_SUCCESS is everywhere (how do I test this?!?).
-
