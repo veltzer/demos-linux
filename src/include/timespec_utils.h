@@ -78,7 +78,6 @@ static inline void timespec_sub(struct timespec* result, struct timespec* x, str
 		y->tv_nsec += NSEC_PER_SEC * nsec;
 		y->tv_sec -= nsec;
 	}
-
 	/* Compute the time remaining to wait. `tv_nsec' is certainly positive. */
 	result->tv_sec = x->tv_sec - y->tv_sec;
 	result->tv_nsec = x->tv_nsec - y->tv_nsec;

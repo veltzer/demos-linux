@@ -575,7 +575,7 @@ static inline void* run_priority(void* (*func)(void*), void* pval, int prio, int
 static inline int string_to_policy(const char* str) {
 	unsigned int i;
 	for(i=0; i<ARRAY_SIZEOF(schedulers); i++) {
-		if(strcmp(str,schedulers[i].name)==0) {
+		if(strcmp(str, schedulers[i].name)==0) {
 			return schedulers[i].policy;
 		}
 	}
