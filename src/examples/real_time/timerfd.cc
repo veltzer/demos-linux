@@ -41,7 +41,7 @@ static void print_elapsed_time(struct timespec* since) {
 	const unsigned int bufsize=1024;
 	char buf[bufsize];
 	timespec_snprint(buf, bufsize, &diff);
-	printf("%s",buf);
+	printf("%s", buf);
 }
 
 typedef struct _thread_data {
@@ -64,13 +64,13 @@ void* work(void* data) {
 	 */
 	struct itimerspec new_value;
 	// If you want an absolute timer
-	//timespec_copy(&new_value.it_value,&now);
+	// timespec_copy(&new_value.it_value,&now);
 	timespec_set(&new_value.it_value, td->init_sec, td->init_nsec);
 	timespec_set(&new_value.it_interval, td->interval_sec, td->interval_nsec);
 
 	int fd=CHECK_NOT_M1(timerfd_create(CLOCK_REALTIME, 0));
 	// If you want an absolute timer
-	//CHECK_NOT_M1(timerfd_settime(fd, TFD_TIMER_ABSTIME, &new_value, NULL));
+	// CHECK_NOT_M1(timerfd_settime(fd, TFD_TIMER_ABSTIME, &new_value, NULL));
 	CHECK_NOT_M1(timerfd_settime(fd, 0, &new_value, NULL));
 	print_elapsed_time(&start);
 	printf("timer started\n");

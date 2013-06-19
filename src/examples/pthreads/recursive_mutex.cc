@@ -35,7 +35,7 @@ static pthread_mutex_t mylock=PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 
 inline int pthread_mutex_get_counter(const pthread_mutex_t * mutex) {
 	// the ugly way...
-	//return ((int*)&mylock)[1];
+	// return ((int*)&mylock)[1];
 	// the nice way (although not official API)...
 	return mutex->__data.__count;
 }
