@@ -24,42 +24,32 @@
 
 int main(int argc, char** argv, char** envp) {
 	int num;
+	int direction=1;
+	printf("Give me a number of stars: ");
+	fflush(stdout);
 	CHECK_INT(scanf("%d", &num), 1);
 	while(true) {
 		int i;
-		int u;
-		for(i=0, u=num-1; i<num; i++, u--) {
+		for(i=(num-1)*(direction==-1);
+			direction==1 ? i<num-1 : i>=0;
+			i+=direction) {
 			int j;
-			for(j=0; j<u; j++) {
+			for(j=0; j<num-i-1; j++) {
 				putchar(' ');
 			}
 			for(j=0; j<i+1; j++) {
 				putchar('*');
 				putchar(' ');
 			}
-			for(j=0; j<u; j++) {
+			for(j=0; j<num-i-1; j++) {
 				putchar(' ');
 			}
 			putchar('\r');
 			fflush(stdout);
-			CHECK_NOT_M1(usleep(100000));
+			CHECK_NOT_M1(usleep(1000000));
 		}
-		for(i=num-1, u=0; i>=0; i--, u++) {
-			int j;
-			for(j=0; j<u; j++) {
-				putchar(' ');
-			}
-			for(j=0; j<i+1; j++) {
-				putchar('*');
-				putchar(' ');
-			}
-			for(j=0; j<u; j++) {
-				putchar(' ');
-			}
-			putchar('\r');
-			fflush(stdout);
-			CHECK_NOT_M1(usleep(100000));
-		}
+		// flip the direction
+		direction*=-1;
 	}
 	return EXIT_SUCCESS;
 }
