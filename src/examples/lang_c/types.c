@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 // this must be defined if you are in a C++ context to get the constants
-#define __STDC_LIMIT_MACROS
+//#define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 
@@ -28,10 +28,9 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	unsigned long long l1=214748364899LL;
-
 	// this next line will not work (the LL is required...)
 	// unsigned long long l1=214748364899;
+	unsigned long long l1=214748364899LL;
 	fprintf(stderr, "l1 is %llu\n", l1);
 	long l2=INT32_MAX;
 	fprintf(stderr, "l2 is %ld\n", l2);

@@ -3,7 +3,7 @@ include ../../../Makefile.defs
 SO_LINK_NAME:=add
 SO_NAME:=lib$(SO_LINK_NAME).so
 EXE_NAME:=main.$(SUFFIX_BIN)
-SO_OBJECTS:=add.o hello_world_without_main.o
+SO_OBJECTS:=add.o
 EXE_OBJECTS:=main.o
 CFLAGS:=-O2 -g3 -Wall -Werror -I../../include
 LDFLAGS:=
@@ -15,11 +15,9 @@ ALL_DEPS:=Makefile
 # bahviour of linking with standard C/C++ runtime libraries.
 # this does not work
 SHARED_COMPILE_FLAGS:=-fPIC
-#SHARED_LINK_FLAGS:=-shared -nostdlib
 SHARED_LINK_FLAGS:=-shared
 
-#FLAGS_FOR_SHARED_LIB:=$(SHARED_LINK_FLAGS) -Xlinker --entry=mymain
-FLAGS_FOR_SHARED_LIB:=$(SHARED_LINK_FLAGS)
+FLAGS_FOR_SHARED_LIB:=$(SHARED_LINK_FLAGS) -Xlinker --entry=mymain
 
 # These are the libraries used by your library
 LIBS:=
@@ -38,9 +36,6 @@ main.o: main.c
 	$(info doing [$@])
 	$(Q)$(CC) -c $(CFLAGS) -o $@ $<
 add.o: add.c
-	$(info doing [$@])
-	$(Q)$(CC) -c $(CFLAGS) $(SHARED_COMPILE_FLAGS) -o $@ $<
-hello_world_without_main.o: hello_world_without_main.S
 	$(info doing [$@])
 	$(Q)$(CC) -c $(CFLAGS) $(SHARED_COMPILE_FLAGS) -o $@ $<
 
