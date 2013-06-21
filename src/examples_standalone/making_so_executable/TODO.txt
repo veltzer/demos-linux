@@ -1,0 +1,3 @@
+- we still can't seem to access the command line arguments. glibc does not use the command line
+	arguments in their pseudo main implementation but maybe we could learn how to scrape
+	the command line arguments from other parts of glibc?
