@@ -25,19 +25,40 @@
  * This is the first file you should include from user space apps
  */
 
-// needed for SCHED_IDLE, SCHED_BATCH, sched_getcpu(), O_LARGEFILE, DN_* dnotify constants and more
+/*
+ * needed for
+ * SCHED_IDLE
+ * SCHED_BATCH
+ * sched_getcpu()
+ * O_LARGEFILE
+ * DN_* dnotify constants
+ */
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif	// _GNU_SOURCE
 
-// needed for big files
+/*
+ * needed for
+ * big files
+ */
 #ifndef _LARGEFILE64_SOURCE
 #define _LARGEFILE64_SOURCE
 #endif	// _LARGEFILE64_SOURCE
 
-// Needed to get REG_EIP from ucontext.h and more
+/*
+ * needed for
+ * REG_EIP from ucontext.h
+ */
 #ifndef __USE_GNU
 #define __USE_GNU
 #endif	// __USE_GNU
+
+/*
+ * needed for
+ * MAP_ANONYMOUS definition from <sys/mman.h>
+ */
+#ifndef _BSD_SOURCE
+#define _BSD_SOURCE
+#endif // _BSD_SOURCE
 
 #endif	/* !__firstinclude_h */
