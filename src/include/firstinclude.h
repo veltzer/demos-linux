@@ -25,7 +25,7 @@
  * This is the first file you should include from user space apps
  */
 
-// needed for SCHED_IDLE, SCHED_BATCH, sched_getcpu() and more
+// needed for SCHED_IDLE, SCHED_BATCH, sched_getcpu(), O_LARGEFILE and more
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif	// _GNU_SOURCE

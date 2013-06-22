@@ -1,0 +1,2 @@
+- do example of fanotify from http://www.xypron.de/projects/fanotify-manpages/man7/fanotify.7.html
+	note that the manpages on ubuntu does not yet carry the manual page for fanotify.
