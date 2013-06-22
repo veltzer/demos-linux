@@ -41,6 +41,17 @@
  * length. Each record is of size sizeof(inotity_event)+ie->len. The idea is to save on short
  * file name lengths. And a single read can return more than one record but will always return
  * an even amount of records.
+ *
+ * TODO:
+ * - get the folder to watch from the command line.
+ * - get the events to watch from the command line.
+ * - get the generic inotify functions into a shared header file.
+ * - rewrite this with select on a signal fd so that I won't need the EINTR code
+ * and this code will be more scalable.
+ * - i'm missing inotify events here. look at the reference.
+ *
+ * references:
+ * http://man7.org/tlpi/code/online/dist/inotify/demo_inotify.c.html
  */
 
 // signal handling functions
