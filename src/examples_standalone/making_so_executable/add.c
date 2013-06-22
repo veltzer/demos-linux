@@ -18,11 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h> // for printf(3)
-#include <unistd.h> // for write(2), _exit(2)
-#include <stdlib.h> // for EXIT_SUCCESS, EXIT_FAILURE
-#include <sys/syscall.h> // for syscall(2)
-#include <string.h> // for strlen(3)
-#include <stdbool.h>	// for true
+#include <stdlib.h> // for EXIT_SUCCESS, exit(3)
 
 /*
  * Must implement the add function, as main actually calls it...
@@ -50,5 +46,5 @@ void mymain(int argc,char** argv,char** envp) {
 		printf(" %s",argv[i]);
 	}
 	printf("\n");
-	exit(0);
+	exit(EXIT_SUCCESS);
 }

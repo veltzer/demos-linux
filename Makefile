@@ -398,7 +398,7 @@ check_usage:
 check_pthread:
 	$(info doing [$@])
 	$(Q)scripts/wrapper_noerr.py git grep -l "CHECK_ZERO\(pthread" -- '*.c' '*.cc' '*.h' '*.hh'
-.PHONY: check_usage
+.PHONY: check_usage_2
 check_usage_2:
 	$(info doing [$@])
 	$(Q)scripts/wrapper_noerr.py git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
