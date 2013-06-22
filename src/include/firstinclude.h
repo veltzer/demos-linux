@@ -59,6 +59,6 @@
  */
 #ifndef _BSD_SOURCE
 #define _BSD_SOURCE
-#endif // _BSD_SOURCE
+#endif	// _BSD_SOURCE
 
 #endif	/* !__firstinclude_h */

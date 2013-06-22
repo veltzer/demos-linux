@@ -33,20 +33,20 @@
  * Demonstrate the use of the (obsolete) dnotify feature to obtain directory
  * change notifications. (Modern programs should use inotify instead of
  * dnotify. The inotify API is available in Linux 2.6.13 and later.)
- * Usage is as shown in usageError() below. An example is the following:
+ * usage is as shown in usageError() below. An example is the following:
  * dnotify dir1:a xyz/dir2:acdM
  * See also demo_inotify.c.
-*/
+ */
 
 /* Print (optional) message and usage info, then exit */
 static void usageError(const char *progName, const char *msg) {
 	if (msg != NULL)
 		fprintf(stderr, "%s", msg);
-	fprintf(stderr, "Usage: %s directory:[events]...\n", progName);
-	fprintf(stderr, "    Events are:\n"
-		"        a - access; A - attrib; c - create; d - delete\n"
-		"        m - modify; r - rename; M - multishot\n"
-		"        (default is all events)\n");
+	fprintf(stderr, "%s: usage: %s directory:[events]...\n", progName, progName);
+	fprintf(stderr, "%s: Events are:\n", progName);
+	fprintf(stderr, "%s: a - access; A - attrib; c - create; d - delete\n", progName);
+	fprintf(stderr, "%s: m - modify; r - rename; M - multishot\n", progName);
+	fprintf(stderr, "%s: (default is all events)\n", progName);
 	exit(EXIT_FAILURE);
 }
 
@@ -59,55 +59,44 @@ int main(int argc, char** argv, char** envp) {
 	int fd, events, fnum;
 	const int NOTIFY_SIG = SIGRTMIN;
 	char *p;
-
-    if (argc < 2 || strcmp(argv[1], "--help") == 0)
-        usageError(argv[0], NULL);
-
-    /* Establish handler for notification signal */
-
-    sa.sa_sigaction = handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_SIGINFO;           /* So handler gets siginfo_t arg. */
+	if (argc < 2 || strcmp(argv[1], "--help") == 0)
+		usageError(argv[0], NULL);
+	/* Establish handler for notification signal */
+	sa.sa_sigaction = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
 	CHECK_NOT_M1(sigaction(NOTIFY_SIG, &sa, NULL));
-
-    for (fnum = 1; fnum < argc; fnum++) {
-        p = strchr(argv[fnum], ':');    /* Look for optional ':' */
-
-        if (p == NULL) {                /* Default is all events + multishot */
-            events = DN_ACCESS | DN_ATTRIB | DN_CREATE | DN_DELETE |
-                     DN_MODIFY | DN_RENAME | DN_MULTISHOT;
-        } else {                        /* ':' present, parse event chars */
-            *p = '\0';                  /* Terminates directory component */
-            events = 0;
-            for (p++; *p != '\0'; p++) {
-                switch (*p) {
-                case 'a': events |= DN_ACCESS;          break;
-                case 'A': events |= DN_ATTRIB;          break;
-                case 'c': events |= DN_CREATE;          break;
-                case 'd': events |= DN_DELETE;          break;
-                case 'm': events |= DN_MODIFY;          break;
-                case 'r': events |= DN_RENAME;          break;
-                case 'M': events |= DN_MULTISHOT;       break;
-                default:  usageError(argv[0], "Bad event character\n");
-                }
-            }
-        }
-
-        /* Obtain a file descriptor for the directory to be monitored */
-
-        fd = CHECK_NOT_M1(open(argv[fnum], O_RDONLY));
-        printf("opened '%s' as file descriptor %d\n", argv[fnum], fd);
-
-        /* Use alternate signal instead of SIGIO for dnotify events */
-
-        CHECK_NOT_M1(fcntl(fd, F_SETSIG, NOTIFY_SIG));
-
-        /* Enable directory change notifications */
-
-        CHECK_NOT_M1(fcntl(fd, F_NOTIFY, events));
-        printf("events: %o\n", (unsigned int) events);
-    }
-
+	for (fnum = 1; fnum < argc; fnum++) {
+		p = strchr(argv[fnum], ':');	/* Look for optional ':' */
+		if (p == NULL) {/* Default is all events + multishot */
+			events = DN_ACCESS | DN_ATTRIB | DN_CREATE | DN_DELETE | DN_MODIFY | DN_RENAME | DN_MULTISHOT;
+		} else {/* ':' present, parse event chars */
+			*p = '\0';	/* Terminates directory component */
+			events = 0;
+			for(p++; *p != '\0'; p++) {
+				switch(*p) {
+				case 'a': events |= DN_ACCESS; break;
+				case 'A': events |= DN_ATTRIB; break;
+				case 'c': events |= DN_CREATE; break;
+				case 'd': events |= DN_DELETE; break;
+				case 'm': events |= DN_MODIFY; break;
+				case 'r': events |= DN_RENAME; break;
+				case 'M': events |= DN_MULTISHOT; break;
+				default:
+					usageError(argv[0], "Bad event character\n");
+					break;
+				}
+			}
+		}
+		/* Obtain a file descriptor for the directory to be monitored */
+		fd=CHECK_NOT_M1(open(argv[fnum], O_RDONLY));
+		printf("opened '%s' as file descriptor %d\n", argv[fnum], fd);
+		/* Use alternate signal instead of SIGIO for dnotify events */
+		CHECK_NOT_M1(fcntl(fd, F_SETSIG, NOTIFY_SIG));
+		/* Enable directory change notifications */
+		CHECK_NOT_M1(fcntl(fd, F_NOTIFY, events));
+		printf("events: %o\n", (unsigned int) events);
+	}
 	while(true) {
 		pause();
 	}

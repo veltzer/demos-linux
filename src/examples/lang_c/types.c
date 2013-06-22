@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 // this must be defined if you are in a C++ context to get the constants
-//#define __STDC_LIMIT_MACROS
+// #define __STDC_LIMIT_MACROS
 #include <stdint.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 
