@@ -21,30 +21,25 @@
 #include <us_helper.h>	// for my_system()
 
 /*
- * This is a demo to show how sync_synchronize() is implemented...
- * You should see the __sync_synchronize which is a machine memory barrier
- * translated to a "lock orl" instruction in assembly which is an instruction
- * to the core you are running on to stop reordering writes and reads
- * and drop all cache assumptions.
- * So you should see one instruction in the disassembly of this code.
- * And indeed this is what we see.
+ * This example shows that a memory barrier does not produce any
+ * machine instructions.
  *
- * Take note that this is a also a compiler barrier. It prevents the compiler
- * from reordering around this code. You don't see any assembly emitted for
- * that since a compiler barrier is only a compile time instruction about
- * code emittion.
- *
- * EXTRA_LINK_FLAGS=-lpthread
  * this is for the source interleaving below...
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	__asm ("" ::: "memory");
+	//my_system("objdump --disassemble --source %s --start-address main", argv[0]);
 	my_system("gdb --batch -ex \"disassemble /m main\" %s", argv[0]);
 	return EXIT_SUCCESS;
 }

@@ -57,6 +57,7 @@ static void usageError(const char *progName, const char *msg) {
 
 static void handler(int sig, siginfo_t *si, void *ucontext) {
 	printf("Got event on descriptor %d\n", si->si_fd);
+	printf("Got code %d\n", si->si_code);
 }
 
 int main(int argc, char** argv, char** envp) {
