@@ -39,7 +39,7 @@ int main(int argc, char** argv, char** envp) {
 	__asm ("" ::: "memory");
 	__asm ("" ::: "memory");
 	__asm ("" ::: "memory");
-	//my_system("objdump --disassemble --source %s --start-address main", argv[0]);
+	// my_system("objdump --disassemble --source %s --start-address main", argv[0]);
 	my_system("gdb --batch -ex \"disassemble /m main\" %s", argv[0]);
 	return EXIT_SUCCESS;
 }
