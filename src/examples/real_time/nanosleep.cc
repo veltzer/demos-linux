@@ -81,8 +81,8 @@ void* measure(void* val) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	printf("low priority running\n");
-	measure(NULL);
+	printf("SCHED_OTHER running\n");
+	run_priority(measure, NULL, 0, SCHED_OTHER);
 	printf("low priority running\n");
 	run_priority(measure, NULL, SCHED_FIFO_LOW_PRIORITY, SCHED_FIFO);
 	printf("mid priority running\n");
