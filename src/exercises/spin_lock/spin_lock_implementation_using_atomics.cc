@@ -28,6 +28,9 @@
  * This is a solution to the spin locks exercise.
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ *
+ * TODO:
+ * - look at the spin lock implementation in glibc and get ideas from there.
  */
 
 // this is the spin lock implementation (pthread "like")
@@ -53,7 +56,12 @@ int mypthread_spin_lock(mypthread_spinlock_t* lock) {
 	return 0;
 }
 int mypthread_spin_unlock(mypthread_spinlock_t* lock) {
-	__sync_bool_compare_and_swap(&(lock->val), 1, 0);
+	//
+	// no need for atomic ops here since we are sure we have the lock
+	// and there is no competition with any other core
+	lock->val=0;
+	// overkill...
+	//__sync_bool_compare_and_swap(&(lock->val), 1, 0);
 	return 0;
 }
 

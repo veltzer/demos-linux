@@ -1,4 +1,6 @@
 - get a lot of examples from tlpi (http://man7.org/tlpi/code/)
+- get examples of bad C code from "Some Dark Corners of C.pptx" (have it in doc/external).
+
 - do an example of using /dev/rtc and /dev/hpet...
 - do a standalone example of lto optimizations (man gcc/search for lto).
 - do an example of hugetlbfs.
@@ -49,7 +51,7 @@
 	a signal handler.
 - application which generates an FPE, then does not core dump
 	but rather continues processing. Show how to know where the FPE
-	came from (extra information?).
+	came from (extra information?) and continue from afterwards.
 - Show combinations of signal handlers and C++ exceptions. Where
 	do they conflict and where do they match.
 - profile how long it takes to setup a timer from user space.
