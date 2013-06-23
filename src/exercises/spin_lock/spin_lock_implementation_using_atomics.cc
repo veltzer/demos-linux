@@ -23,6 +23,7 @@
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <atomic_utils.h>	// for atomic_full_barrier()
 
 /*
  * This is a solution to the spin locks exercise.
@@ -52,11 +53,15 @@ int mypthread_spin_lock(mypthread_spinlock_t* lock) {
 		// on platforms where atomic ops are NOT compiler
 		// barrier you need to add a compiler barrier on
 		// lock->val right here inside the loop...
+		
+		// glibc does a busy wait loop here without CAS to ease the load
+		// on the other CPUS...
 	}
 	return 0;
 }
 int mypthread_spin_unlock(mypthread_spinlock_t* lock) {
-	//
+	// Think: why is this needed?
+	atomic_full_barrier();
 	// no need for atomic ops here since we are sure we have the lock
 	// and there is no competition with any other core
 	lock->val=0;
