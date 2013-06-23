@@ -1,4 +1,7 @@
 examples:
+- work on the dnotify example - print ALL the fields of siginfo and see if
+	we get some info from the kernel. if not state that we dont.
+	clean up that example.
 - do example of backwards compatible C object oriented code.
 	union - to hide data.
 	size passing - to keep size constant.
