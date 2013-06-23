@@ -53,7 +53,7 @@ int mypthread_spin_lock(mypthread_spinlock_t* lock) {
 		// on platforms where atomic ops are NOT compiler
 		// barrier you need to add a compiler barrier on
 		// lock->val right here inside the loop...
-		
+
 		// glibc does a busy wait loop here without CAS to ease the load
 		// on the other CPUS...
 	}
