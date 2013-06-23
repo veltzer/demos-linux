@@ -31,7 +31,7 @@
  * EXTRA_LINK_FLAGS=-lpthread
  *
  * TODO:
- * - look at the spin lock implementation in glibc and get ideas from there.
+ * - get more ideas from the glibc implementation of spin locks
  */
 
 // this is the spin lock implementation (pthread "like")
