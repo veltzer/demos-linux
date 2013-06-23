@@ -2,7 +2,7 @@ The Linux API project
 =====================
 This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
-It has about 600 examples (as of 01/2013) I found are useful in explaining the Linux API.
+It has about 600 examples (as of 06/2013) I found are useful in explaining the Linux API.
 The idea is to provide a good coverage of all major features and to resolve disputes
 about exactly how a certain API works.
 
