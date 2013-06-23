@@ -1,0 +1,17 @@
+notes about disassembly in GNU/Linux.
+
+If you just want to disassemble:
+	objdump --disassemble [a.out]
+If you want source code to be interleaved (must compile with -g):
+	objdump --disassemble --source [a.out]
+If you want to add line number use the --lines flag.
+If you want a single function:
+	objdump --disassemble --source  ./src/examples/synchronization/sync_synchronize.elf | grep \<main\> -A 40
+* the -A tells grep to print 40 lines after the match
+
+disassembly using gdb:
+======================
+If you want just one function:
+	gdb --batch -ex "disassemble main" a.out
+Source interleaved (must compile with -g):
+	gdb --batch -ex "disassemble /m main" a.out
