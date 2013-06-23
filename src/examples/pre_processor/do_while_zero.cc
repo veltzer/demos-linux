@@ -22,13 +22,20 @@
 #include <us_helper.h>	// for __stringify()
 
 /*
- * This example shows how anything could be turned into a macro
- * using the C pre-processor.
+ * This example explains the command do { ... } while(0) macro construct.
+ *
+ * References:
+ * http://stackoverflow.com/questions/1067226/c-multi-line-macro-do-while0-vs-scope-block
  */
 
-#define FOOBAR 2.2 .2
+#define wrong_macro() printf("part1\n"); printf("part2\n")
+#define right_macro() do { printf("part1\n"); printf("part2\n"); } while(0)
 
 int main(int argc, char** argv, char** envp) {
-	printf("this is some " __stringify(FOOBAR) " string\n");
+	// this should not print anything and yet it does...
+	if(false)
+		wrong_macro();
+	if(false)
+		right_macro();
 	return EXIT_SUCCESS;
 }

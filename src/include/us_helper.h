@@ -51,6 +51,8 @@
 
 /*
  * Stringify macros - helps you turn anything into a string
+ * Stolen from the linux kernel.
+ * This MUST be done in 2 levels...
  * Need to explain how this works...
  */
 #define __stringify_1(x) # x
