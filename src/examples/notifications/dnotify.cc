@@ -36,6 +36,11 @@
  * usage is as shown in usageError() below. An example is the following:
  * dnotify dir1:a xyz/dir2:acdM
  * See also demo_inotify.c.
+ *
+ * TODO:
+ * - show how to get the info about what happened in the signal handler.
+ * - make the command line parsing and printing of dnotify events nicer.
+ * (print the events symbolicaly and not numericaly...)
  */
 
 /* Print (optional) message and usage info, then exit */
@@ -56,7 +61,7 @@ static void handler(int sig, siginfo_t *si, void *ucontext) {
 
 int main(int argc, char** argv, char** envp) {
 	struct sigaction sa;
-	int fd, events, fnum;
+	int events, fnum;
 	const int NOTIFY_SIG = SIGRTMIN;
 	char *p;
 	if (argc < 2 || strcmp(argv[1], "--help") == 0)
@@ -65,9 +70,10 @@ int main(int argc, char** argv, char** envp) {
 	sa.sa_sigaction = handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
+	// this will ensure that we don't lose messages
 	CHECK_NOT_M1(sigaction(NOTIFY_SIG, &sa, NULL));
 	for (fnum = 1; fnum < argc; fnum++) {
-		p = strchr(argv[fnum], ':');	/* Look for optional ':' */
+		p = strchr(argv[fnum], ':');/* Look for optional ':' */
 		if (p == NULL) {/* Default is all events + multishot */
 			events = DN_ACCESS | DN_ATTRIB | DN_CREATE | DN_DELETE | DN_MODIFY | DN_RENAME | DN_MULTISHOT;
 		} else {/* ':' present, parse event chars */
@@ -89,7 +95,7 @@ int main(int argc, char** argv, char** envp) {
 			}
 		}
 		/* Obtain a file descriptor for the directory to be monitored */
-		fd=CHECK_NOT_M1(open(argv[fnum], O_RDONLY));
+		int fd=CHECK_NOT_M1(open(argv[fnum], O_RDONLY));
 		printf("opened '%s' as file descriptor %d\n", argv[fnum], fd);
 		/* Use alternate signal instead of SIGIO for dnotify events */
 		CHECK_NOT_M1(fcntl(fd, F_SETSIG, NOTIFY_SIG));
