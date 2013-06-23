@@ -1,3 +1,4 @@
+- get a lot of examples from tlpi (http://man7.org/tlpi/code/)
 - do an example of using /dev/rtc and /dev/hpet...
 - do a standalone example of lto optimizations (man gcc/search for lto).
 - do an example of hugetlbfs.
@@ -26,7 +27,7 @@
 	hooking into the malloc free hooks
 	replacing the malloc library.
 - expand the example BreakOut.cc to show that you can break out of other system calls too (for example shmget).
-- write an example using futexes.
+- write an example using futexes (bare futexes).
 - write an example that demostrates priorities.
 	a. Show an example showing different nice levels.
 	b. Show an example showing priority in the same nice level.
