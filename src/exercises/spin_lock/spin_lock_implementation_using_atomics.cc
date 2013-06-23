@@ -66,7 +66,7 @@ int mypthread_spin_unlock(mypthread_spinlock_t* lock) {
 	// and there is no competition with any other core
 	lock->val=0;
 	// overkill...
-	//__sync_bool_compare_and_swap(&(lock->val), 1, 0);
+	// __sync_bool_compare_and_swap(&(lock->val), 1, 0);
 	return 0;
 }
 
