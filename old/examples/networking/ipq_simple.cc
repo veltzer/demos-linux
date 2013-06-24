@@ -44,16 +44,15 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	const int bufsize=2048;
 	int status;
-	unsigned char buf[bufsize];
+	unsigned char buf[2048];
 	struct ipq_handle *h;
 
 	h=CHECK_ZERO(ipq_create_handle(0, NFPROTO_IPV4));
 	// h=CHECK_ZERO(ipq_create_handle(0, NFPROTO_IPV6));
-	CHECK_GEZERO(ipq_set_mode(h, IPQ_COPY_PACKET, bufsize));
+	CHECK_GEZERO(ipq_set_mode(h, IPQ_COPY_PACKET, sizeof(buf)));
 	do {
-		CHECK_GEZERO(ipq_read(h, buf, bufsize, 0));
+		CHECK_GEZERO(ipq_read(h, buf, sizeof(buf), 0));
 		fprintf(stderr, "after read\n");
 		switch (ipq_message_type(buf)) {
 		case NLMSG_ERROR:

@@ -33,6 +33,7 @@
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2), close(2)
 #include <stdlib.h>	// for atoi(3)
+#include <stdio.h>	// for snprintf(3)
 #include <netdb.h>	// for getservbyname(3)
 
 static inline int get_backlog() {
@@ -50,6 +51,30 @@ static inline void print_servent(struct servent* p_servent) {
 	printf("name is %s\n", p_servent->s_name);
 	printf("proto is %s\n", p_servent->s_proto);
 	printf("port is %d (network order its %d)\n", ntohs(p_servent->s_port), p_servent->s_port);
+}
+
+static inline void domain_to_str(int domain, char* buf, unsigned int bufsize) {
+	switch(domain) {
+	// same as AF_LOCAL
+	case AF_UNIX:
+		snprintf(buf, bufsize, "AF_UNIX");
+		break;
+	case AF_INET:
+		snprintf(buf, bufsize, "AF_INET");
+		break;
+	case AF_INET6:
+		snprintf(buf, bufsize, "AF_INET6");
+		break;
+	case AF_NETLINK:
+		snprintf(buf, bufsize, "AF_NETLINK");
+		break;
+	case AF_PACKET:
+		snprintf(buf, bufsize, "AF_PACKET");
+		break;
+	default:
+		snprintf(buf, bufsize, "%d UNKNOWN", domain);
+		break;
+	}
 }
 
 #endif	/* !__network_utils_h */

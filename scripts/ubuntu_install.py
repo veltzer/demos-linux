@@ -49,6 +49,8 @@ packs=[
 	'libdmalloc-dev',
 	'libcpufreq-dev', # for cpufreq.h
 	'aspectc++',
+	'libnetfilter-queue1',
+	'libnetfilter-queue-dev',
 
 	# kernel stuff
 	'linux-headers-generic',

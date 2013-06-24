@@ -33,9 +33,8 @@
 int main(int argc, char** argv, char** envp) {
 	const char* file="/etc/passwd";
 	int fd=CHECK_NOT_M1(open(file, O_RDONLY));
-	const int bufsize=256;
-	char buf[bufsize];
-	CHECK_NOT_M1(recv(fd, buf, bufsize, 0));
+	char buf[256];
+	CHECK_NOT_M1(recv(fd, buf, sizeof(buf), 0));
 	CHECK_NOT_M1(close(fd));
 	return EXIT_SUCCESS;
 }

@@ -37,11 +37,10 @@ extern char _binary_data_txt_end;
 }
 
 int main(int argc, char** argv, char** envp) {
-	const size_t bufsize=16384;
-	char buffer[bufsize];
+	char buffer[16384];
 	int fd=CHECK_NOT_M1(open("data.txt", O_RDONLY));
 	char* ptr=buffer;
-	size_t left=bufsize;
+	size_t left=sizeof(buffer);
 	ssize_t read_size=CHECK_NOT_M1(read(fd, ptr, left));
 	while(read_size>0) {
 		ptr+=read_size;

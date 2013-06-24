@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <iostream>	// for std::cout, std::endl
-#include <us_helper.h>	// for my_system()
+#include <multi_processing.h>	// for my_system()
 
 class A {
 public:

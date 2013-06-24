@@ -19,7 +19,8 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for atoi(3)
 #include <string.h>	// for memset(3)
-#include <us_helper.h>	// for my_system(), TRACE()
+#include <us_helper.h>	// for TRACE()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This example explores how static data (data segement) affects binary size

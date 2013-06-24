@@ -20,27 +20,40 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for atexit(3), on_exit(3), exit(3)
 #include <unistd.h>	// for sysconf(3)
+#include <us_helper.h>	// for CHECK_ZERO()
 
 /*
  * This example shows how to use the cleanup framework provided by the standard C library
  * notice that cleanup functions are called in reverse order of their registration
  *
  * Notes:
- * - the same function can be registered multiple times (with atexit or on_exit).
+ * - the same function can be registered multiple times (with atexit(3) or on_exit(3)).
  * - the limit to number of registrations seems to be very high (millions ?!?).
- * - the API to on_exit seems to be a bit better since it allows to pass a pointer
+ * - the API to on_exit(3) seems to be a bit better since it allows to pass a pointer
  * and get the exit code which atexit does not allow.
- * - on the other hand the documentation states that atexit is preffered on Linux.
+ * - on the other hand the documentation states that atexit(3) is preffered on Linux
+ * and some consider on_exit(3) to be deprecated.
+ * - calling _exit(2) will end the software immediately and so no handlers will be
+ * called.
+ *
+ * TODO:
+ * - show that after forking the child will also do the cleanups.
+ * - show what happens if you get a fatal signal.
+ * - show what happens to C++ object on the stack when exit(3) is called (do
+ * the destructors get called?!?)
  */
 
 void endfunc1() {
 	fprintf(stderr, "Hey! I am doing some cleanup work 1\n");
+	fprintf(stderr, "I was registered with atexit(3)\n");
 }
 void endfunc2() {
 	fprintf(stderr, "Hey! I am doing some cleanup work 2\n");
+	fprintf(stderr, "I was registered with atexit(3)\n");
 }
 void endfunc3(int exit_code, void* ptr) {
 	fprintf(stderr, "Hey! I am doing some cleanup work 3\n");
+	fprintf(stderr, "I was registered with on_exit(3)\n");
 	fprintf(stderr, "exit_code is %d\n", exit_code);
 	fprintf(stderr, "ptr is %p\n", ptr);
 }
@@ -50,11 +63,11 @@ int main(int argc, char** argv, char** envp) {
 	long val_atexit_max=sysconf(_SC_ATEXIT_MAX);
 	fprintf(stderr, "ATEXIT_MAX is %ld\n", val_atexit_max);
 	// lets register some functions...
-	atexit(endfunc1);
-	atexit(endfunc1);
-	atexit(endfunc2);
-	on_exit(endfunc3, NULL);
-	on_exit(endfunc3, NULL);
+	CHECK_ZERO(atexit(endfunc1));
+	CHECK_ZERO(atexit(endfunc1));
+	CHECK_ZERO(atexit(endfunc2));
+	CHECK_ZERO(on_exit(endfunc3, NULL));
+	CHECK_ZERO(on_exit(endfunc3, NULL));
 	// this will end the software immediately
 	// _exit(7);
 	exit(17);

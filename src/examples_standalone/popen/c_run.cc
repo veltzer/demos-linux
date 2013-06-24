@@ -20,7 +20,8 @@
 #include <stdio.h>	// for fopen(3), fprintf(3), fclose(3), getline(3), popen(3), pclose(3)
 #include <stdlib.h>	// for system(3), abort(3), mkstemp(3), malloc(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h>	// for close(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL(), my_system()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * Example for using the shbang line to run C code

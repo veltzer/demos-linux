@@ -23,7 +23,8 @@
 #include <sys/stat.h>	// for stat(2)
 #include <unistd.h>	// for stat(2), unlink(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL(), memcheck(), my_system()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL(), memcheck()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This program demostrates the concept of sparse files...

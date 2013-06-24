@@ -31,10 +31,9 @@
  * will not work. Why ?
  *
  * // here are examples of attempts that will not work...
- * const int bufsize=1;
- * char buf[bufsize];
+ * char buf[1];
  * // this call does not release until eol...
- * int ret=fread(buf,bufsize,1,stdin);
+ * int ret=fread(buf,sizeof(buf),1,stdin);
  * printf("ret is %d\n",ret);
  * // now set the buffereing to no buffering...
  * setvbuf(stdin,NULL,_IONBF,0);

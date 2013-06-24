@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), fopen(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for my_system()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This example shows that the compiler is very aggresive on optimization.
