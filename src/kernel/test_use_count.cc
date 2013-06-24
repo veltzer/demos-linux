@@ -24,6 +24,7 @@
 #include <unistd.h>	// for close(2), sleep(3), usleep(3)
 #include <stdio.h>	// for printf(3)
 #include <us_helper.h>	// for CHECK_NOT_M1()
+#include <multi_processing.h>	// for my_system()
 #include "shared.h"	// for ioctl numbers
 
 /*
