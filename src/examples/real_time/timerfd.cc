@@ -38,9 +38,8 @@ static void print_elapsed_time(struct timespec* since) {
 	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME, &current_time));
 	struct timespec diff;
 	timespec_sub(&diff, &current_time, since);
-	const unsigned int bufsize=1024;
-	char buf[bufsize];
-	timespec_snprint(buf, bufsize, &diff);
+	char buf[1024];
+	timespec_snprint(buf, sizeof(buf), &diff);
 	printf("%s", buf);
 }
 

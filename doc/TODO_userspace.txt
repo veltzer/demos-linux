@@ -1,3 +1,6 @@
+various hacks by GBY:
+	https://github.com/gby/hacks
+
 - get a lot of examples from tlpi (http://man7.org/tlpi/code/)
 - get examples of bad C code from "Some Dark Corners of C.pptx" (have it in doc/external).
 

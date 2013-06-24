@@ -29,9 +29,8 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	const unsigned int bufsize=256;
-	char name[bufsize];
-	CHECK_IN_RANGE(confstr(_CS_GNU_LIBPTHREAD_VERSION, name, bufsize), 1, bufsize);
+	char name[256];
+	CHECK_IN_RANGE(confstr(_CS_GNU_LIBPTHREAD_VERSION, name, sizeof(name)), 1, sizeof(name));
 	printf("confstr(_CS_GNU_LIBPTHREAD_VERSION) returns [%s]\n", name);
 	return EXIT_SUCCESS;
 }

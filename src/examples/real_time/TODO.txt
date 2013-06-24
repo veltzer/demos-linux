@@ -1,6 +1,4 @@
-show: http://rtportal.upv.es/rtmalloc/
-
+show use of rtmalloc
+	http://rtportal.upv.es/rtmalloc/
 tcmalloc: thread caching malloc.
 	http://goog-perftools.sourceforge.net/doc/tcmalloc.html
-various hacks by GBY:
-	https://github.com/gby/hacks

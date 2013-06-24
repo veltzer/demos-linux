@@ -23,7 +23,8 @@
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 #include <stdio.h>	// for fprintf(3)
-#include <us_helper.h>	// for my_system(), CHECK_ZERO()
+#include <us_helper.h>	// for CHECK_ZERO()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This example shows syslog basic usage. At the end it demostrates that the log

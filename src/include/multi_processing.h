@@ -32,6 +32,18 @@
 #include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <string.h>	// for strsignal(3)
 
+static inline int child_ok(int status) {
+	if (WIFEXITED(status)) {
+		if (WEXITSTATUS(status)) {
+			return 0;
+		} else {
+			return 1;
+		}
+	} else {
+		return 0;
+	}
+}
+
 static inline void print_status(int status) {
 	TRACE("analyzing code [%d]", status);
 	if (WIFEXITED(status)) {
@@ -63,6 +75,42 @@ static inline void print_code(int code) {
 		TRACE("child was continued");
 		break;
 	}
+}
+
+/*
+ * An enhanced system(3) version which also:
+ * - accepts variable argument and does the substitution.
+ * - checks for errors on return from system(3)
+ */
+static inline void my_system(const char *fmt, ...) {
+	const unsigned int cmd_size=1024;
+	char str[cmd_size];
+	va_list args;
+
+	va_start(args, fmt);
+	vsnprintf(str, cmd_size, fmt, args);
+	va_end(args);
+	// fprintf(stderr, "doing [%s]\n", str);
+	int ret=CHECK_NOT_M1(system(str));
+	if(!child_ok(ret)) {
+		CHECK_ASSERT(0);
+	}
+}
+
+void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
+
+/*
+ * Print the process name from /proc
+ */
+static inline void print_process_name_from_proc(void) {
+	my_system("cat /proc/%d/comm", getpid());
+}
+
+/*
+ * Print kernel memory buddy info from /proc
+ */
+static inline void printbuddy(void) {
+	my_system("cat /proc/buddyinfo");
 }
 
 #endif	/* !__multi_processing_h */

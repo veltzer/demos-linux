@@ -24,7 +24,8 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3)
 #include <unistd.h>	// for close(2), fork(2)
 #include <sys/wait.h>	// for waitpid(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), my_system(), klog_show(), klog_clear(), waitkey()
+#include <us_helper.h>	// for CHECK_NOT_M1(), klog_show(), klog_clear(), waitkey()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This is a test which will explain which methods in the driver are

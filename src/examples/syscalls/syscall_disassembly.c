@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for fprintf(3), stderr
-#include <us_helper.h>	// for my_system()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This example shows the disassembly of a single system call.

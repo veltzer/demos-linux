@@ -38,12 +38,11 @@
 
 int main(int argc, char** argv, char** envp) {
 	int fd=CHECK_NOT_M1(open("/tmp/myfile.data", O_RDONLY));
-	const unsigned int bufsize=1024;
 	const unsigned int readsize=3;
-	char buffer[bufsize];
+	char buffer[1024];
 	unsigned int counter=0;
 	while(true) {
-		CHECK_INT(read(fd, buffer, bufsize), readsize);
+		CHECK_INT(read(fd, buffer, sizeof(buffer)), readsize);
 		int a;
 		CHECK_INT(sscanf(buffer, "%d", &a), 1);
 		fprintf(stderr, "number is %d, counter is %d\n", a, counter);

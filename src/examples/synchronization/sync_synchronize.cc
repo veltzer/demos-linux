@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for my_system()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This is a demo to show how sync_synchronize() is implemented...
