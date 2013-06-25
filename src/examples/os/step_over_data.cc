@@ -20,7 +20,8 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sysconf(3), getpid(2)
 #include <signal.h>	// for signal(2)
-#include <us_helper.h>
+#include <us_helper.h>	// for CHECK_NOT_SIGT()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This example shows that the data segment is organized into pages. It shows

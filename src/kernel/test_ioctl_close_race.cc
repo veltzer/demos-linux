@@ -25,6 +25,7 @@
 #include <fcntl.h>	// for open(2)
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <multi_processing.h>	// for my_system()
 #include "shared.h"	// for ioctl numbers
 
 /*

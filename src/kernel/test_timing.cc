@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <us_helper.h>	// for CHECK_NOT_M1()
+#include <multi_processing.h>	// for my_system()
 #include "shared.h"
 
 /*
