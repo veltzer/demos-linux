@@ -21,7 +21,8 @@
 #include <string.h>	// for strncpy(3)
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <us_helper.h>	// for CHECK_ZERO(), TRACE(), my_system()
+#include <us_helper.h>	// for CHECK_ZERO(), TRACE()
+#include <multi_processing.h>	// for my_system()
 
 /*
  * This example shows how to use prctl to set/get the current process name.
