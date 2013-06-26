@@ -34,6 +34,11 @@
  * References:
  * - http://lemire.me/blog/archives/2012/05/31/data-alignment-for-speed-myth-or-reality/
  *
+ * TODO:
+ * - in the referenced blog there is a note saying that some patterns
+ * will cause delays. Reproduce these patterns (the blog has some code
+ * attached that will help in that effort).
+ *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
