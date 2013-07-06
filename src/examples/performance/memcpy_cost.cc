@@ -30,7 +30,12 @@
 /*
  * This example explores the CPU utilisation of doing XXXM memcpy per second.
  * You need to supply how many megs you want copied and in how many intervals.
+ *
  * EXTRA_LINK_FLAGS=-lpthread -lrt
+ *
+ * TODO:
+ * - this example is a realtime skeleton. Have this kind of code as template
+ * in us_helper.h and just use it.
  */
 
 /* we use 49 as the PRREMPT_RT use 50 as the priority of kernel tasklets

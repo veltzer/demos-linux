@@ -17,10 +17,10 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
+#include <stdio.h>	// for snprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), free(3)
-#include <measure.h>	// for measure, measure_start(), measure_end(), measure_print()
-#include <us_helper.h>	// for run_priority()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <us_helper.h>	// for run_priority(), CHECK_NOT_NEGATIVE()
 
 /*
  * This example tries to abuse the cpu by doing lots of integral
@@ -47,24 +47,26 @@ static char* buf;
 const unsigned int num_of_ints=1000;
 
 void* func(void*) {
+	char name[256];
+	CHECK_NOT_NEGATIVE(snprintf(name, 256, "ops with alignment %d", diff));
 	measure m;
-	measure_start(&m, "work");
+	measure_init(&m, name, 1);
+	measure_start(&m);
 	int* pi=(int*)(buf+diff);
 	for(int j=0; j<1000000; j++) {
-		for(int i=0; i<1000; i++) {
+		for(unsigned int i=0; i<num_of_ints; i++) {
 			pi[i]+=i*i;
 		}
 	}
-	measure_end(&m, "work");
-	printf("diff is %d\n", diff);
-	measure_print(&m, "work", 1);
+	measure_end(&m);
+	measure_print(&m);
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	unsigned int size_to_alloc=num_of_ints*sizeof(int)+500;
+	const unsigned int size_to_alloc=num_of_ints*sizeof(int)+500;
 	buf=(char*)malloc(size_to_alloc);
-	for(int i=0; i<2020; i++) {
+	for(unsigned int i=0; i<size_to_alloc; i++) {
 		buf[i]=rand()%256;
 	}
 	diff=0;

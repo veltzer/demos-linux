@@ -34,20 +34,27 @@
 typedef struct _measure {
 	struct timeval t1;
 	struct timeval t2;
+	int attempts;
+	const char* name;
 } measure;
 
-static inline void measure_start(measure* m, const char* msg) {
-	printf("measure start: [%s]\n", msg);
+static inline void measure_init(measure* m, const char* name, int attempts) {
+	m->name=name;
+	m->attempts=attempts;
+}
+
+static inline void measure_start(measure* m) {
+	// printf("measure start: [%s]\n", msg);
 	gettimeofday(&m->t1, NULL);
 }
 
-static inline void measure_end(measure* m, const char* msg) {
+static inline void measure_end(measure* m) {
 	gettimeofday(&m->t2, NULL);
-	printf("measure end: [%s]\n", msg);
+	// printf("measure end: [%s]\n", msg);
 }
 
-static inline void measure_print(measure* m, const char* msg, int attempts) {
-	printf("measure print: time in micro of single [%s]: %lf\n", msg, micro_diff(&m->t1, &m->t2)/(double)attempts);
+static inline void measure_print(measure* m) {
+	printf("measure print: time in micro of single [%s]: %lf\n", m->name, micro_diff(&m->t1, &m->t2)/(double)(m->attempts));
 }
 
 #endif	/* !__measure_h */
