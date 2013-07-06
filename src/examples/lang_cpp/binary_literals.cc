@@ -45,10 +45,10 @@ typedef unsigned long longest_t;
 template<longest_t N>
 class bin
 {
-	public:
-		enum {
-			value = (N % 8) + (bin<N / 8>::value << 1)
-		};
+public:
+	enum {
+		value = (N % 8) + (bin<N / 8>::value << 1)
+	};
 };
 
 /*
@@ -58,10 +58,10 @@ class bin
 template<>
 class bin<0>
 {
-	public:
-		enum {
-			value = 0
-		};
+public:
+	enum {
+		value = 0
+	};
 };
 
 /*
@@ -69,7 +69,7 @@ class bin<0>
  * end the recursion chain and make posible more digits
  *
  */
-#define binary( n ) bin<0##n>::value
+#define binary( n ) bin<0 ## n>::value
 
 /*
  * Tests
@@ -90,6 +90,6 @@ int main(int argc, char** argv, char** envp) {
 	assert(0b100000000==256);
 	assert(0b0000000000001==1);
 	// this will fail
-	//assert(binary(11)==4);
+	// assert(binary(11)==4);
 	return EXIT_SUCCESS;
 }

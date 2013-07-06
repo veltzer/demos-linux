@@ -17,11 +17,11 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3), fprintf(3), stderr
-#include <sys/time.h>	// for gettimeofday(2)
+#include <stdio.h>	// for fprintf(3), stderr
 #include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <string.h>	// for malloc(3)
-#include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1()
+#include <us_helper.h>	// for run_priority()
+#include <measure.h>	// for measure, measure_start(), measure_end(), measure_print()
 
 /*
  * This example compares memcpy(3) to copy by loop...
@@ -33,51 +33,83 @@
  * check the arguments passed to it for sanity. This is part of the philosophy of the GNU/Linux system.
  * The idea is that system programmers can take care of themselves and the APIs should be as fast
  * as possible to cater for good programmers.
+ *
+ * EXTRA_LINK_FLAGS=-lpthread
  */
 
-void test_memcpy(void* buf1, const void* buf2, size_t size, unsigned int loop) {
-	printf("doing %d real memcpy\n", loop);
-	struct timeval t1, t2;
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+typedef struct _threaddata {
+	unsigned int loop;
+	size_t size;
+	void* buf1;
+	void* buf2;
+} threaddata;
+
+void* test_memcpy(void* p) {
+	threaddata* td=(threaddata*)p;
+	void* buf1=td->buf1;
+	const void* buf2=td->buf2;
+	size_t size=td->size;
+	unsigned int loop=td->loop;
+	measure m;
+	measure_init(&m, "real memcpy", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		memcpy(buf1, buf2, size);
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
+	return NULL;
 }
 
-void test_char(void* buf1, const void* buf2, size_t size, unsigned int loop) {
-	printf("doing %d copy char by char\n", loop);
-	struct timeval t1, t2;
+void* test_char(void* p) {
+	threaddata* td=(threaddata*)p;
+	void* buf1=td->buf1;
+	const void* buf2=td->buf2;
+	size_t size=td->size;
+	unsigned int loop=td->loop;
 	char* bbuf1=(char*)buf1;
 	const char* bbuf2=(const char*)buf2;
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+	measure m;
+	measure_init(&m, "char by char", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i < loop; i++) {
 		for(unsigned int j=0; j<size; j++) {
 			bbuf1[j]=bbuf2[j];
 		}
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
+	return NULL;
 }
 
-void test_imp1(void* buf1, const void* buf2, size_t size, unsigned int loop) {
-	printf("doing %d copy int by int (implementation I)\n", loop);
-	struct timeval t1, t2;
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+void* test_imp1(void* p) {
+	threaddata* td=(threaddata*)p;
+	void* buf1=td->buf1;
+	const void* buf2=td->buf2;
+	size_t size=td->size;
+	unsigned int loop=td->loop;
+	measure m;
+	measure_init(&m, "int by int (implementation I)", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i < loop; i++) {
 		for(unsigned int j=0; j<size/sizeof(int); j++) {
 			((int*)buf1)[j]=((int*)buf2)[j];
 		}
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
+	return NULL;
 }
 
-void test_imp2(void* buf1, const void* buf2, size_t size, unsigned int loop) {
-	printf("doing %d copy int by int (implementation II)\n", loop);
-	struct timeval t1, t2;
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+void* test_imp2(void* p) {
+	threaddata* td=(threaddata*)p;
+	void* buf1=td->buf1;
+	const void* buf2=td->buf2;
+	size_t size=td->size;
+	unsigned int loop=td->loop;
+	measure m;
+	measure_init(&m, "int by int (implementation II)", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		int* pbuf1=(int*)buf1;
 		int* pbuf2=(int*)buf2;
@@ -87,8 +119,9 @@ void test_imp2(void* buf1, const void* buf2, size_t size, unsigned int loop) {
 			pbuf2++;
 		}
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
@@ -97,19 +130,21 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: example is 10000 50000\n", argv[0]);
 		return EXIT_FAILURE;
 	}
-	unsigned int loop=atoi(argv[1]);
-	size_t size=atoi(argv[2]);
-	void* buf1=malloc(size);
-	void* buf2=(char*)malloc(size);
+	// parameters
+	threaddata data;
+	data.loop=atoi(argv[1]);
+	data.size=atoi(argv[2]);
+	data.buf1=malloc(data.size);
+	data.buf2=malloc(data.size);
 
 	/*
 	 * if(rand()<RAND_MAX) {
 	 * buf1=NULL;
 	 * }
 	 */
-	test_memcpy(buf1, buf2, size, loop);
-	test_char(buf1, buf2, size, loop);
-	test_imp1(buf1, buf2, size, loop);
-	test_imp2(buf1, buf2, size, loop);
+	run_priority(test_memcpy, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	run_priority(test_char, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	run_priority(test_imp1, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	run_priority(test_imp2, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

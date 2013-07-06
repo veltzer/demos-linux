@@ -63,19 +63,21 @@ void* func(void*) {
 	const unsigned int loop=10000000;
 	const unsigned int size_to_alloc=100;
 
-	measure_start(&m, "obstack_alloc");
+	measure_init(&m, "obstack_alloc", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		CHECK_NOT_NULL(obstack_alloc(&myobstack, size_to_alloc));
 	}
-	measure_end(&m, "obstack_alloc");
-	measure_print(&m, "obstack_alloc", loop);
+	measure_end(&m);
+	measure_print(&m);
 
-	measure_start(&m, "malloc");
+	measure_init(&m, "malloc", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		CHECK_NOT_NULL(malloc(size_to_alloc));
 	}
-	measure_end(&m, "malloc");
-	measure_print(&m, "malloc", loop);
+	measure_end(&m);
+	measure_print(&m);
 	return NULL;
 }
 
