@@ -27,21 +27,21 @@ MODULE_DESCRIPTION("A module showing off module parameters");
 
 /* here comes the parameters */
 
-static int myparam = 1;
-module_param(myparam, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-MODULE_PARM_DESC(myparam, "myparam controls bla bla bla...");
+static int myint= 1;
+module_param(myint, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+MODULE_PARM_DESC(myint, "myint controls bla bla bla...");
 
 /* our own functions */
 static int __init hello_init(void)
 {
 	pr_info("in hello_init\n");
-	pr_info("myparam is %d\n", myparam);
+	pr_info("in hello_init: myint is %d\n", myint);
 	return 0;
 }
 
 static void __exit hello_exit(void)
 {
-	pr_info("myparam is %d\n", myparam);
+	pr_info("in hello_exit: myint is %d\n", myint);
 	pr_info("in hello_exit\n");
 }
 

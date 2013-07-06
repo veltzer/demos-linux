@@ -57,9 +57,6 @@ int main(int argc, char** argv, char** envp) {
 	phonebook=malloc(sizeof(struct phone_entry)*MAX_ENTRIES_IN_PHONEBOOK);
 	for(i=0; i<MAX_ENTRIES_IN_PHONEBOOK; i++) {
 		phone_entry_init(phonebook+i);
-		// (phonebook+i)->used=0;
-		// phonebook[i].used=0;
-		// *(phonebook+i).used=0;
 	}
 	while(!over) {
 		int selection=show_menu();
