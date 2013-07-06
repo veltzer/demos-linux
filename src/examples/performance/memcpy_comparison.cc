@@ -25,14 +25,15 @@
 
 /*
  * This example compares memcpy(3) to copy by loop...
- * As you can see memcpy is faster since it uses a specialized machine instruction to do the copying.
- * Actually glibc has an implementation adjusted for each cpu and switches the
- * memcpy function pointer to the right implementation at initialization time.
+ * As you can see memcpy(3) is faster since it uses a specialized machine instruction to do the copying.
+ * Actually glibc has an implementation of memcpy(3) and other
+ * functions adjusted for each cpu and points the
+ * memcpy(3) function pointer to the right implementation at initialization time.
  * See the disassembly for more details.
- * If you uncomment the rand() code you will find that memcpy does not give you any slack: it does NOT
+ * If you uncomment the rand() code you will find that memcpy(3) does not give you any slack: it does NOT
  * check the arguments passed to it for sanity. This is part of the philosophy of the GNU/Linux system.
- * The idea is that system programmers can take care of themselves and the APIs should be as fast
- * as possible to cater for good programmers.
+ * The idea is that systems programmers can take care of themselves and the APIs should be as fast
+ * as possible to cater for good programmers and not to aid the incompetant few with their debugging problems.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
