@@ -43,14 +43,14 @@ int find_empty_cell(phone_entry* phonebook, const int size) {
 			return i;
 		}
 	}
-	fprintf(stderr,"NO MORE ENTRIES IN PHONEBOOK, PANIC!\n");
+	fprintf(stderr, "NO MORE ENTRIES IN PHONEBOOK, PANIC!\n");
 	exit(EXIT_FAILURE);
 }
 
 int find_cell_by_name(phone_entry* phonebook, const int size, const char* name) {
 	int i;
 	for(i=0; i<size; i++) {
-		if(strcmp(name,phonebook[i].name)==0) {
+		if(strcmp(name, phonebook[i].name)==0) {
 			return i;
 		}
 	}
@@ -60,17 +60,17 @@ int find_cell_by_name(phone_entry* phonebook, const int size, const char* name) 
 void add_entry(phone_entry* phonebook, const int size) {
 	int entry=find_empty_cell(phonebook, size);
 	printf("give me the name for the new entry: ");
-	CHECK_INT(scanf("%s",phonebook[entry].name),1);
+	CHECK_INT(scanf("%s", phonebook[entry].name), 1);
 	printf("give me the phone for the new entry: ");
-	CHECK_INT(scanf("%s",phonebook[entry].phone),1);
+	CHECK_INT(scanf("%s", phonebook[entry].phone), 1);
 	phonebook[entry].used=1;
 }
 
 void delete_entry(phone_entry* phonebook, const int size) {
 	char name[256];
 	printf("give me a name to delete: ");
-	CHECK_INT(scanf("%s",name),1);
-	int entry=find_cell_by_name(phonebook,size,name);
+	CHECK_INT(scanf("%s", name), 1);
+	int entry=find_cell_by_name(phonebook, size, name);
 	if(entry==-1) {
 		fprintf(stderr, "you moron! give me a name in the book\n");
 	} else {
@@ -81,12 +81,12 @@ void delete_entry(phone_entry* phonebook, const int size) {
 void find_entry(phone_entry* phonebook, const int size) {
 	char name[256];
 	printf("give me a name to find: ");
-	CHECK_INT(scanf("%s",name),1);
-	int entry=find_cell_by_name(phonebook,size,name);
+	CHECK_INT(scanf("%s", name), 1);
+	int entry=find_cell_by_name(phonebook, size, name);
 	if(entry==-1) {
 		fprintf(stderr, "you moron! there is no one by that name\n");
 	} else {
-		printf("the phone for %s is %s\n",name, phonebook[entry].phone);
+		printf("the phone for %s is %s\n", name, phonebook[entry].phone);
 	}
 }
 
@@ -97,7 +97,7 @@ void print_phonebook(phone_entry* phonebook, const int size) {
 			printf("name: %s, phone %s\n",
 				phonebook[i].name,
 				phonebook[i].phone
-			);
+				);
 		}
 	}
 }
@@ -124,7 +124,7 @@ int main(int argc, char** argv, char** envp) {
 	phonebook=malloc(sizeof(phone_entry)*MAX_ENTRIES_IN_PHONEBOOK);
 	for(i=0; i<MAX_ENTRIES_IN_PHONEBOOK; i++) {
 		phone_entry_init(phonebook+i);
-		//phone_entry_init(&phonebook[i]);
+		// phone_entry_init(&phonebook[i]);
 	}
 	while(!over) {
 		int selection=show_menu();
