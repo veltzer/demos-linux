@@ -1,0 +1,8 @@
+to clear buffer and cache:
+	sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
+to turn your system into a router:
+	sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+to change affinity of an interrupt handler:
+	sudo sh -c "echo 02 > /proc/irq/17/smp_affinity"
+	(make sure that you don't have "/usr/sbin/irqbalance" running as
+	it may override your choice in a very short time...)
