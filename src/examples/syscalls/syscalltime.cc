@@ -23,7 +23,7 @@
 #include <sys/syscall.h>// for syscall(2)
 #include <sys/time.h>	// for gettimeofday(2), struct timeval
 #include <us_helper.h>	// for run_priority()
-#include <measure.h> // for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This demo times how long it takes to call a syscall.

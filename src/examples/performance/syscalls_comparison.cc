@@ -26,7 +26,6 @@
 #include <us_helper.h>	// for CHECK_NOT_M1()
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
-
 /*
  * This demo shows that the performance of various syscalls.
  * we compare:
