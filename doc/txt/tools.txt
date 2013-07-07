@@ -28,6 +28,7 @@ process ids:
 	ptrace
 	strace
 	ltrace
+	pstack
 
 used files:
 	fuser, lsof
