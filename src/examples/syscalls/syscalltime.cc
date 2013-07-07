@@ -17,12 +17,13 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3), fprintf(3)
+#include <stdio.h>	// for stderr, fprintf(3)
 #include <unistd.h>	// for syscall(2), __NR_getpid, getpid(3)
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/syscall.h>// for syscall(2)
-#include <sys/time.h>	// for gettimeofday(2)
-#include <us_helper.h>	// for micro_diff(), run_priority()
+#include <sys/time.h>	// for gettimeofday(2), struct timeval
+#include <us_helper.h>	// for run_priority()
+#include <measure.h> // for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This demo times how long it takes to call a syscall.
@@ -57,17 +58,18 @@
 unsigned int count;
 
 void* func(void*) {
-	struct timeval t1, t2;
-	printf("doing %d syscalls\n", count);
-	gettimeofday(&t1, NULL);
+	measure m;
+	// think! why count+1?
+	measure_init(&m, "syscall", count+1);
+	measure_start(&m);
 	for(unsigned int i=0; i<count; i++) {
 		// struct timeval t3;
 		// gettimeofday(&t3, NULL);
 		syscall(__NR_getpid);
 		// getpid();
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one syscall: %lf\n", micro_diff(&t1, &t2)/(double)(count+1));
+	measure_end(&m);
+	measure_print(&m);
 	return NULL;
 }
 

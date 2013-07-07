@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3), fprintf(3)
+#include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for malloc(3), atoi(3), free(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/types.h>	// for open(2), lseek(2)
 #include <sys/stat.h>	// for open(2)
@@ -25,6 +25,7 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), getticks(), micro_diff(), run_priority()
 #include <unistd.h>	// for close(2), read(2), lseek(2)
 #include <assert.h>	// for assert(3)
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This example explores the performance of a read operation.
@@ -47,30 +48,33 @@ off_t filesize;
 void* func(void*) {
 	// startup
 	void* buf=malloc(filesize);
-	struct timeval t1, t2;
-	ssize_t read_bytes;
+	ssize_t read_bytes=0;
+	measure m;
 	// first read
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "first read", read_bytes);
+	measure_start(&m);
 	read_bytes=CHECK_NOT_M1(read(fd, buf, filesize));
 	assert(read_bytes==filesize);
-	gettimeofday(&t2, NULL);
-	printf("time of first read: %lf (%zd bytes read)\n", micro_diff(&t1, &t2), read_bytes);
+	measure_end(&m);
+	measure_print(&m);
 	// seek back
 	CHECK_NOT_M1(lseek(fd, 0, SEEK_SET));
 	// second read
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "second read", read_bytes);
+	measure_start(&m);
 	read_bytes=CHECK_NOT_M1(read(fd, buf, filesize));
 	assert(read_bytes==filesize);
-	gettimeofday(&t2, NULL);
-	printf("time of second read: %lf (%zd bytes read)\n", micro_diff(&t1, &t2), read_bytes);
+	measure_end(&m);
+	measure_print(&m);
 	// seek back
 	CHECK_NOT_M1(lseek(fd, 0, SEEK_SET));
 	// third read
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "third read", read_bytes);
+	measure_start(&m);
 	read_bytes=CHECK_NOT_M1(read(fd, buf, filesize));
 	assert(read_bytes==filesize);
-	gettimeofday(&t2, NULL);
-	printf("time of third read: %lf (%zd bytes read)\n", micro_diff(&t1, &t2), read_bytes);
+	measure_end(&m);
+	measure_print(&m);
 	// shutdown
 	free(buf);
 	return NULL;
