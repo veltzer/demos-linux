@@ -79,6 +79,7 @@ packs=[
 	'bridge-utils', # for bridging utilities to demo creation of a bridge
 	'iptraf',
 	'numactl',
+	'pstack',
 
 	# package used tools
 	'ccache', # for faster building
