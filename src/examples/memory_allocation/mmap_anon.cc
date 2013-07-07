@@ -69,7 +69,6 @@ int main(int argc, char** argv, char** envp) {
 	printproc(NULL);
 	// while(true) {
 	// int ret=pause();
-	// // this is what is guaranteed by a clean exit of pause(2)
 	// CHECK_ASSERT(ret==-1 && errno==EINTR);
 	// }
 	// lets try to access the pointer after the allocated area...

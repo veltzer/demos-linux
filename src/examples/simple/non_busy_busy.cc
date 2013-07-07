@@ -38,8 +38,6 @@ int myarray[10000]={1};
 int main(int argc, char** argv, char** envp) {
 	while(true) {
 		int ret=pause();
-		// this is what is guaranteed by a clean exit
-		// of pause(2)
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 		printf("got some signal...\n");
 	}

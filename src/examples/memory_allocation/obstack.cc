@@ -22,7 +22,7 @@
 #include <sys/time.h>	// for gettimeofday(2)
 #include <obstack.h>	// for obstack_*(3)
 #include <us_helper.h>	// for CHECK_NOT_NULL(), run_priority()
-#include <measure.h>	// for measure, measure_start(), measure_end(), measure_print()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This example shows how to use obstacks...

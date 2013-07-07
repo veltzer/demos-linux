@@ -17,9 +17,10 @@
  */
 
 #include <firstinclude.h>
+#include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/time.h>	// for gettimeofday(2)
-#include <us_helper.h>	// for TRACE(), micro_diff, CHECK_ZERO
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This example compares the adding of integers and the adding of atomics
@@ -33,51 +34,56 @@ int main(int argc, char** argv, char** envp) {
 	int attempts=atoi(argv[1]);
 	int counter;
 	volatile int vcounter;
-	struct timeval t1, t2;
-	TRACE("attempts is %d", attempts);
+	measure m;
 
 	counter=0;
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "atomic adds", attempts);
+	measure_start(&m);
 	for(int i=0; i<attempts; i++) {
 		__sync_add_and_fetch(&counter, 1);
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of atomic adds: %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	measure_end(&m);
+	measure_print(&m);
 
 	counter=0;
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "regular adds (big barrier)", attempts);
+	measure_start(&m);
 	for(int i=0; i<attempts; i++) {
 		counter++;
 		// this is to make the compiler actually do the loop
 		asm volatile ("" ::: "memory");
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of regular adds (big barrier): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	measure_end(&m);
+	measure_print(&m);
 
 	counter=0;
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "regular adds (best barrier)", attempts);
+	measure_start(&m);
 	for(int i=0; i<attempts; i++) {
 		counter++;
 		// this is to make the compiler actually do the loop
 		asm volatile ("" : "=g" (counter) ::);
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of regular adds (best barrier): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	measure_end(&m);
+	measure_print(&m);
 
 	counter=0;
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "regular adds (no barrier-loop probably goes away here)", attempts);
+	measure_start(&m);
 	for(int i=0; i<attempts; i++) {
 		counter++;
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of regular adds (no barrier-the loop probably goes away here): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	measure_end(&m);
+	measure_print(&m);
 
 	vcounter=0;
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "volatile adds (volatile is close to a barrier)", attempts);
+	measure_start(&m);
 	for(int i=0; i<attempts; i++) {
 		vcounter++;
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of volatile adds (volatile is close to a barrier): %lf\n", micro_diff(&t1, &t2)/(double)attempts);
+	measure_end(&m);
+	measure_print(&m);
+
 	return EXIT_SUCCESS;
 }

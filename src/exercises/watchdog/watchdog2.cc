@@ -75,8 +75,6 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("parent starts monitoring");
 	while(true) {
 		int ret=pause();
-		// this is what is guaranteed by a clean exit
-		// of pause(2)
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 		if(fork_again)
 			fork_a_child();

@@ -61,8 +61,6 @@ int main(int argc, char** argv, char** envp) {
 			TRACE("this is the parent, pid is %d", getpid());
 			// lets wait for a signal that it's ok to die...
 			int ret=pause();
-			// this is what is guaranteed by a clean exit
-			// of pause(2)
 			CHECK_ASSERT(ret==-1 && errno==EINTR);
 			// lets die
 			return 0;
@@ -71,8 +69,6 @@ int main(int argc, char** argv, char** envp) {
 		TRACE("this is the gparent, pid is %d", getpid());
 		// lets wait for a signal that it's ok to die...
 		int ret=pause();
-		// this is what is guaranteed by a clean exit
-		// of pause(2)
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 		// lets die
 		return 0;

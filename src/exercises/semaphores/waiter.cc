@@ -40,8 +40,6 @@ int main(int argc, char** argv, char** envp) {
 	// a non busy busy wait
 	while(!over) {
 		int ret=pause();
-		// this is what is guaranteed by a clean exit
-		// of pause(2)
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
 	// destroy the semaphore
