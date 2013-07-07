@@ -20,7 +20,7 @@
 #include <iostream>	// for std::cout, std::endl
 #include <list>	// for std::list<T>, std::list<T>::iterator
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <measure.h>	// for measure, measure_start(), measure_end(), measure_print()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * Example showing that list.size() in STL is O(N)!

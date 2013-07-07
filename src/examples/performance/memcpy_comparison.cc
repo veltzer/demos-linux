@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <string.h>	// for malloc(3)
 #include <us_helper.h>	// for run_priority()
-#include <measure.h>	// for measure, measure_start(), measure_end(), measure_print()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This example compares memcpy(3) to copy by loop...

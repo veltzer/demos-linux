@@ -73,8 +73,6 @@ int main(int argc, char** argv, char** envp) {
 	// a non busy wait busy wait loop...:)
 	while(true) {
 		int ret=pause();
-		// this is what is guaranteed by a clean exit
-		// of pause(2)
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
 	return EXIT_SUCCESS;

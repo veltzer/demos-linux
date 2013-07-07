@@ -26,7 +26,7 @@
 #include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS
 #include <signal.h>	// for siginfo_t
 #include <string.h>	// for strcmp(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 #include <fcntl.h>	// for DN_* constants
 
 /*
@@ -36,6 +36,9 @@
  * usage is as shown in usageError() below. An example is the following:
  * dnotify dir1:a xyz/dir2:acdM
  * See also demo_inotify.c.
+ *
+ * This example was stolen shamelessly from Michael Kerrisk (author of
+ * the linux manual pages).
  *
  * TODO:
  * - show how to get the info about what happened in the signal handler.
@@ -104,8 +107,10 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_NOT_M1(fcntl(fd, F_NOTIFY, events));
 		printf("events: %o\n", (unsigned int) events);
 	}
+	// a non busy busy wait loop...
 	while(true) {
-		pause();
+		int ret=pause();
+		CHECK_ASSERT(ret==-1 && errno==EINTR);
 	}
 	return EXIT_SUCCESS;
 }

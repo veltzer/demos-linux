@@ -18,7 +18,6 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <sys/time.h>	// for gettimeofday(2)
 #include <us_helper.h>	// for TRACE(), micro_diff, CHECK_ZERO
 
 /*

@@ -27,7 +27,7 @@ MODULE_DESCRIPTION("A module showing off module parameters");
 
 /* here comes the parameters */
 
-static int myint= 1;
+static int myint = 1;
 module_param(myint, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 MODULE_PARM_DESC(myint, "myint controls bla bla bla...");
 

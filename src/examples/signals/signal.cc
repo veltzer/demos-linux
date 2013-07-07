@@ -71,7 +71,6 @@ int main(int argc, char** argv, char** envp) {
 	// This is a non busy wait loop which only wakes up when there are signals
 	while(true) {
 		int ret=pause();
-		// this is what a clean exit of pause(2) guarantees...
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
 		printf("pause(2) wakeup\n");
 	}
