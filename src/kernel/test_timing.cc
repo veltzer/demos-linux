@@ -17,15 +17,15 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <stdio.h>	// for stderr, fprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <sys/ioctl.h>	// for ioctl(2)
+#include <us_helper.h>	// for CHECK_NOT_M1(), klog_clear(), klog_show_clear()
+#include <sys/types.h>	// for open(2)
+#include <sys/stat.h>	// for open(2)
+#include <fcntl.h>	// for open(2)
 #include <multi_processing.h>	// for my_system()
+#include <measure.h>      // for measure, measure_init(), measure_start(), measure_end(), measure_print()
 #include "shared.h"
 
 /*
@@ -35,15 +35,15 @@
 int main(int argc, char** argv, char** envp) {
 	// file to be used
 	const char *filename="/dev/mod_timing";
-	printf("Inserting the driver...\n");
+	fprintf(stderr, "Inserting the driver...\n");
 	my_system("sudo rmmod mod_timing");
 	my_system("sudo insmod ./mod_timing.ko");
 	my_system("sudo chmod 666 %s", filename);
 
-	printf("Starting\n");
+	fprintf(stderr, "Starting\n");
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 
-	printf("showing cpus and their frequencies\n");
+	fprintf(stderr, "showing cpus and their frequencies\n");
 	klog_clear();
 	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_CLOCK, NULL));
 	klog_show_clear();
@@ -58,16 +58,16 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_JIFFIES, 1000));
 	klog_show_clear();
 
-	struct timeval t1, t2;
 	const unsigned int loop=1000000;
-	printf("doing %d syscalls\n", loop);
-	gettimeofday(&t1, NULL);
+	measure m;
+	measure_init(&m, "syscall", loop);
+	measure_start(&m);
 	for (unsigned int i=0; i < loop; i++) {
 		CHECK_NOT_M1(ioctl(d, IOCTL_TIMING_EMPTY, NULL));
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one syscall: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

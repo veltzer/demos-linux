@@ -19,7 +19,6 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <sys/time.h>	// for gettimeofday(2)
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*

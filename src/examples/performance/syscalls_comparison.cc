@@ -23,7 +23,9 @@
 #include <unistd.h>	// for getpid(2)
 #include <stdlib.h>	// for free(3), malloc(3)
 #include <pthread.h>	// for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
-#include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+
 
 /*
  * This demo shows that the performance of various syscalls.
@@ -41,7 +43,7 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-pthread_key_t tid_key;
+static pthread_key_t tid_key;
 typedef struct _cached_tid {
 	pid_t val;
 } cached_tid;
@@ -68,41 +70,41 @@ void gettid_cache_init() {
 }
 
 int main(int argc, char** argv, char** envp) {
-	struct timeval t1, t2;
 	const unsigned int loop=1000000;
 
-	printf("doing %d gettimeofday (for comparison)\n", loop);
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+	measure m;
+	measure_init(&m, "gettimeofday", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		struct timeval t3;
 		gettimeofday(&t3, NULL);
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 
-	printf("doing %d getpid\n", loop);
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+	measure_init(&m, "getpid", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		getpid();
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 
-	printf("doing %d gettid\n", loop);
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+	measure_init(&m, "gettid", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		gettid();
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 
 	gettid_cache_init();
-	printf("doing %d gettid_cached\n", loop);
-	CHECK_NOT_M1(gettimeofday(&t1, NULL));
+	measure_init(&m, "gettid_cached", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		gettid_cached();
 	}
-	CHECK_NOT_M1(gettimeofday(&t2, NULL));
-	printf("time in micro of one op: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 	return EXIT_SUCCESS;
 }

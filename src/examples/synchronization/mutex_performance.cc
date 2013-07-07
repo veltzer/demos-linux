@@ -17,14 +17,13 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <sys/time.h>	// for gettimeofday(2)
 #include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
 #include <semaphore.h>	// for sem_init(3), sem_wait(3), sem_post(3)
 #include <sys/types.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/sem.h>	// for semget(3), semctl(3), semop(3)
 #include <us_helper.h>	// for micro_diff(), CHECK_ZERO_ERRNO(), run_priority()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This demo shows the difference between regular pthread mutex (which is a
@@ -44,11 +43,11 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-void measure(pthread_mutex_t* mutex, sem_t* sem, int semid, const char* name) {
-	struct timeval t1, t2;
+void do_work(pthread_mutex_t* mutex, sem_t* sem, int semid, const char* name) {
 	const unsigned int loop=1000000;
-	printf("running test [%s]\n", name);
-	gettimeofday(&t1, NULL);
+	measure m;
+	measure_init(&m, name, loop);
+	measure_start(&m);
 	for(unsigned int i=0; i < loop; i++) {
 		if(mutex) {
 			CHECK_ZERO_ERRNO(pthread_mutex_lock(mutex));
@@ -70,8 +69,8 @@ void measure(pthread_mutex_t* mutex, sem_t* sem, int semid, const char* name) {
 			CHECK_NOT_M1(semop(semid, &sops, 1));
 		}
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one lock/unlock pair: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 }
 
 static pthread_mutex_t mutex_fast;
@@ -82,18 +81,16 @@ static sem_t sem_shared;
 static int semid;
 
 void* work(void* param) {
-	measure(&mutex_fast, NULL, -1, "fast mutexes");
-	measure(&mutex_recursive, NULL, -1, "recursive mutexes");
-	measure(&mutex_errorcheck, NULL, -1, "error checking mutexes");
-	measure(NULL, &sem_nonshared, -1, "non shared semaphores");
-	measure(NULL, &sem_shared, -1, "shared semaphores");
-	measure(NULL, NULL, semid, "SYSV IPC semaphores");
+	do_work(&mutex_fast, NULL, -1, "fast mutexes");
+	do_work(&mutex_recursive, NULL, -1, "recursive mutexes");
+	do_work(&mutex_errorcheck, NULL, -1, "error checking mutexes");
+	do_work(NULL, &sem_nonshared, -1, "non shared semaphores");
+	do_work(NULL, &sem_shared, -1, "shared semaphores");
+	do_work(NULL, NULL, semid, "SYSV IPC semaphores");
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	printf("main started\n");
-
 	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
 	semid=CHECK_NOT_M1(semget(key, 1, IPC_CREAT | 0666));
 	CHECK_NOT_M1(semctl(semid, 0, SETVAL, 1));

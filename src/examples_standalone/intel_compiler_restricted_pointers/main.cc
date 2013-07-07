@@ -17,10 +17,8 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for vprintf(3)
-#include <sys/time.h>	// for gettimeofday(2)
-#include <us_helper.h>	// for micro_diff()
 #include <stdlib.h>	// for EXIT_SUCCESS, random(3)
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * Same example the example for gcc but now for the Intel compiler...
@@ -83,30 +81,30 @@ int main(int argc, char** argv, char** envp) {
 		arr[i]=random();
 	}
 	const unsigned int loop=1000;
-	struct timeval t1, t2;
 
-	printf("doing %d no restrict calls\n", loop);
-	gettimeofday(&t1, NULL);
+	measure m;
+	measure_init(&m, "no restrict", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		add_no_restrict(arr, array_size, &res);
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one call: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 
-	printf("doing %d restrict calls\n", loop);
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "restrict", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		add_restrict(arr, array_size, &res);
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one call: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 
-	printf("doing %d temp calls\n", loop);
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "temp", loop);
+	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {
 		add_temp(arr, array_size, &res);
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro of one call: %lf\n", micro_diff(&t1, &t2)/(double)loop);
+	measure_end(&m);
+	measure_print(&m);
 	return EXIT_SUCCESS;
 }
