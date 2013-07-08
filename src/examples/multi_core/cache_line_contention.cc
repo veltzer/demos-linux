@@ -24,7 +24,7 @@
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(2)
 #include <getopt.h>	// for struct option
 #include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1(), INFO()
-#include <measure.h>  // for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This demo shows the difference in speed of running two threads using the same cache line
@@ -153,7 +153,7 @@ int main(int argc, char** argv, char** envp) {
 	int *shared=(int*)malloc_one_cache_line();
 
 	measure m;
-	measure_init(&m, "single attempt", attempts); 
+	measure_init(&m, "single attempt", attempts);
 	measure_start(&m);
 	for(int i=0; i<thread_num; i++) {
 		data[i].num=i;
