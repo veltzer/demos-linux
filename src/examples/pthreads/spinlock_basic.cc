@@ -28,6 +28,9 @@
  * will preempt them and eventually each will get it's turn.
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ *
+ * TODO:
+ * - get the thread number from the command line
  */
 
 static pthread_spinlock_t mylock;
@@ -50,16 +53,16 @@ int main(int argc, char** argv, char** envp) {
 	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
 	CHECK_ZERO_ERRNO(pthread_spin_init(&mylock, 0));
-	const int num=2;
-	pthread_t threads[num];
-	int ids[num];
+	const unsigned int thread_num=2;
+	pthread_t threads[thread_num];
+	int ids[thread_num];
 	TRACE("starting threads...");
-	for(int i=0; i<num; i++) {
+	for(unsigned int i=0; i<thread_num; i++) {
 		ids[i]=i;
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
 	TRACE("finished creating threads, joining them...");
-	for(int i=0; i<num; i++) {
+	for(unsigned int i=0; i<thread_num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	TRACE("joined all threads, destroying the lock...");

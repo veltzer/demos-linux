@@ -17,53 +17,53 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_spin_init(3), pthread_spin_destroy(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_attr_init(3), pthread_attr_setaffinity_np(3)
 #include <unistd.h>	// for sysconf(3), sleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+// #define DO_DEBUG
+#include <us_helper.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO(), DEBUG(), TRACE()
 
 /*
- * This is a demo for using pthread spin locks...
+ * This example uses spin lock as a way to schedule thread to do
+ * work in a certain order.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-FILE* pfile=stderr;
-const int loops=3;
-pthread_spinlock_t lock;
-int counter=0;
-const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+const unsigned int loops=3;
+static pthread_spinlock_t lock;
+static unsigned int counter=0;
+const unsigned int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
 
 void *worker(void *p) {
-	int num=*(int *)p;
-	fprintf(pfile, "starting thread %d\n", num);
-	int success=0;
+	unsigned int num=*(unsigned int *)p;
+	DEBUG("starting thread %d", num);
+	unsigned int success=0;
 	while(success<loops) {
 		CHECK_ZERO_ERRNO(pthread_spin_lock(&lock));
 		if(counter%cpu_num==num) {
-			fprintf(pfile, "thread %d caught lock\n", num);
+			TRACE("thread %d caught lock", num);
 			CHECK_ZERO(sleep(1));
 			counter++;
 			success++;
-			fprintf(pfile, "thread %d released lock\n", num);
+			DEBUG("thread %d released lock", num);
 		}
 		CHECK_ZERO_ERRNO(pthread_spin_unlock(&lock));
 	}
-	fprintf(pfile, "ending thread %d\n", num);
+	DEBUG("ending thread %d", num);
 	return(NULL);
 }
 
 int main(int argc, char** argv, char** envp) {
-	const int thread_num=cpu_num;
+	const unsigned int thread_num=cpu_num;
 	pthread_t* threads=new pthread_t[thread_num];
 	pthread_attr_t* attrs=new pthread_attr_t[thread_num];
-	int* ids=new int[thread_num];
+	unsigned int* ids=new unsigned int[thread_num];
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
 
-	fprintf(pfile, "main starting\n");
+	DEBUG("main starting");
 	CHECK_ZERO_ERRNO(pthread_spin_init(&lock, PTHREAD_PROCESS_PRIVATE));
-	for(int i=0; i<thread_num; i++) {
+	for(unsigned int i=0; i<thread_num; i++) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(i%cpu_num, cpu_sets+i);
@@ -71,8 +71,8 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs+i, sizeof(cpu_set_t), cpu_sets+i));
 		CHECK_ZERO_ERRNO(pthread_create(threads+i, attrs+i, worker, ids+i));
 	}
-	fprintf(pfile, "main ended creating threads\n");
-	for(int i=0; i<thread_num; i++) {
+	DEBUG("main ended creating threads");
+	for(unsigned int i=0; i<thread_num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	CHECK_ZERO_ERRNO(pthread_spin_destroy(&lock));
@@ -80,7 +80,7 @@ int main(int argc, char** argv, char** envp) {
 	delete attrs;
 	delete ids;
 	delete cpu_sets;
-	fprintf(pfile, "counter is %d\n", counter);
-	fprintf(pfile, "main ended\n");
+	DEBUG("counter is %d", counter);
+	DEBUG("main ended");
 	return EXIT_SUCCESS;
 }
