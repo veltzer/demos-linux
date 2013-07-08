@@ -21,7 +21,7 @@
 #include <unistd.h>	// for sysconf(3), sleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 // #define DO_DEBUG
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO(), DEBUG(), TRACE()
+#include <us_helper.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO(), DEBUG(), INFO()
 
 /*
  * This example uses spin lock as a way to schedule thread to do
@@ -42,7 +42,7 @@ void *worker(void *p) {
 	while(success<loops) {
 		CHECK_ZERO_ERRNO(pthread_spin_lock(&lock));
 		if(counter%cpu_num==num) {
-			TRACE("thread %d caught lock", num);
+			INFO("thread %d caught lock", num);
 			CHECK_ZERO(sleep(1));
 			counter++;
 			success++;

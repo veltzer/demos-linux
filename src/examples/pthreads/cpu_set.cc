@@ -17,27 +17,13 @@
  */
 
 #include <firstinclude.h>
-#include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
-#include <unistd.h>	// for sysconf(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO()
+#include <unistd.h>	// for sysconf(3), _SC_NPROCESSORS_ONLN
+#include <us_helper.h>	// for TRACE()
+#include <cpu_set_utils.h>	// for print_cpu_set()
 
 /*
  * This is a demo of how to use a cpu set
- *
- * TODO:
- * - move the print_cpu_set function into the shared code. find other uses
- * of it and eliminate them.
  */
-void print_cpu_set(cpu_set_t *p) {
-	TRACE("CPU_COUNT is %d", CPU_COUNT(p));
-	TRACE("CPU_SETSIZE is %d", CPU_SETSIZE);
-	for(int j=0; j<CPU_SETSIZE; j++) {
-		if (CPU_ISSET(j, p)) {
-			TRACE("\tCPU %d", j);
-		}
-	}
-}
-
 int main(int argc, char** argv, char** envp) {
 	TRACE("number of cpus is %ld", sysconf(_SC_NPROCESSORS_ONLN));
 	cpu_set_t cpuset;

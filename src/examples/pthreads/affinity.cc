@@ -21,21 +21,13 @@
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h>	// for sysconf(3)
 #include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
+#include <cpu_set_utils.h>	// for print_cpu_set()
 
 /*
  * This shows how to create threads with a certain affinity
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-void print_cpu_set(cpu_set_t *p) {
-	TRACE("CPU_COUNT is %d", CPU_COUNT(p));
-	TRACE("CPU_SETSIZE is %d", CPU_SETSIZE);
-	for(int j=0; j<CPU_SETSIZE; j++) {
-		if (CPU_ISSET(j, p)) {
-			TRACE("\tCPU %d", j);
-		}
-	}
-}
 
 void *worker(void *p) {
 	int num=*(int *)p;
