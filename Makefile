@@ -168,8 +168,12 @@ pdf: $(ODP_PDF)
 soffice:
 	$(Q)soffice "-accept=socket,port=2002;urp;" > /dev/null 2> /dev/null &
 
-.PHONY: clean_manual
-clean_manual:
+.PHONY: clean_standalone
+clean_standalone:
+	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
+	$(Q)rm -f $(MK_STP)
+.PHONY: clean_soft
+clean_soft: clean_standalone
 	$(info doing [$@])
 	$(Q)-rm -f $(CLEAN)
 	$(Q)-rm -rf $(CLEAN_DIRS)
@@ -182,17 +186,17 @@ clean_manual:
 GIT_CLEAN_FLAGS=-xdf
 # soft clean (only removes .gitignore files)
 #GIT_CLEAN_FLAGS=-Xdf
-.PHONY: clean
-clean: clean_standalone
+.PHONY: clean_hard
+clean_hard:
 	$(info doing [$@])
 	$(Q)git clean $(GIT_CLEAN_FLAGS) > /dev/null
-.PHONY: clean_test
-clean_test:
-	@git clean $(GIT_CLEAN_FLAGS) --dry-run
-.PHONY: clean_standalone
-clean_standalone:
-	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
-	$(Q)rm -f $(MK_STP)
+.PHONY: clean_hard_test
+clean_hard_test:
+	$(info doing [$@])
+	$(Q)git clean $(GIT_CLEAN_FLAGS) --dry-run
+.PHONY: clean
+clean: clean_hard
+	$(info doing [$@])
 .PHONY: build_standalone
 build_standalone:
 	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
