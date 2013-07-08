@@ -1,1 +1,0 @@
-../../exercises/spin_lock/spin_lock_implementation_using_atomics.cc
