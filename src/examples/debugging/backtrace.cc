@@ -21,7 +21,7 @@
 #include <signal.h>	// for signal(2)
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_SIGT()
+#include <us_helper.h>	// for CHECK_NOT_SIGT(), TRACE()
 
 /*
  * This exapmle shows how to obtain a stack trace for various purposes (mostly
@@ -145,7 +145,7 @@ void do_fault(void) {
  */
 int rec_func(unsigned int ncalls) {
 	static unsigned int counter=0;
-	DEBUG("another call %d", counter++);
+	TRACE("another call %d", counter++);
 // asm ("");
 	if (ncalls > 1) {
 		print_trace(false);

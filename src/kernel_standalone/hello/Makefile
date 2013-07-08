@@ -1,15 +1,14 @@
-# this is a minimal makefile for demo purposes, keep it that way...
-obj-m:=hello.o
-hello-objs:=main.o
-V?=0
-KDIR?=/lib/modules/$(shell uname -r)/build
-# in an embedded system:
-#KDIR:=[where the system maker gave me kernel headers+makefile or the kernel itself which has a makefile]
-#ARCH:=arm
-#CROSS_COMPILE:=[path+common prefix to where the toolchain is]
-.PHONY: modules
-modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
-.PHONY: clean
-clean:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) clean
+HAVE_PWD=$(shell if test -f $(PWD)/../Makefile.template; then echo 1; else echo 0; fi)
+HAVE_CURDIR=$(shell if test -f $(CURDIR)/../Makefile.template; then echo 1; else echo 0; fi)
+HAVE_ORIG=$(shell if test -f $(ORIG)/../Makefile.template; then echo 1; else echo 0; fi)
+ifeq ($(HAVE_ORIG),1)
+include $(ORIG)/../Makefile.template
+else
+ifeq ($(HAVE_PWD),1)
+include $(PWD)/../Makefile.template
+else
+ifeq ($(HAVE_CURDIR),1)
+include $(CURDIR)/../Makefile.template
+endif
+endif
+endif
