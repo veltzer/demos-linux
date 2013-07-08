@@ -26,16 +26,16 @@ V?=0
 
 .PHONY: modules
 modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) ORIG=$(CURDIR) modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
 .PHONY: modules_install
 modules_install:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) ORIG=$(CURDIR) modules_install
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules_install
 .PHONY: clean
 clean:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) ORIG=$(CURDIR) clean
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) clean
 .PHONY: help
 help:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) ORIG=$(CURDIR) help
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) help
 # Indents the kernel source the way linux/Documentation/CodingStyle.txt
 # # wants it to be.
 .PHONY: indent
