@@ -48,7 +48,7 @@
 
 // Set HASTATUS_NTRACE=0 to turn on library specific tracing even if
 // tracing is turned off for ACE.
-#define HASTATUS_NTRACE 0	// Eytan carmiel was here
+#define HASTATUS_NTRACE 0	// This was modified
 #if !defined (HASTATUS_NTRACE)
 #if (ACE_NTRACE==1)
 #define HASTATUS_NTRACE 1
