@@ -50,10 +50,8 @@ static void *worker(void *not_used) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	// first initialize the lock (no need for sharing between processes which
-	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
-	CHECK_ZERO_ERRNO(pthread_spin_init(&mylock, 0));
+	CHECK_ZERO_ERRNO(pthread_spin_init(&mylock, PTHREAD_PROCESS_PRIVATE));
 	const int num=2;
 	pthread_t threads[num];
 	int ids[num];

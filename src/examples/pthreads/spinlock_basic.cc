@@ -18,6 +18,7 @@
 
 #include <firstinclude.h>
 #include <unistd.h>	// for sleep(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <pthread.h>	// for pthread_spin_init(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_spin_destroy(3), pthread_create(3), pthread_join(3)
 #include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
 
@@ -49,10 +50,8 @@ static void *worker(void *p) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	// first initialize the lock (no need for sharing between processes which
-	// is the reason for the 0 in the second argument...)
 	TRACE("initializing the lock...");
-	CHECK_ZERO_ERRNO(pthread_spin_init(&mylock, 0));
+	CHECK_ZERO_ERRNO(pthread_spin_init(&mylock, PTHREAD_PROCESS_PRIVATE));
 	const unsigned int thread_num=2;
 	pthread_t threads[thread_num];
 	int ids[thread_num];

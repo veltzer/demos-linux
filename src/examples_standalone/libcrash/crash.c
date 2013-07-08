@@ -239,7 +239,7 @@ int register_crash_handler(const char* process_name,unsigned char* assert_buf_pt
 		return EINVAL;
 	}
 	#ifdef USE_THREADS
-	ret=pthread_spin_init(&g_thread_lock, 0);
+	ret=pthread_spin_init(&g_thread_lock, PTHREAD_PROCESS_PRIVATE);
 	if(ret) {
 		return ret;
 	}
