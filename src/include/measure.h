@@ -57,4 +57,8 @@ static inline void measure_print(measure* m) {
 	printf("measure print: time in micro of single [%s]: %lf\n", m->name, micro_diff(&m->t1, &m->t2)/(double)(m->attempts));
 }
 
+static inline double measure_micro_diff(measure* m) {
+	return micro_diff(&m->t1, &m->t2);
+}
+
 #endif	/* !__measure_h */
