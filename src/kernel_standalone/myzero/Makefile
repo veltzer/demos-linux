@@ -1,1 +1,1 @@
-../Makefile.template
+include $(PWD)/../Makefile.template
