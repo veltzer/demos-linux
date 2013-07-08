@@ -23,17 +23,17 @@
 #include <unistd.h>	// for sysconf(3), usleep(3), getopt_long(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(2)
 #include <getopt.h>	// for struct option
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_ONEOFTWO(), TRACE(), print_cpu_set()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_ONEOFTWO(), TRACE()
 
 /*
  * This is a demo which shows atomic add using the
  * __sync_add_and_fetch gcc function.
- * see
- * http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html
- * for more details...
  *
  * The idea here is to try to break this function by having multiple
  * thread try to increment the value at once.
+ *
+ * References:
+ * http://gcc.gnu.org/onlinedocs/gcc/Atomic-Builtins.html
  *
  * Notes:
  * - We see that if we run the threads and have them do regular +=1 instead of
@@ -195,7 +195,6 @@ int main(int argc, char** argv, char** envp) {
 		data[i].usleep_interval=usleep_interval;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(atoi(argv[optind+i]), cpu_sets+i);
-		// print_cpu_set(stderr,cpu_sets + i);
 		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		if(i==thread_num-1 && doObserver) {

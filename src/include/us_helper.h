@@ -28,7 +28,7 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <sched.h>	// for sched_getparam(2), sched_getscheduler(2), CPU_COUNT(3)
+#include <sched.h>	// for sched_getparam(2), sched_getscheduler(2)
 #include <cpufreq.h>	// for cpufreq_get_freq_kernel(2)
 #include <sys/prctl.h>	// for prctl(2)
 #include <stdio.h>	// for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
@@ -47,7 +47,7 @@
 #include <stdbool.h>	// for bool
 #include <signal.h>	// for sighandler_t, sigaction(2)
 #include <error.h>	// for error_at_line(3)
-#include <err.h>// for err(3)
+#include <err.h>	// for err(3)
 
 /*
  * Stringify macros - helps you turn anything into a string
@@ -368,6 +368,12 @@ static inline void debug(bool short_print, const char *file, const char *functio
 
 void debug(bool short_print, const char *file, const char *function, int line, const char *fmt, ...) __attribute__((format(printf, 5, 6)));
 
+/*
+ * Semantics of these macros:
+ * TRACE - always enabled and always shows max info (usually for debug)
+ * DEBUG - cancelled by default and shows max info (turn it on with DO_DEBUG).
+ * INFO, WARNING, ERROR, FATAL - doesn't show a lot of info (just the message).
+ */
 #define TRACE(fmt, args ...) debug(false, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 #ifdef DO_DEBUG
 #define DEBUG(fmt, args ...) debug(false, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
@@ -579,20 +585,6 @@ static inline void no_params(int argc, char** argv) {
 	if(argc>1) {
 		fprintf(stderr, "%s: usage: %s (without parameters)\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
-	}
-}
-
-/*
- * A function to print cpu sets
- */
-static inline void print_cpu_set(FILE* pfile, cpu_set_t *p) {
-	int j;
-	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
-	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
-	for (j=0; j < CPU_SETSIZE; j++) {
-		if (CPU_ISSET(j, p)) {
-			fprintf(pfile, "\tCPU %d\n", j);
-		}
 	}
 }
 

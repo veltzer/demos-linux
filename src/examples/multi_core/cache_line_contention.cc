@@ -23,7 +23,8 @@
 #include <unistd.h>	// for sysconf(3), usleep(3), getopt_long(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(2)
 #include <getopt.h>	// for struct option
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1(), TRACE(), print_cpu_set(), micro_diff()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1(), INFO()
+#include <measure.h>  // for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This demo shows the difference in speed of running two threads using the same cache line
@@ -54,30 +55,26 @@ typedef struct _thread_data {
 
 static void *shared_worker(void *p) {
 	thread_data* td=(thread_data*)p;
-	// TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
 	for(unsigned long long i=0; i<td->attempts; i++) {
 		td->shared[td->num]+=1;
 	}
-	// TRACE("end thread %d", td->num);
 	return(NULL);
 }
 static void *nonshared_worker(void* p) {
 	thread_data* td=(thread_data*)p;
-	// TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
 	for(unsigned long long i=0; i<td->attempts; i++) {
 		td->nonshared[td->num]+=1;
 	}
-	// TRACE("end thread %d", td->num);
 	return(NULL);
 }
 static void *observer(void *p) {
 	thread_data* td=(thread_data*)p;
-	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
+	INFO("start thread %d, running on core %d", td->num, sched_getcpu());
 	while(true) {
 		CHECK_NOT_M1(usleep(td->usleep_interval));
-		// TRACE("value is %d", *(td->value));
+		// INFO("value is %d", *(td->value));
 	}
-	TRACE("end thread %d", td->num);
+	INFO("end thread %d", td->num);
 	return(NULL);
 }
 
@@ -144,9 +141,9 @@ int main(int argc, char** argv, char** envp) {
 	const int usleep_interval=10000;
 	const int real_threads=argc-optind;
 	const int thread_num=doObserver ? real_threads+1 : real_threads;
-	TRACE("cpu_num is %d", cpu_num);
-	TRACE("attempts is %llu", attempts);
-	TRACE("thread_num is %d", thread_num);
+	INFO("cpu_num is %d", cpu_num);
+	INFO("attempts is %llu", attempts);
+	INFO("thread_num is %d", thread_num);
 	pthread_t* threads=new pthread_t[thread_num];
 	pthread_attr_t* attrs=new pthread_attr_t[thread_num];
 	thread_data* data=new thread_data[thread_num];
@@ -155,9 +152,9 @@ int main(int argc, char** argv, char** envp) {
 
 	int *shared=(int*)malloc_one_cache_line();
 
-	struct timeval t1, t2;
-	gettimeofday(&t1, NULL);
-	// TRACE("start creating threads");
+	measure m;
+	measure_init(&m, "single attempt", attempts); 
+	measure_start(&m);
 	for(int i=0; i<thread_num; i++) {
 		data[i].num=i;
 		data[i].attempts=attempts;
@@ -166,7 +163,6 @@ int main(int argc, char** argv, char** envp) {
 		data[i].usleep_interval=usleep_interval;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(atoi(argv[optind+i]), cpu_sets+i);
-		// print_cpu_set(stderr,cpu_sets + i);
 		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		if(i==thread_num-1 && doObserver) {
@@ -185,19 +181,10 @@ int main(int argc, char** argv, char** envp) {
 			}
 		}
 	}
-	// TRACE("created threads");
-	// TRACE("joining threads");
-	/*
-	 * TODO:
-	 * - time all of this.
-	 */
 	for(int i=0; i<real_threads; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets+i));
 	}
-	gettimeofday(&t2, NULL);
-	printf("time in micro: %lf\n", micro_diff(&t1, &t2));
-	printf("time in micro of a single attempt: %lf\n", micro_diff(&t1, &t2)/(double)attempts);
-	// TRACE("joined threads");
-	// TRACE("ended");
+	measure_end(&m);
+	measure_print(&m);
 	return EXIT_SUCCESS;
 }
