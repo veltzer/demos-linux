@@ -21,20 +21,15 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example explains the command do { ... } while(0) macro construct.
+ * This shows how to do recursion using the C pre-processor.
  *
  * References:
- * http://stackoverflow.com/questions/1067226/c-multi-line-macro-do-while0-vs-scope-block
+ * https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms
  */
 
-#define wrong_macro() printf("part1\n"); printf("part2\n")
-#define right_macro() do { printf("part1\n"); printf("part2\n"); } while(0)
+#define do_3(a1, a2, a3)\
+
 
 int main(int argc, char** argv, char** envp) {
-	// this should not print anything and yet it does...
-	if(false)
-		wrong_macro();
-	if(false)
-		right_macro();
 	return EXIT_SUCCESS;
 }
