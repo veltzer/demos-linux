@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This shows how to use preprocessor defines...
+ * This shows how to use preprocessor defines for compiler, language and architecture...
  */
 int main(int argc, char** argv, char** envp) {
 #ifdef __GNUC__
@@ -30,7 +30,7 @@ int main(int argc, char** argv, char** envp) {
 	printf("This is not a GNUC compiler\n");
 #endif	// __GNUC__
 #ifdef __cplusplus
-	printf("This means that we are in c++ context\n");
+	printf("This means that we are in C++ context\n");
 #else
 	printf("This is not a C++ context\n");
 #endif	// __cplusplus
