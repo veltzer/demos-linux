@@ -28,9 +28,9 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for CHECK_ASSERT()
-#include <time.h>	// for struct_timespec
+#include <time.h>	// for struct timespec, strftime(3), localtime_r(3), gmtime_r(3)
 #include <stdio.h>	// for snprintf(3)
+#include <us_helper.h>	// for CHECK_ASSERT(), CHECK_NOT_ZERO()
 
 /* The number of nsecs per sec. */
 const long long NSEC_PER_SEC=1000000000;
@@ -100,10 +100,20 @@ static inline void timespec_copy(struct timespec* to, struct timespec* from) {
 	to->tv_nsec=from->tv_nsec;
 }
 
-static inline int timespec_snprintf(char* str, size_t size, struct timespec* t) {
-	return snprintf(str, size, "%ld.%09ld: ", t->tv_sec, t->tv_nsec);
+static inline int timespec_snprintf(char* str, size_t size, struct timespec* t, int tz) {
+	// this is very simple printing
+	//return snprintf(str, size, "%ld.%09ld: ", t->tv_sec, t->tv_nsec);
+	// this is more complicated one
+	struct tm mytm;
+	if(tz) {
+		CHECK_NOT_NULL(localtime_r(&t->tv_sec, &mytm));
+	} else {
+		CHECK_NOT_NULL(gmtime_r(&t->tv_sec, &mytm));
+	}
+	char mybuf[256];
+	const char* format="%Y-%m-%d %H:%M:%S";
+	CHECK_NOT_ZERO(strftime(mybuf, sizeof(mybuf), format, &mytm));
+	return snprintf(str, size, "%s.%09ld", mybuf, t->tv_nsec);
 }
-
-static inline int timespec_snpr
 
 #endif	/* !__timespec_utils_h */
