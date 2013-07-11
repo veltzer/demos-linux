@@ -100,8 +100,10 @@ static inline void timespec_copy(struct timespec* to, struct timespec* from) {
 	to->tv_nsec=from->tv_nsec;
 }
 
-static inline int timespec_snprint(char* str, size_t size, struct timespec* t) {
+static inline int timespec_snprintf(char* str, size_t size, struct timespec* t) {
 	return snprintf(str, size, "%ld.%09ld: ", t->tv_sec, t->tv_nsec);
 }
+
+static inline int timespec_snpr
 
 #endif	/* !__timespec_utils_h */
