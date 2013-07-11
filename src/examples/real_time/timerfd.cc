@@ -33,14 +33,16 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-static void print_elapsed_time(struct timespec* since) {
+static void print_current_time(struct timespec* since) {
 	struct timespec current_time;
 	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME, &current_time));
+	char buf[1024];
+	timespec_snprintf(buf, sizeof(buf), &current_time, 1);
+	printf("current: %s\n", buf);
 	struct timespec diff;
 	timespec_sub(&diff, &current_time, since);
-	char buf[1024];
-	timespec_snprint(buf, sizeof(buf), &diff);
-	printf("%s", buf);
+	timespec_snprintf(buf, sizeof(buf), &diff, 0);
+	printf("diff: %s\n", buf);
 }
 
 typedef struct _thread_data {
@@ -71,14 +73,14 @@ void* work(void* data) {
 	// If you want an absolute timer
 	// CHECK_NOT_M1(timerfd_settime(fd, TFD_TIMER_ABSTIME, &new_value, NULL));
 	CHECK_NOT_M1(timerfd_settime(fd, 0, &new_value, NULL));
-	print_elapsed_time(&start);
+	print_current_time(&start);
 	printf("timer started\n");
 	uint64_t tot_exp=0;
 	while (tot_exp<td->max_exp) {
 		uint64_t exp;
 		CHECK_INT(read(fd, &exp, sizeof(uint64_t)), sizeof(uint64_t));
 		tot_exp+=exp;
-		print_elapsed_time(&start);
+		print_current_time(&start);
 		printf("read: %llu; total=%llu\n", (unsigned long long) exp, (unsigned long long) tot_exp);
 	}
 	return NULL;

@@ -24,6 +24,7 @@
 #include <unistd.h>	// for stat(2)
 #include <us_helper.h>	// for CHECK_NOT_M1()
 #include <time.h>	// for ctime(3)
+#include <timespec_utils.h>	// for timespec_snprintf()
 
 /*
  * This example is similar to the command line stat(1) one and
@@ -59,13 +60,17 @@ int main(int argc, char** argv, char** envp) {
 	printf("Preferred I/O block size: %ld bytes\n", (long) sb.st_blksize);
 	printf("File size: %lld bytes\n", (long long) sb.st_size);
 	printf("Blocks allocated: %lld\n", (long long) sb.st_blocks);
-	// times in low resolution (seconds since the epoch)
+	printf("Low resolution times (seconds since the epoch):\n");
 	printf("Last status change: %s", ctime(&sb.st_ctime));
 	printf("Last file access: %s", ctime(&sb.st_atime));
 	printf("Last file modification: %s", ctime(&sb.st_mtime));
-	// times in high resolution
-	//printf("Last status change: %lu", &sb.st_ctim);
-	//printf("Last file access: %lu", &sb.st_atim);
-	//printf("Last file modification: %lu", &sb.st_mtim);
+	printf("High resolution times (nanosecond level):\n");
+	char buf[256];
+	timespec_snprintf(buf, sizeof(buf), &sb.st_ctim, 1);
+	printf("Last status change: %s\n", buf);
+	timespec_snprintf(buf, sizeof(buf), &sb.st_atim, 1);
+	printf("Last file access: %s\n", buf);
+	timespec_snprintf(buf, sizeof(buf), &sb.st_mtim, 1);
+	printf("Last file modification: %s\n", buf);
 	return EXIT_SUCCESS;
 }

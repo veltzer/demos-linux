@@ -163,14 +163,13 @@ int main(int argc, char** argv, char** envp) {
 		struct group* grp=getgrgid(buf.st_gid);
 		struct tm mytm;
 		CHECK_NOT_NULL(localtime_r(&buf.st_mtime, &mytm));
-		const int date_buf_size=256;
-		char mybuf[date_buf_size];
+		char mybuf[256];
 		const char* format_same_year="%b %e %R";
 		const char* format_other_year="%b %e " " %Y";
 		if(difftime(now, buf.st_mtime)<oldsecs) {
-			CHECK_NOT_ZERO(strftime(mybuf, date_buf_size, format_same_year, &mytm));
+			CHECK_NOT_ZERO(strftime(mybuf, sizeof(mybuf), format_same_year, &mytm));
 		} else {
-			CHECK_NOT_ZERO(strftime(mybuf, date_buf_size, format_other_year, &mytm));
+			CHECK_NOT_ZERO(strftime(mybuf, sizeof(mybuf), format_other_year, &mytm));
 		}
 		printf("%s %*zd %s %s %*ld %s %s\n",
 			p,
