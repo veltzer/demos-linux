@@ -22,7 +22,7 @@
 #include <setjmp.h>
 #include <execinfo.h>
 #include <string.h>
-#include <demangle.hh>	// for error_demangle()
+#include <demangle_utils.hh>	// for error_demangle()
 
 /*
  * This is an example of using setjmp/longjmp to simulate exception handling
