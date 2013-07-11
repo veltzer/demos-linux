@@ -18,7 +18,6 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#define MULTIPROC_DEBUG
 #include <disassembly_utils.h>	// for disassemble_function()
 
 /*
@@ -31,11 +30,9 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	// disassemble_function("do_volatile");
-	// disassemble_function("do_regular");
-	// disassemble_function("do_atomic");
-	disassemble_function("_Z9do_atomici");
-	// disassemble_me();
+	disassemble_function("do_volatile");
+	disassemble_function("do_regular");
+	disassemble_function("do_atomic");
 	return EXIT_SUCCESS;
 }
 
