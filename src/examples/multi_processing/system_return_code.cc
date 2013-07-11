@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for system(3), EXIT_SUCCESS
-#include <multi_processing.h>	// for print_status()
+#include <multiproc_utils.h>	// for print_status()
 
 /*
  * This examples demostrates how to parse the return code

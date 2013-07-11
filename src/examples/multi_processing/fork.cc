@@ -24,7 +24,7 @@
 #include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <string.h>	// for strsignal(3)
 #include <us_helper.h>	// for TRACE(), CHECK_NOT_M1()
-#include <multi_processing.h>	// for print_code(), print_status()
+#include <multiproc_utils.h>	// for print_code(), print_status()
 
 /*
  * This example explains how parents should wait for their children

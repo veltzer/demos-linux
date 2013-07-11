@@ -21,7 +21,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for waitkey()
-#include <multi_processing.h>	// for my_system()
+#include <multiproc_utils.h>	// for my_system()
 
 /*
  * This example clearly shows that the code segment is protected against writing.

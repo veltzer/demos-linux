@@ -17,22 +17,27 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <stdio.h>	// for fprintf(3), stderr
-#include <disassembly_utils.h>	// for disassemble_function()
+#include <stdio.h>	// for printf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <us_helper.h>	// for get_program_name()
 
 /*
- * This example shows the disassembly of a single system call.
- *
- * We must link static to have the system call code in our own executable
- * EXTRA_LINK_FLAGS=-static
+ * This example shows the various ways with which to retrieve the current
+ * applications name. Some GNU only (program_invocation*), some Linux
+ * only (/proc), some standard (argv[0]).
  */
 
+extern const char* __progname;
+extern char* program_invocation_short_name;
+extern char* program_invocation_name;
+
 int main(int argc, char** argv, char** envp) {
-	if(argc!=1) {
-		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
-		return EXIT_FAILURE;
-	}
-	disassemble_function("_exit", 10);
+	printf("argv[0] is %s\n", argv[0]);
+	printf("__progname is %s\n", __progname);
+	printf("program_invocation_short_name is %s\n", program_invocation_short_name);
+	printf("program_invocation_name is %s\n", program_invocation_name);
+	char mybuf[1024];
+	get_program_name(mybuf, sizeof(mybuf));
+	printf("program name is %s\n", mybuf);
 	return EXIT_SUCCESS;
 }

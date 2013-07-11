@@ -17,9 +17,9 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
+#include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <multi_processing.h>	// for my_system()
+#include <disassembly_utils.h>	// for disassemble_main()
 
 /*
  * This is an example of a loop that gcc cannot optimize away...
@@ -33,6 +33,8 @@
  * the code.
  *
  * Compare the second loop to the first.
+ *
+ * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -40,12 +42,13 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<100; i++) {
 		sum+=i;
 	}
-	printf("sum is %d\n", sum);
+	// we print so that the compile does not optimize out the loop
+	fprintf(stderr, "sum is %d\n", sum);
 	for(int i=0; i<100; i++) {
 		sum+=i*i;
 	}
-	printf("sum is %d\n", sum);
-	// disassemble myself...
-	my_system("objdump --disassemble --source %s", argv[0]);
+	// we print so that the compile does not optimize out the loop
+	fprintf(stderr, "sum is %d\n", sum);
+	disassemble_main();
 	return EXIT_SUCCESS;
 }

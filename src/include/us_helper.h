@@ -386,14 +386,13 @@ void debug(bool short_print, const char *file, const char *function, int line, c
 #define FATAL(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 
 static inline int printproc(const char *filter) {
-	pid_t pid=getpid();
 	const unsigned int cmd_size=256;
 	char cmd[cmd_size];
 	int res;
 	if (filter==NULL) {
-		snprintf(cmd, cmd_size, "cat /proc/%d/maps", pid);
+		snprintf(cmd, cmd_size, "cat /proc/self/maps");
 	} else {
-		snprintf(cmd, cmd_size, "cat /proc/%d/maps | grep %s", pid, filter);
+		snprintf(cmd, cmd_size, "cat /proc/self/maps | grep %s", filter);
 	}
 	res=system(cmd);
 	// waitkey();
@@ -661,6 +660,14 @@ static inline int my_max(int a, int b) {
  */
 static inline void check_root() {
 	CHECKM_ZERO(geteuid(), "you are not root, maybe you should try sudo(1)?");
+}
+
+/*
+ * This function gets the current executables name from /proc
+ */
+void get_program_name(char* buf, size_t size) {
+	ssize_t res=CHECK_NOT_M1(readlink("/proc/self/exe", buf, size));
+	buf[res]='\0';
 }
 
 #endif	/* !__us_helper_h */

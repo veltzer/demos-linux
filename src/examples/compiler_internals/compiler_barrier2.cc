@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <multi_processing.h>	// for my_system()
+#include <disassembly_utils.h>	// for disassemble_me()
 
 /*
  * This example shows that a real compiler barrier does not emit any machine instructions.
@@ -44,6 +44,6 @@ int main(int argc, char** argv, char** envp) {
 	asm volatile ("" ::: "memory");
 	asm volatile ("" ::: "memory");
 	asm volatile ("" ::: "memory");
-	my_system("objdump --disassemble --source %s", argv[0]);
+	disassemble_me();
 	return EXIT_SUCCESS;
 }

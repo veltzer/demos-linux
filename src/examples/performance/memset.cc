@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for malloc
 #include <wchar.h>	// for wmemset
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <multi_processing.h>	// for my_system()
+#include <disassembly_utils.h>	// for disassemble_me()
 
 /*
  * This example explores the inner workings of memset...
@@ -54,6 +54,6 @@ int main(int argc, char** argv, char** envp) {
 	}
 	wchar_t* buf2=(wchar_t*)malloc(size*sizeof(wchar_t));
 	wmemset(buf2, 0, size);
-	my_system("objdump --disassemble --source %s", argv[0]);
+	disassemble_me();
 	return EXIT_SUCCESS;
 }

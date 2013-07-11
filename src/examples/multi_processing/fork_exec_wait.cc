@@ -32,7 +32,7 @@
 #include <sys/types.h>	// for wait(2)
 #include <sys/wait.h>	// for wait(2)
 #include <us_helper.h>	// for CHECK_NOT_M1()
-#include <multi_processing.h>	// for print_status()
+#include <multiproc_utils.h>	// for print_status()
 #include <stdio.h>	// for printf(3)
 
 int main(int argc, char** argv, char** envp) {

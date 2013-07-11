@@ -25,7 +25,7 @@
 #include <string.h>	// for strsignal(3)
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), TRACE(), CHECK_1()
-#include <multi_processing.h>	// for print_code(), print_status()
+#include <multiproc_utils.h>	// for print_code(), print_status()
 
 /*
  * This example demostrates how processes become zombies in Linux...

@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_NEGATIVE(), CHECK_NOT_M1(), register_handler_sigaction(), check_root()
-#include <multi_processing.h>	// for my_system()
+#include <multiproc_utils.h>	// for my_system()
 
 /*
  * This is an example of how to use the netfilter-queue kernel API.

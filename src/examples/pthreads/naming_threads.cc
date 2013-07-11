@@ -24,7 +24,7 @@
 #include <string.h>	// for strncpy(3)
 #include <sys/prctl.h>	// for prctl(2)
 #include <us_helper.h>	// for CHECK_ZERO_ERRNO()
-#include <multi_processing.h>	// for my_system()
+#include <multiproc_utils.h>	// for my_system()
 
 /*
  * This exapmle shows how to set thread names in Linux.
