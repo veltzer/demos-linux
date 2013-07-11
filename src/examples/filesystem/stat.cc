@@ -59,9 +59,13 @@ int main(int argc, char** argv, char** envp) {
 	printf("Preferred I/O block size: %ld bytes\n", (long) sb.st_blksize);
 	printf("File size: %lld bytes\n", (long long) sb.st_size);
 	printf("Blocks allocated: %lld\n", (long long) sb.st_blocks);
-	// times
+	// times in low resolution (seconds since the epoch)
 	printf("Last status change: %s", ctime(&sb.st_ctime));
 	printf("Last file access: %s", ctime(&sb.st_atime));
 	printf("Last file modification: %s", ctime(&sb.st_mtime));
+	// times in high resolution
+	//printf("Last status change: %lu", &sb.st_ctim);
+	//printf("Last file access: %lu", &sb.st_atim);
+	//printf("Last file modification: %lu", &sb.st_mtim);
 	return EXIT_SUCCESS;
 }
