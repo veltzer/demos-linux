@@ -42,20 +42,20 @@
 
 int main(int argc, char** argv, char** envp) {
 	// example with built in compiler conversions
-	int i=16777217;	// 2^24+1
+	int i1=(1 << 24) +1; // 2^24+1=16777217
 	// the volatile is neccessary so the compiler will not eliminate the entire code!
-	volatile float f=i;
-	int back_i=f;
-	if(back_i==i) {
+	volatile float f1=i1;
+	int back_i1=f1;
+	if(back_i1==i1) {
 		printf("they are the same...\n");
 	} else {
 		printf("they are different!\n");
-		printf("i is %d\n", i);
-		printf("f is %f\n", f);
-		printf("back_i is %d\n", back_i);
+		printf("i1 is %d\n", i1);
+		printf("f1 is %f\n", f1);
+		printf("back_i1 is %d\n", back_i1);
 	}
 	// example with atof
-	int i2=16777217;
+	int i2=(1 << 24) +1;
 	char str[256];
 	snprintf(str, 256, "%d", i2);
 	float f2=atof(str);

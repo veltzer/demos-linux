@@ -16,6 +16,9 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef __demangle_hh
+#define __demangle_hh
+
 #include <firstinclude.h>
 #include <cxxabi.h>	// for abi::__cxa_demangle(3)
 #include <string.h>	// for strncpy(3)
@@ -27,7 +30,7 @@
  * There is no C API for demangling since C names do not get
  * mangled.
  */
-inline void error_demangle(char* symbol,
+static inline void error_demangle(char* symbol,
 	char* result_name,
 	unsigned int max_name,
 	char* result_offset,
@@ -75,3 +78,5 @@ inline void error_demangle(char* symbol,
 		abort();
 	}
 }
+
+#endif	/* !__demangle_hh */
