@@ -16,8 +16,8 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __demangle_hh
-#define __demangle_hh
+#ifndef __demangle_utils_hh
+#define __demangle_utils_hh
 
 #include <firstinclude.h>
 #include <cxxabi.h>	// for abi::__cxa_demangle(3)
@@ -79,4 +79,4 @@ static inline void error_demangle(char* symbol,
 	}
 }
 
-#endif	/* !__demangle_hh */
+#endif	/* !__demangle_utils_hh */
