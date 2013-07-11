@@ -662,8 +662,8 @@ extern char* program_invocation_name;
 static inline void get_program_name(char* buf, size_t size) {
 	snprintf(buf, size, "%s", program_invocation_name);
 	// version with /proc
-	//ssize_t res=CHECK_NOT_M1(readlink("/proc/self/exe", buf, size));
-	//buf[res]='\0';
+	// ssize_t res=CHECK_NOT_M1(readlink("/proc/self/exe", buf, size));
+	// buf[res]='\0';
 }
 
 #endif	/* !__us_helper_h */
