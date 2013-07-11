@@ -33,6 +33,6 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	disassemble_function("_exit", 10);
+	disassemble_function("_exit");
 	return EXIT_SUCCESS;
 }
