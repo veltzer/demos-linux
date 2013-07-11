@@ -42,7 +42,7 @@
 
 int main(int argc, char** argv, char** envp) {
 	// example with built in compiler conversions
-	int i1=(1 << 24) +1; // 2^24+1=16777217
+	int i1=(1 << 24) +1;	// 2^24+1=16777217
 	// the volatile is neccessary so the compiler will not eliminate the entire code!
 	volatile float f1=i1;
 	int back_i1=f1;
