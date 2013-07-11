@@ -25,8 +25,7 @@
 #include <unistd.h>	// for close(2)
 #include <sys/un.h>	// for sockaddr_un
 #include <string.h>	// for strlen(3)
-
-#include <us_helper.h>	// our own helper
+#include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
  * This is a unix socket client demo.
