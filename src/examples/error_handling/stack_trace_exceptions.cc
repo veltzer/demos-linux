@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <execinfo.h>
 #include <exception>
-#include "demangle.hh"
+#include <demangle.hh>	// for error_demangle()
 
 /*
  * This is a C++ example of how to create exceptions which contain a stack trace

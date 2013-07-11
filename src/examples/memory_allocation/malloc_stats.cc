@@ -48,7 +48,7 @@ void *worker(void *p) {
 		free(arr[i]);
 	}
 	TRACE("ending thread %d", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

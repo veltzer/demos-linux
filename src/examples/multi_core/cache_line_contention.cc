@@ -58,14 +58,14 @@ static void *shared_worker(void *p) {
 	for(unsigned long long i=0; i<td->attempts; i++) {
 		td->shared[td->num]+=1;
 	}
-	return(NULL);
+	return NULL;
 }
 static void *nonshared_worker(void* p) {
 	thread_data* td=(thread_data*)p;
 	for(unsigned long long i=0; i<td->attempts; i++) {
 		td->nonshared[td->num]+=1;
 	}
-	return(NULL);
+	return NULL;
 }
 static void *observer(void *p) {
 	thread_data* td=(thread_data*)p;
@@ -75,7 +75,7 @@ static void *observer(void *p) {
 		// INFO("value is %d", *(td->value));
 	}
 	INFO("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 
 static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, unsigned long long& attempts) {

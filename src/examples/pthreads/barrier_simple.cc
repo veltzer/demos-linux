@@ -51,7 +51,7 @@ static void *worker(void *p) {
 		INFO("stopped_sleeping (%d)", td->num);
 	}
 	INFO("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

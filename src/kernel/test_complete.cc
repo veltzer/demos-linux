@@ -46,7 +46,7 @@ void *wait_function(void *p) {
 	CHECK_NOT_M1(ioctl(fd, IOCTL_COMPLETE_WAIT_INTERRUPTIBLE_TIMEOUT, 10000));
 	ticks_t t2=getticks();
 	fprintf(stderr, "took %d micros\n", get_mic_diff(t1, t2));
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

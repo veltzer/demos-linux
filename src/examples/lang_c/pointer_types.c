@@ -44,14 +44,14 @@ void func1(void *__space1 pointer) {
 }
 
 void *__space1 malloc1(unsigned int size) {
-	return(NULL);
+	return NULL;
 }
 
 void func2(void *__space2 pointer) {
 }
 
 void *__space2 malloc2(unsigned int size) {
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

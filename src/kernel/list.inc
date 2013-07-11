@@ -139,7 +139,7 @@ void *capi_list_del(void *lptr) {
 
 	if (list_empty(lp)) {
 		PR_ERROR("ERROR - pop should not be called on an empty list");
-		return(NULL);
+		return NULL;
 	} else {
 		entry = list_entry(prev, struct _list_struct, list);
 		ret = entry->ptr;

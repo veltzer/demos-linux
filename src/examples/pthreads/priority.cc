@@ -32,17 +32,17 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-pthread_t hpt;
-pthread_t mpt;
-pthread_t lpt;
+static pthread_t hpt;
+static pthread_t mpt;
+static pthread_t lpt;
 
-int lp=2;
-int mp=1;
-int hp=0;
+static int lp=2;
+static int mp=1;
+static int hp=0;
 
-pthread_barrier_t mybarrier;
+static pthread_barrier_t mybarrier;
 
-int min_priority=0;
+static int min_priority=0;
 
 void *thread_body(void *arg) {
 	pid_t tid=gettid();
@@ -59,7 +59,7 @@ void *thread_body(void *arg) {
 		print_scheduling_info();
 		CHECK_ZERO(sleep(10));
 	}
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

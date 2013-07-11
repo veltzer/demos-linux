@@ -77,7 +77,7 @@ void *function_empty(void *p) {
 			fflush(stdout);
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 void *function_short(void *p) {
@@ -86,7 +86,7 @@ void *function_short(void *p) {
 	CHECK_NOT_M1(ioctl(fd, IOCTL_RACE_SLEEP_SHORT, NULL));
 	fprintf(stdout, "fs");
 	fflush(stdout);
-	return(NULL);
+	return NULL;
 }
 
 void *function_long(void *p) {
@@ -95,7 +95,7 @@ void *function_long(void *p) {
 	CHECK_NOT_M1(ioctl(fd2, IOCTL_RACE_SLEEP_LONG, NULL));
 	fprintf(stdout, "fl");
 	fflush(stdout);
-	return(NULL);
+	return NULL;
 }
 
 void *function_close(void *p) {
@@ -107,7 +107,7 @@ void *function_close(void *p) {
 	fflush(stdout);
 	// this will create an error
 	// CHECK_NOT_M1(ioctl(d,IOCTL_RACE_EMPTY,NULL));
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

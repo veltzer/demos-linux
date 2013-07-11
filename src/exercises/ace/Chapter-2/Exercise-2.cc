@@ -151,7 +151,7 @@ static void *producer(ProducerData* pdata) {
 	}
 	// finished ? then return
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) producer ending\n")));
-	return(NULL);
+	return NULL;
 }
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {

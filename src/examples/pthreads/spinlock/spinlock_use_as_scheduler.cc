@@ -51,7 +51,7 @@ void *worker(void *p) {
 		CHECK_ZERO_ERRNO(pthread_spin_unlock(&lock));
 	}
 	DEBUG("ending thread %d", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

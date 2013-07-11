@@ -38,7 +38,7 @@ void *worker(void *p) {
 	TRACE("thread %d: sched_getcpu() is %d", num, sched_getcpu());
 	CHECK_ZERO(sleep(60));
 	TRACE("ending thread %d", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

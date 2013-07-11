@@ -63,7 +63,7 @@ void* worker(void* p) {
 		printf("wakeup because of signal\n");
 	}
 	printf("thread ending num=%d, gettid()=%d, pthread_self()=%lu\n", num, gettid(), pthread_self());
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

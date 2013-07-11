@@ -89,7 +89,7 @@ void *functionCount2(void*) {
 			break;
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 int main(int argc, char** argv, char** envp) {
 	pthread_t thread1, thread2;

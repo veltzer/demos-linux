@@ -92,7 +92,7 @@ void *worker(void *p) {
 		CHECK_ZERO(mypthread_spin_unlock(&lock));
 	}
 	fprintf(pfile, "ending thread %d\n", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
