@@ -17,35 +17,31 @@
  */
 
 #include <firstinclude.h>
+#include <sys/types.h>	// for stat(2)
+#include <sys/stat.h>	// for stat(2)
+#include <unistd.h>	// for stat(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <signal.h>	// for timer_create(2), signal(2), SIGEV_SIGNAL
-#include <time.h>	// for timer_create(2), timer_settime(2), timer_delete(2)
-#include <unistd.h>	// for pause(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT(), CHECK_ASSERT()
+#include <stdio.h>	// for printf(3)
+#include <us_helper.h>	// for CHECK_NOT_M1()
 
 /*
- * This is a basic demo of how to use the Linux timer API.
+ * This example explores the time_t type.
  *
- * we must link with the 'rt' library to get the time API.
- * EXTRA_LINK_FLAGS=-lrt
+ * This shows that on Intel 32 bit time_t is an unsigned integer that counts
+ * the seconds from 1/1/1970 which means it will run out on:
+ * 	1970+2^32/(60*60*24*365)=2106
+ *
+ * TODO:
+ * - run this on 64 bit and see the results.
  */
-void sigusr(int signal) {
-	return;
-}
 
 int main(int argc, char** argv, char** envp) {
-	timer_t timerid;
-	struct itimerspec tick={{0, 10*1000}, {0, 10*1000}};
-	struct sigevent sigev;
-	sigev.sigev_notify=SIGEV_SIGNAL;
-	sigev.sigev_signo=SIGUSR1;
-	CHECK_NOT_SIGT(signal(SIGUSR1, sigusr), SIG_ERR);
-	CHECK_NOT_M1(timer_create(CLOCK_MONOTONIC, &sigev, &timerid));
-	CHECK_NOT_M1(timer_settime(timerid, 0, &tick, NULL));
-	while(true) {
-		int ret=pause();
-		CHECK_ASSERT(ret==-1 && errno==EINTR);
-	}
-	CHECK_NOT_M1(timer_delete(timerid));
+	printf("sizeof(time_t) is %d\n", sizeof(time_t));
+	struct stat sb;
+	CHECK_NOT_M1(stat("/etc/passwd", &sb));
+	unsigned int myint=(unsigned int)sb.st_mtime;
+	printf("myint is %u\n", myint);
+	// lets guess the year according to myint
+	printf("the year is %d\n", 1970+myint/(3600*24*365));
 	return EXIT_SUCCESS;
 }

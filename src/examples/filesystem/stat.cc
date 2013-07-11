@@ -17,18 +17,51 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for stderr, fprintf(3)
+#include <stdio.h>	// for stderr, fprintf(3), printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <sys/types.h>	// for stat(2)
+#include <sys/stat.h>	// for stat(2)
+#include <unistd.h>	// for stat(2)
+#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <time.h>	// for ctime(3)
 
 /*
  * This example is similar to the command line stat(1) one and
  * is similar in essence to the example in the stat(2) manual page.
+ *
+ * TODO:
+ * - show times more accurate than 1 second.
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc<2) {
-		fprintf(stderr, "%s: usage: %s [file] [file] ...\n", argv[0], argv[0]);
+	if(argc!=2) {
+		fprintf(stderr, "%s: usage: %s [file]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s /etc/passwd\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
+	struct stat sb;
+	CHECK_NOT_M1(stat(argv[1], &sb));
+	printf("File type: ");
+	switch (sb.st_mode & S_IFMT) {
+		case S_IFBLK: printf("block device\n"); break;
+		case S_IFCHR: printf("character device\n"); break;
+		case S_IFDIR: printf("directory\n"); break;
+		case S_IFIFO: printf("FIFO/pipe\n"); break;
+		case S_IFLNK: printf("symlink\n"); break;
+		case S_IFREG: printf("regular file\n"); break;
+		case S_IFSOCK: printf("socket\n"); break;
+		default: printf("unknown?\n"); break;
+	}
+	printf("I-node number: %ld\n", (long) sb.st_ino);
+	printf("Mode: %lo (octal)\n", (unsigned long) sb.st_mode);
+	printf("Link count: %ld\n", (long) sb.st_nlink);
+	printf("Ownership: UID=%ld GID=%ld\n", (long) sb.st_uid, (long) sb.st_gid);
+	printf("Preferred I/O block size: %ld bytes\n", (long) sb.st_blksize);
+	printf("File size: %lld bytes\n", (long long) sb.st_size);
+	printf("Blocks allocated: %lld\n", (long long) sb.st_blocks);
+	// times
+	printf("Last status change: %s", ctime(&sb.st_ctime));
+	printf("Last file access: %s", ctime(&sb.st_atime));
+	printf("Last file modification: %s", ctime(&sb.st_mtime));
 	return EXIT_SUCCESS;
 }
