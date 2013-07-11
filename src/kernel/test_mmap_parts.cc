@@ -29,7 +29,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
-#include <multi_processing.h>	// for printbuddy()
+#include <multiproc_utils.h>	// for printbuddy()
 
 /*
  * This test shows how you can do mmap via an ioctl...

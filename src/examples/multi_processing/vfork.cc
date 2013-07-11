@@ -26,7 +26,7 @@
 #include <sys/types.h>	// for vfork(2)
 #include <unistd.h>	// for vfork(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
-#include <multi_processing.h>	// for print_code(), print_status()
+#include <multiproc_utils.h>	// for print_code(), print_status()
 
 /*
  * An example of using vfork(2)

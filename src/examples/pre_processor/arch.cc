@@ -22,7 +22,7 @@
 
 /*
  * This shows how to use preprocessor defines for compiler, language and architecture...
- * 
+ *
  * References:
  * http://sourceforge.net/p/predef/wiki/Home/
  */

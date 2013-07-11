@@ -39,9 +39,9 @@ int main(int argc, char** argv, char** envp) {
 #endif	// #if !defined(BAR)
 #if 3 < 4
 	printf("#if 3 < 4\n");
-#endif // 3 < 4
+#endif	// 3 < 4
 #if !(4 < 3)
 	printf("#if !(4 < 3)\n");
-#endif // !(4 < 3)
+#endif	// !(4 < 3)
 	return EXIT_SUCCESS;
 }

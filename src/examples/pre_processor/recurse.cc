@@ -27,7 +27,7 @@
  * https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms
  */
 
-#define do_3(a1, a2, a3)\
+#define do_3(a1, a2, a3) \
 
 
 int main(int argc, char** argv, char** envp) {

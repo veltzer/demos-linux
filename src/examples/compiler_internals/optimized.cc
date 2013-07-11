@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), fopen(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <multi_processing.h>	// for my_system()
+#include <disassembly_utils.h>	// for disassemble_me()
 
 /*
  * This example shows that the compiler is very aggresive on optimization.
@@ -62,6 +62,6 @@ int main(int argc, char** argv, char** envp) {
 		sum3+=i;
 	}
 	fprintf(out, "sum3 is %u\n", sum3);
-	my_system("objdump --disassemble --source %s", argv[0]);
+	disassemble_me();
 	return EXIT_SUCCESS;
 }

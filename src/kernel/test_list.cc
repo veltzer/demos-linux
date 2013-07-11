@@ -25,7 +25,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), waitkey(), CHECK_NOT_NULL()
-#include <multi_processing.h>	// for my_system()
+#include <multiproc_utils.h>	// for my_system()
 #include "shared.h"
 
 /*
