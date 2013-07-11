@@ -15,3 +15,8 @@ If you want just one function:
 	gdb --batch -ex "disassemble main" a.out
 Source interleaved (must compile with -g):
 	gdb --batch -ex "disassemble /m main" a.out
+
+disassembly using gcc:
+======================
+just compile your source code with the same options to assembly this way:
+	gcc -S -O3 myprogram.c -o myprogram.s
