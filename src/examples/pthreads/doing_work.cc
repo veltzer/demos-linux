@@ -34,7 +34,7 @@ void *worker(void *p) {
 	TRACE("pthread_self is %lu", t);
 	CHECK_ZERO(sleep(60));
 	TRACE("ending thread %d", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

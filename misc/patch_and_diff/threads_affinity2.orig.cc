@@ -37,7 +37,7 @@ void *worker(void *p) {
 
 	fprintf(stderr, "starting thread %d\n", num);
 	fprintf(stderr, "ending thread %d\n", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

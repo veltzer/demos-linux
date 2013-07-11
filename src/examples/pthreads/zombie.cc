@@ -61,7 +61,7 @@ void *worker(void *) {
 	// lets notify the parent thread that we're dead...
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_end));
 	TRACE("end");
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

@@ -47,7 +47,7 @@ void *worker1(void *p) {
 	perror("msg from perror");
 	TRACE("errno is %d (%s)", err, strerror(err));
 	TRACE("worker1 ending thread");
-	return(NULL);
+	return NULL;
 }
 
 void *worker2(void *p) {
@@ -55,7 +55,7 @@ void *worker2(void *p) {
 	TRACE("errno is %d", errno);
 	perror("printing perror");
 	TRACE("worker2 ending thread");
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

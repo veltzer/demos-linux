@@ -46,7 +46,7 @@ static void *worker(void *p) {
 		// TRACE("after lock");
 		CHECK_ZERO(sleep(1));
 	}
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

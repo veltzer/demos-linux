@@ -128,7 +128,7 @@ void *worker(void *p) {
 			CHECK_NOT_M1(usleep(rand()%td->max_sleep));
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

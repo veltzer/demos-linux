@@ -64,7 +64,7 @@ static void *atomic_worker(void *p) {
 		__sync_add_and_fetch(td->value, 1);
 	}
 	TRACE("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 static void *machine_barrier_worker(void* p) {
 	thread_data* td=(thread_data*)p;
@@ -74,7 +74,7 @@ static void *machine_barrier_worker(void* p) {
 		__sync_synchronize();
 	}
 	TRACE("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 static void *compiler_barrier_worker(void* p) {
 	thread_data* td=(thread_data*)p;
@@ -84,7 +84,7 @@ static void *compiler_barrier_worker(void* p) {
 		asm volatile ("" ::: "memory");
 	}
 	TRACE("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 static void *regular_worker(void *p) {
 	thread_data* td=(thread_data*)p;
@@ -93,7 +93,7 @@ static void *regular_worker(void *p) {
 		*(td->value)+=1;
 	}
 	TRACE("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 static void *volatile_worker(void *p) {
 	thread_data* td=(thread_data*)p;
@@ -102,7 +102,7 @@ static void *volatile_worker(void *p) {
 		*(td->vvalue)+=1;
 	}
 	TRACE("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 static void *observer(void *p) {
 	thread_data* td=(thread_data*)p;
@@ -112,7 +112,7 @@ static void *observer(void *p) {
 		TRACE("value is %d", *(td->value));
 	}
 	TRACE("end thread %d", td->num);
-	return(NULL);
+	return NULL;
 }
 
 static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, int& attempts) {

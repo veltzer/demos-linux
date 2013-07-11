@@ -105,7 +105,7 @@ void *worker(void *p) {
 	}
 	ended=true;
 	TRACE("ending");
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

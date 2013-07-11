@@ -46,7 +46,7 @@ static const long max_queue=LONG_MAX;
 static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Message_Block* mb;
 	if (msg_queue->dequeue_head(mb)==-1) {
-		return(NULL);
+		return NULL;
 	}
 	int length=ACE_Utils::truncate_cast<int> (mb->length());
 	if (length>0) {
@@ -59,7 +59,7 @@ static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	mb->release();
 	if (length==0) {
 		// you may use the zero length as program termination
-		return(NULL);
+		return NULL;
 	}
 	return(0);
 }

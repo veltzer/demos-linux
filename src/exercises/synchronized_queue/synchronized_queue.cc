@@ -99,7 +99,7 @@ void *worker(void *p) {
 			}
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {

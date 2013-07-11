@@ -57,7 +57,7 @@ static void* consumer(ACE_Message_Queue<ACE_MT_SYNCH>* msg_queue) {
 			break;
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 // The producer reads data from the stdin stream, creates a message,
@@ -95,7 +95,7 @@ static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	}
 	// Now read all the items from the head (therefore we get regular order)
 	consumer(msg_queue);
-	return(NULL);
+	return NULL;
 }
 
 int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {

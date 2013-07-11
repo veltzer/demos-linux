@@ -134,7 +134,7 @@ static void* worker(void* c) {
 		}
 	}
 	ACE_DEBUG((LM_DEBUG, "(%t) exiting\n"));
-	return(NULL);
+	return NULL;
 }
 
 extern "C" void handler(int signum) {

@@ -33,7 +33,7 @@ void *worker(void *p) {
 	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	TRACE("ending thread %d", num);
-	return(NULL);
+	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
