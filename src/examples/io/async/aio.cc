@@ -24,8 +24,7 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-
-#include <us_helper.h>	// our own helper
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL(), CHECK_ZERO()
 
 /*
  * This is an example of asynchroneous IO.
