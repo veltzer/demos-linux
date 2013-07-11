@@ -63,7 +63,7 @@ static inline void disassemble_function(const char* function_name) {
 	// my_system("objdump --disassemble --source %s | grep -A%d \\<%s\\>:", myname, lines, name);
 	// we use sed because we want to grep between the function we look for and
 	// the next function
-	my_system("objdump --disassemble --source %s | sed -n '/<%s>:/,/<.*>:/p\'", myname, function_name);
+	my_system("objdump --disassemble --source %s | sed -n '/<.*%s.*>:/,/<.*>:/p\'", myname, function_name);
 }
 
 #endif	/* !__disassembly_utils */

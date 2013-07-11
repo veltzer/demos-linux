@@ -17,51 +17,64 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3), fopen(3)
+#include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <disassembly_utils.h>	// for disassemble_me()
+#include <disassembly_utils.h>	// for disassemble_function()
 
 /*
  * This example shows that the compiler is very aggresive on optimization.
  * It doesn't even unroll the loop! It simply calculates (1+99)*99/2=4950
- * and puts the value in the code.
+ * and puts the value in the code (look for $0x1356 in the assembly).
  * Conclusion: DO NOT UNDERESTIMATE THE COMPILER!
+ *
+ * Notes:
+ * - We cannot turn off optimization in the middle of a function (we get a compile
+ * error for such an attempt) and that is why the function which is not optimized
+ * is a standalone function.
  *
  * this is to make sure that source code interleaving in the disassembly works
  * out well...
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
-FILE* out;
-// first lets try a loop without optimization
+/*
+ * This is a function which calculates the sum of numbers up to some number
+ * but with #pragmas that make sure that the compiler does not optimize anything
+ */
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
-void f1() __attribute__((noinline));
-void f1() {
-	unsigned int sum1=0;
+unsigned int sum_not_optimized() __attribute__((noinline));
+unsigned int sum_not_optimized() {
+	unsigned int sum=0;
 	for(unsigned int i=0; i<100; i++) {
-		sum1+=i;
+		sum+=i;
 	}
-	fprintf(out, "sum1 is %u\n", sum1);
+	return sum;
 }
 #pragma GCC pop_options
 
+unsigned int sum_optimized() __attribute__((noinline));
+unsigned int sum_optimized() {
+	unsigned int sum=0;
+	for(unsigned int i=0; i<100; i++) {
+		sum+=i;
+	}
+	return sum;
+}
+
+unsigned int sum_print_opt() __attribute__((noinline));
+unsigned int sum_print_opt() {
+	unsigned int sum=0;
+	for(unsigned int i=0; i<100; i++) {
+		printf("i is %d\n", i);
+		sum+=i;
+	}
+	return sum;
+}
+
 int main(int argc, char** argv, char** envp) {
-	out=fopen("/dev/null", "w");
-	f1();
-	// now with optimization
-	unsigned int sum2=0;
-	for(unsigned int i=0; i<100; i++) {
-		sum2+=i;
-	}
-	fprintf(out, "sum2 is %u\n", sum2);
-	// now with printing
-	unsigned int sum3=0;
-	for(unsigned int i=0; i<100; i++) {
-		fprintf(out, "i is %d\n", i);
-		sum3+=i;
-	}
-	fprintf(out, "sum3 is %u\n", sum3);
-	disassemble_me();
+	disassemble_function("sum_not_optimized");
+	disassemble_function("sum_optimized");
+	disassemble_function("sum_print_opt");
 	return EXIT_SUCCESS;
 }

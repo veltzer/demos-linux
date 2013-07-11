@@ -17,11 +17,14 @@
  */
 
 #include <firstinclude.h>
-#include <disassembly_utils.h>	// for disassemble_me()
+#include <disassembly_utils.h>	// for disassemble_main()
 
 /*
  * This example shows that a real compiler barrier does not emit any machine instructions.
  * It simply uses the compiler barrier a lot and shows the disassembly...
+ *
+ * this is for the source interleaving below...
+ * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -44,6 +47,6 @@ int main(int argc, char** argv, char** envp) {
 	asm volatile ("" ::: "memory");
 	asm volatile ("" ::: "memory");
 	asm volatile ("" ::: "memory");
-	disassemble_me();
+	disassemble_main();
 	return EXIT_SUCCESS;
 }
