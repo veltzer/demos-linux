@@ -25,7 +25,7 @@
 /*
  * This example shows how to get the systems page size, the available physical pages
  * and the overall physical pages (overall RAM size) of a system.
- * Note that you can see all this info from the command line using 'getconf -a'
+ * Note that you can see all this info from the command line using 'getconf -a | grep PAGE'
  */
 
 int main(int argc, char** argv, char** envp) {
