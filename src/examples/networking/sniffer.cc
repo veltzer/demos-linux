@@ -26,7 +26,8 @@
 #include <netinet/tcp.h>// for struct tcphdr
 #include <netinet/in.h>	// for IPPROTO_TCP
 #include <unistd.h>	// for geteuid(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), check_root()
+#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <security_utils.h>	// for check_root()
 
 /*
  * An example of a sniffer

@@ -34,7 +34,7 @@
 #include <stdio.h>	// for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
 #include <stdlib.h>	// for system(3), exit(3)
 #include <stdarg.h>	// for vsnprintf(3), va_start(3), va_list(3), va_end(3)
-#include <sys/types.h>	// for getpid(2), gettid(2), geteuid(2)
+#include <sys/types.h>	// for getpid(2), gettid(2)
 #include <sys/syscall.h>// for syscall(2)
 #include <unistd.h>	// for getpid(2), syscall(2), sysconf(2), getpagesize(2)
 #include <proc/readproc.h>	// for get_proc_stats(3)
@@ -305,7 +305,7 @@ static inline int check_gezero(int val, const char* msg, const char* file, const
 }
 
 #define CHECK_ZERO(v) check_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__, NULL)
-#define CHECKM_ZERO(v, m) check_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__, m)
+#define CHECK_MSG_ZERO(v, m) check_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__, m)
 #define CHECK_ZERO_ERRNO(v) check_zero_errno(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_ZERO(v) check_not_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
@@ -591,7 +591,7 @@ static inline void no_params(int argc, char** argv) {
  * easy registration of signals via signal(2)
  */
 typedef void (*sig_old_handler)(int);
-void register_handler_signal(int signum, sig_old_handler handler) {
+static inline void register_handler_signal(int signum, sig_old_handler handler) {
 	CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
 }
 
@@ -656,18 +656,14 @@ static inline int my_max(int a, int b) {
 }
 
 /*
- * check that the current process is running as root
+ * This function gets the current executables name
  */
-static inline void check_root() {
-	CHECKM_ZERO(geteuid(), "you are not root, maybe you should try sudo(1)?");
-}
-
-/*
- * This function gets the current executables name from /proc
- */
-void get_program_name(char* buf, size_t size) {
-	ssize_t res=CHECK_NOT_M1(readlink("/proc/self/exe", buf, size));
-	buf[res]='\0';
+extern char* program_invocation_name;
+static inline void get_program_name(char* buf, size_t size) {
+	snprintf(buf, size, "%s", program_invocation_name);
+	// version with /proc
+	//ssize_t res=CHECK_NOT_M1(readlink("/proc/self/exe", buf, size));
+	//buf[res]='\0';
 }
 
 #endif	/* !__us_helper_h */

@@ -16,27 +16,24 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef __security_utils
+#define __security_utils
+
 /*
- * This exampe shows how to demangle names on the command line using
- * nm
+ * This file provides helper function to deal with security and permission
+ * issues.
  */
 
 #include <firstinclude.h>
-#include <iostream>	// for std::cout, std::endl
-#include <multiproc_utils.h>	// for my_system()
+#include <unistd.h>	// for geteuid(2)
+#include <sys/types.h>	// for geteuid(2)
+#include <us_helper.h>	// for CHECK_ZERO()
 
-class A {
-public:
-	void doit();
-};
-
-void A::doit() {
-	std::cout << "Hello, World!" << std::endl;
+/*
+ * check that the current process is running as root
+ */
+static inline void check_root() {
+	CHECK_MSG_ZERO(geteuid(), "you are not root, maybe you should try sudo(1)?");
 }
 
-int main(int argc, char** argv, char** envp) {
-	A a;
-	a.doit();
-	my_system("nm -C %s | grep A::", argv[0]);
-	return 0;
-}
+#endif	/* !__security_utils */
