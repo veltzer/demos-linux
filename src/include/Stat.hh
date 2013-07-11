@@ -16,8 +16,8 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __Stat_h
-#define __Stat_h
+#ifndef __Stat_hh
+#define __Stat_hh
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
@@ -138,4 +138,4 @@ public:
 	}
 };
 
-#endif	/* !__Stat_h */
+#endif	/* !__Stat_hh */

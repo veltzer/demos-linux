@@ -16,8 +16,8 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __Selector_h
-#define __Selector_h
+#ifndef __Selector_hh
+#define __Selector_hh
 
 #include <firstinclude.h>
 #include <us_helper.h>	// for CHECK_NOT_M1(), my_max()
@@ -60,4 +60,4 @@ public:
 	}
 };
 
-#endif	/* !__Selector_h */
+#endif	/* !__Selector_hh */

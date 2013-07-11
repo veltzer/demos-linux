@@ -33,7 +33,7 @@
 #include <stdio.h>	// for snprintf(3)
 
 /* The number of nsecs per sec. */
-const int NSEC_PER_SEC=1000000000;
+const long long NSEC_PER_SEC=1000000000;
 
 /*
  * Add a number of nanoseconds to a timespec

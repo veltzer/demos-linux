@@ -16,8 +16,8 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CircularPipe_h
-#define __CircularPipe_h
+#ifndef __CircularPipe_hh
+#define __CircularPipe_hh
 
 #include <firstinclude.h>
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
@@ -116,4 +116,4 @@ public:
 	}
 };
 
-#endif	/* !__CircularPipe_h */
+#endif	/* !__CircularPipe_hh */
