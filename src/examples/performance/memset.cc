@@ -17,11 +17,11 @@
  */
 
 #include <firstinclude.h>
-#include <string.h>	// for memset
-#include <stdlib.h>	// for malloc
-#include <wchar.h>	// for wmemset
+#include <string.h>	// for memset(3)
+#include <stdlib.h>	// for malloc(3)
+#include <wchar.h>	// for wmemset(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <disassembly_utils.h>	// for disassemble_me()
+#include <disassembly_utils.h>	// for disassemble_main()
 
 /*
  * This example explores the inner workings of memset...
@@ -41,7 +41,7 @@
  * EXTRA_COMPILE_FLAGS=-g3
  *
  * TODO:
- * - find out how wmemset work and discuss it's efficiency.
+ * - find out how wmemset works and discuss it's efficiency.
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -54,6 +54,6 @@ int main(int argc, char** argv, char** envp) {
 	}
 	wchar_t* buf2=(wchar_t*)malloc(size*sizeof(wchar_t));
 	wmemset(buf2, 0, size);
-	disassemble_me();
+	disassemble_main();
 	return EXIT_SUCCESS;
 }
