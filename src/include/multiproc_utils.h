@@ -31,6 +31,7 @@
 #include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <string.h>	// for strsignal(3)
+#include <stdio.h>	// for stderr, fprintf(3)
 
 static inline int child_ok(int status) {
 	if (WIFEXITED(status)) {
@@ -90,7 +91,9 @@ static inline void my_system(const char *fmt, ...) {
 	va_start(args, fmt);
 	vsnprintf(str, cmd_size, fmt, args);
 	va_end(args);
-	// fprintf(stderr, "doing [%s]\n", str);
+#ifdef MULTIPROC_DEBUG
+	fprintf(stderr, "doing [%s]\n", str);
+#endif
 	int ret=CHECK_NOT_M1(system(str));
 	if(!child_ok(ret)) {
 		CHECK_ASSERT(0);

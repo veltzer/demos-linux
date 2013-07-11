@@ -17,18 +17,25 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for TRACE(), micro_diff, CHECK_ZERO
+#include <stdlib.h>	// for EXIT_SUCCESS
+#define MULTIPROC_DEBUG
+#include <disassembly_utils.h>	// for disassemble_function()
 
 /*
  * This example is written so that you could disassemble the machine
  * code for volatiles and atomics. That is also why debug info is enabled
  * for it (so that you could see the source code interleaved with the
  * assembly).
+ *
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
+	// disassemble_function("do_volatile");
+	// disassemble_function("do_regular");
+	// disassemble_function("do_atomic");
+	disassemble_function("_Z9do_atomici");
+	// disassemble_me();
 	return EXIT_SUCCESS;
 }
 

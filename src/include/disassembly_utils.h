@@ -46,7 +46,6 @@ static inline void disassemble_me() {
 static inline void disassemble_main() {
 	char myname[1024];
 	get_program_name(myname, sizeof(myname));
-	fprintf(stderr, "myname is %s\n", myname);
 	my_system("gdb --batch -ex \"disassemble /m main\" %s", myname);
 }
 
@@ -57,10 +56,14 @@ static inline void disassemble_main() {
  * If you want to disassemble a function from a DSO, link you application
  * statically.
  */
-static inline void disassemble_function(char* name, unsigned int lines) {
+static inline void disassemble_function(const char* function_name) {
 	char myname[1024];
 	get_program_name(myname, sizeof(myname));
-	my_system("objdump --disassemble-all %s | grep -A%d \\<%s\\>:", myname, lines, name);
+	// my_system("objdump --disassemble-all %s | grep -A%d \\<%s\\>:", myname, lines, name);
+	// my_system("objdump --disassemble --source %s | grep -A%d \\<%s\\>:", myname, lines, name);
+	// we use sed because we want to grep between the function we look for and
+	// the next function
+	my_system("objdump --disassemble --source %s | sed -n '/<%s>:/,/<.*>:/p\'", myname, function_name);
 }
 
 #endif	/* !__disassembly_utils */
