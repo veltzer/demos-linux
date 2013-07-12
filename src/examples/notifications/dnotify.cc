@@ -44,6 +44,13 @@
  * - show how to get the info about what happened in the signal handler.
  * - make the command line parsing and printing of dnotify events nicer.
  * (print the events symbolicaly and not numericaly...)
+ * - print ALL the fields of siginfo, do a helper method to do
+ * that if I don't already have one.
+ * - see if we get some info from the kernel
+ * if not state that we dont.
+ * if we do the print it nicely.
+ * - clean up that example.
+ * - better command line parsing.
  */
 
 /* Print (optional) message and usage info, then exit */
@@ -59,8 +66,8 @@ static void usageError(const char *progName, const char *msg) {
 }
 
 static void handler(int sig, siginfo_t *si, void *ucontext) {
-	printf("Got event on descriptor %d\n", si->si_fd);
-	printf("Got code %d\n", si->si_code);
+	printf("got event on descriptor %d\n", si->si_fd);
+	printf("got code %d\n", si->si_code);
 }
 
 int main(int argc, char** argv, char** envp) {

@@ -38,7 +38,7 @@
  * EXTRA_LINK_FLAGS=-lpthread
  *
  * TODO:
- * - this example is not yet finished.
+ * - this example is not yet finished and has correctness issues. Fix them.
  */
 
 typedef struct _thread_data {

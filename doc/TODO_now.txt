@@ -1,34 +1,15 @@
-examples:
-- work on the dnotify example - print ALL the fields of siginfo and see if
-	we get some info from the kernel. if not state that we dont.
-	clean up that example.
 - do example of backwards compatible C object oriented code.
 	union - to hide data.
 	size passing - to keep size constant.
 	methods.
-- finish the multi threaded file copy example.
-- compare the performance of all of my copy implementations using
-	some kind of script.
 - web server using splice.
 - do networking select example.
-- do tee using select example.
 - precompiled headers:
 	- do standalone gcc precompiled headers example in linuxapi.
 	- do standalone intel precompiled headers example in linuxapi.
 	- make the linuxapi package itself use precompiled headers.
 - mouse device driver example.
-- executable library example.
-	(still not fully done although getting there).
 
 more examples:
 - get more examples from http://www.linuxprogrammingblog.com/
 - http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
-
-build system:
-- make the linuxapi project compile for new ubuntu users
-	(by default without intel compiler, without papi and without fcmp).
-- see that there are no warnings in eclipse.
-	(run the eclipse c++ validation tool out of eclipse).
-- make a script to update the README.md file with real stats of this project.
-	(python preprocessor?). Run it whenever we release a version.
-- make sure EXIT_SUCCESS is everywhere (how do I test this?!?).
