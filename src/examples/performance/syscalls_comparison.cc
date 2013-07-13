@@ -23,7 +23,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <stdlib.h>	// for free(3), malloc(3)
 #include <pthread.h>	// for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), run_priority()
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
@@ -43,20 +43,21 @@
  */
 
 static pthread_key_t tid_key;
+
 typedef struct _cached_tid {
 	pid_t val;
 } cached_tid;
 
-void gettid_cache_delete(void* ptr) {
+static void gettid_cache_delete(void* ptr) {
 	free(ptr);
 }
 
-pid_t gettid_cached() {
+static pid_t gettid_cached() {
 	void* ptr=pthread_getspecific(tid_key);
 	if(ptr==NULL) {
 		cached_tid* ctid=(cached_tid*)malloc(sizeof(cached_tid));
 		ctid->val=gettid();
-		CHECK_NOT_M1(pthread_setspecific(tid_key, ctid));
+		CHECK_ZERO_ERRNO(pthread_setspecific(tid_key, ctid));
 		return ctid->val;
 	} else {
 		cached_tid* ctid=(cached_tid*)ptr;
@@ -64,11 +65,11 @@ pid_t gettid_cached() {
 	}
 }
 
-void gettid_cache_init() {
-	CHECK_NOT_M1(pthread_key_create(&tid_key, gettid_cache_delete));
+static void gettid_cache_init() {
+	CHECK_ZERO_ERRNO(pthread_key_create(&tid_key, gettid_cache_delete));
 }
 
-int main(int argc, char** argv, char** envp) {
+static void* work(void* p) {
 	const unsigned int loop=1000000;
 
 	measure m;
@@ -105,5 +106,10 @@ int main(int argc, char** argv, char** envp) {
 	}
 	measure_end(&m);
 	measure_print(&m);
+	return NULL;
+}
+
+int main(int argc, char** argv, char** envp) {
+	run_priority(work, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }
