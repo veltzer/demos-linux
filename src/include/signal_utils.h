@@ -39,65 +39,68 @@
  * [kill -L] or [kill --table] from [/bin/kill] will show them in a nice table.
  */
 
-typedef struct _sig_and_string {
-	int sig;
-	const char* signame;
-} sig_and_name;
+typedef struct _sig_val_and_name {
+	int val;
+	const char* name;
+} sig_val_and_name;
 
 /*
  * List of all signals and their names. The reason for this is that the standard
  * C library does not provide a translation from signal name to signal value.
  * (it does provide the reverse translation via strsignal(3)).
  * TODO:
- * - __stringify() does not work when placed in the definition of the following
+ * - stringify() does not work when placed in the definition of the following
  * table. Investigate.
  */
-static sig_and_name sig_vals[]={
-	{ SIGHUP, "SIGHUP" },
-	{ SIGINT, "SIGINT" },
-	{ SIGQUIT, "SIGQUIT" },
-	{ SIGILL, "SIGILL" },
-	{ SIGTRAP, "SIGTRAP" },
-	{ SIGABRT, "SIGABRT" },
-	{ SIGIOT, "SIGIOT" },
-	{ SIGBUS, "SIGBUS" },
-	{ SIGFPE, "SIGFPE" },
-	{ SIGKILL, "SIGKILL" },
-	{ SIGUSR1, "SIGUSR1" },
-	{ SIGSEGV, "SIGSEGV" },
-	{ SIGUSR2, "SIGUSR2" },
-	{ SIGPIPE, "SIGPIPE" },
-	{ SIGALRM, "SIGALRM" },
-	{ SIGTERM, "SIGTERM" },
-	{ SIGSTKFLT, "SIGSTKFLT" },
-	{ SIGCHLD, "SIGCHLD" },
-	{ SIGCONT, "SIGCONT" },
-	{ SIGSTOP, "SIGSTOP" },
-	{ SIGTSTP, "SIGTSTP" },
-	{ SIGTTIN, "SIGTTIN" },
-	{ SIGTTOU, "SIGTTOU" },
-	{ SIGURG, "SIGURG" },
-	{ SIGXCPU, "SIGXCPU" },
-	{ SIGXFSZ, "SIGXFSZ" },
-	{ SIGVTALRM, "SIGVTALRM" },
-	{ SIGPROF, "SIGPROF" },
-	{ SIGWINCH, "SIGWINCH" },
-	{ SIGIO, "SIGIO" },
-	{ SIGPOLL, "SIGPOLL" },
-	{ SIGPWR, "SIGPWR" },
-	{ SIGSYS, "SIGSYS" },
-	{ SIGUNUSED, "SIGUNUSED" },
-	{ SIGRTMIN, "SIGRTMIN" },
-	{ SIGRTMAX, "SIGRTMAX" },
+#define entry(x) { x, # x }
+static sig_val_and_name sig_tbl[]={
+	entry(SIGHUP),
+	entry(SIGINT),
+	entry(SIGQUIT),
+	entry(SIGILL),
+	entry(SIGTRAP),
+	entry(SIGABRT),
+	entry(SIGIOT),
+	entry(SIGBUS),
+	entry(SIGFPE),
+	entry(SIGKILL),
+	entry(SIGUSR1),
+	entry(SIGSEGV),
+	entry(SIGUSR2),
+	entry(SIGPIPE),
+	entry(SIGALRM),
+	entry(SIGTERM),
+	entry(SIGSTKFLT),
+	entry(SIGCHLD),
+	entry(SIGCONT),
+	entry(SIGSTOP),
+	entry(SIGTSTP),
+	entry(SIGTTIN),
+	entry(SIGTTOU),
+	entry(SIGURG),
+	entry(SIGXCPU),
+	entry(SIGXFSZ),
+	entry(SIGVTALRM),
+	entry(SIGPROF),
+	entry(SIGWINCH),
+	entry(SIGIO),
+	entry(SIGPOLL),
+	entry(SIGPWR),
+	entry(SIGSYS),
+	entry(SIGUNUSED),
+	entry(SIGRTMIN),
+	entry(SIGRTMAX),
 };
+#undef entry
 
 /*
  * Translate signal name to signal value
  */
 static inline int signal_get_by_name(const char* name) {
-	for(unsigned int i=0; i<ARRAY_SIZEOF(sig_vals); i++) {
-		if(strcmp(name, sig_vals[i].signame)==0) {
-			return sig_vals[i].sig;
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
+		if(strcmp(name, sig_tbl[i].name)==0) {
+			return sig_tbl[i].val;
 		}
 	}
 	CHECK_ASSERT("bad signal name"==NULL);
@@ -108,11 +111,12 @@ static inline int signal_get_by_name(const char* name) {
  * Print out a table of all signal values, names and descriptions
  */
 static inline void print_signal_names() {
-	printf("number of signal values is %zd\n", ARRAY_SIZEOF(sig_vals));
-	for(unsigned int i=0; i<ARRAY_SIZEOF(sig_vals); i++) {
-		int sig=sig_vals[i].sig;
-		const char* signame=sig_vals[i].signame;
-		printf("i=%d, sig=%d, in_code=%s, strsignal(sig)=%s\n", i, sig, signame, strsignal(sig));
+	unsigned int i;
+	printf("number of signal values is %zd\n", ARRAY_SIZEOF(sig_tbl));
+	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
+		int val=sig_tbl[i].val;
+		const char* name=sig_tbl[i].name;
+		printf("i=%d, sig=%d, in_code=%s, strsignal(sig)=%s\n", i, val, name, strsignal(val));
 	}
 }
 

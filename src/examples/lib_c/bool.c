@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdbool.h>	// for bool, true and false
-#include <us_helper.h>	// for __stringify()
+#include <us_helper.h>	// for stringify()
 
 /*
  * This is a demo of how to use the _Bool and stdbool.h headers for
@@ -37,9 +37,9 @@
 int main(int argc, char** argv, char** envp) {
 	printf("sizeof(_Bool) is %zd\n", sizeof(_Bool));
 	printf("sizeof(bool) is %zd\n", sizeof(bool));
-	printf("_Bool is really %s\n", __stringify(_Bool));
-	printf("bool is really %s\n", __stringify(bool));
-	printf("true is really %s\n", __stringify(true));
-	printf("false is really %s\n", __stringify(false));
+	printf("_Bool is really %s\n", stringify(_Bool));
+	printf("bool is really %s\n", stringify(bool));
+	printf("true is really %s\n", stringify(true));
+	printf("false is really %s\n", stringify(false));
 	return(0);
 }

@@ -29,7 +29,7 @@
  *
  * This shows that on Intel 32 bit time_t is an unsigned integer that counts
  * the seconds from 1/1/1970 which means it will run out on:
- * 	1970+2^32/(60*60*24*365)=2106
+ * 1970+2^32/(60*60*24*365)=2106
  *
  * TODO:
  * - run this on 64 bit and see the results.

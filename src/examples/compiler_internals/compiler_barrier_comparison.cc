@@ -126,7 +126,7 @@ FILE* outfile;
 		code; \
 		val_after=a; \
 		/*asm("nop");*/	\
-		printf("results for [%s]\n", __stringify(code)); \
+		printf("results for [%s]\n", stringify(code)); \
 		printf("description [%s]\n", desc); \
 		printf("val_before is %d, val_after is %d\n", val_before, val_after); \
 		if(val_before==WRONG_VAL) { \

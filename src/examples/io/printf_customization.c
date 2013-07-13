@@ -24,7 +24,7 @@
 /*
  * This demo shows how to customize printf and is taken directly from the glibc info
  * pages.
- * 
+ *
  * TODO:
  * - this example fails compilation if compiled as C++. It seems like the glibc
  * folk have not paid attention to making the printf.h file C++ safe.
