@@ -18,14 +18,14 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <signal_utils.h>	// for print_signal_names()
+#include <us_helper.h>	// for print_scheduling_consts()
 
 /*
- * This is an example of using strsignal(3) to print out signal names.
- * See the signal_utils.h header file for more details.
+ * This example simply prints all the scheduling policy consts.
+ * See us_helper.h for further info on how this is done.
  */
 
 int main(int argc, char** argv, char** envp) {
-	print_signal_names();
+	print_scheduling_consts();
 	return EXIT_SUCCESS;
 }
