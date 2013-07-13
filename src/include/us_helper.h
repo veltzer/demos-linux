@@ -486,6 +486,7 @@ typedef struct _sched_val_and_name {
 
 /*
  * List of all schedulers, their names and values
+ * see sched_getscheduler(2) for more details about all these constants.
  */
 #define entry(x) { x, # x }
 static sched_val_and_name sched_tbl[]={

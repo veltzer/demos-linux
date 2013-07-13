@@ -116,7 +116,7 @@ static inline void print_signal_names() {
 	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
 		int val=sig_tbl[i].val;
 		const char* name=sig_tbl[i].name;
-		printf("i=%d, sig=%d, in_code=%s, strsignal(sig)=%s\n", i, val, name, strsignal(val));
+		printf("i=%d, sig=%d, in_code=%s, strsignal(%d)=%s\n", i, val, name, val, strsignal(val));
 	}
 }
 
