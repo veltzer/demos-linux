@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for __stringify(), PRINT_SIZEOF()
+#include <us_helper.h>	// for stringify(), PRINT_SIZEOF()
 
 /*
  * This is an example of controlling the packing of structures

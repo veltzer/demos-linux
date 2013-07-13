@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for __stringify()
+#include <us_helper.h>	// for stringify()
 
 /*
  * Demo of the typeof operator in C.
@@ -37,7 +37,7 @@ int main(int argc, char** argv, char** envp) {
 	/* The next attempt to stringify typeof does not work */
 	/*
 	 * int __attribute__((unused)) c=6;
-	 * printf("typeof(c) returned %s\n",__stringify(typeof(c)));
+	 * printf("typeof(c) returned %s\n",stringify(typeof(c)));
 	 */
 
 	/*

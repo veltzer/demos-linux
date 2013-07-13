@@ -28,18 +28,18 @@
 
 #include <firstinclude.h>
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
-#include <us_helper.h>	// for TRACE()
+#include <us_helper.h>	// for INFO()
 
 /*
- * A function to trace cpu sets
+ * A function to print cpu sets
  */
 static inline void print_cpu_set(cpu_set_t *p) {
 	int j;
-	TRACE("CPU_COUNT is %d", CPU_COUNT(p));
-	TRACE("CPU_SETSIZE is %d", CPU_SETSIZE);
+	INFO("CPU_SETSIZE is %d", CPU_SETSIZE);
+	INFO("CPU_COUNT is %d", CPU_COUNT(p));
 	for(j=0; j<CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
-			TRACE("\tCPU %d", j);
+			INFO("\tCPU %d", j);
 		}
 	}
 }
@@ -49,8 +49,8 @@ static inline void print_cpu_set(cpu_set_t *p) {
  */
 static inline void print_cpu_set_file(FILE* pfile, cpu_set_t *p) {
 	int j;
-	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
 	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
+	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
 	for (j=0; j < CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
 			fprintf(pfile, "\tCPU %d\n", j);

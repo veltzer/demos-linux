@@ -29,48 +29,36 @@
 #include <us_helper.h>	// for CHECK_IN_RANGE()
 #include <stdio.h>	// for snprintf(3)
 
+typedef struct _epoll_val_and_name {
+	int val,
+	const char* name
+} epoll_val_and_name;
+
+#define entry(x) { x, # x }
+static epoll_and_name epoll_tbl[]={
+	entry(EPOLLIN),
+	entry(EPOLLOUT),
+	entry(EPOLLRDHUP),
+	entry(EPOLLPRI),
+	entry(EPOLLERR),
+	entry(EPOLLHUP),
+	entry(EPOLLET),
+	entry(EPOLLONESHOT),
+};
+#undef entry
+
 static inline void print_events(char* buffer, size_t size, uint32_t events) {
 	char* p=buffer;
-	int cursize=size;
-	if(events & EPOLLIN) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLIN "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLOUT) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLOUT "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLRDHUP) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLRDHUP "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLPRI) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLPRI "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLERR) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLERR "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLHUP) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLHUP "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLET) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLET "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLONESHOT) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLONESHOT "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
+	size_t cursize=size;
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(epoll_tbl); i++) {
+		int val=epoll_tbl[i].val;
+		const char* name=epoll_tbl[i].name;
+		if(events & val) {
+			size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "%s ", name), 1, cursize);
+			cursize-=ret;
+			p+=ret;
+		}
 	}
 }
 

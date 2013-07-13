@@ -20,13 +20,13 @@
 #include <unistd.h>	// for pathconf(2)
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1(), __stringify()
+#include <us_helper.h>	// for CHECK_NOT_M1(), stringify()
 
 /*
  * This example shows the various values returned by path conf for the folder you give it...
  */
 
-#define PRINT_PATHCONF(path, name) printf("pathconf(\"%s\",%s)=%d\n", path, __stringify(name), CHECK_NOT_M1(pathconf(path, name)))
+#define PRINT_PATHCONF(path, name) printf("pathconf(\"%s\",%s)=%d\n", path, stringify(name), CHECK_NOT_M1(pathconf(path, name)))
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {

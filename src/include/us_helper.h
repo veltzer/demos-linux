@@ -55,11 +55,12 @@
  * This MUST be done in 2 levels...
  * Need to explain how this works...
  */
-#define __stringify_1(x) # x
-#define __stringify(x) __stringify_1(x)
+#define identity(a) a
+#define quote(a) # a
+#define stringify(x) quote(x)
 
 /*
- * these we stolen shamelessly from the kernel.
+ * these were stolen shamelessly from the kernel.
  * It is a good idea to use them so that if you have a compiler
  * that does not have __builtin_expect you would just define likely/unlikely
  * in a way that is appropriate to that compiler, or maybe even just
@@ -79,7 +80,7 @@
 /*
  * Macro to print the sizeof of a type
  */
-#define PRINT_SIZEOF(type) printf("size of " __stringify(type) " is %zd\n", sizeof(type))
+#define PRINT_SIZEOF(type) printf("size of " stringify(type) " is %zd\n", sizeof(type))
 
 /*
  * getting a thread id (glibc doesnt have this)
@@ -304,26 +305,26 @@ static inline int check_gezero(int val, const char* msg, const char* file, const
 	return val;
 }
 
-#define CHECK_ZERO(v) check_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__, NULL)
-#define CHECK_MSG_ZERO(v, m) check_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__, m)
-#define CHECK_ZERO_ERRNO(v) check_zero_errno(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_ZERO(v) check_not_zero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_M1(v) check_not_m1(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_1(v) check_1(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_NEGATIVE(v) check_not_negative(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_NULL(v) check_not_null(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_NULL_CONST(v) check_not_null_const(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_ONEOFTWO(v, e1, e2) check_oneoftwo(v, __stringify(v), e1, e2, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_ASSERT(v) check_assert(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_VOIDP(v, e) check_not_voidp(v, __stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_VOIDP(v, e) check_not_voidp(v, __stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_SIGT(v, e) check_not_sigt(v, __stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_INT(v, e) check_int(v, __stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_NOT_INT(v, e) check_not_int(v, __stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_CHARP(v, e) check_charp(v, __stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_IN_RANGE(v, min, max) check_in_range(v, __stringify(v), min, max, __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_POSITIVE(v) check_positive(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
-#define CHECK_GEZERO(v) check_gezero(v, __stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ZERO(v) check_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__, NULL)
+#define CHECK_MSG_ZERO(v, m) check_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__, m)
+#define CHECK_ZERO_ERRNO(v) check_zero_errno(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_ZERO(v) check_not_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_M1(v) check_not_m1(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_1(v) check_1(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NEGATIVE(v) check_not_negative(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NULL(v) check_not_null(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NULL_CONST(v) check_not_null_const(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ONEOFTWO(v, e1, e2) check_oneoftwo(v, stringify(v), e1, e2, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ASSERT(v) check_assert(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_VOIDP(v, e) check_not_voidp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_VOIDP(v, e) check_not_voidp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_SIGT(v, e) check_not_sigt(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_INT(v, e) check_int(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_INT(v, e) check_not_int(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_CHARP(v, e) check_charp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_IN_RANGE(v, min, max) check_in_range(v, stringify(v), min, max, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_POSITIVE(v) check_positive(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_GEZERO(v) check_gezero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 
 // kernel log handling functions
 static inline void klog_clear(void) {
@@ -478,34 +479,45 @@ static inline double micro_diff(struct timeval* t1, struct timeval* t2) {
 /*
  * Print the scheduling info for the current thread or process
  */
-typedef struct _sched_policy {
+typedef struct _sched_val_and_name {
+	int val;
 	const char* name;
-	int policy;
-} sched_policy;
+} sched_val_and_name;
 
 /*
  * List of all schedulers, their names and values
- * TODO:
- * - __stringify() does not work in the definition of the following
- * array. Need to investigate.
  */
-static sched_policy schedulers[]={
-	{
-		"SCHED_OTHER", SCHED_OTHER
-	},
-	{
-		"SCHED_FIFO", SCHED_FIFO
-	},
-	{
-		"SCHED_RR", SCHED_RR
-	},
-	{
-		"SCHED_BATCH", SCHED_BATCH
-	},
-	{
-		"SCHED_IDLE", SCHED_IDLE
-	},
+#define entry(x) { x, # x }
+static sched_val_and_name sched_tbl[]={
+	entry(SCHED_OTHER),
+	entry(SCHED_FIFO),
+	entry(SCHED_RR),
+	entry(SCHED_BATCH),
+	entry(SCHED_IDLE),
 };
+#undef entry
+
+static inline int sched_get_by_name(const char* name) {
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(sched_tbl); i++) {
+		if(strcmp(name, sched_tbl[i].name)==0) {
+			return sched_tbl[i].val;
+		}
+	}
+	CHECK_ASSERT("bad policy name"==NULL);
+	return -1;
+}
+
+static inline const char* sched_get_name(int policy) {
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(sched_tbl); i++) {
+		if(sched_tbl[i].val==policy) {
+			return sched_tbl[i].name;
+		}
+	}
+	CHECK_ASSERT("bad policy value"==NULL);
+	return NULL;
+}
 
 static inline void print_scheduling_info() {
 	// 0 means the calling thread, process or process group
@@ -519,7 +531,7 @@ static inline void print_scheduling_info() {
 	printf("==================================\n");
 	printf("scheduling data for the current thread...\n");
 	printf("sched_getparam returned %d\n", myparam.sched_priority);
-	printf("sched_getscheduler returned %s\n", schedulers[scheduler].name);
+	printf("sched_getscheduler returned %s\n", sched_get_name(scheduler));
 	printf("==================================\n");
 }
 
@@ -527,22 +539,30 @@ static inline void print_scheduling_info() {
  * print parameters of the scheduling system
  */
 static inline void print_scheduling_consts() {
-	printf("SCHED_OTHER is %d\n", SCHED_OTHER);
-	printf("SCHED_FIFO is %d\n", SCHED_FIFO);
-	printf("SCHED_RR is %d\n", SCHED_RR);
-	printf("SCHED_BATCH is %d\n", SCHED_BATCH);
-	printf("SCHED_IDLE is %d\n", SCHED_IDLE);
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(sched_tbl); i++) {
+		int val=sched_tbl[i].val;
+		const char* name=sched_tbl[i].name;
+		printf("%s is %d\n", name, val);
+	}
 }
 /*
  * Check that an integer is indeed a policy
  */
 static inline void check_policy(int policy) {
-	CHECK_ASSERT(policy==SCHED_FIFO || policy==SCHED_OTHER);
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(sched_tbl); i++) {
+		if(policy==sched_tbl[i].val) {
+			return;
+		}
+	}
+	CHECK_ASSERT("bad policy value"==NULL);
 }
 
 const int SCHED_FIFO_LOW_PRIORITY=1;
 const int SCHED_FIFO_MID_PRIORITY=47;
 const int SCHED_FIFO_HIGH_PRIORITY=90;
+
 /*
  * a function to run another function in a high priority thread and wait for it to finish...
  */
@@ -564,16 +584,6 @@ static inline void* run_priority(void* (*func)(void*), void* pval, int prio, int
 	}
 	CHECK_ZERO_ERRNO(pthread_join(mythread, &retval));
 	return retval;
-}
-static inline int string_to_policy(const char* str) {
-	unsigned int i;
-	for(i=0; i<ARRAY_SIZEOF(schedulers); i++) {
-		if(strcmp(str, schedulers[i].name)==0) {
-			return schedulers[i].policy;
-		}
-	}
-	CHECK_ASSERT(0);
-	return 0;
 }
 
 /*

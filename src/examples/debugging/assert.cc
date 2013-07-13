@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for __stringify()
+#include <us_helper.h>	// for stringify()
 #include <assert.h>	// for assert(3)
 
 /*
@@ -34,7 +34,7 @@
 
 #define ASSERT(expr) \
 	if(!(expr)) { \
-		fprintf(stderr, "%s: %s:%d: %s: Assertion `%s' failed.\n", program_invocation_short_name, __FILE__, __LINE__, __PRETTY_FUNCTION__, __stringify(expr)); \
+		fprintf(stderr, "%s: %s:%d: %s: Assertion `%s' failed.\n", program_invocation_short_name, __FILE__, __LINE__, __PRETTY_FUNCTION__, stringify(expr)); \
 		abort(); \
 	}
 

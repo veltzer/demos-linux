@@ -102,7 +102,7 @@ static inline void timespec_copy(struct timespec* to, struct timespec* from) {
 
 static inline int timespec_snprintf(char* str, size_t size, struct timespec* t, int tz) {
 	// this is very simple printing
-	//return snprintf(str, size, "%ld.%09ld: ", t->tv_sec, t->tv_nsec);
+	// return snprintf(str, size, "%ld.%09ld: ", t->tv_sec, t->tv_nsec);
 	// this is more complicated one
 	struct tm mytm;
 	if(tz) {

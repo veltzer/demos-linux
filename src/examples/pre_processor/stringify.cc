@@ -19,16 +19,26 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for __stringify()
+#include <us_helper.h>	// for quote(), stringify()
 
 /*
+ * This show how to use the preprocessors '#' operator to quote stuff
+ *
  * This example shows how anything could be turned into a macro
  * using the C pre-processor.
  */
 
-#define FOOBAR 2.2 .2
+#define FOO BAR
 
 int main(int argc, char** argv, char** envp) {
-	printf("this is some " __stringify(FOOBAR) " string\n");
+	printf("quote(5) is %s\n", quote(5));
+	// C/C++ automatically catenates adjacent strings into one large string
+	printf("Hello, " quote(World) "\n");
+	printf("Hello, " quote(printf("World")) "\n");
+	// FOO will not get substituted for BAR in the next line (the pre-processor does not DO
+	// simple recursion)
+	printf("this is some " quote(FOO) " string\n");
+	// but this will work...
+	printf("this is some " stringify(FOO) " string\n");
 	return EXIT_SUCCESS;
 }

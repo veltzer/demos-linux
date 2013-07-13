@@ -57,15 +57,15 @@
 // header and get stamping for all files in your project.
 static const char* ATTR id_file="id_file=" __FILE__;
 static const char* ATTR id_base_file="id_base_file=" __BASE_FILE__;
-static const char* ATTR id_host="id_host=" __stringify(HOST);
-static const char* ATTR id_user="id_user=" __stringify(USER);
-static const char* ATTR id_system="id_system=" __stringify(SYSTEM);
+static const char* ATTR id_host="id_host=" stringify(HOST);
+static const char* ATTR id_user="id_user=" stringify(USER);
+static const char* ATTR id_system="id_system=" stringify(SYSTEM);
 static const char* ATTR id_date="id_date=" __DATE__;
 static const char* ATTR id_time="id_time=" __TIME__;
 static const char* ATTR id_timestamp="id_timestamp=" __TIMESTAMP__;
 static const char* ATTR id_string_version="id_string_version=" STRING_VERSION;
-static const char* ATTR id_numeric_version="id_numeric_version=" __stringify(NUMERIC_VERSION);
-static const char* ATTR id_checksum="id_checksum=" __stringify(CHECKSUM);
+static const char* ATTR id_numeric_version="id_numeric_version=" stringify(NUMERIC_VERSION);
+static const char* ATTR id_checksum="id_checksum=" stringify(CHECKSUM);
 static const char* ATTR id_version="id_version=" __VERSION__;
 
 const char* script="src/examples/stamping_binaries/stamp.gdb";

@@ -21,7 +21,7 @@
 #include <sys/utsname.h>// for uname(2)
 #include <stdbool.h>	// for bool
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), __stringify(), PRINT_SIZEOF()
+#include <us_helper.h>	// for CHECK_NOT_M1(), stringify(), PRINT_SIZEOF()
 
 /*
  * This is a demo showing the sizes of basic types on the architecture

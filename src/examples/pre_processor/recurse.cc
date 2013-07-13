@@ -17,7 +17,6 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
@@ -25,6 +24,9 @@
  *
  * References:
  * https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms
+ *
+ * TODO:
+ * - this example is not done yet
  */
 
 #define do_3(a1, a2, a3) \
