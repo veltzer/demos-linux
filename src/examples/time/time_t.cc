@@ -20,28 +20,44 @@
 #include <sys/types.h>	// for stat(2)
 #include <sys/stat.h>	// for stat(2)
 #include <unistd.h>	// for stat(2)
-#include <stdlib.h>	// for EXIT_SUCCESS
-#include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_CHARP()
-#include <time.h>	// for ctime_r(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdio.h>	// for stderr, fprintf(3), printf(3)
+#include <time.h>	// for ctime_r(3), localtime_r(3), strftime(3)
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_CHARP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO()
 
 /*
  * This example explores the time_t type.
  *
- * This shows that on Intel 32 bit time_t is an unsigned integer
+ * Notes:
+ * - This shows that on Intel 32 bit time_t is an unsigned integer
  * which is 32 bites wide that counts the seconds from 1/1/1970
  * which means it will run out on:
  * 1970+2^32/(60*60*24*365)=2106
+ * - it shows how to print the time using ctime(3)/ctime_r(3)
+ * functions.
+ * - it shows how to convert the time from 'time_t' to
+ * 'struct tm'
+ * - it shows formatting 'struct tm' to any representation
+ * using the strftime(3) function.
  *
  * TODO:
  * - run this on 64 bit and see the results.
- * - show how to print any format you want from time_t
+ * - do my own ctime_r function which is more like snprintf(3)
  */
 
 int main(int argc, char** argv, char** envp) {
+	// command line parsing
+	if(argc!=2) {
+		fprintf(stderr, "%s: usage: %s [file]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s /etc/passwd\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
+	}
+	// parameters
+	const char* filename=argv[1];
+	// code
 	printf("sizeof(time_t) is %d\n", sizeof(time_t));
 	struct stat sb;
-	CHECK_NOT_M1(stat("/etc/passwd", &sb));
+	CHECK_NOT_M1(stat(filename, &sb));
 	unsigned int myint=(unsigned int)sb.st_mtime;
 	printf("myint is %u\n", myint);
 	// lets guess the year according to myint
@@ -53,5 +69,13 @@ int main(int argc, char** argv, char** envp) {
 	// no newline on the next line since ctime(3)/ctime_r(3) already have
 	// a newline
 	printf("ctime_r(&sb.st_mtime, buf) is %s", buf);
+	// convert 'time_t' to 'struct tm' using localtime_r(3)
+	struct tm mytm;
+	CHECK_NOT_NULL(localtime_r(&sb.st_mtime, &mytm));
+	// print the 'struct tm' using the strftime(3) functions
+	char mybuf[256];
+	const char* format="%b %e %R";
+	CHECK_NOT_ZERO(strftime(mybuf, sizeof(mybuf), format, &mytm));
+	printf("time after formatting is [%s]\n", mybuf);
 	return EXIT_SUCCESS;
 }

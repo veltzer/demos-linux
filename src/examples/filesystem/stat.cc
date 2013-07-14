@@ -32,12 +32,15 @@
  */
 
 int main(int argc, char** argv, char** envp) {
+	// command line parsing
 	if(argc!=2) {
 		fprintf(stderr, "%s: usage: %s [file]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: example: %s /etc/passwd\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
+	// parameters
 	const char* filename=argv[1];
+	// code
 	struct stat sb;
 	CHECK_NOT_M1(stat(filename, &sb));
 	printf("File type: ");
