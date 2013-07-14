@@ -30,6 +30,8 @@
  * - the C type for bool from 'stdbool.h': _Bool is supported by C++.
  * - casts to bool from int is possible (!=0 -> true, ==0 -> false).
  * - casts from bool to int are also possible (true -> 1, false -> 0).
+ * - casts to bool from pointer is possible (!=0 -> true, ==0 -> false).
+ * - casts from bool to pointer are also possible (true -> 0x1, false -> NULL).
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -45,17 +47,35 @@ int main(int argc, char** argv, char** envp) {
 	printf("false cast to int is %d\n", ifalse);
 	int i7=7;
 	int i0=0;
-	bool b7=(bool)i7;
-	bool b0=(bool)i0;
-	if(b7) {
-		printf("bool(7) is true\n");
-	} else {
-		printf("bool(7) is false\n");
-	}
-	if(b0) {
+	bool ib0=(bool)i0;
+	bool ib7=(bool)i7;
+	if(ib0) {
 		printf("bool(0) is true\n");
 	} else {
 		printf("bool(0) is false\n");
 	}
+	if(ib7) {
+		printf("bool(7) is true\n");
+	} else {
+		printf("bool(7) is false\n");
+	}
+	char* p0=(char*)0;
+	char* p7=(char*)7;
+	bool pb0=(bool)p0;
+	bool pb7=(bool)p7;
+	if(pb0) {
+		printf("bool((char*)0) is true\n");
+	} else {
+		printf("bool((char*)0) is false\n");
+	}
+	if(pb7) {
+		printf("bool((char*)7) is true\n");
+	} else {
+		printf("bool((char*)7) is false\n");
+	}
+	char* ptrue=(char*)true;
+	char* pfalse=(char*)false;
+	printf("true cast to char* is %p\n", ptrue);
+	printf("false cast to char* is %p\n", pfalse);
 	return EXIT_SUCCESS;
 }
