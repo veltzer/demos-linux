@@ -46,6 +46,7 @@
 #include <stdbool.h>	// for bool
 #include <error.h>	// for error_at_line(3)
 #include <err.h>// for err(3)
+#include <signal.h>	// for sighandler_t
 
 /*
  * Stringify macros - helps you turn anything into a string

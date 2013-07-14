@@ -139,16 +139,15 @@ static inline void print_siginfo(FILE* out, siginfo_t *si) {
 /*
  * easy registration of signals via signal(2)
  */
-typedef void (*sig_old_handler)(int);
-static inline void register_handler_signal(int signum, sig_old_handler handler) {
+static inline void register_handler_signal(int signum, sighandler_t handler) {
 	CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
 }
 
 /*
  * easy registration of signals via sigaction(2)
  */
-typedef void (*sig_handler)(int, siginfo_t *, void *);
-static inline void register_handler_sigaction(int sig, sig_handler handler) {
+typedef void (*my_sig_handler)(int, siginfo_t *, void *);
+static inline void register_handler_sigaction(int sig, my_sig_handler handler) {
 	struct sigaction sa;
 	sa.sa_flags=SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
