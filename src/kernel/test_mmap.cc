@@ -26,6 +26,7 @@
 #include <sys/mman.h>	// for mmap(2), munmap(2)
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include <proc_utils.h>	// for proc_print_mmap()
 #include "shared.h"	// for the ioctl numbers
 
 /*
@@ -68,7 +69,7 @@ int main(int argc, char** argv, char** envp) {
 
 	fprintf(stderr, "Asking the kernel to open the handle\n");
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
-	// printproc();
+	proc_print_mmap(NULL);
 
 	void* data=CHECK_NOT_VOIDP(mmap(
 			NULL,	/* we DO NOT recommend an address - better to let the kernel decide */
@@ -88,7 +89,7 @@ int main(int argc, char** argv, char** envp) {
 			), MAP_FAILED);
 	fprintf(stderr, "pointer I got is %p\n", data);
 	print_data(data, size);
-	printproc("demo");
+	proc_print_mmap("demo");
 
 	fprintf(stderr, "Putting some data in the buffer...\n");
 	memset(data, 'a', size);
@@ -127,9 +128,9 @@ int main(int argc, char** argv, char** envp) {
 		waitkey(NULL);
 	}
 	CHECK_NOT_M1(munmap(data, size));
-	printproc("demo");
+	proc_print_mmap("demo");
 	CHECK_NOT_M1(munmap(data2, size));
-	printproc("demo");
+	proc_print_mmap("demo");
 	CHECK_NOT_M1(close(d));
 	return(0);
 }

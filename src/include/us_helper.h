@@ -31,7 +31,7 @@
 #include <sched.h>	// for sched_getparam(2), sched_getscheduler(2)
 #include <cpufreq.h>	// for cpufreq_get_freq_kernel(2)
 #include <sys/prctl.h>	// for prctl(2)
-#include <stdio.h>	// for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3)
+#include <stdio.h>	// for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3), stdout, stderr, stdin
 #include <stdlib.h>	// for system(3), exit(3)
 #include <stdarg.h>	// for vsnprintf(3), va_start(3), va_list(3), va_end(3)
 #include <sys/types.h>	// for getpid(2), gettid(2)
@@ -384,20 +384,6 @@ void debug(bool short_print, const char *file, const char *function, int line, c
 #define WARNING(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 #define ERROR(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 #define FATAL(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-
-static inline int printproc(const char *filter) {
-	const unsigned int cmd_size=256;
-	char cmd[cmd_size];
-	int res;
-	if (filter==NULL) {
-		snprintf(cmd, cmd_size, "cat /proc/self/maps");
-	} else {
-		snprintf(cmd, cmd_size, "cat /proc/self/maps | grep %s", filter);
-	}
-	res=system(cmd);
-	// waitkey();
-	return(res);
-}
 
 static inline void memcheck(void *buf, char val, unsigned int size) {
 	char *cbuf=(char *)buf;

@@ -55,14 +55,14 @@ int main(int argc, char** argv, char** envp) {
 	// klog_clear();
 
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
-	// printproc("demo");
+	// proc_print_mmap("demo");
 	// klog_show_clear();
 	waitkey(NULL);
 	if (do_single) {
 		// the size of data that we need
 		const unsigned int size=1000000;
 		ptr=CHECK_NOT_VOIDP((void *)(unsigned long)ioctl(d, IOCTL_DEMO_MAP, size), MAP_FAILED);
-		// printproc("demo");
+		// proc_print_mmap("demo");
 		// klog_show_clear();
 		waitkey(NULL);
 
@@ -74,7 +74,7 @@ int main(int argc, char** argv, char** envp) {
 		memcheck(ptr, 'a' + 1, size);
 
 		CHECK_NOT_M1(ioctl(d, IOCTL_DEMO_UNMAP, NULL));
-		// printproc("demo");
+		// proc_print_mmap("demo");
 		// klog_show_clear();
 		waitkey(NULL);
 	}
@@ -99,7 +99,7 @@ int main(int argc, char** argv, char** envp) {
 		do_prog_finish();
 	}
 	CHECK_NOT_M1(close(d));
-	// printproc("demo");
+	// proc_print_mmap("demo");
 	// klog_show_clear();
 	waitkey(NULL);
 

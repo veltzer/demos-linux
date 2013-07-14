@@ -23,6 +23,7 @@
 #include <unistd.h>	// for getpagesize(2)
 #include <assert.h>	// for assert(3)
 #include <us_helper.h>	// for CHECK_NOT_VOIDP(), CHECK_ZERO(), CHECK_ASSERT()
+#include <proc_utils.h>	// for proc_print_mmap()
 
 /*
  * This application demonstrates the use of anonymous memory mappings to get
@@ -63,10 +64,10 @@ int main(int argc, char** argv, char** envp) {
 	if(do_populate) {
 		flags|=MAP_POPULATE;
 	}
-	printproc(NULL);
+	proc_print_mmap(NULL);
 	print_stats();
 	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), MAP_FAILED);
-	printproc(NULL);
+	proc_print_mmap(NULL);
 	// while(true) {
 	// int ret=pause();
 	// CHECK_ASSERT(ret==-1 && errno==EINTR);
