@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <multiproc_utils.h>	// for my_system()
+#include <disassembly_utils.h>	// for disassemble_main()
 
 /*
  * This is a demo to show how sync_synchronize() is implemented...
@@ -30,21 +30,19 @@
  * And indeed this is what we see.
  *
  * Take note that this is a also a compiler barrier. It prevents the compiler
- * from reordering around this code. You don't see any assembly emitted for
- * that since a compiler barrier is only a compile time instruction about
- * code emittion.
+ * from reordering around this code and carrying assumptions across the barrier.
+ * You don't see any assembly emitted for that since a compiler barrier is only
+ * a compile time instruction about future code emittion.
  *
- * EXTRA_LINK_FLAGS=-lpthread
- * this is for the source interleaving below...
+ * We also show how to code __sync_syncronize in direct assembly code.
+ *
+ * this is so disassembly will show interleaved code 
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
 	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	__sync_synchronize();
-	my_system("gdb --batch -ex \"disassemble /m main\" %s", argv[0]);
+	asm ("lock orl $0x0, (%esp)");
+	disassemble_main();
 	return EXIT_SUCCESS;
 }
