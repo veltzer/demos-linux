@@ -23,7 +23,7 @@
 #include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <us_helper.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for print_siginfo(), register_handler_sigaction()
 
 /*
  * This is an example of using the sigaction(2) API.
@@ -54,20 +54,6 @@
 
 // count the number of signals we get
 static unsigned int counter=0;
-
-// a function to print the siginfo_t structure
-// see 'man sigaction' for details on the internals of
-// this structure...
-// This function DOES NOT print all the fields of the siginfo
-// structure as there are just too many of them...
-void print_siginfo(FILE* out, siginfo_t *si) {
-	fprintf(out, "sighandler: si is %p\n", si);
-	fprintf(out, "sighandler: si_signo is: %d\n", si->si_signo);
-	fprintf(out, "sighandler: si_errno is: %d\n", si->si_errno);
-	fprintf(out, "sighandler: si_pid is: %d\n", si->si_pid);
-	fprintf(out, "sighandler: si_uid is: %d\n", si->si_uid);
-	fprintf(out, "sighandler: si_addr is: %p\n", si->si_addr);
-}
 
 static void handler(int sig, siginfo_t *si, void *unused) {
 	printf("sighandler: counter is %d\n", counter);

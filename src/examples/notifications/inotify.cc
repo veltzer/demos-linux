@@ -26,7 +26,8 @@
 #include <unistd.h>	// for getpid(2)
 #include <signal.h>	// for siginterrupt(2)
 #include <limits.h>	// for PATH_MAX
-#include <us_helper.h>	// for CHECK_NOT_M1(), register_handler_sigaction()
+#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <signal_utils.h>	// for register_handler_sigaction()
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file changes.

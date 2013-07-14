@@ -21,7 +21,8 @@
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <unistd.h>	// for alarm(2), unistd(2)
 #include <stdlib.h>	// for EXIT_SUCCESS, atoi(3)
-#include <us_helper.h>	// for CHECK_ZERO(), register_handler_sigaction()
+#include <us_helper.h>	// for CHECK_ZERO()
+#include <signal_utils.h>	// for register_handler_sigaction()
 
 /*
  * This is an example of how to implement the sleep function using

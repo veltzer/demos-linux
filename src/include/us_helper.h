@@ -43,9 +43,7 @@
 #include <sys/resource.h>	// for getpriority(2)
 #include <pthread.h>	// for the entire pthread_* API
 #include <errno.h>	// for errno
-#include <sys/utsname.h>// for uname(2)
 #include <stdbool.h>	// for bool
-#include <signal.h>	// for sighandler_t, sigaction(2)
 #include <error.h>	// for error_at_line(3)
 #include <err.h>// for err(3)
 
@@ -596,26 +594,6 @@ static inline void no_params(int argc, char** argv) {
 		fprintf(stderr, "%s: usage: %s (without parameters)\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
-}
-
-/*
- * easy registration of signals via signal(2)
- */
-typedef void (*sig_old_handler)(int);
-static inline void register_handler_signal(int signum, sig_old_handler handler) {
-	CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
-}
-
-/*
- * easy registration of signals via sigaction(2)
- */
-typedef void (*sig_handler)(int, siginfo_t *, void *);
-static inline void register_handler_sigaction(int sig, sig_handler handler) {
-	struct sigaction sa;
-	sa.sa_flags=SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_sigaction=handler;
-	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
 }
 
 /*

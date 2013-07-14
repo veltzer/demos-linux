@@ -30,8 +30,9 @@
 #include <signal.h>	// for SIGCHLD
 #include <sys/types.h>	// for waitpid(2), WIFSIGNALED(3)
 #include <sys/wait.h>	// for waitpid(2), WIFSIGNALED(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), register_handler_sigaction(), CHECK_ASSERT()
+#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ASSERT()
 #include <multiproc_utils.h>	// for print_status()
+#include <signal_utils.h>	// for register_handler_sigaction()
 
 const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";
 const char* const args[]={
