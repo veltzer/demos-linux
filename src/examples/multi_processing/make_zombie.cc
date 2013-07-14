@@ -26,6 +26,7 @@
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), TRACE(), CHECK_1()
 #include <multiproc_utils.h>	// for print_code(), print_status()
+#include <process_utils.h>	// for set_process_name()
 
 /*
  * This example demostrates how processes become zombies in Linux...
@@ -76,7 +77,7 @@ int main(int argc, char** argv, char** envp) {
 	pid_t child_pid=CHECK_NOT_M1(fork());
 	// the child
 	if (child_pid==0) {
-		set_process_name("child");
+		process_set_name("child");
 		TRACE("this is the child");
 		CHECK_ZERO(close(pipefd_c2p[0]));
 		CHECK_ZERO(close(pipefd_p2c[1]));
@@ -89,7 +90,7 @@ int main(int argc, char** argv, char** envp) {
 		return 0;
 		// the parent
 	} else {
-		set_process_name("parent");
+		process_set_name("parent");
 		TRACE("this is the parent");
 		CHECK_ZERO(close(pipefd_c2p[1]));
 		CHECK_ZERO(close(pipefd_p2c[0]));
