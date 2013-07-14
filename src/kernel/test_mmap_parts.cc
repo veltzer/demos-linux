@@ -21,15 +21,16 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdlib.h>
+#include <stdlib.h>	// for malloc(3), free(3)
+#include <string.h>	// for strncpy(3)
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include <string.h>
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 #include <multiproc_utils.h>	// for printbuddy()
+#include <proc_utils.h>	// for proc_print_mmap()
 
 /*
  * This test shows how you can do mmap via an ioctl...
@@ -78,42 +79,42 @@ int main(int argc, char** argv, char** envp) {
 				), MAP_FAILED);
 		printf("the pointer I got is %p\n", p);
 		klog_show();
-		printproc("demo");
+		proc_print_mmap("demo");
 		klog_clear();
 		CHECK_NOT_M1(munmap(p, size));
 		klog_show();
 		printbuddy();
 	}
 	if (do_ioctl_once) {
-		printproc("demo");
+		proc_print_mmap("demo");
 		klog_clear();
 		// trying to map memory
 		res=CHECK_NOT_M1(ioctl(d, 4, NULL));
 		void *p=(void *)(unsigned long)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
-		printproc("demo");
+		proc_print_mmap("demo");
 		klog_clear();
 		// trying to unmap memory
 		res=CHECK_NOT_M1(ioctl(d, 5, NULL));
 		klog_show();
-		printproc("demo");
+		proc_print_mmap("demo");
 	}
 	if (do_ioctl_once_write) {
-		printproc("demo");
+		proc_print_mmap("demo");
 		klog_clear();
 		// trying to map memory
 		res=CHECK_NOT_M1(ioctl(d, 4, NULL));
 		void *p=(void *)(unsigned long)res;
 		printf("the pointer I got is %p\n", p);
 		klog_show();
-		printproc("demo");
+		proc_print_mmap("demo");
 		memset(p, 0, size);
 		klog_clear();
 		// trying to unmap memory
 		res=CHECK_NOT_M1(ioctl(d, 5, NULL));
 		klog_show();
-		printproc("demo");
+		proc_print_mmap("demo");
 	}
 	if (do_stress_ioctl) {
 		const int number=10;

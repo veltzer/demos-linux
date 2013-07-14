@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for print_proc()
+#include <proc_utils.h>	// for proc_print_mmap()
 
 /*
  * This demo shows several different things:
@@ -42,7 +42,7 @@ int main(int argc, char** argv, char** envp) {
 	const char *other2="blabla";
 	const char *foo="bar";
 
-	printproc(NULL);
+	proc_print_mmap(NULL);
 
 	printf("foo is %p\n", foo);
 	printf("other is %p\n", other);

@@ -23,7 +23,8 @@
 #include <stdlib.h>	// for posix_memalign(3) , malloc(3), EXIT_SUCCESS
 #include <sys/mman.h>	// for mmap(2)
 #include <string.h>	// for memset(3)
-#include <us_helper.h>	// for printproc(), CHECK_ZERO(), CHECK_NOT_VOIDP()
+#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_VOIDP()
+#include <proc_utils.h>	// for proc_print_mmap()
 
 /*
  * This demo shows how to allocate memory which is PAGE_SIZE aligned...
@@ -117,7 +118,7 @@ int main(int argc, char** argv, char** envp) {
 	printf("pt3 is %p (%ld)\n", pt3, (unsigned long)pt3 % ps);
 	printf("pt4 is %p (%ld)\n", pt4, (unsigned long)pt4 % ps);
 	printf("pt5 is %p (%ld)\n", pt5, (unsigned long)pt5 % ps);
-	printproc(NULL);
+	proc_print_mmap(NULL);
 	void* ptr=(void*)main;
 	printf("ptr is %p\n", ptr);
 	printf("ptr aligned is %p\n", align_address(ptr));
