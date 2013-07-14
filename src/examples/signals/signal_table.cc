@@ -17,20 +17,17 @@
  */
 
 #include <firstinclude.h>
-#include <sys/types.h>	// for open(2)
-#include <sys/stat.h>	// for open(2)
-#include <fcntl.h>	// for open(2)
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <signal_utils.h>	// for print_signal_table()
 
 /*
- * This program errors on purpose.
+ * This is an example prints the table of all signals in the system.
+ * It also uses the strsignal(3) helper function to print a
+ * description of these signals.
+ * See the signal_utils.h header file for more details.
  */
 
-// #define CHK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(EXIT_FAILURE);}
-#define CHK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(EXIT_FAILURE); }
-
 int main(int argc, char** argv, char** envp) {
-	CHK_NOT_M1(open("thisfiledoesnotexist", O_RDONLY));
+	print_signal_table();
 	return EXIT_SUCCESS;
 }
