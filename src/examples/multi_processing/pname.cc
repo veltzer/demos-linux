@@ -23,6 +23,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <us_helper.h>	// for CHECK_ZERO(), TRACE()
 #include <multiproc_utils.h>	// for my_system()
+#include <process_utils.h>	// for print_process_name(), get_process_name()
 
 /*
  * This example shows how to use prctl to set/get the current process name.
@@ -43,42 +44,18 @@
  * - add a fork(2) to this demo and show that parent and child can have different names.
  */
 
-void my_print_process_name() {
-	const unsigned int size=16;
-	char name[size];
-	CHECK_ZERO(prctl(PR_GET_NAME, name));
-	TRACE("process name is [%s]", name);
-}
-
-void my_get_process_name(char* buffer, unsigned int bufsize) {
-	const unsigned int size=16;
-	char name[size];
-	CHECK_ZERO(prctl(PR_GET_NAME, name));
-	strncpy(buffer, name, bufsize);
-}
-
-void my_set_process_name(const char* newname) {
-	const unsigned int size=16;
-	char name[size];
-	strncpy(name, newname, size);
-	CHECK_ZERO(prctl(PR_SET_NAME, name));
-}
-
-void my_print_process_name_from_proc() {
-	my_system("cat /proc/%d/comm", getpid());
-}
 
 int main(int argc, char** argv, char** envp) {
 	TRACE("start");
 	const char* newname="newpname";
-	my_print_process_name();
-	my_print_process_name_from_proc();
+	process_print_name();
+	print_process_name_from_proc();
 	char myname[256];
-	my_get_process_name(myname, 256);
+	process_get_name(myname, 256);
 	my_system("ps -o comm | grep %s | grep -v grep", myname);
-	my_set_process_name(newname);
-	my_print_process_name();
-	my_print_process_name_from_proc();
+	process_set_name(newname);
+	process_print_name();
+	print_process_name_from_proc();
 	my_system("ps -o comm | grep %s | grep -v grep", newname);
 	TRACE("end");
 	return EXIT_SUCCESS;

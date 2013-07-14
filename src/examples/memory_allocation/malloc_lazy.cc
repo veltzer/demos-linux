@@ -22,8 +22,8 @@
 #include <stdlib.h>	// for malloc(3), atoi(3), EXIT_SUCCESS
 #include <sys/mman.h>	// for mlockall(2), munlockall(2)
 #include <malloc.h>	// for malloc_stats(3)
-#include <proc/readproc.h>	// for look_up_our_self(3)
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <proc_utils.h>	// for proc_print_mem_stats_self()
 
 /*
  * This example demostrates that malloc doesnt actually allocate
@@ -43,12 +43,6 @@
  *
  * EXTRA_LINK_FLAGS=-lprocps
  */
-
-static inline void print_stats(void) {
-	proc_t myproc;
-	look_up_our_self(&myproc);
-	printf("size is %ld, min_flt is %ld\n", myproc.rss, myproc.min_flt);
-}
 
 int main(int argc, char** argv, char** envp) {
 	const unsigned int page_number=2000;
@@ -83,41 +77,41 @@ int main(int argc, char** argv, char** envp) {
 				p[page_counter * page_size]=0;
 				page_counter++;
 			}
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 2:
 			for(unsigned int i=0; i < page_number; i++) {
 				p[i * page_size]=0;
 			}
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 3:
 			p=(char *)malloc(page_size * page_number);
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 4:
 			p=(char *)calloc(page_size, page_number);
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 5:
 			p=(char *)malloc(page_size * page_number);
 			memset(p, 5, page_size*page_number);
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 6:
 			CHECK_NOT_M1(mlockall(MCL_CURRENT));
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 7:
 			CHECK_NOT_M1(mlockall(MCL_FUTURE));
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 8:
 			CHECK_NOT_M1(munlockall());
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 9:
-			print_stats();
+			proc_print_mem_stats_self();
 			break;
 		case 10:
 			malloc_stats();

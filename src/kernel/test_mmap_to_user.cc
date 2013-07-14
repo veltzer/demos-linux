@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <us_helper.h>	// for CHECK_NOT_M1()
+#include <prog_utils.h>	// for do_prog_init(), do_prog(), do_prog_finish()
 #include "shared.h"
 
 /*

@@ -23,7 +23,7 @@
 #include <unistd.h>	// for getpagesize(2)
 #include <assert.h>	// for assert(3)
 #include <us_helper.h>	// for CHECK_NOT_VOIDP(), CHECK_ZERO(), CHECK_ASSERT()
-#include <proc_utils.h>	// for proc_print_mmap()
+#include <proc_utils.h>	// for proc_print_mmap(), proc_print_mem_stats_self()
 
 /*
  * This application demonstrates the use of anonymous memory mappings to get
@@ -51,12 +51,6 @@ static bool do_mlock=false;
 // do you want to touch the memory after getting it ?
 static bool do_touch=false;
 
-static inline void print_stats(void) {
-	proc_t myproc;
-	look_up_our_self(&myproc);
-	printf("size is %ld, min_flt is %ld\n", myproc.rss, myproc.min_flt);
-}
-
 int main(int argc, char** argv, char** envp) {
 	fprintf(stderr, "getpid() is %d\n", getpid());
 	const int size=1024*1024;
@@ -65,7 +59,7 @@ int main(int argc, char** argv, char** envp) {
 		flags|=MAP_POPULATE;
 	}
 	proc_print_mmap(NULL);
-	print_stats();
+	proc_print_mem_stats_self();
 	void* p=CHECK_NOT_VOIDP(mmap(NULL, size, PROT_READ | PROT_WRITE, flags, -1, 0), MAP_FAILED);
 	proc_print_mmap(NULL);
 	// while(true) {
@@ -84,7 +78,7 @@ int main(int argc, char** argv, char** envp) {
 		memset(p, 0, size);
 	}
 	printf("p is %p\n", p);
-	print_stats();
+	proc_print_mem_stats_self();
 	CHECK_ZERO(munmap(p, size));
 	return EXIT_SUCCESS;
 }

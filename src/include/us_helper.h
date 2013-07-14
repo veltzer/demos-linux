@@ -30,14 +30,12 @@
 #include <firstinclude.h>
 #include <sched.h>	// for sched_getparam(2), sched_getscheduler(2)
 #include <cpufreq.h>	// for cpufreq_get_freq_kernel(2)
-#include <sys/prctl.h>	// for prctl(2)
-#include <stdio.h>	// for printf(3), fprintf(3), perror(3), snprintf(3), fflush(3), stdout, stderr, stdin
+#include <stdio.h>	// for printf(3), fprintf(3), perror(3), snprintf(3), stdout, stderr, stdin
 #include <stdlib.h>	// for system(3), exit(3)
 #include <stdarg.h>	// for vsnprintf(3), va_start(3), va_list(3), va_end(3)
 #include <sys/types.h>	// for getpid(2), gettid(2)
 #include <sys/syscall.h>// for syscall(2)
 #include <unistd.h>	// for getpid(2), syscall(2), sysconf(2), getpagesize(2)
-#include <proc/readproc.h>	// for get_proc_stats(3)
 #include <string.h>	// for strncpy(3), strerror(3)
 #include <sys/time.h>	// for getpriority(2)
 #include <sys/resource.h>	// for getpriority(2)
@@ -385,6 +383,9 @@ void debug(bool short_print, const char *file, const char *function, int line, c
 #define ERROR(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 #define FATAL(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 
+/*
+ * Check that an entire area of memory has a certain value
+ */
 static inline void memcheck(void *buf, char val, unsigned int size) {
 	char *cbuf=(char *)buf;
 	unsigned int i;
@@ -394,59 +395,6 @@ static inline void memcheck(void *buf, char val, unsigned int size) {
 			exit(EXIT_FAILURE);
 		}
 	}
-}
-
-/*
- * progress handling functions...
- */
-static inline void do_prog_init(void) {
-	printf("progress: \n");
-	fflush(stdout);
-}
-
-static inline void do_prog(unsigned int i, unsigned int mod, unsigned int full) {
-	if (i % mod==0) {
-		printf("\r\t%d/%d", i, full);
-		fflush(stdout);
-	}
-}
-
-static inline void do_prog_finish(void) {
-	printf("\tfinished...\n");
-	fflush(stdout);
-}
-
-/*
- * Print memory stats for the current process
- */
-static inline void print_stats(pid_t pid) {
-	proc_t myproc;
-	get_proc_stats(pid, &myproc);
-	printf("size is %ld, min_flt is %ld, state is %c\n", myproc.rss, myproc.min_flt, myproc.state);
-}
-
-/*
- * Handle process names
- */
-static inline void print_process_name(void) {
-	const unsigned int size=16;
-	char name[size];
-	CHECK_ZERO(prctl(PR_GET_NAME, name));
-	TRACE("process name is [%s]", name);
-}
-
-static inline void get_process_name(char* buffer, unsigned int bufsize) {
-	const unsigned int size=16;
-	char name[size];
-	CHECK_ZERO(prctl(PR_GET_NAME, name));
-	strncpy(buffer, name, bufsize);
-}
-
-static inline void set_process_name(const char* newname) {
-	const unsigned int size=16;
-	char name[size];
-	strncpy(name, newname, size);
-	CHECK_ZERO(prctl(PR_SET_NAME, name));
 }
 
 /*
