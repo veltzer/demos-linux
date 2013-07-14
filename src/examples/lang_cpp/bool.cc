@@ -18,18 +18,18 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
-#include <stdbool.h>	// for bool, true and false
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for stringify()
 
 /*
- * This is a demo of how to use the _Bool and stdbool.h headers for
- * boolean support in C code.
+ * This is an example explosing the 'bool' built in type in C++.
  *
- * Note that this code MUST be compiled using a C compiler and not a C++
- * compiler since the results will be different. In a C++ compiler,
- * _Bool is bool which is a built in type and true and false are built
- * ins.
+ * Notes:
+ * - bool, true, false, _Bool are all built in in C++.
+ * - bool is small (1 byte)
+ * - the C type for bool from 'stdbool.h': _Bool is supported by C++.
+ * - casts to bool from int is possible (!=0 -> true, ==0 -> false).
+ * - casts from bool to int are also possible (true -> 1, false -> 0).
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -39,5 +39,23 @@ int main(int argc, char** argv, char** envp) {
 	printf("bool is really %s\n", stringify(bool));
 	printf("true is really %s\n", stringify(true));
 	printf("false is really %s\n", stringify(false));
+	int itrue=(int)true;
+	int ifalse=(int)false;
+	printf("true cast to int is %d\n", itrue);
+	printf("false cast to int is %d\n", ifalse);
+	int i7=7;
+	int i0=0;
+	bool b7=(bool)i7;
+	bool b0=(bool)i0;
+	if(b7) {
+		printf("bool(7) is true\n");
+	} else {
+		printf("bool(7) is false\n");
+	}
+	if(b0) {
+		printf("bool(0) is true\n");
+	} else {
+		printf("bool(0) is false\n");
+	}
 	return EXIT_SUCCESS;
 }
