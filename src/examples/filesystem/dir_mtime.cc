@@ -26,6 +26,7 @@
 #include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <limits.h>	// for PATH_MAX
 
 /*
  * This example shows that when you change a file in a directory then

@@ -36,7 +36,7 @@
  *
  * We also show how to code __sync_syncronize in direct assembly code.
  *
- * this is so disassembly will show interleaved code 
+ * this is so disassembly will show interleaved code
  * EXTRA_COMPILE_FLAGS=-g3
  */
 

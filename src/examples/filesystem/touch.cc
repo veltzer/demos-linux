@@ -25,7 +25,6 @@
 #include <us_helper.h>	// for CHECK_NOT_M1()
 #include <err_utils.h>	// for error_get_by_val()
 
-
 /*
  * This example shows an example of how to implement the touch(1)
  * command line utility using the utime(2) system call.
