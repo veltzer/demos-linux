@@ -28,9 +28,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <sys/socket.h>
-#include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_NEGATIVE(), CHECK_NOT_M1(), register_handler_sigaction()
+#include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_NEGATIVE(), CHECK_NOT_M1()
 #include <security_utils.h>	// for check_root()
 #include <multiproc_utils.h>	// for my_system()
+#include <signal_utils.h>	// for register_handler_sigaction()
 
 /*
  * This is an example of how to use the netfilter-queue kernel API.

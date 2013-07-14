@@ -30,6 +30,7 @@
 #include <us_helper.h>	// for ARRAY_SIZEOF(), CHECK_ASSERT()
 #include <stdio.h>	// for printf(3)
 #include <string.h>	// for strcmp(3), strsignal(3)
+#include <signal.h>	// for siginfo_t, sighandler_t, sigaction(2), signal(2)
 
 /*
  * List of signals can be found in [man 7 signal]
@@ -117,6 +118,42 @@ static inline void print_signal_table() {
 		const char* name=sig_tbl[i].name;
 		printf("i=%d, sig=%d, in_code=%s, strsignal(%d)=%s\n", i, val, name, val, strsignal(val));
 	}
+}
+
+/*
+ * a function to print the siginfo_t structure
+ * see 'man sigaction' for details on the internals of
+ * this structure...
+ * This function DOES NOT print all the fields of the siginfo
+ * structure as there are just too many of them...
+ */
+static inline void print_siginfo(FILE* out, siginfo_t *si) {
+	fprintf(out, "sighandler: si is %p\n", si);
+	fprintf(out, "sighandler: si_signo is: %d\n", si->si_signo);
+	fprintf(out, "sighandler: si_errno is: %d\n", si->si_errno);
+	fprintf(out, "sighandler: si_pid is: %d\n", si->si_pid);
+	fprintf(out, "sighandler: si_uid is: %d\n", si->si_uid);
+	fprintf(out, "sighandler: si_addr is: %p\n", si->si_addr);
+}
+
+/*
+ * easy registration of signals via signal(2)
+ */
+typedef void (*sig_old_handler)(int);
+static inline void register_handler_signal(int signum, sig_old_handler handler) {
+	CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
+}
+
+/*
+ * easy registration of signals via sigaction(2)
+ */
+typedef void (*sig_handler)(int, siginfo_t *, void *);
+static inline void register_handler_sigaction(int sig, sig_handler handler) {
+	struct sigaction sa;
+	sa.sa_flags=SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_sigaction=handler;
+	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
 }
 
 #endif	/* !__signal_utils_h */
