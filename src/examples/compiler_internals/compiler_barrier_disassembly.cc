@@ -29,24 +29,6 @@
 
 int main(int argc, char** argv, char** envp) {
 	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
-	asm volatile ("" ::: "memory");
 	disassemble_main();
 	return EXIT_SUCCESS;
 }
