@@ -18,14 +18,16 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <signal_utils.h>	// for print_signal_names()
+#include <err_utils.h>	// for print_error_table()
 
 /*
- * This is an example of using strsignal(3) to print out signal names.
- * See the signal_utils.h header file for more details.
+ * This program prints all errors, their numbers and their descriptions.
+ * It also uses the strerror(3) helper function to print descriptions
+ * of all the errors.
+ * See err_utils.h for more details.
  */
 
 int main(int argc, char** argv, char** envp) {
-	print_signal_names();
+	print_error_table();
 	return EXIT_SUCCESS;
 }

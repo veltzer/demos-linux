@@ -22,17 +22,20 @@
 #include <unistd.h>	// for stat(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_CHARP()
+#include <time.h>	// for ctime_r(3)
 
 /*
  * This example explores the time_t type.
  *
- * This shows that on Intel 32 bit time_t is an unsigned integer that counts
- * the seconds from 1/1/1970 which means it will run out on:
+ * This shows that on Intel 32 bit time_t is an unsigned integer
+ * which is 32 bites wide that counts the seconds from 1/1/1970
+ * which means it will run out on:
  * 1970+2^32/(60*60*24*365)=2106
  *
  * TODO:
  * - run this on 64 bit and see the results.
+ * - show how to print any format you want from time_t
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -43,5 +46,12 @@ int main(int argc, char** argv, char** envp) {
 	printf("myint is %u\n", myint);
 	// lets guess the year according to myint
 	printf("the year is %d\n", 1970+myint/(3600*24*365));
+	// lets print the time using ctime_r(3)
+	// buffer must be at least 26 bytes long (see documentation of ctime(3))
+	char buf[30];
+	CHECK_CHARP(ctime_r(&sb.st_mtime, buf), buf);
+	// no newline on the next line since ctime(3)/ctime_r(3) already have
+	// a newline
+	printf("ctime_r(&sb.st_mtime, buf) is %s", buf);
 	return EXIT_SUCCESS;
 }

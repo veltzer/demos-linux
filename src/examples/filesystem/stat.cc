@@ -29,9 +29,6 @@
 /*
  * This example is similar to the command line stat(1) one and
  * is similar in essence to the example in the stat(2) manual page.
- *
- * TODO:
- * - show times more accurate than 1 second.
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -40,8 +37,9 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: example: %s /etc/passwd\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
+	const char* filename=argv[1];
 	struct stat sb;
-	CHECK_NOT_M1(stat(argv[1], &sb));
+	CHECK_NOT_M1(stat(filename, &sb));
 	printf("File type: ");
 	switch (sb.st_mode & S_IFMT) {
 	case S_IFBLK: printf("block device\n"); break;

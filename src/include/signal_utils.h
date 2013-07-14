@@ -48,9 +48,8 @@ typedef struct _sig_val_and_name {
  * List of all signals and their names. The reason for this is that the standard
  * C library does not provide a translation from signal name to signal value.
  * (it does provide the reverse translation via strsignal(3)).
- * TODO:
- * - stringify() does not work when placed in the definition of the following
- * table. Investigate.
+ * Note: you cant use stringification macros here because they will substitute
+ * the macro. Use only macros that don't substitute.
  */
 #define entry(x) { x, # x }
 static sig_val_and_name sig_tbl[]={
@@ -110,7 +109,7 @@ static inline int signal_get_by_name(const char* name) {
 /*
  * Print out a table of all signal values, names and descriptions
  */
-static inline void print_signal_names() {
+static inline void print_signal_table() {
 	unsigned int i;
 	printf("number of signal values is %zd\n", ARRAY_SIZEOF(sig_tbl));
 	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
