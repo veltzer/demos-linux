@@ -30,6 +30,7 @@
 #include <us_helper.h>	// for ARRAY_SIZEOF(), myunlikely()
 #include <stdio.h>	// for printf(3)
 #include <string.h>	// for strcmp(3), strerror(3)
+#include <stdlib.h>	// for exit(3), EXIT_FAILURE:const
 #include <err.h>	// for err(3)
 #include <error.h>	// for error_at_line(3)
 
@@ -219,18 +220,29 @@ static inline void print_error_table() {
  * A error handler, will take care of all those pesky error values
  * This is not a C++ framework so I do not throw an exception here.
  */
-static inline void handle_error(int replace_errno, int new_errno, int usebadval, int badval, const char* msg, const char* file, const char* function, const int line, const char* m) {
+static inline void handle_error(int replace_errno, int new_errno, int useerrno, int errnotouse, const char* msg, const char* file, const char* function, const int line, const char* m) {
 	// this is for pthread type errors
 	if(replace_errno) {
 		errno=new_errno;
 	}
+	//error_at_line(errno, errno, file, line, "ERROR\nfunction is [%s]\ntext that caused the error was [%s]\nerrno numeric is %d\nerrno macro is [%s]\n", function, msg, errno, error_get_by_val(errno));
+	//error_at_line(errno, errno, file, line, "function is %s, msg is %s", function, msg);
+	fprintf(stderr, "============ ERROR ============\n");
+	fprintf(stderr, "file is [%s:%d]\n", file, line);
+	fprintf(stderr, "function is [%s]\n", function);
+	fprintf(stderr, "text that caused the error was [%s]\n", msg);
 	if (m!=NULL) {
 		fprintf(stderr, "message is [%s]\n", m);
 	}
-	if(usebadval) {
-		error_at_line(errno, errno, file, line, "function is %s, msg is %s, errno is %d, error is %s", function, msg, errno, error_get_by_val(errno));
+	if(useerrno) {
+		fprintf(stderr, "errno numeric is [%d]\n", errnotouse);
+		fprintf(stderr, "errno symbolic is [%s]\n", error_get_by_val(errnotouse));
+		fprintf(stderr, "errno string is [%s]\n", strerror(errnotouse));
+	}
+	if(useerrno) {
+		exit(errnotouse);
 	} else {
-		error_at_line(errno, errno, file, line, "function is %s, msg is %s", function, msg);
+		exit(EXIT_FAILURE);
 	}
 	// old code follows
 	// int save_errno=errno;
