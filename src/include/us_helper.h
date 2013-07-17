@@ -34,7 +34,7 @@
 #include <stdlib.h>	// for system(3), exit(3)
 #include <stdarg.h>	// for vsnprintf(3), va_start(3), va_list(3), va_end(3)
 #include <sys/types.h>	// for getpid(2), gettid(2)
-#include <sys/syscall.h>// for syscall(2)
+#include <sys/syscall.h>// for syscall(2), SYS_* constants
 #include <unistd.h>	// for getpid(2), syscall(2), sysconf(2), getpagesize(2)
 #include <string.h>	// for strncpy(3), strerror(3)
 #include <sys/time.h>	// for getpriority(2)
@@ -259,6 +259,23 @@ static inline void no_params(int argc, char** argv) {
 		fprintf(stderr, "%s: usage: %s (without parameters)\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
+}
+
+/*
+ * Type struct linux_dirent which is taken from getdents(2) manpage
+ */
+struct linux_dirent {
+	unsigned long d_ino; /* Inode number */
+	unsigned long d_off; /* Offset to next linux_dirent */
+	unsigned short d_reclen; /* Length of this linux_dirent */
+	char d_name[]; /* Filename (null-terminated) */
+};
+
+/*
+* Wrapper for the getdents(2) system call which is not supplied by glibc
+*/
+static inline int getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int count) {
+	return syscall(SYS_getdents, fd, dirp, count);
 }
 
 #endif	/* !__us_helper_h */
