@@ -76,6 +76,8 @@ networking:
 	iwlist
 	telnet
 	brctl (bridging utilities)
+	vnstat
+	vnstati
 
 java debugging:
 	jstack
