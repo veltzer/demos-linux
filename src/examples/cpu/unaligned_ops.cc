@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), free(3)
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 #include <err_utils.h>	// for CHECK_NOT_NEGATIVE()
-#include <sched_utils.h>	// for sched_run_priority()
+#include <sched_utils.h>// for sched_run_priority()
 
 /*
  * This example tries to abuse the cpu by doing lots of integral

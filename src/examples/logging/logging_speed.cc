@@ -22,7 +22,7 @@
 #include <sys/time.h>	// for gettimeofday(2)
 #include <pthread.h>	// for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h>	// for va_list, va_start, va_end
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const, sched_print_table()
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const, sched_print_table()
 #include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_NULL()
 #include <measure.h>	// for measure:struct, measure_init(), measure_start(), measure_end(), measure_print()
 

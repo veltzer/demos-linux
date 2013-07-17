@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/time.h>	// for gettimeofday(2)
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 
 /*
  * A solution to the timing exercise (timing gettimeofday(2) using gettimeofday(2)).

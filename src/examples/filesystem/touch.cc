@@ -27,12 +27,12 @@
 /*
  * This example shows an example of how to implement the touch(1)
  * command line utility using the
- * 	utime(2)
- * 	utimes(2)
- * 	futimes(2)
- * 	futimens(2)
- * 	futimesat(2)
- * 	utimensat(2)
+ *      utime(2)
+ *      utimes(2)
+ *      futimes(2)
+ *      futimens(2)
+ *      futimesat(2)
+ *      utimensat(2)
  * family of systems call.
  *
  * Notes:

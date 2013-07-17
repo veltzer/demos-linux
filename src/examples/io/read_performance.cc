@@ -22,7 +22,7 @@
 #include <sys/types.h>	// for open(2), lseek(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <unistd.h>	// for close(2), read(2), lseek(2)
 #include <assert.h>	// for assert(3)

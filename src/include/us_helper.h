@@ -267,20 +267,20 @@ static inline void no_params(int argc, char** argv) {
  * manpage
  */
 struct old_linux_dirent {
-	long d_ino; /* inode number */
-	off_t d_off; /* offset to this old_linux_dirent */
-	unsigned short d_reclen; /* length of this d_name */
-	char d_name[NAME_MAX+1]; /* filename (null-terminated) */
+	long d_ino;	/* inode number */
+	off_t d_off;	/* offset to this old_linux_dirent */
+	unsigned short d_reclen;/* length of this d_name */
+	char d_name[NAME_MAX+1];/* filename (null-terminated) */
 };
 
 /*
  * Type struct linux_dirent which is taken from getdents(2) manpage
  */
 struct linux_dirent {
-	unsigned long d_ino; /* Inode number */
-	unsigned long d_off; /* Offset to next linux_dirent */
-	unsigned short d_reclen; /* Length of this linux_dirent */
-	char d_name[]; /* Filename (null-terminated) */
+	unsigned long d_ino;	/* Inode number */
+	unsigned long d_off;	/* Offset to next linux_dirent */
+	unsigned short d_reclen;/* Length of this linux_dirent */
+	char d_name[];	/* Filename (null-terminated) */
 };
 
 /*

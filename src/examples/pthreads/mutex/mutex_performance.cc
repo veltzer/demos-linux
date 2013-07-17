@@ -23,7 +23,7 @@
 #include <sys/ipc.h>	// for ftok(3), semget(3), semctl(3), semop(3)
 #include <sys/sem.h>	// for semget(3), semctl(3), semop(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO(), CHECK_NOT_M1()
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*

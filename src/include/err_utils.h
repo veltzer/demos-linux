@@ -31,7 +31,7 @@
 #include <stdio.h>	// for printf(3)
 #include <string.h>	// for strcmp(3), strerror(3)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE:const
-#include <err.h>	// for err(3)
+#include <err.h>// for err(3)
 #include <error.h>	// for error_at_line(3)
 
 /*
@@ -225,8 +225,8 @@ static inline void handle_error(int printBadVal, int badVal, int replace_errno, 
 	if(replace_errno) {
 		errno=new_errno;
 	}
-	//error_at_line(errno, errno, file, line, "ERROR\nfunction is [%s]\ntext that caused the error was [%s]\nerrno numeric is %d\nerrno macro is [%s]\n", function, msg, errno, error_get_by_val(errno));
-	//error_at_line(errno, errno, file, line, "function is %s, msg is %s", function, msg);
+	// error_at_line(errno, errno, file, line, "ERROR\nfunction is [%s]\ntext that caused the error was [%s]\nerrno numeric is %d\nerrno macro is [%s]\n", function, msg, errno, error_get_by_val(errno));
+	// error_at_line(errno, errno, file, line, "function is %s, msg is %s", function, msg);
 	fprintf(stderr, "============ ERROR ============\n");
 	fprintf(stderr, "file is [%s:%d]\n", file, line);
 	fprintf(stderr, "function is [%s]\n", function);
@@ -257,7 +257,7 @@ static inline void handle_error(int printBadVal, int badVal, int replace_errno, 
 	// } else {
 	// fprintf(stderr,"error: %s\n",strerror(val));
 	// }
-	//exit(EXIT_FAILURE);
+	// exit(EXIT_FAILURE);
 }
 static inline int check_zero(int val, const char* msg, const char* file, const char* function, const int line, const char* m) {
 	if(myunlikely(val!=0)) {

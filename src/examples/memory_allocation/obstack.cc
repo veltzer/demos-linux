@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for malloc(3)
 #include <sys/time.h>	// for gettimeofday(2)
 #include <obstack.h>	// for obstack_*(3)
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <err_utils.h>	// for CHECK_NOT_NULL()
 #include <measure.h>	// for measure:struct, measure_init(), measure_start(), measure_end(), measure_print()
 

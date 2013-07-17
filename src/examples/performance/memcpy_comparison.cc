@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <string.h>	// for malloc(3)
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
-#include <sched_utils.h>	// for SCHED_FIFO_HIGH_PRIORITY:const, sched_run_priority()
+#include <sched_utils.h>// for SCHED_FIFO_HIGH_PRIORITY:const, sched_run_priority()
 
 /*
  * This example compares memcpy(3) to copy by loop...
