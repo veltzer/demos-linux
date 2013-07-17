@@ -25,7 +25,8 @@
 #include <sys/stat.h>	// for shm_open(3), shm_unlink(3)
 #include <fcntl.h>	// for shm_open(3), shm_unlink(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, atoi(3), EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), TRACE()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 /*
  * This examples shows the effect of the nice scheduling system (SCHED_OTHER).

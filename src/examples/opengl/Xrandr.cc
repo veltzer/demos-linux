@@ -24,7 +24,7 @@
 #include <unistd.h>	// for usleep(3)
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * OpenGL example number 3...

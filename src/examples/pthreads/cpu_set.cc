@@ -18,8 +18,10 @@
 
 #include <firstinclude.h>
 #include <unistd.h>	// for sysconf(3), _SC_NPROCESSORS_ONLN
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for TRACE()
-#include <cpu_set_utils.h>	// for print_cpu_set()
+#include <sched.h>	// for cpu_set_t:struct, CPU_ZERO(3), CPU_SET(3)
+#include <cpu_set_utils.h>	// for cpu_set_print()
 
 /*
  * This is a demo of how to use a cpu set
@@ -31,6 +33,6 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<500; i+=100) {
 		CPU_SET(i, &cpuset);
 	}
-	print_cpu_set(&cpuset);
+	cpu_set_print(&cpuset);
 	return EXIT_SUCCESS;
 }

@@ -24,7 +24,7 @@
 #include <sys/socket.h>	// for accept4(2)
 #include <netinet/in.h>	// for sockaddr_in
 #include <unistd.h>	// for read(2), close(2), write(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 #include <map>	// for std::map<T1,T2>, std::map<T1,T2>::iterator
 #include <CircularPipe.hh>	// for CircularPipe:Object

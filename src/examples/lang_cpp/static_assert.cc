@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_ASSERT()
 
 /*
  * This is an example of using the 'static_assert' compile time assert

@@ -33,7 +33,7 @@
 /*
  * A function to print cpu sets
  */
-static inline void print_cpu_set(cpu_set_t *p) {
+static inline void cpu_set_print(cpu_set_t *p) {
 	int j;
 	INFO("CPU_SETSIZE is %d", CPU_SETSIZE);
 	INFO("CPU_COUNT is %d", CPU_COUNT(p));
@@ -47,7 +47,7 @@ static inline void print_cpu_set(cpu_set_t *p) {
 /*
  * A function to print cpu sets to a file
  */
-static inline void print_cpu_set_file(FILE* pfile, cpu_set_t *p) {
+static inline void cpu_set_print_file(FILE* pfile, cpu_set_t *p) {
 	int j;
 	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
 	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));

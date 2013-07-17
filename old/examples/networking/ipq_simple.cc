@@ -28,7 +28,7 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE
 #include <string.h>	// for strerror(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * Example of a firewall in user space (man libipq).

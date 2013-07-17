@@ -28,7 +28,7 @@
 #include <netinet/in.h>	// for sockaddr_in, inet_addr(3)
 #include <arpa/inet.h>	// for inet_addr(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 
 /*
  * This is a tcp client demo.

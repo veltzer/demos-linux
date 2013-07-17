@@ -21,9 +21,9 @@
 #include <sys/wait.h>	// for waitpid(2)
 #include <unistd.h>	// for close(2), dup(2), execl(3), fork(2), pathconf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is the controller program. It launches the uncontrolled program

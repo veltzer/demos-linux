@@ -23,7 +23,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for stderr, fprintf(3), printf(3)
 #include <time.h>	// for ctime_r(3), localtime_r(3), strftime(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_CHARP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_CHARP(), CHECK_NOT_NULL(), CHECK_NOT_ZERO()
 
 /*
  * This example explores the time_t type.

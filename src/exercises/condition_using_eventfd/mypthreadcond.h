@@ -25,7 +25,7 @@
 #include <unistd.h>	// for close(2), read(2), write(2)
 #include <sys/eventfd.h>// for eventfd(2)
 #include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_INT(), CHECK_NOT_M1(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_INT(), CHECK_NOT_M1(), CHECK_ASSERT()
 
 // this is the condition implementation (pthread "like")
 const unsigned int MAX_FD=100;

@@ -24,7 +24,8 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This is a demo which shows that perror, errno etc all work on a thread

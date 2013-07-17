@@ -26,7 +26,7 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for CHECK_IN_RANGE()
+#include <err_utils.h>	// for CHECK_IN_RANGE()
 #include <stdio.h>	// for snprintf(3)
 
 typedef struct _epoll_val_and_name {

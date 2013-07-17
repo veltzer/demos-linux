@@ -21,7 +21,7 @@
 #include <unistd.h>	// for fork(2), execl(2)
 #include <sys/types.h>	// for waitpid(2)
 #include <sys/wait.h>	// for waitpid(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows how to implement the system library function

@@ -20,7 +20,8 @@
 #define __Selector_hh
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for CHECK_NOT_M1(), my_max()
+#include <us_helper.h>	// for my_max()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <sys/select.h>	// for select(2), FD_ZERO(), FD_SET(), FD_ISSET()
 
 /*

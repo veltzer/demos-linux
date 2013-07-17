@@ -23,7 +23,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
 #include <sys/types.h>	// for getpid(2)
-#include <us_helper.h>	// for CHECK_VAL(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_INT(), CHECK_NOT_M1()
 
 /*
  * This demo of signalfd was stolen shamelessly from the signalfd(2) manpage.

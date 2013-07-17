@@ -21,7 +21,8 @@
 #include <unistd.h>	// for sleep(3), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <sched.h>	// for sched_getcpu(2)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), TRACE(), gettid(2)
+#include <us_helper.h>	// for TRACE(), gettid(2)
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 
 /*
  * This is a standard pthread demo

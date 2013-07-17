@@ -25,7 +25,7 @@
 #include <string.h>	// for strncpy(3)
 #include <sys/mman.h>	// for mmap(2), munmap(2)
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 #include <proc_utils.h>	// for proc_print_mmap()
 #include "shared.h"	// for the ioctl numbers
 

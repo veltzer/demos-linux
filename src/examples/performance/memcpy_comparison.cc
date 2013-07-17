@@ -20,8 +20,8 @@
 #include <stdio.h>	// for fprintf(3), stderr
 #include <stdlib.h>	// for malloc(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <string.h>	// for malloc(3)
-#include <us_helper.h>	// for run_priority()
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <sched_utils.h>	// for SCHED_FIFO_HIGH_PRIORITY:const, sched_run_priority()
 
 /*
  * This example compares memcpy(3) to copy by loop...
@@ -143,9 +143,9 @@ int main(int argc, char** argv, char** envp) {
 	 * buf1=NULL;
 	 * }
 	 */
-	run_priority(test_memcpy, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
-	run_priority(test_char, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
-	run_priority(test_imp1, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
-	run_priority(test_imp2, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(test_memcpy, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(test_char, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(test_imp1, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(test_imp2, &data, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

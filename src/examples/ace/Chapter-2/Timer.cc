@@ -20,7 +20,7 @@
 #include <ace/Timer_Queue.h>
 #include <ace/Reactor.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * This example will create 10 timers. As soon that all of them are created

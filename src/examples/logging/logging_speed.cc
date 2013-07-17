@@ -20,10 +20,11 @@
 #include <syslog.h>	// for openlog(3), syslog(3), closelog(3)
 #include <stdio.h>	// for printf(3), fopen(3), fclose(3), fflush(3)
 #include <sys/time.h>	// for gettimeofday(2)
-#include <assert.h>	// for assert(3)
 #include <pthread.h>	// for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h>	// for va_list, va_start, va_end
-#include <us_helper.h>	// for micro_diff(), run_priority()
+#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const, sched_print_table()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_NULL()
+#include <measure.h>	// for measure:struct, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This example explores syslog speed as compared to writing to a simple file.
@@ -81,79 +82,58 @@ inline void my_syslog(const char* fmt, ...) {
 inline void my_syslog(const char* fmt, ...) __attribute__((format(printf, 1, 2)));
 
 void* func(void*) {
-	print_scheduling_info();
-	// the name of this app
-	const char* myname="syslog_speed";
+	sched_print_info();
 	// number of messages to measure
 	const unsigned int number=10000;
-	// timevals to store before and after time...
-	struct timeval t1, t2;
-	// name of the test currently running
-	const char* test;
+	// measurement structure
+	measure m;
 
-	test="standard syslog";
-	openlog(myname, LOG_PID, LOG_USER);
-	printf("doing %d syslogs\n", number);
-	// start timing...
-	gettimeofday(&t1, NULL);
+	openlog("syslog_speed", LOG_PID, LOG_USER);
+	measure_init(&m, "standard syslog", number);
+	measure_start(&m);
 	for(unsigned int i=0; i < number; i++) {
 		syslog(LOG_ERR, "this is a message %d", i);
 	}
 	// end timing...
-	gettimeofday(&t2, NULL);
+	measure_end(&m);
 	closelog();
-	// print timing...
-	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
+	measure_print(&m);
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
 
-	test="regular file operations (nonbuffreed, flushed, synchroneous)";
-	FILE* f=fopen("/tmp/syslog_test", "w+");
-	assert(f!=NULL);
-	printf("doing %d writes\n", number);
-	// start timing...
-	gettimeofday(&t1, NULL);
+	FILE* f=(FILE*)CHECK_NOT_NULL(fopen("/tmp/syslog_test", "w+"));
+	measure_init(&m, "regular file operations (nonbuffreed, flushed, synchroneous)", number);
+	measure_start(&m);
 	for(unsigned int i=0; i < number; i++) {
 		fprintf(f, "this is a message %d", i);
 		fflush(f);
 	}
-	// end timing...
-	gettimeofday(&t2, NULL);
+	measure_end(&m);
 	fclose(f);
-	// print timing...
-	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
+	measure_print(&m);
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
 
-	test="regular file operations (buffered, non flushed, non synchronized)";
-	f=fopen("/tmp/syslog_test", "w+");
-	assert(f!=NULL);
-	printf("doing %d writes\n", number);
-	// start timing...
-	gettimeofday(&t1, NULL);
+	f=(FILE*)CHECK_NOT_NULL(fopen("/tmp/syslog_test", "w+"));
+	measure_init(&m, "regular file operations (nonbuffreed, flushed, synchroneous)", number);
+	measure_start(&m);
 	for(unsigned int i=0; i < number; i++) {
 		fprintf(f, "this is a message %d", i);
 	}
-	// end timing...
-	gettimeofday(&t2, NULL);
+	measure_end(&m);
 	fclose(f);
-	// print timing...
-	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
+	measure_print(&m);
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
 
 	// now lets measure how long it would take to memcpy...
-	test="fastlog";
-	printf("doing %d fastlogs\n", number);
-	// start timing...
-	gettimeofday(&t1, NULL);
+	measure_init(&m, "fastlog", number);
+	measure_start(&m);
 	for(unsigned int i=0; i < number; i++) {
 		my_syslog("this is a message %d", i);
 	}
-	// end timing...
-	gettimeofday(&t2, NULL);
-	// print timing...
-	printf("%s: %lf\n", test, micro_diff(&t1, &t2)/(double)number);
+	measure_end(&m);
+	measure_print(&m);
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
 
@@ -161,7 +141,7 @@ void* func(void*) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	print_scheduling_consts();
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_print_table();
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

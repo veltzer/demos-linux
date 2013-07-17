@@ -24,7 +24,7 @@
 #include <sys/types.h>	// for gettid(2)
 #include <sys/syscall.h>// for syscall(2)
 #include <strings.h>	// for bzero(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 
 /*
  * This test shows how to test for bad stack state (distance from

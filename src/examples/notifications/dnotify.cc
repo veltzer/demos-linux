@@ -26,7 +26,7 @@
 #include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS
 #include <signal.h>	// for siginfo_t
 #include <string.h>	// for strcmp(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 #include <fcntl.h>	// for DN_* constants
 
 /*

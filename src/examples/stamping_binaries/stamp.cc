@@ -21,7 +21,7 @@
 #include <time.h>	// for strptime(3), mktime(3)
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
 
 /*
  *	This example shows how to stamp binaries so that you will be able to know exactly who

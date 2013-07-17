@@ -19,9 +19,10 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), gettid()
 #include <iostream>	// for std::cout, std::endl
 #include <unistd.h>	// for sleep(3)
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <us_helper.h>	// for gettid()
 #include "mythread.hh"
 #include "mymutex.hh"
 

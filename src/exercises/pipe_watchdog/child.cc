@@ -24,7 +24,7 @@
 #include <signal.h>	// for kill(2), sigaction(2)
 #include <unistd.h>	// for alarm(2), read(2), write(2)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_SUCCESS, exit(3), atoi(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 const int BUFSIZE=1024;
 

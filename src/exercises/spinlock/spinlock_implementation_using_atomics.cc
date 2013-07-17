@@ -22,7 +22,7 @@
 #include <unistd.h>	// for sysconf(3), sleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 #include <atomic_utils.h>	// for atomic_full_barrier()
 
 /*

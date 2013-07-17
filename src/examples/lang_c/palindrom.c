@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3), fgets(3)
 #include <string.h>	// for strlen(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_NULL()
 
 int main(int argc, char** argv, char** envp) {
 	const int STRINGSIZE=30;

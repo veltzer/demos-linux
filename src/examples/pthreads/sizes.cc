@@ -17,13 +17,12 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <stdio.h>	// for fprintf(3), stderr
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <pthread.h>	// for pthread_attr_t:struct, pthread_t:struct, pthread_attr_init(3), pthread_attr_setstacksize(3), pthread_create(3), pthread_attr_destroy(3), pthread_join(3)
 #include <unistd.h>	// for sleep(3)
 #include <strings.h>	// for bzero(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 
 /*
  * This is an example of setting thread stack sizes
@@ -35,9 +34,9 @@
  *
  * TODO:
  * - show number of page faults for this application programmatically.
- * First run a thread that allocates it's space in advance.
- * Then run a thread that does not.
- * show the info from /proc
+ * - First run a thread that allocates it's space in advance.
+ * - Then run a thread that does not.
+ * - show the info from /proc
  */
 
 void ensure_space(unsigned int size) {

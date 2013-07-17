@@ -20,11 +20,11 @@
 #include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <pthread.h>	// for pthread_spin_init(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_spin_destroy(3), pthread_create(3), pthread_join(3), pthread_mutex_init(3), pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_destroy(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
-#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 #include <Stat.hh>	// for Stat:Object
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <unistd.h>	// for usleep(3)
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This example explores the performance of spin locks.

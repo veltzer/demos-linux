@@ -20,7 +20,7 @@
 #define __CircularPipe_hh
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
 #include <unistd.h>	// for read(2), write(2)
 #include <stdlib.h>	// for malloc(3), free(3)
 

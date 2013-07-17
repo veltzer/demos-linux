@@ -22,7 +22,7 @@
 #include <string.h>
 #include <curses.h>
 #include <unistd.h>	// for usleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * Curses example number 1...

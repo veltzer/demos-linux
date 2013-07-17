@@ -29,7 +29,7 @@
 #include <signal.h>	// for kill(2), sigemptyset(2), sigaction(2)
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3)
 #include <string.h>	// for strlen(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 
 static struct itimerval timer;
 static int gotusr1=0;

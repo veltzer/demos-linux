@@ -24,8 +24,9 @@
 #include <time.h>	// for clock_gettime(2), clock_nanosleep(2)
 #include <sched.h>	// for sched_setscheduler(2), struct sched_param
 #include <sys/mman.h>	// for mlockall(2)
-#include <us_helper.h>	// for micro_diff(), CHECK_NOT_M1(), stack_prefault()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <timespec_utils.h>	// for timespec_add_nanos()
+#include <pthread_utils.h>	// for pthread_stack_prefault()
 
 /*
  * This example explores the CPU utilisation of doing XXXM memcpy per second.
@@ -73,7 +74,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
 
 	/* Pre-fault our stack */
-	stack_prefault();
+	pthread_stack_prefault();
 
 	/* get the current time */
 	struct timespec t;

@@ -91,7 +91,7 @@
 #include <alsa/asoundlib.h>	// for snd_rawmidi_open(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 void errormessage(const char *format, ...) {
 	va_list ap;

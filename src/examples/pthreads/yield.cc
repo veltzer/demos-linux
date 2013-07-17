@@ -22,7 +22,8 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1(), CHECK_ZERO()
 
 /*
  * This is a demo for the sched_yield(2) or for pthread_yield(3) which are
@@ -66,7 +67,7 @@ bool ended=false;
 
 void *worker(void *p) {
 #ifdef DO_BARRIER
-	// do not CHECK_ZERO on the line below since pthread_barrier_wait DOES NOT
+	// do not CHECK_ZERO_ERRNO() on the line below since pthread_barrier_wait DOES NOT
 	// always return zero (actually, it always returns something else than zero
 	// to one of the threads (like a leader...)
 	pthread_barrier_wait(&barrier);

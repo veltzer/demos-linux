@@ -28,7 +28,7 @@
 #include <signal.h>	// for sigset_t, sigemptyset(3), sigaddset(3), sigprocmask(2)
 #include <string.h>	// for strsignal(3)
 #include <assert.h>	// for assert(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 
 /*

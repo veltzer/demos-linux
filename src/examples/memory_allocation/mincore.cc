@@ -22,7 +22,8 @@
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for posix_memalign(3), malloc(3), free(3), EXIT_SUCCESS
 #include <string.h>	// for memset(3)
-#include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1(), TRACE()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1(), CHECK_ZERO()
 
 /*
  * This is a demo of the mincore(2) syscall.

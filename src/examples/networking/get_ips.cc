@@ -24,7 +24,7 @@
 #include <arpa/inet.h>	// for AF_INET, sockaddr_in, inet_ntoa(3), inet_ntop(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <netinet/in.h>	// for inet_ntoa(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <network_utils.h>	// for domain_to_str()
 
 /*

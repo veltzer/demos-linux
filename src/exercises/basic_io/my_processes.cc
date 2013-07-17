@@ -25,7 +25,7 @@
 #include <stdio.h>	// for snprintf(3), printf(3)
 #include <string.h>	// for strcmp(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 void scanthedir(const char* dirname) {
 	struct dirent* dircontent;

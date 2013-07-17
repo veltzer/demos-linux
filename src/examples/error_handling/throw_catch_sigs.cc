@@ -22,7 +22,7 @@
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <sys/types.h>	// for kill(2), getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 /*
  * This demp demostrates C++ style exception handling in response to OS signals.

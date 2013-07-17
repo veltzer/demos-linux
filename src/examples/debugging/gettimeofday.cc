@@ -20,7 +20,7 @@
 #include <stdio.h>	// for fprintf(3), stderr, printf(3)
 #include <sys/time.h>	// for gettimeofday(2)
 #include <unistd.h>	// for usleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS, exit(3)
 
 /*

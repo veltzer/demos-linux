@@ -31,7 +31,7 @@
 #include <stdlib.h>	// for EXIT_SUCCCESS
 #include <sys/types.h>	// for wait(2)
 #include <sys/wait.h>	// for wait(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <multiproc_utils.h>	// for print_status()
 #include <stdio.h>	// for printf(3)
 

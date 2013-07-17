@@ -22,7 +22,7 @@
 #include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <sys/mman.h>	// for mprotect(2)
-#include <us_helper.h>	// for CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_ASSERT()
 
 /*
  * This example shows that regular strings (char*) are not protected

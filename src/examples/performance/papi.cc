@@ -21,7 +21,8 @@
 #include <unistd.h>	// for usleep(3)
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdlib.h>	// for atoi(3), EXIT_FAILURE, EXIT_SUCCESS
-#include <us_helper.h>	// for getticks(), CHECK_INT(), CHECK_NOT_M1()
+#include <us_helper.h>	// for getticks()
+#include <err_utils.h>	// for CHECK_INT(), CHECK_NOT_M1()
 
 /*
  * Demo for using the PAPI library for RDTSC.

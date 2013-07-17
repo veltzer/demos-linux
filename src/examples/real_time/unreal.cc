@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <sched.h>	// for sched_setscheduler(2), sched_param
 #include <sys/types.h>	// for pid_t
 

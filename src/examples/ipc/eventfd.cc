@@ -22,7 +22,7 @@
 #include <stdlib.h>	// for exit(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for fprintf(3), strtoull(3)
 #include <signal.h>	// for siginterrupt(2), signal(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_INT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_ASSERT()
 #include <sys/types.h>	// for waitpid(2)
 #include <sys/wait.h>	// for waitpid(2)
 

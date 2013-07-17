@@ -22,7 +22,7 @@
 #include <unistd.h>	// for pause(2), getpid(2), sleep(3)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <us_helper.h>	// for CHECK_ASSERT(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_ZERO()
 #include <signal_utils.h>	// for register_handler_signal()
 
 /*

@@ -20,7 +20,7 @@
 #include <unistd.h>	// for getpagesize(2), sysconf(3)
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows how to get the systems page size, the available physical pages

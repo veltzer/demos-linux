@@ -25,7 +25,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
 #include <signal.h>	// for signal(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_SIGT(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_NOT_SIGT(), CHECK_ZERO()
 #include "shared.h"
 
 /*

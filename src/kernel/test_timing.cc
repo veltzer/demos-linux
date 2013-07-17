@@ -20,12 +20,13 @@
 #include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), klog_clear(), klog_show_clear()
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <multiproc_utils.h>	// for my_system()
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <kernel_utils.h>	// for klog_clear(), klog_show_clear()
 #include "shared.h"
 
 /*

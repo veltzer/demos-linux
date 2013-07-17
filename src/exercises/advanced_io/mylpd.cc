@@ -17,15 +17,14 @@
  */
 
 #include <firstinclude.h>
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
+#include <sys/types.h>	// for open(2), fstat(2), lseek(2)
+#include <sys/stat.h>	// for open(2), fstat(2)
+#include <fcntl.h>	// for fcntl(2), open(2)
+#include <unistd.h>	// for write(2), fcntl(2), fstat(2), read(2), lseek(2)
+#include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <string.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <sys/param.h>	// for MAXPATHLEN:const
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 const int MAXINDEXSIZE=128;
 

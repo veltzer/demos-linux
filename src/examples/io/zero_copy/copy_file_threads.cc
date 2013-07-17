@@ -21,7 +21,7 @@
 #include <stdio.h>	// for fprintf(3), stderr
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <CircularPipe.hh>	// for CircularPipe:Object
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 #include <unistd.h>	// for getpagesize(2)
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)

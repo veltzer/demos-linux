@@ -19,7 +19,8 @@
 #include <firstinclude.h>
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), no_params()
+#include <us_helper.h>	// for no_params()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is a test to check my own us_helper.hh file.

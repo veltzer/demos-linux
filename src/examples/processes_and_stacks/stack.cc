@@ -20,7 +20,7 @@
 #include <string.h>	// for memset(3)
 #include <stdio.h>	// for printf(3)
 #include <sys/resource.h>	// for getrlimit(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows the stack limitations of a regular program.

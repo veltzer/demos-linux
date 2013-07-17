@@ -23,7 +23,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2), splice(2), fcntl(2)
 #include <unistd.h>	// getpagesize(2), fcntl(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <limits.h>	// for INT_MAX
 
 /*

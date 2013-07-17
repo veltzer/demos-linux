@@ -20,7 +20,8 @@
 #include <stdio.h>	// for snprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), free(3)
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
-#include <us_helper.h>	// for run_priority(), CHECK_NOT_NEGATIVE()
+#include <err_utils.h>	// for CHECK_NOT_NEGATIVE()
+#include <sched_utils.h>	// for sched_run_priority()
 
 /*
  * This example tries to abuse the cpu by doing lots of integral
@@ -70,13 +71,13 @@ int main(int argc, char** argv, char** envp) {
 		buf[i]=rand()%256;
 	}
 	diff=0;
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	diff=1;
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	diff=2;
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	diff=3;
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	free(buf);
 	return EXIT_SUCCESS;
 }

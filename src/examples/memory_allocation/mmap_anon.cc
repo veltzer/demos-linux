@@ -22,7 +22,7 @@
 #include <sys/mman.h>	// for mmap(2), munmap(2)
 #include <unistd.h>	// for getpagesize(2)
 #include <assert.h>	// for assert(3)
-#include <us_helper.h>	// for CHECK_NOT_VOIDP(), CHECK_ZERO(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_VOIDP(), CHECK_ZERO(), CHECK_ASSERT()
 #include <proc_utils.h>	// for proc_print_mmap(), proc_print_mem_stats_self()
 
 /*

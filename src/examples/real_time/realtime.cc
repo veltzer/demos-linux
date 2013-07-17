@@ -20,7 +20,7 @@
 #include <sched.h>	// for sched_param, sched_setscheduler(2), SCHED_FIFO
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <stdio.h>	// for fprintf(3), printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an example of a utility program to run any program under real time priority

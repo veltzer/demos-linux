@@ -23,7 +23,7 @@
 #include <string.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for sysconf(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This shows how to create threads with a certain affinity

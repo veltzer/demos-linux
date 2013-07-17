@@ -22,7 +22,8 @@
 #include <sys/types.h>	// for open(2), lseek(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), getticks(), micro_diff(), run_priority()
+#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <unistd.h>	// for close(2), read(2), lseek(2)
 #include <assert.h>	// for assert(3)
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
@@ -92,7 +93,7 @@ int main(int argc, char** argv, char** envp) {
 	struct stat buf;
 	CHECK_NOT_M1(fstat(fd, &buf));
 	filesize=buf.st_size;
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	CHECK_NOT_M1(close(fd));
 	return EXIT_SUCCESS;
 }

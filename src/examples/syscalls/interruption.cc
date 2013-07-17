@@ -23,7 +23,7 @@
 #include <signal.h>	// for signal(2), siginterrupt(3)
 #include <errno.h>	// for errno(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// CHECK_NOT_M1(), CHECK_NOT_SIGT()
+#include <err_utils.h>	// CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 /*
  * This is an example of a calculator that you can break out of.

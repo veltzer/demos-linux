@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), scanf(3)
 #include <stdlib.h>	// for rand(3), srand(3), EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_INT()
+#include <err_utils.h>	// for CHECK_INT()
 
 int main(int argc, char** argv, char** envp) {
 	int seed;

@@ -21,8 +21,9 @@
 #include <stdlib.h>	// for malloc(3)
 #include <sys/time.h>	// for gettimeofday(2)
 #include <obstack.h>	// for obstack_*(3)
-#include <us_helper.h>	// for CHECK_NOT_NULL(), run_priority()
-#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <err_utils.h>	// for CHECK_NOT_NULL()
+#include <measure.h>	// for measure:struct, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
  * This example shows how to use obstacks...
@@ -82,6 +83,6 @@ void* func(void*) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

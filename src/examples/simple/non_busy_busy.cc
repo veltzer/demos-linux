@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <unistd.h>	// for pause(2)
 #include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_ASSERT()
 
 /*
  * This example is to be used for showing:

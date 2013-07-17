@@ -26,8 +26,7 @@
 #include <signal.h>	// for signal(2)
 #include <sys/mman.h>	// for mprotect(2)
 #include <unistd.h>	// for getpagesize(2)
-
-#include <us_helper.h>
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 /*
  * This is an example that shows that you cannot alter code, which is protected

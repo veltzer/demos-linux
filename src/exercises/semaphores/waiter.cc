@@ -21,7 +21,7 @@
 #include <sys/types.h>	// for semctl(2), ftok(3), semget(2)
 #include <sys/ipc.h>	// for semctl(2), ftok(3), semget(2)
 #include <sys/sem.h>	// for semctl(2), semget(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 #include <signal_utils.h>	// for register_handler_signal()
 #include "common.hh"
 

@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <search.h>	// for hcreate_r(3), hdestroy_r(3), hsearch_r(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_ZERO()
 
 /*
  * This is a demo of using the GNU C libraries hash table implementation

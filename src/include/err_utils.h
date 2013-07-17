@@ -27,9 +27,11 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for ARRAY_SIZEOF(), CHECK_ASSERT()
+#include <us_helper.h>	// for ARRAY_SIZEOF(), myunlikely()
 #include <stdio.h>	// for printf(3)
 #include <string.h>	// for strcmp(3), strerror(3)
+#include <err.h>	// for err(3)
+#include <error.h>	// for error_at_line(3)
 
 /*
  * List of all errors (can be found in 'man errno')
@@ -182,7 +184,7 @@ static inline int error_get_by_name(const char* name) {
 			return err_tbl[i].val;
 		}
 	}
-	CHECK_ASSERT("bad error name"==NULL);
+	err(-1, "bad error name %s", name);
 	return -1;
 }
 
@@ -196,7 +198,7 @@ static inline const char* error_get_by_val(int val) {
 			return err_tbl[i].name;
 		}
 	}
-	CHECK_ASSERT("bad error value"==NULL);
+	err(-1, "bad error value %d", val);
 	return NULL;
 }
 
@@ -212,5 +214,170 @@ static inline void print_error_table() {
 		printf("i=%d, sig=%d, in_code=%s, strerror(%d)=%s\n", i, val, name, val, strerror(val));
 	}
 }
+
+/*
+ * A error handler, will take care of all those pesky error values
+ * This is not a C++ framework so I do not throw an exception here.
+ */
+static inline void handle_error(int replace_errno, int new_errno, int usebadval, int badval, const char* msg, const char* file, const char* function, const int line, const char* m) {
+	// this is for pthread type errors
+	if(replace_errno) {
+		errno=new_errno;
+	}
+	if (m!=NULL) {
+		fprintf(stderr, "message is [%s]\n", m);
+	}
+	if(usebadval) {
+		error_at_line(errno, errno, file, line, "function is %s, msg is %s, errno is %d, error is %s", function, msg, errno, error_get_by_val(errno));
+	} else {
+		error_at_line(errno, errno, file, line, "function is %s, msg is %s", function, msg);
+	}
+	// old code follows
+	// int save_errno=errno;
+	// err(EXIT_FAILURE,"code is %s",msg);
+	// fprintf(stderr,"command is %s\n",msg);
+	// fprintf(stderr,"location is %s, %s, %d\n",base_file,file,line);
+	// if(save_errno!=0) {
+	// perror("error in system call");
+	// } else {
+	// fprintf(stderr,"error: %s\n",strerror(val));
+	// }
+	//exit(EXIT_FAILURE);
+}
+static inline int check_zero(int val, const char* msg, const char* file, const char* function, const int line, const char* m) {
+	if(myunlikely(val!=0)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, m);
+	}
+	return val;
+}
+static inline int check_zero_errno(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val!=0)) {
+		handle_error(1, val, 0, val, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_not_zero(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val==0)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_not_m1(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val==-1)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_1(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val!=1)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_not_negative(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val<0)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline void* check_not_null(void* val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val==NULL)) {
+		handle_error(0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline const void* check_not_null_const(const void* val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val==NULL)) {
+		handle_error(0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_oneoftwo(int val, const char* msg, int e1, int e2, const char* file, const char* function, const int line) {
+	if(myunlikely(val!=e1 && val!=e2)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_assert(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(!val)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline void* check_not_voidp(void* val, const char *msg, void* errval, const char* file, const char* function, const int line) {
+	if(myunlikely(val==errval)) {
+		handle_error(0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline void* check_voidp(void* val, const char *msg, void* errval, const char* file, const char* function, const int line) {
+	if(myunlikely(val!=errval)) {
+		handle_error(0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline sighandler_t check_not_sigt(sighandler_t val, const char *msg, sighandler_t errval, const char* file, const char* function, const int line) {
+	if(myunlikely(val==errval)) {
+		handle_error(0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_int(int val, const char *msg, int expected, const char* file, const char* function, const int line) {
+	if(myunlikely(val!=expected)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_not_int(int val, const char *msg, int expected, const char* file, const char* function, const int line) {
+	if(myunlikely(val==expected)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline char* check_charp(char* val, const char *msg, char* expected, const char* file, const char* function, const int line) {
+	if(myunlikely(val!=expected)) {
+		handle_error(0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_in_range(int val, const char *msg, int min, int max, const char* file, const char* function, const int line) {
+	if(myunlikely(val<min || val>=max)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_positive(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val<=0)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+static inline int check_gezero(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val<0)) {
+		handle_error(0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
+
+#define CHECK_ZERO(v) check_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__, NULL)
+#define CHECK_MSG_ZERO(v, m) check_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__, m)
+#define CHECK_ZERO_ERRNO(v) check_zero_errno(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_ZERO(v) check_not_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_M1(v) check_not_m1(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_1(v) check_1(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NEGATIVE(v) check_not_negative(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NULL(v) check_not_null(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NULL_CONST(v) check_not_null_const(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ONEOFTWO(v, e1, e2) check_oneoftwo(v, stringify(v), e1, e2, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ASSERT(v) check_assert(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_VOIDP(v, e) check_not_voidp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_VOIDP(v, e) check_not_voidp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_SIGT(v, e) check_not_sigt(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_INT(v, e) check_int(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_INT(v, e) check_not_int(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_CHARP(v, e) check_charp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_IN_RANGE(v, min, max) check_in_range(v, stringify(v), min, max, __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_POSITIVE(v) check_positive(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_GEZERO(v) check_gezero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 
 #endif	/* !__err_utils_h */

@@ -24,7 +24,7 @@
 #include <sys/types.h>	// for semop(2), ftok(3), semget(2)
 #include <sys/ipc.h>	// for semop(2), ftok(3), semget(2)
 #include <sys/sem.h>	// for semop(2), semget(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 #include "common.hh"
 
 void activity(int semid, int id, const char* activity) {

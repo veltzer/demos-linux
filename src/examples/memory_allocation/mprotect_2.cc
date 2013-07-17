@@ -20,7 +20,7 @@
 #include <stdlib.h>	// for exit(3), posix_memalign(3), EXIT_SUCCESS
 #include <unistd.h>	// for getpagesize(2)
 #include <sys/mman.h>	// for mprotect(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 // this code simulates a memory corruption
 void bad_code(void* precious_data) {

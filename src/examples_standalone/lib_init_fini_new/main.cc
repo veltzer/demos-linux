@@ -21,7 +21,8 @@
 #include <unistd.h>	// for fork(2), _exit(2), sleep(3)
 #include <sys/wait.h>	// for waitpid(2)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <us_helper.h>	// for TRACE()
 
 /*
  * EXTRA_LINK_FLAGS=-lpthread

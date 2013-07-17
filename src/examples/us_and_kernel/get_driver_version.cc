@@ -21,7 +21,7 @@
 #include <sys/utsname.h>// for uname(2)
 #include <dlfcn.h>	// for dlopen(3), dlclose(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 /*
  * This example shows how to extract the version number from a "ko" (kernel object)

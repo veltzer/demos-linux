@@ -20,7 +20,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_t
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This example shows how to exit threads (pthread_exit and return

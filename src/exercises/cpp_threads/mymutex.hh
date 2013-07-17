@@ -21,7 +21,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_destroy(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 class MyMutex {
 private:

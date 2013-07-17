@@ -18,11 +18,11 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, system(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is a most basic example of how to call the system(3)
- * library function.
+ * library function. Remember to check the return value to see if all was ok.
  *
  * TODO:
  * - show redirection
