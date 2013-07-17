@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <sched_utils.h>	// for sched_print_info()
+#include <sched_utils.h>// for sched_print_info()
 #include <err_utils.h>	// for CHECK_ZERO()
 
 /*

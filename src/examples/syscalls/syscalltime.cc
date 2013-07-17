@@ -24,7 +24,7 @@
 #include <sys/time.h>	// for gettimeofday(2), struct timeval
 #include <us_helper.h>	// for run_priority()
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 
 /*
  * This demo times how long it takes to call a syscall.

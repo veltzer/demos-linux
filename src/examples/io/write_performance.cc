@@ -25,7 +25,7 @@
 #include <unistd.h>	// for close(2), write(2)
 #include <us_helper.h>	// for getticks()
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <sched_utils.h>	// sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <Stat.hh>	// for Stat:Object
 
 /*

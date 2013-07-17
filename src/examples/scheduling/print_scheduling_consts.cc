@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <sched_utils.h>	// for sched_print_table()
+#include <sched_utils.h>// for sched_print_table()
 
 /*
  * This example simply prints all the scheduling policy consts.

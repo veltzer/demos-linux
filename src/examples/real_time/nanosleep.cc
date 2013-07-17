@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <time.h>	// for nanosleep(2), timespec
 #include <us_helper.h>	// for getticks(), get_mic_diff()
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_LOW_PRIORITY:const, SCHED_FIFO_MID_PRIORITY:const, SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_LOW_PRIORITY:const, SCHED_FIFO_MID_PRIORITY:const, SCHED_FIFO_HIGH_PRIORITY:const
 
 /*
  * This is an example showing how to sleep for very short periods of

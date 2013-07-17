@@ -24,7 +24,7 @@
 #include <stdlib.h>	// for free(3), malloc(3)
 #include <pthread.h>	// for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(),
-#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
+#include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*

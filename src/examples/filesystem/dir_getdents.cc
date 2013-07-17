@@ -52,21 +52,31 @@ int main(int argc, char** argv, char** envp) {
 			break;
 		}
 		printf("--------------- nread=%d ---------------\n", nread);
-		printf("i-node#  file type  d_reclen  d_off   d_name\n");
+		printf("%-8s %-10s %-8s %-10s %s\n",
+			"i-node#",
+			"file type",
+			"d_reclen",
+			"d_off",
+			"d_name"
+			);
 		int bpos=0;
 		while(bpos < nread) {
 			struct linux_dirent * d = (struct linux_dirent *) (buf + bpos);
-			printf("%8ld  ", d->d_ino);
 			char d_type = *(buf + bpos + d->d_reclen - 1);
-			printf("%-10s ", (d_type == DT_REG) ?  "regular" :
-				(d_type == DT_DIR) ?  "directory" :
-				(d_type == DT_FIFO) ? "FIFO" :
-				(d_type == DT_SOCK) ? "socket" :
-				(d_type == DT_LNK) ?  "symlink" :
-				(d_type == DT_BLK) ?  "block dev" :
-				(d_type == DT_CHR) ?  "char dev" : "Unknown"
-			);
-			printf("%4d %10lld  %s\n", d->d_reclen, (long long) d->d_off, d->d_name);
+			const char* type=(d_type == DT_REG) ? "regular" :
+					  (d_type == DT_DIR) ? "directory" :
+					  (d_type == DT_FIFO) ? "FIFO" :
+					  (d_type == DT_SOCK) ? "socket" :
+					  (d_type == DT_LNK) ? "symlink" :
+					  (d_type == DT_BLK) ? "block dev" :
+					  (d_type == DT_CHR) ? "char dev" : "Unknown";
+			printf("%8ld %-10s %8d %10lu %s\n",
+				d->d_ino,
+				type,
+				d->d_reclen,
+				d->d_off,
+				d->d_name
+				);
 			bpos += d->d_reclen;
 		}
 	}

@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio_ext.h>	// for __flbf(3), __fbufsize(3)
 #include <unistd.h>	// for unlink(2)
-#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_ZERO(), CHECK_NOT_M1(), CHECK_INT_NOERRNO()
 
 /*
  * This example shows the different buffering schemes of the standard
@@ -64,7 +64,7 @@ int main(int argc, char** argv, char** envp) {
 	// lets print something to stdout
 	// lets read something from stdin
 	// lets print something to stderr
-	fprintf(stdout,"give me a number: ");
+	fprintf(stdout, "give me a number: ");
 	fflush(stdout);
 	fprintf(stderr, "this is a message to stderr");
 	int d;
