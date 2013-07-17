@@ -45,6 +45,7 @@
 #include <error.h>	// for error_at_line(3)
 #include <err.h>// for err(3)
 #include <signal.h>	// for sighandler_t
+#include <dirent.h>	// for NAME_MAX:const
 
 /*
  * Stringify macros - helps you turn anything into a string
@@ -262,6 +263,17 @@ static inline void no_params(int argc, char** argv) {
 }
 
 /*
+ * Type struct old_linux_dirent which is taken from the readdir(2)
+ * manpage
+ */
+struct old_linux_dirent {
+	long d_ino; /* inode number */
+	off_t d_off; /* offset to this old_linux_dirent */
+	unsigned short d_reclen; /* length of this d_name */
+	char d_name[NAME_MAX+1]; /* filename (null-terminated) */
+};
+
+/*
  * Type struct linux_dirent which is taken from getdents(2) manpage
  */
 struct linux_dirent {
@@ -272,10 +284,17 @@ struct linux_dirent {
 };
 
 /*
-* Wrapper for the getdents(2) system call which is not supplied by glibc
-*/
+ * Wrapper for the getdents(2) system call which is not supplied by glibc
+ */
 static inline int getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int count) {
 	return syscall(SYS_getdents, fd, dirp, count);
+}
+
+/*
+ * Wrapper for the readdir(2) system call which is not supplied by glibc
+ */
+static inline int readdir(unsigned int fd, struct old_linux_dirent *dirp, unsigned int count) {
+	return syscall(SYS_readdir, fd, dirp, count);
 }
 
 #endif	/* !__us_helper_h */
