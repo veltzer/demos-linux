@@ -22,12 +22,18 @@
 #include <sys/types.h>	// for open(2), O_WRONLY
 #include <sys/stat.h>	// for open(2), O_WRONLY, futimens(2)
 #include <fcntl.h>	// for open(2), O_WRONLY, futimens(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
-#include <err_utils.h>	// for error_get_by_val()
+#include <err_utils.h>	// for CHECK_NOT_M1(), error_get_by_val()
 
 /*
  * This example shows an example of how to implement the touch(1)
- * command line utility using the utime(2) system call.
+ * command line utility using the
+ * 	utime(2)
+ * 	utimes(2)
+ * 	futimes(2)
+ * 	futimens(2)
+ * 	futimesat(2)
+ * 	utimensat(2)
+ * family of systems call.
  *
  * Notes:
  * - We use utimensat(2)/futimens(2) because they have better precision than

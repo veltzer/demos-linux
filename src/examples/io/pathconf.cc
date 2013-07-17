@@ -20,7 +20,8 @@
 #include <unistd.h>	// for pathconf(2)
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1(), stringify()
+#include <us_helper.h>	// for stringify()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows the various values returned by path conf for the folder you give it...

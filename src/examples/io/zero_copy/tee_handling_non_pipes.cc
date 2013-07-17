@@ -24,7 +24,7 @@
 #include <fcntl.h>	// for open(2), splice(2), tee(2)
 #include <unistd.h>	// for close(2), fstat(2), struct stat, pipe(2)
 #include <limits.h>	// for INT_MAX
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an improvement of the tee(1) implementation so that it

@@ -24,7 +24,7 @@
 #include <fcntl.h>	// for open(2), splice(2), tee(2)
 #include <limits.h>	// for INT_MAX
 #include <unistd.h>	// for close(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example is an attempt to improve the basic tee.cc solution by

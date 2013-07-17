@@ -20,8 +20,9 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h>	// for sysconf(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
-#include <cpu_set_utils.h>	// for print_cpu_set()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <cpu_set_utils.h>	// for cpu_set_print()
 
 /*
  * This shows how to create threads with a certain affinity
@@ -49,7 +50,7 @@ int main(int argc, char** argv, char** envp) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
-		print_cpu_set(cpu_sets + i);
+		cpu_set_print(cpu_sets + i);
 		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, ids + i));

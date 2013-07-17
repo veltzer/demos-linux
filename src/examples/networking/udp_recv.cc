@@ -30,7 +30,8 @@
 #include <arpa/inet.h>	// for inet_addr(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for TRACE(), CHECK_NOT_M1()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is udp client demo that writes to a file anything it gets.

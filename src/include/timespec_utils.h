@@ -30,7 +30,7 @@
 #include <firstinclude.h>
 #include <time.h>	// for struct timespec, strftime(3), localtime_r(3), gmtime_r(3)
 #include <stdio.h>	// for snprintf(3)
-#include <us_helper.h>	// for CHECK_ASSERT(), CHECK_NOT_ZERO()
+#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_ZERO(), CHECK_NOT_NULL()
 
 /* The number of nsecs per sec. */
 const long long NSEC_PER_SEC=1000000000;

@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for print_scheduling_consts()
+#include <sched_utils.h>	// for sched_print_table()
 
 /*
  * This example simply prints all the scheduling policy consts.
@@ -26,6 +26,6 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	print_scheduling_consts();
+	sched_print_table();
 	return EXIT_SUCCESS;
 }

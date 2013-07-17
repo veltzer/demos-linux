@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), scanf(3), fflush(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), free(3)
-#include <us_helper.h>	// for CHECK_INT()
+#include <err_utils.h>	// for CHECK_INT()
 
 float get_average(float* p, int size) {
 	int i;

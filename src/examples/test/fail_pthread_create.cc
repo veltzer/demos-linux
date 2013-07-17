@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3). pthread_attr_init(3), pthread_attr_setinheritsched(3), pthread_attr_setschedpolicy(3), pthread_attr_setschedparam(3), pthread_attr_t, pthread_t
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * This program calls pthread_create and tries to fail on purpse to see the error

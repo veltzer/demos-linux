@@ -21,7 +21,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_INT(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_INT(), CHECK_ZERO()
 
 /*
  * Demo for using the PAPI performance counters library.

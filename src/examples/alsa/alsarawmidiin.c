@@ -77,7 +77,7 @@
 #include <alsa/asoundlib.h>	// for snd_*(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <stdio.h>	// for fprintf(3), stderr
-#include <us_helper.h>	// for CHECK_NOT_NEGATIVE(3)
+#include <err_utils.h>	// for CHECK_NOT_NEGATIVE(3)
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {

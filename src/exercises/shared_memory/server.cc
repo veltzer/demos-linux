@@ -23,7 +23,7 @@
 #include <sys/sem.h>	// for semget(2), semctl(2)
 #include <stdio.h>	// for printf(3), fgets(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_CHARP(), CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include <err_utils.h>	// for CHECK_CHARP(), CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 const int MAXCLIENTS=10;
 const int CLIENTMESSAGESIZE=4096;

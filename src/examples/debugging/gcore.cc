@@ -21,7 +21,7 @@
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2), sleep(3), fork(2), usleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <multiproc_utils.h>	// for my_system()
 
 #define DO_SLEEP

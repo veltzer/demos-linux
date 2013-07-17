@@ -20,7 +20,7 @@
 #include <unistd.h>	// for getpagesize(2), sleep(3)
 #include <stdio.h>	// for printf(3)
 #include <strings.h>	// for bzero(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 void myfunc(int arg) {
 	int myarray[arg];

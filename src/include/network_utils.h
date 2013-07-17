@@ -27,7 +27,7 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)

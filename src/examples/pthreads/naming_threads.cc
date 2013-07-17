@@ -23,7 +23,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <string.h>	// for strncpy(3)
 #include <sys/prctl.h>	// for prctl(2)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system()
 
 /*

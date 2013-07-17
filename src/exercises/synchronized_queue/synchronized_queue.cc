@@ -23,7 +23,7 @@
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <list>	// for std::list<T>
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This is a solution to the synchronized queue exercise.

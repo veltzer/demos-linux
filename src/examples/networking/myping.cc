@@ -29,7 +29,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h>	// for close(2), usleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * An example of doing ICMP, in this case ping, in user space...

@@ -23,7 +23,8 @@
 #include <unistd.h>	// for getpid(2)
 #include <stdlib.h>	// for free(3), malloc(3)
 #include <pthread.h>	// for pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), run_priority()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(),
+#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
@@ -110,6 +111,6 @@ static void* work(void* p) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	run_priority(work, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(work, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

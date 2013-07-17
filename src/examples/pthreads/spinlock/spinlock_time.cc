@@ -20,7 +20,8 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <pthread.h>	// for pthread_spin_init(3), pthread_spin_lock(3), pthread_spin_unlock(3), pthread_spin_destroy(3), pthread_create(3), pthread_join(3), pthread_spinlock_t, pthread_t
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO()
 
 /*
  * This example examines the time it takes to lock and unlock a spin lock.

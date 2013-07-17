@@ -23,7 +23,8 @@
 #include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdint.h>	// for uint64_t
-#include <us_helper.h>	// for CHECK_NOT_M1(), run_priority(), sched_get_by_name()
+#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <sched_utils.h>	// for sched_run_priority(), sched_get_by_name(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <timespec_utils.h>	// for timespec_set(), timespec_add_secs(), timespec_sub(), timespec_snprintf()
 
 /*
@@ -102,6 +103,6 @@ int main(int argc, char** argv, char** envp) {
 	td.interval_nsec=atoi(argv[4]);
 	td.max_exp=atoi(argv[5]);
 	int policy=sched_get_by_name(argv[6]);
-	run_priority(work, &td, SCHED_FIFO_HIGH_PRIORITY, policy);
+	sched_run_priority(work, &td, SCHED_FIFO_HIGH_PRIORITY, policy);
 	return EXIT_SUCCESS;
 }

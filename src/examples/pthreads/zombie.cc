@@ -21,7 +21,8 @@
 #include <string.h>	// for strncpy(3)
 #include <sys/prctl.h>	// for prctl(2)
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), TRACE()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <us_helper.h>	// for TRACE()
 #include <multiproc_utils.h>	// for my_system()
 
 /*

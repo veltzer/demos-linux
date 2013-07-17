@@ -24,7 +24,8 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <string.h>	// for strsignal(3)
 #include <signal.h>	// for kill(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ZERO(), CHECK_ASSERT()
+#include <us_helper.h>	// for TRACE()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_ASSERT()
 
 /*
  * This example demostrates what happens when a processes father dies...

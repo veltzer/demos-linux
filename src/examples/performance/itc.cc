@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * Demo for a performance counter on i64...

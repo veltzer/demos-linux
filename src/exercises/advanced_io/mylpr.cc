@@ -24,7 +24,7 @@
 #include <stdio.h>	// for fprintf(3)
 #include <string.h>	// for strcpy(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 const int MAXINDEXSIZE=128;
 

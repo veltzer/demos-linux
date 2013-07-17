@@ -22,7 +22,7 @@
 #include <ace/Log_Msg.h>
 #include <ace/OS_NS_unistd.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE

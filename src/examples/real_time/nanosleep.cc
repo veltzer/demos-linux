@@ -20,7 +20,8 @@
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <time.h>	// for nanosleep(2), timespec
-#include <us_helper.h>	// for getticks(), get_mic_diff(), run_priority()
+#include <us_helper.h>	// for getticks(), get_mic_diff()
+#include <sched_utils.h>	// for sched_run_priority(), SCHED_FIFO_LOW_PRIORITY:const, SCHED_FIFO_MID_PRIORITY:const, SCHED_FIFO_HIGH_PRIORITY:const
 
 /*
  * This is an example showing how to sleep for very short periods of
@@ -82,12 +83,12 @@ void* measure(void* val) {
 
 int main(int argc, char** argv, char** envp) {
 	printf("SCHED_OTHER running\n");
-	run_priority(measure, NULL, 0, SCHED_OTHER);
+	sched_run_priority(measure, NULL, 0, SCHED_OTHER);
 	printf("low priority running\n");
-	run_priority(measure, NULL, SCHED_FIFO_LOW_PRIORITY, SCHED_FIFO);
+	sched_run_priority(measure, NULL, SCHED_FIFO_LOW_PRIORITY, SCHED_FIFO);
 	printf("mid priority running\n");
-	run_priority(measure, NULL, SCHED_FIFO_MID_PRIORITY, SCHED_FIFO);
+	sched_run_priority(measure, NULL, SCHED_FIFO_MID_PRIORITY, SCHED_FIFO);
 	printf("high priority running\n");
-	run_priority(measure, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(measure, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }

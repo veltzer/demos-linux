@@ -21,7 +21,8 @@
 #include <unistd.h>	// for isatty, ttyname
 #include <termios.h>	// for tcsetattr, tcgetattr
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for DEBUG(), CHECK_NOT_M1()
+#include <us_helper.h>	// for DEBUG()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * Try to think of the next exercise: try to read just one character from

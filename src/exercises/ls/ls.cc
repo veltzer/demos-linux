@@ -29,7 +29,7 @@
 #include <grp.h>// for getgrgid(2)
 #include <math.h>	// for log10(3), lround(3)
 #include <time.h>	// for localtime_r(3), strftime(3), time(2), difftime(3)
-#include <us_helper.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
 
 /*
  * TODO:

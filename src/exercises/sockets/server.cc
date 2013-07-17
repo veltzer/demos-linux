@@ -25,7 +25,7 @@
 #include <arpa/inet.h>	// for htons(3)
 #include <strings.h>	// for bzero(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 
 int main(int argc, char** argv, char** envp) {
 	socklen_t fromaddrlen;

@@ -20,8 +20,7 @@
 #include <iostream>	// for std::cout, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <boost/thread.hpp>	// for boost::thread
-#include <us_helper.h>	// for CHECK_NOT_M1()
-#include <assert.h>	// for assert(3)
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 
 /*
  * A solution to the exchanger/randezvous exercise...
@@ -64,16 +63,16 @@ public:
 		while (state == SECOND_ARRIVED) {
 			cv_overflow.wait(lock);
 		}
-		assert((state == EMPTY) || (state == FIRST_ARRIVED));
+		CHECK_ASSERT((state == EMPTY) || (state == FIRST_ARRIVED));
 		switch (state) {
 		case EMPTY:
-			assert(!ptr);
+			CHECK_ASSERT(!ptr);
 			ptr = &t;
 			state = FIRST_ARRIVED;
 			while (state == FIRST_ARRIVED) {
 				cv_main.wait(lock);
 			}
-			assert(state == SECOND_ARRIVED);
+			CHECK_ASSERT(state == SECOND_ARRIVED);
 			ptr = 0;
 			state = EMPTY;
 			// Wake up any threads that happened to get
@@ -82,7 +81,7 @@ public:
 			cv_overflow.notify_all();
 			break;
 		case FIRST_ARRIVED:
-			assert(ptr);
+			CHECK_ASSERT(ptr!=NULL);
 			state = SECOND_ARRIVED;
 			std::swap(t, *ptr);
 			cv_main.notify_one();
@@ -116,7 +115,7 @@ public:
 			unsigned int myval=min+rand()%(max-min);
 			e.exchange(myval);
 			// assert that I got something out of my range
-			assert(myval<min || myval>=max);
+			CHECK_ASSERT(myval<min || myval>=max);
 		}
 	}
 };

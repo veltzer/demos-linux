@@ -23,7 +23,7 @@
 #include <stdlib.h>	// for posix_memalign(3) , malloc(3), EXIT_SUCCESS
 #include <sys/mman.h>	// for mmap(2)
 #include <string.h>	// for memset(3)
-#include <us_helper.h>	// for CHECK_ZERO(), CHECK_NOT_VOIDP()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_VOIDP()
 #include <proc_utils.h>	// for proc_print_mmap()
 
 /*

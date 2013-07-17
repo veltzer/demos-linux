@@ -24,7 +24,7 @@
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2), close(2)
 #include <stdlib.h>	// for stof(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This demo shows how to get the uptime of the machine...

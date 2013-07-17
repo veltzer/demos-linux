@@ -22,7 +22,7 @@
 #include <stdio.h>	// for printf(3)
 #include <sys/time.h>	// for setrlimit(2)
 #include <sys/resource.h>	// for setrlimit(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows how to allocate space on the stack using the alloca(3) function call.

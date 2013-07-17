@@ -23,7 +23,8 @@
 #include <sys/stat.h>	// for stat(2)
 #include <unistd.h>	// for stat(2), unlink(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL(), memcheck()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <us_helper.h>	// for memcheck()
 #include <multiproc_utils.h>	// for my_system()
 
 /*

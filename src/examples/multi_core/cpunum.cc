@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sysconf(3)
 #include <sys/sysinfo.h>// for get_nprocs_conf(3), get_nprocs(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is a simple example showing how to get the number of current cpus...

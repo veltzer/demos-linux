@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3)
-#include <us_helper.h>	// for CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_ASSERT()
 
 /*
  * This example shows that the compiler aligns fields to 4/8

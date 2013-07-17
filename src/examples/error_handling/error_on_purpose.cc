@@ -21,7 +21,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This program errors on purpose.

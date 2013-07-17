@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sysconf(3), getpid(2)
 #include <signal.h>	// for signal(2)
-#include <us_helper.h>	// for CHECK_NOT_SIGT()
+#include <err_utils.h>	// for CHECK_NOT_SIGT()
 #include <multiproc_utils.h>	// for my_system()
 
 /*

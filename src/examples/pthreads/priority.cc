@@ -24,7 +24,8 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <us_helper.h>	// for print_scheduling_info(), CHECK_ZERO()
+#include <sched_utils.h>	// for sched_print_info()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * This example explores how to use thread priorities
@@ -56,7 +57,7 @@ void *thread_body(void *arg) {
 	printf("pri is %d\n", pri);
 	while(true) {
 		// pthread_barrier_wait(&mybarrier);
-		print_scheduling_info();
+		sched_print_info();
 		CHECK_ZERO(sleep(10));
 	}
 	return NULL;
@@ -71,7 +72,7 @@ int main(int argc, char** argv, char** envp) {
 	/* MAIN-THREAD WITH LOW PRIORITY */
 	my_param.sched_priority=sched_get_priority_min(SCHED_FIFO);
 	pthread_setschedparam(pthread_self(), SCHED_RR, &my_param);
-	print_scheduling_info();
+	sched_print_info();
 	/* SCHEDULING POLICY AND PRIORITY FOR OTHER THREADS */
 	pthread_attr_init(&lp_attr);
 	pthread_attr_init(&mp_attr);

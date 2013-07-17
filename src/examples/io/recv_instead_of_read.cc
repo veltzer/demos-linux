@@ -23,7 +23,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows that recv(2) cannot be used instead of read for regular

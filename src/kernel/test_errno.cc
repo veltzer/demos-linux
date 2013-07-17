@@ -24,7 +24,7 @@
 #include <unistd.h>	// for close(2)
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <errno.h>	// for errno(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an example which explores how user space experiences errors coming from the kernel.

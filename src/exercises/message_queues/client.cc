@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3), EXIT_FAILURE
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_CHARP()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_CHARP()
 
 const int MSGSZ=1024;
 

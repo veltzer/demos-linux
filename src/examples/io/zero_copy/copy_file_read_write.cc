@@ -23,7 +23,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2), write(2), close(2), getpagesize()
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This demo shows how to correctly code a simple file copy using the

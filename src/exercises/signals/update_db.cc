@@ -28,7 +28,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 struct index {
 	unsigned int ID;

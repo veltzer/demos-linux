@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, exit(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 const int MSGSZ=128;
 const int MAXQUEUE=32768;

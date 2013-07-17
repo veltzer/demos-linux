@@ -19,6 +19,7 @@
 #include <firstinclude.h>
 #include <dlfcn.h>	// for dlopen(3), dlclose(3), dlsym(3)
 #include <us_helper.h>	// TRACE()
+#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_ZERO()
 
 /*
  * Static handle to the library and to the function

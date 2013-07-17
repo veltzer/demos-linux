@@ -19,7 +19,9 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO(), printf(), gettid()
+#include <stdio.h>	// for printf(3)
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
+#include <us_helper.h>	// for gettid()
 #include <signal_utils.h>	// for register_handler_sigaction()
 
 /*

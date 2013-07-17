@@ -24,7 +24,7 @@
 #include <unistd.h>	// for usleep(3)
 #include <cpufreq.h>
 #include <unistd.h>	// for sleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 
 /*
  * This is a demo which shows how, on i386 platforms, to read the rdtsc

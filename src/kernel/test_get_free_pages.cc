@@ -24,7 +24,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This tests the get_free_pages driver

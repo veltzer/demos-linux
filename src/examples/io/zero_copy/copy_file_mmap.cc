@@ -25,7 +25,7 @@
 #include <unistd.h>	// for ftruncate(2), close(2)
 #include <sys/mman.h>	// for mmap(2)
 #include <string.h>	// for memcpy(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 
 /*
  * This example shows a more efficient copy of file using mmap.

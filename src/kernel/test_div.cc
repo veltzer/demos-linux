@@ -24,7 +24,8 @@
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS
 #include <unistd.h>	// for close(3)
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <us_helper.h>	// for CHECK_CHARP(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_CHARP(), CHECK_NOT_M1()
+#include <kernel_utils.h>	// for klog_show(), klog_show_clear()
 #include "shared.h"	// for ioctl numbers
 
 /*

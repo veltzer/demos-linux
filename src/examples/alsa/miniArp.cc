@@ -22,7 +22,7 @@
 #include <stdlib.h>	// for EXIT_FAIURE, EXIT_SUCCESS
 #include <signal.h>	// for signal(2)
 #include <alsa/asoundlib.h>
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * An example of playing midi.

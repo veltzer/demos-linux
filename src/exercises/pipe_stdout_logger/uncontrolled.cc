@@ -20,7 +20,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for usleep(3)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an uncontrolled program that we want to arrange logging for...

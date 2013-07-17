@@ -22,7 +22,7 @@
 #include <sys/types.h>	// for stat(2)
 #include <sys/stat.h>	// for stat(2)
 #include <unistd.h>	// for stat(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <time.h>	// for ctime(3)
 #include <timespec_utils.h>	// for timespec_snprintf()
 

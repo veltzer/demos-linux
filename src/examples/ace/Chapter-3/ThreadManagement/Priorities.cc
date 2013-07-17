@@ -22,8 +22,8 @@
 #include <ace/Log_Msg.h>
 #include <ace/OS_NS_unistd.h>
 #include <unistd.h>	// for sleep(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, CHECK_ZERO()
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE

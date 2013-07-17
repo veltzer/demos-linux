@@ -21,7 +21,7 @@
 #include <signal.h>	// for timer_create(2), signal(2), SIGEV_SIGNAL
 #include <time.h>	// for timer_create(2), timer_settime(2), timer_delete(2)
 #include <unistd.h>	// for pause(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT(), CHECK_ASSERT()
 
 /*
  * This is a basic demo of how to use the Linux timer API.

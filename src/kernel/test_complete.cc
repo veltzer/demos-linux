@@ -23,7 +23,7 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system()
 #include "shared.h"	// for the ioctl codes
 

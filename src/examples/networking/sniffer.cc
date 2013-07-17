@@ -26,7 +26,7 @@
 #include <netinet/tcp.h>// for struct tcphdr
 #include <netinet/in.h>	// for IPPROTO_TCP
 #include <unistd.h>	// for geteuid(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <security_utils.h>	// for check_root()
 
 /*

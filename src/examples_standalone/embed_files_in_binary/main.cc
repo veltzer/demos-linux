@@ -19,10 +19,10 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for putchar(3), printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows how to read bindy data from an attached object file.

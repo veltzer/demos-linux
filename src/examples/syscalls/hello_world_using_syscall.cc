@@ -20,7 +20,7 @@
 #include <unistd.h>	// syscall(2)
 #include <sys/syscall.h>// for syscall(2), SYS_write definitions
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an example of how to do the classic "Hello, World!\n"

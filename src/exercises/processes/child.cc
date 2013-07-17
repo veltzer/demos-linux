@@ -22,7 +22,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for fprintf(3), stderr
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 int main(int argc, char** argv, char** envp) {
 	if (argc < 2) {

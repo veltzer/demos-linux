@@ -21,7 +21,7 @@
 #include <stdlib.h>	// EXIT_SUCCESS
 #include <unistd.h>	// getdtablesize(2), sysconf(3)
 #include <sys/resource.h>	// for getrlimit(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This shows the default open files in linux.

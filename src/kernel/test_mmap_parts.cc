@@ -28,9 +28,10 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP()
 #include <multiproc_utils.h>	// for printbuddy()
 #include <proc_utils.h>	// for proc_print_mmap()
+#include <kernel_utils.h>	// for klog_show(), klog_clear()
 
 /*
  * This test shows how you can do mmap via an ioctl...

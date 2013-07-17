@@ -21,7 +21,7 @@
 #include <unistd.h>	// for daemon(3), pause(2), getpid(2), getppid(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 
 /*
  * This is an example of using the daemon(3) function.

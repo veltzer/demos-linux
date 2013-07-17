@@ -21,8 +21,8 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, rand(3), srand(3)
-#include <us_helper.h>	// for CHECK_ZERO_ERRNO()
 #include <time.h>	// for time(2)
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*
  * EXTRA_LINK_FLAGS=-lpthread

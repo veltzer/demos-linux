@@ -27,7 +27,7 @@
 #include <firstinclude.h>
 #include <unistd.h>	// for geteuid(2)
 #include <sys/types.h>	// for geteuid(2)
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_MSG_ZERO()
 
 /*
  * check that the current process is running as root

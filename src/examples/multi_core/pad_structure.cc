@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_ASSERT()
 
 /*
  * Example of padding a structure to L2 cache line size bytes via union...

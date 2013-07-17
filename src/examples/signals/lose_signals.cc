@@ -22,7 +22,7 @@
 #include <unistd.h>	// for fork(2), pause(2), getppid(2)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <sys/types.h>	// for kill(2), getppid(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_ASSERT()
 #include <signal_utils.h>	// for signal_get_by_name(), register_handler_sigaction()
 
 /*
@@ -40,7 +40,7 @@
  * lose signals.
  *
  * TODO:
- * - do some kind of hard delay function in us_helper.h which is like
+ * - do some kind of hard delay function in some helper file which is like
  * the volatile loop below and call it "busy_delay" and use that
  * instead of usleep.
  * - try using nanosleep(2) inside the loop instead of usleep(2) or

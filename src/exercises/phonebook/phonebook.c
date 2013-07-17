@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3)
 #include <string.h>	// for strncpy(3), strcmp(3)
-#include <us_helper.h>	// for CHECK_INT()
+#include <err_utils.h>	// for CHECK_INT()
 
 const int MAX_SIZE_OF_NAME=20;
 const int MAX_SIZE_OF_PHONE=20;

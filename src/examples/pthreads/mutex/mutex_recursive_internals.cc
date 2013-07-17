@@ -18,9 +18,10 @@
 
 #include <firstinclude.h>
 #include <unistd.h>	// for sleep(3)
-#include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_destroy(3), pthread_create(3), pthread_join(3)
-#include <us_helper.h>	// for TRACE(), CHECK_ZERO_ERRNO()
-#include <assert.h>	// for assert(3)
+#include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3), PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ASSERT()
+#include <pthread_utils.h>	// for pthread_mutex_get_counter()
 
 /*
  * This example shows that a recursive mutex can be locked by the same thread
@@ -33,22 +34,15 @@
 
 static pthread_mutex_t mylock=PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 
-inline int pthread_mutex_get_counter(const pthread_mutex_t * mutex) {
-	// the ugly way...
-	// return ((int*)&mylock)[1];
-	// the nice way (although not official API)...
-	return mutex->__data.__count;
-}
-
 int main(int argc, char** argv, char** envp) {
-	assert(pthread_mutex_get_counter(&mylock)==0);
+	CHECK_ASSERT(pthread_mutex_get_counter(&mylock)==0);
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mylock));
-	assert(pthread_mutex_get_counter(&mylock)==1);
+	CHECK_ASSERT(pthread_mutex_get_counter(&mylock)==1);
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&mylock));
-	assert(pthread_mutex_get_counter(&mylock)==2);
+	CHECK_ASSERT(pthread_mutex_get_counter(&mylock)==2);
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mylock));
-	assert(pthread_mutex_get_counter(&mylock)==1);
+	CHECK_ASSERT(pthread_mutex_get_counter(&mylock)==1);
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mylock));
-	assert(pthread_mutex_get_counter(&mylock)==0);
+	CHECK_ASSERT(pthread_mutex_get_counter(&mylock)==0);
 	return EXIT_SUCCESS;
 }

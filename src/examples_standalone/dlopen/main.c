@@ -20,7 +20,7 @@
 #include <stdio.h> // for printf(3)
 #include <dlfcn.h> // for dlopen(3), dlsym(3), dlclose(3)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include <us_helper.h> // for CHECK_NOT_NULL(), CHECK_ZERO()
+#include <err_utils.h> // for CHECK_NOT_NULL(), CHECK_ZERO()
 
 int main(int argc,char** argv,char** envp) {
 	void* h=CHECK_NOT_NULL(dlopen("libadd.so", RTLD_NOW));

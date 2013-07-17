@@ -23,7 +23,7 @@
 #include <unistd.h>	// for rmdir(2), stat(2), unlink(2), sleep(3)
 #include <stdio.h>	// for snprintf(3), printf(3)
 #include <time.h>	// for time(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <limits.h>	// for PATH_MAX

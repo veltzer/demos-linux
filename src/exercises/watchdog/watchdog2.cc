@@ -30,7 +30,8 @@
 #include <signal.h>	// for SIGCHLD
 #include <sys/types.h>	// for waitpid(2), WIFSIGNALED(3)
 #include <sys/wait.h>	// for waitpid(2), WIFSIGNALED(3)
-#include <us_helper.h>	// for CHECK_NOT_M1(), TRACE(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <us_helper.h>	// for TRACE()
 #include <multiproc_utils.h>	// for print_status()
 #include <signal_utils.h>	// for register_handler_sigaction()
 

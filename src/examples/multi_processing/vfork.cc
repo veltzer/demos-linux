@@ -25,7 +25,7 @@
 #include <string.h>	// for strsignal(3)
 #include <sys/types.h>	// for vfork(2)
 #include <unistd.h>	// for vfork(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
 #include <multiproc_utils.h>	// for print_code(), print_status()
 
 /*

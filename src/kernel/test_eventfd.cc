@@ -24,7 +24,7 @@
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for fork(2), close(2)
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <us_helper.h>	// for CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This tests eventfd code in the kernel...

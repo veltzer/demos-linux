@@ -23,7 +23,7 @@
 #include <ace/Message_Block.h>
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE

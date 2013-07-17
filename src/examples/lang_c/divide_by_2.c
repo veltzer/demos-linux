@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for scanf(3), printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for CHECK_INT()
+#include <err_utils.h>	// for CHECK_INT()
 
 int main(int argc, char** argv, char** envp) {
 	int num;

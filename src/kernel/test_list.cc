@@ -24,8 +24,10 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for CHECK_NOT_M1(), waitkey(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <us_helper.h>	// for waitkey()
 #include <multiproc_utils.h>	// for my_system()
+#include <kernel_utils.h>	// for klog_show(), klog_show_clear()
 #include "shared.h"
 
 /*
