@@ -29,6 +29,12 @@
  * This example shows how to read the content of a directory using
  * the readdir(2) system call (old and deprecated way).
  *
+ * readdir(2) is a bad API since:
+ * - it's transfer data is always large as the largest file.
+ * - in every call it transfers EXACTLY one directory entry which
+ * requires lots of calls to get very big folders of information.
+ * - it does NOT provide lots of needed info (like file type).
+ *
  * A great part of this example was shamelessly stolen from the getdents(2)
  * manual page and adjusted for the readdir(2) system call.
  */
