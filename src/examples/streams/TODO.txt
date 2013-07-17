@@ -1,0 +1,8 @@
+- write more stream based examples here.
+	fpurge, __fpurge
+	stdio_ext
+	fflush
+	void flockfile(FILE *filehandle);
+	int ftrylockfile(FILE *filehandle);
+	void funlockfile(FILE *filehandle);
+	unlocked_stdio(3)
