@@ -25,6 +25,7 @@
 #include <dirent.h>	// for DT_* constants
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <us_helper.h>	// for INFO(), getdents(), struct linux_dirent
+#include <dir_utils.h>	// for dir_get_by_val()
 
 /*
  * This example shows how to read the content of a directory using
@@ -63,16 +64,9 @@ int main(int argc, char** argv, char** envp) {
 		while(bpos < nread) {
 			struct linux_dirent * d = (struct linux_dirent *) (buf + bpos);
 			char d_type = *(buf + bpos + d->d_reclen - 1);
-			const char* type=(d_type == DT_REG) ? "regular" :
-					  (d_type == DT_DIR) ? "directory" :
-					  (d_type == DT_FIFO) ? "FIFO" :
-					  (d_type == DT_SOCK) ? "socket" :
-					  (d_type == DT_LNK) ? "symlink" :
-					  (d_type == DT_BLK) ? "block dev" :
-					  (d_type == DT_CHR) ? "char dev" : "Unknown";
 			printf("%8ld %-10s %8d %10lu %s\n",
 				d->d_ino,
-				type,
+				dir_get_by_val(d_type),
 				d->d_reclen,
 				d->d_off,
 				d->d_name
