@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>	// for TRACE()
 
 extern "C" double sin(double x) {
 	TRACE("start");
