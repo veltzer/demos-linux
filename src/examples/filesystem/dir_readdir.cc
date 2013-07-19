@@ -23,7 +23,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
-#include <us_helper.h>	// for INFO(), readdir(), struct old_linux_dirent
+#include <us_helper.h>	// for INFO(), syscall_readdir(), struct old_linux_dirent
 
 /*
  * This example shows how to read the content of a directory using
@@ -53,7 +53,7 @@ int main(int argc, char** argv, char** envp) {
 	struct old_linux_dirent d;
 	printf("%8s %8s %12s %20s\n", "i-node#", "d_reclen", "d_off", "d_name");
 	while(true) {
-		int nread=CHECK_NOT_M1(readdir(fd, &d, sizeof(d)));
+		int nread=CHECK_NOT_M1(syscall_readdir(fd, &d, sizeof(d)));
 		if(nread==0) {
 			break;
 		}
