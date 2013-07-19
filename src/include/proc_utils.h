@@ -27,12 +27,25 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <sys/types.h>	// for getpid(2), pid_t
-#include <unistd.h>	// for getpid(2), pid_t
-#include <stdio.h>	// for snprintf(3)
+#include <sys/types.h>	// for getpid(2), pid_t:type
+#include <unistd.h>	// for getpid(2), pid_t:type
+#include <stdio.h>	// for snprintf(3), printf(3), fopen(3), fread(3), fclose(3), feof(3), FILE:type
 #include <proc/readproc.h>	// for get_proc_stats(3), proc_t, look_up_our_self(3)
+#include <sys/time.h>	// for getrusage(2), rusage:struct
+#include <sys/resource.h>	// for getrusage(2), rusage:struct
 #include <multiproc_utils.h>	// for my_system()
+#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 
+/*
+ * Function to print the resident memory of the current process as
+ * well as the number of minor page faults.
+ */
+void proc_show_vmem() {
+	struct rusage usage;
+	CHECK_NOT_M1(getrusage(RUSAGE_SELF, &usage));
+	printf("usage.ru_maxrss=%lu\n", usage.ru_maxrss);
+	printf("usage.ru_minflt=%lu\n", usage.ru_minflt);
+}
 /*
  * Function to print the current processes /proc maps file
  */
@@ -43,6 +56,20 @@ static inline void proc_print_mmap(const char *filter) {
 	} else {
 		my_system("cat /proc/%d/maps | grep %s", pid, filter);
 	}
+}
+/*
+ * Function to print the current processes /proc maps file
+ */
+static inline void proc_print_mmap_self() {
+	char buf[4096];
+	FILE* fp=CHECK_NOT_NULL_FILEP(fopen("/proc/self/maps","r"));
+	do {
+		size_t len=CHECK_NOT_M1(fread(buf, 1, sizeof(buf), fp));
+		if(len>0) {
+			printf("%s", buf);
+		}
+	} while(!feof(fp));
+	CHECK_ZERO_ERRNO(fclose(fp));
 }
 
 /*
