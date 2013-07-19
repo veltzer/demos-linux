@@ -21,7 +21,7 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdio.h>	// for printf(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
-#include <us_helper.h>	// for gettid()
+#include <pthread_utils.h>	// for gettid()
 #include <signal_utils.h>	// for register_handler_sigaction()
 
 /*

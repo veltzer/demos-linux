@@ -34,6 +34,8 @@
 #include <assert.h>	// for assert(3)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_VOIDP()
 #include <network_utils.h>	// for get_backlog(), print_servent()
+#include <trace_utils.h>// for TRACE()
+#include <pthread_utils.h>	// for gettid()
 
 /*
  * This is an example of using vmsplice to send mucho data to clients.

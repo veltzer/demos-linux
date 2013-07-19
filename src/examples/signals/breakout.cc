@@ -23,7 +23,7 @@
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2), read(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 
 /*

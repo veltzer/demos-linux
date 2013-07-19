@@ -18,10 +18,11 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <sys/types.h>	// for gettid(2), getpid(2)
+#include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <pthread_utils.h>	// for gettid()
 
 /*
  * This demo explored gettid() and getpid() issues on linux
