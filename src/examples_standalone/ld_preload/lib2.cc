@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <dlfcn.h>	// for dlopen(3), dlclose(3), dlsym(3)
-#include <trace_utils.h>	// TRACE()
+#include <trace_utils.h>// TRACE()
 #include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_ZERO()
 
 /*
