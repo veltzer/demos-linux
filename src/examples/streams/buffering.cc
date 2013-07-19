@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio_ext.h>	// for __flbf(3), __fbufsize(3)
 #include <unistd.h>	// for unlink(2)
-#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_ZERO(), CHECK_NOT_M1(), CHECK_INT_NOERRNO()
+#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_ZERO(), CHECK_NOT_M1(), CHECK_INT_NOERRNO()
 
 /*
  * This example shows the different buffering schemes of the standard
@@ -74,16 +74,16 @@ int main(int argc, char** argv, char** envp) {
 	printBuffDetails(stdout, "stdout");
 	printBuffDetails(stderr, "stderr");
 
-	FILE *f1=(FILE*)CHECK_NOT_NULL(fopen(writeFileName, "w"));
+	FILE *f1=CHECK_NOT_NULL_FILEP(fopen(writeFileName, "w"));
 	printBuffDetails(f1, "newly created file for writing without write(3)");
 	CHECK_ZERO(fclose(f1));
 	CHECK_NOT_M1(unlink(writeFileName));
 
-	FILE *f2=(FILE*)CHECK_NOT_NULL(fopen(readFileName, "r"));
+	FILE *f2=CHECK_NOT_NULL_FILEP(fopen(readFileName, "r"));
 	printBuffDetails(f2, "newly created file for reading without read(3)");
 	CHECK_ZERO(fclose(f2));
 
-	FILE *f3=(FILE*)CHECK_NOT_NULL(fopen(writeFileName, "w"));
+	FILE *f3=CHECK_NOT_NULL_FILEP(fopen(writeFileName, "w"));
 	const char* hello="hello";
 	CHECK_INT_NOERRNO(fwrite(hello, strlen(hello), 1, f3), 1);
 	char buf[1024];
@@ -93,13 +93,13 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO(fclose(f3));
 	CHECK_NOT_M1(unlink(writeFileName));
 
-	FILE *f4=(FILE*)CHECK_NOT_NULL(fopen(writeFileName, "w"));
+	FILE *f4=CHECK_NOT_NULL_FILEP(fopen(writeFileName, "w"));
 	CHECK_INT_NOERRNO(fwrite(hello, strlen(hello), 1, f4), 1);
 	printBuffDetails(f4, "newly created file for writing with write(3)");
 	CHECK_ZERO(fclose(f4));
 	CHECK_NOT_M1(unlink(writeFileName));
 
-	FILE *f5=(FILE*)CHECK_NOT_NULL(fopen(readFileName, "r"));
+	FILE *f5=CHECK_NOT_NULL_FILEP(fopen(readFileName, "r"));
 	// lets read something
 	CHECK_INT_NOERRNO(fread(buf, sizeof(buf), 1, f5), 1);
 	printBuffDetails(f5, "newly created file for reading with read(3)");

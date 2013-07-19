@@ -23,7 +23,7 @@
 #include <sys/stat.h>	// for stat(2)
 #include <unistd.h>	// for stat(2), unlink(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL_FILEP()
 #include <us_helper.h>	// for memcheck()
 #include <multiproc_utils.h>	// for my_system()
 
@@ -45,7 +45,7 @@ const char *string="hello";
 const char *fname="/tmp/my.sparse.file";
 
 int main(int argc, char** argv, char** envp) {
-	FILE* f=(FILE*)CHECK_NOT_NULL(fopen(fname, "w"));
+	FILE* f=CHECK_NOT_NULL_FILEP(fopen(fname, "w"));
 	CHECK_NOT_M1(fseek(f, pos, SEEK_CUR));
 	CHECK_NOT_M1(fwrite(string, strlen(string), 1, f));
 	CHECK_NOT_M1(fclose(f));
@@ -57,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	my_system("ls -l %s", fname);
 	my_system("du -h %s", fname);
 	// now lets see that we can read from the file...
-	f=(FILE*)CHECK_NOT_NULL(fopen(fname, "r"));
+	f=CHECK_NOT_NULL_FILEP(fopen(fname, "r"));
 	const unsigned int buf_size=4096;
 	char buf[buf_size];
 	memset(buf, 3, buf_size);

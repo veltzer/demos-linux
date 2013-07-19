@@ -23,7 +23,7 @@
 #include <pthread.h>	// for pthread_mutex_t, pthread_mutex_lock, pthread_mutex_unlock
 #include <stdarg.h>	// for va_list, va_start, va_end
 #include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const, sched_print_table()
-#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_NULL_FILEP()
 #include <measure.h>	// for measure:struct, measure_init(), measure_start(), measure_end(), measure_print()
 
 /*
@@ -101,7 +101,7 @@ void* func(void*) {
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
 
-	FILE* f=(FILE*)CHECK_NOT_NULL(fopen("/tmp/syslog_test", "w+"));
+	FILE* f=CHECK_NOT_NULL_FILEP(fopen("/tmp/syslog_test", "w+"));
 	measure_init(&m, "regular file operations (nonbuffreed, flushed, synchroneous)", number);
 	measure_start(&m);
 	for(unsigned int i=0; i < number; i++) {
@@ -114,7 +114,7 @@ void* func(void*) {
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
 
-	f=(FILE*)CHECK_NOT_NULL(fopen("/tmp/syslog_test", "w+"));
+	f=CHECK_NOT_NULL_FILEP(fopen("/tmp/syslog_test", "w+"));
 	measure_init(&m, "regular file operations (nonbuffreed, flushed, synchroneous)", number);
 	measure_start(&m);
 	for(unsigned int i=0; i < number; i++) {
