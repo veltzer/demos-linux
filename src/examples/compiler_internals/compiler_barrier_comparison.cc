@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), fprintf(3)
 #include <stdlib.h>	// for srandom(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
-#include <err_utils.h>	// for CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP()
 
 /*
  * This is an example of a compiler barrier
@@ -212,7 +212,7 @@ TEST(
 	);
 
 int main(int argc, char** argv, char** envp) {
-	outfile=(FILE*)CHECK_NOT_NULL(fopen("/dev/null", "w"));
+	outfile=CHECK_NOT_NULL_FILEP(fopen("/dev/null", "w"));
 	int val_before, val_after, dummy;
 	test_nothing(val_before, val_after, dummy);
 	test_machbar(val_before, val_after, dummy);

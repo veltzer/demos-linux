@@ -20,7 +20,7 @@
 #include <stdio.h>	// for fopen(3), fprintf(3), fclose(3), getline(3), popen(3), pclose(3)
 #include <stdlib.h>	// for system(3), abort(3), mkstemp(3), malloc(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h>	// for close(2)
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL_FILEP()
 #include <multiproc_utils.h>	// for my_system()
 
 /*
@@ -33,7 +33,7 @@
  * cut all but the first line in the file and return the temp file holding the result
  */
 void cut_first_line(const char* filename, FILE* output) {
-	FILE* input=(FILE*)CHECK_NOT_NULL(fopen(filename, "r"));
+	FILE* input=CHECK_NOT_NULL_FILEP(fopen(filename, "r"));
 	size_t n=1024;
 	char* lineptr=(char*)malloc(n);
 	int active=0;
@@ -72,7 +72,7 @@ int main(int argc, char** argv, char** envp) {
 #ifdef DO_DEBUG
 	fprintf(stderr, "cmd is [%s]\n", cmd);
 #endif	// DO_DEBUG
-	FILE* handle=(FILE*)CHECK_NOT_NULL(popen(cmd, "w"));
+	FILE* handle=CHECK_NOT_NULL_FILEP(popen(cmd, "w"));
 	cut_first_line(filename, handle);
 	CHECK_NOT_M1(pclose(handle));
 	// close the tmpl
