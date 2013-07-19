@@ -43,7 +43,6 @@
 
 int main(int argc, char** argv, char** envp) {
 	if(argc>1) {
-		printf("started\n");
 		// this is the default type of locked (the "FAST" kind...) using the
 		// special initialisation syntax...
 		pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
@@ -61,6 +60,8 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO_ERRNO(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_PRIVATE));
 		CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_private, &attr));
 		CHECK_ZERO_ERRNO(pthread_mutexattr_destroy(&attr));
+
+		printf("started\n");
 
 		printf("before critical section\n");
 		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex));
@@ -89,6 +90,8 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_private));
 		printf("after critical section\n");
 		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_private));
+
+		printf("ended\n");
 	} else {
 		my_system("strace %s argument", argv[0]);
 	}

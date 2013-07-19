@@ -1,6 +1,7 @@
 various hacks by GBY:
 	https://github.com/gby/hacks
-
+blogs to get ideas from:
+	http://preshing.com
 articles to get nice demos from:
 	http://www.coranac.com/documents/working-with-bits-and-bitfields/
 	http://stackoverflow.com/questions/1490092/c-c-force-bit-field-order-and-alignment
