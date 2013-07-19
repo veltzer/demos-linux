@@ -8,3 +8,5 @@
 - demonstrate the use of sigaltstack(2)
 - many more signal functions: see man -k sig | grep 2
 - demonstrate the use of pause(2) to implement async io with signals.
+- demostrate all the sysV compatible apis at man 3 setset
+	explain that they are deprecated.
