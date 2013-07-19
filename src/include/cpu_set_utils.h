@@ -28,7 +28,7 @@
 
 #include <firstinclude.h>
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
-#include <us_helper.h>	// for INFO()
+#include <trace_utils.h>// for INFO()
 
 /*
  * A function to print cpu sets

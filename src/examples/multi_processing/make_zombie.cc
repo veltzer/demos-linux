@@ -25,7 +25,7 @@
 #include <string.h>	// for strsignal(3)
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), CHECK_1()
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <multiproc_utils.h>	// for print_code(), print_status()
 #include <process_utils.h>	// for set_process_name()
 

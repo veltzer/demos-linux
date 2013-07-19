@@ -79,4 +79,42 @@ static inline int pthread_mutex_get_counter(const pthread_mutex_t * mutex) {
 	return mutex->__data.__count;
 }
 
+/*
+ * getting a thread id via the kernel (glibc doesnt have this)
+ */
+static inline pid_t gettid(void) {
+	return(syscall(SYS_gettid));
+}
+
+/*
+ * gettid_cached() implementation to avoid going to the kernel a lot.
+ */
+static pthread_key_t tid_key;
+static bool init_key=false;
+
+typedef struct _cached_tid {
+	pid_t val;
+} cached_tid;
+
+static inline void gettid_cache_delete(void* ptr) {
+	free(ptr);
+}
+
+static inline pid_t gettid_cached() {
+	if(myunlikely(init_key==false)) {
+		CHECK_ZERO_ERRNO(pthread_key_create(&tid_key, gettid_cache_delete));
+		init_key=true;
+	}
+	void* ptr=pthread_getspecific(tid_key);
+	if(ptr==NULL) {
+		cached_tid* ctid=(cached_tid*)malloc(sizeof(cached_tid));
+		ctid->val=gettid();
+		CHECK_ZERO_ERRNO(pthread_setspecific(tid_key, ctid));
+		return ctid->val;
+	} else {
+		cached_tid* ctid=(cached_tid*)ptr;
+		return ctid->val;
+	}
+}
+
 #endif	/* !__pthread_utils_h */

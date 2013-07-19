@@ -21,7 +21,7 @@
 #include <string.h>	// for strncpy(3)
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO()
 #include <multiproc_utils.h>	// for my_system()
 #include <process_utils.h>	// for print_process_name(), get_process_name()

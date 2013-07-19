@@ -29,7 +29,7 @@
 #include <sys/types.h>	// for wait(2), WIFSIGNALED(3)
 #include <sys/wait.h>	// for wait(2), WIFSIGNALED(3)
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <multiproc_utils.h>	// for print_status()
 
 const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";

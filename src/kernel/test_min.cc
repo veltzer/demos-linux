@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for DEBUG()
+#include <trace_utils.h>// for DEBUG()
 
 /*
  * The most minimal test for kernel space. Does nothing.

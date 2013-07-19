@@ -23,7 +23,7 @@
 #include <sys/wait.h>	// for waitid(2)
 #include <stdlib.h>	// for exit(3), atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <string.h>	// for strsignal(3)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <multiproc_utils.h>	// for print_code(), print_status()
 

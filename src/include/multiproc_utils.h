@@ -27,11 +27,11 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for TRACE()
 #include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <string.h>	// for strsignal(3)
 #include <stdio.h>	// for stderr, fprintf(3)
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_M1()
 
 static inline int child_ok(int status) {

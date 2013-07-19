@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for atoi(3)
 #include <string.h>	// for memset(3)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <multiproc_utils.h>	// for my_system()
 
 /*

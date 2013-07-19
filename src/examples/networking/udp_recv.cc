@@ -30,7 +30,7 @@
 #include <arpa/inet.h>	// for inet_addr(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*

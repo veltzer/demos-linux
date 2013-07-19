@@ -23,7 +23,8 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
-#include <us_helper.h>	// for INFO(), syscall_readdir(), struct old_linux_dirent
+#include <us_helper.h>	// for syscall_readdir(), struct old_linux_dirent
+#include <trace_utils.h>// for INFO()
 
 /*
  * This example shows how to read the content of a directory using
