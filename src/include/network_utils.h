@@ -27,7 +27,6 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
@@ -35,6 +34,7 @@
 #include <stdlib.h>	// for atoi(3)
 #include <stdio.h>	// for snprintf(3)
 #include <netdb.h>	// for getservbyname(3)
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 static inline int get_backlog() {
 	// read the data from the /proc/sys/net/core/somaxconn virtual file...

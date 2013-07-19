@@ -26,6 +26,8 @@
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(),
 #include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <us_helper.h>	// for myunlikely()
+#include <pthread_utils.h>	// for gettid(2), gettid_cached()
 
 /*
  * This demo shows that the performance of various syscalls.
@@ -42,33 +44,6 @@
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-
-static pthread_key_t tid_key;
-
-typedef struct _cached_tid {
-	pid_t val;
-} cached_tid;
-
-static void gettid_cache_delete(void* ptr) {
-	free(ptr);
-}
-
-static pid_t gettid_cached() {
-	void* ptr=pthread_getspecific(tid_key);
-	if(ptr==NULL) {
-		cached_tid* ctid=(cached_tid*)malloc(sizeof(cached_tid));
-		ctid->val=gettid();
-		CHECK_ZERO_ERRNO(pthread_setspecific(tid_key, ctid));
-		return ctid->val;
-	} else {
-		cached_tid* ctid=(cached_tid*)ptr;
-		return ctid->val;
-	}
-}
-
-static void gettid_cache_init() {
-	CHECK_ZERO_ERRNO(pthread_key_create(&tid_key, gettid_cache_delete));
-}
 
 static void* work(void* p) {
 	const unsigned int loop=1000000;
@@ -99,7 +74,6 @@ static void* work(void* p) {
 	measure_end(&m);
 	measure_print(&m);
 
-	gettid_cache_init();
 	measure_init(&m, "gettid_cached", loop);
 	measure_start(&m);
 	for(unsigned int i=0; i<loop; i++) {

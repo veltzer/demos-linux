@@ -20,7 +20,7 @@
 #include <stdio.h>	// for stdin, fileno(3)
 #include <unistd.h>	// for isatty(3), ttyname(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for DEBUG()
+#include <trace_utils.h>// for DEBUG()
 
 /*
  * This is an example of how to detect whether a file you are using is

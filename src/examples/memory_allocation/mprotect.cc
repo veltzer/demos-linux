@@ -23,7 +23,7 @@
 #include <signal.h>	// for SIGSEGV, psiginfo(3), strsignal(3)
 #include <malloc.h>	// for memalign(3)
 #include <unistd.h>	// for getpagesize(2)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
 #include <signal_utils.h>	// for register_handler_sigaction()
 

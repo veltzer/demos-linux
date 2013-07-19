@@ -23,7 +23,7 @@
 #include <unistd.h>	// for sysconf(3), usleep(3), getopt_long(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(2)
 #include <getopt.h>	// for struct option
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*

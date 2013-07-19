@@ -24,7 +24,7 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <us_helper.h>	// for INFO()
+#include <trace_utils.h>// for INFO()
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_ZERO()
 
 /*

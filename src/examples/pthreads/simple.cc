@@ -21,11 +21,15 @@
 #include <unistd.h>	// for sleep(3), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <sched.h>	// for sched_getcpu(2)
-#include <us_helper.h>	// for TRACE(), gettid(2)
+#include <trace_utils.h>// for TRACE()
+#include <pthread_utils.h>	// for gettid(2), gettid_cached()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 
 /*
- * This is a standard pthread demo
+ * This is a standard pthread demo.
+ * This shows the various attributes of each of the threads:
+ * pthread_self, tid, tid cached, pid, core it is running
+ * on.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
@@ -35,6 +39,7 @@ void *worker(void *p) {
 	pthread_t t=pthread_self();
 	TRACE("thread %d: pthread_self is %lu", num, t);
 	TRACE("thread %d: gettid() is %d", num, gettid());
+	TRACE("thread %d: gettid_cached() is %d", num, gettid_cached());
 	TRACE("thread %d: getpid() is %d", num, getpid());
 	TRACE("thread %d: sched_getcpu() is %d", num, sched_getcpu());
 	CHECK_ZERO(sleep(60));

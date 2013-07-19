@@ -80,13 +80,6 @@
  */
 #define PRINT_SIZEOF(type) printf("size of " stringify(type) " is %zd\n", sizeof(type))
 
-/*
- * getting a thread id (glibc doesnt have this)
- */
-static inline pid_t gettid(void) {
-	return(syscall(SYS_gettid));
-}
-
 static inline unsigned int get_clk_tck(void) {
 	return(sysconf(_SC_CLK_TCK));
 }
@@ -166,42 +159,6 @@ static inline void waitkey(const char *msg) {
 	// sc(setvbuf(stdin,NULL,_IONBF,0));
 	fgetc(stdin);
 }
-
-static inline void debug(bool short_print, const char *file, const char *function, int line, const char *fmt, ...) {
-	extern char *program_invocation_short_name;
-	const int BUFSIZE=1024;
-	char str[BUFSIZE];
-	va_list args;
-	pid_t pid=getpid();
-	pid_t tid=gettid();
-	if(short_print) {
-		snprintf(str, BUFSIZE, "%s\n", fmt);
-	} else {
-		snprintf(str, BUFSIZE, "%s %d/%d %s %s %d: %s\n", program_invocation_short_name, pid, tid, file, function, line, fmt);
-	}
-	va_start(args, fmt);
-	vfprintf(stderr, str, args);
-	va_end(args);
-}
-
-void debug(bool short_print, const char *file, const char *function, int line, const char *fmt, ...) __attribute__((format(printf, 5, 6)));
-
-/*
- * Semantics of these macros:
- * TRACE - always enabled and always shows max info (usually for debug)
- * DEBUG - cancelled by default and shows max info (turn it on with DO_DEBUG).
- * INFO, WARNING, ERROR, FATAL - doesn't show a lot of info (just the message).
- */
-#define TRACE(fmt, args ...) debug(false, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#ifdef DO_DEBUG
-#define DEBUG(fmt, args ...) debug(false, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#else
-#define DEBUG(fmt, args ...) do {} while(0)
-#endif
-#define INFO(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#define WARNING(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#define ERROR(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
-#define FATAL(fmt, args ...) debug(true, __FILE__, __FUNCTION__, __LINE__, fmt, ## args)
 
 /*
  * Check that an entire area of memory has a certain value

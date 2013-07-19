@@ -21,7 +21,7 @@
 #include <unistd.h>	// for sysconf(3), sleep(3)
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 // #define DO_DEBUG
-#include <us_helper.h>	// for DEBUG(), INFO()
+#include <trace_utils.h>// for DEBUG(), INFO()
 #include <err_utils.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO()
 
 /*

@@ -23,7 +23,7 @@
 #include <string.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for sysconf(3)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*

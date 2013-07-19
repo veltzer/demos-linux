@@ -24,7 +24,8 @@
 #include <fcntl.h>	// for open(2)
 #include <dirent.h>	// for DT_* constants
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <us_helper.h>	// for INFO(), syscall_getdents(), struct linux_dirent
+#include <us_helper.h>	// for syscall_getdents(), struct linux_dirent
+#include <trace_utils.h>// for INFO()
 #include <dir_utils.h>	// for dir_get_by_val()
 
 /*

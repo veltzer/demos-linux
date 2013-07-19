@@ -21,8 +21,8 @@
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_barrier_t, pthread_create(3)
 #include <unistd.h>	// for sysconf(3), usleep(3), sleep(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(3)
-#include <us_helper.h>	// for INFO()
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ONEOFTWO(), CHECK_NOT_M1(), INFO()
+#include <trace_utils.h>// for INFO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ONEOFTWO(), CHECK_NOT_M1()
 
 /*
  * This demo shows off pthread barriers which are a way to synchronize a number of threads.

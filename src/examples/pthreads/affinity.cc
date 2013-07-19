@@ -20,7 +20,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h>	// for sysconf(3)
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 #include <cpu_set_utils.h>	// for cpu_set_print()
 

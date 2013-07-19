@@ -21,7 +21,7 @@
 #include <signal.h>	// for signal(2)
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_SIGT()
 
 /*

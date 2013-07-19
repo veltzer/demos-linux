@@ -30,7 +30,7 @@
 #include <sys/un.h>	// for sockaddr_un
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <network_utils.h>	// for get_backlog()
 
 /*

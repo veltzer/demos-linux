@@ -29,7 +29,7 @@
 #include <sys/prctl.h>	// for prctl(2), PR_SET_NAME, PR_GET_NAME
 #include <string.h>	// for strncpy(3)
 #include <err_utils.h>	// for CHECK_ZERO()
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 
 const unsigned int name_size=16;
 /*
