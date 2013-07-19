@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <trace_utils.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 
 void bar_init(void) {
 	TRACE("start");

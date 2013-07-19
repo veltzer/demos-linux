@@ -22,7 +22,7 @@
 #include <sys/wait.h>	// for waitpid(2)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <err_utils.h>	// for CHECK_ZERO()
-#include <trace_utils.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 
 /*
  * EXTRA_LINK_FLAGS=-lpthread
