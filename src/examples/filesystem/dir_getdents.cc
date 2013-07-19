@@ -24,7 +24,7 @@
 #include <fcntl.h>	// for open(2)
 #include <dirent.h>	// for DT_* constants
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <us_helper.h>	// for INFO(), getdents(), struct linux_dirent
+#include <us_helper.h>	// for INFO(), syscall_getdents(), struct linux_dirent
 #include <dir_utils.h>	// for dir_get_by_val()
 
 /*
@@ -48,7 +48,7 @@ int main(int argc, char** argv, char** envp) {
 	int fd=CHECK_NOT_M1(open(dirname, O_RDONLY | O_DIRECTORY));
 	char buf[1024];
 	while(true) {
-		int nread=CHECK_NOT_M1(getdents(fd, (struct linux_dirent*)buf, sizeof(buf)));
+		int nread=CHECK_NOT_M1(syscall_getdents(fd, (struct linux_dirent*)buf, sizeof(buf)));
 		if(nread==0) {
 			break;
 		}

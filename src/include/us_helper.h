@@ -286,14 +286,14 @@ struct linux_dirent {
 /*
  * Wrapper for the getdents(2) system call which is not supplied by glibc
  */
-static inline int getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int count) {
+static inline int syscall_getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int count) {
 	return syscall(SYS_getdents, fd, dirp, count);
 }
 
 /*
  * Wrapper for the readdir(2) system call which is not supplied by glibc
  */
-static inline int readdir(unsigned int fd, struct old_linux_dirent *dirp, unsigned int count) {
+static inline int syscall_readdir(unsigned int fd, struct old_linux_dirent *dirp, unsigned int count) {
 	return syscall(SYS_readdir, fd, dirp, count);
 }
 
