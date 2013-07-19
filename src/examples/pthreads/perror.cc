@@ -24,7 +24,7 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*

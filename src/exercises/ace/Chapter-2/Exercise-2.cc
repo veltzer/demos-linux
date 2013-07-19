@@ -22,7 +22,7 @@
 #include <ace/Read_Buffer.h>	// for the read buffer
 #include <ace/Thread_Manager.h>	// for the thread manager to manage everything
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for gettid()
+#include <pthread_utils.h>	// for gettid()
 
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE

@@ -27,7 +27,7 @@
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for sleep(3), getpid(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <us_helper.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 
 int main(int argc, char** argv, char** envp) {
 	const unsigned int min_sleep=5;

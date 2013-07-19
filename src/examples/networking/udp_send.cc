@@ -31,6 +31,7 @@
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <fcntl.h>	// for open(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
+#include <trace_utils.h>// for TRACE()
 
 /*
  * This is udp client demo that sends a file to a udp port.

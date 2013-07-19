@@ -21,6 +21,7 @@
 #include <unistd.h>	// for _exit(2)
 #include <sys/syscall.h>// for syscall(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
+#include <trace_utils.h>// for DEBUG()
 
 /*
  * This example explores the different ways of exiting a program...

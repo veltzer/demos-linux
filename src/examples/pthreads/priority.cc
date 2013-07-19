@@ -26,6 +26,7 @@
 #include <sys/resource.h>
 #include <sched_utils.h>// for sched_print_info()
 #include <err_utils.h>	// for CHECK_ZERO()
+#include <pthread_utils.h>	// for gettid()
 
 /*
  * This example explores how to use thread priorities
