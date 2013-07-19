@@ -33,6 +33,14 @@
  * Compile this with USE_CPU_FENCE defined to see the reordering
  * issues go away...
  *
+ * The heart of this example are two threads. with x=0, y=0.
+ * one thread doing
+ * x=1, ry=y
+ * and the other
+ * y=2, rx=x
+ * Each is doing a write and then a read.
+ * If both of the writes and reads switch then we will get rx=ry=0.
+ *
  * References:
  * http://preshing.com/20120515/memory-reordering-caught-in-the-act
  *
