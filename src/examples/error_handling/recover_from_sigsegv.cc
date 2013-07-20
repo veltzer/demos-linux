@@ -39,6 +39,9 @@
  * this is to make sure that source code interleaving in the disassembly works
  * out well...
  * EXTRA_COMPILE_FLAGS=-g3
+ *
+ * TODO:
+ * - remove stuff from this example which was incorporated into signal_utils.h
  */
 
 static void safe_func(void) {

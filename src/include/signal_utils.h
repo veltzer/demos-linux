@@ -176,32 +176,32 @@ static inline void register_handler_sigaction(int sig, my_sig_handler handler) {
 /*
  * Helper function for getting out of sigsegv's
  */
-static int jmp_abs;
-static void handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
+static int signal_jmp_abs;
+static void signal_handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
 	TRACE("start");
 	ucontext_t *context = (ucontext_t*)uap;
 	// We will jump to some address in this handler.
 	// You better set the address right before hand...
-	context->uc_mcontext.gregs[REG_EIP] = jmp_abs;
+	context->uc_mcontext.gregs[REG_EIP] = signal_jmp_abs;
 	TRACE("end");
 }
 
 static inline void signal_segfault_jump_to(void* adr) {
-	jmp_abs=(unsigned int)adr;
-	register_handler_sigaction(SIGSEGV, handler_jmp_abs);
+	signal_jmp_abs=(unsigned int)adr;
+	register_handler_sigaction(SIGSEGV, signal_handler_jmp_abs);
 }
 
-static sigjmp_buf env;
-static void handler_sigjmp(int sig, siginfo_t *si, void *uap) {
+static sigjmp_buf signal_env;
+static void signal_handler_sigjmp(int sig, siginfo_t *si, void *uap) {
 	const char* signame=signal_get_by_val(sig);
 	TRACE("start %s", signame);
 	TRACE("end %s", signame);
-	siglongjmp(env, 1);
+	siglongjmp(signal_env, 1);
 }
 
 static inline int signal_segfault_protect() {
-	register_handler_sigaction(SIGSEGV, handler_sigjmp);
-	return !sigsetjmp(env, 0);
+	register_handler_sigaction(SIGSEGV, signal_handler_sigjmp);
+	return !sigsetjmp(signal_env, 0);
 }
 
 #endif	/* !__signal_utils_h */
