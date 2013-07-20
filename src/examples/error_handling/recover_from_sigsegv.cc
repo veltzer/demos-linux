@@ -22,7 +22,7 @@
 #include <ucontext.h>	// for ucontext_t:type, REG_EIP
 #include <setjmp.h>	// for sigjmp_buf:type, sigsetjmp(3), siglongjmp(3)
 #include <signal_utils.h>	// for register_handler_sigaction()
-#include <trace_utils.h>	// for TRACE()
+#include <trace_utils.h>// for TRACE()
 #include <disassembly_utils.h>	// for disassemble_main()
 
 /*
@@ -91,13 +91,13 @@ static void handler_sigjmp(int sig, siginfo_t *si, void *uap) {
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr,"%s: usage: %s [type]\n", argv[0], argv[0]);
-		fprintf(stderr,"%s: type can be 0-3\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [type]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: type can be 0-3\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	int choice=atoi(argv[1]);
 	if(choice<0 || choice>3) {
-		fprintf(stderr,"%s: what kind of choice is %d ?!?\n", argv[0], choice);
+		fprintf(stderr, "%s: what kind of choice is %d ?!?\n", argv[0], choice);
 		return EXIT_FAILURE;
 	}
 	if(choice==0) {

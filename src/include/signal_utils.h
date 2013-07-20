@@ -27,11 +27,14 @@
 /* THIS IS A C FILE, NO C++ here */
 
 #include <firstinclude.h>
-#include <us_helper.h>	// for ARRAY_SIZEOF()
-#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_SIGT(), CHECK_NOT_M1()
 #include <stdio.h>	// for printf(3)
+#include <ucontext.h>	// for ucontext_t:type, REG_EIP
 #include <string.h>	// for strcmp(3), strsignal(3)
 #include <signal.h>	// for siginfo_t, sighandler_t, sigaction(2), signal(2)
+#include <setjmp.h>	// for sigjmp_buf:type, sigsetjmp(3), siglongjmp(3)
+#include <trace_utils.h>// for TRACE()
+#include <us_helper.h>	// for ARRAY_SIZEOF()
+#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_SIGT(), CHECK_NOT_M1()
 
 /*
  * List of signals can be found in [man 7 signal]
@@ -89,8 +92,8 @@ static sig_val_and_name sig_tbl[]={
 	entry(SIGPWR),
 	entry(SIGSYS),
 	entry(SIGUNUSED),
-	entry(SIGRTMIN),
-	entry(SIGRTMAX),
+	entry(__SIGRTMIN),
+	entry(__SIGRTMAX),
 };
 #undef entry
 
@@ -106,6 +109,20 @@ static inline int signal_get_by_name(const char* name) {
 	}
 	CHECK_ASSERT("bad signal name"==NULL);
 	return -1;
+}
+
+/*
+ * Translate signal value to signal name
+ */
+static inline const char* signal_get_by_val(int val) {
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
+		if(sig_tbl[i].val==val) {
+			return sig_tbl[i].name;
+		}
+	}
+	CHECK_ASSERT("bad signal value"==NULL);
+	return NULL;
 }
 
 /*
@@ -154,6 +171,37 @@ static inline void register_handler_sigaction(int sig, my_sig_handler handler) {
 	sigemptyset(&sa.sa_mask);
 	sa.sa_sigaction=handler;
 	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
+}
+
+/*
+ * Helper function for getting out of sigsegv's
+ */
+static int jmp_abs;
+static void handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
+	TRACE("start");
+	ucontext_t *context = (ucontext_t*)uap;
+	// We will jump to some address in this handler.
+	// You better set the address right before hand...
+	context->uc_mcontext.gregs[REG_EIP] = jmp_abs;
+	TRACE("end");
+}
+
+static inline void signal_segfault_jump_to(void* adr) {
+	jmp_abs=(unsigned int)adr;
+	register_handler_sigaction(SIGSEGV, handler_jmp_abs);
+}
+
+static sigjmp_buf env;
+static void handler_sigjmp(int sig, siginfo_t *si, void *uap) {
+	const char* signame=signal_get_by_val(sig);
+	TRACE("start %s", signame);
+	TRACE("end %s", signame);
+	siglongjmp(env, 1);
+}
+
+static inline int signal_segfault_protect() {
+	register_handler_sigaction(SIGSEGV, handler_sigjmp);
+	return !sigsetjmp(env, 0);
 }
 
 #endif	/* !__signal_utils_h */
