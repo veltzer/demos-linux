@@ -101,6 +101,14 @@ static inline void proc_print_mmap_self_filter(const char* filter) {
 }
 
 /*
+ * Function to print the current processes /proc maps only for the exe itself
+ */
+static inline void proc_print_mmap_self_only() {
+	extern const char* __progname;
+	proc_print_mmap_self_filter(__progname);
+}
+
+/*
  * Print memory stats for the current process
  */
 static inline void proc_print_mem_stats(pid_t pid) {

@@ -22,7 +22,7 @@
 
 /*
  * This is a simple example of how to create a simple floating point exception.
- * The exception is a ** machine hardware level ** exception which cause the CPU
+ * The exception is a ** machine hardware level ** exception which causes the CPU
  * to fault, go to the OS, the OS sends a SIGFPE to your program, you can respond
  */
 
