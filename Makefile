@@ -137,8 +137,9 @@ MOD_CM1:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .ko.cmd,$(notdir $(MOD_BAS))))
 MOD_CM2:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .mod.o.cmd,$(notdir $(MOD_BAS))))
 MOD_CM3:=$(addprefix $(KERNEL_DIR)/.,$(addsuffix .o.cmd,$(notdir $(MOD_BAS))))
 MOD_MOD:=$(addsuffix .ko,$(MOD_BAS))
-ALL:=$(ALL) $(MOD_MOD) $(MOD_CHP)
-CLEAN:=$(CLEAN) $(MOD_MOD) $(MOD_SR2) $(MOD_OB2) $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(MOD_CM1) $(MOD_CM2) $(MOD_CM3) $(MOD_OBJ)
+MOD_STP:=$(addsuffix .ko.stamp,$(MOD_BAS))
+ALL:=$(ALL) $(MOD_STP) $(MOD_CHP)
+CLEAN:=$(CLEAN) $(MOD_STP) $(MOD_MOD) $(MOD_SR2) $(MOD_OB2) $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(MOD_CM1) $(MOD_CM2) $(MOD_CM3) $(MOD_OBJ)
 CLEAN_DIRS:=$(CLEAN_DIRS) $(KERNEL_DIR)/.tmp_versions
 
 # odps
@@ -223,34 +224,34 @@ git_maintain:
 # how to create regular executables...
 $(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
 $(C_OBJ): %.o: %.c $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
 $(S_OBJ): %.o: %.S $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
 $(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
 $(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
 $(S_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
 $(CC_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
 $(C_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
 $(CC_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
 $(C_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
+	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)objdump --disassemble --source --demangle $< > $@
@@ -263,9 +264,10 @@ $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 	$(Q)scripts/wrapper.py $(SCRIPT_CHECKPATCH) --file $<
 	$(Q)touch $@
 # rule about how to create .ko files...
-$(MOD_MOD): %.ko: %.c $(ALL_DEPS) scripts/make_wrapper.pl
+$(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 	$(info doing [$@])
 	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)touch $@
 
 # rules about odps
 $(ODP_PPT): %.ppt: %.odp $(ALL_DEPS)

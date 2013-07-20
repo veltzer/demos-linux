@@ -25,6 +25,7 @@ debug=False
 
 # start of code
 script=sys.argv.pop(0)
+showCmd=int(sys.argv.pop(0))
 ccache=int(sys.argv.pop(0))
 link=int(sys.argv.pop(0))
 source=sys.argv.pop(0)
@@ -82,7 +83,7 @@ for line in open(source):
 			#	args.insert(1,c)
 if ccache and not link:
 	args.insert(0,'ccache')
-if debug:
+if showCmd:
 	print('running',args)
 try:
 	subprocess.check_call(args)
