@@ -25,8 +25,9 @@
  * This is an example of giving hints to the compiler about branchings.
  * Note that:
  * - some cpus have branch prediction in hardware and ignore such hints.
+ * - some cpus have branch prediction in hardware and accept such hints.
  * - you can pass flags to the compiler to ignore these hints and create
- *	regular branch instructions.
+ * regular branch instructions.
  * - some compiler and/or compiler versions do not actually use this information.
  *
  * Where can this help?
