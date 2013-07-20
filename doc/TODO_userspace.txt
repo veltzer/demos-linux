@@ -1,3 +1,5 @@
+sites to get ideas from
+=======================
 various hacks by GBY:
 	https://github.com/gby/hacks
 blogs to get ideas from:
@@ -7,10 +9,14 @@ articles to get nice demos from:
 	http://stackoverflow.com/questions/1490092/c-c-force-bit-field-order-and-alignment
 	http://stackoverflow.com/questions/2611764/can-i-use-a-binary-literal-in-c-or-c
 	http://stackoverflow.com/questions/6719339/determining-if-a-system-uses-big-endian-or-little-endian-using-c
-
 - get a lot of examples from tlpi (http://man7.org/tlpi/code/)
 - get examples of bad C code from "Some Dark Corners of C.pptx" (have it in doc/external).
 
+examples to add
+===============
+- show timing using times(2) instead of gettimeofday()
+	do slideshow about timing your code and discuss advantages
+	and disadvantages of each approach.
 - do an example of using /dev/rtc and /dev/hpet...
 - do a standalone example of lto optimizations (man gcc/search for lto).
 - do an example of hugetlbfs.
@@ -57,7 +63,7 @@ articles to get nice demos from:
 	memory access. The application handles this signal in it's
 	own code and then calls the default handler (which creates
 	a core dump).
-- Application which shows how to pass extra information using
+- application which shows how to pass extra information using
 	a signal handler.
 - application which generates an FPE, then does not core dump
 	but rather continues processing. Show how to know where the FPE
