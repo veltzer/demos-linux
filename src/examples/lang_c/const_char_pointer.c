@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/mman.h>	// for mprotect(2)
 #include <us_helper.h>	// for page_adr()
-#include <proc_utils.h>	// for proc_print_mmap_self_filter()
+#include <proc_utils.h>	// for proc_print_mmap_self_only()
 #include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
@@ -52,8 +52,7 @@ int main(int argc, char** argv, char** envp) {
 	const char *str2="this is the content of str2";
 	const char *str3="this is the content of str3";
 
-	extern const char* __progname;
-	proc_print_mmap_self_filter(__progname);
+	proc_print_mmap_self_only();
 
 	printf("str1 is %p (%s)\n", str1, str1);
 	printf("str2 is %p (%s)\n", str2, str2);
@@ -85,7 +84,7 @@ int main(int argc, char** argv, char** envp) {
 
 	// So lets relax the constraints of the mmu
 	CHECK_NOT_M1(mprotect(page_adr((void*)p), getpagesize(), PROT_READ|PROT_WRITE|PROT_EXEC));
-	proc_print_mmap_self_filter(__progname);
+	proc_print_mmap_self_only();
 	sprintf(p, "new content ovriding old");
 
 	printf("str1 is %p (%s)\n", str1, str1);
