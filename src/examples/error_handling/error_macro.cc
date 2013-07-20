@@ -21,10 +21,11 @@
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
 #include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
 
 /*
- * This program errors on purpose.
+ * This shows how to create a macro to help you deal with error coming
+ * from system calls.
  */
 
 // #define CHK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(EXIT_FAILURE);}
