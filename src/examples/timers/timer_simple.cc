@@ -18,10 +18,11 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <signal.h>	// for timer_create(2), signal(2), SIGEV_SIGNAL
+#include <signal.h>	// for timer_create(2)
 #include <time.h>	// for timer_create(2), timer_settime(2), timer_delete(2)
 #include <unistd.h>	// for pause(2)
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
+#include <signal_utils.h>	// for register_handler_signal()
 
 /*
  * This is a basic demo of how to use the Linux timer API.
@@ -39,7 +40,7 @@ int main(int argc, char** argv, char** envp) {
 	struct sigevent sigev;
 	sigev.sigev_notify=SIGEV_SIGNAL;
 	sigev.sigev_signo=SIGUSR1;
-	CHECK_NOT_SIGT(signal(SIGUSR1, sigusr), SIG_ERR);
+	register_handler_signal(SIGUSR1, sigusr);
 	CHECK_NOT_M1(timer_create(CLOCK_MONOTONIC, &sigev, &timerid));
 	CHECK_NOT_M1(timer_settime(timerid, 0, &tick, NULL));
 	while(true) {

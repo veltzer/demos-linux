@@ -28,10 +28,10 @@
 
 #include <firstinclude.h>
 #include <us_helper.h>	// for ARRAY_SIZEOF()
-#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_SIGT(), CHECK_NOT_M1()
 #include <stdio.h>	// for printf(3)
 #include <string.h>	// for strcmp(3), strsignal(3)
 #include <signal.h>	// for siginfo_t, sighandler_t, sigaction(2), signal(2)
+#include <err_utils.h>	// for CHECK_ASSERT()
 
 /*
  * List of all directory types

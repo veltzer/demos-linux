@@ -140,8 +140,8 @@ static inline void print_siginfo(FILE* out, siginfo_t *si) {
 /*
  * easy registration of signals via signal(2)
  */
-static inline void register_handler_signal(int signum, sighandler_t handler) {
-	CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
+static inline sighandler_t register_handler_signal(int signum, sighandler_t handler) {
+	return CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
 }
 
 /*
