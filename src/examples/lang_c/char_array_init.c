@@ -49,8 +49,8 @@ int main(int argc, char** argv, char** envp) {
 	char bar[50] __attribute__((unused))={ 'f', 'o', 'o' };
 	// by now it should be fairly obvious why the following is legal...
 	struct bullshit {
-	    char str[4];
-	    unsigned int num;
-	} test __attribute__((unused))= {"stop", 0xFFFF}; /* 's' 't' 'o' 'p' 0xF */
+		char str[4];
+		unsigned int num;
+	} test __attribute__((unused))= {"stop", 0xFFFF};	/* 's' 't' 'o' 'p' 0xF */
 	return EXIT_SUCCESS;
 }
