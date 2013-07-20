@@ -26,8 +26,17 @@
  * This is an example which shows a real difference in performance when
  * having and not having correct branch prediction by the CPU.
  *
+ * Notes:
+ * - no amount of optimization hints to GCC (see below) could remove
+ * the huge differences seen by this example.
+ * - the Intel compiler will do much better here since it will exchange
+ * the two loop, reduce cache misses and vectorize everything. so with
+ * the intel compiler you should see no difference in performance.
+ *
  * References:
  * http://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-an-unsorted-array
+ *
+ * EXTRA_COMPILE_FLAGS=-mtune=corei7 -O3 -ftree-vectorize
  */
 
 void do_work(int* data, unsigned int arraySize, const char* msg) {
@@ -50,6 +59,26 @@ void do_work(int* data, unsigned int arraySize, const char* msg) {
 	std::cout << "sum = " << sum << std::endl;
 }
 
+void do_work_no_if(int* data, unsigned int arraySize, const char* msg) {
+	clock_t start = clock();
+	
+	long long sum = 0;
+	for (unsigned i = 0; i < 100000; ++i) {
+		// Primary loop
+		for (unsigned c = 0; c < arraySize; ++c) {
+			int t = (data[c] - 128) >> 31;
+			sum += ~t & data[c];
+		}
+	}
+
+	clock_t end = clock();
+	double elapsedTime = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+
+	std::cout << msg << std::endl;
+	std::cout << elapsedTime << std::endl;
+	std::cout << "sum = " << sum << std::endl;
+}
+
 int main(int argc, char** argv, char** envp) {
 	// Generate data
 	const unsigned int arraySize = 32768;
@@ -58,8 +87,10 @@ int main(int argc, char** argv, char** envp) {
 		data[c] = std::rand() % 256;
 
 	// run unsorted and then sorted
-	do_work(data, arraySize, "unsorted");
+	do_work(data, arraySize, "unsorted with if");
+	do_work_no_if(data, arraySize, "unsorted no if");
 	std::sort(data, data + arraySize);
-	do_work(data, arraySize, "sorted");
+	do_work(data, arraySize, "sorted with if");
+	do_work_no_if(data, arraySize, "sorted no if");
 	return EXIT_SUCCESS;
 }
