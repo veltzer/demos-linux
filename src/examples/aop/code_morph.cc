@@ -27,6 +27,7 @@
 #include <sys/mman.h>	// for mprotect(2)
 #include <unistd.h>	// for getpagesize(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
+#include <us_helper.h>	// for page_adr()
 
 /*
  * This is an example that shows that you cannot alter code, which is protected
@@ -44,14 +45,6 @@ static void function(void) {
 	for(int i=0; i<times; i++) {
 		printf("i is %d\n", i);
 	}
-}
-
-/*
- * A function that translates an address to it's page boundary
- */
-void* page_adr(void* adr) {
-	unsigned long iptr=(unsigned long)adr;
-	return (void*)(iptr-iptr%getpagesize());
 }
 
 /*

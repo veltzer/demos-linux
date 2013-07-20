@@ -254,4 +254,12 @@ static inline int syscall_readdir(unsigned int fd, struct old_linux_dirent *dirp
 	return syscall(SYS_readdir, fd, dirp, count);
 }
 
+/*
+ * A function that translates an address to it's page boundary
+ */
+void* page_adr(void* adr) {
+	unsigned long iptr=(unsigned long)adr;
+	return (void*)(iptr-iptr%getpagesize());
+}
+
 #endif	/* !__us_helper_h */

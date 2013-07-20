@@ -41,7 +41,7 @@
 
 void do_work(int* data, unsigned int arraySize, const char* msg) {
 	clock_t start = clock();
-	
+
 	long long sum = 0;
 	for (unsigned i = 0; i < 100000; ++i) {
 		// Primary loop
@@ -50,7 +50,6 @@ void do_work(int* data, unsigned int arraySize, const char* msg) {
 				sum += data[c];
 		}
 	}
-
 	clock_t end = clock();
 	double elapsedTime = static_cast<double>(end - start) / CLOCKS_PER_SEC;
 
@@ -61,7 +60,7 @@ void do_work(int* data, unsigned int arraySize, const char* msg) {
 
 void do_work_no_if(int* data, unsigned int arraySize, const char* msg) {
 	clock_t start = clock();
-	
+
 	long long sum = 0;
 	for (unsigned i = 0; i < 100000; ++i) {
 		// Primary loop
@@ -70,7 +69,6 @@ void do_work_no_if(int* data, unsigned int arraySize, const char* msg) {
 			sum += ~t & data[c];
 		}
 	}
-
 	clock_t end = clock();
 	double elapsedTime = static_cast<double>(end - start) / CLOCKS_PER_SEC;
 
@@ -85,7 +83,6 @@ int main(int argc, char** argv, char** envp) {
 	int data[arraySize];
 	for (unsigned c = 0; c < arraySize; ++c)
 		data[c] = std::rand() % 256;
-
 	// run unsorted and then sorted
 	do_work(data, arraySize, "unsorted with if");
 	do_work_no_if(data, arraySize, "unsorted no if");
