@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3), stderr:variable, atoi(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <trace_utils.h>	// for INFO()
+#include <trace_utils.h>// for INFO()
 #include <proc_utils.h>	// for proc_print_mmap_self_only()
 
 /*
@@ -51,8 +51,8 @@ const int a=6;
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr,"%s: usage: %s [type]\n", argv[0], argv[0]);
-		fprintf(stderr,"%s: type can be 0-4\n", argv[0]);
+		fprintf(stderr, "%s: usage: %s [type]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: type can be 0-4\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	int choice=atoi(argv[1]);
@@ -86,10 +86,10 @@ int main(int argc, char** argv, char** envp) {
 		printf("going to write a constant in the data segment\n");
 		int* p=(int*)&a;
 		*p=5;
-		//printf("p is %p\n", p);
-		//proc_print_mmap_self_only();
-		//printf("a is %d\n",a);
+		// printf("p is %p\n", p);
+		// proc_print_mmap_self_only();
+		// printf("a is %d\n",a);
 	}
-	fprintf(stderr,"%s: what kind of choice is %d ?!?\n", argv[0], choice);
+	fprintf(stderr, "%s: what kind of choice is %d ?!?\n", argv[0], choice);
 	return EXIT_SUCCESS;
 }

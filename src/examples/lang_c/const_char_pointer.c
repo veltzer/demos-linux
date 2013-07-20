@@ -20,6 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/mman.h>	// for mprotect(2)
+#include <signal_utils.h>	// for signal_segfault_protect()
 #include <us_helper.h>	// for page_adr()
 #include <proc_utils.h>	// for proc_print_mmap_self_only()
 #include <err_utils.h>	// for CHECK_NOT_M1()
@@ -42,9 +43,6 @@
  * - If you optimize your program (-O2) then the compiler makes some of your memory
  * access functions go away and so you don't segfault.
  * - You can make read only memory areas be read/write using mprotect(2).
- *
- * TODO:
- * - catch the segfault and continue anyway. (how to do that?)
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -71,18 +69,15 @@ int main(int argc, char** argv, char** envp) {
 	// str1[2]='y';
 	// --> This means const strings cannot be changed directly
 
-	// Any of the following attempts to manipulate the read only data will
-	// create a compile time error.
-	// The casting is neccessary to avoid compile error.
-	char *p=(char *)str1;
-	printf("p is %p\n", p);
-	// sprintf(p,"hello");
-	// p[2]='y';
-	// printf("p is %s\n", p);
-	// printf("foo is %s\n", foo);
-	// printf("foo[2] is %c\n", foo[2]);
-
+	// We should get a segmentation fault for trying the following...
+	// The casting is neccessary to avoid a compilation error.
+	printf("trying to change the value of the const char* buffer...\n");
+	if(signal_segfault_protect()) {
+		char *p=(char *)str1;
+		sprintf(p, "new content ovriding old");
+	}
 	// So lets relax the constraints of the mmu
+	char *p=(char *)str1;
 	CHECK_NOT_M1(mprotect(page_adr((void*)p), getpagesize(), PROT_READ|PROT_WRITE|PROT_EXEC));
 	proc_print_mmap_self_only();
 	sprintf(p, "new content ovriding old");
