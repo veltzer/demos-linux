@@ -22,19 +22,29 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 int main(int argc, char** argv, char** envp) {
+	long long prev=0;
 	long long ll=0;
 	// the volatile is needed because otherwise gcc will assume that
 	// it knows that back==ll and will not do the actual convesion...
 	volatile float f=0;
 	long long back=0;
 	unsigned long long iterations=0;
+	unsigned long long jmp=1;
 	while(true) {
 		f=(float)ll;
+		printf("ll is %lld\n", ll);
 		back=(long long)f;
 		if(ll!=back) {
-			break;
+			if(jmp==2) {
+				break;
+			} else {
+				jmp=1;
+				ll=prev;
+			}
 		}
-		ll++;
+		prev=ll;
+		ll+=jmp;
+		jmp*=2;
 		iterations++;
 	}
 	printf("ll is %lld\n", ll);
