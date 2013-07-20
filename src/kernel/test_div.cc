@@ -24,7 +24,7 @@
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS
 #include <unistd.h>	// for close(3)
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <err_utils.h>	// for CHECK_CHARP(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
 #include <kernel_utils.h>	// for klog_show(), klog_show_clear()
 #include "shared.h"	// for ioctl numbers
 
@@ -46,10 +46,10 @@ int main(int argc, char** argv, char** envp) {
 		// read two numbers from the user
 		printf("Please enter a number 1:");
 		fflush(stdout);
-		CHECK_CHARP(fgets(s1, len, stdin), s1);
+		CHECK_NOT_NULL(fgets(s1, len, stdin));
 		printf("Please enter a number 2:");
 		fflush(stdout);
-		CHECK_CHARP(fgets(s2, len, stdin), s2);
+		CHECK_NOT_NULL(fgets(s2, len, stdin));
 		buffer b;
 		b.u1=atoi(s1);
 		b.u2=atoi(s2);

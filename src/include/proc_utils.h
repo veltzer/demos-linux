@@ -29,23 +29,25 @@
 #include <firstinclude.h>
 #include <sys/types.h>	// for getpid(2), pid_t:type
 #include <unistd.h>	// for getpid(2), pid_t:type
-#include <stdio.h>	// for snprintf(3), printf(3), fopen(3), fread(3), fclose(3), feof(3), FILE:type
+#include <stdio.h>	// for snprintf(3), printf(3), fopen(3), fgets(3), fclose(3), feof(3), FILE:type, getline(3)
 #include <proc/readproc.h>	// for get_proc_stats(3), proc_t, look_up_our_self(3)
 #include <sys/time.h>	// for getrusage(2), rusage:struct
 #include <sys/resource.h>	// for getrusage(2), rusage:struct
+#include <string.h>	// for strstr(3)
 #include <multiproc_utils.h>	// for my_system()
-#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_NULL(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 
 /*
  * Function to print the resident memory of the current process as
  * well as the number of minor page faults.
  */
-void proc_show_vmem() {
+static inline void proc_show_vmem() {
 	struct rusage usage;
 	CHECK_NOT_M1(getrusage(RUSAGE_SELF, &usage));
 	printf("usage.ru_maxrss=%lu\n", usage.ru_maxrss);
 	printf("usage.ru_minflt=%lu\n", usage.ru_minflt);
 }
+
 /*
  * Function to print the current processes /proc maps file
  */
@@ -57,18 +59,44 @@ static inline void proc_print_mmap(const char *filter) {
 		my_system("cat /proc/%d/maps | grep %s", pid, filter);
 	}
 }
+
 /*
  * Function to print the current processes /proc maps file
  */
 static inline void proc_print_mmap_self() {
-	char buf[4096];
-	FILE* fp=CHECK_NOT_NULL_FILEP(fopen("/proc/self/maps","r"));
-	do {
-		size_t len=CHECK_NOT_M1(fread(buf, 1, sizeof(buf), fp));
-		if(len>0) {
-			printf("%s", buf);
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
+
+	FILE* fp=CHECK_NOT_NULL_FILEP(fopen("/proc/self/maps", "r"));
+	while ((read = getline(&line, &len, fp)) != -1) {
+		printf("%s", line);
+	}
+	if(!feof(fp)) {
+		CHECK_NOT_M1(read);
+	}
+	free(line);
+	CHECK_ZERO_ERRNO(fclose(fp));
+}
+
+/*
+ * Function to print the current processes /proc maps file with filter
+ */
+static inline void proc_print_mmap_self_filter(const char* filter) {
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
+
+	FILE* fp=CHECK_NOT_NULL_FILEP(fopen("/proc/self/maps", "r"));
+	while ((read = getline(&line, &len, fp)) != -1) {
+		if(strstr(line, filter)) {
+			printf("%s", line);
 		}
-	} while(!feof(fp));
+	}
+	if(!feof(fp)) {
+		CHECK_NOT_M1(read);
+	}
+	free(line);
 	CHECK_ZERO_ERRNO(fclose(fp));
 }
 
@@ -93,14 +121,14 @@ static inline void proc_print_mem_stats_self(void) {
 /*
  * Print the name of any process according to pid
  */
-void my_print_process_name_from_proc(pid_t pid) {
+static inline void my_print_process_name_from_proc(pid_t pid) {
 	my_system("cat /proc/%d/comm", pid);
 }
 
 /*
  * Print the name of our process via /proc
  */
-void my_print_process_name_from_proc_self() {
+static inline void my_print_process_name_from_proc_self() {
 	my_system("cat /proc/self/comm");
 }
 
