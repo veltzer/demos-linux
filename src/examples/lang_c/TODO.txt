@@ -1,0 +1,2 @@
+- add a general example of padding structures to a certain size and alignment.
+	see the relevant multi core example of padding structures to cache line size.

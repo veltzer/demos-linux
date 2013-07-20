@@ -24,7 +24,12 @@
 /*
  * Example of padding a structure to L2 cache line size bytes via union...
  * Notice how to avoid the cache line size being hardcoded in your code...
- * Are there other ways of padding the structure without the union? yes.
+ *
+ * The various ways in which this could be done and are demonstrated:
+ * 1. using a union.
+ * 2. explicit padding.
+ * 3. __attribute__((aligned (alignment)))
+ *
  * This also shows that the __attribute__((aligned (LEVEL2_CACHE_LINESIZE)))
  * will cause the structure to always be aligned by the compiler when passing
  * it around and creating it on the stack.
@@ -49,9 +54,9 @@ struct foo {
 			char irrelevant[LEVEL2_CACHE_LINESIZE];
 		} pad_struct;
 		struct _real {
-			int a;
-			int b;
-			int c;
+			char c1;
+			int i1;
+			char c2;
 		} real;
 	} un;
 };
@@ -73,6 +78,31 @@ private:
 
 static_assert(sizeof(foo)==LEVEL2_CACHE_LINESIZE, "size of foo is wrong");
 
+typedef struct _barestruct {
+	int field1;
+	char foo;
+} barestruct;
+
+typedef struct _mystruct {
+	int field1;
+	char foo;
+	char padding[LEVEL2_CACHE_LINESIZE-sizeof(barestruct)];
+} mystruct;
+
+static_assert(sizeof(mystruct)==LEVEL2_CACHE_LINESIZE, "size of mystruct is wrong");
+
+/*
+ * This does not work...
+ * #include <stddef.h> // for offsetof(3)
+ * typedef struct _mystruct2 {
+ * int field1;
+ * char foo;
+ * char padding[64-__builtin_offsetof(_mystruct2,foo)];
+ * } mystruct2;
+ */
+/*
+ * We show that struct bar is passed aligned to functions while myfoo isn't
+ */
 void myfunction(char c, struct bar mybar, char l, struct foo myfoo) {
 	CHECK_ASSERT((unsigned long)&mybar%LEVEL2_CACHE_LINESIZE==0);
 	CHECK_ASSERT((unsigned long)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
@@ -88,5 +118,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ASSERT((unsigned long)&mybar%LEVEL2_CACHE_LINESIZE==0);
 	CHECK_ASSERT((unsigned long)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
 	myfunction('4', mybar, '5', myfoo);
+	printf("sizeof(barestruct)=%zd\n", sizeof(barestruct));
+	printf("sizeof(mystruct)=%zd\n", sizeof(mystruct));
 	return EXIT_SUCCESS;
 }

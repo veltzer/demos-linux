@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, rand(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_create(3), pthread_attr_init(3), pthread_attr_destroy(3), pthread_attr_setaffinity_np(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3)
 #include <semaphore.h>	// for sem_t:struct, sem_post(3), sem_wait(3), sem_init(3)
