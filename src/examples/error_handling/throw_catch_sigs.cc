@@ -22,7 +22,8 @@
 #include <stdlib.h>	// for exit(3), EXIT_FAILURE, EXIT_SUCCESS
 #include <sys/types.h>	// for kill(2), getpid(2)
 #include <unistd.h>	// for getpid(2)
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
+#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <signal_utils.h>	// for register_handler_signal()
 
 /*
  * This demp demostrates C++ style exception handling in response to OS signals.
@@ -116,8 +117,8 @@ static void doBadCode(int i) {
 
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
-	CHECK_NOT_SIGT(signal(SIGFPE, SignalHandler), SIG_ERR);
-	CHECK_NOT_SIGT(signal(SIGSEGV, SignalHandler), SIG_ERR);
+	register_handler_signal(SIGFPE, SignalHandler);
+	register_handler_signal(SIGSEGV, SignalHandler);
 	for(int c=0; c<10; c++) {
 		std::cerr << "c is " << c << std::endl;
 		try {

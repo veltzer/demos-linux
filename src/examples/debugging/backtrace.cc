@@ -18,11 +18,11 @@
 
 #include <firstinclude.h>
 #include <execinfo.h>	// for backtrace(3), backtrace_symbols(3), backtrace_symbols_fd(3)
-#include <signal.h>	// for signal(2)
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_NOT_SIGT()
+#include <err_utils.h>	// for CHECK_NOT_NULL()
+#include <signal_utils.h>	// for register_handler_signal()
 
 /*
  * This exapmle shows how to obtain a stack trace for various purposes (mostly
@@ -118,7 +118,7 @@ void print_trace_sighandler(int sig) {
  * Signal handler registration function
  */
 void trace_register(void) {
-	old_handler=CHECK_NOT_SIGT(signal(SIGSEGV, print_trace_sighandler), SIG_ERR);
+	old_handler=register_handler_signal(SIGSEGV, print_trace_sighandler);
 	/*
 	 * struct sigaction sa;
 	 * memset(sa,0,sizeof(struct sigaction));

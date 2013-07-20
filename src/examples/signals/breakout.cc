@@ -24,7 +24,8 @@
 #include <unistd.h>	// for getpid(2), read(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
+#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <signal_utils.h>	// for register_handler_signal()
 
 /*
  * This demo demostrates how to cause a thread that is stuck in a long system call to
@@ -59,8 +60,8 @@ static void SignalHandlerUSR2(int sig) {
 
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
-	CHECK_NOT_SIGT(signal(SIGUSR1, SignalHandlerUSR1), SIG_ERR);
-	CHECK_NOT_SIGT(signal(SIGUSR2, SignalHandlerUSR2), SIG_ERR);
+	register_handler_signal(SIGUSR1, SignalHandlerUSR1);
+	register_handler_signal(SIGUSR2, SignalHandlerUSR2);
 	TRACE("set up the sig handler, lets start");
 	TRACE("send signals to me using:");
 	TRACE("kill -s SIGUSR1 %d", getpid());
