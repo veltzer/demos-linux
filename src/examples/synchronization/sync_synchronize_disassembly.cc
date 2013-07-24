@@ -43,6 +43,9 @@
 int main(int argc, char** argv, char** envp) {
 	__sync_synchronize();
 	asm ("lock orl $0x0, (%esp)");
+	asm ("lock addl $0x0, (%esp)");
+	// damn! this doesn't work, look up the intel manual...
+	// asm ("lock xchgl $0x0, (%esp)");
 	disassemble_main();
 	return EXIT_SUCCESS;
 }
