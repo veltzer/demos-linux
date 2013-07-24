@@ -50,9 +50,9 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-#define USE_CPU_FENCE 1
+#define USE_CPU_FENCE 0
 #define USE_SYNC_SYNCHRONIZE 0
-#define USE_COMPILER_BARRIER 0
+#define USE_COMPILER_BARRIER 1
 #define PUT_ON_SAME_CORE 0
 
 sem_t beginSema1;
