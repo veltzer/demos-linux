@@ -15,6 +15,7 @@ articles to get nice demos from:
 
 examples to add
 ===============
+- show how to implement tail -f using inotify.
 - show timing using times(2) instead of gettimeofday()
 	do slideshow about timing your code and discuss advantages
 	and disadvantages of each approach.
