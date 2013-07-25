@@ -17,21 +17,17 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdio.h>	// for printf(3), fprintf(3), stderr
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_create(3), pthread_attr_init(3), pthread_attr_destroy(3), pthread_attr_setaffinity_np(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3)
 #include <semaphore.h>	// for sem_t:struct, sem_post(3), sem_wait(3), sem_init(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
-#include <us_helper.h>	// for no_params()
 #include <random_utils.hh>	// for MersenneTwister:object
 #include <disassembly_utils.h>	// for disassemble_function()
 
 /*
  * This example explores memory reordering issues by the machine.
- *
- * Compile this with USE_CPU_FENCE defined to see the reordering
- * issues go away...
  *
  * The heart of this example are two threads. with x=0, y=0.
  * one thread doing
@@ -50,121 +46,191 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-#define USE_CPU_FENCE 0
-#define USE_SYNC_SYNCHRONIZE 0
-#define USE_COMPILER_BARRIER 1
-#define PUT_ON_SAME_CORE 0
+typedef struct _threaddata {
+	sem_t beginSema1;
+	sem_t beginSema2;
+	sem_t endSema;
+	int x, y;
+	int r1, r2;
+	volatile int vx, vy;
+	volatile int vr1, vr2;
+	unsigned int iterations;
+} threaddata;
 
-sem_t beginSema1;
-sem_t beginSema2;
-sem_t endSema;
-int X, Y;
-int r1, r2;
-
-void *thread1Func(void *param) {
-	MersenneTwister random(1);
-	while(true) {
-		sem_wait(&beginSema1);	// Wait for signal
-		while (random.integer() % 8 != 0) {
-		}	// Random delay
-
-		// ----- THE TRANSACTION! -----
-		X = 1;
-#if USE_CPU_FENCE
-		asm volatile ("mfence" ::: "memory");	// Prevent CPU reordering
-#endif
-#if USE_SYNC_SYNCHRONIZE
-		__sync_synchronize();
-#endif
-#if USE_COMPILER_BARRIER
-		asm volatile ("" ::: "memory");	// Prevent compiler reordering
-#endif
-		r1 = Y;
-
-		sem_post(&endSema);	// Notify transaction complete
+#define CREATE_FUNCS(name, code) \
+	void *thread1_ ## name(void *param) { \
+		threaddata* pd=(threaddata*)param; \
+		MersenneTwister random(1); \
+		for(unsigned int i=0; i<pd->iterations; i++) { \
+			/* Wait for signal */ \
+			sem_wait(&pd->beginSema1); \
+			/* Random delay */ \
+			while (random.integer() % 8 != 0) {} \
+			/* ----- THE TRANSACTION! ----- */ \
+			pd->x = 1; \
+			code; \
+			pd->r1 = pd->y;	\
+			/* Notify transaction complete */ \
+			sem_post(&pd->endSema);	\
+		} \
+		/* Never returns */ \
+		return NULL; \
+	} \
+	void *thread2_ ## name(void *param) { \
+		threaddata* pd=(threaddata*)param; \
+		MersenneTwister random(2); \
+		for(unsigned int i=0; i<pd->iterations; i++) { \
+			/* Wait for signal */ \
+			sem_wait(&pd->beginSema2); \
+			/* Random delay */ \
+			while (random.integer() % 8 != 0) {} \
+			/* ----- THE TRANSACTION! ----- */ \
+			pd->y = 1; \
+			code; \
+			pd->r2 = pd->x;	\
+			/* Notify transaction complete */ \
+			sem_post(&pd->endSema);	\
+		} \
+		/* Never returns */ \
+		return NULL; \
+	} \
+	void *thread1v_ ## name(void *param) { \
+		threaddata* pd=(threaddata*)param; \
+		MersenneTwister random(1); \
+		for(unsigned int i=0; i<pd->iterations; i++) { \
+			/* Wait for signal */ \
+			sem_wait(&pd->beginSema1); \
+			/* Random delay */ \
+			while (random.integer() % 8 != 0) {} \
+			/* ----- THE TRANSACTION! ----- */ \
+			pd->vx = 1; \
+			code; \
+			pd->vr1 = pd->vy; \
+			/* Notify transaction complete */ \
+			sem_post(&pd->endSema);	\
+		} \
+		/* Never returns */ \
+		return NULL; \
+	} \
+	void *thread2v_ ## name(void *param) { \
+		threaddata* pd=(threaddata*)param; \
+		MersenneTwister random(2); \
+		for(unsigned int i=0; i<pd->iterations; i++) { \
+			/* Wait for signal */ \
+			sem_wait(&pd->beginSema2); \
+			/* Random delay */ \
+			while (random.integer() % 8 != 0) {} \
+			/* ----- THE TRANSACTION! ----- */ \
+			pd->vy = 1; \
+			code; \
+			pd->vr2 = pd->vx; \
+			/* Notify transaction complete */ \
+			sem_post(&pd->endSema);	\
+		} \
+		/* Never returns */ \
+		return NULL; \
 	}
-	return NULL;	// Never returns
-};
 
-void *thread2Func(void *param) {
-	MersenneTwister random(2);
-	while(true) {
-		sem_wait(&beginSema2);	// Wait for signal
-		while (random.integer() % 8 != 0) {
-		}	// Random delay
+// lets compile the functions
+// nothing
+CREATE_FUNCS(nothing, );
+// Prevent compiler reordering
+CREATE_FUNCS(compiler_barrier, asm volatile ("" ::: "memory"));
+// prevent CPU reordering
+CREATE_FUNCS(mfence, asm volatile ("mfence" ::: "memory"));
+// prevent CPU reordering
+CREATE_FUNCS(sync_synchronize, __sync_synchronize());
 
-		// ----- THE TRANSACTION! -----
-		Y = 1;
-#if USE_CPU_FENCE
-		asm volatile ("mfence" ::: "memory");	// Prevent CPU reordering
-#endif
-#if USE_SYNC_SYNCHRONIZE
-		__sync_synchronize();
-#endif
-#if USE_COMPILER_BARRIER
-		asm volatile ("" ::: "memory");	// Prevent compiler reordering
-#endif
-		r2 = X;
-
-		sem_post(&endSema);	// Notify transaction complete
-	}
-	return NULL;	// Never returns
-};
-
-int main(int argc, char** argv, char** envp) {
-	no_params(argc, argv);
-	// show some disassembly...
-	// disassemble_function("thread1Func");
-	// disassemble_function("thread2Func");
-	// Initialize the semaphores
-	CHECK_ZERO_ERRNO(sem_init(&beginSema1, 0, 0));
-	CHECK_ZERO_ERRNO(sem_init(&beginSema2, 0, 0));
-	CHECK_ZERO_ERRNO(sem_init(&endSema, 0, 0));
-
+void run(bool doVolatile, void *(*start_routine1)(void *), void *(*start_routine2)(void *), threaddata* pd, int core1, int core2, const char* test_name) {
+	printf("running test [%s]\n", test_name);
+	printf("volatile is [%d]\n", doVolatile);
 	// Spawn the threads
 	cpu_set_t cpuset1;
 	CPU_ZERO(&cpuset1);
-	CPU_SET(0, &cpuset1);
+	CPU_SET(core1, &cpuset1);
 	pthread_attr_t attrs1;
 	CHECK_ZERO_ERRNO(pthread_attr_init(&attrs1));
 	CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(&attrs1, sizeof(cpu_set_t), &cpuset1));
 	pthread_t thread1;
-	CHECK_ZERO_ERRNO(pthread_create(&thread1, &attrs1, thread1Func, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread1, &attrs1, start_routine1, pd));
 	CHECK_ZERO_ERRNO(pthread_attr_destroy(&attrs1));
 
 	cpu_set_t cpuset2;
 	CPU_ZERO(&cpuset2);
-#if PUT_ON_SAME_CORE
-	CPU_SET(0, &cpuset2);
-#else
-	CPU_SET(1, &cpuset2);
-#endif
+	CPU_SET(core2, &cpuset2);
+
 	pthread_attr_t attrs2;
 	CHECK_ZERO_ERRNO(pthread_attr_init(&attrs2));
 	CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(&attrs2, sizeof(cpu_set_t), &cpuset2));
 	pthread_t thread2;
-	CHECK_ZERO_ERRNO(pthread_create(&thread2, &attrs2, thread2Func, NULL));
+	CHECK_ZERO_ERRNO(pthread_create(&thread2, &attrs2, start_routine2, pd));
 	CHECK_ZERO_ERRNO(pthread_attr_destroy(&attrs2));
 
-	// Repeat the experiment ad infinitum
 	int detected = 0;
-	int iterations = 1;
-	while(true) {
-		// Reset X and Y
-		X = 0;
-		Y = 0;
-		// Signal both threads
-		CHECK_ZERO_ERRNO(sem_post(&beginSema1));
-		CHECK_ZERO_ERRNO(sem_post(&beginSema2));
-		// Wait for both threads
-		CHECK_ZERO_ERRNO(sem_wait(&endSema));
-		CHECK_ZERO_ERRNO(sem_wait(&endSema));
-		// Check if there was a simultaneous reorder
-		if (r1 == 0 && r2 == 0) {
-			detected++;
-			printf("%d simulteneous reorders detected after %d iterations\n", detected, iterations);
+	for(unsigned int i=0; i<pd->iterations; i++) {
+		// Reset x and y
+		if(doVolatile) {
+			pd->vx = 0;
+			pd->vy = 0;
+		} else {
+			pd->x = 0;
+			pd->y = 0;
 		}
-		iterations++;
+		// Signal both threads
+		CHECK_ZERO_ERRNO(sem_post(&pd->beginSema1));
+		CHECK_ZERO_ERRNO(sem_post(&pd->beginSema2));
+		// Wait for both threads
+		CHECK_ZERO_ERRNO(sem_wait(&pd->endSema));
+		CHECK_ZERO_ERRNO(sem_wait(&pd->endSema));
+		// Check if there was a simultaneous reorder
+		if(doVolatile) {
+			if (pd->vr1 == 0 && pd->vr2 == 0) {
+				detected++;
+				printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+			}
+		} else {
+			if (pd->r1 == 0 && pd->r2 == 0) {
+				detected++;
+				printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+			}
+		}
 	}
+	CHECK_ZERO_ERRNO(pthread_join(thread1, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(thread2, NULL));
+}
+
+int main(int argc, char** argv, char** envp) {
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage: %s iterations core1 core2\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: to see reordering use\n", argv[0]);
+		fprintf(stderr, "%s: example: %s 0 1 40000\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: to see them go away use\n", argv[0]);
+		fprintf(stderr, "%s: example: %s 0 0 40000\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
+	}
+	// parameters
+	int core1=atoi(argv[1]);
+	int core2=atoi(argv[2]);
+	unsigned int iterations=atoi(argv[3]);
+
+	// show some disassembly...
+	// disassemble_function("thread1Func");
+	// disassemble_function("thread2Func");
+
+	// initialize the thread data
+	threaddata pd;
+	pd.iterations=iterations;
+	CHECK_ZERO_ERRNO(sem_init(&pd.beginSema1, 0, 0));
+	CHECK_ZERO_ERRNO(sem_init(&pd.beginSema2, 0, 0));
+	CHECK_ZERO_ERRNO(sem_init(&pd.endSema, 0, 0));
+
+	run(false, thread1_nothing, thread2_nothing, &pd, core1, core2, "nothing");
+	run(false, thread1_compiler_barrier, thread2_compiler_barrier, &pd, core1, core2, "compiler_barrier");
+	run(false, thread1_mfence, thread2_mfence, &pd, core1, core2, "mfence");
+	run(false, thread1_sync_synchronize, thread2_sync_synchronize, &pd, core1, core2, "sync_synchronize");
+	run(true, thread1v_nothing, thread2v_nothing, &pd, core1, core2, "nothing");
+	run(true, thread1v_compiler_barrier, thread2v_compiler_barrier, &pd, core1, core2, "compiler_barrier");
+	run(true, thread1v_mfence, thread2v_mfence, &pd, core1, core2, "mfence");
+	run(true, thread1v_sync_synchronize, thread2v_sync_synchronize, &pd, core1, core2, "sync_synchronize");
 	return EXIT_SUCCESS;
 }
