@@ -38,6 +38,7 @@ debugggers:
 
 profilers:
 	valgrind
+	google-pprof
 
 core dumps:
 	gdb
@@ -78,6 +79,7 @@ networking:
 	brctl (bridging utilities)
 	vnstat
 	vnstati
+	netperf
 
 java debugging:
 	jstack
@@ -89,7 +91,8 @@ programming tracing:
 	pthread_trace_* (pthread tracing).
 
 power managements:
-	powertop.
+	powertop
+	turbostat
 
 big tools:
 	systemtap
