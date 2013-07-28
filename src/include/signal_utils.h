@@ -179,15 +179,17 @@ static inline void register_handler_sigaction(int sig, my_sig_handler handler) {
 static int signal_jmp_abs;
 static void signal_handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
 	TRACE("start");
+#if __i386__
 	ucontext_t *context = (ucontext_t*)uap;
 	// We will jump to some address in this handler.
 	// You better set the address right before hand...
 	context->uc_mcontext.gregs[REG_EIP] = signal_jmp_abs;
+#endif
 	TRACE("end");
 }
 
 static inline void signal_segfault_jump_to(void* adr) {
-	signal_jmp_abs=(unsigned int)adr;
+	signal_jmp_abs=(unsigned long)adr;
 	register_handler_sigaction(SIGSEGV, signal_handler_jmp_abs);
 }
 

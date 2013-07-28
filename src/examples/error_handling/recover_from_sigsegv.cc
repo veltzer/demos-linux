@@ -55,13 +55,19 @@ static void handler_safe(int sig, siginfo_t *si, void *uap) {
 	/*
 	 * alternativly, try to jump to a "safe place"
 	 */
+#if __i386__
 	context->uc_mcontext.gregs[REG_EIP] = (unsigned int)safe_func;
+#endif /* __i386__ */
+#if __x86_64__ 
+	context->uc_mcontext.gregs[REG_RIP] = (unsigned long)safe_func;
+#endif /* __x86_64__ */
 	TRACE("end");
 }
 
 static int jmp_rel;
 static void handler_jmp_rel(int sig, siginfo_t *si, void *uap) {
 	TRACE("start");
+#if __i386__
 	ucontext_t *context = (ucontext_t*)uap;
 	TRACE("REG_EIP is %x", context->uc_mcontext.gregs[REG_EIP]);
 	/*
@@ -70,18 +76,21 @@ static void handler_jmp_rel(int sig, siginfo_t *si, void *uap) {
 	 * pointer to the next instruction (general register 14 is EIP, on linux x86)
 	 */
 	context->uc_mcontext.gregs[REG_EIP] += jmp_rel;
+#endif /* __i386__ */
 	TRACE("end");
 }
 
 static int jmp_abs;
 static void handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
 	TRACE("start");
+#if __i386__
 	ucontext_t *context = (ucontext_t*)uap;
 	/*
 	 * We will jump to some address in this handler.
 	 * You better set the address right before hand...
 	 */
 	context->uc_mcontext.gregs[REG_EIP] = jmp_abs;
+#endif /* __i386__ */
 	TRACE("end");
 }
 
@@ -118,7 +127,7 @@ int main(int argc, char** argv, char** envp) {
 		*(volatile int*)NULL=202;
 	}
 	if(choice==2) {
-		jmp_abs=(unsigned int)&&mylabel;
+		jmp_abs=(unsigned long)&&mylabel;
 		register_handler_sigaction(SIGSEGV, handler_jmp_abs);
 		*(volatile int*)NULL=300;
 		*(volatile int*)NULL=301;

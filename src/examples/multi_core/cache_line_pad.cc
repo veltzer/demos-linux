@@ -102,11 +102,14 @@ static_assert(sizeof(mystruct)==LEVEL2_CACHE_LINESIZE, "size of mystruct is wron
  */
 /*
  * We show that struct bar is passed aligned to functions while myfoo isn't
+ * x64 complains about this
  */
+#ifndef __x86_64__
 void myfunction(char c, struct bar mybar, char l, struct foo myfoo) {
 	CHECK_ASSERT((unsigned long)&mybar%LEVEL2_CACHE_LINESIZE==0);
 	CHECK_ASSERT((unsigned long)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
 }
+#endif /* __x86_64__ */
 
 int main(int argc, char** argv, char** envp) {
 	printf("LEVEL2_CACHE_LINESIZE=%d\n", LEVEL2_CACHE_LINESIZE);
@@ -117,7 +120,9 @@ int main(int argc, char** argv, char** envp) {
 	struct foo myfoo;
 	CHECK_ASSERT((unsigned long)&mybar%LEVEL2_CACHE_LINESIZE==0);
 	CHECK_ASSERT((unsigned long)&myfoo%LEVEL2_CACHE_LINESIZE!=0);
+#ifndef __x86_64__
 	myfunction('4', mybar, '5', myfoo);
+#endif /* __x86_64__ */
 	printf("sizeof(barestruct)=%zd\n", sizeof(barestruct));
 	printf("sizeof(mystruct)=%zd\n", sizeof(mystruct));
 	return EXIT_SUCCESS;

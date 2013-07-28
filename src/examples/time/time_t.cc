@@ -55,7 +55,7 @@ int main(int argc, char** argv, char** envp) {
 	// parameters
 	const char* filename=argv[1];
 	// code
-	printf("sizeof(time_t) is %d\n", sizeof(time_t));
+	printf("sizeof(time_t) is %zd\n", sizeof(time_t));
 	struct stat sb;
 	CHECK_NOT_M1(stat(filename, &sb));
 	unsigned int myint=(unsigned int)sb.st_mtime;
