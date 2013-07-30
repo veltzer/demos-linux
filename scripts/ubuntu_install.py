@@ -82,6 +82,7 @@ packs=[
 	'iptraf',
 	'numactl',
 	'pstack',
+	'x86info',
 
 	# package used tools
 	'ccache', # for faster building

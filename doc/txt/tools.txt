@@ -144,3 +144,5 @@ listing stuff:
 	lsmod - list currently loaded kernel modules
 	lsblk - list block devices on the current machine
 	lspcmia - list pcmcia devices
+	nproc - show number of processing units available
+	x86info - show hardware info on x86.
