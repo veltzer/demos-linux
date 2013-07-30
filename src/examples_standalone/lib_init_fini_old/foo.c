@@ -38,3 +38,7 @@ void my_fini(void) {
 	// call the original...
 	_fini();
 }
+
+int foo(int a, int b) {
+	return a+b;
+}

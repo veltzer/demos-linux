@@ -17,13 +17,19 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h> // for fprintf(3)
+#include <stdio.h> // for fprintf(3), stderr
 #include <stdlib.h> // for EXIT_SUCCESS
 
 /*
 * This is an empty testing application
 */
+
+extern int foo(int,int);
+extern int bar(int,int);
+
 int main(int argc,char** argv,char** envp) {
-	fprintf(stderr, "Hello, World!\n");
+	fprintf(stderr, "2+3 is %d\n", foo(2,3));
+	fprintf(stderr, "2+3 is %d\n", bar(2,3));
+	fprintf(stderr, "hello from main\n");
 	return EXIT_SUCCESS;
 }
