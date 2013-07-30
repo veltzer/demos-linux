@@ -32,6 +32,7 @@
  * sched_getcpu()
  * O_LARGEFILE
  * DN_* dnotify constants
+ * SYS_* syscall constants
  */
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE

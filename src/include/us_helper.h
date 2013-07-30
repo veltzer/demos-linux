@@ -34,8 +34,8 @@
 #include <stdlib.h>	// for system(3), exit(3)
 #include <stdarg.h>	// for vsnprintf(3), va_start(3), va_list(3), va_end(3)
 #include <sys/types.h>	// for getpid(2), gettid(2)
-#include <sys/syscall.h>// for syscall(2), SYS_* constants
 #include <unistd.h>	// for getpid(2), syscall(2), sysconf(2), getpagesize(2)
+#include <sys/syscall.h>// for syscall(2), SYS_* constants
 #include <string.h>	// for strncpy(3), strerror(3)
 #include <sys/time.h>	// for getpriority(2)
 #include <sys/resource.h>	// for getpriority(2)
@@ -249,10 +249,14 @@ static inline int syscall_getdents(unsigned int fd, struct linux_dirent *dirp, u
 
 /*
  * Wrapper for the readdir(2) system call which is not supplied by glibc
+ * This is surrounded by #ifdef because on 64bit I had problems locating
+ * the 'SYS_readdir' macro.
  */
+#ifdef SYS_readdir
 static inline int syscall_readdir(unsigned int fd, struct old_linux_dirent *dirp, unsigned int count) {
 	return syscall(SYS_readdir, fd, dirp, count);
 }
+#endif /* SYS_readdir */
 
 /*
  * A function that translates an address to it's page boundary
