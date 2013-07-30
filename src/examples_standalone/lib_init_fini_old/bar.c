@@ -33,3 +33,7 @@ void my_fini(void) {
 	// call the original...
 	_fini();
 }
+
+int bar(int a, int b) {
+	return a+b;
+}
