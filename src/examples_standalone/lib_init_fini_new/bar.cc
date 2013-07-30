@@ -52,3 +52,7 @@ void bar_fini103(void) {
 	TRACE("start");
 }
 void bar_fini103(void) __attribute__((destructor(103)));
+
+int bar(int a,int b) {
+	return a+b;
+}

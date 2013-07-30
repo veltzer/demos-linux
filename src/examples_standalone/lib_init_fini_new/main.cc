@@ -38,11 +38,16 @@ void *worker(void *p) {
 	return NULL;
 }
 
+extern int foo(int,int);
+extern int bar(int,int);
+
 /*
  * This is an empty testing application
  */
 int main(int argc, char** argv, char** envp) {
 	TRACE("begin");
+	foo(2,2);
+	bar(2,2);
 	// fork so that we will see if the hooks are called
 	// for forked children too (constructors are not called, destructors are...)...
 	// this example is for a well behaved child (exists ok...)

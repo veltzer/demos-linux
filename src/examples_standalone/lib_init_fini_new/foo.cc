@@ -52,3 +52,7 @@ void foo_fini103(void) {
 	TRACE("start");
 }
 void foo_fini103(void) __attribute__((destructor(103)));
+
+int foo(int a,int b) {
+	return a+b;
+}
