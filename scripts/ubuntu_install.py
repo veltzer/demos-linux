@@ -51,6 +51,7 @@ packs=[
 	'aspectc++',
 	'libnetfilter-queue1',
 	'libnetfilter-queue-dev',
+	'libcap-dev', # for capability.h
 
 	# kernel stuff
 	'linux-headers-generic',
@@ -61,6 +62,7 @@ packs=[
 	# for systemtap - this one does not exist in the regular ubuntu archives
 	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 	# it is commented out...
+	# TODO: make this script add sources to the dbgsyms if need be
 	'linux-image-'+short_release+'-generic'+'-dbgsym',
 	#'linux-image-'+short_release+'-lowlatency'+'-dbgsym',
 

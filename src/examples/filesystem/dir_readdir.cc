@@ -41,6 +41,7 @@
  */
 
 int main(int argc, char** argv, char** envp) {
+#ifndef __x86_64__
 	// command line parsing
 	if(argc!=2) {
 		fprintf(stderr, "%s: usage: %s [dir]\n", argv[0], argv[0]);
@@ -62,5 +63,6 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ASSERT(nread==1);
 		printf("%8ld %8d %12ld %20s\n", d.d_ino, d.d_reclen, d.d_off, d.d_name);
 	}
+#endif /* __x86_64__ */
 	return EXIT_SUCCESS;
 }
