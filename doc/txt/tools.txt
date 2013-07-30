@@ -135,3 +135,12 @@ database admin:
 
 realtime:
 	chrt
+
+listing stuff:
+	lspci - list pci devices
+	lsusb - list usb devices
+	lshw - list hardware for the current machine
+	lscpu - list cpu info for the current machine
+	lsmod - list currently loaded kernel modules
+	lsblk - list block devices on the current machine
+	lspcmia - list pcmcia devices
