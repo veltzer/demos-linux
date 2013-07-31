@@ -26,10 +26,14 @@
 #include <us_helper.h>	// for no_params()
 
 /*
- * This example explores memory reordering issues by the machine.
- * This example doesn't work because it tried to catch "write write"
- * memory reorderings which are either not existent on an x86 CPU
- * or are harder to catch. (which ?!?)
+ * This example explores write/write memory reordering issues by the machine.
+ * This example doesn't work because it tried to catch write/write
+ * memory reorderings which are either don't existent on an x86 CPU.
+ * Look at the article below and see exactly which memory reorderings
+ * are performed by each CPU family.
+ *
+ * References:
+ * http://en.wikipedia.org/wiki/Memory_ordering
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
