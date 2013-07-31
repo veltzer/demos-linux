@@ -26,6 +26,7 @@
  * translated to a "lock orl" instruction in assembly which is an instruction
  * to the core you are running on to stop reordering writes and reads
  * and drop all cache assumptions.
+ * This is an intel instruction and intel only does read/write reordering.
  * So you should see one instruction in the disassembly of this code.
  * And indeed this is what we see.
  *
@@ -34,18 +35,27 @@
  * You don't see any assembly emitted for that since a compiler barrier is only
  * a compile time instruction about future code emittion.
  *
- * We also show how to code __sync_syncronize in direct assembly code.
+ * There are other examples of other ways to achieve memory fences on x86
+ * but the differences between all of these various ways are not explained.
  *
  * this is so disassembly will show interleaved code
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
-int main(int argc, char** argv, char** envp) {
+// don't put static on the next function or the compiler will
+// just make it go away...
+void lock_frenzy() __attribute__((unused, noinline));
+void lock_frenzy() {
 	__sync_synchronize();
 	asm ("lock orl $0x0, (%esp)");
 	asm ("lock addl $0x0, (%esp)");
-	// damn! this doesn't work, look up the intel manual...
-	// asm ("lock xchgl $0x0, (%esp)");
-	disassemble_main();
+	asm ("lock xchg (%esp), %esp");
+	asm ("mfence");
+	asm ("lfence");
+	asm ("sfence");
+}
+
+int main(int argc, char** argv, char** envp) {
+	disassemble_function("lock_frenzy");
 	return EXIT_SUCCESS;
 }
