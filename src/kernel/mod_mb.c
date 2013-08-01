@@ -18,7 +18,6 @@
 
 /* #define DEBUG */
 #include <linux/module.h> /* for MODULE_*. module_* */
-#include <linux/printk.h> /* for pr_* */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
 
@@ -28,12 +27,12 @@
  *
  * This example proves that mb(), rmb() and wmb() translate
  * all to the same "lock addl $0x0,(%esp)" instruction on
- * x86.
+ * x86. barrier() translates to nothing.
 */
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("Module for mb(), rmb(), wmb() disassembly");
+MODULE_DESCRIPTION("Module for mb(), rmb(), wmb(), barrier() disassembly");
 
 /* our own functions */
 static int __init mod_init(void)
@@ -41,14 +40,13 @@ static int __init mod_init(void)
 	mb();
 	rmb();
 	wmb();
+	barrier();
 	return 0;
 }
 
 
 static void __exit mod_exit(void)
 {
-	PR_INFO("start\n");
-	pr_info("start\n");
 }
 
 /* declaration of init/cleanup functions of this module */
