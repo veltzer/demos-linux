@@ -42,7 +42,7 @@
  *
  * So that we could disassemble this easily...
  * EXTRA_COMPILE_FLAGS=-g3
- *
+ * We are multi threaded in this example
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
@@ -140,6 +140,8 @@ CREATE_FUNCS(compiler_barrier, asm volatile ("" ::: "memory"));
 CREATE_FUNCS(sfence, asm volatile ("sfence" ::: "memory"));
 // lfence (does not work)
 CREATE_FUNCS(lfence, asm volatile ("lfence" ::: "memory"));
+// sfence+lfence (should work, but doesn't)
+CREATE_FUNCS(slfence, asm volatile ("sfence" ::: "memory"); asm volatile ("lfence" ::: "memory"));
 // mfence (does work)
 CREATE_FUNCS(mfence, asm volatile ("mfence" ::: "memory"));
 // lock orl using compiler builtin (does work)
@@ -237,12 +239,14 @@ int main(int argc, char** argv, char** envp) {
 	run(false, thread1_compiler_barrier, thread2_compiler_barrier, &pd, core1, core2, "compiler_barrier");
 	run(false, thread1_sfence, thread2_sfence, &pd, core1, core2, "sfence");
 	run(false, thread1_lfence, thread2_lfence, &pd, core1, core2, "lfence");
+	run(false, thread1_slfence, thread2_slfence, &pd, core1, core2, "slfence");
 	run(false, thread1_mfence, thread2_mfence, &pd, core1, core2, "mfence");
 	run(false, thread1_sync_synchronize, thread2_sync_synchronize, &pd, core1, core2, "sync_synchronize");
 	run(true, thread1v_nothing, thread2v_nothing, &pd, core1, core2, "nothing");
 	run(true, thread1v_compiler_barrier, thread2v_compiler_barrier, &pd, core1, core2, "compiler_barrier");
 	run(true, thread1v_sfence, thread2v_sfence, &pd, core1, core2, "sfence");
 	run(true, thread1v_lfence, thread2v_lfence, &pd, core1, core2, "lfence");
+	run(true, thread1v_slfence, thread2v_slfence, &pd, core1, core2, "slfence");
 	run(true, thread1v_mfence, thread2v_mfence, &pd, core1, core2, "mfence");
 	run(true, thread1v_sync_synchronize, thread2v_sync_synchronize, &pd, core1, core2, "sync_synchronize");
 	return EXIT_SUCCESS;
