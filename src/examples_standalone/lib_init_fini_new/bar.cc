@@ -53,6 +53,6 @@ void bar_fini103(void) {
 }
 void bar_fini103(void) __attribute__((destructor(103)));
 
-int bar(int a,int b) {
+int bar(int a, int b) {
 	return a+b;
 }

@@ -53,6 +53,6 @@ void foo_fini103(void) {
 }
 void foo_fini103(void) __attribute__((destructor(103)));
 
-int foo(int a,int b) {
+int foo(int a, int b) {
 	return a+b;
 }

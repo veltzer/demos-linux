@@ -63,6 +63,6 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ASSERT(nread==1);
 		printf("%8ld %8d %12ld %20s\n", d.d_ino, d.d_reclen, d.d_off, d.d_name);
 	}
-#endif /* __x86_64__ */
+#endif	/* __x86_64__ */
 	return EXIT_SUCCESS;
 }

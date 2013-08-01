@@ -24,12 +24,12 @@
  * the CPU.
  */
 static inline void rep_nop(void) {
-	__asm__ __volatile__("rep;nop": : :"memory");
+	__asm__ __volatile__ ("rep;nop" : : : "memory");
 }
 
 int main(int argc, char** argv, char** envp) {
-	//while(true) {
-		//}
+	// while(true) {
+	// }
 	while(true)
 		rep_nop();
 	return EXIT_SUCCESS;

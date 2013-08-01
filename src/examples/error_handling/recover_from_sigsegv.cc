@@ -57,10 +57,10 @@ static void handler_safe(int sig, siginfo_t *si, void *uap) {
 	 */
 #if __i386__
 	context->uc_mcontext.gregs[REG_EIP] = (unsigned int)safe_func;
-#endif /* __i386__ */
+#endif	/* __i386__ */
 #if __x86_64__
 	context->uc_mcontext.gregs[REG_RIP] = (unsigned long)safe_func;
-#endif /* __x86_64__ */
+#endif	/* __x86_64__ */
 	TRACE("end");
 }
 
@@ -76,7 +76,7 @@ static void handler_jmp_rel(int sig, siginfo_t *si, void *uap) {
 	 * pointer to the next instruction (general register 14 is EIP, on linux x86)
 	 */
 	context->uc_mcontext.gregs[REG_EIP] += jmp_rel;
-#endif /* __i386__ */
+#endif	/* __i386__ */
 	TRACE("end");
 }
 
@@ -90,7 +90,7 @@ static void handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
 	 * You better set the address right before hand...
 	 */
 	context->uc_mcontext.gregs[REG_EIP] = jmp_abs;
-#endif /* __i386__ */
+#endif	/* __i386__ */
 	TRACE("end");
 }
 

@@ -20,15 +20,15 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for fprintf(3), stderr
 
-extern int foo(int,int);
-extern int bar(int,int);
+extern int foo(int, int);
+extern int bar(int, int);
 
 /*
  * This is an empty testing application
  */
 int main(int argc, char** argv, char** envp) {
-	fprintf(stderr,"2+3 is %d\n", foo(2,3));
-	fprintf(stderr,"2+3 is %d\n", bar(2,3));
-	fprintf(stderr,"hello from main");
+	fprintf(stderr, "2+3 is %d\n", foo(2, 3));
+	fprintf(stderr, "2+3 is %d\n", bar(2, 3));
+	fprintf(stderr, "hello from main");
 	return EXIT_SUCCESS;
 }

@@ -49,7 +49,7 @@ int main(int argc, char** argv, char** envp) {
 	loop=atoi(argv[1]);
 	size=atoi(argv[2]);
 	modulu=atoi(argv[3]);
-	for(int i=0;i<loop;i++) {
+	for(int i=0; i<loop; i++) {
 		abuse_vector_once();
 	}
 	return EXIT_SUCCESS;

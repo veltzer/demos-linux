@@ -192,12 +192,12 @@ void run(bool doVolatile, void *(*start_routine1)(void *), void *(*start_routine
 		if(doVolatile) {
 			if (pd->vr1 == 0 && pd->vr2 == 0) {
 				detected++;
-				//printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+				// printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
 			}
 		} else {
 			if (pd->r1 == 0 && pd->r2 == 0) {
 				detected++;
-				//printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+				// printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
 			}
 		}
 	}
