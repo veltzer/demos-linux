@@ -256,7 +256,7 @@ static inline int syscall_getdents(unsigned int fd, struct linux_dirent *dirp, u
 static inline int syscall_readdir(unsigned int fd, struct old_linux_dirent *dirp, unsigned int count) {
 	return syscall(SYS_readdir, fd, dirp, count);
 }
-#endif /* SYS_readdir */
+#endif	/* SYS_readdir */
 
 /*
  * A function that translates an address to it's page boundary
