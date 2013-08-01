@@ -58,7 +58,7 @@ static void handler_safe(int sig, siginfo_t *si, void *uap) {
 #if __i386__
 	context->uc_mcontext.gregs[REG_EIP] = (unsigned int)safe_func;
 #endif /* __i386__ */
-#if __x86_64__ 
+#if __x86_64__
 	context->uc_mcontext.gregs[REG_RIP] = (unsigned long)safe_func;
 #endif /* __x86_64__ */
 	TRACE("end");
