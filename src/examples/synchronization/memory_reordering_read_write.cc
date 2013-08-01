@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3), fprintf(3), stderr
+#include <stdio.h>	// for printf(3), fprintf(3), stderr, fflush(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_create(3), pthread_attr_init(3), pthread_attr_destroy(3), pthread_attr_setaffinity_np(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3)
@@ -134,16 +134,20 @@ typedef struct _threaddata {
 // lets compile the functions
 // nothing
 CREATE_FUNCS(nothing, );
-// Prevent compiler reordering
+// compiler barrier
 CREATE_FUNCS(compiler_barrier, asm volatile ("" ::: "memory"));
-// prevent CPU reordering
+// sfence (does not work)
+CREATE_FUNCS(sfence, asm volatile ("sfence" ::: "memory"));
+// lfence (does not work)
+CREATE_FUNCS(lfence, asm volatile ("lfence" ::: "memory"));
+// mfence (does work)
 CREATE_FUNCS(mfence, asm volatile ("mfence" ::: "memory"));
-// prevent CPU reordering
+// lock orl using compiler builtin (does work)
 CREATE_FUNCS(sync_synchronize, __sync_synchronize());
 
 void run(bool doVolatile, void *(*start_routine1)(void *), void *(*start_routine2)(void *), threaddata* pd, int core1, int core2, const char* test_name) {
-	printf("running test [%s]\n", test_name);
-	printf("volatile is [%d]\n", doVolatile);
+	printf("running test [%s], volatile is [%d]...", test_name, doVolatile);
+	fflush(stdout);
 	// Spawn the threads
 	cpu_set_t cpuset1;
 	CPU_ZERO(&cpuset1);
@@ -186,14 +190,19 @@ void run(bool doVolatile, void *(*start_routine1)(void *), void *(*start_routine
 		if(doVolatile) {
 			if (pd->vr1 == 0 && pd->vr2 == 0) {
 				detected++;
-				printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+				//printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
 			}
 		} else {
 			if (pd->r1 == 0 && pd->r2 == 0) {
 				detected++;
-				printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+				//printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
 			}
 		}
+	}
+	if(detected>0) {
+		printf("test failed, %d simulteneous reorders detected\n", detected);
+	} else {
+		printf("success!\n");
 	}
 	CHECK_ZERO_ERRNO(pthread_join(thread1, NULL));
 	CHECK_ZERO_ERRNO(pthread_join(thread2, NULL));
@@ -226,10 +235,14 @@ int main(int argc, char** argv, char** envp) {
 
 	run(false, thread1_nothing, thread2_nothing, &pd, core1, core2, "nothing");
 	run(false, thread1_compiler_barrier, thread2_compiler_barrier, &pd, core1, core2, "compiler_barrier");
+	run(false, thread1_sfence, thread2_sfence, &pd, core1, core2, "sfence");
+	run(false, thread1_lfence, thread2_lfence, &pd, core1, core2, "lfence");
 	run(false, thread1_mfence, thread2_mfence, &pd, core1, core2, "mfence");
 	run(false, thread1_sync_synchronize, thread2_sync_synchronize, &pd, core1, core2, "sync_synchronize");
 	run(true, thread1v_nothing, thread2v_nothing, &pd, core1, core2, "nothing");
 	run(true, thread1v_compiler_barrier, thread2v_compiler_barrier, &pd, core1, core2, "compiler_barrier");
+	run(true, thread1v_sfence, thread2v_sfence, &pd, core1, core2, "sfence");
+	run(true, thread1v_lfence, thread2v_lfence, &pd, core1, core2, "lfence");
 	run(true, thread1v_mfence, thread2v_mfence, &pd, core1, core2, "mfence");
 	run(true, thread1v_sync_synchronize, thread2v_sync_synchronize, &pd, core1, core2, "sync_synchronize");
 	return EXIT_SUCCESS;
