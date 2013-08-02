@@ -17,6 +17,7 @@
  */
 
 #include <firstinclude.h>
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <disassembly_utils.h>	// for disassemble_main()
 
 /*

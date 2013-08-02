@@ -202,12 +202,17 @@ TEST(
 	);
 TEST(
 	singvarvol2,
-	"attempt to use volatile to barrier the compiler",
+	"attempt to use volatile to barrier the compiler (does not work)",
 	{ int y=a; *(volatile int*)&a=y; }
 	);
 TEST(
+	singvarvolright2,
+	"attempt to use volatile on right side to barrier the compiler (nope, bad logic)",
+	{ int y=a; a=*(volatile int*)&y; }
+	);
+TEST(
 	atomicop,
-	"attempt to do an atomic operation on the var",
+	"attempt to do an atomic operation on the var (does work)",
 	__sync_bool_compare_and_swap(&a, 0, 0)
 	);
 
@@ -225,6 +230,7 @@ int main(int argc, char** argv, char** envp) {
 	test_singvarvol(val_before, val_after, dummy);
 	test_singvarvolright(val_before, val_after, dummy);
 	test_singvarvol2(val_before, val_after, dummy);
+	test_singvarvolright2(val_before, val_after, dummy);
 	test_atomicop(val_before, val_after, dummy);
 	return EXIT_SUCCESS;
 }
