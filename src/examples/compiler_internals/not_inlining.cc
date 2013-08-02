@@ -19,19 +19,83 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
+#include <disassembly_utils.h>	// for disassemble_main()
 
 /*
  * This is an example showing how to force the compiler not to inline the function.
  * How can you check that this works? compare the two disassembled version
  * resulting from putting the "noinline" line into a comment
+ *
+ * Note that if the function that you want to avoid inlineing has no side effects
+ * (a prime example of this is an empty function) then the compiler could still
+ * avoid the entire call to the function. So if you want to avoid inlining an
+ * empty function or a function with no side effects insert "asm ("");" as
+ * a side effect generating statement into it.
  */
 
-int doit(int a, int b) __attribute__((noinline));
-int doit(int a, int b) {
+int add1(int a, int b) __attribute__((noinline));
+int add1(int a, int b) {
 	return a+b;
 }
 
+int __attribute__((noinline)) add2(int a, int b) {
+	return a+b;
+}
+
+void empty1() __attribute__((noinline));
+void empty1() {
+}
+
+void __attribute__((noinline)) empty2() {
+}
+
+void empty3() {
+	asm("");
+}
+
+void __attribute__((noinline)) empty4() {
+	asm("");
+}
+
 int main(int argc, char** argv, char** envp) {
-	printf("did you know that 2+2=%d\n", doit(2, 2));
+	disassemble_main();
+	printf("2+2=%d\n", add1(2, 2));
+	printf("2+3=%d\n", add2(2, 3));
+
+	const unsigned int attempts=1000000000;
+	measure m;
+
+	measure_init(&m, "just __attribute__((noinline))", attempts);
+	measure_start(&m);
+	for(unsigned int i=0;i<attempts;i++) {
+		empty1();
+	}
+	measure_end(&m);
+	measure_print(&m);
+
+	measure_init(&m, "another type of __attribute__((noinline))", attempts);
+	measure_start(&m);
+	for(unsigned int i=0;i<attempts;i++) {
+		empty2();
+	}
+	measure_end(&m);
+	measure_print(&m);
+
+	measure_init(&m, "empty function with asm side effect", attempts);
+	measure_start(&m);
+	for(unsigned int i=0;i<attempts;i++) {
+		empty3();
+	}
+	measure_end(&m);
+	measure_print(&m);
+
+	measure_init(&m, "empty function with __attribute__((noinline)) and asm side effect", attempts);
+	measure_start(&m);
+	for(unsigned int i=0;i<attempts;i++) {
+		empty4();
+	}
+	measure_end(&m);
+	measure_print(&m);
 	return EXIT_SUCCESS;
 }
