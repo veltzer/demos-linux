@@ -12,3 +12,44 @@ Andries Brouwer notes about the linux kernel:
 Memory reordering links:
 ========================
 http://peeterjoot.wordpress.com/2009/12/04/intel-memory-ordering-fence-instructions-and-atomic-operations/
+
+Sound links:
+============
+Various linux sound APIs:
+	http://0pointer.de/blog/projects/guide-to-sound-apis.html
+
+STL links:
+==========
+lists in STL:
+	http://www.yolinux.com/TUTORIALS/LinuxTutorialC++STL.html#LIST
+
+ACE links:
+==========
+examples from the ACE documentation:
+	http://www.dre.vanderbilt.edu/~schmidt/DOC_ROOT/ACE/examples/
+
+Aspect oriented for C/C++ links:
+================================
+https://sites.google.com/a/gapp.msrg.utoronto.ca/aspectc/
+http://www.aspectc.org/Documentation.5.0.html
+
+Networking links:
+=================
+http://www.mjmwired.net/kernel/Documentation/networking/packet_mmap.txt
+http://yusufonlinux.blogspot.co.il/2010/11/raw-socket-in-linux.html
+http://yusufonlinux.blogspot.co.il/2010/11/data-link-access-and-zero-copy.html
+
+malloc links:
+=============
+Hoard links:
+	http://www.hoard.org/
+
+openmp links:
+=============
+info libgomp-4.6
+http://gcc.gnu.org/onlinedocs/libgomp/
+http://en.wikipedia.org/wiki/OpenMP
+http://openmp.org/wp
+/usr/lib/gcc/i686-linux-gnu/4.6.1/include/omp.h
+http://www.openmp.org/mp-documents/OpenMP3.0-SummarySpec.pdf
+http://www.akkadia.org/drepper/summit08-openmp.pdf
