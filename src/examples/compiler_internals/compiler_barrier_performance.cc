@@ -23,6 +23,10 @@
 
 /*
  * This example explores the performance of compiler barriers...
+ * The conclusion from this is that a compiler barrier is much cheeper
+ * than a call to an empty function.
+ * Note that both the "__attribute__((noinline))" and the "asm("");" are
+ * needed to keep the compiler from removing the call to the function below.
  *
  * References:
  * https://blogs.oracle.com/d/entry/compiler_memory_barriers
@@ -32,25 +36,30 @@
  * we need threads for the high priority...
  * EXTRA_LINK_FLAGS=-lpthread
  *
- * TODO:
- * - this example does not work since the compiler still optimizes away the barrier() function.
  */
 
-void barrier() __attribute__((noinline));
-void barrier() {
+void __attribute__((noinline)) barrier() {
+	asm("");
 }
 
 void* func(void*) {
 	const int loop=1000000000;
 	measure m;
-	measure_init(&m, "function barrier", loop);
+	measure_init(&m, "empty assembly block (does not serve as compiler barrier)", loop);
+	measure_start(&m);
+	for(int j=0; j<loop; j++) {
+		asm("");
+	}
+	measure_end(&m);
+	measure_print(&m);
+	measure_init(&m, "empty function call barrier", loop);
 	measure_start(&m);
 	for(int j=0; j<loop; j++) {
 		barrier();
 	}
 	measure_end(&m);
 	measure_print(&m);
-	measure_init(&m, "compiler barrier", loop);
+	measure_init(&m, "official compiler barrier (asm volatile (\"\":::\"memory\"))", loop);
 	measure_start(&m);
 	for(int j=0; j<loop; j++) {
 		asm volatile ("":::"memory");
