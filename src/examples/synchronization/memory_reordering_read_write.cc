@@ -57,7 +57,7 @@ typedef struct _threaddata {
 	unsigned int iterations;
 } threaddata;
 
-#define CREATE_FUNCS(name, code) \
+#define CREATE_FUNCS(name, code, code_before, code_after) \
 	void *thread1_ ## name(void *param) { \
 		threaddata* pd=(threaddata*)param; \
 		MersenneTwister random(1); \
@@ -67,9 +67,11 @@ typedef struct _threaddata {
 			/* Random delay */ \
 			while (random.integer() % 8 != 0) {} \
 			/* ----- THE TRANSACTION! ----- */ \
+			code_before; \
 			pd->x = 1; \
 			code; \
 			pd->r1 = pd->y;	\
+			code_after; \
 			/* Notify transaction complete */ \
 			sem_post(&pd->endSema);	\
 		} \
@@ -85,9 +87,11 @@ typedef struct _threaddata {
 			/* Random delay */ \
 			while (random.integer() % 8 != 0) {} \
 			/* ----- THE TRANSACTION! ----- */ \
+			code_before; \
 			pd->y = 1; \
 			code; \
 			pd->r2 = pd->x;	\
+			code_after; \
 			/* Notify transaction complete */ \
 			sem_post(&pd->endSema);	\
 		} \
@@ -103,9 +107,11 @@ typedef struct _threaddata {
 			/* Random delay */ \
 			while (random.integer() % 8 != 0) {} \
 			/* ----- THE TRANSACTION! ----- */ \
+			code_before; \
 			pd->vx = 1; \
 			code; \
 			pd->vr1 = pd->vy; \
+			code_after; \
 			/* Notify transaction complete */ \
 			sem_post(&pd->endSema);	\
 		} \
@@ -121,9 +127,11 @@ typedef struct _threaddata {
 			/* Random delay */ \
 			while (random.integer() % 8 != 0) {} \
 			/* ----- THE TRANSACTION! ----- */ \
+			code_before; \
 			pd->vy = 1; \
 			code; \
 			pd->vr2 = pd->vx; \
+			code_after; \
 			/* Notify transaction complete */ \
 			sem_post(&pd->endSema);	\
 		} \
@@ -133,19 +141,21 @@ typedef struct _threaddata {
 
 // lets compile the functions
 // nothing
-CREATE_FUNCS(nothing, );
+CREATE_FUNCS(nothing, , , );
 // compiler barrier
-CREATE_FUNCS(compiler_barrier, asm volatile ("" ::: "memory"));
+CREATE_FUNCS(compiler_barrier, asm volatile ("" ::: "memory"), , );
 // sfence (does not work)
-CREATE_FUNCS(sfence, asm volatile ("sfence" ::: "memory"));
+CREATE_FUNCS(sfence, asm volatile ("sfence" ::: "memory"), , );
 // lfence (does not work)
-CREATE_FUNCS(lfence, asm volatile ("lfence" ::: "memory"));
-// sfence+lfence (should work, but doesn't)
-CREATE_FUNCS(slfence, asm volatile ("sfence" ::: "memory"); asm volatile ("lfence" ::: "memory"));
+CREATE_FUNCS(lfence, asm volatile ("lfence" ::: "memory"), , );
+// sfence+lfence (does not work)
+CREATE_FUNCS(slfence, asm volatile ("sfence" ::: "memory"); asm volatile ("lfence" ::: "memory"), , );
+// correct sfence+lfence (does work)
+//CREATE_FUNCS(cslfence, , , );
 // mfence (does work)
-CREATE_FUNCS(mfence, asm volatile ("mfence" ::: "memory"));
+CREATE_FUNCS(mfence, asm volatile ("mfence" ::: "memory"), , );
 // lock orl using compiler builtin (does work)
-CREATE_FUNCS(sync_synchronize, __sync_synchronize());
+CREATE_FUNCS(sync_synchronize, __sync_synchronize(), , );
 
 void run(bool doVolatile, void *(*start_routine1)(void *), void *(*start_routine2)(void *), threaddata* pd, int core1, int core2, const char* test_name) {
 	printf("running test [%s], volatile is [%d]...", test_name, doVolatile);
