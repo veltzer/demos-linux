@@ -1,0 +1,10 @@
+This HOWTO shows how to do various things in this project
+=========================================================
+- how to remove optimization from a single example ?
+	add a line like:
+		EXTRA_COMPILE_FLAGS=-O0
+- how to add debug info to a single example ?
+	add a line like:
+		EXTRA_COMPILE_FLAGS=-g3
+- how to see the command lines issued by make ?
+	make DO_MKDBG=1
