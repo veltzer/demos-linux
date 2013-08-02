@@ -23,6 +23,6 @@
 #include "func.h"
 
 int main(int argc, char** argv, char** envp) {
-	printf("did you know that 5+3=%d\n", func(5,3));
+	printf("did you know that 5+3=%d\n", func(5, 3));
 	return EXIT_SUCCESS;
 }

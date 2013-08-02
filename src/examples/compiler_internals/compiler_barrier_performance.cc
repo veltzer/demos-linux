@@ -39,7 +39,7 @@
  */
 
 void __attribute__((noinline)) barrier() {
-	asm("");
+	asm ("");
 }
 
 void* func(void*) {
@@ -48,7 +48,7 @@ void* func(void*) {
 	measure_init(&m, "empty assembly block (does not serve as compiler barrier)", loop);
 	measure_start(&m);
 	for(int j=0; j<loop; j++) {
-		asm("");
+		asm ("");
 	}
 	measure_end(&m);
 	measure_print(&m);
@@ -62,7 +62,7 @@ void* func(void*) {
 	measure_init(&m, "official compiler barrier (asm volatile (\"\":::\"memory\"))", loop);
 	measure_start(&m);
 	for(int j=0; j<loop; j++) {
-		asm volatile ("":::"memory");
+		asm volatile ("" ::: "memory");
 	}
 	measure_end(&m);
 	measure_print(&m);

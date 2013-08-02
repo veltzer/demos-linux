@@ -51,11 +51,11 @@ void __attribute__((noinline)) empty2() {
 }
 
 void empty3() {
-	asm("");
+	asm ("");
 }
 
 void __attribute__((noinline)) empty4() {
-	asm("");
+	asm ("");
 }
 
 int main(int argc, char** argv, char** envp) {
@@ -68,7 +68,7 @@ int main(int argc, char** argv, char** envp) {
 
 	measure_init(&m, "just __attribute__((noinline))", attempts);
 	measure_start(&m);
-	for(unsigned int i=0;i<attempts;i++) {
+	for(unsigned int i=0; i<attempts; i++) {
 		empty1();
 	}
 	measure_end(&m);
@@ -76,7 +76,7 @@ int main(int argc, char** argv, char** envp) {
 
 	measure_init(&m, "another type of __attribute__((noinline))", attempts);
 	measure_start(&m);
-	for(unsigned int i=0;i<attempts;i++) {
+	for(unsigned int i=0; i<attempts; i++) {
 		empty2();
 	}
 	measure_end(&m);
@@ -84,7 +84,7 @@ int main(int argc, char** argv, char** envp) {
 
 	measure_init(&m, "empty function with asm side effect", attempts);
 	measure_start(&m);
-	for(unsigned int i=0;i<attempts;i++) {
+	for(unsigned int i=0; i<attempts; i++) {
 		empty3();
 	}
 	measure_end(&m);
@@ -92,7 +92,7 @@ int main(int argc, char** argv, char** envp) {
 
 	measure_init(&m, "empty function with __attribute__((noinline)) and asm side effect", attempts);
 	measure_start(&m);
-	for(unsigned int i=0;i<attempts;i++) {
+	for(unsigned int i=0; i<attempts; i++) {
 		empty4();
 	}
 	measure_end(&m);

@@ -151,7 +151,7 @@ CREATE_FUNCS(lfence, asm volatile ("lfence" ::: "memory"), , );
 // sfence+lfence (does not work)
 CREATE_FUNCS(slfence, asm volatile ("sfence" ::: "memory"); asm volatile ("lfence" ::: "memory"), , );
 // correct sfence+lfence (does work)
-//CREATE_FUNCS(cslfence, , , );
+// CREATE_FUNCS(cslfence, , , );
 // mfence (does work)
 CREATE_FUNCS(mfence, asm volatile ("mfence" ::: "memory"), , );
 // lock orl using compiler builtin (does work)
