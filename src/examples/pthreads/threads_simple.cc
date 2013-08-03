@@ -33,7 +33,8 @@
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-void *worker(void *p) {
+
+static void *worker(void *p) {
 	int num=*(int *)p;
 	TRACE("starting thread %d", num);
 	pthread_t t=pthread_self();
