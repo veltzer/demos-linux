@@ -1,34 +1,43 @@
 include ../../../Makefile.defs
+
 # variables
 CXX:=icpc
 CXXFLAGS:=-Wall -Werror -I../../include -I/usr/include/i386-linux-gnu/c++/4.7
-ALL:=ver0.o ver1.o ver2.o ver3.o ver4.o ver5.o ver6.o ver7.o ver8.o ver9.o
+ALL:=ver0.o ver1.o ver2.o ver3.o ver4.o ver5.o ver6.o ver7.o ver8.o
 
 # targets
 .PHONY: all
 all: $(ALL)
 
-ver0.o: debug_size.cc
+ver0.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -c $(CXXFLAGS) $< -o $@
-ver1.o: debug_size.cc
+ver1.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -g -c $(CXXFLAGS) $< -o $@
-ver2.o: debug_size.cc
+ver2.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -g2 -c $(CXXFLAGS) $< -o $@
-ver3.o: debug_size.cc
+ver3.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -g3 -c $(CXXFLAGS) $< -o $@
-ver4.o: debug_size.cc
-	$(Q)$(CXX) -g -femit-struct-debug-baseonly -c $(CXXFLAGS) $< -o $@
-ver5.o: debug_size.cc
+ver4.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -g -O2 -c $(CXXFLAGS) $< -o $@
-ver6.o: debug_size.cc
+ver5.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -O2 -g -c $(CXXFLAGS) $< -o $@
-ver7.o: debug_size.cc
+ver6.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -debug none -O2 -c $(CXXFLAGS) $< -o $@
-ver8.o: debug_size.cc
+ver7.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -debug all -O2 -c $(CXXFLAGS) $< -o $@
-ver9.o: debug_size.cc
+ver8.o: big_debuginfo_file.cc
+	$(info doing [$@])
 	$(Q)$(CXX) -debug minimal -O2 -c $(CXXFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
+	$(info doing [$@])
 	$(Q)-rm -f $(ALL)
