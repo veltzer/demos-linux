@@ -19,6 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <pthread.h>	// for pthread_mutex_t, pthread_cond_t, pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_cond_wait(3), pthread_create(3), pthread_join(3), pthread_t
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 /*
@@ -34,16 +35,16 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-pthread_mutex_t condition_mutex=PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t condition_cond=PTHREAD_COND_INITIALIZER;
+static pthread_mutex_t condition_mutex=PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t condition_cond=PTHREAD_COND_INITIALIZER;
 
-int count=0;
-const int COUNT_DONE=10;
-const int COUNT_RANGE_MIN=3;
-const int COUNT_RANGE_MAX=6;
-bool done=false;
+static int count=0;
+static const int COUNT_DONE=10;
+static const int COUNT_RANGE_MIN=3;
+static const int COUNT_RANGE_MAX=6;
+static bool done=false;
 
-void* functionCount1(void*) {
+static void* functionCount1(void*) {
 	while(true) {
 		CHECK_ZERO_ERRNO(pthread_mutex_lock(&condition_mutex));
 		while((count>=COUNT_RANGE_MIN && count<=COUNT_RANGE_MAX) && !done) {
@@ -70,7 +71,7 @@ void* functionCount1(void*) {
 	return NULL;
 }
 
-void *functionCount2(void*) {
+static void *functionCount2(void*) {
 	while(true) {
 		CHECK_ZERO_ERRNO(pthread_mutex_lock(&condition_mutex));
 		while((count<COUNT_RANGE_MIN || count>COUNT_RANGE_MAX) && !done) {
@@ -91,6 +92,7 @@ void *functionCount2(void*) {
 	}
 	return NULL;
 }
+
 int main(int argc, char** argv, char** envp) {
 	pthread_t thread1, thread2;
 	CHECK_ZERO_ERRNO(pthread_create(&thread1, NULL, &functionCount1, NULL));

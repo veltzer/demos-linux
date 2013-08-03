@@ -140,4 +140,11 @@ static inline void my_print_process_name_from_proc_self() {
 	my_system("cat /proc/self/comm");
 }
 
+/*
+ * Print the current threads name from /proc
+ */
+static inline void print_thread_name_from_proc() {
+	my_system("cat /proc/%d/comm", gettid());
+}
+
 #endif	/* !__proc_utils_h */

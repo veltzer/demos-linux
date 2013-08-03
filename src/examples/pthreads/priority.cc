@@ -20,18 +20,21 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>	// for sleep(3)
+#include <unistd.h>	// for sleep(3), nice(3)
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <sched_utils.h>// for sched_print_info()
-#include <err_utils.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
 #include <pthread_utils.h>	// for gettid()
 
 /*
  * This example explores how to use thread priorities
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ *
+ * TODO:
+ * - no error checking of the return values from the pthread library?!?
  */
 
 static pthread_t hpt;
@@ -46,14 +49,10 @@ static pthread_barrier_t mybarrier;
 
 static int min_priority=0;
 
-void *thread_body(void *arg) {
+static void *thread_body(void *arg) {
 	pid_t tid=gettid();
 	int pri=*(int *)arg;
-	int err=nice(pri);
-	if(err==-1) {
-		printf("got error from nice(2)\n");
-		exit(-1);
-	}
+	CHECK_NOT_M1(nice(pri));
 	printf("thread %d starting\n", tid);
 	printf("pri is %d\n", pri);
 	while(true) {

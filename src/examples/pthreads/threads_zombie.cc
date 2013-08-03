@@ -19,11 +19,11 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3)
 #include <string.h>	// for strncpy(3)
-#include <sys/prctl.h>	// for prctl(2)
 #include <unistd.h>	// for sleep(3)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 #include <us_helper.h>	// for TRACE()
 #include <multiproc_utils.h>	// for my_system()
+#include <pthread_utils.h>	// for set_thread_name()
 
 /*
  * This example creates a zombie thread.
@@ -41,17 +41,11 @@
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-void set_thread_name(const char* newname) {
-	const unsigned int size=16;
-	char name[size];
-	strncpy(name, newname, size);
-	CHECK_NOT_M1(prctl(PR_SET_NAME, name));
-}
 
-pthread_mutex_t mutex_init, mutex_start, mutex_end;
-pid_t tid;
+static pthread_mutex_t mutex_init, mutex_start, mutex_end;
+static pid_t tid;
 
-void *worker(void *) {
+static void *worker(void *) {
 	TRACE("start");
 	set_thread_name("child");
 	tid=gettid();
