@@ -19,16 +19,44 @@
 #include <firstinclude.h>
 #include <iostream>	// for std::cout, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <unistd.h>	// for sleep(3)
+#include <trace_utils.h>// for TRACE()
+#include <signal_utils.h>	// for register_handler_signal()
+#include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 
 /*
  * A simple demo of throwing an exception and not catching it
  *
- * This example shows that throwing an exception will terminate the running thread
+ * This example shows that throwing an exception will terminate any running threads
  * and the program as a whole.
+ *
+ * We use a thread here to show that it stops...
+ * EXTRA_LINK_FLAGS=-lpthread
  */
 
+static void handler(int sig) {
+	TRACE("in signal handler for signal [%d],[%s]", sig, signal_get_by_val(sig));
+}
+
+static void *worker(void *p) {
+	unsigned int counter=0;
+	while(true) {
+		TRACE("counter is %d", counter);
+		CHECK_ZERO(sleep(1));
+		counter++;
+	}
+	return NULL;
+}
+
 int main(int argc, char** argv, char** envp) {
+	// to catch when the signal is thrown
+	register_handler_signal(SIGABRT, handler);
+	pthread_t thread;
+	CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, NULL));
+	CHECK_ZERO(sleep(5));
 	throw 20;
 	std::cout << "Where did this go?" << std::endl;
+	CHECK_ZERO_ERRNO(pthread_join(thread, NULL));
 	return EXIT_SUCCESS;
 }
