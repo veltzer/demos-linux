@@ -25,30 +25,30 @@
 #include <ace/Acceptor.h>
 #include <ace/Thread_Manager.h>
 #include <ace/TP_Reactor.h>
+#include <ace/Svc_Handler.h>
+#include <ace/SOCK_Stream.h>
+#include <ace/Thread.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include "Request_Handler.hh"
 
 /*
- * This is a test to show how flags to the compiler effect object size:
- * Results:
- * -g : 807436
- * -g3 : 1132788
- * -gdwarf-4 : 915380
- * -gdwarf-4 -fdebug-types-section : 915380
- * -gdwarf-4 -feliminate-unused-debug-symbols : 915380
- * -gdwarf-4 -femit-struct-debug-baseonly : 650828
- * -g -femit-struct-debug-baseonly : 694868
- *
- * Best so far:
- * -gdwarf-4 -femit-struct-debug-baseonly
+ * This is just a file that should generate lots of debug info
  */
 
-/*
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_COMPILE_FLAGS=-g -femit-struct-debug-baseonly
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
- * EXTRA_LINK_FLAGS=-lpthread
- */
+class Request_Handler : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_MT_SYNCH> {
+	// This class is the Svc_Handler used by <Acceptor>.
+
+public:
+	Request_Handler(ACE_Thread_Manager * tm=0);
+	// The default constructor makes sure the right reactor is used.
+
+protected:
+	virtual int handle_input(ACE_HANDLE fd=ACE_INVALID_HANDLE);
+
+	virtual int handle_close(ACE_HANDLE fd, ACE_Reactor_Mask=0);
+
+private:
+	size_t nr_msgs_rcvd_;
+};
 
 // Accepting end point. This is actually "localhost:10010", but some
 // platform couldn't resolve the name so we use the IP address
