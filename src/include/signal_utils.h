@@ -21,7 +21,7 @@
 
 /*
  * This is a collection of helper function to help with dealing
- * with the Linux signal API
+ * with the Linux signaling API
  */
 
 /* THIS IS A C FILE, NO C++ here */
