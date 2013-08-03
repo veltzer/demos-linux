@@ -28,8 +28,9 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_getattr_np(3), pthread_attr_getstack(3), pthread_attr_t
 #include <unistd.h>	// for getpagesize(2)
-#include <string.h>	// for memset(3)
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <string.h>	// for memset(3), strncpy(3)
+#include <sys/prctl.h>	// for prctl(2), PR_GET_NAME:const, PR_SET_NAME:const
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * get the current threads stack size
@@ -115,6 +116,29 @@ static inline pid_t gettid_cached() {
 		cached_tid* ctid=(cached_tid*)ptr;
 		return ctid->val;
 	}
+}
+
+/*
+ * A function to set the name of the current thread.
+ * Since threads in Linux are actually processes then this is exactly
+ * the same as setting the current processes name.
+ */
+static inline void set_thread_name(const char* newname) {
+	// the 16 here is a limitation of prctl(2)...
+	const unsigned int size=16;
+	char name[size];
+	strncpy(name, newname, size);
+	CHECK_NOT_M1(prctl(PR_SET_NAME, name));
+}
+
+/*
+ * Get the current threads name
+ */
+static inline void get_thread_name(char* buffer, unsigned int bufsize) {
+	const unsigned int size=16;
+	char name[size];
+	CHECK_NOT_M1(prctl(PR_GET_NAME, name));
+	strncpy(buffer, name, bufsize);
 }
 
 #endif	/* !__pthread_utils_h */

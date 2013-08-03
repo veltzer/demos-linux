@@ -17,14 +17,14 @@
  */
 
 #include <firstinclude.h>
-#include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <stdio.h>	// for printf(3)
+#include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_t:struct
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 #include <string.h>	// for strncpy(3)
-#include <sys/prctl.h>	// for prctl(2)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
-#include <multiproc_utils.h>	// for my_system()
+#include <multiproc_utils.h>	// for my_system(), gettid()
+#include <pthread_utils.h>	// for set_thread_name(), get_thread_name()
+#include <proc_utils.h>	// for print_thread_name_from_proc()
 
 /*
  * This exapmle shows how to set thread names in Linux.
@@ -36,25 +36,6 @@
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-
-void get_thread_name(char* buffer, unsigned int bufsize) {
-	const unsigned int size=16;
-	char name[size];
-	CHECK_NOT_M1(prctl(PR_GET_NAME, name));
-	strncpy(buffer, name, bufsize);
-}
-
-void set_thread_name(const char* newname) {
-	// the 16 here is a limitation of prctl(2)...
-	const unsigned int size=16;
-	char name[size];
-	strncpy(name, newname, size);
-	CHECK_NOT_M1(prctl(PR_SET_NAME, name));
-}
-
-void print_thread_name_from_proc() {
-	my_system("cat /proc/%d/comm", gettid());
-}
 
 typedef struct _thread_data {
 	pthread_mutex_t start_mutex;
