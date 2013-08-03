@@ -23,8 +23,7 @@
 #include <unistd.h>	// for getpid(2)
 #include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO()
-#include <multiproc_utils.h>	// for my_system()
-#include <process_utils.h>	// for print_process_name(), get_process_name()
+#include <multiproc_utils.h>	// for my_system(), print_process_name(), get_process_name()
 
 /*
  * This example shows how to use prctl to set/get the current process name.

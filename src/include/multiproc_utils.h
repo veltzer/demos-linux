@@ -30,9 +30,10 @@
 #include <sys/types.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <sys/wait.h>	// for WIFSIGNALED(3), WTERMSIG(3), WIFEXITED(3), WEXITSTATUS(3)
 #include <string.h>	// for strsignal(3)
-#include <stdio.h>	// for stderr, fprintf(3)
+#include <stdio.h>	// for stderr, fprintf(3), strncpy(3)
 #include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_M1()
+#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_M1(), CHECK_ZERO()
+#include <sys/prctl.h>	// for prctl(2), PR_SET_NAME, PR_GET_NAME
 
 static inline int child_ok(int status) {
 	if (WIFEXITED(status)) {
@@ -116,6 +117,34 @@ static inline void print_process_name_from_proc(void) {
  */
 static inline void printbuddy(void) {
 	my_system("cat /proc/buddyinfo");
+}
+
+const unsigned int name_size=16;
+/*
+ * Print the current processes name
+ */
+static inline void process_print_name(void) {
+	char name[name_size];
+	CHECK_ZERO(prctl(PR_GET_NAME, name));
+	TRACE("process name is [%s]", name);
+}
+
+/*
+ * Get the current processes name
+ */
+static inline void process_get_name(char* buffer, unsigned int bufsize) {
+	char name[name_size];
+	CHECK_ZERO(prctl(PR_GET_NAME, name));
+	strncpy(buffer, name, sizeof(name));
+}
+
+/*
+ * Set the current processes(thread) name
+ */
+static inline void process_set_name(const char* newname) {
+	char name[name_size];
+	strncpy(name, newname, name_size);
+	CHECK_ZERO(prctl(PR_SET_NAME, name));
 }
 
 #endif	/* !__multiproc_utils_h */
