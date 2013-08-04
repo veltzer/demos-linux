@@ -61,7 +61,7 @@ int main(int argc, char** argv, char** envp) {
 		return EXIT_FAILURE;
 	}
 	const int thread_num=10;
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	const int attempts=10;
 	const int max_sleep_time=10;
 	const int min_sleep_time=2;

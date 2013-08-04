@@ -20,7 +20,7 @@
 #include <stdio.h>	// for fprintf(3)
 #include <stdlib.h>	// for atexit(3), on_exit(3), exit(3)
 #include <unistd.h>	// for sysconf(3)
-#include <err_utils.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
 
 /*
  * This example shows how to use the cleanup framework provided by the standard C library
@@ -60,7 +60,7 @@ void endfunc3(int exit_code, void* ptr) {
 
 int main(int argc, char** argv, char** envp) {
 	// lets find out how many atexit functions can we register at a maximum...
-	long val_atexit_max=sysconf(_SC_ATEXIT_MAX);
+	long val_atexit_max=CHECK_NOT_M1(sysconf(_SC_ATEXIT_MAX));
 	fprintf(stderr, "ATEXIT_MAX is %ld\n", val_atexit_max);
 	// lets register some functions...
 	CHECK_ZERO(atexit(endfunc1));

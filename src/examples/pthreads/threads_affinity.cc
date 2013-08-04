@@ -21,7 +21,7 @@
 #include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
 #include <unistd.h>	// for sysconf(3)
 #include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 #include <cpu_set_utils.h>	// for cpu_set_print()
 
 /*
@@ -38,7 +38,7 @@ void *worker(void *p) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	const int num=10;
 	pthread_t threads[num];
 	pthread_attr_t attrs[num];

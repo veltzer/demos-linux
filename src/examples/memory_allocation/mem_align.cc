@@ -23,7 +23,7 @@
 #include <stdlib.h>	// for posix_memalign(3) , malloc(3), EXIT_SUCCESS
 #include <sys/mman.h>	// for mmap(2)
 #include <string.h>	// for memset(3)
-#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_VOIDP()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_VOIDP(), CHECK_NOT_M1()
 #include <proc_utils.h>	// for proc_print_mmap()
 
 /*
@@ -31,7 +31,7 @@
  *
  * To get the page size of the system two ways are presented:
  * - getpagesize()
- * - sysconf(_SC_PAGESIZE)
+ * - CHECK_NOT_M1(sysconf(_SC_PAGESIZE))
  *
  * To get aligned memory 4 ways are presented:
  * - valloc (deprecated)
@@ -96,13 +96,13 @@ void *mmap_alloc(unsigned int size) {
 }
 
 int main(int argc, char** argv, char** envp) {
+	// getpagesize() does not return error codes
+	printf("getpagesize() is %d\n", getpagesize());
+	printf("sysconf(_SC_PAGESIZE) is %d\n", CHECK_NOT_M1(sysconf(_SC_PAGESIZE)));
 	// the size to allocate
 	const unsigned int size=20200;
-	int ps1=getpagesize();
-	long ps2=sysconf(_SC_PAGESIZE);
-	int ps=ps1;
-	printf("getpagesize() is %d\n", ps1);
-	printf("sysconf(_SC_PAGESIZE) is %ld\n", ps2);
+	// getpagesize() does not return error codes
+	int ps=getpagesize();
 	void *pt1=valloc(size);
 	void *pt2=memalign(ps, size);
 	void *pt3=mem_align(size);

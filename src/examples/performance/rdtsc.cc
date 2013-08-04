@@ -106,7 +106,7 @@ int main(int argc, char** argv, char** envp) {
 	// but a linux system means very little
 	// (Ingo does dynamic ticks anyway...)
 	printf("get_clk_tck() is %d\n", get_clk_tck());
-	printf("sysconf(_SC_CLK_TCK) is %ld\n", sysconf(_SC_CLK_TCK));
+	printf("sysconf(_SC_CLK_TCK) is %d\n", CHECK_NOT_M1(sysconf(_SC_CLK_TCK)));
 
 	// this one requires parsing
 	const char *cmd="cat /proc/cpuinfo | grep MH";

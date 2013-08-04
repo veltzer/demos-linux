@@ -138,7 +138,7 @@ int main(int argc, char** argv, char** envp) {
 	unsigned long long attempts=1000000000;
 	int optind=parse_arguments(argc, argv, doObserver, type, attempts);
 	// find the number of cores
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	const int usleep_interval=10000;
 	const int real_threads=argc-optind;
 	const int thread_num=doObserver ? real_threads+1 : real_threads;

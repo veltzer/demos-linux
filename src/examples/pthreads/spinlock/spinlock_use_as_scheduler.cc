@@ -22,7 +22,7 @@
 #include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
 // #define DO_DEBUG
 #include <trace_utils.h>// for DEBUG(), INFO()
-#include <err_utils.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This example uses spin lock as a way to schedule thread to do
@@ -34,7 +34,7 @@
 const unsigned int loops=3;
 static pthread_spinlock_t lock;
 static unsigned int counter=0;
-const unsigned int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+const unsigned int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 
 void *worker(void *p) {
 	unsigned int num=*(unsigned int *)p;

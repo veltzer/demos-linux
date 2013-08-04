@@ -34,7 +34,9 @@
  * EXTRA_LINK_FLAGS=-lpthread
  *
  * TODO:
- * - no error checking of the return values from the pthread library?!?
+ * - show that high priority threads preempt lower priority.
+ * - do another example like this but for SCHED_OTHER threads just
+ * like I did for SCHED_OTHER processes.
  */
 
 static pthread_t hpt;
@@ -70,32 +72,31 @@ int main(int argc, char** argv, char** envp) {
 	pthread_attr_t lp_attr;
 
 	/* MAIN-THREAD WITH LOW PRIORITY */
-	my_param.sched_priority=sched_get_priority_min(SCHED_FIFO);
-	pthread_setschedparam(pthread_self(), SCHED_RR, &my_param);
+	my_param.sched_priority=CHECK_NOT_M1(sched_get_priority_min(SCHED_FIFO));
+	CHECK_ZERO_ERRNO(pthread_setschedparam(pthread_self(), SCHED_RR, &my_param));
 	sched_print_info();
 	/* SCHEDULING POLICY AND PRIORITY FOR OTHER THREADS */
-	pthread_attr_init(&lp_attr);
-	pthread_attr_init(&mp_attr);
-	pthread_attr_init(&hp_attr);
-	pthread_attr_setinheritsched(&lp_attr, PTHREAD_EXPLICIT_SCHED);
-	pthread_attr_setinheritsched(&mp_attr, PTHREAD_EXPLICIT_SCHED);
-	pthread_attr_setinheritsched(&hp_attr, PTHREAD_EXPLICIT_SCHED);
-	pthread_attr_setschedpolicy(&lp_attr, SCHED_FIFO);
-	pthread_attr_setschedpolicy(&mp_attr, SCHED_FIFO);
-	pthread_attr_setschedpolicy(&hp_attr, SCHED_FIFO);
+	CHECK_ZERO_ERRNO(pthread_attr_init(&lp_attr));
+	CHECK_ZERO_ERRNO(pthread_attr_init(&mp_attr));
+	CHECK_ZERO_ERRNO(pthread_attr_init(&hp_attr));
+	CHECK_ZERO_ERRNO(pthread_attr_setinheritsched(&lp_attr, PTHREAD_EXPLICIT_SCHED));
+	CHECK_ZERO_ERRNO(pthread_attr_setinheritsched(&mp_attr, PTHREAD_EXPLICIT_SCHED));
+	CHECK_ZERO_ERRNO(pthread_attr_setinheritsched(&hp_attr, PTHREAD_EXPLICIT_SCHED));
+	CHECK_ZERO_ERRNO(pthread_attr_setschedpolicy(&lp_attr, SCHED_FIFO));
+	CHECK_ZERO_ERRNO(pthread_attr_setschedpolicy(&mp_attr, SCHED_FIFO));
+	CHECK_ZERO_ERRNO(pthread_attr_setschedpolicy(&hp_attr, SCHED_FIFO));
 	my_param.sched_priority=min_priority + 1;
-	pthread_attr_setschedparam(&lp_attr, &my_param);
+	CHECK_ZERO_ERRNO(pthread_attr_setschedparam(&lp_attr, &my_param));
 	my_param.sched_priority=min_priority + 2;
-	pthread_attr_setschedparam(&mp_attr, &my_param);
+	CHECK_ZERO_ERRNO(pthread_attr_setschedparam(&mp_attr, &my_param));
 	my_param.sched_priority=min_priority + 3;
-	pthread_attr_setschedparam(&hp_attr, &my_param);
-	pthread_barrier_init(&mybarrier, NULL, 1);
-	pthread_create(&lpt, NULL, thread_body, &lp);
-	pthread_create(&mpt, NULL, thread_body, &mp);
-	pthread_create(&hpt, NULL, thread_body, &hp);
-	pthread_join(hpt, NULL);
-	pthread_join(mpt, NULL);
-	pthread_join(lpt, NULL);
-	printf("main exiting\n");
+	CHECK_ZERO_ERRNO(pthread_attr_setschedparam(&hp_attr, &my_param));
+	CHECK_ZERO_ERRNO(pthread_barrier_init(&mybarrier, NULL, 1));
+	CHECK_ZERO_ERRNO(pthread_create(&lpt, NULL, thread_body, &lp));
+	CHECK_ZERO_ERRNO(pthread_create(&mpt, NULL, thread_body, &mp));
+	CHECK_ZERO_ERRNO(pthread_create(&hpt, NULL, thread_body, &hp));
+	CHECK_ZERO_ERRNO(pthread_join(hpt, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(mpt, NULL));
+	CHECK_ZERO_ERRNO(pthread_join(lpt, NULL));
 	return EXIT_SUCCESS;
 }

@@ -24,7 +24,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for sysconf(3)
 #include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
  * This shows how to create threads with a certain affinity
@@ -42,7 +42,7 @@ void *worker(void *p) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	const int num=10;
 	pthread_t threads[num];
 	pthread_attr_t attrs[num];

@@ -1,0 +1,2 @@
+- the man page for getpagesize() does not have a "RETURN VALUE" section.
+- the problems I found with fork and DONT_FORK.

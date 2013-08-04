@@ -21,6 +21,7 @@
 #include <unistd.h>	// for sysconf(3), getpid(2)
 #include <multiproc_utils.h>	// for my_system()
 #include <signal_utils.h>	// for register_handler_signal()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example shows that the data segment is organized into pages. It shows
@@ -46,7 +47,7 @@ void segv_handler(int sig) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	page_size=sysconf(_SC_PAGESIZE);
+	page_size=CHECK_NOT_M1(sysconf(_SC_PAGESIZE));
 	printf("page size is %d\n", page_size);
 	my_system("pmap %d", getpid());
 	printf("address of a is %p, look it up above...\n", &a);

@@ -17,52 +17,50 @@
  */
 
 #include <firstinclude.h>
-#include <pthread.h>
-#include <sched.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
-#include <unistd.h>	// for sysconf(3)
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
+#include <pthread.h>	// for pthread_t:struct, pthread_create(3), pthread_join(3)
+#include <stdio.h>	// for printf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, rand(3), srand(3)
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <sys/types.h>	// for getpid(2)
+#include <unistd.h>	// for getpid(2)
+#include <atomic>	// for std::atomic
 
 /*
- * This shows how to create threads with a certain affinity
+ * This example explores the performance of rand(3) in a multi-threaded context.
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ * for the atomics
+ * EXTRA_COMPILE_FLAGS=-std=c++11
  */
-void another_func() {
-	printf("Hello, World!");
-}
 
-void *worker(void *p) {
-	int num=*(int *)p;
-	fprintf(stderr, "starting thread %d\n", num);
-	fprintf(stderr, "ending thread %d\n", num);
+static volatile bool stop=false;
+std::atomic<int> counter;
+
+static void *worker_rand(void *p) {
+	while(!stop) {
+		rand();
+		counter++;
+	}
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
+	// no errors from either getpid(2) or srand(3)
+	srand(getpid());
+	counter=0;
 	const int num=10;
 	pthread_t threads[num];
-	pthread_attr_t attrs[num];
-	cpu_set_t cpu_sets[num];
 	int ids[num];
 	void* rets[num];
-
-	TRACE("started");
-	for (int i=0; i<num; i++) {
+	for(int i=0; i<num; i++) {
 		ids[i]=i;
-		CPU_ZERO(cpu_sets + i);
-		CPU_SET(i % cpu_num, cpu_sets + i);
-		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
-		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
-		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, ids + i));
+		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker_rand, ids + i));
 	}
-	TRACE("created threads");
-	for (int i=0; i<num; i++) {
+	CHECK_ZERO(sleep(5));
+	stop=true;
+	for (int i=0; i < num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
-	TRACE("end");
+	printf("number of random numbers generated is %d\n", (int)counter);
 	return EXIT_SUCCESS;
 }
