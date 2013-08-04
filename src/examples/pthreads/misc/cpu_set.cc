@@ -22,12 +22,13 @@
 #include <us_helper.h>	// for TRACE()
 #include <sched.h>	// for cpu_set_t:struct, CPU_ZERO(3), CPU_SET(3)
 #include <cpu_set_utils.h>	// for cpu_set_print()
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is a demo of how to use a cpu set
  */
 int main(int argc, char** argv, char** envp) {
-	TRACE("number of cpus is %ld", sysconf(_SC_NPROCESSORS_ONLN));
+	TRACE("number of cpus is %d", CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN)));
 	cpu_set_t cpuset;
 	CPU_ZERO(&cpuset);
 	for(int i=0; i<500; i+=100) {

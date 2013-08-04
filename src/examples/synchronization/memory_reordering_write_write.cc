@@ -93,8 +93,8 @@ static void *worker(void *p) {
 
 int main(int argc, char** argv, char** envp) {
 	no_params(argc, argv);
-	const int thread_num=sysconf(_SC_NPROCESSORS_ONLN);
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int thread_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	pthread_t* threads=new pthread_t[thread_num];
 	pthread_attr_t* attrs=new pthread_attr_t[thread_num];
 	thread_data* data=new thread_data[thread_num];

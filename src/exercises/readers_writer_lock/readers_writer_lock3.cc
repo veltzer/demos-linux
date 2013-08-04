@@ -155,7 +155,7 @@ void *worker(void *p) {
 int main(int argc, char** argv, char** envp) {
 	const int loops=10000;
 	const int max_sleep=100;
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	const int thread_num=cpu_num;
 	pthread_t* threads=new pthread_t[thread_num];
 	pthread_attr_t* attrs=new pthread_attr_t[thread_num];

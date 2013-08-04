@@ -171,7 +171,7 @@ int main(int argc, char** argv, char** envp) {
 	int attempts=100000;
 	int optind=parse_arguments(argc, argv, doObserver, type, attempts);
 	// find the number of cores
-	const int cpu_num=sysconf(_SC_NPROCESSORS_ONLN);
+	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
 	// the value to be incremented by all threads
 	int value=0;
 	volatile int vvalue=0;

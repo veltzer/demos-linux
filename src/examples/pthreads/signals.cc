@@ -38,6 +38,7 @@
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
+
 // count the number of signals we get
 static unsigned int counter=0;
 
@@ -52,7 +53,7 @@ static void handler(int sig, siginfo_t *si, void *unused) {
 	counter++;
 }
 
-void* worker(void* p) {
+static void* worker(void* p) {
 	int num=*(int *)p;
 	printf("thread starting num=%d, gettid()=%d, pthread_self()=%lu\n", num, gettid(), pthread_self());
 	if(num==0) {
