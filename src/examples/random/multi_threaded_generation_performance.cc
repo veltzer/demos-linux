@@ -42,6 +42,9 @@
  * In addition random_r(3) is better at actually creating the random numbers than
  * then old rand_r(3) and is faster so it's the best one.
  *
+ * References:
+ * http://www.ellipsix.net/blog/2009/3/how-to-use-random-r.html
+ *
  * EXTRA_LINK_FLAGS=-lpthread
  * for the atomics
  * EXTRA_COMPILE_FLAGS=-std=c++11
