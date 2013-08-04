@@ -48,6 +48,9 @@
  * EXTRA_LINK_FLAGS=-lpthread
  * for the atomics
  * EXTRA_COMPILE_FLAGS=-std=c++11
+ *
+ * TODO:
+ * - add drand48(3) functions to the mix.
  */
 
 static volatile bool stop_rand=false;
