@@ -25,8 +25,8 @@
 #include <unistd.h>	// for getpid(2)
 
 /*
- * This is a demo which shows that perror, errno etc all work on a thread
- * by thread level...
+ * This is a demo which shows that errno and related functions
+ * all work on a thread by thread level as they should.
  * Each thread manipulates it's own errno variable with complete disregard
  * to other threads and checks that it is correct.
  *
