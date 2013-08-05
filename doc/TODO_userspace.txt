@@ -15,6 +15,9 @@ articles to get nice demos from:
 this blog is so good it is evil!
 	http://preshing.com/20120612/an-introduction-to-lock-free-programming
 	Everything here is worth examples and slides.
+- implmenet a fair spin lock like this in user space:
+	http://lwn.net/Articles/267968
+	compare to the fairness of the regular spin lock of pthreads.
 
 examples to add
 ===============
