@@ -12,6 +12,9 @@ articles to get nice demos from:
 	http://stackoverflow.com/questions/6719339/determining-if-a-system-uses-big-endian-or-little-endian-using-c
 - get a lot of examples from tlpi (http://man7.org/tlpi/code/)
 - get examples of bad C code from "Some Dark Corners of C.pptx" (have it in doc/external).
+this blog is so good it is evil!
+	http://preshing.com/20120612/an-introduction-to-lock-free-programming
+	Everything here is worth examples and slides.
 
 examples to add
 ===============
