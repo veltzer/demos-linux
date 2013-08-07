@@ -1,3 +1,5 @@
+- do a demo of mq_open.
+
 - do example of backwards compatible C object oriented code.
 	union - to hide data.
 	size passing - to keep size constant.
