@@ -31,6 +31,9 @@
  * a derived object has pointers to the virtual methods of the parent
  * at the begining of the table and then method to it's own method, in
  * order of declaration.
+ *
+ * The virtual tables are also not directly pointed to by the instances
+ * but rather indirectly.
  */
 
 class A {
@@ -52,7 +55,8 @@ public:
 };
 
 // this does not work...
-template <typename T> void* convert(void (T::*p)()) {
+// dumps core?!?
+template <class T> void* convert(void (T::*p)()) {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
 	void* ret=(void*)p;
@@ -63,34 +67,34 @@ template <typename T> void* convert(void (T::*p)()) {
 int main(int argc, char** argv, char** envp) {
 	// first lets see the size of the object (it should be 4
 	// since it is empty and therefore has size 1 but also
-	// has a vtable which overrides the empty and increases
+	// has a vtable which overrides the 1 for empty and increases
 	// the size to 4...)
 	assert(sizeof(A)==4);
 	// show that the first pointer in any object is the v table
 	A obj1, obj2;
 	// this is the vtable
-	void*** vp1=(void***)&obj1;
-	void*** vp2=(void***)&obj2;
+	void** vp1=(void**)&obj1;
+	void** vp2=(void**)&obj2;
 	assert(*vp1==*vp2);
 	// now lets show that the vtable simply has all methods in order
 	// of declaration
 	A a;
-	void*** va=(void***)&a;
+	void** va=*(void***)&a;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
 	void* vAamethod0=(void*)&A::vamethod0;
 	void* vAamethod1=(void*)&A::vamethod1;
 	void* vAamethod2=(void*)&A::vamethod2;
 #pragma GCC diagnostic pop
-	assert(vAamethod0==(*va)[0]);
-	assert(vAamethod1==(*va)[1]);
-	assert(vAamethod2==(*va)[2]);
+	assert(vAamethod0==va[0]);
+	assert(vAamethod1==va[1]);
+	assert(vAamethod2==va[2]);
 	// show that size of B did not increase because it is a derived
 	// object...
 	assert(sizeof(B)==4);
 	// show that the vtable of b has same charactersitics as vtable of A...
 	B b;
-	void*** vb=(void***)&b;
+	void** vb=*(void***)&b;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
 	void* vBamethod0=(void*)&B::vamethod0;
@@ -99,10 +103,10 @@ int main(int argc, char** argv, char** envp) {
 	void* vBbmethod0=(void*)&B::vbmethod0;
 	void* vBbmethod1=(void*)&B::vbmethod1;
 #pragma GCC diagnostic pop
-	assert(vBamethod0==(*vb)[0]);
-	assert(vBamethod1==(*vb)[1]);
-	assert(vBamethod2==(*vb)[2]);
-	assert(vBbmethod0==(*vb)[3]);
-	assert(vBbmethod1==(*vb)[4]);
+	assert(vBamethod0==vb[0]);
+	assert(vBamethod1==vb[1]);
+	assert(vBamethod2==vb[2]);
+	assert(vBbmethod0==vb[3]);
+	assert(vBbmethod1==vb[4]);
 	return EXIT_SUCCESS;
 }
