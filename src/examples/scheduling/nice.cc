@@ -31,15 +31,11 @@
 /*
  * This examples shows the effect of the nice scheduling system (SCHED_OTHER).
  *
- * It then forks several versions of heavy work each with a different nice level
+ * It forks several versions of heavy work each with a different nice level
  * bound to a core of your choosing.
  * Then you can compare the work done by each of these.
- * They forked processes report progress to the "master" process using shared
+ * These forked processes report progress to the "master" process using shared
  * memory and compiler barriers.
- *
- * TODO:
- * - convert the compiler barriers from full compiler barriers to single variable
- * compiler barriers.
  *
  * needed for shm_* functions...
  * EXTRA_LINK_FLAGS=-lrt
@@ -68,14 +64,17 @@ void make_child(const int niceval, int* const prog, int core) {
 		}
 		// this barrier is really necessary. remove it and you wont see
 		// progress at all...
-		asm volatile ("" ::: "memory");
+		// this barrier is too heavy...
+		//asm volatile ("" ::: "memory");
+		// this one isn't...
+		asm volatile ("" : "=g" (*prog) ::);
 		*prog=*prog+1;
 	}
 	printf("child done with sum %f\n", sum);
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc<2) {
+	if(argc<2 || ((argc-1)%2)!=0) {
 		fprintf(stderr, "%s: usage: %s [niceval core]...\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: forexample: %s 2 0 1 0\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: will run two processes nice values 2 and 1 on core 0\n", argv[0]);
