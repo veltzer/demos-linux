@@ -10,6 +10,9 @@
 	tr
 	cut
 	find
+	seq
+	shuf
+	dd
 	.
 	.
 	.
