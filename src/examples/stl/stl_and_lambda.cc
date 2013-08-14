@@ -19,8 +19,8 @@
 #include <firstinclude.h>
 #include <iostream>	// for std::cout, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <vector>
-#include <algorithm>
+#include <vector>	// for vector:object
+#include <algorithm>	// for transform:function
 
 /*
  * Examples of lambdas from C++0x standard...
@@ -28,14 +28,32 @@
  * EXTRA_COMPILE_FLAGS=-std=c++11
  */
 
+static int a=12;
+static int b=4;
+static int c=7;
+
 int main(int argc, char** argv, char** envp) {
-	auto f=[] { std::cout << "Hello, Lambdasn" << std::endl; };
-	f();
 	std::vector<int> v;
 	for(int i=0; i<10; i++) {
 		v.push_back(i);
 	}
-	auto f2=[] (double x) { return x*x*12+x*4+7; };
-	std::transform(v.begin(), v.end(), v.begin(), f2);
+	std::for_each(
+		v.begin(),
+		v.end(),
+		[] (int v) { std::cout << v << " "; }
+	);
+	std::cout << std::endl;
+	std::transform(
+		v.begin(),
+		v.end(),
+		v.begin(),
+		[] (double x) { return x*x*a+x*b+c; }
+	);
+	std::for_each(
+		v.begin(),
+		v.end(),
+		[] (int v) { std::cout << v << " "; }
+	);
+	std::cout << std::endl;
 	return EXIT_SUCCESS;
 }
