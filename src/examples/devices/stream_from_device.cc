@@ -24,8 +24,11 @@
 #include <fcntl.h>	// for open(2)
 #include <unistd.h>	// for read(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_ZERO_ERRNO()
+#include <security_utils.h>	// for check_root()
 
 int main(int argc, char** argv, char** envp) {
+	// lets check that we are root
+	check_root();
 	int fd=CHECK_NOT_M1(open("/dev/input/mouse0", O_RDONLY));
 	int res;
 	do {
