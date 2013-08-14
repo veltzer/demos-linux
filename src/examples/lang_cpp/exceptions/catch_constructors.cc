@@ -17,18 +17,45 @@
  */
 
 #include <firstinclude.h>
-#include <iostream>	// for std::cerr, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <iostream>	// for std::cerr, std::endl
 
 /*
- * A simple demo of throwing an exception and catching it
+ * This is an example of catching exceptions from constructors
+ *
+ * Notes:
+ * - You can't handle the exception when using function try blocks on constructors.
+ * even if your catch(...) block does not re-throw, the exception still escapes to the caller.
+ * - In the caller you can catch the exception and not re-throw it.
+ *
+ * References:
+ * http://stackoverflow.com/questions/160147/catching-exceptions-from-a-constructors-initializer-list
  */
+
+class B {
+	public:
+		B() {
+			std::cerr << "In B constructor" << std::endl;
+			throw 20;
+		}
+};
+
+class A {
+	private:
+		B b;
+	public:
+		A() try: b() {
+			std::cerr << "In A constructor - you won't see this..." << std::endl;
+		} catch (int e) {
+			std::cerr << "got the exception in A constructor" << std::endl;
+		}
+};
 
 int main(int argc, char** argv, char** envp) {
 	try {
-		throw 20;
-	} catch(int e) {
-		std::cerr << "An exception occurred. Exception Nr. " << e << std::endl;
+		A a;
+	} catch (int e) {
+		std::cerr << "got the exception in the caller" << std::endl;
 	}
 	return EXIT_SUCCESS;
 }
