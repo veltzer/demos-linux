@@ -17,18 +17,39 @@
  */
 
 #include <firstinclude.h>
-#include <iostream>	// for std::cerr, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <iostream>	// for std::cerr, std::endl
+#include <string>	// for std::string
+#include <exception>	// for std::exception
 
 /*
- * A simple demo of throwing an exception and catching it
+ * This is an example of using custom exception types...
  */
+
+class MyException: public std::exception {
+	private:
+		std::string message;
+	public:
+		MyException(const char* imessage) {
+			message = imessage;
+		}
+		virtual const char* operator()() {
+			std::cout << message << std::endl;
+			return message.c_str();
+		}
+		virtual const char* what() const throw() {
+			std::cout << message << std::endl;
+			return message.c_str();
+		}
+		virtual ~MyException() throw() {
+		};
+};
 
 int main(int argc, char** argv, char** envp) {
 	try {
-		throw 20;
-	} catch(int e) {
-		std::cerr << "An exception occurred. Exception Nr. " << e << std::endl;
+		throw MyException("this is a message");
+	} catch(const MyException& e) {
+		std::cerr << "got the exception " << e.what() << std::endl;
 	}
 	return EXIT_SUCCESS;
 }
