@@ -40,20 +40,20 @@ int main(int argc, char** argv, char** envp) {
 	std::for_each(
 		v.begin(),
 		v.end(),
-		[] (int v) { std::cout << v << " "; }
-	);
+		[] (int v){ std::cout << v << " "; }
+		);
 	std::cout << std::endl;
 	std::transform(
 		v.begin(),
 		v.end(),
 		v.begin(),
-		[] (double x) { return x*x*a+x*b+c; }
-	);
+		[] (double x){ return x*x*a+x*b+c; }
+		);
 	std::for_each(
 		v.begin(),
 		v.end(),
-		[] (int v) { std::cout << v << " "; }
-	);
+		[] (int v){ std::cout << v << " "; }
+		);
 	std::cout << std::endl;
 	return EXIT_SUCCESS;
 }

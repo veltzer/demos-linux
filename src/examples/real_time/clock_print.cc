@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <clock_utils.h>	// for print_clock_table()
+#include <clock_utils.h>// for print_clock_table()
 
 /*
  * Print all clocks available on the system for a user space app...
