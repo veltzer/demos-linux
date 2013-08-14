@@ -33,7 +33,7 @@
  * client in shm_client.cc.
  */
 
-bool cont=true;
+volatile bool cont=true;
 
 void sigterm_exit(int sig) {
 	printf("got signal, signaling to quit\n");

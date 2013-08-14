@@ -17,25 +17,27 @@
  */
 
 #include <firstinclude.h>
-#include <iostream>	// for std::cout, std::endl
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <vector>
-#include <algorithm>
+#include <sys/types.h>	// for mkfifo(2)
+#include <sys/stat.h>	// for mkfifo(2)
+#include <sys/types.h>	// for open(2)
+#include <sys/stat.h>	// for open(2)
+#include <fcntl.h>	// for open(2)
+#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <stdio.h>	// for printf(3)
 
 /*
- * Examples of lambdas from C++0x standard...
- *
- * EXTRA_COMPILE_FLAGS=-std=c++11
+ * This example shows basic usage of mkfifo(2)
  */
 
 int main(int argc, char** argv, char** envp) {
-	auto f=[] { std::cout << "Hello, Lambdasn" << std::endl; };
-	f();
-	std::vector<int> v;
-	for(int i=0; i<10; i++) {
-		v.push_back(i);
+	const char* filename="/tmp/myfifo";
+	CHECK_NOT_M1(mkfifo(filename, 0666));
+	int fd=CHECK_NOT_M1(open(filename, O_RDONLY));
+	while(true) {
+		char buf[256];
+		ssize_t ret=CHECK_NOT_M1(read(fd, buf, sizeof(buf)));
+		printf("got %d bytes...\n", ret);
 	}
-	auto f2=[] (double x) { return x*x*12+x*4+7; };
-	std::transform(v.begin(), v.end(), v.begin(), f2);
 	return EXIT_SUCCESS;
 }

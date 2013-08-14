@@ -41,6 +41,7 @@
  * work and return symbols to you.
  *
  * EXTRA_LINK_FLAGS=-rdynamic
+ * EXTRA_COMPILE_FLAGS=-g
  *
  * TODO:
  * - show how to see the two "nameless" stack frames in the middle (they are not currently seen).
@@ -97,11 +98,13 @@ void low_func() {
 
 void mid_func() __attribute__((noinline));
 void mid_func() {
+	asm("");
 	low_func();
 }
 
 void top_func() __attribute__((noinline));
 void top_func() {
+	asm("");
 	mid_func();
 }
 
