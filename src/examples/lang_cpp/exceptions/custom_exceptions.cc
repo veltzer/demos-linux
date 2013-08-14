@@ -26,23 +26,24 @@
  * This is an example of using custom exception types...
  */
 
-class MyException: public std::exception {
-	private:
-		std::string message;
-	public:
-		MyException(const char* imessage) {
-			message = imessage;
-		}
-		virtual const char* operator()() {
-			std::cout << message << std::endl;
-			return message.c_str();
-		}
-		virtual const char* what() const throw() {
-			std::cout << message << std::endl;
-			return message.c_str();
-		}
-		virtual ~MyException() throw() {
-		};
+class MyException : public std::exception {
+private:
+	std::string message;
+
+public:
+	MyException(const char* imessage) {
+		message = imessage;
+	}
+	virtual const char* operator()() {
+		std::cout << message << std::endl;
+		return message.c_str();
+	}
+	virtual const char* what() const throw(){
+		std::cout << message << std::endl;
+		return message.c_str();
+	}
+	virtual ~MyException() throw(){
+	};
 };
 
 int main(int argc, char** argv, char** envp) {

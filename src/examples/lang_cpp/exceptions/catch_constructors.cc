@@ -33,22 +33,23 @@
  */
 
 class B {
-	public:
-		B() {
-			std::cerr << "In B constructor" << std::endl;
-			throw 20;
-		}
+public:
+	B() {
+		std::cerr << "In B constructor" << std::endl;
+		throw 20;
+	}
 };
 
 class A {
-	private:
-		B b;
-	public:
-		A() try: b() {
-			std::cerr << "In A constructor - you won't see this..." << std::endl;
-		} catch (int e) {
-			std::cerr << "got the exception in A constructor" << std::endl;
-		}
+private:
+	B b;
+
+public:
+	A() try : b() {
+		std::cerr << "In A constructor - you won't see this..." << std::endl;
+	} catch (int e) {
+		std::cerr << "got the exception in A constructor" << std::endl;
+	}
 };
 
 int main(int argc, char** argv, char** envp) {

@@ -35,7 +35,7 @@ int main(int argc, char** argv, char** envp) {
 	for(int i=0; i<10; i++) {
 		v.push_back(i);
 	}
-	auto f2=[] (double x) { return x*x*12+x*4+7; };
+	auto f2=[] (double x){ return x*x*12+x*4+7; };
 	std::transform(v.begin(), v.end(), v.begin(), f2);
 	return EXIT_SUCCESS;
 }

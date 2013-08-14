@@ -98,13 +98,13 @@ void low_func() {
 
 void mid_func() __attribute__((noinline));
 void mid_func() {
-	asm("");
+	asm ("");
 	low_func();
 }
 
 void top_func() __attribute__((noinline));
 void top_func() {
-	asm("");
+	asm ("");
 	mid_func();
 }
 
