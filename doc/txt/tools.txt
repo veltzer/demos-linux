@@ -10,7 +10,10 @@ process statistics:
 	skill, pkill, kill, killall, killall5
 	nice, renice, snice
 	atop, atopsar
+
+locking and deadlocks:
 	mutrace (for lock contention)
+
 io:
 	iostat
 	iotop, ionice

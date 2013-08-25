@@ -1,4 +1,7 @@
 - do demos of the following:
+	scheduling effect of io:
+		ioprio_get(2)
+		ioprio_set(2)
 	monitoring io:
 		iotop(1)
 		iostat(1)
