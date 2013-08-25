@@ -4,10 +4,30 @@ do demo that breaks volatile.
 	http://software.intel.com/en-us/blogs/2007/11/30/volatile-almost-useless-for-multi-threaded-programming
 
 - example of event passing between threads (eventfd).
+
 - C++ api of a mutex that has a name. In addition the api can report on
 	all mutexes which are currently taken and by which threads (threads by name
 	that is).
+
 - example of how to iterate the list of currently held futexes in user space
 	in order to report which mutexes are taken. From the C futex pointer
 	try to go back to the c++ object wrapping it and print it's name.
 - do a demo of inter-process mutexes using sem_open, sem_close, sem_wait and the like.
+
+- do example of doing rcu using the urcu library and compare performance with standard
+	mutex and readers/writer lock.
+
+- do example of rcu without the urcu library.
+	http://lwn.net/Articles/262464/
+
+- do example of using the membarrier syscall. The problem is that the SYS_membarrier
+	constant to use the system call is not on my ubuntu system. Investigate.
+	http://lwn.net/Articles/370146/
+	http://lwn.net/Articles/369018/
+	http://lwn.net/Articles/369567/
+
+Investigate:
+	http://en.wikipedia.org/wiki/Seqlock
+
+links:
+	https://www.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html
