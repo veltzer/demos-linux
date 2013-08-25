@@ -83,6 +83,7 @@ packs=[
 	'numactl',
 	'pstack',
 	'x86info',
+	'lsscsi',
 
 	# package used tools
 	'ccache', # for faster building

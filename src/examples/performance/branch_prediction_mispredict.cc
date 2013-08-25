@@ -17,22 +17,25 @@
  */
 
 #include <firstinclude.h>
-#include <sys/types.h>	// for open(2), lseek(2)
-#include <sys/stat.h>	// for open(2)
-#include <fcntl.h>	// for open(2)
-#include <unistd.h>	// for write(2), lseek(2), close(2)
-#include <stdlib.h>	// for EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <stdlib.h>	// for EXIT_SUCCESS, rand(3)
+#include <stdio.h>	// for printf(3)
+#include <sys/types.h>	// for getpid(2)
+#include <unistd.h>	// for getpid(2)
 
 /*
- * This example explores sparse files on a UNIX system.
+ * This example abuses the CPU as far as branch prediction goes...
  */
 
 int main(int argc, char** argv, char** envp) {
-	int fd=CHECK_NOT_M1(open("/tmp/sparse_file", O_CREAT | O_RDWR, 0666));
-	CHECK_NOT_M1(lseek(fd, 1000000, SEEK_CUR));
-	const char *buf="hello";
-	CHECK_NOT_M1(write(fd, buf, strlen(buf)));
-	CHECK_NOT_M1(close(fd));
+	srand(getpid());
+	long long sum=0;
+	for(unsigned int i=0;i<100000000;i++) {
+		if(rand()%2) {
+			sum+=i*i;
+		} else {
+			sum-=i*i;
+		}
+	}
+	printf("the sum is %lld\n", sum);
 	return EXIT_SUCCESS;
 }
