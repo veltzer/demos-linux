@@ -7,6 +7,7 @@ blogs to get ideas from:
 	http://eli.thegreenplace.net
 	http://blog.regehr.org
 	http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html
+	http://www.csn.ul.ie/~mel/ (huge pages info)
 articles to get nice demos from:
 	http://www.coranac.com/documents/working-with-bits-and-bitfields/
 	http://stackoverflow.com/questions/1490092/c-c-force-bit-field-order-and-alignment
