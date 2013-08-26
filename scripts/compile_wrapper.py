@@ -79,8 +79,14 @@ for line in open(source):
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
 			args[1:1]=cmd.split()
-			#for c in cmd.split():
-			#	args.insert(1,c)
+		f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')
+		if f!=-1:
+			line.strip()
+			f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
+			cmd=line[f:]
+			cmd=cmd.replace('SOURCE',source)
+			cmd=cmd.replace('TARGET',target)
+			args.extend(cmd.split())
 if ccache and not link:
 	args.insert(0,'ccache')
 if showCmd:
