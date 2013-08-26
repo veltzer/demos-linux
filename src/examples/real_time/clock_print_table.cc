@@ -22,14 +22,13 @@
 
 /*
  * Print all clocks available on the system for a user space app...
+ *
  * Notice that:
  * - different clocks show different times.
  * - different clocks have different resolutions.
- *
- * EXTRA_LINK_FLAGS=-lrt
  */
 
 int main(int argc, char** argv, char** envp) {
-	print_clock_table();
+	clock_print_table();
 	return EXIT_SUCCESS;
 }

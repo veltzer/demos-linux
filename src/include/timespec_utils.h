@@ -39,7 +39,6 @@ const long long NSEC_PER_SEC=1000000000;
  * Add a number of nanoseconds to a timespec
  */
 static inline void timespec_add_nanos(struct timespec* t, long long nanos_count) {
-	// this is my comment
 	long long nsec=t->tv_nsec+nanos_count;
 	t->tv_nsec=nsec%NSEC_PER_SEC;
 	t->tv_sec+=nsec/NSEC_PER_SEC;

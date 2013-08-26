@@ -31,6 +31,7 @@
 #include <time.h>	// for clock_getres(2), clock_gettime(2), struct timespec
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <us_helper.h>	// for ARRAY_SIZEOF()
+#include <string.h>	// for strcmp(3)
 
 /*
  * A structure containing the clock id and it's name
@@ -65,7 +66,7 @@ static clock_val_and_name clock_tbl[]={
  * - different clocks show different times.
  * - different clocks have different resolutions.
  */
-static inline void print_clock_table() {
+static inline void clock_print_table() {
 	unsigned int i;
 	for(i=0; i<ARRAY_SIZEOF(clock_tbl); i++) {
 		clockid_t clk_id=clock_tbl[i].val;
@@ -77,4 +78,17 @@ static inline void print_clock_table() {
 	}
 }
 
+/*
+ * Translate clock name to clock value
+ */
+static inline int clock_get_by_name(const char* name) {
+	unsigned int i;
+	for(i=0; i<ARRAY_SIZEOF(clock_tbl); i++) {
+		if(strcmp(name, clock_tbl[i].name)==0) {
+			return clock_tbl[i].val;
+		}
+	}
+	CHECK_ASSERT("bad clock name"==NULL);
+	return -1;
+}
 #endif	/* !__clock_utils_h */

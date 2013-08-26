@@ -23,7 +23,7 @@
 #include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <signal_utils.h>	// for print_siginfo(), register_handler_sigaction()
+#include <signal_utils.h>	// for signal_print_siginfo(), register_handler_sigaction()
 
 /*
  * This is an example of using the sigaction(2) API.
@@ -58,7 +58,7 @@ static unsigned int counter=0;
 static void handler(int sig, siginfo_t *si, void *unused) {
 	printf("sighandler: counter is %d\n", counter);
 	printf("sighandler: got signal %s\n", strsignal(sig));
-	print_siginfo(stdout, si);
+	signal_print_siginfo(stdout, si);
 	printf("sighandler: unused is %p...\n", unused);
 	printf("sighandler: psiginfo follows...\n");
 	psiginfo(si, "sighandler");
