@@ -19,8 +19,9 @@
 #include <firstinclude.h>
 #include <sched.h>	// for sched_param, sched_setscheduler(2), SCHED_FIFO
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
-#include <stdio.h>	// for fprintf(3), printf(3)
+#include <stdio.h>	// for fprintf(3), printf(3), stderr:object
 #include <err_utils.h>	// for CHECK_NOT_M1()
+#include <unistd.h>	// for execvp(3)
 
 /*
  * This is an example of a utility program to run any program under real time priority
@@ -28,6 +29,7 @@
  * This is a degenerated version of the chrt(1) command line utility from the util-linux
  * package which has better features.
  *
+ * The next is needed for the C99 like struct field initialization syntax below...
  * EXTRA_COMPILE_FLAGS=-std=gnu++11
  */
 
@@ -36,7 +38,9 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: usage: %s priority program [parameters...]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	int priority=atoi(argv[1]);
+	const int priority=atoi(argv[1]);
+	const char* program=argv[2];
+	char* const* params=argv+2;
 	if(priority<0 || priority>99) {
 		fprintf(stderr, "%s: priority must be between 0 - 99!\n", argv[0]);
 		return EXIT_FAILURE;
@@ -46,6 +50,6 @@ int main(int argc, char** argv, char** envp) {
 	};
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &sched));
 	printf("%s: executing %s in realtime priority %d...\n", argv[0], argv[2], sched.sched_priority);
-	CHECK_NOT_M1(execvp(argv[2], &argv[2]));
+	CHECK_NOT_M1(execvp(program, params));
 	return EXIT_SUCCESS;
 }
