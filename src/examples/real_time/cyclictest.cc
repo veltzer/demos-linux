@@ -71,16 +71,22 @@ int main(int argc, char** argv, char** envp) {
 	timespec_add_nanos(&t, interval);
 	int success=0;
 	unsigned long long max=0;
+	unsigned long long min=1024*1024*1024*1024LL;
+	unsigned long long sum=0;
 	for(unsigned int i=0; i<loop; i++) {
 		/* wait untill next shot */
 		CHECK_NOT_M1(clock_nanosleep(clock, TIMER_ABSTIME, &t, NULL));
 		struct timespec now;
 		CHECK_NOT_M1(clock_gettime(clock, &now));
-		timespec_assert_ge(&now, &t);
+		//timespec_assert_ge(&now, &t);
 		unsigned long long diff_nanos=timespec_diff_nano(&now, &t);
 		if(diff_nanos>max) {
 			max=diff_nanos;
 		}
+		if(diff_nanos<min) {
+			min=diff_nanos;
+		}
+		sum+=diff_nanos;
 		success++;
 		/* do the stuff
 		 * ...
@@ -88,5 +94,7 @@ int main(int argc, char** argv, char** envp) {
 		timespec_add_nanos(&t, interval);
 	}
 	printf("max is %llu\n", max);
+	printf("min is %llu\n", min);
+	printf("avg is %llu\n", sum/loop);
 	return EXIT_SUCCESS;
 }
