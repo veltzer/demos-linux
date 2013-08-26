@@ -82,7 +82,7 @@ for line in open(source):
 		f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')
 		if f!=-1:
 			line.strip()
-			f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
+			f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')+len('EXTRA_COMPILE_FLAGS_AFTER=')
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
