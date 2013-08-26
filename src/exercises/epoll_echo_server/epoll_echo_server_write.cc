@@ -33,7 +33,7 @@
  * This is a solution to the echo server exercise which handles async writes.
  *
  * enable next line to get debug
- * EXTRA_COMPILE_FLAGS_DUMMY=-O0 -g3
+ * EXTRA_COMPILE_FLAGS_AFTER_DUMMY=-O0 -g3
  */
 
 inline void register_fd(int realfd, CircularPipe* cp, int epollfd, int op) {
