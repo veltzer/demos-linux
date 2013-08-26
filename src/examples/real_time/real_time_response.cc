@@ -46,7 +46,7 @@ int main(int argc, char** argv, char** envp) {
 	// prep code 
 	/* Declare ourself as a real time task */
 	struct sched_param param;
-	param.sched_priority=MY_PRIORITY;
+	param.sched_priority=priority;
 	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &param));
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
