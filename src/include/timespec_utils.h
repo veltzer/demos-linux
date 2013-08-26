@@ -116,4 +116,8 @@ static inline int timespec_snprintf(char* str, size_t size, struct timespec* t, 
 	return snprintf(str, size, "%s.%09ld", mybuf, t->tv_nsec);
 }
 
+static inline unsigned long long timespec_nanos(const struct timespec* t) {
+	return t->tv_sec*NSEC_PER_SEC+t->tv_nsec;
+}
+
 #endif	/* !__timespec_utils_h */
