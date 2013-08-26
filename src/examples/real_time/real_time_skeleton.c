@@ -21,7 +21,6 @@
 #include <time.h>	// for clock_gettime(2), clock_nanosleep(2)
 #include <sched.h>	// for sched_setscheduler(2), struct sched_param
 #include <sys/mman.h>	// for mlockall(2)
-#include <string.h>	// for memset(3)
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <pthread_utils.h>	// for pthread_stack_prefault()
 #include <timespec_utils.h>	// for timespec_add_nanos()

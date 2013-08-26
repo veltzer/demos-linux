@@ -20,11 +20,11 @@
 #include <stdio.h>	// for fprintf(3), stderr
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <time.h>	// for clock_gettime(2), clock_nanosleep(2), CLOCK_REALTIME, CLOCK_MONOTONIC
-#include <sys/mman.h>	// for mlockall(2)
-#include <string.h>	// for memset(3)
-#include <err_utils.h>	// for CHECK_NOT_M1()
 #include <pthread_utils.h>	// for pthread_stack_prefault()
 #include <timespec_utils.h>	// for timespec_add_nanos(), timespec_sub(), timespec_nanos()
+#include <sched.h>	// for sched_setscheduler(2), struct sched_param
+#include <sys/mman.h>	// for mlockall(2)
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This example explores the responsiveness of the OS.
@@ -33,16 +33,29 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=3) {
-		fprintf(stderr, "%s: usage: %s [internal_ns] [requirement_ns]\n", argv[0], argv[0]);
-		fprintf(stderr, "%s: example: %s 50000 10000\n", argv[0], argv[0]);
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage: %s [internal_ns] [requirement_ns] [prio]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 50000 10000 49\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// get the parameters
-	int interval=atoi(argv[1]);
-	unsigned long long requirement=atoi(argv[2]);
+	const int interval=atoi(argv[1]);
+	const unsigned long long requirement=atoi(argv[2]);
+	const int priority=atoi(argv[3]);
+
+	// prep code 
+	/* Declare ourself as a real time task */
+	struct sched_param param;
+	param.sched_priority=MY_PRIORITY;
+	CHECK_NOT_M1(sched_setscheduler(0, SCHED_FIFO, &param));
+	/* Lock memory */
+	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
+	/* Pre-fault our stack - this is useless because of mlock(2) */
+	pthread_stack_prefault();
 	//int clock=CLOCK_MONOTONIC;
 	int clock=CLOCK_REALTIME;
+
+	// start loop
 	/* get the current time */
 	struct timespec t;
 	CHECK_NOT_M1(clock_gettime(clock, &t));
