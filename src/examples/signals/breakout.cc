@@ -60,8 +60,8 @@ static void SignalHandlerUSR2(int sig) {
 
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
-	register_handler_signal(SIGUSR1, SignalHandlerUSR1);
-	register_handler_signal(SIGUSR2, SignalHandlerUSR2);
+	signal_register_handler_signal(SIGUSR1, SignalHandlerUSR1);
+	signal_register_handler_signal(SIGUSR2, SignalHandlerUSR2);
 	TRACE("set up the sig handler, lets start");
 	TRACE("send signals to me using:");
 	TRACE("kill -s SIGUSR1 %d", getpid());

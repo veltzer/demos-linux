@@ -22,7 +22,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_NULL()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 
 /*
  * This exapmle shows how to obtain a stack trace for various purposes (mostly
@@ -118,7 +118,7 @@ void print_trace_sighandler(int sig) {
  * Signal handler registration function
  */
 void trace_register(void) {
-	old_handler=register_handler_signal(SIGSEGV, print_trace_sighandler);
+	old_handler=signal_register_handler_signal(SIGSEGV, print_trace_sighandler);
 	/*
 	 * struct sigaction sa;
 	 * memset(sa,0,sizeof(struct sigaction));

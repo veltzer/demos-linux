@@ -31,7 +31,7 @@
 #include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_NEGATIVE(), CHECK_NOT_M1()
 #include <security_utils.h>	// for check_root()
 #include <multiproc_utils.h>	// for my_system()
-#include <signal_utils.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for signal_register_handler_sigaction()
 
 /*
  * This is an example of how to use the netfilter-queue kernel API.
@@ -114,8 +114,8 @@ static void handler(int sig, siginfo_t *si, void *unused) {
 int main(int argc, char **argv, char** envp) {
 	// lets check that we are root
 	check_root();
-	register_handler_sigaction(SIGINT, handler);
-	register_handler_sigaction(SIGTERM, handler);
+	signal_register_handler_sigaction(SIGINT, handler);
+	signal_register_handler_sigaction(SIGTERM, handler);
 	// setup the kernel (today there is no need for the modprobes here
 	// since the iptables use will automatically load the right modules...)
 	// my_system("modprobe iptable_filter");

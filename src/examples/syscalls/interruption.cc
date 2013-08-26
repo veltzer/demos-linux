@@ -25,7 +25,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <err_utils.h>	// CHECK_NOT_M1()
 #include <trace_utils.h>// for TRACE()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 
 /*
  * This is an example of a calculator that you can break out of.
@@ -51,7 +51,7 @@ static void handler(int sig) {
 int main(int argc, char** argv, char** envp) {
 	// make sure we break out on receiving the SIGUSR1 signal...
 	CHECK_NOT_M1(siginterrupt(SIGUSR1, 1));
-	register_handler_signal(SIGUSR1, handler);
+	signal_register_handler_signal(SIGUSR1, handler);
 	int ret;
 	printf("signal me with [kill -s SIGUSR1 %d]\n", getpid());
 	bool broken=false;

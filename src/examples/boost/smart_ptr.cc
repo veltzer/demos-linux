@@ -37,16 +37,16 @@
  */
 
 class A {
-	public:
-		A() {
-			std::cout << "in constructor" << std::endl;
-		}
-		~A() {
-			std::cout << "in destructor" << std::endl;
-		}
-		void doit() {
-			std::cout << "doing something" << std::endl;
-		}
+public:
+	A() {
+		std::cout << "in constructor" << std::endl;
+	}
+	~A() {
+		std::cout << "in destructor" << std::endl;
+	}
+	void doit() {
+		std::cout << "doing something" << std::endl;
+	}
 };
 
 int main(int argc, char** argv, char** envp) {

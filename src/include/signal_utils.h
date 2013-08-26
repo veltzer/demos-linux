@@ -190,7 +190,7 @@ static void signal_handler_jmp_abs(int sig, siginfo_t *si, void *uap) {
 
 static inline void signal_segfault_jump_to(void* adr) {
 	signal_jmp_abs=(unsigned long)adr;
-	register_handler_sigaction(SIGSEGV, signal_handler_jmp_abs);
+	signal_register_handler_sigaction(SIGSEGV, signal_handler_jmp_abs);
 }
 
 static sigjmp_buf signal_env;
@@ -202,7 +202,7 @@ static void signal_handler_sigjmp(int sig, siginfo_t *si, void *uap) {
 }
 
 static inline int signal_segfault_protect() {
-	register_handler_sigaction(SIGSEGV, signal_handler_sigjmp);
+	signal_register_handler_sigaction(SIGSEGV, signal_handler_sigjmp);
 	return !sigsetjmp(signal_env, 0);
 }
 

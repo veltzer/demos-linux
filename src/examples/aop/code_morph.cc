@@ -27,7 +27,7 @@
 #include <unistd.h>	// for getpagesize(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <us_helper.h>	// for page_adr()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 
 /*
  * This is an example that shows that you cannot alter code, which is protected
@@ -82,7 +82,7 @@ int main(int argc, char** argv, char** envp) {
 	// call the function to see what it is doing...
 	function();
 	// lets install our own SIGSEGV signal handler so that we won't crash...
-	register_handler_signal(SIGSEGV, segv_handler);
+	signal_register_handler_signal(SIGSEGV, segv_handler);
 	// find the cell where the number 'times' is writen
 	// if you are in gcc 4.6 then search for times
 	// if you are in gcc 4.5 then search for times-1

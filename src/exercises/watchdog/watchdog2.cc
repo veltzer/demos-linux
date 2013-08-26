@@ -33,7 +33,7 @@
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
 #include <trace_utils.h>// for TRACE()
 #include <multiproc_utils.h>	// for print_status()
-#include <signal_utils.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for signal_register_handler_sigaction()
 
 const char* process_to_exec="src/exercises/watchdog/process_to_monitor.elf";
 const char* const args[]={
@@ -72,7 +72,7 @@ static void fork_a_child() {
 }
 
 int main(int argc, char** argv, char** envp) {
-	register_handler_sigaction(SIGCHLD, handler);
+	signal_register_handler_sigaction(SIGCHLD, handler);
 	fork_a_child();
 	TRACE("parent starts monitoring");
 	while(true) {

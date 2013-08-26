@@ -22,7 +22,7 @@
 #include <stdio.h>	// for printf(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 #include <pthread_utils.h>	// for gettid()
-#include <signal_utils.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for signal_register_handler_sigaction()
 
 /*
  * This example explores the relations between threads and signal handling.
@@ -57,7 +57,7 @@ static void* worker(void* p) {
 	int num=*(int *)p;
 	printf("thread starting num=%d, gettid()=%d, pthread_self()=%lu\n", num, gettid(), pthread_self());
 	if(num==0) {
-		register_handler_sigaction(SIGUSR1, handler);
+		signal_register_handler_sigaction(SIGUSR1, handler);
 	}
 	// this is the right way to sleep even while accepting signals.
 	// signal arrival will break the sleep and sleep will return number
@@ -76,7 +76,7 @@ int main(int argc, char** argv, char** envp) {
 	int ids[num];
 	void* rets[num];
 
-	// register_handler_sigaction(SIGUSR1,handler);
+	// signal_register_handler_sigaction(SIGUSR1,handler);
 	printf("my pid is %d\n", getpid());
 	printf("signal me with [kill -s SIGUSR1 %d]\n", getpid());
 	printf("signal me with [kill -s SIGUSR2 %d]\n", getpid());
@@ -89,7 +89,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	printf("main ended creating threads\n");
 	CHECK_ZERO(sleep(1));
-	register_handler_sigaction(SIGUSR2, handler);
+	signal_register_handler_sigaction(SIGUSR2, handler);
 	printf("main started joining threads\n");
 	for (int i=0; i < num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));

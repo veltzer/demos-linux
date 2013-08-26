@@ -31,28 +31,28 @@
  * EXTRA_COMPILE_FLAGS_AFTER=-O0
  */
 
-int main() {
+int main(int argc, char** argv, char** envp) {
 	struct timespec t_start, t_end;
-	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME,&t_start));
-	for(int i=0;i<1000000;i++) {
+	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME, &t_start));
+	for(int i=0; i<1000000; i++) {
 	}
 	/*
-	int i=0;
-	while(i<1000000) {
-		i++;
-	}
-	printf("i is %d\n", i);
-	*/
+	 * int i=0;
+	 * while(i<1000000) {
+	 *      i++;
+	 * }
+	 * printf("i is %d\n", i);
+	 */
 	/*
-	long long sum=0;
-	for(int i=0;i<1000000;i++) {
-		sum+=i*i;
-	}
-	*/
-	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME,&t_end));
-	//printf("sum is %lld\n", sum);
+	 * long long sum=0;
+	 * for(int i=0;i<1000000;i++) {
+	 *      sum+=i*i;
+	 * }
+	 */
+	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME, &t_end));
+	// printf("sum is %lld\n", sum);
 	unsigned long long diff=timespec_diff_nano(&t_end, &t_start);
-	//printf("seconds since the epoch are %ld\n", t_start.tv_sec);
+	// printf("seconds since the epoch are %ld\n", t_start.tv_sec);
 	printf("time spent in the loop was %llu nanosecs\n", diff);
 	return EXIT_SUCCESS;
 }
