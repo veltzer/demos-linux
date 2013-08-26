@@ -23,7 +23,7 @@
 #include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <signal_utils.h>	// for signal_print_siginfo(), register_handler_sigaction()
+#include <signal_utils.h>	// for signal_print_siginfo(), signal_register_handler_sigaction()
 
 /*
  * This is an example of using the sigaction(2) API.
@@ -68,9 +68,9 @@ static void handler(int sig, siginfo_t *si, void *unused) {
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
 	printf("started registering signals\n");
-	register_handler_sigaction(SIGUSR1, handler);
-	register_handler_sigaction(SIGUSR2, handler);
-	register_handler_sigaction(SIGRTMIN, handler);
+	signal_register_handler_sigaction(SIGUSR1, handler);
+	signal_register_handler_sigaction(SIGUSR2, handler);
+	signal_register_handler_sigaction(SIGRTMIN, handler);
 	printf("ended registering signals\n");
 	printf("signal me with one of the following:\n");
 	printf("\t[kill -s SIGUSR1 %d]\n", getpid());

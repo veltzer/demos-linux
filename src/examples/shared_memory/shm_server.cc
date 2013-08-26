@@ -25,7 +25,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_VOIDP(), CHECK_ZERO()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 #include "shared.h"
 
 /*
@@ -42,7 +42,7 @@ void sigterm_exit(int sig) {
 
 int main(int argc, char** argv, char** envp) {
 	// first lets make sure that we exit if we get SIGINT
-	register_handler_signal(SIGINT, sigterm_exit);
+	signal_register_handler_signal(SIGINT, sigterm_exit);
 	key_t key=CHECK_NOT_M1(ftok("/etc/passwd", 'x'));
 	printf("key is 0x%x\n", key);
 	// remove the old shm, if it exists

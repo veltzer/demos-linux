@@ -25,7 +25,7 @@
 #include <unistd.h>	// for getpagesize(2)
 #include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
-#include <signal_utils.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for signal_register_handler_sigaction()
 
 /*
  * This is a demo of the use of mprotect(2) to protect your memory and thus try to
@@ -79,7 +79,7 @@ int bug_doing_read(char* buf) {
 int main(int argc, char** argv, char** envp) {
 	const bool handle_sigv=true;
 	if(handle_sigv) {
-		register_handler_sigaction(SIGSEGV, handler);
+		signal_register_handler_sigaction(SIGSEGV, handler);
 	}
 	char* buffer=(char*)mymalloc(10, 1);
 

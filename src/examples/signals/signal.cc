@@ -62,9 +62,9 @@ static void handler(int sig) {
 
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
-	register_handler_signal(SIGUSR1, handler);
-	register_handler_signal(SIGUSR2, handler);
-	register_handler_signal(SIGRTMIN, handler);
+	signal_register_handler_signal(SIGUSR1, handler);
+	signal_register_handler_signal(SIGUSR2, handler);
+	signal_register_handler_signal(SIGRTMIN, handler);
 	printf("signal me with one of the following:\n");
 	printf("\t[kill -s SIGUSR1 %d]\n", getpid());
 	printf("\t[kill -s SIGUSR2 %d]\n", getpid());

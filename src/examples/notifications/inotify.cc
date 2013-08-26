@@ -27,7 +27,7 @@
 #include <signal.h>	// for siginterrupt(2)
 #include <limits.h>	// for PATH_MAX
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <signal_utils.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for signal_register_handler_sigaction()
 
 /*
  * This demo shows how to use the inotify(2) API to get notifications of file changes.
@@ -91,7 +91,7 @@ static int max_rec=0;
 static int max_len=0;
 
 int main(int argc, char** argv, char** envp) {
-	register_handler_sigaction(SIGUSR1, myhandler);
+	signal_register_handler_sigaction(SIGUSR1, myhandler);
 	CHECK_NOT_M1(siginterrupt(SIGUSR1, 1));
 	int fd=CHECK_NOT_M1(inotify_init());
 	uint32_t mask=IN_CREATE | IN_DELETE | IN_MODIFY | IN_MOVED_TO | IN_MOVED_FROM;

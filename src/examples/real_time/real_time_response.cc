@@ -25,7 +25,7 @@
 #include <sched.h>	// for sched_setscheduler(2), struct sched_param
 #include <sys/mman.h>	// for mlockall(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
-#include <clock_utils.h>	// for clock_get_by_name()
+#include <clock_utils.h>// for clock_get_by_name()
 
 /*
  * This example explores the responsiveness of the OS.
@@ -53,7 +53,7 @@ int main(int argc, char** argv, char** envp) {
 	const int clock=clock_get_by_name(argv[3]);
 	const unsigned int loop=atoi(argv[4]);
 
-	// prep code 
+	// prep code
 	/* Declare ourself as a real time task */
 	struct sched_param param;
 	param.sched_priority=priority;
@@ -61,7 +61,7 @@ int main(int argc, char** argv, char** envp) {
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
 	/* Pre-fault our stack - this is useless because of mlock(2) */
-	//pthread_stack_prefault();
+	// pthread_stack_prefault();
 
 	// start loop
 	/* get the current time */
@@ -71,7 +71,7 @@ int main(int argc, char** argv, char** envp) {
 	timespec_add_nanos(&t, interval);
 	int success=0;
 	unsigned long long max=0;
-	for(unsigned int i=0;i<loop;i++) {
+	for(unsigned int i=0; i<loop; i++) {
 		/* wait untill next shot */
 		CHECK_NOT_M1(clock_nanosleep(clock, TIMER_ABSTIME, &t, NULL));
 		struct timespec now;

@@ -22,7 +22,7 @@
 #include <sys/ipc.h>	// for semctl(2), ftok(3), semget(2)
 #include <sys/sem.h>	// for semctl(2), semget(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ASSERT()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 #include "common.hh"
 
 static bool over=false;
@@ -32,7 +32,7 @@ void clean(int sig) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	register_handler_signal(SIGINT, clean);
+	signal_register_handler_signal(SIGINT, clean);
 	key_t key=CHECK_NOT_M1(ftok(FTOK_PATHNAME, FTOK_PROJID));
 	int semid=CHECK_NOT_M1(semget(key, NPHIL, IPC_CREAT | 0666));
 	for(unsigned int i=0; i<NPHIL; i++) {

@@ -21,7 +21,7 @@
 #include <stdio.h>	// for printf(3), fprintf(3), stderr
 #include <ucontext.h>	// for ucontext_t:type, REG_EIP
 #include <setjmp.h>	// for sigjmp_buf:type, sigsetjmp(3), siglongjmp(3)
-#include <signal_utils.h>	// for register_handler_sigaction()
+#include <signal_utils.h>	// for signal_register_handler_sigaction()
 #include <trace_utils.h>// for TRACE()
 #include <disassembly_utils.h>	// for disassemble_main()
 
@@ -113,7 +113,7 @@ int main(int argc, char** argv, char** envp) {
 		return EXIT_FAILURE;
 	}
 	if(choice==0) {
-		register_handler_sigaction(SIGSEGV, handler_safe);
+		signal_register_handler_sigaction(SIGSEGV, handler_safe);
 		*(volatile int*)NULL=100;
 		*(volatile int*)NULL=101;
 		*(volatile int*)NULL=102;
@@ -121,20 +121,20 @@ int main(int argc, char** argv, char** envp) {
 	if(choice==1) {
 		// 10 is the size of the instruction
 		jmp_rel=10;
-		register_handler_sigaction(SIGSEGV, handler_jmp_rel);
+		signal_register_handler_sigaction(SIGSEGV, handler_jmp_rel);
 		*(volatile int*)NULL=200;
 		*(volatile int*)NULL=201;
 		*(volatile int*)NULL=202;
 	}
 	if(choice==2) {
 		jmp_abs=(unsigned long)&&mylabel;
-		register_handler_sigaction(SIGSEGV, handler_jmp_abs);
+		signal_register_handler_sigaction(SIGSEGV, handler_jmp_abs);
 		*(volatile int*)NULL=300;
 		*(volatile int*)NULL=301;
 		*(volatile int*)NULL=302;
 	}
 	if(choice==3) {
-		register_handler_sigaction(SIGSEGV, handler_sigjmp);
+		signal_register_handler_sigaction(SIGSEGV, handler_sigjmp);
 		int ret=sigsetjmp(env, 0);
 		if(ret==0) {
 			*(volatile int*)NULL=400;

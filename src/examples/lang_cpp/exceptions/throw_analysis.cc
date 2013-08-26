@@ -21,7 +21,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for sleep(3)
 #include <trace_utils.h>// for TRACE()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 
@@ -51,7 +51,7 @@ static void *worker(void *p) {
 
 int main(int argc, char** argv, char** envp) {
 	// to catch when the signal is thrown
-	register_handler_signal(SIGABRT, handler);
+	signal_register_handler_signal(SIGABRT, handler);
 	pthread_t thread;
 	CHECK_ZERO_ERRNO(pthread_create(&thread, NULL, worker, NULL));
 	CHECK_ZERO(sleep(5));

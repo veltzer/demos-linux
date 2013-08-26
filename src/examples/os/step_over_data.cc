@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sysconf(3), getpid(2)
 #include <multiproc_utils.h>	// for my_system()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_register_handler_signal()
 #include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
@@ -57,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	waitkey(NULL);
 	// lets install our own SIGSEGV signal handler so that we could print the address we
 	// failed at...
-	old_handler=register_handler_signal(SIGSEGV, segv_handler);
+	old_handler=signal_register_handler_signal(SIGSEGV, segv_handler);
 	ptr=(char*)&a;
 	// the next line is really needed. If I leave it out then the seg fault happens much
 	// sooner since I'm stepping over stuff which is needed by the libc library for either
