@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <signal_utils.h>	// for print_signal_table()
+#include <signal_utils.h>	// for signal_print_table()
 
 /*
  * This is an example prints the table of all signals in the system.
@@ -28,6 +28,6 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	print_signal_table();
+	signal_print_table();
 	return EXIT_SUCCESS;
 }

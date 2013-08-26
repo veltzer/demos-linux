@@ -17,34 +17,41 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3), stderr
+#include <stdio.h>	// for fprintf(3), stderr:object, printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <time.h>	// for clock_gettime(2), clock_nanosleep(2), CLOCK_REALTIME, CLOCK_MONOTONIC
 #include <pthread_utils.h>	// for pthread_stack_prefault()
-#include <timespec_utils.h>	// for timespec_add_nanos(), timespec_sub(), timespec_nanos()
+#include <timespec_utils.h>	// for timespec_add_nanos(), timespec_diff_nano(), timespec_assert_ge()
 #include <sched.h>	// for sched_setscheduler(2), struct sched_param
 #include <sys/mman.h>	// for mlockall(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
+#include <clock_utils.h>	// for clock_get_by_name()
 
 /*
  * This example explores the responsiveness of the OS.
+ * This is very similar to the cyclictest(1) application but a lot simpler
+ * and with less features.
  *
  * TODO:
- * - add the ability to get the clock via the command line too.
- *
- * EXTRA_LINK_FLAGS=-lpthread -lrt
+ * - make sure that we did not have any page faults at the end of the run.
+ * - add cpu affinity features like in cyclictest(1) (do the work in a
+ * thread).
+ * - print progress as the application is running under a master thread which
+ * is not real time.
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=4) {
-		fprintf(stderr, "%s: usage: %s [internal_ns] [requirement_ns] [priority]\n", argv[0], argv[0]);
-		fprintf(stderr, "%s: example: %s 50000 10000 49\n", argv[0], argv[0]);
+	if(argc!=5) {
+		fprintf(stderr, "%s: usage: %s [interval] [priority] [clock] [loop]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 50000 49 CLOCK_REALTIME 10000\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 50000 49 CLOCK_MONOTONIC 10000\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
 	// get the parameters
-	const int interval=atoi(argv[1]);
-	const unsigned long long requirement=atoi(argv[2]);
-	const int priority=atoi(argv[3]);
+	const unsigned long long interval=atoi(argv[1]);
+	const int priority=atoi(argv[2]);
+	const int clock=clock_get_by_name(argv[3]);
+	const unsigned int loop=atoi(argv[4]);
 
 	// prep code 
 	/* Declare ourself as a real time task */
@@ -54,9 +61,7 @@ int main(int argc, char** argv, char** envp) {
 	/* Lock memory */
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
 	/* Pre-fault our stack - this is useless because of mlock(2) */
-	pthread_stack_prefault();
-	int clock=CLOCK_MONOTONIC;
-	//int clock=CLOCK_REALTIME;
+	//pthread_stack_prefault();
 
 	// start loop
 	/* get the current time */
@@ -65,23 +70,23 @@ int main(int argc, char** argv, char** envp) {
 	/* start after one second */
 	timespec_add_nanos(&t, interval);
 	int success=0;
-	while(true) {
+	unsigned long long max=0;
+	for(unsigned int i=0;i<loop;i++) {
 		/* wait untill next shot */
 		CHECK_NOT_M1(clock_nanosleep(clock, TIMER_ABSTIME, &t, NULL));
 		struct timespec now;
 		CHECK_NOT_M1(clock_gettime(clock, &now));
+		timespec_assert_ge(&now, &t);
 		unsigned long long diff_nanos=timespec_diff_nano(&now, &t);
-		if(diff_nanos>requirement) {
-			fprintf(stderr,"success count is %d\n", success);
-			fprintf(stderr,"diff nanos is %llu\n", diff_nanos);
-			return EXIT_FAILURE;
+		if(diff_nanos>max) {
+			max=diff_nanos;
 		}
 		success++;
-		//CHECK_ASSERT(diff_nanos<10000);
 		/* do the stuff
 		 * ...
 		 * calculate next shot */
 		timespec_add_nanos(&t, interval);
 	}
+	printf("max is %llu\n", max);
 	return EXIT_SUCCESS;
 }

@@ -44,10 +44,10 @@
  * [kill -L] or [kill --table] from [/bin/kill] will show them in a nice table.
  */
 
-typedef struct _sig_val_and_name {
+typedef struct _signal_val_and_name {
 	int val;
 	const char* name;
-} sig_val_and_name;
+} signal_val_and_name;
 
 /*
  * List of all signals and their names. The reason for this is that the standard
@@ -57,7 +57,7 @@ typedef struct _sig_val_and_name {
  * the macro. Use only macros that don't substitute.
  */
 #define entry(x) { x, # x }
-static sig_val_and_name sig_tbl[]={
+static signal_val_and_name signal_tbl[]={
 	entry(SIGHUP),
 	entry(SIGINT),
 	entry(SIGQUIT),
@@ -102,9 +102,9 @@ static sig_val_and_name sig_tbl[]={
  */
 static inline int signal_get_by_name(const char* name) {
 	unsigned int i;
-	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
-		if(strcmp(name, sig_tbl[i].name)==0) {
-			return sig_tbl[i].val;
+	for(i=0; i<ARRAY_SIZEOF(signal_tbl); i++) {
+		if(strcmp(name, signal_tbl[i].name)==0) {
+			return signal_tbl[i].val;
 		}
 	}
 	CHECK_ASSERT("bad signal name"==NULL);
@@ -116,9 +116,9 @@ static inline int signal_get_by_name(const char* name) {
  */
 static inline const char* signal_get_by_val(int val) {
 	unsigned int i;
-	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
-		if(sig_tbl[i].val==val) {
-			return sig_tbl[i].name;
+	for(i=0; i<ARRAY_SIZEOF(signal_tbl); i++) {
+		if(signal_tbl[i].val==val) {
+			return signal_tbl[i].name;
 		}
 	}
 	CHECK_ASSERT("bad signal value"==NULL);
@@ -128,12 +128,12 @@ static inline const char* signal_get_by_val(int val) {
 /*
  * Print out a table of all signal values, names and descriptions
  */
-static inline void print_signal_table() {
+static inline void signal_print_table() {
 	unsigned int i;
-	printf("number of signal values is %zd\n", ARRAY_SIZEOF(sig_tbl));
-	for(i=0; i<ARRAY_SIZEOF(sig_tbl); i++) {
-		int val=sig_tbl[i].val;
-		const char* name=sig_tbl[i].name;
+	printf("number of signal values is %zd\n", ARRAY_SIZEOF(signal_tbl));
+	for(i=0; i<ARRAY_SIZEOF(signal_tbl); i++) {
+		int val=signal_tbl[i].val;
+		const char* name=signal_tbl[i].name;
 		printf("i=%d, sig=%d, in_code=%s, strsignal(%d)=%s\n", i, val, name, val, strsignal(val));
 	}
 }
@@ -145,7 +145,7 @@ static inline void print_signal_table() {
  * This function DOES NOT print all the fields of the siginfo
  * structure as there are just too many of them...
  */
-static inline void print_siginfo(FILE* out, siginfo_t *si) {
+static inline void signal_print_siginfo(FILE* out, siginfo_t *si) {
 	fprintf(out, "sighandler: si is %p\n", si);
 	fprintf(out, "sighandler: si_signo is: %d\n", si->si_signo);
 	fprintf(out, "sighandler: si_errno is: %d\n", si->si_errno);
@@ -157,15 +157,15 @@ static inline void print_siginfo(FILE* out, siginfo_t *si) {
 /*
  * easy registration of signals via signal(2)
  */
-static inline sighandler_t register_handler_signal(int signum, sighandler_t handler) {
+static inline sighandler_t signal_register_handler_signal(int signum, sighandler_t handler) {
 	return CHECK_NOT_SIGT(signal(signum, handler), SIG_ERR);
 }
 
 /*
  * easy registration of signals via sigaction(2)
  */
-typedef void (*my_sig_handler)(int, siginfo_t *, void *);
-static inline void register_handler_sigaction(int sig, my_sig_handler handler) {
+typedef void (*my_signal_handler)(int, siginfo_t *, void *);
+static inline void signal_register_handler_sigaction(int sig, my_signal_handler handler) {
 	struct sigaction sa;
 	sa.sa_flags=SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
