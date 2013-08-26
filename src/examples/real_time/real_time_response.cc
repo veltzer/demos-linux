@@ -29,12 +29,15 @@
 /*
  * This example explores the responsiveness of the OS.
  *
+ * TODO:
+ * - add the ability to get the clock via the command line too.
+ *
  * EXTRA_LINK_FLAGS=-lpthread -lrt
  */
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=4) {
-		fprintf(stderr, "%s: usage: %s [internal_ns] [requirement_ns] [prio]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [internal_ns] [requirement_ns] [priority]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: example: %s 50000 10000 49\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
@@ -52,8 +55,8 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
 	/* Pre-fault our stack - this is useless because of mlock(2) */
 	pthread_stack_prefault();
-	//int clock=CLOCK_MONOTONIC;
-	int clock=CLOCK_REALTIME;
+	int clock=CLOCK_MONOTONIC;
+	//int clock=CLOCK_REALTIME;
 
 	// start loop
 	/* get the current time */
@@ -67,12 +70,10 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_NOT_M1(clock_nanosleep(clock, TIMER_ABSTIME, &t, NULL));
 		struct timespec now;
 		CHECK_NOT_M1(clock_gettime(clock, &now));
-		struct timespec diff;
-		timespec_sub(&diff, &now, &t);
-		unsigned long long diff_nanos=timespec_nanos(&diff);
+		unsigned long long diff_nanos=timespec_diff_nano(&now, &t);
 		if(diff_nanos>requirement) {
 			fprintf(stderr,"success count is %d\n", success);
-			fprintf(stderr,"WOW! Bad bad situation, diff nanos is %llu\n", diff_nanos);
+			fprintf(stderr,"diff nanos is %llu\n", diff_nanos);
 			return EXIT_FAILURE;
 		}
 		success++;

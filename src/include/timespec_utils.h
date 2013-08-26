@@ -39,6 +39,7 @@ const long long NSEC_PER_SEC=1000000000;
  * Add a number of nanoseconds to a timespec
  */
 static inline void timespec_add_nanos(struct timespec* t, long long nanos_count) {
+	// this is my comment
 	long long nsec=t->tv_nsec+nanos_count;
 	t->tv_nsec=nsec%NSEC_PER_SEC;
 	t->tv_sec+=nsec/NSEC_PER_SEC;
@@ -57,6 +58,30 @@ static inline void timespec_add(struct timespec* to, struct timespec* from) {
 	long long nsec=to->tv_nsec+from->tv_nsec;
 	to->tv_nsec=nsec%NSEC_PER_SEC;
 	to->tv_sec+=from->tv_sec+nsec/NSEC_PER_SEC;
+}
+
+static inline void timespec_assert_ge(struct timespec* x, struct timespec* y) {
+	if(x->tv_sec>y->tv_sec) {
+		return;
+	} else {
+		if(x->tv_sec==y->tv_sec) {
+			if(x->tv_nsec>=y->tv_nsec) {
+				return;
+			} else {
+				CHECK_ASSERT(0);
+			}
+		} else {
+			CHECK_ASSERT(0);
+		}
+	}
+}
+
+/*
+ * Return the diff in nanoseconds between x and y
+ */
+static inline unsigned long long timespec_diff_nano(struct timespec* x, struct timespec* y) {
+	return (x->tv_sec-y->tv_sec)*NSEC_PER_SEC+
+		(x->tv_nsec-y->tv_nsec);
 }
 
 /*
