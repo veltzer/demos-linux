@@ -78,7 +78,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_NOT_M1(clock_nanosleep(clock, TIMER_ABSTIME, &t, NULL));
 		struct timespec now;
 		CHECK_NOT_M1(clock_gettime(clock, &now));
-		//timespec_assert_ge(&now, &t);
+		// timespec_assert_ge(&now, &t);
 		unsigned long long diff_nanos=timespec_diff_nano(&now, &t);
 		if(diff_nanos>max) {
 			max=diff_nanos;
