@@ -36,8 +36,8 @@ MODULE_DESCRIPTION("An irq catcher module");
 
 /* the /proc entry with which you can view the number of irqs intercepted */
 static const char *proc_filename = "driver/irqcatch";
-/* usb2 irq number on my desktop... */
-static unsigned int irq_num = 23;
+/* usb2 irq number on my desktop is 23, on dell laptop is 17 */
+static unsigned int irq_num = 17;
 module_param(irq_num, uint, S_IRWXU);
 MODULE_PARM_DESC(irq_num, "irq_num is the irq number to catch");
 /* the number if irqs got (initialised to 0 by default) */

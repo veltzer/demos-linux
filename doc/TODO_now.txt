@@ -1,5 +1,4 @@
 - do a demo of mq_open.
-
 - do example of backwards compatible C object oriented code.
 	union - to hide data.
 	size passing - to keep size constant.
@@ -10,8 +9,3 @@
 	- do standalone gcc precompiled headers example in linuxapi.
 	- do standalone intel precompiled headers example in linuxapi.
 	- make the linuxapi package itself use precompiled headers.
-- mouse device driver example.
-
-more examples:
-- get more examples from http://www.linuxprogrammingblog.com/
-- http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
