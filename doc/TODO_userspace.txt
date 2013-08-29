@@ -8,6 +8,8 @@ blogs to get ideas from:
 	http://blog.regehr.org
 	http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html
 	http://www.csn.ul.ie/~mel/ (huge pages info)
+	http://www.linuxprogrammingblog.com/
+	http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
 articles to get nice demos from:
 	http://www.coranac.com/documents/working-with-bits-and-bitfields/
 	http://stackoverflow.com/questions/1490092/c-c-force-bit-field-order-and-alignment
