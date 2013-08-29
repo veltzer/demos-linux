@@ -39,14 +39,14 @@ int main(int argc, char** argv, char** envp) {
 	/*
 	 * int i=0;
 	 * while(i<1000000) {
-	 *      i++;
+	 * i++;
 	 * }
 	 * printf("i is %d\n", i);
 	 */
 	/*
 	 * long long sum=0;
 	 * for(int i=0;i<1000000;i++) {
-	 *      sum+=i*i;
+	 * sum+=i*i;
 	 * }
 	 */
 	CHECK_NOT_M1(clock_gettime(CLOCK_REALTIME, &t_end));

@@ -79,8 +79,7 @@ static inline void timespec_assert_ge(struct timespec* x, struct timespec* y) {
  * Return the diff in nanoseconds between x and y
  */
 static inline unsigned long long timespec_diff_nano(struct timespec* x, struct timespec* y) {
-	return (x->tv_sec-y->tv_sec)*NSEC_PER_SEC+
-	       (x->tv_nsec-y->tv_nsec);
+	return (x->tv_sec-y->tv_sec)*NSEC_PER_SEC+(x->tv_nsec-y->tv_nsec);
 }
 
 /*
