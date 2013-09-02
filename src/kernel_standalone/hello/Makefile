@@ -13,3 +13,4 @@ modules:
 .PHONY: clean
 clean:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) clean
+	rm -f *.stamp
