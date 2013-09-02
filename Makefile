@@ -49,7 +49,9 @@ SUFFIX_OO:=oo
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
 
 # export all variables to sub-make processes...
-export
+# this could cause command line too long problems because all the make variables
+# would be exported and they are pretty long (for instance the source files list...).
+#export
 
 #####################
 # end of parameters #
