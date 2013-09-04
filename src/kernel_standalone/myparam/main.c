@@ -24,6 +24,7 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A module showing off module parameters");
+MODULE_VERSION("2.4.6");
 
 /* here comes the parameters */
 
