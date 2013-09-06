@@ -204,6 +204,7 @@ static int __init sbd_init(void)
 		err = major_num;
 		goto out_queue;
 	}
+	pr_warn("major number is %d\n", major_num);
 	/*
 	* And the gendisk structure.
 	*/

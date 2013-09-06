@@ -66,7 +66,7 @@ int irqcatch_proc_reader(char *page, char **start, off_t off, int count,
 
 /*
 * Interrupt callback
-* We say that it was our interrupt but really shouldn't.
+* We say that this is not our interrupt.
 */
 irqreturn_t irqcatch_int_handler(int irq, void *dev)
 {
