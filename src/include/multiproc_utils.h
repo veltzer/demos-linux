@@ -98,7 +98,7 @@ static inline void my_system(const char *fmt, ...) {
 #endif
 	int ret=CHECK_NOT_M1(system(str));
 	if(!child_ok(ret)) {
-		CHECK_ASSERT(0);
+		CHECK_ASSERT(ret==0);
 	}
 }
 
