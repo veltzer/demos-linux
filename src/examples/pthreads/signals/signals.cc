@@ -28,6 +28,8 @@
  * This example explores the relations between threads and signal handling.
  * If we have more than one thread which thread will be used to handle a signal?
  *
+ * Results:
+ *
  * Notes:
  * - you can signal threads from the command line using kill(1). You just have
  * to know the thread id.
@@ -37,6 +39,9 @@
  * - What if a signal is registered by the child? Same. All threads get the handler.
  *
  * EXTRA_LINK_FLAGS=-lpthread
+ *
+ * TODO:
+ * - write the results of this example in detail.
  */
 
 // count the number of signals we get
