@@ -1,5 +1,5 @@
 - show how to exit cleanly by breaking out of syscalls in other threads
 	(siginterrupt(2)).
-- show how to cleanup after threads.
+- show how to cleanup after threads (this should be in the threads section).
 - show how to intercept signals (SIGSEGV?) and perform some cleanup code.
 - show C++ patterns for doing cleanup code.
