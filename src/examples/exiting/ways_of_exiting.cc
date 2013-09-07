@@ -22,22 +22,27 @@
 #include <sys/syscall.h>// for syscall(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <trace_utils.h>// for DEBUG()
+#include <linux/unistd.h>	// for exit_group(2)
 
 /*
  * This example explores the different ways of exiting a program...
+ * Echo $? and see the exit code of this program after termination.
  *
  * abort(3)
  * ========
  * After this program terminates echo $? and see that it's termination
  * code is 134.
  *
+ * Notes:
+ * - note that exit_group(2) is the real _exit(2) syscall but note also
+ * that exit_group(2) does not have a wrapper in glibc and so we have
+ * to call it via syscall. _exit(2) nowdays actually calls exit_group(2)
+ * because there is no real point in terminating a thread without
+ * terminating the entire process.
+ *
  * TODO:
  * - show that by catching the signal we cannot avoid abort terminating
  * the program...
- * - wrap this program in a fork and show what the parent thinks of the
- * child ending...
- * - show a pattern by which a C++ object can request to do cleanup work
- * on program termination.
  */
 
 class A {
@@ -74,7 +79,8 @@ int main(int argc, char** argv, char** envp) {
 		printf("3) _exit(2).\n");
 		printf("4) _Exit(2).\n");
 		printf("5) syscall(SYS_exit).\n");
-		printf("6) continue to the end of the function.\n");
+		printf("6) syscall(SYS_exit_group).\n");
+		printf("7) continue to the end of the function.\n");
 		ssize_t read=getline(&line, &len, stdin);
 		if(read==-1) {
 			break;
@@ -94,9 +100,12 @@ int main(int argc, char** argv, char** envp) {
 			_Exit(code);
 			break;
 		case 5:
-			syscall(SYS_exit);
+			syscall(SYS_exit,code);
 			break;
 		case 6:
+			syscall(SYS_exit_group,code);
+			break;
+		case 7:
 			over=true;
 			break;
 		default:
@@ -105,5 +114,5 @@ int main(int argc, char** argv, char** envp) {
 		}
 	}
 	printf("does this ever get executed ?!?\n");
-	return EXIT_SUCCESS;
+	return code;
 }
