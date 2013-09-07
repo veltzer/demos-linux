@@ -100,10 +100,10 @@ int main(int argc, char** argv, char** envp) {
 			_Exit(code);
 			break;
 		case 5:
-			syscall(SYS_exit,code);
+			syscall(SYS_exit, code);
 			break;
 		case 6:
-			syscall(SYS_exit_group,code);
+			syscall(SYS_exit_group, code);
 			break;
 		case 7:
 			over=true;

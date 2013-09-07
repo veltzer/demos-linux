@@ -3,6 +3,3 @@
 - show how to cleanup after threads.
 - show how to intercept signals (SIGSEGV?) and perform some cleanup code.
 - show C++ patterns for doing cleanup code.
-
-- show a multi-threaded program and show that _exit(2) (the real one,
-	not the glibc wrapper) and exit_group(2) do different things.

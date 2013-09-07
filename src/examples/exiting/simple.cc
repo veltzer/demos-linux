@@ -39,14 +39,14 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=1 && !(argc==2 && strcmp(argv[1],"secret")==0)) {
-		fprintf(stderr,"%s: usage: %s\n", argv[0], argv[0]);
+	if(argc!=1 && !(argc==2 && strcmp(argv[1], "secret")==0)) {
+		fprintf(stderr, "%s: usage: %s\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	if(argc==2 && strcmp(argv[1],"secret")==0) {
+	if(argc==2 && strcmp(argv[1], "secret")==0) {
 		_exit(5);
 	} else {
-		my_system("strace %s secret", argv[0]); 
+		my_system("strace %s secret", argv[0]);
 	}
 	return EXIT_SUCCESS;
 }

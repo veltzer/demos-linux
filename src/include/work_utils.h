@@ -20,7 +20,7 @@
 #define __work_utils_h
 
 /*
- * This is a collection of helper function to help with working. 
+ * This is a collection of helper function to help with working.
  *
  * TODO:
  * - make the do_work() function actually watch the clock and not
@@ -34,9 +34,9 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
 static inline void do_work(int seconds) {
-	int __attribute__((unused)) i,j;
-	for(int i=0;i<1000000;i++) {
-		for(int j=0;j<1000000;j++) {
+	int __attribute__((unused)) i, j;
+	for(int i=0; i<1000000; i++) {
+		for(int j=0; j<1000000; j++) {
 		}
 	}
 }

@@ -17,28 +17,43 @@
  */
 
 #include <firstinclude.h>
+#include <stdio.h>	// for printf(3)
 #include <pthread.h>	// for pthread_t, pthread_create(3), pthread_join(3), pthread_self(3)
-#include <trace_utils.h>// for TRACE()
+#include <unistd.h>	// for sleep(3), _exit(2)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
-#include <work_utils.h>	// for do_work()
+#include <unistd.h>	// for syscall(2)
+#include <sys/syscall.h>// for SYS_exit:int, SYS_exit_group:int
 
 /*
- * This is a demo of a multi-threaded application which does some work.
- * Watch it using top(1) and the 'H' button which shows you threads
- * to see the thread actually doing the work.
- * Note that without the 'H' view top will actually show you the accumulated
- * CPU time that all threads in this process take which, on a multi-core
- * machine, may be greater than 100%.
+ * This example shows how you can exit just a single thread using the
+ * _exit(2) system call.
+ *
+ * Notes:
+ * - we do not use the glibc wrapper for _exit(2) since it calls the
+ * exit_group(2) kernel sys call which will exit all threads. Instead
+ * we call the _exit(2) system call directly...
+ * - pthread_exit(2) is actually built on top of the real _exit(2)
+ * system call.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-void *worker(void *p) {
-	// int num=*(int *)p;
-	// TRACE("starting thread %d", num);
-	// pthread_t t=pthread_self();
-	// TRACE("pthread_self is %lu", t);
-	do_work(30);
-	// TRACE("ending thread %d", num);
+
+static void *worker(void *p) {
+	int num=*(int *)p;
+	printf("starting thread %d\n", num);
+	for(int i=0; i<60; i++) {
+		printf("%d: thread %d is alive...\n", i, num);
+		CHECK_ZERO(sleep(1));
+		if(i==10 && num%2==0) {
+			syscall(SYS_exit, EXIT_SUCCESS);
+		}
+		// this will really end all threads (because it is really exit_group(2))
+		if(i==15 && num==7) {
+			// the next two are interchangeable...
+			_exit(EXIT_SUCCESS);
+			// syscall(SYS_exit_group, EXIT_SUCCESS);
+		}
+	}
 	return NULL;
 }
 
@@ -47,15 +62,12 @@ int main(int argc, char** argv, char** envp) {
 	pthread_t threads[num];
 	int ids[num];
 	void* rets[num];
-	// TRACE("main starting");
 	for(int i=0; i<num; i++) {
 		ids[i]=i;
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
-	// TRACE("main ended creating threads");
 	for (int i=0; i < num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
-	// TRACE("main ended");
 	return EXIT_SUCCESS;
 }

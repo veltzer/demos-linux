@@ -36,13 +36,13 @@ int main(int argc, char** argv, char** envp) {
 	}
 	char* p=(char*)malloc(20);
 	/*
-	int res=mlock(p,128*1024);
-	if(res==-1) {
-		fprintf(stderr, "mlock failed\n");
-		return EXIT_FAILURE;
-	}
-	*/
-	for(int i=0;i<10000000;i+=4096) {
+	 * int res=mlock(p,128*1024);
+	 * if(res==-1) {
+	 * fprintf(stderr, "mlock failed\n");
+	 * return EXIT_FAILURE;
+	 * }
+	 */
+	for(int i=0; i<10000000; i+=4096) {
 		printf("i is %i, p+i is %p\n", i, p+i);
 		p[i]=0;
 		sleep(1);
