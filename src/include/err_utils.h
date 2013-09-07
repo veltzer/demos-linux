@@ -321,7 +321,7 @@ static inline int check_oneoftwo(int val, const char* msg, int e1, int e2, const
 }
 static inline int check_assert(int val, const char* msg, const char* file, const char* function, const int line) {
 	if(myunlikely(!val)) {
-		handle_error(0, 0, 0, 0, 1, errno, msg, file, function, line, NULL);
+		handle_error(0, 0, 0, 0, 0, 0, msg, file, function, line, NULL);
 	}
 	return val;
 }
