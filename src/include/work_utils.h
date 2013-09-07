@@ -21,6 +21,10 @@
 
 /*
  * This is a collection of helper function to help with working. 
+ *
+ * TODO:
+ * - make the do_work() function actually watch the clock and not
+ * do more than seconds of work.
  */
 
 /* THIS IS A C FILE, NO C++ here */
