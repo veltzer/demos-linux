@@ -24,14 +24,20 @@ FLAGS_FOR_SHARED_LIB:=-shared
 LIBS:=
 
 .PHONY: all
-all: $(EXE_NAME)
+all:
+
+.PHONY: fake_all
+fake_all: $(EXE_NAME)
 
 $(EXE_NAME): $(EXE_OBJECTS) $(SO_ADD_NAME) $(SO_SUB_NAME) $(SO_MIS_NAME) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_ADD_LINK_NAME) -Xlinker -rpath=$(CURDIR) -Xlinker --no-undefined
+	$(Q)$(CC) -o $(EXE_NAME) $(EXE_OBJECTS)
+#	$(Q)$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_ADD_LINK_NAME) -Xlinker -rpath=$(CURDIR)
+#	$(Q)$(CC) -o $(EXE_NAME) $(EXE_OBJECTS) -L. -l$(SO_ADD_LINK_NAME) -Xlinker -rpath=$(CURDIR) -Xlinker --no-undefined
 $(SO_ADD_NAME): $(SO_ADD_OBJECTS) $(ALL_DEPS) $(SO_SUB_NAME)
 	$(info doing [$@])
-	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_ADD_NAME) $(SO_ADD_OBJECTS) $(LIBS) -Xlinker -rpath=$(CURDIR) -L. -lsub
+	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_ADD_NAME) $(SO_ADD_OBJECTS) $(LIBS)
+#	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_ADD_NAME) $(SO_ADD_OBJECTS) $(LIBS) -Xlinker -rpath=$(CURDIR) -L. -lsub
 $(SO_SUB_NAME): $(SO_SUB_OBJECTS) $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)$(CC) $(LDFLAGS) $(FLAGS_FOR_SHARED_LIB) -o $(SO_SUB_NAME) $(SO_SUB_OBJECTS) $(LIBS)
