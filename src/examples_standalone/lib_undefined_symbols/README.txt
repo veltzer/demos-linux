@@ -10,3 +10,8 @@ you don't get any error from the linker.
 - when you link with a library that does satisfy it's own dependencies but which uses some
 	other lib that does not satisfy it's own dependencies then you get no error
 	even if you pass --no-undefined
+
+TODO:
+- demo the use of:
+	--allow-shlib-undefined
+	--no-allow-shlib-undefined
