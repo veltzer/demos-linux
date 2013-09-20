@@ -26,9 +26,6 @@ this blog is so good it is evil!
 
 examples to add
 ===============
-- show how to link a library without unknown symbols
-	(there is a flag to the linker to that effect that I used in the amdocs
-	project).
 - show how to implement tail -f using inotify.
 - show timing using times(2) instead of gettimeofday()
 	do slideshow about timing your code and discuss advantages
