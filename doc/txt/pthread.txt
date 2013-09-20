@@ -1,0 +1,28 @@
+Pthreads course
+	- An in depth course looking at working with the linux pthread library.
+Requirements
+	- knowledge in basic unix systems programming.
+	- hands on familiarity with command line writing, compiling running and debugging on linux and/or unix.
+Topics
+	- the linux threading model.
+	- your very first thread.
+	- seeing thread information on the command line.
+	- suspending a thread.
+	- thread termination.
+	- thread cancellation.
+	- TLS.
+	- threads and signals.
+		- sending signals to threads.
+	- joining threads and detached threads.
+	- threads and scheduling/affinity.
+	- threads synchronization mechanisms:
+		- barriers
+		- conditions.
+		- mutexes.
+		- spin locks.
+		- rwlocks.
+	- threads and time
+		- sleeping in theads.
+		- pausing in threads.
+		- a thread cpu clock.
+	- inter-thread communication options.
