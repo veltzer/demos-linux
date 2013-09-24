@@ -86,6 +86,7 @@ packs=[
 	'pstack',
 	'x86info',
 	'lsscsi',
+	'chrpath',
 
 	# package used tools
 	'ccache', # for faster building
