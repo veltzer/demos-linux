@@ -33,7 +33,7 @@ static unsigned int size = 170 * 1024 * 1024;
 static void *logical;
 
 /* our own functions */
-static void capi_print_addressinfo(void *logical_adr)
+static void api_print_addressinfo(void *logical_adr)
 {
 	struct page *page = virt_to_page(logical_adr);
 
@@ -61,7 +61,7 @@ static void capi_print_addressinfo(void *logical_adr)
 	PR_INFO("PG_reserved is %lu", page->flags & (1 << PG_reserved));
 }
 
-static void capi_debug_address(unsigned int phys)
+static void api_debug_address(unsigned int phys)
 {
 	void *logical = __va(phys);
 	void *logical2 = phys_to_virt(phys);
@@ -71,13 +71,13 @@ static void capi_debug_address(unsigned int phys)
 	PR_INFO("logical is %p", logical);
 	PR_INFO("phys2 is %u", phys2);
 	PR_INFO("logical2 is %p", logical2);
-	capi_print_addressinfo(logical);
+	api_print_addressinfo(logical);
 }
 
 static int __init mod_init(void)
 {
 	PR_DEBUG("start");
-	capi_debug_address(physaddr);
+	api_debug_address(physaddr);
 
 	/*
 	* if (!request_mem_region(physaddr,size,)) {
@@ -98,9 +98,9 @@ static int __init mod_init(void)
 	logical=phys_to_virt(physaddr);
 	for(i=0;i<170*1024*1024;i++)
 		logical[i]=0;
-	capi_print_addressinfo((void*)(1024*1024*700));
-	capi_print_addressinfo((void*)(1024*1024*695));
-	capi_print_addressinfo((void*)(1024*1024*720));
+	api_print_addressinfo((void*)(1024*1024*700));
+	api_print_addressinfo((void*)(1024*1024*695));
+	api_print_addressinfo((void*)(1024*1024*720));
 	*/
 	return 0;
 }
