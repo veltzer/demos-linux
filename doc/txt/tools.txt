@@ -141,6 +141,8 @@ realtime:
 	chrt
 
 listing stuff:
+	lshal - list HAL devices
+	lsscsi - list scsi devices
 	lspci - list pci devices
 	lsusb - list usb devices
 	lshw - list hardware for the current machine

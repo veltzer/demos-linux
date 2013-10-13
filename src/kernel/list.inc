@@ -16,7 +16,7 @@ typedef struct _list_struct {
 /*
  * Create a list
  */
-void *capi_list_create(void) {
+void *api_list_create(void) {
 	struct list_head *lp = kmalloc(sizeof(struct list_head), GFP_KERNEL);
 	INIT_LIST_HEAD(lp);
 	return(lp);
@@ -26,7 +26,7 @@ void *capi_list_create(void) {
  * Destroy a list
  * TODO: need to clean the list...
  */
-void capi_list_destroy(void *lptr) {
+void api_list_destroy(void *lptr) {
 	struct list_head *lp;
 	if(lptr==NULL) {
 		PR_ERROR("destroy on null list");
@@ -39,7 +39,7 @@ void capi_list_destroy(void *lptr) {
 /*
  * Is empty call
  */
-int capi_list_isempty(void *lptr) {
+int api_list_isempty(void *lptr) {
 	struct list_head *lp;
 	if(lptr==NULL) {
 		PR_ERROR("isempty on null list");
@@ -53,7 +53,7 @@ int capi_list_isempty(void *lptr) {
 /*
  * Init an iterator
  */
-void *capi_list_iter_init(void *lptr) {
+void *api_list_iter_init(void *lptr) {
 	struct list_head *lp;
 	if(lptr==NULL) {
 		PR_ERROR("iter_init on null list");
@@ -66,7 +66,7 @@ void *capi_list_iter_init(void *lptr) {
 /*
  * Is the iterator over
  */
-int capi_list_iter_isover(void *lptr, void *iter) {
+int api_list_iter_isover(void *lptr, void *iter) {
 	struct list_head *lp;
 	struct list_head *li;
 	if(lptr==NULL) {
@@ -81,7 +81,7 @@ int capi_list_iter_isover(void *lptr, void *iter) {
 /*
  * Get the current value from the current iterator
  */
-void *capi_list_iter_getval(void *lptr, void *iter) {
+void *api_list_iter_getval(void *lptr, void *iter) {
 	struct list_head* lp;
 	list_struct* entry;
 	if(lptr==NULL) {
@@ -97,7 +97,7 @@ void *capi_list_iter_getval(void *lptr, void *iter) {
 /*
  * Advance the iterator one step
  */
-void *capi_list_iter_next(void *lptr, void *iter) {
+void *api_list_iter_next(void *lptr, void *iter) {
 	struct list_head* lp;
 	if(lptr==NULL) {
 		PR_ERROR("iter_next on null list");
@@ -110,7 +110,7 @@ void *capi_list_iter_next(void *lptr, void *iter) {
 /*
  * Delete an element at the current position of the iterator
  */
-void capi_list_iter_del(void *lptr, void *iter) {
+void api_list_iter_del(void *lptr, void *iter) {
 	struct list_head *lp;
 	list_struct* entry;
 	if(lptr==NULL) {
@@ -125,7 +125,7 @@ void capi_list_iter_del(void *lptr, void *iter) {
 /*
  * Pop an element and return its pointer
  */
-void *capi_list_del(void *lptr) {
+void *api_list_del(void *lptr) {
 	struct list_head *lp;
 	struct list_head *prev;
 	list_struct* entry;
@@ -153,7 +153,7 @@ void *capi_list_del(void *lptr) {
 /*
  * Add a pointer
  */
-void capi_list_add(void *lptr, void *ptr) {
+void api_list_add(void *lptr, void *ptr) {
 	struct list_head *lp = (struct list_head *)lptr;
 	list_struct* entry;
 	if(lptr==NULL) {
@@ -170,18 +170,18 @@ void capi_list_add(void *lptr, void *ptr) {
 /*
  * Print the list
  */
-void capi_list_print(void *lptr) {
+void api_list_print(void *lptr) {
 	struct list_head *lp = (struct list_head *)lptr;
 	void* item;
-	void* iter = capi_list_iter_init(lp);
+	void* iter = api_list_iter_init(lp);
 	if(lptr==NULL) {
 		PR_ERROR("print on null list");
 		return;
 	}
 
-	while (!capi_list_iter_isover(lp, iter)) {
-		item = capi_list_iter_getval(lp, iter);
+	while (!api_list_iter_isover(lp, iter)) {
+		item = api_list_iter_getval(lp, iter);
 		PR_INFO("item is %d", (int)item);
-		iter = capi_list_iter_next(lp, iter);
+		iter = api_list_iter_next(lp, iter);
 	}
 }
