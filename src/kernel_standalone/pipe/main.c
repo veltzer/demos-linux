@@ -33,10 +33,15 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("A named pipe exercise");
 MODULE_VERSION("1.12.43b");
 
+/* yes, actually activate copy_to_user, copy_from_user */
 #define DO_COPY
+/* should we use spinlocks to synchronize readers and writes */
 /* #define DO_SPINLOCK */
+/* should we use mutexes to synchronize readers and writes */
 #define DO_MUTEX
+/* do we want to use the waitqueue API? */
 #define DO_WAITQUEUE
+/* do we want to wakeup processes at the appropriate time? */
 #define DO_WAKEUP
 /* #define DO_SCHEDULE */
 /* #define DO_NOTHING */
@@ -78,10 +83,9 @@ static int pipes_count = 8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
 /* this size of pipe performs very well! (3.0 G/s) */
-static int pipe_size = PAGE_SIZE*10;
-/* this one doesnt...
+/* static int pipe_size = PAGE_SIZE*10; */
+/* this one doesnt... */
 static int pipe_size = PAGE_SIZE;
-*/
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
@@ -129,6 +133,9 @@ static inline void pipe_ctor(struct my_pipe_t *pipe)
 /* pipe destructor */
 static inline void pipe_dtor(const struct my_pipe_t *pipe)
 {
+#ifdef DO_SPINLOCK
+	spin_lock_destroy(&pipe->lock);
+#endif /* DO_SPINLOCK */
 	kfree(pipe->data);
 }
 
@@ -267,7 +274,7 @@ static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 		pr_debug("advancing buffer\n");
 		*ubuf += count;
 		pipe->write_pos += count;
-		/* BUG_ON(pipe->write_pos>pipe->size); */
+		BUG_ON(pipe->write_pos > pipe->size);
 		if (pipe->write_pos == pipe->size)
 			pipe->write_pos = 0;
 		return ret;
@@ -298,7 +305,7 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 		pr_debug("advancing buffer\n");
 		*ubuf += count;
 		pipe->read_pos += count;
-		/* BUG_ON(pipe->read_pos>pipe->size); */
+		BUG_ON(pipe->read_pos > pipe->size);
 		if (pipe->read_pos == pipe->size)
 			pipe->read_pos = 0;
 		return 0;
