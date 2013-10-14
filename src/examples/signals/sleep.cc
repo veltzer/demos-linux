@@ -24,8 +24,10 @@
 
 /*
  * This is a simple example of calling sleep(3).
- * The idea is to demonstrate that sleep is made out of signal
- * handling functions. strace this executable to see exactly which.
+ * The idea is to demonstrate that sleep is no longer made out of
+ * signal handling functions. but rather is just made up of a single
+ * call to nanosleep(2).
+ * strace this executable to see exactly what happens.
  *
  * Here is the output:
  * rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8)=0

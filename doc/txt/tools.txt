@@ -55,6 +55,7 @@ kernel:
 	slabtop
 	kerneltop
 	btrace
+	kexec
 
 networking:
 	ping/ping6
@@ -97,7 +98,7 @@ power managements:
 	powertop
 	turbostat
 
-big tools:
+general tools (not intended for just one specific utility):
 	systemtap
 	perf
 	oprofile
