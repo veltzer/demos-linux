@@ -2,7 +2,7 @@ include ../../../Makefile.defs
 
 # variables
 CXX:=icpc
-CXXFLAGS:=-Wall -Werror -I../../include -I/usr/include/i386-linux-gnu/c++/4.7
+CXXFLAGS:=-Wall -Werror -I../../include -I/usr/include/i386-linux-gnu/c++/4.8
 ALL:=ver0.o ver1.o ver2.o ver3.o ver4.o ver5.o ver6.o ver7.o ver8.o
 
 # targets

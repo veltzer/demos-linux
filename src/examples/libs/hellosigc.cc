@@ -19,32 +19,27 @@
 #include <firstinclude.h>
 #include <iostream>
 #include <string>
-#include <sigc++/signal_system.h>
+#include <sigc++/sigc++.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
  * This is a demo program for using the sigc++ signaling library
  *
- * EXTRA_COMPILE_FLAGS=-I/usr/include/sigc++-1.0 -I/usr/lib/sigc++-1.0/include
- * EXTRA_LINK_FLAGS=-lsigc -lpthread
+ * EXTRA_COMPILE_CMDS=pkg-config --cflags sigc++-2.0
+ * EXTRA_LINK_CMDS=pkg-config --libs sigc++-2.0
  */
 
-using namespace SigC;
+SIGC_USING_STD(cout)
+SIGC_USING_STD(endl)
+SIGC_USING_STD(string)
 
-void print(const std::string& str) {
+void on_print(const std::string& str) {
 	std::cout << str;
 }
 
 int main(int argc, char** argv, char** envp) {
-	Signal1<void, const std::string&> printer;
-	printer.connect(slot(print));
-	printer("Hello, World!\n");
+	sigc::signal<void, const std::string&> signal_print;
+	signal_print.connect( sigc::ptr_fun(&on_print));
+	signal_print.emit("hello world\n");
 	return EXIT_SUCCESS;
 }
-
-// template void SigC::Signal1<void, basic_string<char, string_char_traits<char>, __default_alloc_template<true, 0> > const &, SigC::Marshal<void> >::emit(basic_string<char, string_char_traits<char>, __default_alloc_template<true, 0> > const &);
-template void SigC::Signal1<void, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, SigC::Marshal<void> >::emit(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&);
-
-template SigC::SlotData *SigC::manage<SigC::SlotData>(SigC::SlotData *);
-
-template char *std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_construct<char const *>(char const *, char const *, std::allocator<char> const&, std::forward_iterator_tag);
