@@ -34,7 +34,7 @@
 pthread_key_t key_myid;
 
 void* worker(void* arg) {
-	CHECK_NOT_M1(pthread_setspecific(key_myid, arg));
+	CHECK_ZERO_ERRNO(pthread_setspecific(key_myid, arg));
 	// now lets pull our id
 	int myid=*(int*)pthread_getspecific(key_myid);
 	TRACE("my id is %d\n", myid);
@@ -49,7 +49,7 @@ void id_dealloc(void* ptr) {
 
 int main(int argc, char** argv, char** envp) {
 	TRACE("start");
-	CHECK_NOT_M1(pthread_key_create(&key_myid, id_dealloc));
+	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
 	const unsigned int num=4;
 	pthread_t threads[num];
 	for(unsigned int i=0; i<num; i++) {

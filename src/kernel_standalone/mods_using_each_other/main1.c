@@ -35,7 +35,8 @@ static void __exit mod_exit(void)
 {
 }
 
-void api_call(void) {
+void api_call(void)
+{
 	msleep(2000);
 }
 EXPORT_SYMBOL(api_call);
