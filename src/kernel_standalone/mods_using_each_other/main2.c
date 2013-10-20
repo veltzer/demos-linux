@@ -28,8 +28,8 @@ MODULE_DESCRIPTION("Multi file kernel module example");
 static int __init mod_init(void)
 {
 	int i;
-	// call api_call 10 times
-	for (i=0;i<10;i++) {
+	/* call api_call 10 times */
+	for (i = 0; i < 10; i++) {
 		api_call();
 		msleep(2000);
 	}
