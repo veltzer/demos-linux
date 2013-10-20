@@ -26,6 +26,7 @@ this blog is so good it is evil!
 
 examples to add
 ===============
+- show use of /usr/include/demangle.h and libelf like in perf(1).
 - show how to implement tail -f using inotify.
 - show timing using times(2) instead of gettimeofday()
 	do slideshow about timing your code and discuss advantages
