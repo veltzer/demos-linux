@@ -41,8 +41,8 @@ packs=[
 	'dialog',
 	'libace-dev',
 	'iptables-dev',
-	'libboost1.49-dev', # for boost threading
-	'libboost-thread1.49.0', # for the actual library
+	'libboost1.53-dev', # for boost threading
+	'libboost-thread1.53.0', # for the actual library
 	'libpcap-dev',
 	'libasound2-doc',
 	'libasound2-dev',
