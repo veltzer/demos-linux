@@ -124,10 +124,7 @@ static const struct file_operations my_file_ops = {
 	.release = seq_release
 };
 
-/*
-* This function is called when the module is loaded
-*/
-int __init init_module(void)
+static int __init mod_init(void)
 {
 	struct proc_dir_entry *entry;
 	entry = create_proc_entry(PROC_NAME, 0, NULL);
@@ -140,11 +137,12 @@ int __init init_module(void)
 	return 0;
 }
 
-/*
-* This function is called when the module is unloaded.
-*/
-void __exit cleanup_module(void)
+static void __exit mod_exit(void)
 {
 	remove_proc_entry(PROC_NAME, NULL);
 	pr_info(KBUILD_MODNAME " unloaded successfully\n");
 }
+
+/* declaration of init/cleanup functions of this module */
+module_init(mod_init);
+module_exit(mod_exit);
