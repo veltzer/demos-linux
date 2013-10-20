@@ -35,6 +35,8 @@
  * http://www.pixelbeat.org/programming/gcc/static_assert.html
  * http://stackoverflow.com/questions/987684/does-gcc-have-a-built-in-compile-time-assert
  * http://stackoverflow.com/questions/3385515/static-assert-in-c
+ *
+ * EXTRA_COMPILE_FLAGS=-Wno-unused-local-typedefs
  */
 
 // this works by creating a "duplicate case for switch" error at compile time...
