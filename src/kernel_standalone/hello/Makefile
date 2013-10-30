@@ -9,7 +9,7 @@ KDIR?=/lib/modules/$(shell uname -r)/build
 #CROSS_COMPILE:=[path+common prefix to where the toolchain is]
 .PHONY: modules
 modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) W=3 modules
 .PHONY: clean
 clean:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) clean

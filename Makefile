@@ -22,7 +22,7 @@ V?=0
 # regular kernels do not have -Werror and we want it!
 # The problem is that this makes the kernel build system scream at me (it fears I am changing
 # the flags in some profound ways). This is what we have wrapper scripts for...
-#KCFLAGS:=-Werror
+KCFLAGS:=-Werror
 # do you want dependency on the makefile itself ?!?
 DO_ALL_DEPS:=1
 # optimization with debug info (for disassembly)
@@ -268,7 +268,8 @@ $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 # rule about how to create .ko files...
 $(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 	$(info doing [$@])
-	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) W=3 M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)#scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)touch $@
 
 # rules about odps

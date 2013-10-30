@@ -11,7 +11,7 @@ Take care of synchronization.
 If a reader wants to read and there is no data in the pipe and also there
 are no writers, return EOF to the reader.
 
-If, on the hand, a reader wants to read data and there IS a writer connected
+If, on the other hand, a reader wants to read data and there IS a writer connected
 to the pipe but no data in the pipe, put the reader to sleep until the writer
 decides to write something or disconnect from the pipe.
 
@@ -20,7 +20,3 @@ If the writer disconnects from the pipe, wakeup the reader and return EOF.
 
 Compare your results with the Linux implementation of a pipe, use pipemeter.
 Are your results better? Worse? Why?
-
-Notes:
-======
-- the current solution seems to break on -lowlatency ubuntu kernels. Investigate.
