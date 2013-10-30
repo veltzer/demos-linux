@@ -36,11 +36,12 @@ MODULE_VERSION("1.12.43b");
 /* yes, actually activate copy_to_user, copy_from_user */
 #define DO_COPY
 /* should we use spinlocks to synchronize readers and writes */
-/* #define DO_SPINLOCK */
+#define DO_SPINLOCK
 /* should we use mutexes to synchronize readers and writes */
-#define DO_MUTEX
+/* #define DO_MUTEX */
 /* do we want to use the waitqueue API? */
 #define DO_WAITQUEUE
+/* #define DO_WAITQUEUE_RISQUE */
 /* do we want to wakeup processes at the appropriate time? */
 #define DO_WAKEUP
 /* #define DO_SCHEDULE */
@@ -83,9 +84,9 @@ static int pipes_count = 8;
 module_param(pipes_count, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipes_count, "How many pipes to create ?");
 /* this size of pipe performs very well! (3.0 G/s) */
-/* static int pipe_size = PAGE_SIZE*10; */
+static int pipe_size = PAGE_SIZE*10;
 /* this one doesnt... */
-static int pipe_size = PAGE_SIZE;
+/* static int pipe_size = PAGE_SIZE; */
 module_param(pipe_size, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 MODULE_PARM_DESC(pipe_size, "What is the pipe size ?");
 
@@ -134,7 +135,7 @@ static inline void pipe_ctor(struct my_pipe_t *pipe)
 static inline void pipe_dtor(const struct my_pipe_t *pipe)
 {
 #ifdef DO_SPINLOCK
-	spin_lock_destroy(&pipe->lock);
+	/* spin_lock_destroy(&pipe->lock); */
 #endif /* DO_SPINLOCK */
 	kfree(pipe->data);
 }
@@ -184,17 +185,32 @@ static inline void pipe_unlock(struct my_pipe_t *pipe)
 	#endif /* DO_MUTEX */
 }
 
+static inline int pipe_reader_should_i_wake_up(struct my_pipe_t *pipe)
+{
+	int ret;
+	pipe_lock(pipe);
+	ret = pipe_data(pipe) > 0 || pipe->writers == 0;
+	if (!ret)
+		pipe_unlock(pipe);
+	return ret;
+}
+
 /* wait on the pipes readers queue */
 static inline int pipe_wait_read(struct my_pipe_t *pipe)
 {
 	#ifdef DO_WAITQUEUE
+	pipe_unlock(pipe);
+	return wait_event_interruptible(pipe->read_queue,
+			pipe_reader_should_i_wake_up(pipe));
+	#endif /* DO_WAITQUEUE */
+	#ifdef DO_WAITQUEUE_RISQUE
 	int ret;
 	pipe_unlock(pipe);
 	ret = wait_event_interruptible(pipe->read_queue,
 			pipe_data(pipe) > 0 || pipe->writers == 0);
 	pipe_lock(pipe);
 	return ret;
-	#endif /* DO_WAITQUEUE */
+	#endif /* DO_WAITQUEUE_RISQUE */
 	#ifdef DO_SCHEDULE
 	int ret;
 	DEFINE_WAIT(wait);
@@ -214,16 +230,31 @@ static inline int pipe_wait_read(struct my_pipe_t *pipe)
 	#endif /* DO_NOTHING */
 }
 
+static inline int pipe_writer_should_i_wake_up(struct my_pipe_t *pipe)
+{
+	int ret;
+	pipe_lock(pipe);
+	ret = pipe_room(pipe) > 0;
+	if (!ret)
+		pipe_unlock(pipe);
+	return ret;
+}
+
 /* wait on the pipes writers queue */
 static inline int pipe_wait_write(struct my_pipe_t *pipe)
 {
 	#ifdef DO_WAITQUEUE
+	pipe_unlock(pipe);
+	return wait_event_interruptible(pipe->write_queue,
+			pipe_writer_should_i_wake_up(pipe));
+	#endif /* DO_WAITQUEUE */
+	#ifdef DO_WAITQUEUE_RISQUE
 	int ret;
 	pipe_unlock(pipe);
 	ret = wait_event_interruptible(pipe->write_queue, pipe_room(pipe) > 0);
 	pipe_lock(pipe);
 	return ret;
-	#endif /* DO_WAITQUEUE */
+	#endif /* DO_WAITQUEUE_RISQUE */
 	#ifdef DO_SCHEDULE
 	int ret;
 	DEFINE_WAIT(wait);
@@ -277,13 +308,9 @@ static inline int pipe_copy_from_user(struct my_pipe_t *pipe, int count,
 		BUG_ON(pipe->write_pos > pipe->size);
 		if (pipe->write_pos == pipe->size)
 			pipe->write_pos = 0;
-		return ret;
 	} else {
 		pr_err("error on copy_from_user, count is %d, return is %d\n",
 				count, ret);
-		if (ret > 0)
-			ret = -EFAULT;
-		return ret;
 	}
 	return ret;
 }
@@ -308,14 +335,11 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 		BUG_ON(pipe->read_pos > pipe->size);
 		if (pipe->read_pos == pipe->size)
 			pipe->read_pos = 0;
-		return 0;
 	} else {
 		pr_err("error on copy_to_user, count is %d, return is %lu\n",
 				count, ret);
-		if (ret > 0)
-			ret = -EFAULT;
-		return ret;
 	}
+	return ret;
 }
 
 /* these are the actual operations */
@@ -323,8 +347,8 @@ static inline int pipe_copy_to_user(struct my_pipe_t *pipe, int count,
 static int pipe_open(struct inode *inode, struct file *filp)
 {
 	/* hide the pipe in the private_data of the struct file... */
-	int minor = iminor(inode)-MINOR(first_dev);
-	struct my_pipe_t *pipe = pipes+minor;
+	int the_pipe_number = iminor(inode)-MINOR(first_dev);
+	struct my_pipe_t *pipe = pipes+the_pipe_number;
 #ifdef DO_MUTEX
 	pipe->inode = inode;
 #endif /* DO_MUTEX */

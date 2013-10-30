@@ -26,7 +26,7 @@ V?=0
 
 .PHONY: modules
 modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) W=1 modules
 .PHONY: modules_install
 modules_install:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules_install

@@ -43,22 +43,27 @@ MODULE_AUTHOR("Mark Veltzer");
 MODULE_DESCRIPTION("Basic netfilter module");
 MODULE_LICENSE("GPL");
 
+/* #define DO_PROC */
+
 static struct nf_hook_ops nfho; /* net filter hook option struct */
-static struct udphdr *udp_header; /* UDP header struct */
-static struct iphdr *ip_header; /* IP header struct */
-static struct icmphdr *icmp_header; /* ICMP Header */
+static int filter_value = 1; /* initialized automatically to NULL */
+#ifdef DO_PROC
 static const char *skb_filter_name = KBUILD_MODNAME;
 static struct proc_dir_entry *skb_filter;
-static int filter_value; /* initialized automatically to NULL */
+#endif /* DO_PROC */
 
-static unsigned int hook_func(unsigned int hooknum,
+static unsigned int hook_func(
+	unsigned int hooknum,
 	struct sk_buff *skb,
 	const struct net_device *in,
 	const struct net_device *out,
 	int (*okfn)(struct sk_buff *)) {
-	ip_header = (struct iphdr *)skb_network_header(skb);
+	struct iphdr *ip_header; /* IP header struct */
+	struct udphdr *udp_header; /* UDP header struct */
+	struct icmphdr *icmp_header; /* ICMP Header */
 	if (!skb)
 		return NF_ACCEPT;
+	ip_header = (struct iphdr *)skb_network_header(skb);
 	if (ip_header->protocol == IPPROTO_UDP) {
 		udp_header = (struct udphdr *)(skb_transport_header(skb) +
 				ip_hdrlen(skb));
@@ -91,6 +96,7 @@ static unsigned int hook_func(unsigned int hooknum,
 	return filter_value == 0 ? NF_ACCEPT : NF_DROP;
 }
 
+#ifdef DO_PROC
 static int skb_read(char *page, char **start, off_t off, int count, int *eof,
 		void *data)
 {
@@ -131,10 +137,12 @@ static int skb_write(struct file *file, const char *buffer, unsigned long len,
 	}
 	return len;
 }
+#endif /* DO_PROC */
 
 static int __init mod_init(void)
 {
 	int ret;
+	#ifdef DO_PROC
 	skb_filter = create_proc_entry(skb_filter_name, 0644, NULL);
 	if (IS_ERR(skb_filter)) {
 		pr_err("could not create proc entry\n");
@@ -144,6 +152,7 @@ static int __init mod_init(void)
 	skb_filter->read_proc = skb_read;
 	skb_filter->write_proc = skb_write;
 	/* skb_filter->owner = THIS_MODULE; */
+	#endif /* DO_PROC */
 
 	/* Netfilter hook information, specify where and when we get the SKB */
 	nfho.hook = hook_func;
@@ -159,7 +168,9 @@ static int __init mod_init(void)
 	pr_info("Registering SK Parse Module\n");
 
 error_proc:
+	#ifdef DO_PROC
 	remove_proc_entry(skb_filter_name, NULL);
+	#endif /* DO_PROC */
 error:
 	return ret;
 }
@@ -167,7 +178,9 @@ error:
 static void __exit mod_exit(void)
 {
 	nf_unregister_hook(&nfho);
+	#ifdef DO_PROC
 	remove_proc_entry(skb_filter_name, NULL);
+	#endif /* DO_PROC */
 	pr_info("Unregistered the SK Parse Module\n");
 }
 

@@ -29,7 +29,7 @@ V?=0
 # by the kernel makefile...
 .PHONY: modules
 modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) W=3 modules
 .PHONY: modules_install
 modules_install:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules_install
