@@ -22,6 +22,7 @@
 #include <linux/device.h> /* for device support */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
+#include "shared.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
@@ -38,11 +39,13 @@ static struct device *my_device;
 static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		unsigned long arg) {
 	PR_INFO("start");
-	switch(cmd) {
-		case 1:
-			break;
-		case 2:
-			break;
+	switch (cmd) {
+	case IOCTL_EPOLL_WAIT:
+		PR_INFO("in WAIT");
+		break;
+	case IOCTL_EPOLL_WAKE:
+		PR_INFO("in WAKE");
+		break;
 	}
 	return 0;
 }
