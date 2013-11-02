@@ -6,7 +6,7 @@ ifeq ($(GCC_MACHINE),x86_64-linux-gnu)
 else
 	ARCH:=i386
 endif
-FOLDER:=/usr/include/$(ARCH)-linux-gnu/c++/4.7
+FOLDER:=/usr/include/$(ARCH)-linux-gnu/c++/4.8
 CFLAGS:= -I$(FOLDER) -I../../include -Wall -Werror
 CC:=icpc
 

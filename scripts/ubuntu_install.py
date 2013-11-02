@@ -16,8 +16,12 @@ import os
 
 release=os.uname().release
 short_release=release[:release.rfind('-')]
+release_lowlatency='3.11.0-11'
+release_generic='3.11.0-12'
 #print('release is',release)
 #print('short_release is',short_release)
+boost_version='1.53.0'
+boost_version_short='1.53'
 
 packs=[
 	'libncurses5',
@@ -27,8 +31,10 @@ packs=[
 	'ncurses-doc',
 	'libprocps0-dev',
 	'libgnomeui-dev',
-	'libsigc++-dev',
-	'libgnomeuimm-2.6-dev',
+	'libsigc++-2.0-0c2a',
+	'libsigc++-2.0-dev',
+	'libsigc++-2.0-doc',
+	#'libgnomeuimm-2.6-dev',
 	'libpq-dev',
 	'liblog4cpp5-dev',
 	'binutils-dev',
@@ -41,11 +47,13 @@ packs=[
 	'dialog',
 	'libace-dev',
 	'iptables-dev',
-	'libboost1.49-dev', # for boost threading
-	'libboost-thread1.49.0', # for the actual library
+	'libboost'+boost_version_short+'-dev', # for boost threading
+	'libboost-thread'+boost_version, # for the actual library
 	'libpcap-dev',
-	'libasound2-doc',
+	'libasound2',
 	'libasound2-dev',
+	'libasound2-doc',
+	'libdmalloc5',
 	'libdmalloc-dev',
 	'libcpufreq-dev', # for cpufreq.h
 	'aspectc++',
@@ -58,20 +66,20 @@ packs=[
 	# kernel stuff
 	'linux-headers-generic',
 	'linux-headers-lowlatency',
-	'linux-headers-'+short_release+'-generic',
-	'linux-headers-'+short_release+'-lowlatency',
+	'linux-headers-'+release_generic+'-generic',
+	'linux-headers-'+release_lowlatency+'-lowlatency',
 
 	# for systemtap - this one does not exist in the regular ubuntu archives
 	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 	# it is commented out...
 	# TODO: make this script add sources to the dbgsyms if need be
-	'linux-image-'+short_release+'-generic'+'-dbgsym',
-	#'linux-image-'+short_release+'-lowlatency'+'-dbgsym',
+	'linux-image-'+release_generic+'-generic'+'-dbgsym',
+	#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
 
 	# tools
 	'linux-tools-common', # for perf(1)
 	'libreoffice-common', # for soffice conversion
-	'python-uno', # for soffice conversion
+	'python3-uno', # for soffice conversion
 	'electric-fence',
 	'schedtool',
 	'iotop', # for the iotop command

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # PyODConverter (Python OpenDocument Converter) v1.2 - 2012-03-10
 #
@@ -128,7 +128,7 @@ class DocumentConverter:
         try:
             context = resolver.resolve("uno:socket,host=localhost,port=%s;urp;StarOffice.ComponentContext" % port)
         except NoConnectException:
-            raise DocumentConversionException, "failed to connect to OpenOffice.org on port %s" % port
+            raise ValueError("failed to connect to OpenOffice.org on port %s" % port)
         self.desktop = context.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", context)
 
     def convert(self, inputFile, outputFile):
@@ -172,11 +172,11 @@ class DocumentConverter:
         try:
             propertiesByFamily = EXPORT_FILTER_MAP[outputExt]
         except KeyError:
-            raise DocumentConversionException, "unknown output format: '%s'" % outputExt
+            raise ValueError("unknown output format: '%s'" % outputExt)
         try:
             return propertiesByFamily[family]
         except KeyError:
-            raise DocumentConversionException, "unsupported conversion: from '%s' to '%s'" % (family, outputExt)
+            raise ValueError("unsupported conversion: from '%s' to '%s'" % (family, outputExt))
     
     def _detectFamily(self, document):
         if document.supportsService("com.sun.star.text.WebDocument"):
@@ -190,7 +190,7 @@ class DocumentConverter:
             return FAMILY_PRESENTATION
         if document.supportsService("com.sun.star.drawing.DrawingDocument"):
             return FAMILY_DRAWING
-        raise DocumentConversionException, "unknown document family: %s" % document
+        raise ValueError("unknown document family: %s" % document)
 
     def _getFileExt(self, path):
         ext = splitext(path)[1]
@@ -214,19 +214,19 @@ if __name__ == "__main__":
     from sys import argv, exit
     
     if len(argv) < 3:
-        print "USAGE: python %s <input-file> <output-file>" % argv[0]
+        print("USAGE: python %s <input-file> <output-file>" % argv[0])
         exit(255)
     if not isfile(argv[1]):
-        print "no such input file: %s" % argv[1]
+        print("no such input file: %s" % argv[1])
         exit(1)
 
     try:
         converter = DocumentConverter()    
         converter.convert(argv[1], argv[2])
-    except DocumentConversionException, exception:
-        print "ERROR! " + str(exception)
+    except DocumentConversionException as exception:
+        print("ERROR! " + str(exception))
         exit(1)
-    except ErrorCodeIOException, exception:
-        print "ERROR! ErrorCodeIOException %d" % exception.ErrCode
+    except ErrorCodeIOException as exception:
+        print("ERROR! ErrorCodeIOException %d" % exception.ErrCode)
         exit(1)
 
