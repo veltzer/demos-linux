@@ -47,6 +47,8 @@ SUFFIX_OO:=oo
 # checkpatch executable...
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
+# should we do the openoffice conversions?
+DO_SOFFICE:=0
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -149,7 +151,9 @@ ODP_SRC:=$(shell find doc/odp -name "*.odp")
 ODP_BAS:=$(basename $(ODP_SRC))
 ODP_PPT:=$(addsuffix .ppt,$(ODP_BAS))
 ODP_PDF:=$(addsuffix .pdf,$(ODP_BAS))
+ifeq ($(DO_SOFFICE),1)
 ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
+endif
 
 # standlone
 MK_SRC:=$(shell find src/examples_standalone src/kernel_standalone -name "Makefile")
