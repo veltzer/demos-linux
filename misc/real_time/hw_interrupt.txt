@@ -1,0 +1,19 @@
+How to turn off portwell hardware interrupts (SMI interrupts) ?
+===============================================================
+Solution: write to address 0x430 (1072 dec) the value
+		0x2B (43 dec) - to disable SMI only interrupts.
+		0x2E (46 dec) - to disable all hardware interrupts.
+The value which is there by default is 0x6F (111 dec) - this means all enabled.
+
+How can you do this? Checkout the ctst/writeport_out.c program which lets you do this...
+Also checkout the ctst/readport program which lets you read ports...
+Notice that you have to call iopl to set permissions before.
+
+The command to run is:
+./writeport_out 1072 46
+
+You can use devmem2 for this:
+sudo devmem2 1072 b 46
+
+to turn them back on:
+sudo devmem2 1072 b 111 

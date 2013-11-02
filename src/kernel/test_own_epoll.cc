@@ -26,6 +26,7 @@
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system()
+#include <trace_utils.h>	// for INFO()
 #include "shared.h"	// for ioctl numbers
 
 /*
@@ -36,27 +37,29 @@
 static int fd;
 
 static void *function_wait(void *p) {
-	PRINT("going to sleep...\n");
+	INFO("going to sleep...\n");
 	CHECK_NOT_M1(ioctl(fd, IOCTL_EPOLL_WAIT, NULL));
-	PRINT("woke up...\n");
+	INFO("woke up...\n");
 	return NULL;
 }
 
 static void *function_wakeup(void *p) {
-	PRINT("going to sleep...\n");
+	INFO("going to sleep...\n");
 	sleep(3);
-	PRINT("waking up...\n");
+	INFO("waking up...\n");
 	CHECK_NOT_M1(ioctl(fd, IOCTL_EPOLL_WAKE, NULL));
-	PRINT("finished waking up...\n");
+	INFO("finished waking up...\n");
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
 	const char* basename="own_epoll";
+	char filename[256];
+	snprintf(filename, 256, "/dev/mod_%s", basename);
 	printf("Inserting the driver...\n");
 	my_system("sudo rmmod mod_%s", basename);
 	my_system("sudo insmod ./mod_%s.ko", basename);
-	my_system("sudo chmod 666 /dev/mod_%s", basename);
+	my_system("sudo chmod 666 %s", filename);
 
 	fd=CHECK_NOT_M1(open(filename, O_RDWR));
 

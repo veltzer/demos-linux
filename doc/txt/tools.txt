@@ -140,6 +140,9 @@ database admin:
 
 realtime:
 	chrt
+	hwlatdetect
+	latencytop
+	cyclictest (hackbench, ... many other here from rt-tests)
 
 listing stuff:
 	lshal - list HAL devices

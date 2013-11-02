@@ -4,8 +4,22 @@
 	it's threads.
 	show how this is solved in ACE and Boost and stdlibc++.
 
+- do a demo of pthread reader/writer locks. Enable the demo to either
+	use spinlocks, mutexes, or reader/writer locks.
+	Enable the demo to get the number of threads, affinity and
+	read/write ratio.
+	Show that reader/writer locks are more efficient when the ratio
+	of read/write is high.
+
 - do the example of measuring thread performance as in the manual entry of
 	pthread_getcpuclockid
+
+- do an example of how to do multiplexing on thread death.
+	Linux does not support this since threads are not file descriptors but
+	we can achieve this by having each thread create a eventfd file descriptor
+	and signaling it when it dies. This could be done via the pthread_cleanup_push.
+	This way we could multiplex in another thread and wait for multiple things to
+	happen, including the death of a thread.
 
 - do examples of
 	pthread_atfork

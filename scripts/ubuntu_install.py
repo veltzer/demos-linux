@@ -87,6 +87,7 @@ packs=[
 	'x86info',
 	'lsscsi',
 	'chrpath',
+	'latencytop',
 
 	# package used tools
 	'ccache', # for faster building
