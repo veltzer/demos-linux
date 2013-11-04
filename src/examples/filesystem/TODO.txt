@@ -1,1 +1,2 @@
 - add an example of seek with SEEK_HOLE and SEEK_DATA.
+- add an example of the fiemap system call (look it up online).
