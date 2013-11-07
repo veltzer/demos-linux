@@ -96,6 +96,7 @@ packs=[
 	'lsscsi',
 	'chrpath',
 	'latencytop',
+	'devmem2',
 
 	# package used tools
 	'ccache', # for faster building
