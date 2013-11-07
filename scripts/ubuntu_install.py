@@ -73,7 +73,7 @@ packs=[
 	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 	# it is commented out...
 	# TODO: make this script add sources to the dbgsyms if need be
-	'linux-image-'+release_generic+'-generic'+'-dbgsym',
+	#'linux-image-'+release_generic+'-generic'+'-dbgsym',
 	#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
 
 	# tools
