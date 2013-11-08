@@ -136,8 +136,11 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		This also means that this code must be in a path that can
 		sleep.
 		*/
-		down_write(&mm->mmap_sem);
-		addr = do_mmap_pgoff(
+		/*
+		 * vm_mmap does not need the semaphore to be held
+		 * down_write(&mm->mmap_sem);
+		 */
+		addr = vm_mmap(
 			filp,/* file pointer */
 			0,/* recommended use space address */
 			ioctl_size,/* size */
@@ -146,7 +149,10 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 			0/* pg offset */
 		);
 		/* remmember to release the semaphore! */
-		up_write(&mm->mmap_sem);
+		/*
+		 * vm_mmap does not need the semaphore to be held
+		 * up_write(&mm->mmap_sem);
+		 */
 		/*
 		PR_DEBUG("kaddr is (p) %p",kaddr);
 		PR_DEBUG("real size is (d) %d",ioctl_size);

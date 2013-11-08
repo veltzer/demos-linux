@@ -23,12 +23,15 @@ KDIR:=/lib/modules/$(KVER)/build
 # fill in the vervosity level you want
 # You can override using "make V=1"
 V?=0
+# You could also use W=2 and W=3 for more warnings but most kernel headers
+# fail those...
+W?=1
 
 # the next four targets (modules, modules_install, clean, help) are targets defined
 # by the kernel makefile...
 .PHONY: modules
 modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) W=3 modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) W=$(W) modules
 .PHONY: modules_install
 modules_install:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules_install

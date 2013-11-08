@@ -36,20 +36,22 @@ static void __exit link_exit(void)
 	cpp_exit();
 }
 
-void myprintk(const char *msg)
+/*
+static void myprintk(const char *msg)
 {
 	printk(msg);
 }
 
-void *mymalloc(unsigned int size)
+static void *mymalloc(unsigned int size)
 {
 	return kmalloc(size, GFP_KERNEL);
 }
 
-void myfree(void *pointer)
+static void myfree(void *pointer)
 {
 	kfree(pointer);
 }
+*/
 
 module_init(link_init);
 module_exit(link_exit);
