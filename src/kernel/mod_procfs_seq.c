@@ -26,6 +26,7 @@
 #include <linux/printk.h> /* for printk and the pr_* API */
 #include <linux/proc_fs.h> /* Necessary because we use proc fs */
 #include <linux/seq_file.h> /* for seq_file */
+#include <linux/slab.h> /* for kmalloc */
 /* #define DO_DEBUG */
 #include "kernel_helper.h"
 
@@ -123,23 +124,22 @@ static const struct file_operations my_file_ops = {
 	.llseek = seq_lseek,
 	.release = seq_release
 };
+struct proc_dir_entry *my_entry;
 
 static int __init mod_init(void)
 {
-	struct proc_dir_entry *entry;
-	entry = create_proc_entry(PROC_NAME, 0, NULL);
-	if (IS_ERR(entry)) {
+	my_entry = proc_create(PROC_NAME, 0, NULL, &my_file_ops);
+	if (IS_ERR(my_entry)) {
 		PR_ERROR("error in create_proc_entry");
-		return PTR_ERR(entry);
+		return PTR_ERR(my_entry);
 	}
-	entry->proc_fops = &my_file_ops;
 	pr_info(KBUILD_MODNAME " loaded successfully\n");
 	return 0;
 }
 
 static void __exit mod_exit(void)
 {
-	remove_proc_entry(PROC_NAME, NULL);
+	proc_remove(my_entry);
 	pr_info(KBUILD_MODNAME " unloaded successfully\n");
 }
 

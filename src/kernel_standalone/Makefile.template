@@ -23,10 +23,16 @@ KDIR:=/lib/modules/$(KVER)/build
 # fill in the vervosity level you want
 # You can override using "make V=1"
 V?=0
+# do you want warnings?
+DO_WARNINGS:=1
+
+ifeq ($(DO_WARNINGS),1)
+	EXTRA_ARGS:=W=1
+endif
 
 .PHONY: modules
 modules:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) W=1 modules
+	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) $(EXTRA_ARGS) modules
 .PHONY: modules_install
 modules_install:
 	$(MAKE) -C $(KDIR) M=$(CURDIR) V=$(V) modules_install

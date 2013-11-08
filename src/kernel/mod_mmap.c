@@ -84,17 +84,17 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 	*/
 	case IOCTL_MMAP_PRINT:
 		ptr = (void *)arg;
-		PR_DEBUG("ptr is %p", ptr);
+		PR_INFO("ptr is %p", ptr);
 		vma = find_vma(current->mm, arg);
-		PR_DEBUG("vma is %p", vma);
+		PR_INFO("vma is %p", vma);
 		diff = arg - vma->vm_start;
-		PR_DEBUG("diff is %d", diff);
+		PR_INFO("diff is %d", diff);
 		private = (unsigned long)vma->vm_private_data;
-		PR_DEBUG("private (ul) is %lu", private);
-		PR_DEBUG("private (p) is %p", (void *)private);
+		PR_INFO("private (ul) is %lu", private);
+		PR_INFO("private (p) is %p", (void *)private);
 		adjusted = private + diff;
-		PR_DEBUG("adjusted (ul) is %lu", adjusted);
-		PR_DEBUG("adjusted (p) is %p", (void *)adjusted);
+		PR_INFO("adjusted (ul) is %lu", adjusted);
+		PR_INFO("adjusted (p) is %p", (void *)adjusted);
 		return 0;
 
 	/*
@@ -139,8 +139,11 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		mm = current->mm;
 		flags = MAP_POPULATE | MAP_SHARED | MAP_LOCKED;
 		flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
-		down_write(&mm->mmap_sem);
-		addr = do_mmap_pgoff(
+		/*
+		 * vm_mmap does not need the semaphore to be held
+		 * down_write(&mm->mmap_sem);
+		 */
+		addr = vm_mmap(
 			/* file pointer */
 			filp,
 			/* address - this is the buffer we kmalloc'ed */
@@ -154,7 +157,10 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 			/* pg offset */
 			0
 		);
-		up_write(&mm->mmap_sem);
+		/*
+		 * vm_mmap does not need the semaphore to be held
+		 * up_write(&mm->mmap_sem);
+		 */
 		PR_DEBUG("kaddr is (p) %p", kaddr);
 		PR_DEBUG("real size is (d) %d", ioctl_size);
 		PR_DEBUG("addr for user space is (lu) %lu / (p) %p",
@@ -197,12 +203,12 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 /*
 * VMA ops
 */
-void kern_vma_open(struct vm_area_struct *vma)
+static void kern_vma_open(struct vm_area_struct *vma)
 {
 	PR_DEBUG("start");
 }
 
-void kern_vma_close(struct vm_area_struct *vma)
+static void kern_vma_close(struct vm_area_struct *vma)
 {
 #ifdef DO_FREE
 	unsigned int order;
