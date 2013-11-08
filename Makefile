@@ -51,7 +51,7 @@ SUFFIX_OO:=oo
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
 # should we do the openoffice conversions?
-DO_SOFFICE:=0
+DO_SOFFICE:=1
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
