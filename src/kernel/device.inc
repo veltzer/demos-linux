@@ -40,7 +40,7 @@ module_param(minors_count, int, 0444);
 MODULE_PARM_DESC(minors_count, "how many minors to allocate");
 
 // registration/unregistration functions
-int __init register_dev(void)
+static int __init register_dev(void)
 {
 	int ret;
 	// create a class
@@ -117,7 +117,7 @@ int __init register_dev(void)
 		return ret;
 }
 
-void __exit unregister_dev(void) {
+static void __exit unregister_dev(void) {
 	device_destroy(my_class, pdev->first_dev);
 	cdev_del(&pdev->cdev);
 	unregister_chrdev_region(pdev->first_dev, minors_count);

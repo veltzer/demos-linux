@@ -68,6 +68,8 @@ packs=[
 	'linux-headers-lowlatency',
 	'linux-headers-'+release_generic+'-generic',
 	'linux-headers-'+release_lowlatency+'-lowlatency',
+	'linux-source',
+	'linux-source-3.11.0',
 
 	# for systemtap - this one does not exist in the regular ubuntu archives
 	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
@@ -96,6 +98,7 @@ packs=[
 	'lsscsi',
 	'chrpath',
 	'latencytop',
+	'devmem2',
 
 	# package used tools
 	'ccache', # for faster building

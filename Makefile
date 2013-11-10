@@ -18,6 +18,9 @@ KDIR?=/lib/modules/$(KVER)/build
 # Since we are using ?= for assignment it means that you can just
 # set this from the command line and avoid changing the makefile...
 V?=0
+# warnings for kernel code (0,1,2,3,...). Better use 1 since kernel
+# headers don't pass more than 1
+W?=1
 # extra flags to pass to the kernel module creation process...
 # regular kernels do not have -Werror and we want it!
 # The problem is that this makes the kernel build system scream at me (it fears I am changing
@@ -48,7 +51,7 @@ SUFFIX_OO:=oo
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
 # should we do the openoffice conversions?
-DO_SOFFICE:=0
+DO_SOFFICE:=1
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -272,7 +275,7 @@ $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 # rule about how to create .ko files...
 $(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 	$(info doing [$@])
-	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) W=1 M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) W=$(W) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)#scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)touch $@
 

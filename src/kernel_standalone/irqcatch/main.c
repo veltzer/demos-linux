@@ -48,7 +48,7 @@ static struct proc_dir_entry *irqcatch_proc_file;
 /*
 * proc file callback
 */
-int irqcatch_proc_reader(char *page, char **start, off_t off, int count,
+static int irqcatch_proc_reader(char *page, char **start, off_t off, int count,
 		int *eof, void *data)
 {
 	int len = 0;
@@ -68,7 +68,7 @@ int irqcatch_proc_reader(char *page, char **start, off_t off, int count,
 * Interrupt callback
 * We say that this is not our interrupt.
 */
-irqreturn_t irqcatch_int_handler(int irq, void *dev)
+static irqreturn_t irqcatch_int_handler(int irq, void *dev)
 {
 	/* increase the counter. No need for atomics here
 	 * since we are guaranteed by the kernel that this

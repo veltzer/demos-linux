@@ -138,7 +138,7 @@ class DocumentConverter:
 
         loadProperties = { "Hidden": True }
         inputExt = self._getFileExt(inputFile)
-        if IMPORT_FILTER_MAP.has_key(inputExt):
+        if inputExt in IMPORT_FILTER_MAP:
             loadProperties.update(IMPORT_FILTER_MAP[inputExt])
         
         document = self.desktop.loadComponentFromURL(inputUrl, "_blank", 0, self._toProperties(loadProperties))
@@ -159,7 +159,7 @@ class DocumentConverter:
             document.close(True)
 
     def _overridePageStyleProperties(self, document, family):
-        if PAGE_STYLE_OVERRIDE_PROPERTIES.has_key(family):
+        if family in PAGE_STYLE_OVERRIDE_PROPERTIES:
             properties = PAGE_STYLE_OVERRIDE_PROPERTIES[family]
             pageStyles = document.getStyleFamilies().getByName('PageStyles')
             for styleName in pageStyles.getElementNames():

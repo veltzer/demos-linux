@@ -49,7 +49,7 @@ struct device *clipboard_device;
 /*
 * Open the device. Optional.
 */
-int clipboard_open(struct inode *inode, struct file *filp)
+static int clipboard_open(struct inode *inode, struct file *filp)
 {
 	pr_debug("device is open\n");
 	return 0;
@@ -58,7 +58,7 @@ int clipboard_open(struct inode *inode, struct file *filp)
 /*
 * Release the device. Optional as well.
 */
-int clipboard_release(struct inode *inode, struct file *filp)
+static int clipboard_release(struct inode *inode, struct file *filp)
 {
 	pr_debug("device is released\n");
 	return 0;
@@ -67,7 +67,7 @@ int clipboard_release(struct inode *inode, struct file *filp)
 /*
 * Simply copy data to the user buffer...
 */
-ssize_t clipboard_read(struct file *filp, __user char *user_buf,
+static ssize_t clipboard_read(struct file *filp, __user char *user_buf,
 		size_t count, loff_t *offset)
 {
 	int ret; /* error code in case of error */
@@ -90,7 +90,7 @@ ssize_t clipboard_read(struct file *filp, __user char *user_buf,
 /*
 * Simply copy the data from the user buffer...
 */
-ssize_t clipboard_write(struct file *filp, const char *user_buf,
+static ssize_t clipboard_write(struct file *filp, const char *user_buf,
 		size_t count, loff_t *offset)
 {
 	int ret; /* error code in case of error */
@@ -117,7 +117,7 @@ ssize_t clipboard_write(struct file *filp, const char *user_buf,
 
 /* our file operations structure that gathers all the ops */
 
-const struct file_operations clipboard_fops = {
+static const struct file_operations clipboard_fops = {
 	.owner = THIS_MODULE,
 	.open = clipboard_open,
 	.release = clipboard_release,
