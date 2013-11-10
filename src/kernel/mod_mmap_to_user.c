@@ -107,10 +107,13 @@ static unsigned long map_to_user(struct file *filp, void *kptr,
 	flags = MAP_POPULATE | MAP_SHARED;
 	/* flags=MAP_POPULATE|MAP_PRIVATE; */
 	flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
-	down_write(&mm->mmap_sem);
+	/*
+	 * vm_mmap does not need the semaphore to be held
+	 * down_write(&mm->mmap_sem);
+	 */
 	oldval = filp->private_data;
 	filp->private_data = kptr;
-	uptr = do_mmap_pgoff(
+	uptr = vm_mmap(
 		filp, /* file pointer for which filp->mmap will be called */
 		0, /* address - this is the address we recommend for user
 			space - best not to ... */
@@ -120,7 +123,10 @@ static unsigned long map_to_user(struct file *filp, void *kptr,
 		0 /* pg offset */
 	);
 	filp->private_data = oldval;
-	up_write(&mm->mmap_sem);
+	/*
+	 * vm_mmap does not need the semaphore to be held
+	 * up_write(&mm->mmap_sem);
+	 */
 	if (IS_ERR_VALUE(uptr))
 		PR_ERROR("ERROR: problem calling do_mmap_pgoff");
 	else

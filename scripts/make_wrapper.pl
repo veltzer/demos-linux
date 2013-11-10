@@ -47,6 +47,9 @@ if($debug) {
 	print 'system returned ['.$res.']'."\n";
 }
 if($res) {
+	if($debug) {
+		print 'res is ['.$res.']'."\n";
+	}
 	# print the errors
 	open(FILE,$tmp_fname) || die('unable to open');
 	my($line);
@@ -59,7 +62,11 @@ if($res) {
 		unlink_check($tmp_fname,1);
 	}
 	# exit with error code of the child...
-	exit($res << 8);
+	my($exit_code)=$res >> 8;
+	if($debug) {
+		print 'exiting with ['.$exit_code.']'."\n";
+	}
+	exit($exit_code);
 } else {
 	# remove the tmp file for the errors
 	if($remove_tmp) {

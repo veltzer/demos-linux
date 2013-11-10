@@ -33,6 +33,8 @@
 #include <linux/cdev.h>			/* Character device */
 #include <linux/sched.h>			/* TASK_* definitions */
 #include <linux/uaccess.h>		/* User space access */
+#include <linux/proc_fs.h>		/* for create_proc_entry,
+					   remove_proc_entry */
 
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");
@@ -82,7 +84,7 @@ module_param(debug_param, uint, S_IRWXU);
 /*
 * Open the device. Optional.
 */
-int clipboard_open(struct inode *inode, struct file *filp)
+static int clipboard_open(struct inode *inode, struct file *filp)
 {
 	pr_debug("device is open\n");
 	return 0;
@@ -91,7 +93,7 @@ int clipboard_open(struct inode *inode, struct file *filp)
 /*
 * Release the device. Optional as well.
 */
-int clipboard_release(struct inode *inode, struct file *filp)
+static int clipboard_release(struct inode *inode, struct file *filp)
 {
 	pr_debug("device is released\n");
 	return 0;
@@ -103,8 +105,8 @@ int clipboard_release(struct inode *inode, struct file *filp)
 * copies the data from the clip board. There is no real locking on the
 * clipboard status which is a problem. Fix this sometime.
 */
-ssize_t clipboard_read(struct file *filp, __user char *user_buf, size_t count,
-		loff_t *offset)
+static ssize_t clipboard_read(struct file *filp, __user char *user_buf,
+		size_t count, loff_t *offset)
 {
 	int ret;
 	int remaining_bytes;
@@ -147,8 +149,8 @@ ssize_t clipboard_read(struct file *filp, __user char *user_buf, size_t count,
 * This is too simplistic and would break lots of prefectly legal user space
 * programs.
 */
-ssize_t clipboard_write(struct file *filp, const char *user_buf, size_t count,
-		loff_t *offset)
+static ssize_t clipboard_write(struct file *filp, const char *user_buf,
+		size_t count, loff_t *offset)
 {
 	int ret;
 	int remaining_bytes = min(CLIPBOARD_SIZE-(*offset), (loff_t)count);
@@ -177,7 +179,8 @@ ssize_t clipboard_write(struct file *filp, const char *user_buf, size_t count,
 /*
 * proc file callback
 */
-int clipboard_proc_reader(char *page, char **start, off_t off, int count,
+/*
+static int clipboard_proc_reader(char *page, char **start, off_t off, int count,
 		int *eof, void *data)
 {
 	int len = 0;
@@ -192,12 +195,13 @@ int clipboard_proc_reader(char *page, char **start, off_t off, int count,
 		len = 0;
 	return len;
 }
+*/
 
 /*
 * Interrupt callback
 * We say that it was our interrupt but really shouldn't.
 */
-irqreturn_t clipboard_int_handler(int irq, void *dev)
+static irqreturn_t clipboard_int_handler(int irq, void *dev)
 {
 	flag = 1;
 	mb();
@@ -206,7 +210,7 @@ irqreturn_t clipboard_int_handler(int irq, void *dev)
 }
 
 /* our file operations structure that gathers all the ops */
-const struct file_operations clipboard_fops = {
+static const struct file_operations clipboard_fops = {
 	.owner = THIS_MODULE,
 	.open = clipboard_open,
 	.release = clipboard_release,
@@ -214,13 +218,20 @@ const struct file_operations clipboard_fops = {
 	.write = clipboard_write
 };
 
+static const struct file_operations clipboard_proc_ops = {
+	.owner = THIS_MODULE,
+/*	.read = clipboard_proc_reader, */
+};
+
+static struct proc_dir_entry *clipboard_proc_entry;
+
+
 /*
 * Module housekeeping.
 */
 static int clipboard_init(void)
 {
 	int ret = 0;
-	struct proc_dir_entry *clipboard_proc_file;
 
 	clipboard = kmalloc(CLIPBOARD_SIZE, GFP_KERNEL);
 	if (!clipboard) {
@@ -229,12 +240,12 @@ static int clipboard_init(void)
 	}
 	memset(clipboard, 0, CLIPBOARD_SIZE);
 
-	clipboard_proc_file = create_proc_entry(proc_filename, 0, NULL);
-	if (!clipboard_proc_file) {
-		ret = -ENOMEM;
+	clipboard_proc_entry = proc_create(proc_filename, 0, NULL,
+			&clipboard_proc_ops);
+	if (IS_ERR(clipboard_proc_entry)) {
+		ret = PTR_ERR(clipboard_proc_entry);
 		goto error_after_alloc;
 	}
-	clipboard_proc_file->read_proc = clipboard_proc_reader;
 
 	if (alloc_chrdev_region(&clipboard_dev, 0, CLIPBOARD_COUNT,
 				"clipboard")) {
@@ -271,7 +282,7 @@ error_after_register:
 error_after_region:
 	unregister_chrdev_region(clipboard_dev, CLIPBOARD_COUNT);
 error_after_proc:
-	remove_proc_entry(proc_filename, NULL);
+	proc_remove(clipboard_proc_entry);
 error_after_alloc:
 	kfree(clipboard);
 any_error:
@@ -280,7 +291,7 @@ any_error:
 
 static void clipboard_cleanup(void)
 {
-	remove_proc_entry(proc_filename, NULL);
+	proc_remove(clipboard_proc_entry);
 	free_irq(MOUSE_INT, &clipboard);
 	cdev_del(clipboard_cdev);
 	unregister_chrdev_region(clipboard_dev, CLIPBOARD_COUNT);
