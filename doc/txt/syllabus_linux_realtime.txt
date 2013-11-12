@@ -1,9 +1,16 @@
-Syllabus for Linux real time programming: 2 days (estimated)
+Syllabus for Linux real time programming: 3 days (estimated)
 ============================================================
 Prerequisitites:
 ================
 C programming (C++ if C++ issues are to be discussed)
 UNIX API familiarity
+Knowledge of UNIX philosophy and design.
+If no such knowledge exists then the course could be made longer
+to accomodate with an intro about UNIX/Linux philosophy, command line usage, boot process and more.
+
+Target audience:
+================
+Experienced C/C++ programmers (3 years minimum).
 
 Topics:
 =======
@@ -12,10 +19,10 @@ Definitions
 	Near real time scenarios
 	Traditional real time operating systems
 	Deficiencies in traditional real time operating systems
-	Where latency comes from
+	The sources of latency
 Linux and real time
 	Is Linux real time?
-	The real time patch
+	The linux real time patch
 	real time APIs in Linux
 Real time and being fast
 	The importance of knowing the systems APIs (memcpy, etc)
@@ -40,10 +47,11 @@ Real time and locking
 	RCU
 	lock free data structures
 Real time and devices
-	Talking to devices in Linux
 	Regular IO performance for devices (read,write)
+	Talking directly to devices in Linux
 	ioctl
 	mmap
+	GUP (get_user_pages)
 Real time and clocks
 	What are hardware clocks?
 	high resultion times in Linux.
@@ -88,11 +96,16 @@ Real time and logging
 	cost of syslog
 	cost of writing to files
 	alternatives to both using shared memory
-Real time and design
+Real time and software design
 	Designing a real time Linux system - intro
 	CPU affinity for threads and processes.
 	CPU affinity for interrupt handlers and kernel threads.
-Real time and the hardware
+Real time and the hardware (optional)
 	hardware built for real time
 	IO busses and real time
-	problems caused by the hardware (Self monitoring IRQs and the like)
+	problems caused by the hardware (Self monitoring IRQs (SMIs) and similar issues)
+Real time and hypervisors (optional)
+	How are hypervisors built?
+	Comparing native (bare metal) and hosted hypervisors.
+	Quick review of common hypervisors (kvm, vmware, Hyper-V) and their capabilities.
+	Hypervisors and real-time performance.
