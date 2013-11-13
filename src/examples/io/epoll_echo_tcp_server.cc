@@ -31,6 +31,7 @@
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 #include <trace_utils.h>// for TRACE()
+#include <epoll_utils.h>// for print_events() 
 
 /*
  * This is an example of using the epoll(2) API to write an echo server using
@@ -50,51 +51,6 @@
  * TODO:
  * - check what happens when we write large amounts of data to the output. Will the async write come up short?
  */
-
-void print_events(char* buffer, size_t size, uint32_t events) {
-	char* p=buffer;
-	int cursize=size;
-	if(events & EPOLLIN) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLIN "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLOUT) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLOUT "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLRDHUP) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLRDHUP "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLPRI) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLPRI "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLERR) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLERR "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLHUP) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLHUP "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLET) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLET "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-	if(events & EPOLLONESHOT) {
-		size_t ret=CHECK_IN_RANGE(snprintf(p, cursize, "EPOLLONESHOT "), 1, cursize);
-		cursize-=ret;
-		p+=ret;
-	}
-}
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
