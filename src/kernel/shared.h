@@ -83,8 +83,8 @@
 #define IOCTL_RACE_SLEEP_LONG				_IO(DEMO_MAGIC,41)
 
 // epoll
-#define IOCTL_EPOLL_WAIT				_IO(DEMO_MAGIC,45)
-#define IOCTL_EPOLL_WAKE				_IO(DEMO_MAGIC,46)
+#define IOCTL_EPOLL_WAKE				_IO(DEMO_MAGIC,42)
+#define IOCTL_EPOLL_RESET				_IO(DEMO_MAGIC,43)
 
 typedef struct _buffer
 {

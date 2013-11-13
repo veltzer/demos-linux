@@ -27,15 +27,16 @@
 
 #include <firstinclude.h>
 #include <err_utils.h>	// for CHECK_IN_RANGE()
+#include <sys/epoll.h>	// for EPOLLIN, EPOLLOUT, EPOLLRDHUP, EPOLLPRI, ...
 #include <stdio.h>	// for snprintf(3)
 
 typedef struct _epoll_val_and_name {
-	int val,
-	const char* name
+	unsigned int val;
+	const char* name;
 } epoll_val_and_name;
 
 #define entry(x) { x, # x }
-static epoll_and_name epoll_tbl[]={
+static epoll_val_and_name epoll_tbl[]={
 	entry(EPOLLIN),
 	entry(EPOLLOUT),
 	entry(EPOLLRDHUP),
