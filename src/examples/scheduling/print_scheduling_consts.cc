@@ -22,7 +22,7 @@
 
 /*
  * This example simply prints all the scheduling policy consts.
- * See us_helper.h for further info on how this is done.
+ * See sched_utils..h for further info on how this is done.
  */
 
 int main(int argc, char** argv, char** envp) {
