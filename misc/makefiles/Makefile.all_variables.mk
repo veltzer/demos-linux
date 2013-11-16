@@ -9,9 +9,7 @@ A:=value_of_a
 B:=value_of_b
 
 DEFINED_VARS:=$(filter-out $(BUILT_IN_VARS) BUILT_IN_VARS, $(.VARIABLES))
-
-GPP_PARAMS:=
-GPP_PARAMS:=$(foreach v, $(DEFINED_VARS), -D$(v)=\"$($(v))\")
+GPP_PARAMS:=$(foreach v, $(DEFINED_VARS), -D$(v)="$($(v))")
 
 .PHONY: all
 all:
