@@ -1,0 +1,46 @@
+Linux programming environment
+=======================
+Description: Course is intended for C/C++ programmers who want to find their way in the
+linux programming environment.
+
+What the course will NOT cover:
+1. The peculiarities of gcc/g++ as regards the C/C++ standard.
+2. The Linux kernel or user space (glibc?) APIs.
+
+Topics
+======
+- The shell:
+	Basic organization of the file system.
+	Login/logout.
+	Shell basics.
+	Writing basic scripts.
+	Security basics.
+- The compiler (gcc/g++):
+	Installing.
+	Toolchain compilers.
+	Running the compiler: compiling/linking.
+	Important flags and their semantics.
+- libaries:
+	Making shared libraries
+	ld, ld.so
+	ldd
+	LD_PRELOAD, LD_LIBRARY_PATH
+	pmap, /proc/[pid]/maps
+- Miscelleneous tools:
+	nm, objdump, strip, strings
+- core dumps:
+	allowing core dumps
+	using core dumps
+	taking core dump snapshots of running processes
+- monitoring:
+	gui tools (gnome, kde)
+	console tools (ps, top, netstat, ...)
+- debugging
+	basic gdb usage.
+	gdb important commands
+	remote gdb usage
+	embedded remote gdb usage.
+	using eclipse for debugging and remote debugging.
+- makefiles introduction
+	writing a simple makefile
+	handling dependencies

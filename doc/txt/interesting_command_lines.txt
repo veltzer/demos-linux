@@ -1,4 +1,4 @@
-to clear buffer and cache:
+to clear buffer and cache of the os:
 	sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
 to turn your system into a router:
 	sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
