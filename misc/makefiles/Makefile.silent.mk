@@ -3,8 +3,8 @@
 # all targets will be silent. If you do specify specific targets then
 # only those will be silent.
 
-DO_ALL_SILENT=1
-DO_SILENT=0
+DO_ALL_SILENT:=1
+DO_SILENT:=0
 
 ifeq ($(DO_ALL_SILENT),1)
 .SILENT:
