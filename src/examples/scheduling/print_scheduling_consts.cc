@@ -22,7 +22,11 @@
 
 /*
  * This example simply prints all the scheduling policy consts.
- * See sched_utils..h for further info on how this is done.
+ * See sched_utils.h for further info on how this is done.
+ *
+ * Notes:
+ * - It is not an error in that there is a gap in the scheduling
+ * constants. That is really how it is in the /usr/include/bits/sched.h file.
  */
 
 int main(int argc, char** argv, char** envp) {
