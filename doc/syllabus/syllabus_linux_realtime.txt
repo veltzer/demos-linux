@@ -100,12 +100,25 @@ Real time and software design
 	Designing a real time Linux system - intro
 	CPU affinity for threads and processes.
 	CPU affinity for interrupt handlers and kernel threads.
+
+addendums:
+
 Real time and the hardware (optional)
 	hardware built for real time
 	IO busses and real time
 	problems caused by the hardware (Self monitoring IRQs (SMIs) and similar issues)
-Real time and hypervisors (optional)
-	How are hypervisors built?
-	Comparing native (bare metal) and hosted hypervisors.
+
+Hypervisons intro (options)
+	Host-Guest OS terminology
+	Hypervisors
+	Virtualization technologies: Full Virtualization, Para-Virtualization, Os-Level Virtualization
+	Virtual machine privileges.
+	Advantages & disadvantages of using VirtualMachines
+	Additional option: basic demo on KVM
 	Quick review of common hypervisors (kvm, vmware, Hyper-V) and their capabilities.
-	Hypervisors and real-time performance.
+
+Real time and hypervisors (optional)
+	Comparing native (bare metal) and hosted hypervisors for real time needs.
+	Real time drivers and real time.
+	PCI pass through.
+	Hypervisors scheduling.
