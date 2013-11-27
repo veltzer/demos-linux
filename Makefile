@@ -193,9 +193,9 @@ clean_soft: clean_standalone
 # -d: remove directories also.
 # -f: force.
 # hard clean (may remove manually created files not yet added to the git index):
-GIT_CLEAN_FLAGS=-xdf
+GIT_CLEAN_FLAGS:=-xdf
 # soft clean (only removes .gitignore files)
-#GIT_CLEAN_FLAGS=-Xdf
+#GIT_CLEAN_FLAGS:=-Xdf
 .PHONY: clean_hard
 clean_hard:
 	$(info doing [$@])
