@@ -104,7 +104,7 @@ static inline void sched_print_table() {
 		printf("%s is %d (min=%d, max=%d)\n", name, val,
 			CHECK_NOT_M1(sched_get_priority_min(val)),
 			CHECK_NOT_M1(sched_get_priority_max(val))
-		);
+			);
 	}
 }
 /*

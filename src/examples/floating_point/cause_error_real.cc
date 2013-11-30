@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <stdio.h>	// for printf(3)
-#include <disassembly_utils.h>  // for disassemble_main()
+#include <disassembly_utils.h>	// for disassemble_main()
 
 /*
  * This is a simple example causing a floating point error.

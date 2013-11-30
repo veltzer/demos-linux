@@ -27,8 +27,8 @@
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_NULL()
 #include <multiproc_utils.h>	// for my_system()
-#include <trace_utils.h>	// for INFO()
-#include <epoll_utils.h>	// for print_events()
+#include <trace_utils.h>// for INFO()
+#include <epoll_utils.h>// for print_events()
 #include <sys/epoll.h>	// for epoll_create(2), epoll_ctl(2), epoll_wait(2)
 #include "shared.h"	// for ioctl numbers
 
@@ -61,16 +61,14 @@ static void *function_wait(void *p) {
 
 	const unsigned int max_events=10;
 	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
-
-	for(int i=0;i<NUM_OF_SLEEPERS;i++) {
+	for(int i=0; i<NUM_OF_SLEEPERS; i++) {
 		int curr_fd=pd->fd[i];
 		struct epoll_event my_ev;
-		//my_ev.events=EPOLLIN | EPOLLET;
+		// my_ev.events=EPOLLIN | EPOLLET;
 		my_ev.events=EPOLLIN;
 		my_ev.data.fd=curr_fd;
 		CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, curr_fd, &my_ev));
 	}
-
 	while(!pd->over) {
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
@@ -78,8 +76,8 @@ static void *function_wait(void *p) {
 		for(int n=0; n<nfds; n++) {
 			int curr_fd=events[n].data.fd;
 			uint32_t curr_mask=events[n].events;
-			for(int i=0;i<NUM_OF_SLEEPERS;i++) {
-				if (curr_fd==pd->fd[i]) { 
+			for(int i=0; i<NUM_OF_SLEEPERS; i++) {
+				if (curr_fd==pd->fd[i]) {
 					printf("got activity on fd number %d (real fd=%d)\n", i, curr_fd);
 					const unsigned int bufsize=1024;
 					char printbuff[bufsize];
@@ -99,7 +97,7 @@ static void *function_wakeup(void *p) {
 	thread_data* pd=(thread_data*)p;
 	while(!pd->over) {
 		printf("1) wake up fd\n");
-		printf("2) reset fd\n"); 
+		printf("2) reset fd\n");
 		printf("3) exit\n");
 		printf("selection --> ");
 		fflush(stdout);
@@ -147,28 +145,25 @@ int main(int argc, char** argv, char** envp) {
 	char filename[256];
 	snprintf(filename, 256, "/dev/mod_%s", basename);
 	/*
-	const char* ko_filename="src/kernel/mod_poll.ko";
-	printf("Inserting the driver...\n");
-	//my_system("sudo /sbin/rmmod mod_%s", basename);
-	my_system("sudo /sbin/insmod %s", ko_filename);
-	my_system("sudo chmod 666 %s", filename);
-	*/
-	
+	 * const char* ko_filename="src/kernel/mod_poll.ko";
+	 * printf("Inserting the driver...\n");
+	 * //my_system("sudo /sbin/rmmod mod_%s", basename);
+	 * my_system("sudo /sbin/insmod %s", ko_filename);
+	 * my_system("sudo chmod 666 %s", filename);
+	 */
+
 	thread_data td;
 	td.over=false;
-
-	for(unsigned int i=0;i<NUM_OF_SLEEPERS;i++) {
+	for(unsigned int i=0; i<NUM_OF_SLEEPERS; i++) {
 		td.fd[i]=CHECK_NOT_M1(open(filename, O_RDWR));
 	}
-
 	pthread_t thread_wait, thread_wakeup;
 	CHECK_ZERO_ERRNO(pthread_create(&thread_wait, NULL, function_wait, &td));
 	CHECK_ZERO_ERRNO(pthread_create(&thread_wakeup, NULL, function_wakeup, &td));
 	CHECK_ZERO_ERRNO(pthread_join(thread_wait, NULL));
 	CHECK_ZERO_ERRNO(pthread_join(thread_wakeup, NULL));
-
 	// close all file descriptors
-	for(unsigned int i=0;i<NUM_OF_SLEEPERS;i++) {
+	for(unsigned int i=0; i<NUM_OF_SLEEPERS; i++) {
 		CHECK_NOT_M1(close(td.fd[i]));
 	}
 	fprintf(stdout, "\nALL DONE\n");

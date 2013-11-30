@@ -31,7 +31,7 @@
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
 #include <trace_utils.h>// for TRACE()
-#include <epoll_utils.h>// for print_events() 
+#include <epoll_utils.h>// for print_events()
 
 /*
  * This is an example of using the epoll(2) API to write an echo server using
