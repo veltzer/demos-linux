@@ -7,7 +7,7 @@ class MyException : public std::exception {
 int main() {
 	try {
 		throw MyException();
-	}catch(MyException e)  {
+	}catch(MyException e) {
 		std::cout << "in the catch" << std::endl;
 	}
 	return EXIT_SUCCESS;
