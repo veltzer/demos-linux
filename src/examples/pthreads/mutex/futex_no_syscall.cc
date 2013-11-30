@@ -111,8 +111,8 @@ int main(int argc, char** argv, char** envp) {
 		for(int i=0; i<size; i++) {
 			pthread_mutex_t* mutex=mtxs+i;
 			pthread_mutexattr_t* attr=attrs+i;
-			printf("before critical section\n");
 			print_mutexattr_data(attr);
+			printf("before critical section\n");
 			CHECK_ZERO_ERRNO(pthread_mutex_lock(mutex));
 			printf("in critical section\n");
 			CHECK_ZERO_ERRNO(pthread_mutex_unlock(mutex));
