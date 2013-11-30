@@ -29,7 +29,7 @@
 #include <us_helper.h>	// for ARRAY_SIZE()
 #include <err_utils.h>	// for CHECK_ASSERT(), CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 #include <string.h>	// for strcmp(3)
-#include <sched.h>	// for sched_param:struct, sched_getparam(2), sched_getscheduler(2)
+#include <sched.h>	// for sched_param:struct, sched_getparam(2), sched_getscheduler(2), sched_get_priority_max(2), sched_get_priority_min(2)
 #include <stdio.h>	// for printf(3)
 #include <pthread.h>	// for pthread_attr_t:struct, pthread_t:struct, pthread_attr_init(3), pthread_attr_setinheritsched(3), pthread_attr_setschedpolicy(3), pthread_attr_setschedparam(3), pthread_create(3), pthread_join(3)
 
@@ -101,7 +101,10 @@ static inline void sched_print_table() {
 	for(i=0; i<ARRAY_SIZEOF(sched_tbl); i++) {
 		int val=sched_tbl[i].val;
 		const char* name=sched_tbl[i].name;
-		printf("%s is %d\n", name, val);
+		printf("%s is %d (min=%d, max=%d)\n", name, val,
+			CHECK_NOT_M1(sched_get_priority_min(val)),
+			CHECK_NOT_M1(sched_get_priority_max(val))
+		);
 	}
 }
 /*

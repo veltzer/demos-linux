@@ -1,11 +1,12 @@
 Linux programming environment
-=======================
+=============================
 Description: Course is intended for C/C++ programmers who want to find their way in the
-linux programming environment.
+Linux programming environment.
 
 What the course will NOT cover:
-1. The peculiarities of gcc/g++ as regards the C/C++ standard.
-2. The Linux kernel or user space (glibc?) APIs.
+1. The C/C++ languages themselves.
+2. The peculiarities of gcc/g++ as regards the C/C++ standard.
+3. The Linux kernel or user space (glibc?) APIs and their correct usage.
 
 Topics
 ======
@@ -44,3 +45,8 @@ Topics
 - makefiles introduction
 	writing a simple makefile
 	handling dependencies
+- git introduction
+	creating a repo
+	your first commit
+	branching?
+	push and pulling
