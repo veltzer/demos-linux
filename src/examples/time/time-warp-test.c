@@ -46,33 +46,33 @@
 #endif
 
 #if DEBUG
-# define Printf(x...) printf(x)
+# define Printf(x ...) printf(x)
 #else
-# define Printf(x...) do { } while (0)
+# define Printf(x ...) do { } while (0)
 #endif
 
 /*
  * Shared locks and variables between the test tasks:
  */
 enum {
-	SHARED_LOCK		= 0,
-	SHARED_TSC		= 2,
-	SHARED_TOD		= 4,
-	SHARED_CLOCK		= 6,
-	SHARED_WORST_TSC	= 8,
-	SHARED_WORST_TOD	= 10,
-	SHARED_WORST_CLOCK	= 12,
-	SHARED_NR_TSC_LOOPS	= 14,
-	SHARED_NR_TSC_WARPS	= 16,
-	SHARED_NR_TOD_LOOPS	= 18,
-	SHARED_NR_TOD_WARPS	= 20,
-	SHARED_NR_CLOCK_LOOPS	= 22,
-	SHARED_NR_CLOCK_WARPS	= 24,
-	SHARED_END		= 26,
+	SHARED_LOCK             = 0,
+	SHARED_TSC              = 2,
+	SHARED_TOD              = 4,
+	SHARED_CLOCK            = 6,
+	SHARED_WORST_TSC        = 8,
+	SHARED_WORST_TOD        = 10,
+	SHARED_WORST_CLOCK      = 12,
+	SHARED_NR_TSC_LOOPS     = 14,
+	SHARED_NR_TSC_WARPS     = 16,
+	SHARED_NR_TOD_LOOPS     = 18,
+	SHARED_NR_TOD_WARPS     = 20,
+	SHARED_NR_CLOCK_LOOPS   = 22,
+	SHARED_NR_CLOCK_WARPS   = 24,
+	SHARED_END              = 26,
 };
 
-#define SHARED(x)	(*(shared + SHARED_##x))
-#define SHARED_LL(x)	(*(long long *)(shared + SHARED_##x))
+#define SHARED(x)       (*(shared + SHARED_ ## x))
+#define SHARED_LL(x)    (*(long long *)(shared + SHARED_ ## x))
 
 #define BUG_ON(c) assert(!(c))
 
@@ -96,7 +96,7 @@ static inline unsigned long long __rdtscll(void)
 {
 	DECLARE_ARGS(val, low, high);
 
-	asm volatile("cpuid; rdtsc" : EAX_EDX_RET(val, low, high));
+	asm volatile ("cpuid; rdtsc" : EAX_EDX_RET(val, low, high));
 
 	return EAX_EDX_VAL(val, low, high);
 }
@@ -104,20 +104,20 @@ static inline unsigned long long __rdtscll(void)
 #define rdtscll(val) do { (val) = __rdtscll(); } while (0)
 
 #define rdtod(val)					\
-do {							\
-	struct timeval tv;				\
+	do {							\
+		struct timeval tv;				\
 							\
-	gettimeofday(&tv, NULL);			\
-	(val) = tv.tv_sec * 1000000ULL + tv.tv_usec;	\
-} while (0)
+		gettimeofday(&tv, NULL);			\
+		(val) = tv.tv_sec * 1000000ULL + tv.tv_usec;	\
+	} while (0)
 
 #define rdclock(val)					\
-do {							\
-	struct timespec ts;				\
+	do {							\
+		struct timespec ts;				\
 							\
-	clock_gettime(CLOCK_MONOTONIC, &ts);		\
-	(val) = ts.tv_sec * 1000000000ULL + ts.tv_nsec;	\
-} while (0)
+		clock_gettime(CLOCK_MONOTONIC, &ts);		\
+		(val) = ts.tv_sec * 1000000000ULL + ts.tv_nsec;	\
+	} while (0)
 
 static unsigned long *setup_shared_var(void)
 {
@@ -146,32 +146,32 @@ static unsigned long *setup_shared_var(void)
 static inline void lock(unsigned long *flag)
 {
 #if 0
-	__asm__ __volatile__(
+	__asm__ __volatile__ (
 		"1: lock; btsl $0,%0\n"
 		"jc 1b\n"
-			     : "=g"(*flag) : : "memory");
+		: "=g" (*flag) : : "memory");
 #else
-	__asm__ __volatile__(
-               "1: lock; btsl $0,%0\n\t"
-               "jnc 3f\n"
-               "2: testl $1,%0\n\t"
-               "je 1b\n\t"
-               "rep ; nop\n\t"
-               "jmp 2b\n"
-               "3:"
-               : "+m"(*flag) : : "memory");
+	__asm__ __volatile__ (
+		"1: lock; btsl $0,%0\n\t"
+		"jnc 3f\n"
+		"2: testl $1,%0\n\t"
+		"je 1b\n\t"
+		"rep ; nop\n\t"
+		"jmp 2b\n"
+		"3:"
+		: "+m" (*flag) : : "memory");
 #endif
 }
 
 static inline void unlock(unsigned long *flag)
 {
 #if 0
-	__asm__ __volatile__(
+	__asm__ __volatile__ (
 		"lock; btrl $0,%0\n"
-			     : "=g"(*flag) :: "memory");
-	__asm__ __volatile__("rep; nop");
+		: "=g" (*flag) ::"memory");
+	__asm__ __volatile__ ("rep; nop");
 #else
-	__asm__ __volatile__("movl $0,%0; rep; nop" : "=g"(*flag) :: "memory");
+	__asm__ __volatile__ ("movl $0,%0; rep; nop" : "=g" (*flag) ::"memory");
 #endif
 }
 
@@ -180,15 +180,13 @@ static void print_status(unsigned long *shared)
 	const char progress[] = "\\|/-";
 
 	static unsigned long long sum_tsc_loops, sum_tod_loops, sum_clock_loops,
-				  sum_tod;
+		sum_tod;
 	static unsigned int count1, count2;
 	static usecs_t prev_tod;
 
 	usecs_t tod;
-
 	if (!prev_tod)
 		rdtod(prev_tod);
-
 	count1++;
 	if (count1 < 1000)
 		return;
@@ -197,7 +195,6 @@ static void print_status(unsigned long *shared)
 	rdtod(tod);
 	if (abs(tod - prev_tod) < 100000ULL)
 		return;
-
 	sum_tod += tod - prev_tod;
 	sum_tsc_loops += SHARED_LL(NR_TSC_LOOPS);
 	sum_tod_loops += SHARED_LL(NR_TOD_LOOPS);
@@ -205,22 +202,18 @@ static void print_status(unsigned long *shared)
 	SHARED_LL(NR_TSC_LOOPS) = 0;
 	SHARED_LL(NR_TOD_LOOPS) = 0;
 	SHARED_LL(NR_CLOCK_LOOPS) = 0;
-
 	if (TEST_TSC)
 		printf(" | TSC: %.2fus, fail:%ld",
 			(double)sum_tod/(double)sum_tsc_loops,
 			SHARED(NR_TSC_WARPS));
-
 	if (TEST_TOD)
 		printf(" | TOD: %.2fus, fail:%ld",
 			(double)sum_tod/(double)sum_tod_loops,
 			SHARED(NR_TOD_WARPS));
-
 	if (TEST_CLOCK)
 		printf(" | CLK: %.2fus, fail:%ld",
 			(double)sum_tod/(double)sum_clock_loops,
 			SHARED(NR_CLOCK_WARPS));
-
 	prev_tod = tod;
 	count2++;
 	printf(" %c\r", progress[count2 & 3]);
@@ -318,7 +311,6 @@ int main(int argc, char **argv)
 
 	cpus = system("exit `grep ^processor /proc/cpuinfo  | wc -l`");
 	cpus = WEXITSTATUS(cpus);
-
 	if (argc > 2) {
 usage:
 		fprintf(stderr,
@@ -331,43 +323,37 @@ usage:
 			goto usage;
 	} else
 		tasks = cpus;
-
 	printf("%ld CPUs, running %ld parallel test-tasks.\n", cpus, tasks);
 	printf("checking for time-warps via:\n"
 #if TEST_TSC
-	"- read time stamp counter (RDTSC) instruction (cycle resolution)\n"
+		"- read time stamp counter (RDTSC) instruction (cycle resolution)\n"
 #endif
 #if TEST_TOD
-	"- gettimeofday (TOD) syscall (usec resolution)\n"
+		"- gettimeofday (TOD) syscall (usec resolution)\n"
 #endif
 #if TEST_CLOCK
-	"- clock_gettime(CLOCK_MONOTONIC) syscall (nsec resolution)\n"
+		"- clock_gettime(CLOCK_MONOTONIC) syscall (nsec resolution)\n"
 #endif
 		"\n"
 		);
 	shared = setup_shared_var();
 
 	parent = getpid();
-
 	for (i = 1; i < tasks; i++) {
 		if (!fork())
 			break;
 	}
 	me = getpid();
-
 	while (1) {
 		int i;
-
 		for (i = 0; i < 10; i++)
 			test_TSC(shared);
 		for (i = 0; i < 10; i++)
 			test_TOD(shared);
 		for (i = 0; i < 10; i++)
 			test_CLOCK(shared);
-
 		if (me == parent)
 			print_status(shared);
 	}
-
 	return 0;
 }

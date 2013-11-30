@@ -42,7 +42,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	float a=atof(argv[1]);
 	float b=atof(argv[2]);
-	//printf("%lf/%lf is %lf\n", a, b, a/b);
+	// printf("%lf/%lf is %lf\n", a, b, a/b);
 	printf("__divid(%f,%f) is %f\n", a, b, __divtf3(0.5f, 0.4f));
 	return EXIT_SUCCESS;
 }
