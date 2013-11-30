@@ -8,4 +8,3 @@ The fast path
 Basics (how classes, inheritance, virtuals, etc are implemented)
 Inlining
 Efficiency topics
-
