@@ -41,56 +41,84 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
+static void print_mutexattr_data(pthread_mutexattr_t* attr) {
+	int pshared, robust, type;
+	CHECK_ZERO_ERRNO(pthread_mutexattr_getrobust(attr, &robust));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_getpshared(attr, &pshared));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_gettype(attr, &type));
+	if(robust==PTHREAD_MUTEX_STALLED) {
+		printf("robust is PTHREAD_MUTEX_STALLED\n");
+	}
+	if(robust==PTHREAD_MUTEX_ROBUST) {
+		printf("robust is PTHREAD_MUTEX_ROBUST\n");
+	}
+	if(pshared==PTHREAD_PROCESS_SHARED) {
+		printf("pshared is PTHREAD_PROCESS_SHARED\n");
+	}
+	if(pshared==PTHREAD_PROCESS_PRIVATE) {
+		printf("pshared is PTHREAD_PROCESS_PRIVATE\n");
+	}
+	if(type==PTHREAD_MUTEX_FAST_NP) {
+		printf("type is PTHREAD_MUTEX_FAST_NP\n");
+	}
+	if(type==PTHREAD_MUTEX_RECURSIVE_NP) {
+		printf("type is PTHREAD_MUTEX_RECURSIVE_NP\n");
+	}
+	if(type==PTHREAD_MUTEX_ERRORCHECK_NP) {
+		printf("type is PTHREAD_MUTEX_ERRORCHECK_NP\n");
+	}
+}
+
+static int arr_robust[]={
+	PTHREAD_MUTEX_STALLED,
+	PTHREAD_MUTEX_ROBUST
+};
+
+static int arr_pshared[]={
+	PTHREAD_PROCESS_SHARED,
+	PTHREAD_PROCESS_PRIVATE
+};
+
+static int arr_type[]={
+	PTHREAD_MUTEX_FAST_NP,
+	PTHREAD_MUTEX_RECURSIVE_NP,
+	PTHREAD_MUTEX_ERRORCHECK_NP
+};
+
 int main(int argc, char** argv, char** envp) {
 	if(argc>1) {
-		// this is the default type of locked (the "FAST" kind...) using the
-		// special initialisation syntax...
-		pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
-		// this is creation of pthread using the init function...
-		// pthread_mutex_t mutex;
-		pthread_mutex_t mutex_init;
-		CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_init, NULL));
-		// this is a shared and private mutex version
-		pthread_mutex_t mutex_shared;
-		pthread_mutex_t mutex_private;
-		pthread_mutexattr_t attr;
-		CHECK_ZERO_ERRNO(pthread_mutexattr_init(&attr));
-		CHECK_ZERO_ERRNO(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED));
-		CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_shared, &attr));
-		CHECK_ZERO_ERRNO(pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_PRIVATE));
-		CHECK_ZERO_ERRNO(pthread_mutex_init(&mutex_private, &attr));
-		CHECK_ZERO_ERRNO(pthread_mutexattr_destroy(&attr));
-
+		const int size=ARRAY_SIZEOF(arr_type)*ARRAY_SIZEOF(arr_pshared)*ARRAY_SIZEOF(arr_robust);
+		pthread_mutex_t mtxs[size];
+		pthread_mutexattr_t attrs[size];
+		int i=0;
+		for(unsigned int irobust=0;irobust<ARRAY_SIZEOF(arr_robust);irobust++) {
+			for(unsigned int ipshared=0;ipshared<ARRAY_SIZEOF(arr_pshared);ipshared++) {
+				for(unsigned int itype=0;itype<ARRAY_SIZEOF(arr_type);itype++) {
+					int robust=arr_robust[irobust];
+					int pshared=arr_pshared[ipshared];
+					int type=arr_type[itype];
+					pthread_mutexattr_t* attr=attrs+i;
+					CHECK_ZERO_ERRNO(pthread_mutexattr_init(attr));
+					CHECK_ZERO_ERRNO(pthread_mutexattr_setrobust(attr, robust));
+					CHECK_ZERO_ERRNO(pthread_mutexattr_setpshared(attr, pshared));
+					CHECK_ZERO_ERRNO(pthread_mutexattr_settype(attr, type));
+					CHECK_ZERO_ERRNO(pthread_mutex_init(mtxs+i, attr));
+					i++;
+				}
+			}
+		}
 		printf("started\n");
-
-		printf("before critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex));
-		printf("in critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex));
-		printf("after critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex));
-
-		printf("before critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_init));
-		printf("in critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_init));
-		printf("after critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_init));
-
-		printf("before critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_shared));
-		printf("in critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_shared));
-		printf("after critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_shared));
-
-		printf("before critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_lock(&mutex_private));
-		printf("in critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&mutex_private));
-		printf("after critical section\n");
-		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&mutex_private));
-
+		for(int i=0;i<size;i++) {
+			pthread_mutex_t* mutex=mtxs+i;
+			pthread_mutexattr_t* attr=attrs+i;
+			printf("before critical section\n");
+			print_mutexattr_data(attr);
+			CHECK_ZERO_ERRNO(pthread_mutex_lock(mutex));
+			printf("in critical section\n");
+			CHECK_ZERO_ERRNO(pthread_mutex_unlock(mutex));
+			printf("after critical section\n");
+			CHECK_ZERO_ERRNO(pthread_mutex_destroy(mutex));
+		}
 		printf("ended\n");
 	} else {
 		my_system("strace %s argument", argv[0]);

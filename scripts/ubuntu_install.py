@@ -64,8 +64,10 @@ packs=[
 	'libnetfilter-queue1',
 	'libnetfilter-queue-dev',
 	'libcap-dev', # for capability.h
-	'liburcu-dev', # rcu library
 	'liburcu1', # rcu library
+	'liburcu-dev', # rcu library
+	'libunwind8', # unwind library
+	'libunwind8-dev', # unwind library
 
 	# kernel stuff
 	'linux-headers-generic',
