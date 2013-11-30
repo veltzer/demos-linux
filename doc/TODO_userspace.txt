@@ -1,8 +1,8 @@
-sites to get ideas from
-=======================
-various hacks by GBY:
+websites to get ideas from
+==========================
 	https://github.com/gby/hacks
-blogs to get ideas from:
+	http://pramode.net/articles/lfy/ptrace/pramode.html
+	http://man7.org/tlpi/code
 	http://preshing.com
 	http://eli.thegreenplace.net
 	http://blog.regehr.org
@@ -11,22 +11,17 @@ blogs to get ideas from:
 	http://www.linuxprogrammingblog.com/
 	http://gjcarneiro.blogspot.co.il/2010/10/c-stl-containers-memory.html
 	http://publicclu2.blogspot.co.il/
-articles to get nice demos from:
 	http://www.coranac.com/documents/working-with-bits-and-bitfields/
 	http://stackoverflow.com/questions/1490092/c-c-force-bit-field-order-and-alignment
 	http://stackoverflow.com/questions/2611764/can-i-use-a-binary-literal-in-c-or-c
 	http://stackoverflow.com/questions/6719339/determining-if-a-system-uses-big-endian-or-little-endian-using-c
-- get a lot of examples from tlpi (http://man7.org/tlpi/code/)
-- get examples of bad C code from "Some Dark Corners of C.pptx" (have it in doc/external).
-this blog is so good it is evil!
-	http://preshing.com/20120612/an-introduction-to-lock-free-programming
-	Everything here is worth examples and slides.
-- implmenet a fair spin lock like this in user space:
-	http://lwn.net/Articles/267968
-	compare to the fairness of the regular spin lock of pthreads.
 
 examples to add
 ===============
+- get examples of bad C code from "Some Dark Corners of C.pptx" (have it in doc/external).
+- implement a fair spin lock like this in user space:
+	http://lwn.net/Articles/267968
+	compare to the fairness of the regular spin lock of pthreads.
 - show use of /usr/include/demangle.h and libelf like in perf(1).
 - show how to implement tail -f using inotify.
 - show timing using times(2) instead of gettimeofday()

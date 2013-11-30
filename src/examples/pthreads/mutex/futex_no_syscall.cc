@@ -91,9 +91,9 @@ int main(int argc, char** argv, char** envp) {
 		pthread_mutex_t mtxs[size];
 		pthread_mutexattr_t attrs[size];
 		int i=0;
-		for(unsigned int irobust=0;irobust<ARRAY_SIZEOF(arr_robust);irobust++) {
-			for(unsigned int ipshared=0;ipshared<ARRAY_SIZEOF(arr_pshared);ipshared++) {
-				for(unsigned int itype=0;itype<ARRAY_SIZEOF(arr_type);itype++) {
+		for(unsigned int irobust=0; irobust<ARRAY_SIZEOF(arr_robust); irobust++) {
+			for(unsigned int ipshared=0; ipshared<ARRAY_SIZEOF(arr_pshared); ipshared++) {
+				for(unsigned int itype=0; itype<ARRAY_SIZEOF(arr_type); itype++) {
 					int robust=arr_robust[irobust];
 					int pshared=arr_pshared[ipshared];
 					int type=arr_type[itype];
@@ -108,7 +108,7 @@ int main(int argc, char** argv, char** envp) {
 			}
 		}
 		printf("started\n");
-		for(int i=0;i<size;i++) {
+		for(int i=0; i<size; i++) {
 			pthread_mutex_t* mutex=mtxs+i;
 			pthread_mutexattr_t* attr=attrs+i;
 			printf("before critical section\n");

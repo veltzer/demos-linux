@@ -19,8 +19,8 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), fprintf(3), stderr:object
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <libunwind.h>	// for unw_cursor_t:object, unw_context_t:object, unw_getcontext(), unw_init_local(), unw_step(), 
-	// unw_get_reg(), unw_word_t:object, unw_get_proc_name()
+#include <libunwind.h>	// for unw_cursor_t:object, unw_context_t:object, unw_getcontext(), unw_init_local(), unw_step(),
+// unw_get_reg(), unw_word_t:object, unw_get_proc_name()
 
 /*
  * This example uses libunwind to print a stack trace.
@@ -37,12 +37,11 @@
  */
 
 void do_backtrace() {
-	unw_cursor_t    cursor;
-	unw_context_t   context;
+	unw_cursor_t cursor;
+	unw_context_t context;
 
 	unw_getcontext(&context);
 	unw_init_local(&cursor, &context);
-
 	while (unw_step(&cursor) > 0) {
 		unw_word_t offset, pc;
 		char fname[64];
