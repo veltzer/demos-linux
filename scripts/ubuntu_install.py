@@ -68,6 +68,11 @@ packs=[
 	'liburcu-dev', # rcu library
 	'libunwind8', # unwind library
 	'libunwind8-dev', # unwind library
+	'libelf1', # for reading elf files
+	'libdw1',
+	'libdw-dev',
+	'libasm1',
+	'libasm-dev',
 
 	# kernel stuff
 	'linux-headers-generic',
