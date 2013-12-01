@@ -73,6 +73,7 @@ packs=[
 	'libdw-dev',
 	'libasm1',
 	'libasm-dev',
+	'libstdc++6-4.4-doc',
 
 	# kernel stuff
 	'linux-headers-generic',
