@@ -105,6 +105,7 @@ packs=[
 	'chrpath',
 	'latencytop',
 	'devmem2',
+	'elfutils', # for manipulating elf files
 
 	# package used tools
 	'ccache', # for faster building
