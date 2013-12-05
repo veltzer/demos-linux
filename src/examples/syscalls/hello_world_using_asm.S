@@ -38,6 +38,6 @@ main:
 	int $0x80
 	
 	## _exit(7)
-	movl $7, %ebx
 	movl $SYS_exit, %eax
+	movl $7, %ebx
 	int $0x80

@@ -1,0 +1,23 @@
+	What is a file descriptor in unix?
+
+	real files
+	directories
+	symbolic links
+
+	devices drivers (c,b,u,p)
+
+	named/unnamed pipe
+	named/unnamed unix socket
+
+	tcp listening sockets
+	tcp connections
+	netlink sockets
+
+	weird stuff:
+	============
+	signal file descriptors
+	event file descriptors
+	timer file descriptors
+	inotify (directory or file watch) file descriptors.
+	virtual files (tell you about the OS, processes, modules or other things).
+	pts's (pseudo terminals)
