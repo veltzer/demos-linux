@@ -11,17 +11,24 @@
 # or from source).
 # - the intel compiler auto-installation is not supported.
 
-import subprocess
-import os
+import subprocess # for check_call()
+import os # for uname()
+import sys # for exit()
 
 release=os.uname().release
 short_release=release[:release.rfind('-')]
-release_lowlatency='3.11.0-11'
-release_generic='3.11.0-12'
-#print('release is',release)
-#print('short_release is',short_release)
+source_release=short_release[:short_release.rfind('-')]
+release_lowlatency=short_release
+release_generic=short_release
+print('release is',release)
+print('short_release is',short_release)
+print('source_release is',source_release)
+print('release_lowlatency is',release_lowlatency)
+print('release_generic is',release_generic)
 boost_version='1.53.0'
 boost_version_short='1.53'
+
+#sys.exit(0)
 
 packs=[
 	'libncurses5',
@@ -81,18 +88,17 @@ packs=[
 	'linux-headers-'+release_generic+'-generic',
 	'linux-headers-'+release_lowlatency+'-lowlatency',
 	'linux-source',
-	'linux-source-3.11.0',
+	'linux-source-'+source_release,
 
 	# for systemtap - this one does not exist in the regular ubuntu archives
 	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 	# it is commented out...
 	# TODO: make this script add sources to the dbgsyms if need be
-	#'linux-image-'+release_generic+'-generic'+'-dbgsym',
+	'linux-image-'+release_generic+'-generic'+'-dbgsym',
 	#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
 
-	# tools
+	# tools for demos
 	'linux-tools-common', # for perf(1)
-	'libreoffice-common', # for soffice conversion
 	'python3-uno', # for soffice conversion
 	'electric-fence',
 	'schedtool',
@@ -113,14 +119,15 @@ packs=[
 	'devmem2',
 	'elfutils', # for manipulating elf files
 
-	# package used tools
-	'ccache', # for faster building
+	# package used tools used by the linuxapi package
+	'libreoffice-common', # for soffice conversion
+	'ccache', # for ccache(1) (faster building)
 	'xutils-dev', # for makedepend(1)
-	'uncrustify', # for code formatting example
-	'indent', # for code formatting example
-	'astyle', # for code formatting example
+	'uncrustify', # for uncrustify(1) (code formatting)
+	'indent', # for indent(1) (code formatting)
+	'astyle', # for indent(1) (code formatting)
 
-	# these packages are for working with linuxapi...:)
+	# these packages are for the developers pleasure...:)
 	'vim',
 ]
 
