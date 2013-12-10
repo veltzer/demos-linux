@@ -23,7 +23,7 @@
 #include <linux/moduleparam.h>		/* for pr_info() */
 #include <linux/kernel.h>		/* for printk() */
 #include <linux/interrupt.h>		/* for request_irq(), free_irq() */
-#include <linux/proc_fs.h>		/* for create_proc_entry(),
+#include <linux/proc_fs.h>		/* for proc_create(),
 						remove_proc_entry() */
 
 MODULE_AUTHOR("Mark Veltzer");
@@ -35,33 +35,37 @@ MODULE_DESCRIPTION("An irq catcher module");
 */
 
 /* the /proc entry with which you can view the number of irqs intercepted */
-static const char *proc_filename = "driver/irqcatch";
+static const char *proc_filename = "irqcatch";
 /* usb2 irq number on my desktop is 23, on dell laptop is 17 */
 static unsigned int irq_num = 17;
 module_param(irq_num, uint, S_IRWXU);
 MODULE_PARM_DESC(irq_num, "irq_num is the irq number to catch");
 /* the number if irqs got (initialised to 0 by default) */
 static unsigned int counter;
-/* the proc entry */
-static struct proc_dir_entry *irqcatch_proc_file;
 
 /*
 * proc file callback
 */
-static int irqcatch_proc_reader(char *page, char **start, off_t off, int count,
-		int *eof, void *data)
+static ssize_t proc_read(struct file *file, char __user *buffer,
+		size_t len, loff_t *offset)
 {
-	int len = 0;
-	len += sprintf(page+len, "counter=%d\n", counter);
-	if (len <= off+count)
-		*eof = 1;
-	*start = page+off;
-	len -= off;
-	if (len > count)
-		len = count;
-	if (len < 0)
-		len = 0;
-	return len;
+	char buf[256];
+	int mylen;
+	int ret;
+	/* EOF */
+	if(file->private_data) {
+		return 0;
+	}
+	/* Ugly code! FIXME */
+	mylen = sprintf(buf, "counter=%d\n", counter);
+	ret=copy_to_user(buffer, buf, mylen);
+	if(ret) {
+		return ret;
+	} else {
+		file->private_data=&proc_read;
+		*offset+=mylen;
+		return mylen;
+	}
 }
 
 /*
@@ -79,20 +83,30 @@ static irqreturn_t irqcatch_int_handler(int irq, void *dev)
 }
 
 /*
+* This structure gathers "functions" that manage the /proc file
+*/
+static const struct file_operations my_file_ops = {
+	.owner = THIS_MODULE,
+	/* .read = irqcatch_proc_reader, */
+	.read = proc_read,
+};
+
+struct proc_dir_entry *my_entry;
+/*
 * Module housekeeping.
 */
 static int irqcatch_init(void)
 {
 	int ret;
-	irqcatch_proc_file = create_proc_entry(proc_filename, 0, NULL);
-	if (IS_ERR(irqcatch_proc_file)) {
-		ret = PTR_ERR(irqcatch_proc_file);
+	my_entry = proc_create(proc_filename, S_IRUGO, NULL, &my_file_ops);
+	if (IS_ERR(my_entry)) {
+		pr_err("error in create_proc_entry");
+		ret=PTR_ERR(my_entry);
 		goto error_start;
 	}
-	irqcatch_proc_file->read_proc = irqcatch_proc_reader;
 
 	ret = request_irq(irq_num, irqcatch_int_handler, IRQF_SHARED,
-			THIS_MODULE->name, &irqcatch_proc_file);
+			THIS_MODULE->name, &counter);
 	if (ret)
 		goto error_after_proc;
 
@@ -101,18 +115,18 @@ static int irqcatch_init(void)
 
 /*
 error_after_irq:
-	free_irq(irq_num, &irqcatch_proc_file);
+	free_irq(irq_num, &counter);
 */
 error_after_proc:
-	remove_proc_entry(proc_filename, NULL);
+	proc_remove(my_entry);
 error_start:
 	return ret;
 }
 
 static void irqcatch_cleanup(void)
 {
-	free_irq(irq_num, &irqcatch_proc_file);
-	remove_proc_entry(proc_filename, NULL);
+	free_irq(irq_num, &counter);
+	proc_remove(my_entry);
 	pr_info("irqcatch unloaded succefully\n");
 }
 
