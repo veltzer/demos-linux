@@ -59,7 +59,7 @@ static struct device *my_device;
 /* this is the first dev_t allocated to us... */
 static dev_t first_dev;
 /* number of minors we need... */
-static const int count=1;
+static const int count = 1;
 /* this is our first minor (0 by default)*/
 static int first_minor;
 

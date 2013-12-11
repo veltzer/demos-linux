@@ -53,17 +53,16 @@ static ssize_t proc_read(struct file *file, char __user *buffer,
 	int mylen;
 	int ret;
 	/* EOF */
-	if(file->private_data) {
+	if (file->private_data)
 		return 0;
-	}
 	/* Ugly code! FIXME */
 	mylen = sprintf(buf, "counter=%d\n", counter);
-	ret=copy_to_user(buffer, buf, mylen);
-	if(ret) {
+	ret = copy_to_user(buffer, buf, mylen);
+	if (ret) {
 		return ret;
 	} else {
-		file->private_data=&proc_read;
-		*offset+=mylen;
+		file->private_data = &proc_read;
+		*offset += mylen;
 		return mylen;
 	}
 }
@@ -101,7 +100,7 @@ static int irqcatch_init(void)
 	my_entry = proc_create(proc_filename, S_IRUGO, NULL, &my_file_ops);
 	if (IS_ERR(my_entry)) {
 		pr_err("error in create_proc_entry");
-		ret=PTR_ERR(my_entry);
+		ret = PTR_ERR(my_entry);
 		goto error_start;
 	}
 
