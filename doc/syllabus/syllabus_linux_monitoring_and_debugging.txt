@@ -13,6 +13,14 @@ Duration: 3 days
 
 Topics
 ======
+Kernel introduction
+	The definition of a kernel
+	Basics of kernel implementation
+	Kernel/userspace interface (syscalls, virtual filesystems, libc)
+	How much do context switches cost?
+	The Linux scheduler (OTHER, FIFO, RR)
+	Different kernel contexts (passive, interrupt, kernel threads)
+	Different userspace contexts (regular, signal)
 Monitoring memory
 	top, ps and more
 	How the OS allocates RAM
@@ -26,7 +34,7 @@ Monitoring applications
 	What are zombies? How do you identify them? How do you handle them?
 	Controlling affinity of apps
 	Limiting apps resources
-	strace (standalone and attaching)
+	strace (standalone and attaching), mtrace, ltrace.
 	top and it's many options
 	What is a software watchdog?
 	Writing a simple linux watchdog
@@ -43,18 +51,23 @@ Monitoring disk
 	The different file systems linux supports
 	Implications of file system selection on application performance.
 	Controlling file system features.
+	ram file systems (tmpfs, ...)
+	loopback device.
+	basic tools (/dev devices, fdisk, fsck, /etc/fstab)
 Monitoring network
 	netstat and it's many options
 	Monitoring and controlling the OS network stack (/proc).
 	ifconfig and it's many options
 	monitoring the network interface (ethtool).
 	ip(1) and it's many options
-	Load balancing and failing over ethernet interfaces
+	Load balancing and failing over ethernet interfaces (bonding)
 	Bridging network interfaces.
-	vlans and tunnels.
+	vlans, tunnels, aliases.
 	lo and what it's for?
 	name resolution and it's problems.
 	tap devices.
+	routing
+	tools (tcpdump, wireshark and more)
 Monitoring the kernel
 	Seeing kernel threads in ps
 	Examining interrupts
@@ -62,6 +75,10 @@ Monitoring the kernel
 	Interrupt load balancing
 	Controlling affinity of kernel threads
 	Modules: loading, unloading, monitoring
+	sysctl
+	real time patch: controlling affinity and priority of interrupt handlers
+	udev + demo of udev.
+	getting hw info: lspci, lsusb, dmidecode, ...
 The boot process
 	The BIOS
 	The bootloader
@@ -72,3 +89,17 @@ The boot process
 	SysV init
 	Upstart
 	inittab and how it works
+	initrd and initramfs
+Embedded Linux systems
+	uboot in detail
+	How embedded systems get built? (top down, bottom up)
+	Quick review: ptxdist, buildroot, android, yocto, gentoo, distros
+	busybox
+	libc replacements
+RPC
+	basics
+	portmapper
+	rpcgen
+		options + direcives
+		complex data structures
+		example
