@@ -60,14 +60,14 @@ const void* mymalloc(unsigned int size, int protect) {
 	}
 }
 
-void bug_doing_write(char* buf) {
+void do_write(char* buf) {
 	int i;
 	for(i=0; i<10; i++) {
 		buf[i]=0;
 	}
 }
 
-int bug_doing_read(char* buf) {
+int do_read(char* buf) {
 	int i;
 	int sum=0;
 	for(i=0; i<10; i++) {
@@ -84,10 +84,10 @@ int main(int argc, char** argv, char** envp) {
 	char* buffer=(char*)mymalloc(10, 1);
 
 	TRACE("before trying to read the memory");
-	int sum=bug_doing_read(buffer);
+	int sum=do_read(buffer);
 	TRACE("sum is %d\n", sum);
 	TRACE("before trying to write the memory");
-	bug_doing_write(buffer);
+	do_write(buffer);
 
 	free(buffer);
 	return EXIT_SUCCESS;

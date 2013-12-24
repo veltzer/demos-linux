@@ -31,6 +31,7 @@
  * pthread_self, tid, tid cached, pid, core it is running
  * on.
  *
+ * EXTRA_COMPILE_FLAGS=-g
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
