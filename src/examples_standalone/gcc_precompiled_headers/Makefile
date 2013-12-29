@@ -5,7 +5,7 @@ ACE_FLAGS:=$(shell pkg-config --cflags ACE)
 #CFLAGS:=-H -Winvalid-pch
 CFLAGS:=-Winvalid-pch
 SOURCES=$(shell find . -name "*.cc")
-OBJECTS=$(addsuffix .precompiled.o,$(basename $(SOURCES))) $(addsuffix .noprecomp.o,$(basename $(SOURCES)))
+OBJECTS=$(shell ./objects.sh)
 
 .PHONY: all
 all: pch/ace.hh.gch $(OBJECTS)
@@ -15,10 +15,10 @@ pch/ace.hh.gch: include/ace.hh
 	$(Q)g++ -Iinclude $(CFLAGS) $(ACE_FLAGS) -o $@ $<
 
 # rules
-%.precompiled.o: %.cc
+%.precompiled.o:  main.cc
 	$(info doing [$@])
 	$(Q)g++ -Ipch $(CFLAGS) $(ACE_FLAGS) -c -o $@ $<
-%.noprecomp.o: %.cc
+%.noprecomp.o: main.cc
 	$(info doing [$@])
 	$(Q)g++ -Iinclude $(CFLAGS) $(ACE_FLAGS) -c -o $@ $<
 
