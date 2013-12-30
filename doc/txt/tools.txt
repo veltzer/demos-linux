@@ -58,6 +58,7 @@ kernel:
 	kexec
 
 networking:
+	ss (socket statistcs including queue state)
 	ping/ping6
 	traceroute/traceroute6
 	jnettop
@@ -109,6 +110,7 @@ performance:
 
 pipe performance:
 	pipemeter: cat /dev/zero | pipemeter | wc -c
+	pv
 
 watchdogs/fault helpers:
 	catchsegv: part of libc.
