@@ -118,6 +118,7 @@ packs=[
 	'latencytop',
 	'devmem2',
 	'elfutils', # for manipulating elf files
+	'dstat',
 
 	# package used tools used by the linuxapi package
 	'libreoffice-common', # for soffice conversion
