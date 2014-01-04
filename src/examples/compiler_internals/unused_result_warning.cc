@@ -60,7 +60,7 @@ int main(int argc, char** argv, char** envp) {
 	add(5, 6);
 	#pragma GCC diagnostic pop
 	// another way to ignore the requirement to use the result is to put it in a variable
-	// but to mark the variable as "usused"...
+	// but to mark the variable as "unused"...
 	int c __attribute__((unused))=add(a, b);
 	return EXIT_SUCCESS;
 }
