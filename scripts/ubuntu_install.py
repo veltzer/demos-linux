@@ -119,6 +119,7 @@ packs=[
 	'latencytop',
 	'devmem2',
 	'elfutils', # for manipulating elf files
+	'dstat',
 
 	# fun stuff
 	'figlet',
