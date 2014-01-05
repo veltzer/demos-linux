@@ -5,7 +5,7 @@
 int main(int argc,char** argv,char** envp) {
 	unsigned int i;
 	printf("Hey, look at me!, I'm a C script!\n");
-	for(i=0;i<20;i++) {
+	for(i=0;i<10;i++) {
 		printf("i is now %d\n",i);
 	}
 	return(0);

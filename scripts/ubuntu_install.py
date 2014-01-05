@@ -48,7 +48,8 @@ packs=[
 	'libgtkmm-3.0-doc',
 	'libpq-dev',
 	'liblog4cpp5-dev',
-	'binutils-dev',
+	'binutils-dev', # for demangle.h
+	'binutils-doc', # for demangle.h
 	'libmysqlclient-dev',
 	'libcwd',
 	'libqt4-dev',
@@ -118,6 +119,9 @@ packs=[
 	'latencytop',
 	'devmem2',
 	'elfutils', # for manipulating elf files
+
+	# fun stuff
+	'figlet',
 
 	# package used tools used by the linuxapi package
 	'libreoffice-common', # for soffice conversion
