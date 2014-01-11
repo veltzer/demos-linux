@@ -42,32 +42,67 @@
  * - notice that syscall(__NR_getpid) is a little faster than gettimeofday. Obviously - it doesn't need
  * to get the time in the kernel.
  * - notice that getpid() is MUCH faster than syscall(__NR_getpid) because it caches the pid in user
- * space. It does not get optimized out (checked the disassembly).
+ * space. It does not get optimized out (checked the disassembly). It also states that it is cached in user space since some version of glibc (check out man getpid())
  *
  * TODO:
  * - check that we indeed do not context switch out during the measurements.
  * this can be done using /proc/self/status and the nonvoluntary_ctxt_switches
  * parameter.
- * - allow to measure various system calls (not just gettimeofday) and learn
- * something from this.
- * - do a script that graphs the results of calling this code with various values of
- * 'count'. Show the convergence on the real value.
  *
- * EXTRA_LINK_FLAGS=-lpthread
+ * EXTRA_LINK_FLAGS=-lpthread -lbfd
  */
 
-unsigned int count;
+typedef enum _measure_type {
+	MEASURE_GETTIMEOFDAY,
+	MEASURE_SYSCALL_GETPID,
+	MEASURE_GETPID,
+	MEASURE_GETPPID,
+} measure_type;
 
-void* func(void*) {
+typedef struct _measure_val_and_name {
+	measure_type val;
+	const char* name;
+} measure_val_and_name;
+
+#define entry(x) { x, # x }
+static measure_val_and_name measure_tbl[]={
+	entry(MEASURE_GETTIMEOFDAY),
+	entry(MEASURE_SYSCALL_GETPID),
+	entry(MEASURE_GETPID),
+	entry(MEASURE_GETPPID),
+};
+
+typedef struct _thread_data {
+	unsigned int count;
+	measure_type type;
+	const char* name;
+} thread_data;
+
+void* func(void* p) {
+	thread_data* td=(thread_data*)p;
+	unsigned int count=td->count;
+	char buf[1024];
+	snprintf(buf, sizeof(buf), "%s", td->name);
 	measure m;
 	// think! why count+1?
-	measure_init(&m, "syscall", count+1);
+	measure_init(&m, buf, count+1);
 	measure_start(&m);
 	for(unsigned int i=0; i<count; i++) {
-		// struct timeval t3;
-		// gettimeofday(&t3, NULL);
-		// syscall(__NR_getpid);
-		getpid();
+		switch(td->type) {
+			case MEASURE_GETTIMEOFDAY:
+				struct timeval t3;
+				gettimeofday(&t3, NULL);
+				break;
+			case MEASURE_SYSCALL_GETPID:
+				syscall(__NR_getpid);
+				break;
+			case MEASURE_GETPID:
+				getpid();
+				break;
+			case MEASURE_GETPPID:
+				getppid();
+				break;
+		}
 	}
 	measure_end(&m);
 	measure_print(&m);
@@ -75,11 +110,19 @@ void* func(void*) {
 }
 
 int main(int argc, char** argv, char** envp) {
+	// command line parsing
 	if(argc!=2) {
 		fprintf(stderr, "%s: usage: %s [count]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	count=atoi(argv[1]);
-	sched_run_priority(func, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	// get data into variables
+	thread_data td;
+	td.count=atoi(argv[1]);
+	// lets start measuring...
+	for(unsigned int i=0;i<ARRAY_SIZEOF(measure_tbl); i++) {
+		td.name=measure_tbl[i].name;
+		td.type=measure_tbl[i].val;
+		sched_run_priority(func, &td, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	}
 	return EXIT_SUCCESS;
 }

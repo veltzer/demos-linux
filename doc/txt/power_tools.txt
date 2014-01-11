@@ -13,6 +13,7 @@
 	seq
 	shuf
 	dd
+	cp
 	.
 	.
 	.

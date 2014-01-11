@@ -5,5 +5,5 @@
 - investigate further the compiler barrier. The volatile part vs the memory
 	part. show when each is neccessary.
 - is there a user space version of cpu_relax of kernel space ?!?
-- do more examples like the usused result one to show how to use the compiler
+- do more examples like the unused result one to show how to use the compiler
 	to guard against problems (checking of constant, more).
