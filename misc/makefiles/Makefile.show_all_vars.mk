@@ -2,3 +2,8 @@
 
 .PHONY: all
 all:
+	$(info .VARIABLES is $(.VARIABLES))
+
+.PHONY: each
+each:
+	$(foreach v, $(.VARIABLES), $(info $(v) = $($(v))))
