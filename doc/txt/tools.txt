@@ -85,6 +85,7 @@ networking:
 	vnstat
 	vnstati
 	netperf
+	iptables
 
 java debugging:
 	jstack
