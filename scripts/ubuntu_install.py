@@ -120,6 +120,7 @@ packs=[
 	'devmem2',
 	'elfutils', # for manipulating elf files
 	'dstat',
+	'netperf',
 
 	# fun stuff
 	'figlet',
