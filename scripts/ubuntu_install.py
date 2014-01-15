@@ -16,6 +16,7 @@ import os # for uname()
 import sys # for exit()
 
 release=os.uname().release
+release='3.11.0-15-lowlatency'
 short_release=release[:release.rfind('-')]
 source_release=short_release[:short_release.rfind('-')]
 release_lowlatency=short_release
@@ -53,6 +54,7 @@ packs=[
 	'libmysqlclient-dev',
 	'libcwd',
 	'libqt4-dev',
+	#'libqt3-dev', # is no longer in the ubuntu repository
 	'libwxgtk2.8-dev',
 	'libmysql++-dev',
 	'libsdl1.2-dev',
