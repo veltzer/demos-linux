@@ -4,8 +4,8 @@ include ../../../Makefile.defs
 ACE_FLAGS:=$(shell pkg-config --cflags ACE)
 #CFLAGS:=-H -Winvalid-pch
 CFLAGS:=-Winvalid-pch
-SOURCES=$(shell find . -name "*.cc")
-OBJECTS=$(shell ./objects.sh)
+SOURCES:=$(shell find . -name "*.cc")
+OBJECTS:=$(shell ./objects.sh)
 
 .PHONY: all
 all: pch/ace.hh.gch $(OBJECTS)
