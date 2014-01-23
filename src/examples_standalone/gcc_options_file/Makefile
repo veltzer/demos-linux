@@ -6,7 +6,7 @@ CXXFLAGS:=-I../../include -O2 -Wall -Werror @options
 all: main.$(SUFFIX_BIN)
 
 main.$(SUFFIX_BIN): main.cc
-	$(Q)g++ $(CXXFLAGS) -c -o $@ $<
+	$(Q)g++ $(CXXFLAGS) -o $@ $<
 
 .PHONY: clean
 clean:
