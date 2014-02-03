@@ -16,10 +16,18 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// note this file has no include for <stdio.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#ifndef __myace_hh
+#define __myace_hh
 
-int main(int argc, char** argv, char** envp) {
-	printf("Hello, World!\n");
-	return EXIT_SUCCESS;
-}
+#include <ace/Synch_Traits.h>
+#include <ace/Null_Condition.h>
+#include <ace/Null_Mutex.h>
+#include <ace/Reactor.h>
+#include <ace/INET_Addr.h>
+#include <ace/SOCK_Stream.h>
+#include <ace/SOCK_Connector.h>
+#include <ace/Connector.h>
+#include <ace/Svc_Handler.h>
+#include <ace/Reactor_Notification_Strategy.h>
+
+#endif /* __myace_hh */

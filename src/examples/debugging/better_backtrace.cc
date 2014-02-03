@@ -1,4 +1,22 @@
 /*
+ * This file is part of the linuxapi package.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * linuxapi is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * linuxapi is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
  * A hacky replacement for backtrace_symbols in glibc
  *
  * backtrace_symbols in glibc looks up symbols using dladdr which is limited in
@@ -27,12 +45,12 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. */
 
 /*
  * EXTRA_LINK_FLAGS=-lbfd
@@ -84,15 +102,15 @@ static void load_funcs(void)
 
 #endif
 
-static asymbol **syms;	/* Symbol table.  */
+static asymbol **syms;	/* Symbol table. */
 
-/* 150 isn't special; it's just an arbitrary non-ASCII char value.  */
-#define OPTION_DEMANGLER      (150)
+/* 150 isn't special; it's just an arbitrary non-ASCII char value. */
+#define OPTION_DEMANGLER (150)
 
 static void slurp_symtab(bfd * abfd);
 static void find_address_in_section(bfd *abfd, asection *section, void *data);
 
-/* Read in the symbol table.  */
+/* Read in the symbol table. */
 
 static void slurp_symtab(bfd * abfd)
 {
@@ -109,7 +127,7 @@ static void slurp_symtab(bfd * abfd)
 }
 
 /* These global variables are used to pass information between
- * translate_addresses and find_address_in_section.  */
+ * translate_addresses and find_address_in_section. */
 
 static bfd_vma pc;
 static const char *filename;
@@ -117,8 +135,8 @@ static const char *functionname;
 static unsigned int line;
 static int found;
 
-/* Look for an address in a section.  This is called via
- * bfd_map_over_sections.  */
+/* Look for an address in a section. This is called via
+ * bfd_map_over_sections. */
 
 static void find_address_in_section(bfd *abfd, asection *section, void *data __attribute__ ((__unused__)))
 {
@@ -139,7 +157,7 @@ static void find_address_in_section(bfd *abfd, asection *section, void *data __a
 }
 
 /* Read hexadecimal addresses from stdin, translate into
- * file_name:line_number and optionally function name.  */
+ * file_name:line_number and optionally function name. */
 #if 0
 static void translate_addresses(bfd * abfd, char (*addr)[PTRSTR_LEN], int naddr)
 {
@@ -172,7 +190,7 @@ static void translate_addresses(bfd * abfd, char (*addr)[PTRSTR_LEN], int naddr)
 		/* fflush() is essential for using this command as a server
 		 * child process that reads addresses from a pipe and responds
 		 * with line number information, processing one address at a
-		 * time.  */
+		 * time. */
 		fflush(stdout);
 		naddr--;
 	}
@@ -183,7 +201,7 @@ static char** translate_addresses_buf(bfd * abfd, bfd_vma *addr, int naddr)
 {
 	int naddr_orig = naddr;
 	char b;
-	int total  = 0;
+	int total = 0;
 	enum { Count, Print } state;
 	char *buf = &b;
 	int len = 0;
@@ -238,7 +256,7 @@ static char** translate_addresses_buf(bfd * abfd, bfd_vma *addr, int naddr)
 	}
 	return ret_buf;
 }
-/* Process a file.  */
+/* Process a file. */
 
 static char **process_file(const char *file_name, bfd_vma *addr, int naddr)
 {
@@ -254,7 +272,7 @@ static char **process_file(const char *file_name, bfd_vma *addr, int naddr)
 	if (!bfd_check_format_matches(abfd, bfd_object, &matching)) {
 		bfd_nonfatal(bfd_get_filename(abfd));
 		if (bfd_get_error() ==
-		    bfd_error_file_ambiguously_recognized) {
+			bfd_error_file_ambiguously_recognized) {
 			list_matching_formats(matching);
 			free(matching);
 		}
@@ -331,7 +349,7 @@ char **repl_backtrace_symbols(void *const *buffer, int size)
 		total += strlen(ret_buf[0]) + 1;
 	}
 	/* allocate the array of char* we are going to return and extra space for
-	 * all of the strings */
+		* all of the strings */
 	final = (char**)malloc(total + (stack_depth + 1) * sizeof(char*));
 	/* get a pointer to the extra space */
 	f_strings = (char*)(final + stack_depth + 1);

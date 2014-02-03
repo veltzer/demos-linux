@@ -392,7 +392,7 @@ check_firstinclude:
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR \| grep -v \", CHECK_\"
+	$(Q)scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR \| grep -v \", CHECK_\" | grep -v ERRORCHECK_
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])

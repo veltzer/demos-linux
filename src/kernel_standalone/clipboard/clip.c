@@ -34,7 +34,7 @@
 #include <linux/sched.h>			/* TASK_* definitions */
 #include <linux/uaccess.h>		/* User space access */
 #include <linux/proc_fs.h>		/* for create_proc_entry,
-					   remove_proc_entry */
+						remove_proc_entry */
 
 MODULE_AUTHOR("Mark Veltzer");
 MODULE_LICENSE("GPL");

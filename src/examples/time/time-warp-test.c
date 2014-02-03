@@ -1,8 +1,26 @@
 /*
+ * This file is part of the linuxapi package.
+ * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * linuxapi is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * linuxapi is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
  * Copyright (C) 2005, Ingo Molnar
  *
  * time-warp-test.c: check TSC synchronity on x86 CPUs. Also detects
- *                   gettimeofday()-level time warps.
+ * gettimeofday()-level time warps.
  *
  * Compile with: gcc -Wall -O2 -o time-warp-test time-warp-test.c -lrt
  *
@@ -55,24 +73,24 @@
  * Shared locks and variables between the test tasks:
  */
 enum {
-	SHARED_LOCK             = 0,
-	SHARED_TSC              = 2,
-	SHARED_TOD              = 4,
-	SHARED_CLOCK            = 6,
-	SHARED_WORST_TSC        = 8,
-	SHARED_WORST_TOD        = 10,
-	SHARED_WORST_CLOCK      = 12,
-	SHARED_NR_TSC_LOOPS     = 14,
-	SHARED_NR_TSC_WARPS     = 16,
-	SHARED_NR_TOD_LOOPS     = 18,
-	SHARED_NR_TOD_WARPS     = 20,
-	SHARED_NR_CLOCK_LOOPS   = 22,
-	SHARED_NR_CLOCK_WARPS   = 24,
-	SHARED_END              = 26,
+	SHARED_LOCK = 0,
+	SHARED_TSC = 2,
+	SHARED_TOD = 4,
+	SHARED_CLOCK = 6,
+	SHARED_WORST_TSC = 8,
+	SHARED_WORST_TOD = 10,
+	SHARED_WORST_CLOCK = 12,
+	SHARED_NR_TSC_LOOPS = 14,
+	SHARED_NR_TSC_WARPS = 16,
+	SHARED_NR_TOD_LOOPS = 18,
+	SHARED_NR_TOD_WARPS = 20,
+	SHARED_NR_CLOCK_LOOPS = 22,
+	SHARED_NR_CLOCK_WARPS = 24,
+	SHARED_END = 26,
 };
 
-#define SHARED(x)       (*(shared + SHARED_ ## x))
-#define SHARED_LL(x)    (*(long long *)(shared + SHARED_ ## x))
+#define SHARED(x) (*(shared + SHARED_ ## x))
+#define SHARED_LL(x) (*(long long *)(shared + SHARED_ ## x))
 
 #define BUG_ON(c) assert(!(c))
 
@@ -81,15 +99,15 @@ typedef unsigned long long usecs_t;
 typedef unsigned long long u64;
 
 #ifdef __x86_64__
-#define DECLARE_ARGS(val, low, high)    unsigned low, high
-#define EAX_EDX_VAL(val, low, high)     ((low) | ((u64)(high) << 32))
-#define EAX_EDX_ARGS(val, low, high)    "a" (low), "d" (high)
-#define EAX_EDX_RET(val, low, high)     "=a" (low), "=d" (high)
+#define DECLARE_ARGS(val, low, high) unsigned low, high
+#define EAX_EDX_VAL(val, low, high) ((low) | ((u64)(high) << 32))
+#define EAX_EDX_ARGS(val, low, high) "a" (low), "d" (high)
+#define EAX_EDX_RET(val, low, high) "=a" (low), "=d" (high)
 #else
-#define DECLARE_ARGS(val, low, high)    unsigned long long val
-#define EAX_EDX_VAL(val, low, high)     (val)
-#define EAX_EDX_ARGS(val, low, high)    "A" (val)
-#define EAX_EDX_RET(val, low, high)     "=A" (val)
+#define DECLARE_ARGS(val, low, high) unsigned long long val
+#define EAX_EDX_VAL(val, low, high) (val)
+#define EAX_EDX_ARGS(val, low, high) "A" (val)
+#define EAX_EDX_RET(val, low, high) "=A" (val)
 #endif
 
 static inline unsigned long long __rdtscll(void)
@@ -268,7 +286,7 @@ static inline void test_TOD(unsigned long *shared)
 		SHARED(NR_TOD_WARPS)++;
 		if (delta < SHARED_LL(WORST_TOD)) {
 			SHARED_LL(WORST_TOD) = delta;
-			fprintf(stderr, "\rnew TOD-warp maximum: %9Ld usecs,  %016Lx -> %016Lx\n",
+			fprintf(stderr, "\rnew TOD-warp maximum: %9Ld usecs, %016Lx -> %016Lx\n",
 				delta, T0, T1);
 		}
 		unlock(&SHARED(LOCK));
@@ -295,7 +313,7 @@ static inline void test_CLOCK(unsigned long *shared)
 		SHARED(NR_CLOCK_WARPS)++;
 		if (delta < SHARED_LL(WORST_CLOCK)) {
 			SHARED_LL(WORST_CLOCK) = delta;
-			fprintf(stderr, "\rnew CLOCK-warp maximum: %9Ld nsecs,  %016Lx -> %016Lx\n",
+			fprintf(stderr, "\rnew CLOCK-warp maximum: %9Ld nsecs, %016Lx -> %016Lx\n",
 				delta, T0, T1);
 		}
 		unlock(&SHARED(LOCK));
@@ -309,7 +327,7 @@ int main(int argc, char **argv)
 	unsigned long *shared;
 	unsigned long cpus, tasks;
 
-	cpus = system("exit `grep ^processor /proc/cpuinfo  | wc -l`");
+	cpus = system("exit `grep ^processor /proc/cpuinfo | wc -l`");
 	cpus = WEXITSTATUS(cpus);
 	if (argc > 2) {
 usage:
