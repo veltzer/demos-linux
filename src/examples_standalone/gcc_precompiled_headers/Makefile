@@ -30,4 +30,5 @@ debug:
 
 .PHONY: clean
 clean:
+	$(info doing [$@])
 	$(Q)-rm -f pch/ace.hh.gch *.o
