@@ -8,9 +8,9 @@ SOURCES:=$(shell find . -name "*.cc")
 OBJECTS:=$(shell ./objects.sh)
 
 .PHONY: all
-all: pch/ace.hh.gch $(OBJECTS)
+all: pch/myace.hh.gch $(OBJECTS)
 
-pch/ace.hh.gch: include/ace.hh
+pch/myace.hh.gch: include/myace.hh
 	$(info doing [$@])
 	$(Q)g++ -Iinclude $(CFLAGS) $(ACE_FLAGS) -o $@ $<
 
@@ -31,4 +31,4 @@ debug:
 .PHONY: clean
 clean:
 	$(info doing [$@])
-	$(Q)-rm -f pch/ace.hh.gch *.o
+	$(Q)-rm -f pch/myace.hh.gch *.o

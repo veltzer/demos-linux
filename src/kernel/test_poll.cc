@@ -40,7 +40,7 @@
  *
  * TODO:
  * - the ending is kind of botched. We need to end the program by signalling on an eventfd
- *   and not on one of the sleeping fds...I was lazy...
+ *	and not on one of the sleeping fds...I was lazy...
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */

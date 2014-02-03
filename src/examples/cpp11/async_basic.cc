@@ -23,7 +23,7 @@
 
 /*
  * This is a basic example of C++11 async tasks.
- * 
+ *
  * References:
  * http://solarianprogrammer.com/2012/10/17/cpp-11-async-tutorial
  *

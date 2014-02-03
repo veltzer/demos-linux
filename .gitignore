@@ -51,3 +51,6 @@ modules.order
 *.dyn
 *.dpi
 *.lock
+
+# dwarf dynamic debug info
+*.dwo
