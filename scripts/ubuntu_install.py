@@ -16,7 +16,7 @@ import os # for uname()
 import sys # for exit()
 
 release=os.uname().release
-release='3.11.0-15-lowlatency'
+#release='3.11.0-15-lowlatency'
 short_release=release[:release.rfind('-')]
 source_release=short_release[:short_release.rfind('-')]
 release_lowlatency=short_release
@@ -97,7 +97,7 @@ packs=[
 	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 	# it is commented out...
 	# TODO: make this script add sources to the dbgsyms if need be
-	'linux-image-'+release_generic+'-generic'+'-dbgsym',
+	#'linux-image-'+release_generic+'-generic'+'-dbgsym',
 	#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
 
 	# tools for demos
