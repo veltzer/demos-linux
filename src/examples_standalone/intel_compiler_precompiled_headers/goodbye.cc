@@ -16,10 +16,8 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ace/Log_Msg.h>
-#include <ace/Reactor.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <hello.hh>
 
 int main(int argc, char** argv, char** envp) {
-	return EXIT_SUCCESS;
+	return 0;
 }
