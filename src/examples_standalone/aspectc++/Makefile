@@ -17,6 +17,7 @@ $(PROG): $(OBJECTS)
 
 .PHONY: clean
 clean:
+	$(info doing [$@])
 	$(Q)rm -rf *.$(SUFFIX_DEP) *.$(SUFFIX_OO) $(PROG)
 
 # rules
