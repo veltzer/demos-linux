@@ -27,7 +27,7 @@
 #include <unistd.h>	// for getpagesize(2), fstat(2)
 #include <linux/fs.h>	// for BLKSSZGET
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT()
-#include <multiproc_utils.h>    // for my_system()
+#include <multiproc_utils.h>	// for my_system()
 
 /*
  * This example explores the performance impact of the O_DIRECT

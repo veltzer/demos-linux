@@ -29,6 +29,7 @@
  * there is no TSC drift.
  * http://lwn.net/Articles/209168/
  */
+#include <firstinclude.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>

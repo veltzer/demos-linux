@@ -16,13 +16,4 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <firstinclude.h>
-#include <myace.hh>
-
-/*
- * This is a simple example just for the include...
- */
-
-int main(int argc, char** argv, char** envp) {
-	return EXIT_SUCCESS;
-}
+#include <ace/Log_Msg.h>// for ACE_DEBUG and ACE_ERROR
