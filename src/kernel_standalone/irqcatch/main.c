@@ -55,8 +55,7 @@ static ssize_t proc_read(struct file *file, char __user *buffer,
 	/* EOF */
 	if (file->private_data)
 		return 0;
-	/* Ugly code! FIXME */
-	mylen = sprintf(buf, "counter=%d\n", counter);
+	mylen = snprintf(buf, 256, "counter=%d\n", counter);
 	ret = copy_to_user(buffer, buf, mylen);
 	if (ret) {
 		return ret;
