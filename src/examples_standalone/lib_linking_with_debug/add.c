@@ -17,12 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <myace.hh>
 
-/*
- * This is a simple example just for the include...
- */
-
-int main(int argc, char** argv, char** envp) {
-	return EXIT_SUCCESS;
+int add(int a, int b) {
+	return(a + b);
 }

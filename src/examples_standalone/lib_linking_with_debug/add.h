@@ -16,13 +16,11 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef __add_h
+#define __add_h
+
 #include <firstinclude.h>
-#include <myace.hh>
 
-/*
- * This is a simple example just for the include...
- */
+int add(int,int);
 
-int main(int argc, char** argv, char** envp) {
-	return EXIT_SUCCESS;
-}
+#endif // __add_h

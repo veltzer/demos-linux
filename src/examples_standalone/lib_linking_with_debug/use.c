@@ -17,12 +17,11 @@
  */
 
 #include <firstinclude.h>
-#include <myace.hh>
+#include <stdio.h>
+#include <stdlib.h> // for EXIT_SUCCESS
+#include "add.h"
 
-/*
- * This is a simple example just for the include...
- */
-
-int main(int argc, char** argv, char** envp) {
+int use(int argc,char** argv,char** envp) {
+	printf("2+2 is %d\n", add(2, 2));
 	return EXIT_SUCCESS;
 }

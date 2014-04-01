@@ -57,10 +57,10 @@
  * EXTRA_COMPILE_FLAGS=-g
  */
 
-#define fatal(a, b) exit(1)
-#define bfd_fatal(a) exit(1)
-#define bfd_nonfatal(a) exit(1)
-#define list_matching_formats(a) exit(1)
+#define fatal(a, b) exit(EXIT_FAILURE)
+#define bfd_fatal(a) exit(EXIT_FAILURE)
+#define bfd_nonfatal(a) exit(EXIT_FAILURE)
+#define list_matching_formats(a) exit(EXIT_FAILURE)
 
 /* 2 characters for each byte, plus 1 each for 0, x, and NULL */
 #define PTRSTR_LEN (sizeof(void *) * 2 + 3)
@@ -69,6 +69,8 @@
 
 // #define _GNU_SOURCE
 #define __USE_GNU
+#include <firstinclude.h>
+#include <err_utils.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -276,7 +278,7 @@ static char **process_file(const char *file_name, bfd_vma *addr, int naddr)
 			list_matching_formats(matching);
 			free(matching);
 		}
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	slurp_symtab(abfd);
 
@@ -368,13 +370,8 @@ char **repl_backtrace_symbols(void *const *buffer, int size)
 void repl_backtrace_symbols_fd(void *const *buffer, int size, int fd)
 {
 	int j;
-	char **strings;
 
-	strings = repl_backtrace_symbols(buffer, size);
-	if (strings == NULL) {
-		perror("backtrace_symbols");
-		exit(EXIT_FAILURE);
-	}
+	char** strings=(char**)CHECK_NOT_NULL(repl_backtrace_symbols(buffer, size));
 	for (j = 0; j < size; j++)
 		printf("%s\n", strings[j]);
 	free(strings);
