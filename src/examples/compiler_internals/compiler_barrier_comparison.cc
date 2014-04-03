@@ -116,23 +116,24 @@ FILE* outfile;
 		fprintf(outfile, "p is %p\n", p); \
 		fprintf(outfile, "&a is %p\n", &a); \
 		fprintf(outfile, "now starting...\n"); \
+		/* this loop will force the compiler to load a into a register */ \
 		a=100; \
 		while(a < 3000) { \
 			a+=a; \
 		} \
-		/*asm("nop");*/	\
+		/* at this point the compiler emits an instruction to store the \
+		 * register back into the memory address of a */ \
 		*p=CORRECT_VAL;	\
 		val_before=a; \
 		code; \
 		val_after=a; \
-		/*asm("nop");*/	\
 		printf("results for [%s]\n", stringify(code)); \
 		printf("description [%s]\n", desc); \
 		printf("val_before is %d, val_after is %d\n", val_before, val_after); \
-		if(val_before==WRONG_VAL) { \
+		if(val_after==WRONG_VAL) { \
 			printf("compiler used register for value\n"); \
 		} else { \
-			printf("compiler did not use register for value, you are probably running without optimization\n"); \
+			printf("compiler did not use register for value\n"); \
 		} \
 		if(val_after==CORRECT_VAL) { \
 			printf("barrier worked\n"); \

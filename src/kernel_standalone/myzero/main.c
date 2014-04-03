@@ -41,6 +41,8 @@ MODULE_DESCRIPTION("A simple implementation for something like /dev/zero");
 
 /* how many minors do we need ? */
 const int MINOR_COUNT = 1;
+/* initialized to 0 by default */
+const bool do_print;
 
 /* these are the actual operations */
 
@@ -68,8 +70,8 @@ static ssize_t read_zero(struct file *file, char __user *buf, size_t count,
 	 * buffer is off the edge...
 	*/
 	ret = access_ok(VERIFY_WRITE, buf, count);
-	if (ret)
-		return ret;
+	if (!ret)
+		return -EFAULT;
 
 	remaining = count;
 	while (remaining) {
@@ -91,6 +93,8 @@ static ssize_t read_zero(struct file *file, char __user *buf, size_t count,
 		cond_resched();
 	}
 	*ppos += count;
+	if (do_print)
+		pr_info("returning %d\n", count);
 	return count;
 }
 

@@ -49,7 +49,7 @@
  * this can be done using /proc/self/status and the nonvoluntary_ctxt_switches
  * parameter.
  *
- * EXTRA_LINK_FLAGS=-lpthread -lbfd
+ * EXTRA_LINK_FLAGS=-lpthread
  */
 
 typedef enum _measure_type {
