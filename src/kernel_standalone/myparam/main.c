@@ -33,18 +33,18 @@ module_param(myint, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 MODULE_PARM_DESC(myint, "myint controls bla bla bla...");
 
 /* our own functions */
-static int __init hello_init(void)
+static int __init myparam_init(void)
 {
-	pr_info("in hello_init\n");
-	pr_info("in hello_init: myint is %d\n", myint);
+	pr_info("in myparam_init\n");
+	pr_info("in myparam_init: myint is %d\n", myint);
 	return 0;
 }
 
-static void __exit hello_exit(void)
+static void __exit myparam_exit(void)
 {
-	pr_info("in hello_exit: myint is %d\n", myint);
-	pr_info("in hello_exit\n");
+	pr_info("in myparam_exit: myint is %d\n", myint);
+	pr_info("in myparam_exit\n");
 }
 
-module_init(hello_init);
-module_exit(hello_exit);
+module_init(myparam_init);
+module_exit(myparam_exit);

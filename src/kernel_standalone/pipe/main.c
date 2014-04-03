@@ -21,7 +21,7 @@
 #include <linux/moduleparam.h> /* for module_param, MODULE_PARM_DESC */
 #include <linux/fs.h> /* for fops */
 #include <linux/device.h> /* for class_create */
-#include <linux/slab.h> /* for kmalloc */
+#include <linux/slab.h> /* for kmalloc, kfree */
 #include <linux/uaccess.h> /* for copy_to_user, access_ok */
 #include <linux/cdev.h> /* for cdev_* */
 #include <linux/sched.h> /* for TASK_INTERRUPTIBLE and more constants */
