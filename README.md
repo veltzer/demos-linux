@@ -6,6 +6,8 @@ It has about 800 examples (as of 9/2013) I found are useful in explaining the Li
 The idea is to provide a good coverage of all major features and to resolve disputes
 about exactly how a certain API works.
 
+You can find the project at https://veltzer.net/linuxapi
+
 Topics covered by the examples
 ------------------------------
 * Multi-threading
