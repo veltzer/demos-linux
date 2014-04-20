@@ -69,7 +69,7 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		init_completion(&comp);
 		return 0;
 	case IOCTL_COMPLETE_INIT_MACRO:
-		INIT_COMPLETION(comp);
+		/* INIT_COMPLETION(comp); */
 		return 0;
 	case IOCTL_COMPLETE_WAIT:
 		wait_for_completion(&comp);

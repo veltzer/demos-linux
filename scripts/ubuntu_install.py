@@ -32,6 +32,7 @@ boost_version_short='1.54'
 #sys.exit(0)
 
 packs=[
+        'libiberty-dev',
 	'libncurses5',
 	'libncurses5-dev',
 	'libncursesw5',
