@@ -26,8 +26,8 @@ print('short_release is',short_release)
 print('source_release is',source_release)
 print('release_lowlatency is',release_lowlatency)
 print('release_generic is',release_generic)
-boost_version='1.53.0'
-boost_version_short='1.53'
+boost_version='1.54.0'
+boost_version_short='1.54'
 
 #sys.exit(0)
 
@@ -37,7 +37,7 @@ packs=[
 	'libncursesw5',
 	'libncursesw5-dev',
 	'ncurses-doc',
-	'libprocps0-dev',
+	'libprocps3-dev',
 	'libgnomeui-dev',
 	'libsigc++-2.0-0c2a',
 	'libsigc++-2.0-dev',
