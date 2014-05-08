@@ -12,3 +12,6 @@ and same for:
 $ rm -f main*.noprecomp.o
 and then:
 $ time make
+
+TODO:
+- make a "make" target that shows the differences in speed.
