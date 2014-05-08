@@ -1,6 +1,6 @@
 /*
  * This file is part of the linuxapi package.
- * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ * Copyright (C) 2011-2014 Mark Veltzer <mark.veltzer@gmail.com>
  *
  * linuxapi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * A simple boost threads app
  *
  * the next one should be "-lboost_thread" but ubuntu has no symlink to that...
- * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.53.0 -l:libboost_system.so.1.53.0
+ * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.54.0 -l:libboost_system.so.1.54.0
  */
 
 int main(int argc, char** argv, char** envp) {

@@ -26,41 +26,47 @@ print('short_release is',short_release)
 print('source_release is',source_release)
 print('release_lowlatency is',release_lowlatency)
 print('release_generic is',release_generic)
-boost_version='1.53.0'
-boost_version_short='1.53'
+boost_version='1.54.0'
+boost_version_short='1.54'
 
 #sys.exit(0)
 
 packs=[
+        # most important - compiler parts
+        'gcc-doc', # gcc documentation
+
+        # basic tools
+	'binutils-dev', # for demangle.h
+	'binutils-doc', # for demangle.h
+	'aspectc++',
+	'dialog',
+	'iptables-dev',
+
+        # libraries
+        'libiberty-dev',
 	'libncurses5',
 	'libncurses5-dev',
 	'libncursesw5',
 	'libncursesw5-dev',
 	'ncurses-doc',
-	'libprocps0-dev',
+	'libprocps3-dev',
 	'libgnomeui-dev',
 	'libsigc++-2.0-0c2a',
 	'libsigc++-2.0-dev',
 	'libsigc++-2.0-doc',
-	#'libgnomeuimm-2.6-dev',
 	'libgtkmm-2.4-dev',
 	'libgtkmm-2.4-doc',
 	'libgtkmm-3.0-dev',
 	'libgtkmm-3.0-doc',
 	'libpq-dev',
 	'liblog4cpp5-dev',
-	'binutils-dev', # for demangle.h
-	'binutils-doc', # for demangle.h
 	'libmysqlclient-dev',
 	'libcwd',
 	'libqt4-dev',
-	#'libqt3-dev', # is no longer in the ubuntu repository
 	'libwxgtk2.8-dev',
 	'libmysql++-dev',
 	'libsdl1.2-dev',
-	'dialog',
 	'libace-dev',
-	'iptables-dev',
 	'libboost'+boost_version_short+'-dev', # for boost threading
 	'libboost-thread'+boost_version, # for the actual library
 	'libpcap-dev',
@@ -70,7 +76,6 @@ packs=[
 	'libdmalloc5',
 	'libdmalloc-dev',
 	'libcpufreq-dev', # for cpufreq.h
-	'aspectc++',
 	'libnetfilter-queue1',
 	'libnetfilter-queue-dev',
 	'libcap-dev', # for capability.h
