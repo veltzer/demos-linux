@@ -6,6 +6,8 @@ ACE_FLAGS:=$(shell pkg-config --cflags ACE)
 CFLAGS:=-Winvalid-pch
 SOURCES:=$(shell find . -name "*.cc")
 OBJECTS:=$(shell ./objects.sh)
+OBJECTS_PRECOMP:=$(shell ./objects_precomp.sh)
+OBJECTS_NOPRECOMP:=$(shell ./objects_noprecomp.sh)
 
 .PHONY: all
 all: pch/myace.hh.gch $(OBJECTS)
@@ -15,7 +17,7 @@ pch/myace.hh.gch: include/myace.hh
 	$(Q)g++ -Iinclude $(CFLAGS) $(ACE_FLAGS) -o $@ $<
 
 # rules
-%.precompiled.o:  main.cc
+%.precompiled.o:  main.cc pch/myace.hh.gch
 	$(info doing [$@])
 	$(Q)g++ -Ipch $(CFLAGS) $(ACE_FLAGS) -c -o $@ $<
 %.noprecomp.o: main.cc
@@ -27,8 +29,16 @@ debug:
 	$(info ACE_FLAGS is $(ACE_FLAGS))
 	$(info SOURCES is $(SOURCES))
 	$(info OBJECTS is $(OBJECTS))
+	$(info OBJECTS_PRECOMP is $(OBJECTS_PRECOMP))
+	$(info OBJECTS_NOPRECOMP is $(OBJECTS_NOPRECOMP))
 
 .PHONY: clean
 clean:
 	$(info doing [$@])
 	$(Q)-rm -f pch/myace.hh.gch *.o
+
+.PHONY: time
+time: clean
+	make pch/myace.hh.gch
+	time make $(OBJECTS_PRECOMP)
+	time make $(OBJECTS_NOPRECOMP)
