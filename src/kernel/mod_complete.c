@@ -1,6 +1,6 @@
 /*
  * This file is part of the linuxapi package.
- * Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>
+ * Copyright (C) 2011-2014 Mark Veltzer <mark.veltzer@gmail.com>
  *
  * linuxapi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		init_completion(&comp);
 		return 0;
 	case IOCTL_COMPLETE_INIT_MACRO:
-		INIT_COMPLETION(comp);
+		/* INIT_COMPLETION(comp); */
 		return 0;
 	case IOCTL_COMPLETE_WAIT:
 		wait_for_completion(&comp);
