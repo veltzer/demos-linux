@@ -7,6 +7,8 @@ Prerequisites:
 Topics
 ======
 Android Audio
+	http://audioprograming.wordpress.com/2012/03/03/android-audio-streaming-with-opensl-es-and-the-ndk/
+	http://www.slideshare.net/DSPIP/android-audio-opensl
 AudioFlinger
 AudioPolicy
 Android Display
