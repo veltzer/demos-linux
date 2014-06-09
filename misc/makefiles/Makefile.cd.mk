@@ -2,4 +2,4 @@
 
 .PHONY: all
 all:
-	cd /etc; pwd
+	@cd ~/grive; pwd
