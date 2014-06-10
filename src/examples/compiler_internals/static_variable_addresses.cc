@@ -17,27 +17,19 @@
  */
 
 #include <firstinclude.h>
+#include <stdio.h>	// for printf(3)
+#include <string.h>	// for memcpy(3)
 
-/*
- * You can nm this file and see the weak symbol that is produced
- * by the compiler.
- */
+int var_global=1972;
 
-template<class T> class A {
-	public:
-		int foo(T t);
-};
-
-template<class T> int A<T>::foo(T t) {
-	int sum=0;
-	for(unsigned int i=0;i<100;i++) {
-		sum+=i*i;
-	}
-	return sum;
+void foo(int var_local) {
+	static int var_static=0;
+	printf("address of local variable is %p\n", &var_local);
+	printf("address of static variable is %p\n", &var_static);
+	printf("address of global variable is %p\n", &var_global);
 }
 
 int main(int argc, char** argv, char** envp) {
-	A<int> a;
-	int sum=a.foo(0);
-	return sum;
+	foo(5);
+	return 0;
 }
