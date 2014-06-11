@@ -1,0 +1,26 @@
+This one day focuses on Android Media at the Native layer
+
+Prerequisites:
+- Android familiarity
+- NDK familiarity
+
+Topics
+======
+Android Audio
+	http://audioprograming.wordpress.com/2012/03/03/android-audio-streaming-with-opensl-es-and-the-ndk/
+	http://www.slideshare.net/DSPIP/android-audio-opensl
+AudioFlinger
+AudioPolicy
+Android Display
+Surface and SurfaceFlinger
+Video in Android
+Camera services
+Writing applications 
+	Playing and controlling Audio
+	Playing video
+	Threads Priority & CPU management 
+	Accessing camera
+	Accessing Display
+	Open GL
+	External Libraries
+	Examples
