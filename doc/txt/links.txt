@@ -53,3 +53,12 @@ http://openmp.org/wp
 /usr/lib/gcc/i686-linux-gnu/4.6.1/include/omp.h
 http://www.openmp.org/mp-documents/OpenMP3.0-SummarySpec.pdf
 http://www.akkadia.org/drepper/summit08-openmp.pdf
+
+security links:
+===============
+http://en.wikipedia.org/wiki/PaX (security patch to the linux kernel)
+
+alsa links:
+===========
+http://www.alsa-project.org/~tiwai/writing-an-alsa-driver/
+http://free-electrons.com/doc/embedded_linux_audio.pdf
