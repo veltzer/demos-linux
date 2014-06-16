@@ -41,6 +41,7 @@ debugggers:
 
 profilers:
 	valgrind
+	google-perftools
 	google-pprof
 
 core dumps:
@@ -95,6 +96,7 @@ programming tracing:
 	mtrace (muntrace,malloc tracing).
 	dmalloc(1)
 	pthread_trace_* (pthread tracing).
+	electric-fence
 
 power managements:
 	powertop
@@ -105,9 +107,6 @@ general tools (not intended for just one specific utility):
 	perf
 	oprofile
 	sysprof
-
-performance:
-	google-perftools
 
 pipe performance:
 	pipemeter: cat /dev/zero | pipemeter | wc -c
@@ -159,3 +158,4 @@ listing stuff:
 	lspcmia - list pcmcia devices
 	nproc - show number of processing units available
 	x86info - show hardware info on x86.
+	dmidecode - DMI table decoder
