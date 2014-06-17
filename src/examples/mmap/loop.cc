@@ -17,6 +17,7 @@
  */
 
 #include <firstinclude.h>
+#include <err_utils.h>	// for CHECK_NOT_VOIDP
 #include <unistd.h>	// for sleep(3), getpagesize(2)
 #include <sys/mman.h>	// for mmap(2)
 #include <stdio.h>	// for fprintf(3), stderr
@@ -25,7 +26,7 @@
 int main(int argc, char** argv, char** envp) {
 	int size=getpagesize();
 	while(true) {
-		void* ret=CHECK_NOT_VOIDP(mmap(
+		CHECK_NOT_VOIDP(mmap(
 			NULL,
 			size,
 			PROT_EXEC|PROT_READ|PROT_WRITE,
