@@ -15,3 +15,12 @@ c++ userspace and kernel stuff:
 	middle of the code.
 	I should know when the TODO item ends.
   convert all TODO items to this type of notation.
+
+- write some few stream examples.
+- finish the slides about the streams library in glibc.
+	add write and read buffering.
+- add another way of program disassembling itself:
+	use __file__ for the program to compile itself using
+	gcc only to assembly and dump the output to the screen.
+	We have to find a way to pass the flags so that we would know how to compile.
+	create an example specifically for disassembly.
