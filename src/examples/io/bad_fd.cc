@@ -29,12 +29,14 @@
  * Note yet that read(2) return type is ssize_t which is SIGNED as opposed to size_t
  * which is UNSIGNED. The idea here is the ability to return -1 and report errors
  * this way.
+ * Note that if you pass a bad file descriptor it does not matter if you passed
+ * NULL as the pointer to be read to...
  */
 
 int main(int argc, char** argv, char** envp) {
-	const size_t SIZE=5;
-	const int BAD_FD=getdtablesize()+1;
-	char buf[SIZE];
-	CHECK_NOT_M1(read(BAD_FD, buf, SIZE));
+	const int bad_fd=getdtablesize()+1;
+	CHECK_NOT_M1(read(bad_fd, NULL, 0));
+	char buf[5];
+	CHECK_NOT_M1(read(bad_fd, buf, sizeof(buf)));
 	return EXIT_SUCCESS;
 }
