@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 c_run.$(SUFFIX_BIN): c_run.cc
 	$(info doing [$@])
 	$(Q)gcc -I../../include -Wall -Werror -O3 -s -o $@ $<

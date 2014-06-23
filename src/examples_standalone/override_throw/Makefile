@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 .PHONY: all
 all: main.$(SUFFIX_BIN) libthrow.so

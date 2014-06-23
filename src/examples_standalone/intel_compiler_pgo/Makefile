@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 # variables
 CXX:=icc

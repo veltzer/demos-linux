@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 .PHONY: all
 all: hello.out goodbye.out

@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 INDENT:=indent --use-tabs
 INDENT:=indent `cat indent.cfg`
 UNCRUSTIFY:=uncrustify -c uncrustify.cfg

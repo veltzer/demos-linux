@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 GCC_MACHINE:=$(shell gcc -dumpmachine)
 ifeq ($(GCC_MACHINE),x86_64-linux-gnu)

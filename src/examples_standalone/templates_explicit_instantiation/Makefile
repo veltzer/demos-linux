@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 CXXFLAGS:=-I../../include -Wall -Werror -fno-implicit-inline-templates -fno-implicit-templates
 OBJECTS:=bar.o zoo.o ins.o

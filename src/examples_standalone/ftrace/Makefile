@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 ALL:=mainpg.$(SUFFIX_BIN) main.$(SUFFIX_BIN) main.objdump mainpg.objdump
 CFLAGS:=-I../../include

@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 ALL:=memory_error.dmalloc.$(SUFFIX_BIN) memory_error.regular.$(SUFFIX_BIN) memory_error.efence.$(SUFFIX_BIN)
 ALL_DEPS:=Makefile
