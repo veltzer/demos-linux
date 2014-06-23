@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 # on Intel making a shared library works without the -fpic but
 # use it none the less, you can also add -nostdlib to avoid the

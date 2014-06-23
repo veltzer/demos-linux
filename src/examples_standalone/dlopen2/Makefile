@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 CXXFLAGS:=-g -rdynamic -Wall -Werror -I../../include
 LDFLAGS:=-ldl

@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 SO_ADD_LINK_NAME:=add
 SO_ADD_NAME:=lib$(SO_ADD_LINK_NAME).so

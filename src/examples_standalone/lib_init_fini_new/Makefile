@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 ALL:=main.$(SUFFIX_BIN) libfoo.so libbar.so
 CXXFLAGS:=-I../../include

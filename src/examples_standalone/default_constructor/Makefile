@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 SOURCES:=$(shell find . -name "*.cc")
 OBJECTS:=$(addsuffix .o,$(basename $(SOURCES)))

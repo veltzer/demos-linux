@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 # the -pg is to generate profile info...
 main.$(SUFFIX_BIN): main.cc

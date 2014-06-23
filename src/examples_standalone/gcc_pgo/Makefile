@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 CXXFLAGS:=-I../../include -O2 -Wall -Werror
 

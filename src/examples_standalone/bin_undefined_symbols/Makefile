@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 EXE_NAME:=main.$(SUFFIX_BIN)
 EXE_OBJECTS:=main.o

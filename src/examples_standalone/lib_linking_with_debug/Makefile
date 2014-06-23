@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 CFLAGS:=-fpic -Wall -Werror -I../../include
 

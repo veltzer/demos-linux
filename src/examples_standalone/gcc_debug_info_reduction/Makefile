@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 # these flags actually turn out to be nothing on ubuntu 13.10
 ACE_CFLAGS:=$(shell pkg-config --cflags ACE)

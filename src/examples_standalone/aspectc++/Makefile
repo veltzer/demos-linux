@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 ACXX := ag++
 SOURCES := $(wildcard *.$(SUFFIX_CC))

@@ -1,8 +1,8 @@
+# first lets include the common makefile
+include Makefile.mk
 ##############
 # parameters #
 ##############
-#$(info CURDIR is $(CURDIR))
-include Makefile.defs
 # directories
 US_DIRS:=src/examples src/exercises
 KERNEL_DIR:=src/kernel

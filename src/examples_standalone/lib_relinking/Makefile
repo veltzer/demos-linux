@@ -1,4 +1,4 @@
-include ../../../Makefile.defs
+include ../../../Makefile.mk
 
 LIB:=/usr/lib/libmpi.so.0
 
