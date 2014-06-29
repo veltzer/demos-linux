@@ -148,6 +148,7 @@ packs=[
 	'blktool',
 	'scons',
 	'scons-doc',
+	'doxygen',
 ]
 
 args=['sudo','apt-get','install']
