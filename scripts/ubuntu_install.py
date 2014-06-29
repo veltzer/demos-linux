@@ -34,6 +34,7 @@ boost_version_short='1.54'
 packs=[
         # most important - compiler parts
         'gcc-doc', # gcc documentation
+        'cpp-doc', # gcc documentation
 
         # basic tools
 	'binutils-dev', # for demangle.h
@@ -143,6 +144,10 @@ packs=[
 	# these packages are for the developers pleasure...:)
 	'vim',
 	'tofrodos',
+	'pipemeter',
+	'blktool',
+	'scons',
+	'scons-doc',
 ]
 
 args=['sudo','apt-get','install']
