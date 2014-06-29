@@ -142,6 +142,7 @@ packs=[
 
 	# these packages are for the developers pleasure...:)
 	'vim',
+	'tofrodos',
 ]
 
 args=['sudo','apt-get','install']
