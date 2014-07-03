@@ -14,7 +14,7 @@ int main(int argc, char** argv, char** envp) {
 	*/
 	const unsigned int num_pages=35;
 	//void* p=get_stack_address();
-	unsigned int stack_size=140*4096;
+	//unsigned int stack_size=140*4096;
 	void* o=&argc;
 	printf("o is at %p\n",o);
 	unsigned int p_int=(unsigned int)&argc & (unsigned int)~4095;
