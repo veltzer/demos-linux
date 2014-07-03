@@ -19,6 +19,7 @@
 #ifndef __lowlevel_utils_h
 #define __lowlevel_utils_h
 
+#include <firstinclude.h>
 #include <unistd.h> // for getpagesize(2)
 
 /*
