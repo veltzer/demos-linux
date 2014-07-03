@@ -50,8 +50,11 @@ packs=[
 	'libncursesw5',
 	'libncursesw5-dev',
 	'ncurses-doc',
+	'libprocps3',
 	'libprocps3-dev',
+	'libgnomeui-0',
 	'libgnomeui-dev',
+	'libgnomeui-doc',
 	'libsigc++-2.0-0c2a',
 	'libsigc++-2.0-dev',
 	'libsigc++-2.0-doc',
@@ -132,6 +135,7 @@ packs=[
 
 	# fun stuff
 	'figlet',
+	'sl',
 
 	# package used tools used by the linuxapi package
 	'libreoffice-common', # for soffice conversion

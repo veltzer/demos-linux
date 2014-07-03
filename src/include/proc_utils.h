@@ -41,7 +41,7 @@
  * Function to print the resident memory of the current process as
  * well as the number of minor page faults.
  */
-static inline void proc_show_vmem() {
+static inline void getrusage_show_vmem() {
 	struct rusage usage;
 	CHECK_NOT_M1(getrusage(RUSAGE_SELF, &usage));
 	printf("usage.ru_maxrss=%lu\n", usage.ru_maxrss);
@@ -145,6 +145,15 @@ static inline void my_print_process_name_from_proc_self() {
  */
 static inline void print_thread_name_from_proc() {
 	my_system("cat /proc/%d/comm", gettid());
+}
+
+/*
+ * get the current stack from /proc
+ */
+static inline unsigned long proc_get_start_stack() {
+	proc_t myproc;
+	look_up_our_self(&myproc);
+	return myproc.start_stack;
 }
 
 #endif	/* !__proc_utils_h */
