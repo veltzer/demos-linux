@@ -141,4 +141,18 @@ static inline void get_thread_name(char* buffer, unsigned int bufsize) {
 	strncpy(buffer, name, bufsize);
 }
 
+/*
+ * Get the current threads stack pointer via pthread_attr_getstack
+ */
+
+static inline void* pthread_get_stack_self() {
+	pthread_attr_t gattr;
+	CHECK_ZERO_ERRNO(pthread_getattr_np(pthread_self(), &gattr));
+	size_t v;
+	void* stkaddr;
+	CHECK_ZERO_ERRNO(pthread_attr_getstack(&gattr, &stkaddr, &v));
+	//void* endaddr=(void*)((char*)stkaddr+v+2*getpagesize());
+	return stkaddr;
+}
+
 #endif	/* !__pthread_utils_h */

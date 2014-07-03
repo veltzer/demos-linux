@@ -22,8 +22,8 @@
 #include <lowlevel_utils.h> // for getstackpointer()
 #include <multiproc_utils.h>	// for my_system()
 #include <unistd.h>	// for getpid(2), getpagesize(2)
-#include <pthread.h>	// for pthread_self(3), pthread_attr_t(S), pthread_getattr_np(3), pthread_attr_getstack(3)
-#include <err_utils.h> // for CHECK_ZERO_ERRNO()
+#include <proc_utils.h> // for proc_get_start_stack(), proc_print_mmap_self()
+#include <pthread_utils.h> // for pthread_getstack()
 
 /*
 	This program tries to find the start address of your stack
@@ -36,26 +36,22 @@
 	NOTES:
 	- to turn off kernel randomization of address space layout:
 	echo 0 > /proc/sys/kernel/randomize_va_space
+	the ubuntu default for this /proc value is 2.
 
 	TODO:
 	try to do thing via pthreads.
 
-	EXTRA_LINK_FLAGS=-lpthread
+	EXTRA_LINK_FLAGS=-lpthread -lprocps
 */
 
 int main(int argc, char** argv, char** envp) {
 	printf("getstackpointer() returned [%p]\n", getstackpointer());
-	pthread_attr_t gattr;
-	CHECK_ZERO_ERRNO(pthread_getattr_np(pthread_self(), &gattr));
-	size_t v;
-	void* stkaddr;
-	CHECK_ZERO_ERRNO(pthread_attr_getstack(&gattr, &stkaddr, &v));
-	void* endaddr=(void*)((char*)stkaddr+v+2*getpagesize());
-	printf("stack address from pthread is [%p]\n", stkaddr);
-	printf("stack size from pthread is [0x%x] bytes\n", v);
-	printf("stack end from pthread is [%p]\n", endaddr);
-	pid_t mypid=getpid();
-	my_system("cat /proc/%d/maps", mypid);
-	//my_system("pmap %d", mypid);
+	printf("proc_get_start_stack() returned [0x%lx]\n", proc_get_start_stack());
+	void* stackaddr;
+	size_t stacksize;
+	pthread_getstack(&stackaddr, &stacksize);
+	printf("pthread stack address is [%p]\n", stackaddr);
+	printf("This is the correct one...\n");
+	proc_print_mmap_self();
 	return EXIT_SUCCESS;
 }
