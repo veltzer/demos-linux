@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <lowlevel_utils.h> // for getrdtsc(), getstackpointer(), getframepointer() 
+#include <lowlevel_utils.h> // for getrdtsc(), getstackpointer(), getframepointer()
 
 /*
  * This is an example of getting a register on an i32 machine
