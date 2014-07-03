@@ -19,40 +19,19 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <lowlevel_utils.h> // for getrdtsc(), getstackpointer(), getframepointer() 
 
 /*
  * This is an example of getting a register on an i32 machine
  */
 
-static inline unsigned int getrdtsc() {
-	unsigned int val;
-	asm ("rdtsc" : "=val" (val));
-	return val;
-}
-static inline unsigned long getstackpointer() {
-#if __x86_64__
-	return 0;
-#else
+static inline unsigned long getbx() {
 	unsigned long val;
-	asm ("movl %%esp, %0" : "=r" (val));
+	asm ("movl %%ebx, %0" : "=r" (val));
 	return val;
-#endif
-}
-static inline unsigned long getframepointer() {
-#if __x86_64__
-	return 0;
-#else
-	unsigned long val;
-	asm ("movl %%ebp, %0" : "=r" (val));
-	return val;
-#endif
 }
 
 int main(int argc, char** argv, char** envp) {
-	volatile int a=6;
-	printf("&a is %p\n", &a);
-	printf("stackpointer is %p\n", (void*)getstackpointer());
-	printf("framepointer is %p\n", (void*)getframepointer());
-	printf("rdtsc is %u\n", getrdtsc());
+	printf("ebx is %lu\n", getbx());
 	return EXIT_SUCCESS;
 }
