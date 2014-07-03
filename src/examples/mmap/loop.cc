@@ -19,12 +19,19 @@
 #include <firstinclude.h>
 #include <err_utils.h>	// for CHECK_NOT_VOIDP
 #include <unistd.h>	// for sleep(3), getpagesize(2)
-#include <sys/mman.h>	// for mmap(2)
-#include <stdio.h>	// for fprintf(3), stderr
-#include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS
+#include <sys/mman.h>	// for mmap(2), MAP_FAILED
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <multiproc_utils.h>	// for my_system()
+#include <unistd.h>	// for getpid(2)
+
+/*
+This example shows the pmap(1) or /proc/[pid]/maps file changes
+as you mmap more anonymous stuff
+*/
 
 int main(int argc, char** argv, char** envp) {
 	int size=getpagesize();
+	pid_t mypid=getpid();
 	while(true) {
 		CHECK_NOT_VOIDP(mmap(
 			NULL,
@@ -34,6 +41,8 @@ int main(int argc, char** argv, char** envp) {
 			-1,
 			0
 		), MAP_FAILED);
+		//my_system("cat /proc/%d/maps", mypid);
+		my_system("pmap %d", mypid);
 		sleep(1);
 		size*=2;
 	}
