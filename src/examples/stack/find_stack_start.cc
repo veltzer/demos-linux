@@ -19,11 +19,9 @@
 #include <firstinclude.h>
 #include <stdio.h> // for printf(3)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include <lowlevel_utils.h> // for getstackpointer()
-#include <multiproc_utils.h>	// for my_system()
-#include <unistd.h>	// for getpid(2), getpagesize(2)
-#include <proc_utils.h> // for proc_get_start_stack(), proc_print_mmap_self()
-#include <pthread_utils.h> // for pthread_getstack()
+#include <lowlevel_utils.h> // for getstackpointer(), stack_align_pointer(), stack_vars_direction_up(), stack_function_direction_up()
+#include <proc_utils.h> // for proc_get_start_stack(), proc_print_mmap_self_filter()
+#include <pthread_utils.h> // for pthread_getstack_pointer()
 
 /*
 	This program tries to find the start address of your stack
@@ -45,13 +43,15 @@
 */
 
 int main(int argc, char** argv, char** envp) {
-	printf("getstackpointer() returned [%p]\n", getstackpointer());
-	printf("proc_get_start_stack() returned [0x%lx]\n", proc_get_start_stack());
-	void* stackaddr;
-	size_t stacksize;
-	pthread_getstack(&stackaddr, &stacksize);
-	printf("pthread stack address is [%p]\n", stackaddr);
+	printf("%-40s [%d]\n", "stack_vars_direction_up", stack_vars_direction_up());
+	printf("%-40s [%d]\n", "stack_function_direction_up", stack_function_direction_up());
+	printf("%-40s [%p]\n", "getstackpointer", getstackpointer());
+	printf("%-40s [%p]\n", "getstackpointer(aligned)", stack_align_pointer(getstackpointer()));
+	printf("%-40s [%p]\n", "proc_get_start_stack", proc_get_start_stack());
+	printf("%-40s [%p]\n", "proc_get_start_stack(aligned)", stack_align_pointer(proc_get_start_stack()));
+	printf("%-40s [%p]\n", "pthread_getstack_pointer", pthread_getstack_pointer());
+	printf("%-40s [%p]\n", "pthread_getstack_pointer(aligned)", stack_align_pointer(pthread_getstack_pointer()));
 	printf("This is the correct one...\n");
-	proc_print_mmap_self();
+	proc_print_mmap_self_filter("[stack]");
 	return EXIT_SUCCESS;
 }

@@ -18,8 +18,9 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3), fprintf(3)
-#include <stdlib.h>	// for srandom(3), exit(3), EXIT_SUCCESS, EXIT_FAILURE
+#include <stdlib.h>	// for srandom(3), EXIT_SUCCESS
 #include <err_utils.h>	// for CHECK_NOT_NULL_FILEP()
+#include <lowlevel_utils.h> // for stack_vars_direction_up()
 
 /*
  * This is an example of a compiler barrier
@@ -73,23 +74,6 @@
  * that people could see the assembly code generated.
  */
 
-// a small function to tell you if the stack direction is up or down...
-bool stack_direction_up() __attribute__((noinline));
-bool stack_direction_up() {
-	int a;
-	int u;
-	unsigned long pa=(unsigned long)&a;
-	unsigned long pu=(unsigned long)&u;
-	if(pa==pu+sizeof(int)) {
-		return false;
-	}
-	if(pa==pu-sizeof(int)) {
-		return true;
-	}
-	fprintf(stderr, "strange stack you have here...\n");
-	exit(EXIT_FAILURE);
-}
-
 FILE* outfile;
 
 #define TEST(shortname, desc, code) \
@@ -101,7 +85,7 @@ FILE* outfile;
 		const int WRONG_VAL=3200; \
 		/* p will point to a but the compiler does not know it.*/ \
 		int* p=&u; \
-		if(stack_direction_up()) { \
+		if(stack_vars_direction_up()) { \
 			p--; \
 		} else { \
 			p++; \
