@@ -29,13 +29,13 @@
 #include <firstinclude.h>
 #include <sys/types.h>	// for getpid(2), pid_t:type
 #include <unistd.h>	// for getpid(2), pid_t:type
-#include <stdio.h>	// for snprintf(3), printf(3), fopen(3), fgets(3), fclose(3), feof(3), FILE:type, getline(3)
+#include <stdio.h>	// for snprintf(3), printf(3), fopen(3), fgets(3), fclose(3), feof(3), FILE:type, getline(3), sscanf(3)
 #include <proc/readproc.h>	// for get_proc_stats(3), proc_t, look_up_our_self(3)
 #include <sys/time.h>	// for getrusage(2), rusage:struct
 #include <sys/resource.h>	// for getrusage(2), rusage:struct
 #include <string.h>	// for strstr(3)
 #include <multiproc_utils.h>	// for my_system()
-#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_NULL(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_NULL(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_ASSERT()
 
 /*
  * Function to print the resident memory of the current process as
@@ -77,6 +77,30 @@ static inline void proc_print_mmap_self() {
 	}
 	free(line);
 	CHECK_ZERO_ERRNO(fclose(fp));
+}
+
+/*
+ * Function to get a certain line from /proc/self/maps
+ */
+static inline void proc_get_self_filter(const char* filter, char* out, size_t size) {
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
+	bool found=false;
+
+	FILE* fp=CHECK_NOT_NULL_FILEP(fopen("/proc/self/maps", "r"));
+	while ((read = getline(&line, &len, fp)) != -1) {
+		if(strstr(line, filter)) {
+			found=true;
+			strncpy(out, line, size);
+		}
+	}
+	if(!feof(fp)) {
+		CHECK_NOT_M1(read);
+	}
+	free(line);
+	CHECK_ZERO_ERRNO(fclose(fp));
+	CHECK_ASSERT(found);
 }
 
 /*
@@ -154,6 +178,18 @@ static inline void* proc_get_start_stack() {
 	proc_t myproc;
 	look_up_our_self(&myproc);
 	return (void*)myproc.start_stack;
+}
+
+/*
+ * get the stack address from /proc/[pid]/maps
+ */
+void* proc_get_stack_adr() {
+	const unsigned int bufsize=1024;
+	char buf[bufsize];
+	proc_get_self_filter("[stack]", buf, bufsize);
+	unsigned long adr_start, adr_end;
+	CHECK_ASSERT(sscanf(buf, "%lx-%lx ", &adr_start, &adr_end)==2);
+	return (void*)adr_end;
 }
 
 #endif	/* !__proc_utils_h */
