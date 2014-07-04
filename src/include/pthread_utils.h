@@ -33,12 +33,22 @@
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 
 /*
- * get the current threads stack size
+ * get the current threads stack address and size
  */
 static inline void pthread_getstack(void** stackaddr, size_t* stacksize) {
 	pthread_attr_t at;
 	CHECK_ZERO_ERRNO(pthread_getattr_np(pthread_self(), &at));
 	CHECK_ZERO_ERRNO(pthread_attr_getstack(&at, stackaddr, stacksize));
+}
+
+/*
+ * get the current threds stack address
+ */
+static inline void* pthread_getstack_pointer() {
+	void* stackaddr;
+	size_t stacksize;
+	pthread_getstack(&stackaddr, &stacksize);
+	return stackaddr;
 }
 
 /*

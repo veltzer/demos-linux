@@ -8,6 +8,8 @@ Rusty Russels guide to hacking the kernel:
 	http://people.netfilter.org/~rusty/unreliable-guides/kernel-hacking/lk-hacking-guide.html
 Andries Brouwer notes about the linux kernel:
 	http://www.win.tue.nl/~aeb/linux/lk/lk.html
+Mel Gormans book on memory management in the kernel:
+	https://www.kernel.org/doc/gorman/pdf/understand.pdf
 
 Memory reordering links:
 ========================

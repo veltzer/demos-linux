@@ -150,10 +150,10 @@ static inline void print_thread_name_from_proc() {
 /*
  * get the current stack from /proc
  */
-static inline unsigned long proc_get_start_stack() {
+static inline void* proc_get_start_stack() {
 	proc_t myproc;
 	look_up_our_self(&myproc);
-	return myproc.start_stack;
+	return (void*)myproc.start_stack;
 }
 
 #endif	/* !__proc_utils_h */
