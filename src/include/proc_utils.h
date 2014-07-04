@@ -192,4 +192,14 @@ void* proc_get_stack_adr() {
 	return (void*)adr_end;
 }
 
+/*
+ * get stack info from /proc/[pid]/maps
+ */
+void proc_get_stack_info(unsigned long* adr_start, unsigned long* adr_end) {
+	const unsigned int bufsize=1024;
+	char buf[bufsize];
+	proc_get_self_filter("[stack]", buf, bufsize);
+	CHECK_ASSERT(sscanf(buf, "%lx-%lx ", adr_start, adr_end)==2);
+}
+
 #endif	/* !__proc_utils_h */

@@ -19,32 +19,24 @@
 #include <firstinclude.h>
 #include <stdio.h> // for printf(3)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include <unistd.h> // for pause(2)
-#include <sys/mman.h> // for mmap(2)
+#include <sys/mman.h> // for mprotect(2), PROT_READ, PROT_WRITE, PROT_EXEC
 #include <err_utils.h> // for CHECK_NOT_M1()
+#include <proc_utils.h> // for proc_get_stack_info(), proc_print_mmap_self()
+
+/*
+ * This example shows how to make the stack executable.
+ * We basically need the stack size and address and call mprotect(2).
+ * For a discussion on how to get the stack information see the
+ * "find_stack_start" example.
+ */
 
 int main(int argc, char** argv, char** envp) {
-	/*
-	void* p=mmap(NULL, 4096, PROT_EXEC | PROT_READ | PROT_WRITE , MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if(p==MAP_FAILED) {
-		fprintf(stderr, "mmap failed");
-		return EXIT_FAILURE;
-	}
-	*/
-	const unsigned int num_pages=35;
-	//void* p=get_stack_address();
-	//unsigned int stack_size=140*4096;
-	void* o=&argc;
-	printf("o is at %p\n",o);
-	unsigned int p_int=(unsigned int)&argc & (unsigned int)~4095;
-	p_int+=4*4096;
-	p_int-=num_pages*4096;
-	void* p=(void*)p_int;
-	printf("stack is at %p\n",p);
-	CHECK_NOT_M1(mprotect(p, num_pages*4096, PROT_READ | PROT_WRITE | PROT_EXEC));
-	while(true) {
-		pause();
-		printf("hey, I got a signal!\n");
-	}
+	unsigned long adr_start, adr_end;
+	proc_get_stack_info(&adr_start, &adr_end);
+	printf("before...\n");
+	proc_print_mmap_self_filter("[stack]");
+	CHECK_NOT_M1(mprotect((void*)adr_start, adr_end-adr_start, PROT_READ | PROT_WRITE | PROT_EXEC));
+	printf("after...\n");
+	proc_print_mmap_self_filter("[stack]");
 	return EXIT_SUCCESS;
 }
