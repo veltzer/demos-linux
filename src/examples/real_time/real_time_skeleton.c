@@ -43,7 +43,8 @@
  * EXTRA_LINK_FLAGS=-lpthread -lrt
  */
 
-/* we use 49 as the PRREMPT_RT linux kernel patch uses 50 as the priority of
+/*
+ * we use 49 as the PRREMPT_RT linux kernel patch uses 50 as the priority of
  * kernel tasklets and interrupt handlers by default
  */
 const int MY_PRIORITY=49;
