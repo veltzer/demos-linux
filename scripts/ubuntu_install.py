@@ -11,25 +11,30 @@
 # or from source).
 # - the intel compiler auto-installation is not supported.
 
-import subprocess # for check_call()
-import os # for uname()
-import sys # for exit()
+import subprocess # for check_call
+import os # for uname
 
+##############
+# parameters #
+##############
+boost_version='1.54.0'
+boost_version_short='1.54'
+debug=False
+
+########
+# code #
+########
 release=os.uname().release
-#release='3.11.0-15-lowlatency'
 short_release=release[:release.rfind('-')]
 source_release=short_release[:short_release.rfind('-')]
 release_lowlatency=short_release
 release_generic=short_release
-print('release is',release)
-print('short_release is',short_release)
-print('source_release is',source_release)
-print('release_lowlatency is',release_lowlatency)
-print('release_generic is',release_generic)
-boost_version='1.54.0'
-boost_version_short='1.54'
-
-#sys.exit(0)
+if debug:
+	print('release is',release)
+	print('short_release is',short_release)
+	print('source_release is',source_release)
+	print('release_lowlatency is',release_lowlatency)
+	print('release_generic is',release_generic)
 
 packs=[
         # most important - compiler parts
