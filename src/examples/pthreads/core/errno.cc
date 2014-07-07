@@ -59,7 +59,7 @@ int main(int argc, char** argv, char** envp) {
 		ids[i]=i;
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, ids + i));
 	}
-	for (int i=0; i < num; i++) {
+	for(int i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	return EXIT_SUCCESS;

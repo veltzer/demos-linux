@@ -43,9 +43,9 @@ void do_work(int* data, unsigned int arraySize, const char* msg) {
 	clock_t start = clock();
 
 	long long sum = 0;
-	for (unsigned i = 0; i < 100000; ++i) {
+	for(unsigned i = 0; i < 100000; ++i) {
 		// Primary loop
-		for (unsigned c = 0; c < arraySize; ++c) {
+		for(unsigned c = 0; c < arraySize; ++c) {
 			if (data[c] >= 128)
 				sum += data[c];
 		}
@@ -62,9 +62,9 @@ void do_work_no_if(int* data, unsigned int arraySize, const char* msg) {
 	clock_t start = clock();
 
 	long long sum = 0;
-	for (unsigned i = 0; i < 100000; ++i) {
+	for(unsigned i = 0; i < 100000; ++i) {
 		// Primary loop
-		for (unsigned c = 0; c < arraySize; ++c) {
+		for(unsigned c = 0; c < arraySize; ++c) {
 			int t = (data[c] - 128) >> 31;
 			sum += ~t & data[c];
 		}
@@ -81,7 +81,7 @@ int main(int argc, char** argv, char** envp) {
 	// Generate data
 	const unsigned int arraySize = 32768;
 	int data[arraySize];
-	for (unsigned c = 0; c < arraySize; ++c)
+	for(unsigned c = 0; c < arraySize; ++c)
 		data[c] = std::rand() % 256;
 	// run unsorted and then sorted
 	do_work(data, arraySize, "unsorted with if");

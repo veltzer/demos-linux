@@ -138,7 +138,7 @@ _Static_assert(__builtin_offsetof(s9, c2)==5, "msg");
 // lets specify alignment of individual fields in our structure
 typedef struct _s10 {
 	char c1;
-	int i1 __attribute__ ((aligned (8)));;
+	int i1 __attribute__ ((aligned (8)));
 	char c2;
 } s10;
 _Static_assert(sizeof(s10)==16, "msg");

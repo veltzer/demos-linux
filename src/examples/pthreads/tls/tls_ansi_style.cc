@@ -34,7 +34,7 @@ void* worker(void* arg) {
 	myid=*pint;
 	delete pint;
 	// now lets pull our id
-	TRACE("my id is %d\n", myid);
+	TRACE("myid is %d\n", myid);
 	return NULL;
 }
 

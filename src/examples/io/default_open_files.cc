@@ -42,7 +42,7 @@
 */
 int get_openfds() {
 	int count = 0;
-	for (int fd = 0; fd < getdtablesize(); fd++) {
+	for(int fd = 0; fd < getdtablesize(); fd++) {
 		int res=fcntl(fd, F_GETFD, 0);
 		if(res==-1) {
 			continue;
