@@ -43,7 +43,7 @@ int main(int argc, char** argv, char** envp) {
 		printf("minimum_console_loglevel: %d\n", printk_params[2]);
 		printf("default_console_loglevel: %d\n", printk_params[3]);
 	} else if(argc==5) {
-		for (int i=0; i<4; i++)
+		for(int i=0; i<4; i++)
 			new_params[i]=atoi(argv[i+1]);
 		/* set */
 		CHECK_NOT_M1(sysctl(name, ARRAY_SIZEOF(name), 0, 0, new_params, sizeof(new_params)));

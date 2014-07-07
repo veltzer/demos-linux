@@ -76,7 +76,7 @@ static void *consumer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {	// Keep loop
 static void *producer(ACE_Message_Queue<ACE_MT_SYNCH> *msg_queue) {
 	ACE_Read_Buffer rb(ACE_STDIN);
 	// Keep reading stdin, until we reach EOF.
-	for (;; ) {
+	while(true) {
 		// Allocate a new buffer.
 		char *buffer=rb.read('\n');
 

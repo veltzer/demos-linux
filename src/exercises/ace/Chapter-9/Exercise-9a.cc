@@ -96,11 +96,11 @@ int ReceiveMessages(ACE_SOCK_Stream peer[], ACE_SOCK_Acceptor acceptor[]) {
 	/* The second handle is the highest one */
 	socket_fd=acceptor[1].get_handle();
 	// We are waiting for NCHILDREN messages one from each child
-	for (int count=0; count < NCHILDREN; count++) {
+	for(int count=0; count < NCHILDREN; count++) {
 		do {
 			// Zero the bit list
 			FD_ZERO(&readset);
-			for (int i=0; i < socket_fd + 1; i++) {
+			for(int i=0; i < socket_fd + 1; i++) {
 				// Set the appropriate fd
 				FD_SET(i, &readset);
 			}
@@ -109,7 +109,7 @@ int ReceiveMessages(ACE_SOCK_Stream peer[], ACE_SOCK_Acceptor acceptor[]) {
 		} while(result==-1 && errno==EINTR);
 		if (result > 0) {
 			// Loop on all bits and find one
-			for (int i=0; i < socket_fd; i++) {
+			for(int i=0; i < socket_fd; i++) {
 				if (FD_ISSET(i, &readset)) {
 					result=peer[count].recv(buffer, sizeof(buffer));
 					ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%P|%t) R E C E I V I N G: <%s>\n"), buffer));

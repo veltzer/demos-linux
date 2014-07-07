@@ -214,7 +214,7 @@ void list_subdevice_info(snd_ctl_t *ctl, int card, int device) {
 			printf("%c%c,hw:%d,%d,[%s] (%d subdevices)\n", in ? 'I' : ' ', out ? 'O' : ' ', card, device, name, subs);
 	} else {
 		sub=0;
-		for (;; ) {
+		while(true) {
 			printf("%c%c,hw:%d,%d,%d,[%s]\n", in ? 'I' : ' ', out ? 'O' : ' ', card, device, sub, sub_name);
 			if (++sub >=subs)
 				break;

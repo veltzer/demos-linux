@@ -96,7 +96,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO(sleep(1));
 	signal_register_handler_sigaction(SIGUSR2, handler);
 	printf("main started joining threads\n");
-	for (int i=0; i < num; i++) {
+	for(int i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	printf("main ended joining threads\n");

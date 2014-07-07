@@ -40,7 +40,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
 	ACE_Time_Value current_time=expiration;
 
 	ACE_Get_Opt opt(argc, argv, "e:i:");
-	for (int c; (c=opt())!=-1; ) {
+	for(int c; (c=opt())!=-1; ) {
 		switch (c) {
 		case 'e':
 			// Arithmetic operation

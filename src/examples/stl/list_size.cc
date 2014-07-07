@@ -40,14 +40,14 @@ int main(int argc, char** argv, char** envp) {
 	std::list<int> l;
 	const unsigned int size_of_list=1000000;
 	const unsigned int attempts=1000;
-	for (unsigned int i = 0; i < size_of_list; i++)
+	for(unsigned int i = 0; i < size_of_list; i++)
 		l.push_back (i);
 	std::cout << "size of list is " << size_of_list << std::endl;
 	measure m;
 	measure_init(&m, "one l.size()", attempts);
 	measure_start(&m);
 	volatile __attribute__((unused)) int s;
-	for (unsigned int i = 0; i < attempts; i++) {
+	for(unsigned int i = 0; i < attempts; i++) {
 		s=l.size();
 	}
 	measure_end(&m);

@@ -54,10 +54,10 @@ public:
 MersenneTwister::MersenneTwister(unsigned int seed) {
 	// Initialize by filling with the seed, then iterating
 	// the algorithm a bunch of times to shuffle things up.
-	for (int i = 0; i < MT_LEN; i++)
+	for(int i = 0; i < MT_LEN; i++)
 		m_buffer[i] = seed;
 	m_index = 0;
-	for (int i = 0; i < MT_LEN * 100; i++)
+	for(int i = 0; i < MT_LEN * 100; i++)
 		integer();
 }
 

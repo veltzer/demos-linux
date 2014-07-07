@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_key_t, pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3), pthread_create(3), pthread_join(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), free(3)
 #include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 
@@ -44,21 +44,22 @@ void* worker(void* arg) {
 void id_dealloc(void* ptr) {
 	TRACE("deleting %p", ptr);
 	int* p=(int*)ptr;
-	delete p;
+	free(p);
 }
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("start");
-	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
+	unsigned int i;
 	const unsigned int num=4;
 	pthread_t threads[num];
-	for(unsigned int i=0; i<num; i++) {
-		int* p=new int(i);
+	TRACE("start");
+	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
+	for(i=0; i<num; i++) {
+		int* p=(int*)malloc(sizeof(int));
 		TRACE("allocated %p", p);
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
 	}
 	TRACE("created threads, now joining...");
-	for (unsigned int i=0; i < num; i++) {
+	for(i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	TRACE("end");

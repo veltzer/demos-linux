@@ -43,7 +43,7 @@ void my_daemon() {
 	CHECK_NOT_M1(chdir("/"));
 	// close all files...
 	int fdTableSize = getdtablesize();
-	for (int i=0; i<fdTableSize; i++)
+	for(int i=0; i<fdTableSize; i++)
 		CHECK_NOT_M1(close(i));
 	// open standard streams to the null device
 	// in case someone writes to them...

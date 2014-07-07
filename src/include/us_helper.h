@@ -166,7 +166,7 @@ static inline void waitkey(const char *msg) {
 static inline void memcheck(void *buf, char val, unsigned int size) {
 	char *cbuf=(char *)buf;
 	unsigned int i;
-	for (i=0; i<size; i++) {
+	for(i=0; i<size; i++) {
 		if(cbuf[i]!=val) {
 			fprintf(stderr, "ERROR: value at %u is %c and not %c\n", i, cbuf[i], val);
 			exit(EXIT_FAILURE);
