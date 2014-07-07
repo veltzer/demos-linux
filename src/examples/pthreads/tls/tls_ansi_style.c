@@ -32,23 +32,24 @@ __thread int myid;
 void* worker(void* arg) {
 	int* pint=(int*)arg;
 	myid=*pint;
-	delete pint;
+	free(pint);
 	// now lets pull our id
 	TRACE("myid is %d\n", myid);
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("start");
+	unsigned int i;
 	const unsigned int num=4;
 	pthread_t threads[num];
-	for(unsigned int i=0; i<num; i++) {
-		int* p=new int(i);
+	TRACE("start");
+	for(i=0; i<num; i++) {
+		int* p=(int*)malloc(sizeof(int));
 		TRACE("allocated %p", p);
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
 	}
 	TRACE("created threads, now joining...");
-	for(unsigned int i=0; i<num; i++) {
+	for(i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 	TRACE("end");
