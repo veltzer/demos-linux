@@ -125,6 +125,7 @@
 #include <stdio.h>	// for putc(3)
 #include <stdarg.h>	// for vfprintf(3), va_start(3), va_end(3), va_list(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include <stdbool.h>	// for true(O)
 
 // error -- print error message
 void error(const char *format, ...) {
