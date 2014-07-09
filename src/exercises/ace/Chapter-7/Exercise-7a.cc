@@ -60,7 +60,7 @@ private:
 int PrintMessages(SHARED_ALLOC *shared, int index) {
 	ACE_DEBUG((LM_DEBUG, ACE_TEXT("The following records were found in storage %d:\n"), index + 1));
 	MALLOC_LIFO_RECORD record(*shared);
-	for (void *temp=0; record.next(temp)!=0; record.advance()) {
+	for(void *temp=0; record.next(temp)!=0; record.advance()) {
 		Record *record=reinterpret_cast<Record *>(temp);
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("%C\n"), record->name()));
 	}
@@ -127,7 +127,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR** argv) {
 		}
 	} else {
 		ACE_MMAP_Memory_Pool_Options option0(0, ACE_MMAP_Memory_Pool_Options::NEVER_FIXED);
-		for (int i=0; i < 3; i++) {
+		for(int i=0; i < 3; i++) {
 			// ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("%C\n"), StoreName[i]));
 			ACE_NEW_RETURN(shared[i], SHARED_ALLOC(StoreName[i], StoreName[i], &option0), -1);
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("(shared%d) Mapped to base address %@\n"), i, shared[i]->base_addr()));

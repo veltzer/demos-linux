@@ -309,7 +309,7 @@ static int find_matching_file(struct dl_phdr_info *info,
 	const ElfW(Phdr) *phdr;
 	ElfW(Addr) load_base = info->dlpi_addr;
 	phdr = info->dlpi_phdr;
-	for (n = info->dlpi_phnum; --n >= 0; phdr++) {
+	for(n = info->dlpi_phnum; --n >= 0; phdr++) {
 		if (phdr->p_type == PT_LOAD) {
 			ElfW(Addr) vaddr = phdr->p_vaddr + load_base;
 			if (match->address >= (char*)vaddr && match->address < (char*)vaddr + phdr->p_memsz) {
@@ -372,7 +372,7 @@ void repl_backtrace_symbols_fd(void *const *buffer, int size, int fd)
 	int j;
 
 	char** strings=(char**)CHECK_NOT_NULL(repl_backtrace_symbols(buffer, size));
-	for (j = 0; j < size; j++)
+	for(j = 0; j < size; j++)
 		printf("%s\n", strings[j]);
 	free(strings);
 }

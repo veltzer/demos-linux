@@ -51,7 +51,7 @@ static inline void cpu_set_print_file(FILE* pfile, cpu_set_t *p) {
 	int j;
 	fprintf(pfile, "CPU_SETSIZE is %d\n", CPU_SETSIZE);
 	fprintf(pfile, "CPU_COUNT is %d\n", CPU_COUNT(p));
-	for (j=0; j < CPU_SETSIZE; j++) {
+	for(j=0; j < CPU_SETSIZE; j++) {
 		if (CPU_ISSET(j, p)) {
 			fprintf(pfile, "\tCPU %d\n", j);
 		}

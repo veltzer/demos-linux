@@ -52,7 +52,7 @@ public:
 	}
 	virtual int svc(void) {
 		ACE_DEBUG((LM_DEBUG, ACE_TEXT("(%t) Handler Thread running\n")));
-		for (int i=0; i < NUM_USES; i++) {
+		for(int i=0; i < NUM_USES; i++) {
 			this->rep_.update_device(i);
 		}
 		return(0);

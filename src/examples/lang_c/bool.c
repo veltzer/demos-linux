@@ -17,40 +17,20 @@
  */
 
 #include <firstinclude.h>
-#include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <stdio.h>	// for printf(3)
+#include <stdbool.h>	// for bool
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This is a demo of thread local storage using gcc __thread storage modifier.
- *
- * EXTRA_LINK_FLAGS=-lpthread
+ * This shows the 'bool' type for the C language
+ * see 'man stdbool.h' for more info.
+ * Note that without this include you will not get bool, true or false.
  */
 
-__thread int myid;
-
-void* worker(void* arg) {
-	int* pint=(int*)arg;
-	myid=*pint;
-	delete pint;
-	// now lets pull our id
-	TRACE("my id is %d\n", myid);
-	return NULL;
-}
-
 int main(int argc, char** argv, char** envp) {
-	TRACE("start");
-	const unsigned int num=4;
-	pthread_t threads[num];
-	for(unsigned int i=0; i<num; i++) {
-		int* p=new int(i);
-		TRACE("allocated %p", p);
-		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
-	}
-	TRACE("created threads, now joining...");
-	for(unsigned int i=0; i<num; i++) {
-		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
-	}
-	TRACE("end");
+	bool __attribute__((unused)) b1=true;
+	bool __attribute__((unused)) b2=false;
+	int __attribute__((unused)) i1=true;
+	int __attribute__((unused)) i2=false;
 	return EXIT_SUCCESS;
 }

@@ -125,6 +125,7 @@
 #include <stdio.h>	// for putc(3)
 #include <stdarg.h>	// for vfprintf(3), va_start(3), va_end(3), va_list(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include <stdbool.h>	// for true(O)
 
 // error -- print error message
 void error(const char *format, ...) {
@@ -214,7 +215,7 @@ void list_subdevice_info(snd_ctl_t *ctl, int card, int device) {
 			printf("%c%c,hw:%d,%d,[%s] (%d subdevices)\n", in ? 'I' : ' ', out ? 'O' : ' ', card, device, name, subs);
 	} else {
 		sub=0;
-		for (;; ) {
+		while(true) {
 			printf("%c%c,hw:%d,%d,%d,[%s]\n", in ? 'I' : ' ', out ? 'O' : ' ', card, device, sub, sub_name);
 			if (++sub >=subs)
 				break;

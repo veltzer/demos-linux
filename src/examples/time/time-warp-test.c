@@ -358,18 +358,18 @@ usage:
 	shared = setup_shared_var();
 
 	parent = getpid();
-	for (i = 1; i < tasks; i++) {
+	for(i = 1; i < tasks; i++) {
 		if (!fork())
 			break;
 	}
 	me = getpid();
 	while (1) {
 		int i;
-		for (i = 0; i < 10; i++)
+		for(i = 0; i < 10; i++)
 			test_TSC(shared);
-		for (i = 0; i < 10; i++)
+		for(i = 0; i < 10; i++)
 			test_TOD(shared);
-		for (i = 0; i < 10; i++)
+		for(i = 0; i < 10; i++)
 			test_CLOCK(shared);
 		if (me == parent)
 			print_status(shared);

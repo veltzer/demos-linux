@@ -104,7 +104,7 @@ void clear_queue() {
 void arpeggio() {
 	snd_seq_event_t ev;
 	double dt;
-	for (int l1=0; l1 < seq_len; l1++) {
+	for(int l1=0; l1 < seq_len; l1++) {
 		dt=(l1 % 2==0) ? (double)swing / 16384.0 : -(double)swing / 16384.0;
 		snd_seq_ev_clear(&ev);
 		snd_seq_ev_set_note(&ev, 0, sequence[2][l1] + transpose, 127, sequence[1][l1]);
@@ -245,7 +245,7 @@ int main(int argc, char** argv, char** envp) {
 	arpeggio();
 	while (true) {
 		if (poll(pfd, npfd, 100000) > 0) {
-			for (int i=0; i < npfd; i++) {
+			for(int i=0; i < npfd; i++) {
 				if (pfd[i].revents > 0) midi_action();
 			}
 		}
