@@ -119,7 +119,7 @@ int main(int argc, char** argv, char** envp) {
 	stop_random=true;
 	CHECK_ZERO(sleep(seconds_for_each));
 	stop_random_r=true;
-	for (int i=0; i < thread_num; i++) {
+	for(int i=0; i<thread_num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	printf("rand() results are %d\n", (int)counter_rand);

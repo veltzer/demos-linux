@@ -40,7 +40,7 @@ int main(int argc, char** argv, char** envp) {
 	std::cout << "Main thread id: " << std::this_thread::get_id() << std::endl;
 	std::vector<std::future<void>> futures;
 	const unsigned int task_num=20;
-	for (unsigned int i = 0; i < task_num; ++i) {
+	for(unsigned int i = 0; i < task_num; ++i) {
 		futures.push_back(std::async([i] {
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 			std::cout << i << ": " << std::this_thread::get_id() << " " << std::endl;

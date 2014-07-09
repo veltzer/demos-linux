@@ -56,7 +56,7 @@ public:
 			CHECK_ZERO(sleep(1));
 		}
 		// Simulate compute bound task.
-		for (int i=0; i < 100; i++) {
+		for(int i=0; i < 100; i++) {
 			CHECK_ZERO(sleep(1));
 		}
 	}

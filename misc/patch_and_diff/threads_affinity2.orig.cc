@@ -51,7 +51,7 @@ int main(int argc, char** argv, char** envp) {
 	void* rets[num];
 
 	TRACE("started");
-	for (int i=0; i<num; i++) {
+	for(int i=0; i<num; i++) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
@@ -60,7 +60,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
 	TRACE("created threads");
-	for (int i=0; i<num; i++) {
+	for(int i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], rets + i));
 	}
 	TRACE("end");

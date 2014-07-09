@@ -48,7 +48,7 @@ int main(int argc, char** argv, char** envp) {
 
 	printf("Starting, errno at start is %d\n", def_errno);
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
-	for (int i=-10; i < 10; i++) {
+	for(int i=-10; i < 10; i++) {
 		errno=def_errno;
 		res=ioctl(d, 0, i);
 		myerrno=errno;
