@@ -87,8 +87,9 @@ int main(int argc, char** argv, char** envp) {
 	printf("listen was successful\n");
 
 	// create the epoll fd
-	const unsigned int max_events=10;
-	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
+	// the parameter to epoll_create(2) really doesn't matter
+	// see the documentation for more details
+	int epollfd=CHECK_NOT_M1(epoll_create(0));
 
 	// add the listening socket to it
 	struct epoll_event sockev;
@@ -109,8 +110,10 @@ int main(int argc, char** argv, char** envp) {
 	sigev.events=EPOLLIN;
 	sigev.data.fd=sigfd;
 	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sigfd, &sigev));
+
 	// go into the endless service loop
 	while(true) {
+		const unsigned int max_events=10;
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {
