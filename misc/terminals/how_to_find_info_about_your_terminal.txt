@@ -1,0 +1,8 @@
+usually your terminal is '/dev/tty'.
+
+You can find it's size with:
+	tput cols
+	tput lines
+or by:
+	stty size
+or by ioctl on the f created from it.
