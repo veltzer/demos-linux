@@ -29,6 +29,8 @@ public:
 	virtual void act(void) {
 		std::cout << "in Base" << std::endl;
 	}
+	virtual ~Base(void) {
+	}
 };
 class Derived1 : public Base {
 private:
