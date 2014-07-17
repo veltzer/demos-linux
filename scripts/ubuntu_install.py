@@ -49,6 +49,10 @@ packs=[
 	'gnulib',
 	'bikeshed',
 
+	# code measurements
+	'sloccount',
+	'cloc',
+
         # basic tools
 	'binutils-dev', # for demangle.h
 	'binutils-doc', # for demangle.h
