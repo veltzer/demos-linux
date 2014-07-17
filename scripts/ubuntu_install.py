@@ -47,6 +47,7 @@ packs=[
 	'aspectc++',
 	'dialog',
 	'iptables-dev',
+	'unoconv',
 
         # libraries
         'libiberty-dev',
