@@ -64,3 +64,9 @@ alsa links:
 ===========
 http://www.alsa-project.org/~tiwai/writing-an-alsa-driver/
 http://free-electrons.com/doc/embedded_linux_audio.pdf
+
+manual pages:
+=============
+http://linux-man-pages.blogspot.co.il/
+https://www.kernel.org/pub/linux/docs/man-pages/
+http://man7.org/linux/man-pages/index.html

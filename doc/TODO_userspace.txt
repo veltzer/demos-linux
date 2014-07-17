@@ -19,6 +19,9 @@ websites to get ideas from
 
 examples to add
 ===============
+- demo the use of open_by_handle_at, name_to_handle_at.
+	I don't have manual pages for these because ubuntu carries old manual pages.
+	http://man7.org/linux/man-pages/man2/open_by_handle_at.2.html
 - examine the gcc -fwrapv flag. do an example.
 - https://github.com/gby/hacks/blob/master/thread_stack.c
 - #pragma once

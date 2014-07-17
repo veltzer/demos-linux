@@ -41,6 +41,14 @@ packs=[
         'gcc-doc', # gcc documentation
         'cpp-doc', # gcc documentation
 
+	# manual pages
+	'manpages',
+	'manpages-dev',
+	'manpages-posix',
+	'manpages-posix-dev',
+	'gnulib',
+	'bikeshed',
+
         # basic tools
 	'binutils-dev', # for demangle.h
 	'binutils-doc', # for demangle.h
