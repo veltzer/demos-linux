@@ -60,13 +60,15 @@ Using it
 * clone the examples: `git clone git@github.com:veltzer/linuxapi.git`
 * cd into it: `cd linuxapi`
 * install the missing packages and headers needed to compile and run this project `./scripts/ubuntu_install.py`
+	if you are on a different Linux distribution try to get as much of these for your platform
+	as you can. If you really into contributing I would love a `redhat_install.py` or some such...
 * compile: `make`
 * some of the examples may not compile for you because of missing libraries. Don't worry:
 	you can build each specific example by issuing:
 		`make src/examples/performance/cache_misser.elf`
 	the name of the elf binary is the same as the example source code with .elf instead of
 	.[c|cc].
-	You must be at the root of the project to issue the 'make' command.
+	You must be at the root of the project to issue the `make` command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
 
 	Mark Veltzer <mark.veltzer@gmail.com>, 2011-2014
