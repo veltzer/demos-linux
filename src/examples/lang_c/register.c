@@ -36,7 +36,7 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	unsigned int register i;
+	register unsigned int i;
 	for(i=0; i<100; i++) {
 		printf("i is %d\n", i);
 		int reg;
