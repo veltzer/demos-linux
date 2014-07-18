@@ -37,5 +37,9 @@ int main(int argc, char** argv, char** envp) {
 	printf("sysconf(_SC_NPROCESSORS_CONF)=%d\n", CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_CONF)));
 	printf("get_nprocs_conf()=%d\n", get_nprocs_conf());
 	printf("get_nprocs()=%d\n", get_nprocs());
+	// this one is from Ingo Molnars time warp test...
+	int cpus = system("exit `grep ^processor /proc/cpuinfo | wc -l`");
+	cpus = WEXITSTATUS(cpus);
+	printf("cpus from /proc/cpuinfo=%d\n", cpus);
 	return EXIT_SUCCESS;
 }

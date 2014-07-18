@@ -46,8 +46,8 @@ int main(int argc, char** argv, char** envp) {
 		int ret;
 		ret=setjmp(env);
 		if(!ret) {
-			// This is the regular code. We get here when setting doing the
-			// setjmp for the first time
+			// This is the regular code. We get here when doing the
+			// setjmp for the first couple of times
 			fprintf(stderr, "c is %d\n", c);
 			func();
 		} else {

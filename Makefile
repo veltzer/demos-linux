@@ -75,9 +75,9 @@ ifeq ($(OPT),1)
 CXXFLAGS:=$(CXXFLAGS) -O2
 CFLAGS:=$(CFLAGS) -O2
 endif
-WARN_FLAGS:=-Wall -Werror
+#WARN_FLAGS:=-Wall -Werror
 #WARN_FLAGS:=-Wall -Werror -pedantic
-#WARN_FLAGS:=-Wall -Wextra -Werror
+WARN_FLAGS:=-Wall -Wextra -Werror -Wno-unused-parameter -Wno-clobbered -Wno-missing-field-initializers
 CXXFLAGS:=$(CXXFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 CFLAGS:=$(CFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 
