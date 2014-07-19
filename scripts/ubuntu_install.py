@@ -173,6 +173,10 @@ packs=[
 	'scons',
 	'scons-doc',
 	'doxygen',
+
+	# memory testing tools
+	'memtester',
+	'memtest86+',
 ]
 
 args=['sudo','apt-get','install']
