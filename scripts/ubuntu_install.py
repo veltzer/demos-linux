@@ -150,6 +150,8 @@ packs=[
 	'elfutils', # for manipulating elf files
 	'dstat',
 	'netperf',
+	'sysstat',
+	'nmon',
 
 	# fun stuff
 	'figlet',
