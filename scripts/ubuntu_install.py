@@ -116,6 +116,14 @@ packs=[
 	'libasm1',
 	'libasm-dev',
 	'libstdc++6-4.4-doc',
+	'aspell-doc',
+	'libaspell-dev',
+	'gcc-4.6-plugin-dev',
+	'gcc-4.7-plugin-dev',
+	'gcc-4.8-plugin-dev',
+	'g++-4.6',
+	'g++-4.7',
+	'g++-4.8',
 
 	# kernel stuff
 	'linux-headers-generic',
