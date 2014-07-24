@@ -1,5 +1,5 @@
 SOURCES:=$(shell find . -name "*.c" | tr " " "\\ ")
-SOURCES:=$(shell cat list)
+SOURCES:=$(shell cat list.txt)
 OBJECTS:=$(addsuffix .o,$(basename $(SOURCES)))
 
 PROG:=main
