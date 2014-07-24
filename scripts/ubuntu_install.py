@@ -49,6 +49,11 @@ packs=[
 	'gnulib',
 	'bikeshed',
 
+	# debugging
+	'cgdb',
+	'xxgdb',
+	'qtcreator',
+
 	# code measurements
 	'sloccount',
 	'cloc',
