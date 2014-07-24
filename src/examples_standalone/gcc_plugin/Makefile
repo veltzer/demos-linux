@@ -16,7 +16,7 @@ CXXFLAGS:=-I$(GCCPLUGINS_DIR)/include -I../../include -O2 -Wall -Werror -fPIC -f
 
 main.elf: main.c plugin.so
 	$(info doing [$@])
-	$(Q)LD_LIBRARY_PATH=. gcc-$(VER) -I../../include -fplugin=plugin.so $^
+	$(Q)LD_LIBRARY_PATH=. gcc-$(VER) -I../../include -fplugin=plugin.so $^ -o $@
 
 plugin.so: plugin.c
 	$(info doing [$@])
@@ -25,7 +25,7 @@ plugin.so: plugin.c
 .PHONY: clean
 clean:
 	$(info doing [$@])
-	$(Q)-rm *.o *.so
+	$(Q)-rm -f *.o *.so main.elf Makefile.stamp
 
 .PHONY: debug
 debug:
