@@ -19,13 +19,13 @@
 #include <firstinclude.h>
 #include <unistd.h>	// for sleep(3)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
 #include <trace_utils.h>// for TRACE()
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include "mymutex.hh"	// for MyMutex<T>::Object
 
 /*
- * This demos pthread mutex usage.
- * Note that these are actually futexes.
+ * This is a test for the mutex exercise.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */

@@ -20,7 +20,7 @@
 #define __mymutex_h
 
 #include <firstinclude.h>
-#include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_destroy(3)
+#include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_destroy(3), pthread_mutex_lock(3), pthread_mutex_unlock(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 
 class MT_SYNCH {
