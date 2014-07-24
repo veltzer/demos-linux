@@ -46,6 +46,10 @@ profilers:
 	google-pprof
 
 core dumps:
+	cgdb
+	eclipse
+	xxgdb
+	qtcreator
 	gdb
 	gdbtui
 	gcore
