@@ -124,6 +124,7 @@ packs=[
 	'g++-4.6',
 	'g++-4.7',
 	'g++-4.8',
+	'gcc-snapshot',
 
 	# kernel stuff
 	'linux-headers-generic',
