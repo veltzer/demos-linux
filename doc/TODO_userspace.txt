@@ -19,6 +19,7 @@ websites to get ideas from
 
 examples to add
 ===============
+- demo the use of MADV_DONTDUMP for determining what will go into a core dump from within a process.
 - demo the user of the following gcc flags:
 	-fsanitize=address
 	-fsanitize=thread
