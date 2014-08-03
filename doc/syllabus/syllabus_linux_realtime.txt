@@ -1,4 +1,4 @@
-Syllabus for Linux real time programming: 3 days (estimated)
+Syllabus for Linux real time programming: 4 days (estimated)
 ============================================================
 Prerequisitites:
 ================
@@ -101,14 +101,13 @@ Real time and software design
 	CPU affinity for threads and processes.
 	CPU affinity for interrupt handlers and kernel threads.
 
-addendums:
+optional virtualisation and real time materials:
 
-Real time and the hardware (optional)
+Real time and the hardware
 	hardware built for real time
 	IO busses and real time
 	problems caused by the hardware (Self monitoring IRQs (SMIs) and similar issues)
-
-Hypervisons intro (options)
+Hypervisons intro
 	Host-Guest OS terminology
 	Hypervisors
 	Virtualization technologies: Full Virtualization, Para-Virtualization, Os-Level Virtualization
@@ -116,8 +115,7 @@ Hypervisons intro (options)
 	Advantages & disadvantages of using VirtualMachines
 	Additional option: basic demo on KVM
 	Quick review of common hypervisors (kvm, vmware, Hyper-V) and their capabilities.
-
-Real time and hypervisors (optional)
+Real time and hypervisors
 	Comparing native (bare metal) and hosted hypervisors for real time needs.
 	Real time drivers and real time.
 	PCI pass through.
