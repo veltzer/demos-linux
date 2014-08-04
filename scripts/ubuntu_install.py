@@ -175,6 +175,8 @@ packs=[
 	'netperf',
 	'sysstat',
 	'nmon',
+	'lttng-tools',
+	#'lttng-modules-dkms',
 
 	# fun stuff
 	'figlet',
