@@ -17,6 +17,8 @@
  */
 
 #include <firstinclude.h>
+#include <multiproc_utils.h>	// for my_system()
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
  * You can nm this file and see the weak symbol that is produced
@@ -25,7 +27,7 @@
 
 template<class T> class A {
 	public:
-		int foo(T t);
+		int foo(T t) __attribute__((noinline));
 };
 
 template<class T> int A<T>::foo(T t) {
@@ -36,8 +38,12 @@ template<class T> int A<T>::foo(T t) {
 	return sum;
 }
 
+template class A<int>;
+
 int main(int argc, char** argv, char** envp) {
-	A<int> a;
-	int sum=a.foo(0);
-	return sum;
+	//A<int> a;
+	//int sum=a.foo(0);
+	//return sum;
+	my_system("nm %s -C | grep foo", argv[0]);
+	return EXIT_SUCCESS;
 }
