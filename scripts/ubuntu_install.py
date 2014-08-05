@@ -118,6 +118,8 @@ packs=[
 	'libstdc++6-4.4-doc',
 	'aspell-doc',
 	'libaspell-dev',
+	'libacl1-dev',
+	'libattr1-dev',
 
 	# compilers
 	'gcc-4.6-plugin-dev',
