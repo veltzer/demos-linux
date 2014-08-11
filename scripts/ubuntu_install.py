@@ -118,12 +118,24 @@ packs=[
 	'libstdc++6-4.4-doc',
 	'aspell-doc',
 	'libaspell-dev',
+	'libacl1-dev',
+	'libattr1-dev',
+
+	# compilers
 	'gcc-4.6-plugin-dev',
 	'gcc-4.7-plugin-dev',
 	'gcc-4.8-plugin-dev',
+	'gcc-4.6',
 	'g++-4.6',
+	'gcc-4.6-doc',
+	'gcc-4.7',
 	'g++-4.7',
+	'gcc-4.7-doc',
+	'gcc-4.8',
 	'g++-4.8',
+	'gcc-4.8-doc',
+	#'g++-4.9',
+	'gcc-snapshot',
 
 	# kernel stuff
 	'linux-headers-generic',
@@ -166,6 +178,8 @@ packs=[
 	'netperf',
 	'sysstat',
 	'nmon',
+	'lttng-tools',
+	#'lttng-modules-dkms',
 
 	# fun stuff
 	'figlet',
