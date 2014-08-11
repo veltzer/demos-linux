@@ -130,6 +130,7 @@ packs=[
 	'linux-headers-lowlatency',
 	'linux-headers-'+release_generic+'-generic',
 	'linux-headers-'+release_lowlatency+'-lowlatency',
+	'linux-tools-'+release_lowlatency+'-lowlatency',
 	'linux-source',
 	'linux-source-'+source_release,
 
