@@ -16,34 +16,28 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <firstinclude.h>
-#include <multiproc_utils.h>	// for my_system()
-#include <stdlib.h>	// for EXIT_SUCCESS
+/* #define DEBUG */
+#include <linux/module.h> /* for the MODULE_*, module_* */
+/* define DO_DEBUG */
+#include "kernel_helper.h" /* our own helper */
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Mark Veltzer");
+MODULE_DESCRIPTION("Module showing how to use BUG()");
 
 /*
- * You can nm this file and see the weak symbol that is produced
- * by the compiler.
- */
-
-template<class T> class A {
-	public:
-		int foo(T t) __attribute__((noinline));
-};
-
-template<class T> int A<T>::foo(T t) {
-	int sum=0;
-	for(unsigned int i=0;i<100;i++) {
-		sum+=i*i;
-	}
-	return sum;
+* This demo shows the use of the 'dump_stack()' function.
+*/
+static int __init mod_init(void)
+{
+	dump_stack();
+	return 0;
 }
 
-template class A<int>;
-
-int main(int argc, char** argv, char** envp) {
-	//A<int> a;
-	//int sum=a.foo(0);
-	//return sum;
-	my_system("nm %s -C | grep foo", argv[0]);
-	return EXIT_SUCCESS;
+static void __exit mod_exit(void)
+{
+	dump_stack();
 }
+
+module_init(mod_init);
+module_exit(mod_exit);

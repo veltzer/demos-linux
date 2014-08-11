@@ -71,3 +71,12 @@ http://linux-man-pages.blogspot.co.il/
 https://www.kernel.org/pub/linux/docs/man-pages/
 http://man7.org/linux/man-pages/index.html
 http://manpages.ubuntu.com/
+
+gdb:
+====
+http://www.openlogic.com/wazi/bid/336594/Advanced-GDB-tips-and-tricks
+http://www.openlogic.com/wazi/bid/351471/more-gdb-tips-and-tricks
+
+lttng:
+======
+https://lttng.org

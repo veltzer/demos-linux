@@ -1,0 +1,2 @@
+If you want to use gcc latest on ubuntu install the 'gcc-snapshot'
+package and use: '/usr/lib/gcc-snapshot/bin/gcc' as your compiler.
