@@ -21,9 +21,6 @@ examples to add
 ===============
 - do a demo of tracing user space apps using the lttng ust tracer.
 	more info is here: https://lttng.org/
-- show a standalone example of __attribute__((weak)) on a function.
-	show that two compilation units can define the same function name and still like
-	when one of them uses 'weak' and the other function will be used.
 - demo the use of MADV_DONTDUMP for determining what will go into a core dump from within a process.
 - demo the user of the following gcc flags:
 	-fsanitize=address
