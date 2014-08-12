@@ -1,0 +1,4 @@
+you can control io queue affinity parameters via /sys.
+
+References:
+http://lwn.net/Articles/268713/
