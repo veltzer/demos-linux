@@ -31,10 +31,15 @@
  * - We cannot turn off optimization in the middle of a function (we get a compile
  * error for such an attempt) and that is why the function which is not optimized
  * is a standalone function.
+ * - gcc 4.8 does not do this type of optimization even with -O3
  *
  * this is to make sure that source code interleaving in the disassembly works
  * out well...
  * EXTRA_COMPILE_FLAGS=-g3
+ * this is to make sure that we compile using gcc 4.5 since newer gcc versions
+ * do not do this type of optimization...
+ * COMPILER=g++-4.5
+ * LINKER=g++-4.5
  */
 
 /*

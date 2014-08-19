@@ -17,23 +17,27 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <us_helper.h>	// for stringify()
-#include <iostream>	// for std::cout
+#include <iostream>	// for std::cout, std::endl
 #include <thread>	// for std::this_thread
 #include <vector>	// for std::vector
 #include <future>	// for std::future
-#include <algorithm>
 
 /*
  * This is an example of C++11 async tasks.
+ * In this example they are all executed by the one "real" thread.
+ * But you could cause many threads to execute these async tasks
+ * if you add a thread pool.
  *
  * References:
  * http://bartoszmilewski.com/2011/10/10/async-tasks-in-c11-not-quite-there-yet
  *
  * EXTRA_COMPILE_FLAGS=-std=c++11 -pthread
  * EXTRA_LINK_FLAGS=-std=c++11 -pthread -Wl,--no-as-needed
+ *
+ * TODO:
+ * - add a thread pool to show that we could use many threads to execute the tasks
+ * in parallel.
  */
 
 int main(int argc, char** argv, char** envp) {
