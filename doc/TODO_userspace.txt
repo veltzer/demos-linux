@@ -19,6 +19,7 @@ websites to get ideas from
 
 examples to add
 ===============
+- example of using clone(2) directly.
 - do a demo of tracing user space apps using the lttng ust tracer.
 	more info is here: https://lttng.org/
 - demo the use of MADV_DONTDUMP for determining what will go into a core dump from within a process.

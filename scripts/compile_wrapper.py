@@ -48,10 +48,10 @@ if doDebug:
 	print('target is',target)
 # scan the source code
 for line in open(source):
+	line=line.strip()
 	if link:
 		f=line.find('EXTRA_LINK_CMDS=')
 		if f!=-1:
-			line=line.strip()
 			f=line.find('EXTRA_LINK_CMDS=')+len('EXTRA_LINK_CMDS=')
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
@@ -62,17 +62,19 @@ for line in open(source):
 			args.extend(out)
 		f=line.find('EXTRA_LINK_FLAGS=')
 		if f!=-1:
-			line=line.strip()
 			f=line.find('EXTRA_LINK_FLAGS=')+len('EXTRA_LINK_FLAGS=')
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
 			cmd=cmd.split()
 			args.extend(cmd)
+		f=line.find('LINKER=')
+		if f!=-1:
+			f=line.find('LINKER=')+len('LINKER=')
+			args[0]=line[f:]
 	else:
 		f=line.find('EXTRA_COMPILE_CMDS=')
 		if f!=-1:
-			line=line.strip()
 			f=line.find('EXTRA_COMPILE_CMDS=')+len('EXTRA_COMPILE_CMDS=')
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
@@ -84,7 +86,6 @@ for line in open(source):
 			args.extend(out)
 		f=line.find('EXTRA_COMPILE_FLAGS=')
 		if f!=-1:
-			line=line.strip()
 			f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
@@ -92,12 +93,15 @@ for line in open(source):
 			args[1:1]=cmd.split()
 		f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')
 		if f!=-1:
-			line=line.strip()
 			f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')+len('EXTRA_COMPILE_FLAGS_AFTER=')
 			cmd=line[f:]
 			cmd=cmd.replace('SOURCE',source)
 			cmd=cmd.replace('TARGET',target)
 			args.extend(cmd.split())
+		f=line.find('COMPILER=')
+		if f!=-1:
+			f=line.find('COMPILER=')+len('COMPILER=')
+			args[0]=line[f:]
 if ccache and not link:
 	args.insert(0,'ccache')
 if showCmd:
