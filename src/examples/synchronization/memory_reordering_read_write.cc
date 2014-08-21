@@ -198,21 +198,21 @@ void run(bool doVolatile, void *(*start_routine1)(void *), void *(*start_routine
 		// Wait for both threads
 		CHECK_ZERO_ERRNO(sem_wait(&pd->endSema));
 		CHECK_ZERO_ERRNO(sem_wait(&pd->endSema));
-		// Check if there was a simultaneous reorder
+		// Check if there was a reorder
 		if(doVolatile) {
 			if (pd->vr1 == 0 && pd->vr2 == 0) {
 				detected++;
-				// printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+				// printf("%d reorders detected after %d iterations\n", detected, i);
 			}
 		} else {
 			if (pd->r1 == 0 && pd->r2 == 0) {
 				detected++;
-				// printf("%d simulteneous reorders detected after %d iterations\n", detected, i);
+				// printf("%d reorders detected after %d iterations\n", detected, i);
 			}
 		}
 	}
 	if(detected>0) {
-		printf("test failed, %d simulteneous reorders detected\n", detected);
+		printf("test failed, %d reorders detected\n", detected);
 	} else {
 		printf("success!\n");
 	}
