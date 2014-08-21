@@ -62,7 +62,7 @@
  * - if you disassemble the code you see that the compiler writes the loop variable
  * (a in our case) back to it's natural place on the stack right after the loop.
  * - after the loop suprisingly, the compiler is certain that the register is still
- * holding the right value for a and so uses it in the print...
+ * holding the right value for a and so uses it...
  * - without a good compiler barrier the compiler is certain that the value in the
  * register is synchronized with the memory location.
  *
@@ -72,6 +72,12 @@
  * TODO:
  * - make this program show the instructions that are emitted for main so
  * that people could see the assembly code generated.
+ * - stop using the printing in this example and use the __attribute__((used))
+ * gcc feature instead. then I can get ridd of the outfile...
+ * this is actually wrong, the documentation of __attribute__((used)) explicitly
+ * states that I cannot use it for non static variables so we would need
+ * some other mechanism (__attribute__((unused)) ?!?) to force the compiler
+ * for forgo warnings on these variables.
  */
 
 FILE* outfile;
