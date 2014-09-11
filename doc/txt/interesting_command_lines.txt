@@ -10,3 +10,5 @@ to change affinity of an interrupt handler:
 	it may override your choice in a very short time...)
 to find where a process is stuck in the kernel:
 	ps -o wchan:40,comm -p [PID]
+to turn of ASLR:
+	echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
