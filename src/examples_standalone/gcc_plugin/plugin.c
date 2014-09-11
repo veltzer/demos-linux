@@ -123,9 +123,9 @@ static unsigned speller_exec(void) {
 	gimple_stmt_iterator gsi;
 
 	FOR_EACH_BB(bb)
-		for (gsi=gsi_start_bb(bb); !gsi_end_p(gsi); gsi_next(&gsi)) {
+		for(gsi=gsi_start_bb(bb); !gsi_end_p(gsi); gsi_next(&gsi)) {
 			stmt = gsi_stmt(gsi);
-			for (i=0; i<gimple_num_ops(stmt); ++i)
+			for(i=0; i<gimple_num_ops(stmt); ++i)
 				if ((op = gimple_op(stmt, i)) && (str = is_str_cst(op)))
 					spell_check(stmt, str);
 		}
@@ -153,7 +153,7 @@ int plugin_init(struct plugin_name_args *info, /* Argument infor */ struct plugi
 
 	/* Tell gcc we want to be called after the first SSA pass */
 	register_callback("speller", PLUGIN_PASS_MANAGER_SETUP, NULL, &pass);
-	
+
 	#ifdef DO_INFO
 	register_callback("speller", PLUGIN_INFO, NULL, &speller_info);
 	#endif // DO_INFO
