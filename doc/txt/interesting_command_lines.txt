@@ -10,5 +10,12 @@ to change affinity of an interrupt handler:
 	it may override your choice in a very short time...)
 to find where a process is stuck in the kernel:
 	ps -o wchan:40,comm -p [PID]
-to turn of ASLR:
+
+ASLR
+====
+to turn off ASLR:
 	echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+to turn on ASLR:
+	echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
+references:
+	http://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization
