@@ -50,8 +50,6 @@ SUFFIX_OO:=oo
 # checkpatch executable...
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
-# should we do the openoffice conversions?
-DO_SOFFICE:=1
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -149,15 +147,6 @@ ALL:=$(ALL) $(MOD_STP) $(MOD_CHP)
 CLEAN:=$(CLEAN) $(MOD_STP) $(MOD_MOD) $(MOD_SR2) $(MOD_OB2) $(KERNEL_DIR)/Module.symvers $(KERNEL_DIR)/modules.order $(MOD_CM1) $(MOD_CM2) $(MOD_CM3) $(MOD_OBJ)
 CLEAN_DIRS:=$(CLEAN_DIRS) $(KERNEL_DIR)/.tmp_versions
 
-# odps
-ODP_SRC:=$(shell find doc/odp -name "*.odp")
-ODP_BAS:=$(basename $(ODP_SRC))
-ODP_PPT:=$(addsuffix .ppt,$(ODP_BAS))
-ODP_PDF:=$(addsuffix .pdf,$(ODP_BAS))
-ifeq ($(DO_SOFFICE),1)
-ALL:=$(ALL) $(ODP_PPT) $(ODP_PDF)
-endif
-
 # standlone
 MK_SRC:=$(shell find src/examples_standalone src/kernel_standalone -name "Makefile")
 MK_FLD:=$(dir $(MK_SRC))
@@ -167,16 +156,6 @@ ALL:=$(ALL) $(MK_STP)
 # generic section
 .PHONY: all
 all: $(ALL)
-
-.PHONY: ppt
-ppt: $(ODP_PPT)
-
-.PHONY: pdf
-pdf: $(ODP_PDF)
-
-.PHONY: soffice
-soffice:
-	$(Q)soffice "-accept=socket,port=2002;urp;" > /dev/null 2> /dev/null &
 
 .PHONY: clean_standalone
 clean_standalone:
@@ -279,31 +258,11 @@ $(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
 	$(Q)#scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)touch $@
 
-# rules about odps
-$(ODP_PPT): %.ppt: %.odp $(ALL_DEPS)
-	$(info doing [$@])
-	$(Q)rm -f $@
-	$(Q)unoconv --format ppt $<
-	$(Q)chmod 444 $@
-#$(Q)scripts/DocumentConverter.py $< $@
-$(ODP_PDF): %.pdf: %.odp $(ALL_DEPS)
-	$(info doing [$@])
-	$(Q)rm -f $@
-	$(Q)unoconv --format pdf $<
-	$(Q)chmod 444 $@
-#$(Q)scripts/DocumentConverter.py $< $@
-
 # rules about makefiles
 $(MK_STP): %.stamp: % $(ALL_DEPS)
 	$(info doing [$@])
 	$(Q)$(MAKE) -C $(dir $<) Q=$(Q)
 	$(Q)touch $@
-
-# old junk for odps
-#$(Q)java -jar ~/install/jodconverter-core-3.0-beta-4.jar $< $@
-#$(Q)cp $< $@
-#$(Q)java -jar ~/install/jodconverter-core-3.0-beta-4.jar $< $@
-#$(Q)cp $< $@
 
 .PHONY: debug
 debug:
@@ -330,8 +289,6 @@ debug:
 	$(info CXXFLAGS is $(CXXFLAGS))
 	$(info CC is $(CC))
 	$(info CFLAGS is $(CFLAGS))
-	$(info ODP_SRC is $(ODP_SRC))
-	$(info ODP_PPT is $(ODP_PPT))
 	$(info MK_SRC is $(MK_SRC))
 	$(info MK_FLD is $(MK_FLD))
 	$(info MK_STP is $(MK_STP))
