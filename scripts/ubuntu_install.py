@@ -122,6 +122,7 @@ packs=[
 	'libattr1-dev',
 
 	# compilers
+	'g++-4.4',
 	'gcc-4.6-plugin-dev',
 	'gcc-4.7-plugin-dev',
 	'gcc-4.8-plugin-dev',
