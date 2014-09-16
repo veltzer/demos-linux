@@ -1,0 +1,3 @@
+pretty printers for gdb:
+http://choorucode.com/2014/07/17/how-to-enable-pretty-printing-for-stl-in-gdb/
+https://sourceware.org/gdb/wiki/STLSupport
