@@ -10,6 +10,8 @@ Andries Brouwer notes about the linux kernel:
 	http://www.win.tue.nl/~aeb/linux/lk/lk.html
 Mel Gormans book on memory management in the kernel:
 	https://www.kernel.org/doc/gorman/pdf/understand.pdf
+Linux gate and fast system calls:
+	http://www.trilithium.com/johan/2005/08/linux-gate/
 
 Memory reordering links:
 ========================
