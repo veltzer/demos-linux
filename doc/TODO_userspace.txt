@@ -16,6 +16,8 @@ websites to get ideas from
 	http://stackoverflow.com/questions/2611764/can-i-use-a-binary-literal-in-c-or-c
 	http://stackoverflow.com/questions/6719339/determining-if-a-system-uses-big-endian-or-little-endian-using-c
 	http://bartoszmilewski.com
+	https://www.technovelty.org
+	http://www.wienand.org/junkcode
 
 examples to add
 ===============
