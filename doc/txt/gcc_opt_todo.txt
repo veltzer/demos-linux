@@ -1,3 +1,0 @@
-TODO:
-	- add sun and icc instructions to this slide show.
-	- add the demo

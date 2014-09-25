@@ -79,6 +79,10 @@ gdb:
 http://www.openlogic.com/wazi/bid/336594/Advanced-GDB-tips-and-tricks
 http://www.openlogic.com/wazi/bid/351471/more-gdb-tips-and-tricks
 
+pretty printers for gdb:
+http://choorucode.com/2014/07/17/how-to-enable-pretty-printing-for-stl-in-gdb/
+https://sourceware.org/gdb/wiki/STLSupport
+
 lttng:
 ======
 https://lttng.org
@@ -96,3 +100,26 @@ https://www.technovelty.org//linux/plt-and-got-the-key-to-code-sharing-and-dynam
 pid 1, upstart, sysvinit, systemd:
 ==================================
 http://0pointer.de/blog/projects/systemd.html
+
+real time:
+==========
+https://www.osadl.org/QA-Farm-Realtime.qa-farm-about.0.html
+http://free-electrons.com/blog/elce-2011-videos/
+https://rt.wiki.kernel.org/index.php/Main_Page
+
+perf:
+=====
+perf events explanation:
+http://web.eecs.utk.edu/~vweaver1/projects/perf-events/
+perf wiki
+https://perf.wiki.kernel.org/
+
+oprofile:
+=========
+Installing oprofile
+- On ubuntu:
+	sudo apt-get install oprofile oprofile-gui
+- documentation is in /usr/share/doc/oprofile/oprofile.html
+
+oprofile documentation
+http://oprofile.sourceforge.net/docs/
