@@ -12,6 +12,10 @@ Mel Gormans book on memory management in the kernel:
 	https://www.kernel.org/doc/gorman/pdf/understand.pdf
 Linux gate and fast system calls:
 	http://www.trilithium.com/johan/2005/08/linux-gate/
+Memory mgmt:
+	http://linux-mm.org/
+embedded linux:
+	http://elinux.org/Main_Page
 
 Memory reordering links:
 ========================
