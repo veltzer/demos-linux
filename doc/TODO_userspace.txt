@@ -21,6 +21,8 @@ websites to get ideas from
 
 examples to add
 ===============
+- do a standalone example of using -flto and -fwhole-program to compile a full library or program
+	in one go.
 - example of using clone(2) directly.
 - do a demo of tracing user space apps using the lttng ust tracer.
 	more info is here: https://lttng.org/
