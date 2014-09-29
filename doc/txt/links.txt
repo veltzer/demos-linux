@@ -127,3 +127,7 @@ Installing oprofile
 
 oprofile documentation
 http://oprofile.sourceforge.net/docs/
+
+ELF and size of executable:
+===========================
+http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html
