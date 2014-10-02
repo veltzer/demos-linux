@@ -1,6 +1,3 @@
-Lecture on new course
-=====================
-
 Course topics: Configuration management, Build systems, Modern QA and Team leading
 
 Part 1
