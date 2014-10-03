@@ -1,0 +1,20 @@
+files are stored in directories in some "natural" order which is the order
+at which the underlying file system orders them.
+
+different file systems have different natural orders.
+
+simple file systems (like FAT) have a natural order which
+matches the order in which you created the files in the directory.
+
+When you do something like "echo *" or "ls" in a folder both the shell (first example)
+or ls (second example) sort the files for you so you don't see the natural order.
+
+When you copy files recusivly (cp -r) you copy in "natural" order since cp iterates
+recursivly in natural order.
+
+If you want to see the natural order use "ls -f".
+
+Why would you care about all this?
+Well - some mp3 mplayer are based on FAT file systems and display and play tracks
+in natural order which is the FAT natural order. This means that you have to copy
+the files in the right order.
