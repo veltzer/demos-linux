@@ -29,7 +29,7 @@
 /*
  * This example tried to map a read/write file to an executable space.
  * This actually works. Which means that mmap(2) in linux allows
- * you to map a file which is rw- as rwx. 
+ * you to map a file which is rw- as rwx.
  * Note that this will fail if you try to do the mapping as SHARED
  * unless ofcourse you change the permissions to read only...
  */
