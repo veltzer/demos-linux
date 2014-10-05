@@ -29,6 +29,10 @@
 
 /*
  * This example shows a more efficient copy of file using mmap.
+ *
+ * NOTES:
+ * - The MAP_PRIVATE in the first mapping is because we may not have write permission on the input file.
+ * - the O_RDWR for the target file is to enable MAP_SHARED - otherwise mmap fails.
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -38,16 +42,16 @@ int main(int argc, char** argv, char** envp) {
 	}
 	const char* filein=argv[1];
 	const char* fileout=argv[2];
-	int source=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE));
+	int fd_src=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE));
 	struct stat statbuf;
-	fstat (source, &statbuf);
+	fstat (fd_src, &statbuf);
 	size_t len=statbuf.st_size;
-	int target=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_LARGEFILE, statbuf.st_mode));
-	CHECK_NOT_M1(ftruncate(target, len));
-	void* src=CHECK_NOT_VOIDP(mmap(NULL, len, PROT_READ, MAP_PRIVATE, source, 0), MAP_FAILED);
-	void* dest=CHECK_NOT_VOIDP(mmap(NULL, len, PROT_READ|PROT_WRITE, MAP_SHARED, target, 0), MAP_FAILED);
-	CHECK_NOT_M1(close(source));
-	CHECK_NOT_M1(close(target));
-	memcpy(dest, src, len);
+	int fd_dst=CHECK_NOT_M1(open(fileout, O_RDWR|O_CREAT|O_LARGEFILE, statbuf.st_mode));
+	CHECK_NOT_M1(ftruncate(fd_dst, len));
+	void* src=CHECK_NOT_VOIDP(mmap(NULL, len, PROT_READ, MAP_PRIVATE, fd_src, 0), MAP_FAILED);
+	void* dst=CHECK_NOT_VOIDP(mmap(NULL, len, PROT_WRITE, MAP_SHARED, fd_dst, 0), MAP_FAILED);
+	CHECK_NOT_M1(close(fd_src));
+	CHECK_NOT_M1(close(fd_dst));
+	memcpy(dst, src, len);
 	return EXIT_SUCCESS;
 }
