@@ -132,8 +132,10 @@ programming:
 elf tools:
 	nm
 	ldd
-	objdump
 	pldd
+	ld.so
+	objdump
+	objcopy
 	readelf
 	chrpath
 	patchelf
