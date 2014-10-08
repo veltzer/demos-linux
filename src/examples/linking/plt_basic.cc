@@ -17,41 +17,31 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
+#include <stdio.h>	// for printf(3), snprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, atoi(3)
-#include <unistd.h>	// for pause(2)
+#include <proc_utils.h>	// for proc_print_mmap_self()
 
 /*
- * This example shows the addresses of functions not yet resolved.
+ * This example shows the addresses of functions not yet resolved which are in the plt.
+ * as you can see the addresses of the functions are constant at every invocation and
+ * are not affected by ASLR (Address Space Layout Randomization).
+ * They are also part of the executable and not part of the shared library. That is
+ * the PLT.
+ * You can also see that the PLT is part of the executable part of your executable, not
+ * any of the data segments (the read only or the read/write ones).
+ * That is because you jump to it and from it to the real function you are trying to call.
+ *
+ * TODO:
+ * - disassemble the code at the PLT addresses.
  */
 
 int main(int argc, char** argv, char** envp) {
-	void** p_printf=(void**)&printf;
-	void** p_snprintf=(void**)&snprintf;
-	void** p_atoi=(void**)&atoi;
-	void* pp_printf=*p_printf;
-	void* pp_snprintf=*p_snprintf;
-	void* pp_atoi=*p_atoi;
+	typeof(printf)* p_printf=&printf;
+	typeof(snprintf)* p_snprintf=&snprintf;
+	typeof(atoi)* p_atoi=&atoi;
 	printf("&printf is %p\n", p_printf);
 	printf("&snprintf is %p\n", p_snprintf);
 	printf("&atoi is %p\n", p_atoi);
-	printf("*&printf is %p\n", pp_printf);
-	printf("*&snprintf is %p\n", pp_snprintf);
-	printf("*&atoi is %p\n", pp_atoi);
-	p_printf=(void**)&printf;
-	p_snprintf=(void**)&snprintf;
-	p_atoi=(void**)&atoi;
-	pp_printf=*p_printf;
-	pp_snprintf=*p_snprintf;
-	pp_atoi=*p_atoi;
-	printf("&printf is %p\n", p_printf);
-	printf("&snprintf is %p\n", p_snprintf);
-	printf("&atoi is %p\n", p_atoi);
-	printf("*&printf is %p\n", pp_printf);
-	printf("*&snprintf is %p\n", pp_snprintf);
-	printf("*&atoi is %p\n", pp_atoi);
-	while(true) {
-		pause();
-	}
+	proc_print_mmap_self();
 	return EXIT_SUCCESS;
 }
