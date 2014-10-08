@@ -36,6 +36,11 @@
  * on each run, will return a slightly different pointer on each invocation.
  * - so is using dlsym(3) for every function more efficient? well, yes but by very
  * little so you don't really want to do that. see the measurements that we show.
+ * - what about the GOT? as you can see global data is not that complicated. since
+ * the accessing global data is done by accessing the address in the GOT and the GOT
+ * get filled at load time then accessing the data by pointer is exactly the same and
+ * that is the reason why there is no performance benefit to using dlsym(3) in that
+ * case (look at the results).
  *
  * EXTRA_LINK_FLAGS=-ldl -lpthread
  */
@@ -43,10 +48,10 @@
 const unsigned int count=10000000;
 
 // this one does straight getpid(2)
-void* m1(void*) {
+void* m_direct_getpid(void*) {
 	measure m;
 	// think! why count+1?
-	measure_init(&m, "direct getpid", count+1);
+	measure_init(&m, __FUNCTION__, count+1);
 	measure_start(&m);
 	for(unsigned int i=0; i<count; i++) {
 		getpid();
@@ -57,14 +62,47 @@ void* m1(void*) {
 }
 
 // this one does dlsym getpid(2)
-void* m2(void*) {
+void* m_dlsym_getpid(void*) {
 	typeof(getpid)* p_dlsym_getpid=(typeof(getpid)*)dlsym(RTLD_NEXT, "getpid");
 	measure m;
 	// think! why count+1?
-	measure_init(&m, "dlsym getpid", count+1);
+	measure_init(&m, __FUNCTION__, count+1);
 	measure_start(&m);
 	for(unsigned int i=0; i<count; i++) {
 		p_dlsym_getpid();
+	}
+	measure_end(&m);
+	measure_print(&m);
+	return NULL;
+}
+
+// this one does uses stdin directly
+void* m_direct_stdin(void*) {
+	measure m;
+	// think! why count+1?
+	measure_init(&m, __FUNCTION__, count+1);
+	measure_start(&m);
+	for(unsigned int i=0; i<count; i++) {
+		if(feof(stdin)) {
+			break;
+		}
+	}
+	measure_end(&m);
+	measure_print(&m);
+	return NULL;
+}
+
+// this one does dlsym stdin
+void* m_dlsym_stdin(void*) {
+	typeof(stdin)* p_dlsym_stdin=(typeof(stdin)*)dlsym(RTLD_NEXT, "stdin");
+	measure m;
+	// think! why count+1?
+	measure_init(&m, __FUNCTION__, count+1);
+	measure_start(&m);
+	for(unsigned int i=0; i<count; i++) {
+		if(feof(*p_dlsym_stdin)) {
+			break;
+		}
 	}
 	measure_end(&m);
 	measure_print(&m);
@@ -78,15 +116,22 @@ int main(int argc, char** argv, char** envp) {
 	typeof(printf)* p_dlsym_printf=(typeof(printf)*)dlsym(RTLD_NEXT, "printf");
 	typeof(getpid)* p_direct_getpid=&getpid;
 	typeof(getpid)* p_dlsym_getpid=(typeof(getpid)*)dlsym(RTLD_NEXT, "getpid");
+	typeof(stdin)* p_direct_stdin=&stdin;
+	typeof(stdin)* p_dlsym_stdin=(typeof(stdin)*)dlsym(RTLD_NEXT, "stdin");
 	printf("p_direct_atoi is %p\n", p_direct_atoi);
 	printf("p_dlsym_atoi is %p\n", p_dlsym_atoi);
 	printf("p_direct_printf is %p\n", p_direct_printf);
 	printf("p_dlsym_printf is %p\n", p_dlsym_printf);
 	printf("p_direct_getpid is %p\n", p_direct_getpid);
 	printf("p_dlsym_getpid is %p\n", p_dlsym_getpid);
+	printf("p_direct_stdin is %p\n", p_direct_stdin);
+	printf("p_dlsym_stdin is %p\n", p_dlsym_stdin);
+	printf("showing that they work...\n");
 	printf("p_direct_atoi(2) is %d\n", p_direct_atoi("2"));
 	printf("p_dlsym_atoi(2) is %d\n", p_dlsym_atoi("2"));
-	sched_run_priority(m2, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
-	sched_run_priority(m1, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(m_direct_getpid, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(m_dlsym_getpid, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(m_direct_stdin, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
+	sched_run_priority(m_dlsym_stdin, NULL, SCHED_FIFO_HIGH_PRIORITY, SCHED_FIFO);
 	return EXIT_SUCCESS;
 }
