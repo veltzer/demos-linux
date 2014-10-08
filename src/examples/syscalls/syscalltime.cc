@@ -22,7 +22,6 @@
 #include <stdlib.h>	// for atoi(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <sys/syscall.h>// for syscall(2)
 #include <sys/time.h>	// for gettimeofday(2), struct timeval
-#include <us_helper.h>	// for run_priority()
 #include <measure.h>	// for measure, measure_init(), measure_start(), measure_end(), measure_print()
 #include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_HIGH_PRIORITY:const
 
