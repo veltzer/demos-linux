@@ -24,7 +24,7 @@
 #include <sys/stat.h>	// for open(2), fstat(2)
 #include <fcntl.h>	// for open(2)
 #include <sys/ioctl.h>	// for ioctl(2)
-#include <unistd.h>	// for getpagesize(2), fstat(2)
+#include <unistd.h>	// for fstat(2)
 #include <linux/fs.h>	// for BLKSSZGET
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT()
 #include <multiproc_utils.h>	// for my_system()
@@ -71,10 +71,9 @@ int main(int argc, char** argv, char** envp) {
 	}
 	int fd=CHECK_NOT_M1(open(filename, flags));
 	// find out the block size
-	/*
-	size_t block_size;
-	CHECK_NOT_M1(ioctl(fd, BLKSSZGET, &block_size));
-	*/
+	blksize_t block_size1;
+	CHECK_NOT_M1(ioctl(fd, BLKSSZGET, &block_size1));
+	printf("block_size1=%ld\n", block_size1);
 	struct stat mystat;
 	CHECK_NOT_M1(fstat(fd, &mystat));
 	blksize_t block_size=mystat.st_blksize;
@@ -82,7 +81,6 @@ int main(int argc, char** argv, char** envp) {
 	if(use_malloc) {
 		p=(char*)malloc(size);
 	} else {
-		//p=(char*)aligned_alloc(getpagesize(), size);
 		p=(char*)aligned_alloc(block_size, size);
 	}
 	if(((unsigned int)p)%block_size!=0) {
