@@ -18,33 +18,41 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, rand(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+
+/*
+ * This example shows that you can fool a compiler which is using a register for a loop
+ * variable and store something else in the memory location for that variable and have
+ * the compiler be very ambiguous about what the value of the variable is.
+ *
+ * NOTES:
+ * - The reason why the second value of i is different from the first is that the compiler,
+ * forgets about registers whenever calling a remote function (in our case, printf(3)).
+ * this means that the compiler is using the register for the first call but the memory
+ * location for the second which accounts for the different values.
+ * - the reason you need the two print statements at the begining is that otherwise pi or
+ * i will get optimized away completely either which will make the trick not work.
+ * - notice that on modern Linux systems whenever you run this program you will get different
+ * addresses for the variables unlike in older systems where the addresses are constant. This
+ * is ASLR (address space randomization) which is a security measure of the kernel that puts
+ * the different segments of memory in slightly different locations on each run to protect
+ * against hackers. You can turn that off (look at my interesting command lines).
+ */
 
 int main(int argc, char** argv, char** envp) {
-	int a;
 	int i;
-	printf("the address of a is %p\n", &a);
-	printf("the address of i is %p\n", &i);
-	int* pi=&a+1;
-	printf("pi is %p\n", pi);
-	/*
-	 * if(rand()<RAND_MAX) {
-	 * pi+=1;
-	 * printf("pi is %p\n",pi);
-	 * }
-	 */
+	// pi points to i but the compiler does not know it...
+	int* pi=&argc-5;
+	// the next TWO print statements are neccessary to make the magic at the end happen...
+	printf("&i is %p\n", &i);
+	printf("&pi is %p\n", pi);
+	unsigned long sum=0;
 	for(i=0; i<100; i++) {
-		// printf("i is %d\n",i);
-		// printf("*pi is %d\n",*pi);
-		if(i==10) {
-			*pi=700;
-		}
-		// __sync_synchronize();
-		// asm volatile("":::"memory");
-		asm volatile ("" : "=g" (i) ::);
+		sum+=i*i;
 	}
-	printf("after the loop\n");
+	*pi=700;
+	// what this magic trick! i has two different values...
 	printf("i is %d\n", i);
-	printf("*pi is %d\n", *pi);
+	printf("i is %d\n", i);
 	return EXIT_SUCCESS;
 }
