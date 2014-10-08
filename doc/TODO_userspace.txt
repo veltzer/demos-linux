@@ -18,9 +18,15 @@ websites to get ideas from
 	http://bartoszmilewski.com
 	https://www.technovelty.org
 	http://www.wienand.org/junkcode
+	http://ewontfix.com
+	http://blog.plenz.com
 
 examples to add
 ===============
+- add examples of doing chattr and lsattr in straight C.
+	write a presentation showing how chattr can be used for security.
+- adapt an example like in plenz:
+	http://blog.plenz.com/2014-04/so-you-want-to-write-to-a-file-real-fast.html
 - do a standalone example of using -flto and -fwhole-program to compile a full library or program
 	in one go.
 - example of using clone(2) directly.
