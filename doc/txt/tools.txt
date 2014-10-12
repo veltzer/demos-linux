@@ -136,6 +136,7 @@ elf tools:
 	ld.so
 	objdump
 	objcopy
+	size
 	readelf
 	chrpath
 	patchelf

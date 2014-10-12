@@ -19,3 +19,4 @@ to turn on ASLR:
 	echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
 references:
 	http://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization
+	$KERNEL_SOURCE/Documentation/sysctl/kernel.txt, grep for randomize_va_space
