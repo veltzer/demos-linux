@@ -184,6 +184,8 @@ packs=[
 	'scons',
 	'scons-doc',
 	'doxygen',
+	'make',
+	'make-doc',
 
 	# memory testing tools
 	'memtester',
