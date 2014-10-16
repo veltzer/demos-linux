@@ -190,7 +190,11 @@ static inline void unlock(unsigned long *flag)
 		: "=g" (*flag) ::"memory");
 	__asm__ __volatile__ ("rep; nop");
 #else
+#if __x86_64__
+	__asm__ __volatile__ ("mov $0,%0; rep; nop" : "=g" (*flag) ::"memory");
+#else
 	__asm__ __volatile__ ("movl $0,%0; rep; nop" : "=g" (*flag) ::"memory");
+#endif
 #endif
 }
 

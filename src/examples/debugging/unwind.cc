@@ -48,7 +48,7 @@ void do_backtrace() {
 		unw_get_reg(&cursor, UNW_REG_IP, &pc);
 		fname[0] = '\0';
 		(void)unw_get_proc_name(&cursor, fname, sizeof(fname), &offset);
-		printf ("%p : (%s+0x%x) [%p]\n", (void*)pc, fname, offset, (void*)pc);
+		printf ("%p : (%s+0x%lx) [%p]\n", (void*)pc, fname, offset, (void*)pc);
 	}
 }
 

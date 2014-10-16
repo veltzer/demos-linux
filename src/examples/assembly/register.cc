@@ -22,12 +22,17 @@
 #include <lowlevel_utils.h> // for getrdtsc(), getstackpointer(), getframepointer()
 
 /*
- * This is an example of getting a register on an i32 machine
+ * This is an example of getting a register
  */
 
 static inline unsigned long getbx() {
 	unsigned long val;
+	#if __i386__
 	asm ("movl %%ebx, %0" : "=r" (val));
+	#endif	// __i386__
+	#if __x86_64__
+	val=5;
+	#endif	// __x86_64__
 	return val;
 }
 

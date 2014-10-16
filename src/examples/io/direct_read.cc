@@ -83,7 +83,7 @@ int main(int argc, char** argv, char** envp) {
 	} else {
 		p=(char*)aligned_alloc(block_size, size);
 	}
-	if(((unsigned int)p)%block_size!=0) {
+	if(((unsigned long)p)%block_size!=0) {
 		printf("p (%p) is not a multiple of block_size (%ld) !!!...\n", p, block_size);
 	} else {
 		printf("p (%p) is a multiple of block_size (%ld)...\n", p, block_size);

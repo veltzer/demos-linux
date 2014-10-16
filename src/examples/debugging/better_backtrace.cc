@@ -342,7 +342,7 @@ char **repl_backtrace_symbols(void *const *buffer, int size)
 		char **ret_buf;
 		bfd_vma addr;
 		dl_iterate_phdr(find_matching_file, &match);
-		addr = (bfd_vma)buffer[x] - (int)match.base;
+		addr = (bfd_vma)buffer[x] - (long)match.base;
 		if (match.file && strlen(match.file))
 			ret_buf = process_file(match.file, &addr, 1);
 		else
