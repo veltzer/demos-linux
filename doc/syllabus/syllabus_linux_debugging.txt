@@ -6,7 +6,7 @@ the participants to tools they did not know existed. This combination enables to
 build software
 which is easier to debug both at the development and client sites. This ultimately
 saves precious time and produces systems which are more stable and more extendable
-and delays the stasis that most C/C++ systems reach at some point. 
+and delays the stasis that most C/C++ systems reach at some point.
 
 Requirements:
 =============
@@ -44,16 +44,16 @@ Topics for course on debugging:
 	Graphical front ends.
 	Remote debugging (serial port, remote machine over tcp/ip, USB).
 
-3. Memory overrun 
-	Stack overrun, characterization of such faults, and techniques for guarding against 
-	Heap overrun, characterization of such faults, and techniques for guarding against 
+3. Memory overrun
+	Stack overrun, characterization of such faults, and techniques for guarding against
+	Heap overrun, characterization of such faults, and techniques for guarding against
 	Global storage overrun, characterization of such faults, and techniques for guarding against
 
-4. Multi-threading 
-	And synchronization mechanisms 
-	Thread stack 
+4. Multi-threading
+	And synchronization mechanisms
+	Thread stack
 	TLS
-	Shared resources and keeping data integrity 
+	Shared resources and keeping data integrity
 
 5. Using external libraries/tools
 	Efence.
@@ -73,7 +73,7 @@ Topics for course on debugging:
 	Changing read/write attributes of your memory pages.
 	Injecting errors to check robustness.
 
-7. Dynamic allocations and memory leaks 
+7. Dynamic allocations and memory leaks
 	Allocating memory without de-allocation
 	De-allocating non allocated memory
 	De-allocating already de-allocated memory
@@ -84,9 +84,9 @@ Topics for course on debugging:
 	Techniques to have the software send you post mortem automatically
 		from the client site.
 
-9. Stack structure 
-	What can go wrong? 
-	Stacks and multi-threading 
+9. Stack structure
+	What can go wrong?
+	Stacks and multi-threading
 	Stacks and interrupts
 	Stacks and infinite recursion.
 

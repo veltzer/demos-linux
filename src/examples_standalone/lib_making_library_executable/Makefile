@@ -11,7 +11,7 @@ CC:=gcc
 ALL_DEPS:=Makefile
 
 # on Intel this usually works without the -fpic but use it none
-# the less, you can also add -nostdlib to avoid the default 
+# the less, you can also add -nostdlib to avoid the default
 # bahviour of linking with standard C/C++ runtime libraries.
 # this does not work
 SHARED_COMPILE_FLAGS:=-fPIC
@@ -52,7 +52,7 @@ run: $(ALL_DEPS)
 .PHONY: show_results
 show_results: all $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)ldd $(SO_NAME) 
+	$(Q)ldd $(SO_NAME)
 	$(Q)ldd $(EXE_NAME)
 
 .PHONY: show_results_verbose

@@ -36,7 +36,7 @@ main:
 	movl $hello, %ecx
 	movl $14, %edx
 	int $0x80
-	
+
 	## _exit(7)
 	movl $SYS_exit, %eax
 	movl $7, %ebx

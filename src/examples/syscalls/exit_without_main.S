@@ -28,7 +28,7 @@
  * - -Xlinker --build-id=none is to remove the linkers build-id stamp and
  * so reduce the size of the executable even more.
  * - use 'ls -l' to see just how small the executable file is.
- * - use 'ldd' to see that this executable does not link with anything. 
+ * - use 'ldd' to see that this executable does not link with anything.
  * - use 'objdump -D [exefile]' to see how little content this executable has.
  *
  * EXTRA_LINK_FLAGS=-nostdlib -Xlinker --strip-all -Xlinker --build-id=none

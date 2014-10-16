@@ -1,4 +1,4 @@
-# This shows how to search if a program exists inside a Makefile 
+# This shows how to search if a program exists inside a Makefile
 # shamelessly stolen from the make info pages...
 
 pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))

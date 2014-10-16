@@ -62,7 +62,7 @@ run: $(ALL_DEPS)
 
 show_results: $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)ldd $(SO_NAME) 
+	$(Q)ldd $(SO_NAME)
 	$(Q)ldd $(EXE_NAME)
 
 show_results_verbose: $(ALL_DEPS)

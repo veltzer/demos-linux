@@ -2,7 +2,7 @@ This is a demo of how to make a library executable.
 
 If you want to see an example of such an idea just run your own libc library:
 =============================================================================
-fermat$ /lib/libc.so.6 
+fermat$ /lib/libc.so.6
 GNU C Library (Ubuntu EGLIBC 2.12.1-0ubuntu9) stable release version 2.12.1, by Roland McGrath et al.
 Copyright (C) 2010 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.

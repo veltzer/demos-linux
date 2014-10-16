@@ -9,4 +9,4 @@ dummy:
 	@echo dummy
 
 all:
-	@echo all 
+	@echo all

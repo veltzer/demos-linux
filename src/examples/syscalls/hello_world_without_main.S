@@ -39,7 +39,7 @@ _start:
 	movl $hello, %ecx
 	movl $14, %edx
 	int $0x80
-	
+
 	## _exit(7)
 	movl $7, %ebx
 	movl $SYS_exit, %eax

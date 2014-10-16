@@ -30,6 +30,6 @@ debug:
 # MM and not M is used to only list project file information
 %.d: %.c
 	$(CC) -E -MM $(CFLAGS) -MT $(addsuffix .o,$(basename $@)) -o $@ $<
-	
+
 # include the deps files (no warnings)
 -include $(DEPS)

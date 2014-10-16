@@ -6,7 +6,7 @@
 		Stat.hh, Selector.hh etc...
 
 - includes:
-	#include <stdio.h> // for printf(3) 
+	#include <stdio.h> // for printf(3)
 	* space after the include keyword
 - first include in every file should be:
 	#include <firstinclude.h>

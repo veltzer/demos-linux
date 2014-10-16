@@ -14,7 +14,7 @@ Mechanisms of synchronization in general and in Linux:
 	show how to find the cache line width both as compile time constant and as
 	runtime variable. Show how to pad a data structure correctly so that it will
 	be wide enough.
-	
+
 	When should you use them?
 	This is the most efficient synchronization mechanism as it has no overhead.
 
