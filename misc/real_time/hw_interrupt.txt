@@ -16,4 +16,4 @@ You can use devmem2 for this:
 sudo devmem2 1072 b 46
 
 to turn them back on:
-sudo devmem2 1072 b 111 
+sudo devmem2 1072 b 111

@@ -20,7 +20,7 @@ probe begin {
 }
 
 probe end {
-	foreach ([pid+, lock] in lock_waits) 
+	foreach ([pid+, lock] in lock_waits)
 		printf ("%s[%d] lock %p contended %d times, %d avg us\n",
 			process_names[pid], pid, lock, @count(lock_waits[pid,lock]),
 			@avg(lock_waits[pid,lock]))

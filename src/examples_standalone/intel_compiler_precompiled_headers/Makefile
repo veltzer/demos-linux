@@ -33,5 +33,5 @@ clean:
 
 .PHONY: test
 test:
-	$(Q)time $(CXX) $(CXXFLAGS) -pch-use $(PCHI) goodbye.cc -o test_opt.out 
+	$(Q)time $(CXX) $(CXXFLAGS) -pch-use $(PCHI) goodbye.cc -o test_opt.out
 	$(Q)time $(CXX) $(CXXFLAGS) goodbye.cc -o test_noopt.out

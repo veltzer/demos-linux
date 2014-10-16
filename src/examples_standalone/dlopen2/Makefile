@@ -12,4 +12,4 @@ $(PROG): run_func_from_dll.cc
 
 .PHONY: clean
 clean:
-	$(Q)-rm -f $(PROG) 
+	$(Q)-rm -f $(PROG)

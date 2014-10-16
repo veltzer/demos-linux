@@ -10,7 +10,7 @@ Exercise 6
 5. Print the received data by the Acceptor. (Printout of the original data by the connector
 	may help in debugging).
 6. Finally, use the input data in order to terminate the connection. The connector will close
-	the opened port when no data is available. Then, the Acceptor will close the opened port 
+	the opened port when no data is available. Then, the Acceptor will close the opened port
 	and will terminate gracefully.
 	Note: If you close the Connector too early then the Acceptor may fail in reading data.
 	Use sleep function with reasonable value in order to prevent such problem.

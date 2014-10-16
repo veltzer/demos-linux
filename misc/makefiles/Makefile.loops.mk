@@ -1,7 +1,7 @@
 
 MYEXECUTABLES:=a b c
 MYVARIANTS:=debug release
-a_INCLUDES:=sadfa asdf asdf asdfad 
+a_INCLUDES:=sadfa asdf asdf asdfad
 b_INCLUDES:=binclude1 binclude2
 c_INCLUDES:=cinclude1 cinclude2
 

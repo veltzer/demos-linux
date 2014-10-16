@@ -10,7 +10,7 @@ obj:
 .PHONY: link
 link:
 	$(info doing [$@])
-	$(Q)ld --shared -o out --static $(LIB) 
+	$(Q)ld --shared -o out --static $(LIB)
 
 .PHONY: strip
 strip:

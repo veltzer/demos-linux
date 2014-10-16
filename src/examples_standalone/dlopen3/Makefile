@@ -5,7 +5,7 @@ CFLAGS:=-I../../include
 .PHONY: all
 all: main.$(SUFFIX_BIN) libadd.so
 
-main.$(SUFFIX_BIN): main.o 
+main.$(SUFFIX_BIN): main.o
 	$(info doing [$@])
 	$(Q)gcc -o $@ $< -ldl
 main.o: main.c

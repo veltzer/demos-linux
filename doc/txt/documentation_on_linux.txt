@@ -16,7 +16,7 @@
 		same for RH.
 	info gcc
 		ubuntu: this comes from: 'gcc-4.6-doc'.
-		RH: part of the gcc package (no separate documentation). 
+		RH: part of the gcc package (no separate documentation).
 5. ACE
 	In your case ask your local system administrator.
 	ubuntu: part of the package system

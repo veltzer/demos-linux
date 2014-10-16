@@ -12,7 +12,7 @@ $(PROG): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	-rm -f $(OBJECTS) $(PROG) 
+	-rm -f $(OBJECTS) $(PROG)
 
 .PHONY: debug
 debug:

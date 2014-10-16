@@ -10,7 +10,7 @@ ifeq ($(DO_ALL_SILENT),1)
 .SILENT:
 endif
 ifeq ($(DO_SILENT),1)
-.SILENT: silent_commands 
+.SILENT: silent_commands
 endif
 
 .PHONY: silent_commands

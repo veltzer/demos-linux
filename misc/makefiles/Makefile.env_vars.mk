@@ -8,7 +8,7 @@
 #
 #	Mark Veltzer
 
-.PHONY: env_in_rule 
+.PHONY: env_in_rule
 env_in_rule:
 	@echo $$PWD
 

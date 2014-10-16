@@ -51,12 +51,12 @@ probe kernel.trace("sched_switch") {
       }
     } else if (pid_state[previous_pid] == RUNNING) {
       pid_names[previous_pid] = kernel_string($prev->comm);
-      t = gettimeofday_us();  
+      t = gettimeofday_us();
       run_time[previous_pid] += (t - previous_timestamp[previous_pid]);
       previous_timestamp[previous_pid] = t;
       if ($prev->state > 0) {
         if (@defined($rq) && (get_iowait($rq) - io_wait_count[previous_pid]) > 0)
-          io_wait_incremented[previous_pid] = 1;  
+          io_wait_incremented[previous_pid] = 1;
         pid_state[previous_pid] = SLEEPING;
       } else if ($prev->state == 0) {
         pid_state[previous_pid] = QUEUED;
@@ -147,8 +147,8 @@ probe end {
          "execname", "pid", "run(us)", "sleep(us)", "io_wait(us)",
          "queued(us)", "total(us)")
   foreach (pid+ in run_time) {
-    printf("%16s: %6d %10d %10d %10d %10d %10d\n", 
-      pid_names[pid], pid, run_time[pid], sleep_time[pid], 
+    printf("%16s: %6d %10d %10d %10d %10d %10d\n",
+      pid_names[pid], pid, run_time[pid], sleep_time[pid],
       io_wait_time[pid], queued_time[pid],
       (run_time[pid] + sleep_time[pid] + queued_time[pid]));
   }

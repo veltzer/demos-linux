@@ -14,7 +14,7 @@
 		<a href="https://github.com/veltzer/linuxapi">github page</a>.
 		</p>
 		<p>
-		Mark Veltzer, <?php 
+		Mark Veltzer, <?php
 			$copyYear = 2010;
 			$curYear = date('Y');
 			echo $copyYear . (($copyYear != $curYear) ? '-' . $curYear : '');

@@ -15,4 +15,3 @@ Android overview (java)
 	Processes and threads (in detail)
 	AIDL
 	Examples
-	

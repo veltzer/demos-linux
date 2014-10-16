@@ -26,7 +26,7 @@ run: main.$(SUFFIX_BIN)
 .PHONY: clean
 clean:
 	$(info doing [$@])
-	$(Q)-rm -f $(ALL) 
+	$(Q)-rm -f $(ALL)
 .PHONY: dump
 dump:
 	$(info doing [$@])

@@ -15,10 +15,10 @@ Android Display
 Surface and SurfaceFlinger
 Video in Android
 Camera services
-Writing applications 
+Writing applications
 	Playing and controlling Audio
 	Playing video
-	Threads Priority & CPU management 
+	Threads Priority & CPU management
 	Accessing camera
 	Accessing Display
 	Open GL

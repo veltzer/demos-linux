@@ -34,7 +34,7 @@ for(my($i)=2;$i<@ARGV;$i++) {
 				if($print_filename) {
 					print $filename.": ";
 				}
-				print $line; 
+				print $line;
 			}
 		}
 	}
