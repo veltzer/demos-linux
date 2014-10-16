@@ -6,9 +6,6 @@
 # TODO:
 # - enable the dbgsym package after this script also knows how to add the
 # apt repository to the machine...
-# - the papi library is not supported by this procedue. have this procedue
-# install the papi library for me (either as .deb from my own repository
-# or from source).
 # - the intel compiler auto-installation is not supported.
 
 import subprocess # for check_call
@@ -20,6 +17,7 @@ import os # for uname
 boost_version='1.54.0'
 boost_version_short='1.54'
 debug=False
+do_kernel=True
 
 ########
 # code #
@@ -138,22 +136,6 @@ packs=[
 	#'g++-4.9',
 	'gcc-snapshot',
 
-	# kernel stuff
-	'linux-headers-generic',
-	'linux-headers-lowlatency',
-	'linux-headers-'+release_generic+'-generic',
-	'linux-headers-'+release_lowlatency+'-lowlatency',
-	'linux-tools-'+release_lowlatency+'-lowlatency',
-	'linux-source',
-	'linux-source-'+source_release,
-
-	# for systemtap - this one does not exist in the regular ubuntu archives
-	# ubuntu does not always carry the "-lowlatency" dbgsym and that why
-	# it is commented out...
-	# TODO: make this script add sources to the dbgsyms if need be
-	#'linux-image-'+release_generic+'-generic'+'-dbgsym',
-	#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
-
 	# tools for demos
 	'linux-tools-common', # for perf(1)
 	'python3-uno', # for soffice conversion
@@ -206,7 +188,33 @@ packs=[
 	# memory testing tools
 	'memtester',
 	'memtest86+',
+
+	# papi
+	'libpapi-dev', # PAPI development files (headers and API documentation)
+	'libpapi5.3', # PAPI runtime (shared libraries)
+	'papi-dbg', # PAPI debug symbols
+	'papi-examples', # PAPI example files and test programs
+	'papi-tools', # PAPI utilities
 ]
+
+if do_kernel:
+	packs.extend([
+		# kernel stuff
+		'linux-headers-generic',
+		'linux-headers-lowlatency',
+		'linux-headers-'+release_generic+'-generic',
+		'linux-headers-'+release_lowlatency+'-lowlatency',
+		'linux-tools-'+release_lowlatency+'-lowlatency',
+		'linux-source',
+		'linux-source-'+source_release,
+
+		# for systemtap - this one does not exist in the regular ubuntu archives
+		# ubuntu does not always carry the "-lowlatency" dbgsym and that why
+		# it is commented out...
+		# TODO: make this script add sources to the dbgsyms if need be
+		#'linux-image-'+release_generic+'-generic'+'-dbgsym',
+		#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
+	])
 
 args=['sudo','apt-get','install','--assume-yes']
 args.extend(packs)

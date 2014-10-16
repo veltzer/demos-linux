@@ -37,7 +37,7 @@ int main(int argc, char** argv, char** envp) {
 	while(true) {
 		char buf[256];
 		ssize_t ret=CHECK_NOT_M1(read(fd, buf, sizeof(buf)));
-		printf("got %d bytes...\n", ret);
+		printf("got %zd bytes...\n", ret);
 	}
 	return EXIT_SUCCESS;
 }
