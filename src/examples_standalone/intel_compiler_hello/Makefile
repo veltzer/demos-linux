@@ -4,9 +4,15 @@ include ../../../Makefile.mk
 CC:=icc
 CFLAGS:=-Wall -Werror -I../../include
 
+ifeq ($(DO_INTEL),1)
+	ALL:=main.$(SUFFIX_BIN) main.dis
+else
+	ALL:=
+endif
+
 # targets
 .PHONY: all
-all: main.$(SUFFIX_BIN) main.dis
+all: $(ALL)
 
 main.$(SUFFIX_BIN): main.c
 	$(info doing [$@])

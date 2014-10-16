@@ -16,6 +16,8 @@ SUFFIX_OO:=oo
 SUFFIX_DEP:=d
 # suffix for library files
 SUFFIX_LIB:=so
+# compile with intel compiler?
+DO_INTEL:=0
 
 ########
 # code #
