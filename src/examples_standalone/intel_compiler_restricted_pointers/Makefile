@@ -1,4 +1,5 @@
 include ../../../Makefile.mk
+
 # variables
 CC:=icpc
 # this is no optimization
@@ -14,9 +15,15 @@ CFLAGS4:=-O2 -opt-multi-version-aggressive $(CFLAGS) -g3
 # alias and non-alias...
 CFLAGS5:=-no-simd -fargument-alias -no-opt-multi-version-aggressive -no-ansi-alias $(CFLAGS)
 
+ifeq ($(DO_INTEL),1)
+	ALL:=main0.$(SUFFIX_BIN) main1.$(SUFFIX_BIN) main2.$(SUFFIX_BIN) main3.$(SUFFIX_BIN) main4.$(SUFFIX_BIN) main5.$(SUFFIX_BIN) main6.$(SUFFIX_BIN) main7.$(SUFFIX_BIN)
+else
+	ALL:=
+endif
+
 # targets
 .PHONY: all
-all: main0.$(SUFFIX_BIN) main1.$(SUFFIX_BIN) main2.$(SUFFIX_BIN) main3.$(SUFFIX_BIN) main4.$(SUFFIX_BIN) main5.$(SUFFIX_BIN) main6.$(SUFFIX_BIN) main7.$(SUFFIX_BIN)
+all: $(ALL)
 
 main0.$(SUFFIX_BIN): main.cc
 	$(info doing [$@])

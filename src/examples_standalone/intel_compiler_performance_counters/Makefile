@@ -10,9 +10,15 @@ FOLDER:=/usr/include/$(ARCH)-linux-gnu/c++/4.8
 CFLAGS:= -I$(FOLDER) -I../../include -Wall -Werror
 CC:=icpc
 
+ifeq ($(DO_INTEL),1)
+	ALL:=main.$(SUFFIX_BIN)
+else
+	ALL:=
+endif
+
 # targets
 .PHONY: all
-all: main.$(SUFFIX_BIN)
+all: $(ALL)
 
 main.$(SUFFIX_BIN): main.cc
 	$(Q)$(CC) $(CFLAGS) main.cc -o main.$(SUFFIX_BIN)
