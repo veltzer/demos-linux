@@ -131,3 +131,8 @@ http://oprofile.sourceforge.net/docs/
 ELF and size of executable:
 ===========================
 http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html
+
+Assembly programming:
+=====================
+http://download.savannah.gnu.org/releases/pgubook/
+http://asm.sourceforge.net/resources.html#docs

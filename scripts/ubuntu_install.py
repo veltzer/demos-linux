@@ -199,6 +199,22 @@ packs=[
 	'papi-dbg', # PAPI debug symbols
 	'papi-examples', # PAPI example files and test programs
 	'papi-tools', # PAPI utilities
+
+	# assmebly
+	'nasm',
+
+	# kernel debugging
+	'systemtap',
+	'systemtap-common',
+	'systemtap-runtime',
+	'systemtap-doc',
+
+	# kexec and kernel crash debugging
+	'crash',
+	'kdump-tools',
+	'kexec-tools',
+	'linux-crashdump',
+	'makedumpfile',
 ]
 
 if do_kernel:
@@ -216,8 +232,8 @@ if do_kernel:
 		# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 		# it is commented out...
 		# TODO: make this script add sources to the dbgsyms if need be
-		#'linux-image-'+release_generic+'-generic'+'-dbgsym',
-		#'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
+		'linux-image-'+release_generic+'-generic'+'-dbgsym',
+		'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
 	])
 
 args=['sudo','apt-get','install','--assume-yes']
