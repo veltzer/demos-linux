@@ -2,15 +2,23 @@ process statistics:
 	sar, sadc(8), sa1(8), sa2(8), sadf(1), isag(1).
 	mpstat
 	vmstat
+	dstat
 	pidstat
-	free, uptime
 	top, htop
 	/proc, /sys, /debugfs filesystems
 	ps pstree pgrep
 	skill, pkill, kill, killall, killall5
 	nice, renice, snice
 	atop, atopsar
+	saidar
 	nmon
+
+memory:
+	free
+	smem
+
+system:
+	uptime
 
 locking and deadlocks:
 	mutrace (for lock contention)
@@ -92,6 +100,7 @@ networking:
 	vnstati
 	netperf
 	iptables
+	iperf
 
 java debugging:
 	jstack
@@ -103,7 +112,7 @@ programming tracing:
 	pthread_trace_* (pthread tracing).
 	electric-fence
 
-power managements:
+power management:
 	powertop
 	turbostat
 
@@ -112,6 +121,7 @@ general tools (not intended for just one specific utility):
 	perf
 	oprofile
 	sysprof
+	sysdig
 
 pipe performance:
 	pipemeter: cat /dev/zero | pipemeter | wc -c
@@ -167,3 +177,14 @@ listing stuff:
 	nproc - show number of processing units available
 	x86info - show hardware info on x86.
 	dmidecode - DMI table decoder
+
+gui:
+	icinga (web app)
+	nagios (web app)
+	ksysguard (GUI app)
+	gnome-system-montor (GUI app)
+	xfce4-taskmanager (GUI app)
+	linux process explorer (procexp) - no package for ubuntu (GUI app)
+	mrtg (GUI app)
+	monit (??)
+	munin (??)
