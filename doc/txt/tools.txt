@@ -134,6 +134,7 @@ watchdogs/fault helpers:
 
 mysql:
 	mytop
+	sysbench
 
 programming:
 	cdecl

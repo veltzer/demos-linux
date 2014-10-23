@@ -167,6 +167,7 @@ packs=[
 	'sysdig',
 	'iperf',
 	'smem',
+	'sysbench',
 	'icinga-core',
 	'nagios3-core',
 	'ksysguard',
