@@ -10,17 +10,15 @@ KERNEL_SA_DIR:=src/kernel_standalone
 US_INCLUDE:=src/include
 # kernel variables
 # version of kernel to build against
-KVER?=$(shell uname -r)
+KVER:=$(shell uname -r)
 # folder of the build folder for the kernel you build against
-KDIR?=/lib/modules/$(KVER)/build
+KDIR:=/lib/modules/$(KVER)/build
 # fill in the vervosity level you want for the kernel module compilation process
 # V:=1 will give you the command lines used...
-# Since we are using ?= for assignment it means that you can just
-# set this from the command line and avoid changing the makefile...
-V?=0
+V:=0
 # warnings for kernel code (0,1,2,3,...). Better use 1 since kernel
 # headers don't pass more than 1
-W?=1
+W:=1
 # extra flags to pass to the kernel module creation process...
 # regular kernels do not have -Werror and we want it!
 # The problem is that this makes the kernel build system scream at me (it fears I am changing
@@ -29,12 +27,10 @@ KCFLAGS:=-Werror
 # do you want dependency on the makefile itself ?!?
 DO_ALL_DEPS:=1
 # optimization with debug info (for disassembly)
-DEBUG?=0
-OPT?=1
+DEBUG:=0
+OPT:=1
 # do you want to show the commands executed ?
-# Since we are using ?= for assignment it means that you can just
-# set this from the command line and avoid changing the makefile...
-DO_MKDBG?=0
+DO_MKDBG:=0
 # the c++ compiler to be used
 CXX:=g++
 CC:=gcc
