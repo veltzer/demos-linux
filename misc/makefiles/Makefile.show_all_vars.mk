@@ -1,4 +1,6 @@
 # This makefile shows how to show all variables
+# note that since make incorporates environment variables
+# then you will see all environment variables as well.
 
 .PHONY: all
 all:
