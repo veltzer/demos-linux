@@ -1,6 +1,7 @@
+#!/usr/bin/python3
+
 '''
-This is a python module with all defintions for the mako templating engine used
-in this project
+templating solution for this project
 '''
 
 import datetime # for datetime
@@ -9,6 +10,7 @@ import os.path # for join, expanduser
 import glob # for glob
 import socket # for gethostname
 import configparser # for ConfigParser
+import templar.cmdline # for cmdline
 
 class Attr(object):
 
@@ -56,3 +58,5 @@ class Attr(object):
 			os.path.expanduser('~/.details.ini'),
 			'/etc/hostname',
 		])
+
+templar.cmdline.cmdline({'attr':Attr})

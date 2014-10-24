@@ -12,7 +12,7 @@ is-var-defined = $(if $(findstring $1, $(.VARIABLES)),1,0)
 ########
 # code #
 ########
-TMPL_FILE_DEPS:=$(shell scripts/mako_wrapper.py getdeps)
+TMPL_FILE_DEPS:=$(shell scripts/templar_cmd.py getdeps)
 # the - (minus) at the begining of the next line is so that users wont see
 # an error coming out of make when the file needs to be rebuilt...
 -include $(TMPL_FILE)
@@ -38,9 +38,9 @@ debug_prep:
 
 # rule about creating the template file
 # it should not depend on ALL_DEP since ALL_DEP includes it and this will create circular dependency
-$(TMPL_FILE): scripts/mako_wrapper.py scripts/attr.py $(TMPL_FILE_DEPS)
+$(TMPL_FILE): scripts/templar_cmd.py $(TMPL_FILE_DEPS)
 	$(info doing [$@])
-	$(Q)scripts/mako_wrapper.py printmake > $@
+	$(Q)scripts/templar_cmd.py printmake > $@
 
 .PHONY: prep
 prep: $(ALL_MAKO_PREP_TGT)
@@ -51,4 +51,4 @@ prep: $(ALL_MAKO_PREP_TGT)
 $(ALL_MAKO_PREP_TGT): %: mako.prep/%.mako $(TMPL_FILE)
 	$(info doing [$@])
 	$(Q)-mkdir -p $(dir $@)
-	$(Q)scripts/mako_wrapper.py process --input $< --output $@
+	$(Q)scripts/templar_cmd.py process --input $< --output $@
