@@ -60,3 +60,6 @@ __pycache__
 
 # template config file
 .attr.config
+
+# downloaded packages
+*.tar.gz
