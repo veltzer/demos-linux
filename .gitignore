@@ -54,3 +54,9 @@ modules.order
 
 # dwarf dynamic debug info
 *.dwo
+
+# python cache in any folder (this is for python3)
+__pycache__
+
+# template config file
+.attr.config
