@@ -13,13 +13,14 @@ import configparser # for ConfigParser
 class Attr(object):
 
 	@classmethod
-	def read_ini(cls, filename, section):
+	def read_ini(cls, filename, sections):
 		ini_file=os.path.expanduser(filename)
 		if os.path.isfile(ini_file):
 			ini_config=configparser.ConfigParser()
 			ini_config.read(ini_file)
-			for k,v in ini_config.items(section):
-				setattr(cls, k, v)
+			for section in sections:
+				for k,v in ini_config.items(section):
+					setattr(cls, '{0}_{1}'.format(section, k), v)
 
 
 	@classmethod
@@ -32,8 +33,7 @@ class Attr(object):
 		cls.general_domainname=subprocess.check_output(['hostname','--domain']).decode().rstrip()
 
 		# ini files
-		cls.read_ini('~/.github.ini', 'github')
-		cls.read_ini('~/.details.ini', 'details')
+		cls.read_ini('~/.details.ini',['personal', 'github'])
 
 		# apt
 		cls.apt_protocol='https'
@@ -54,6 +54,5 @@ class Attr(object):
 	def getdeps(cls):
 		return ' '.join([
 			os.path.expanduser('~/.details.ini'),
-			os.path.expanduser('~/.github.ini'),
 			'/etc/hostname',
 		])
