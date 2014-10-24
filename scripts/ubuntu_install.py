@@ -3,23 +3,24 @@
 '''
 this script will install all the required packages that you need on
 ubuntu to compile and work with this package.
+
+TODO
+- the intel compiler auto-installation is not supported.
 '''
 
-# TODO:
-# - enable the dbgsym package after this script also knows how to add the
-# apt repository to the machine...
-# - the intel compiler auto-installation is not supported.
-
+###########
+# imports #
+###########
 import subprocess # for check_call
 import os # for uname
 
 ##############
 # parameters #
 ##############
-boost_version='1.54.0'
-boost_version_short='1.54'
-debug=False
-do_kernel=True
+opt_boost_version='1.54.0'
+opt_boost_version_short='1.54'
+opt_debug=False
+opt_do_kernel=True
 
 ########
 # code #
@@ -29,7 +30,7 @@ short_release=release[:release.rfind('-')]
 source_release=short_release[:short_release.rfind('-')]
 release_lowlatency=short_release
 release_generic=short_release
-if debug:
+if opt_debug:
 	print('release is',release)
 	print('short_release is',short_release)
 	print('source_release is',source_release)
@@ -94,8 +95,8 @@ packs=[
 	'libmysql++-dev',
 	'libsdl1.2-dev',
 	'libace-dev',
-	'libboost'+boost_version_short+'-dev', # for boost threading
-	'libboost-thread'+boost_version, # for the actual library
+	'libboost'+opt_boost_version_short+'-dev', # for boost threading
+	'libboost-thread'+opt_boost_version, # for the actual library
 	'libpcap-dev',
 	'libasound2',
 	'libasound2-dev',
@@ -230,7 +231,7 @@ packs=[
 	'makedumpfile',
 ]
 
-if do_kernel:
+if opt_do_kernel:
 	packs.extend([
 		# kernel stuff
 		'linux-headers-generic',
