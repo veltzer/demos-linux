@@ -351,15 +351,15 @@ check_pgrep:
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep -L -e "\"^#include <firstinclude.h>$$\"" -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v firstinclude \| grep -v mod_ \| grep -v shared.h \| grep -v kernel_helper.h \| grep -v kernel_standalone \| grep -v examples_standalone \| grep -v makefiles
+	$(Q)-git grep -L -e '^#include <firstinclude.h>$$' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone | grep -v makefiles
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep CHECK_ \| grep = \| grep -v =CHECK_ \| grep -v \\\)CHECK_ \| grep -v ,CHECK_ \| grep -v CHECK_ASSERT \| grep -v PTHREAD_ERROR \| grep -v \", CHECK_\" \| grep -v ERRORCHECK_
+	$(Q)-git grep 'CHECK_' | grep '=' | grep -v '=CHECK_' | grep -v ')CHECK_' | grep -v ,CHECK_ | grep -v CHECK_ASSERT | grep -v PTHREAD_ERROR | grep -v ', CHECK_' | grep -v ERRORCHECK_
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep perror -- '*.c' '*.cc' '*.h' '*.hh' \| grep -v assert_perror \| grep -v perror.cc \| grep -v us_helper.h \| grep -v err_utils.h
+	$(Q)-git grep 'perror' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v assert_perror | grep -v perror.cc | grep -v err_utils.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_fixme
 check_fixme:
@@ -376,7 +376,7 @@ check_usage:
 .PHONY: check_pthread
 check_pthread:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep -l "CHECK_ZERO\(pthread" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)scripts/wrapper_noerr.py git grep -l 'CHECK_ZERO(pthread' -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage_2
 check_usage_2:
 	$(info doing [$@])
@@ -396,7 +396,7 @@ check_no_symlinks:
 .PHONY: check_check_header
 check_check_header:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep include -- '*.c' '*.cc' '*.h' '*.hh' \| grep us_helper \| grep CHECK
+	$(Q)-git grep include -- '*.c' '*.cc' '*.h' '*.hh' | grep us_helper | grep CHECK
 .PHONY: check_veltzer_https
 check_veltzer_https:
 	$(info doing [$@])
