@@ -3,13 +3,6 @@ include Makefile.mk
 ##############
 # parameters #
 ##############
-# the template file to be created
-TMPL_FILE:=.attr.config
-TMPL_FILE_DEPS:=$(shell scripts/mako_wrapper.py getdeps)
-# the - (minus) at the begining of the next line is so that users wont see
-# an error coming out of make when the file needs to be rebuilt...
--include $(TMPL_FILE)
-
 # directories
 US_DIRS:=src/examples src/exercises
 KERNEL_DIR:=src/kernel
@@ -84,7 +77,7 @@ CFLAGS:=$(CFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 
 # dependency on the makefile itself
 ifeq ($(DO_ALL_DEPS),1)
-ALL_DEPS:=Makefile $(TMPL_FILE)
+ALL_DEPS:=Makefile
 else
 ALL_DEPS:=
 endif
@@ -277,10 +270,6 @@ $(MK_STP): %.stamp: % $(ALL_DEPS)
 
 .PHONY: debug
 debug:
-	$(info TMPL_FILE is $(TMPL_FILE))
-	$(info TMPL_FILE_DEPS is $(TMPL_FILE_DEPS))
-	$(info ALL_MAKO_PREP_SRC is $(ALL_MAKO_PREP_SRC))
-	$(info ALL_MAKO_PREP_TGT is $(ALL_MAKO_PREP_TGT))
 	$(info MOD_MOD is $(MOD_MOD))
 	$(info CC_SRC is $(CC_SRC))
 	$(info CC_DIS is $(CC_DIS))
@@ -555,16 +544,5 @@ install: $(ALL_DEPS)
 	$(Q)cp -r index.html $(WEB_FOLDER) $(WEB_DIR)
 	$(Q)chmod -R go+rx $(WEB_DIR)
 
-# rule about creating the template file
-# it should not depend on ALL_DEP since ALL_DEP includes it and this will create circular dependency
-$(TMPL_FILE): scripts/mako_wrapper.py scripts/attr.py $(TMPL_FILE_DEPS)
-	$(info doing [$@])
-	$(Q)scripts/mako_wrapper.py printmake > $@
-
-.PHONY: prep
-prep: $(ALL_MAKO_PREP_TGT)
-
-$(ALL_MAKO_PREP_TGT): %: mako.prep/%.mako $(ALL_DEP)
-	$(info doing [$@])
-	$(Q)-mkdir -p $(dir $@)
-	$(Q)scripts/mako_wrapper.py process --input $< --output $@
+# include the templates makefile
+include Makefile.prep
