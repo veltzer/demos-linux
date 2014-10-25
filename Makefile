@@ -26,8 +26,6 @@ W:=1
 # The problem is that this makes the kernel build system scream at me (it fears I am changing
 # the flags in some profound ways). This is what we have wrapper scripts for...
 KCFLAGS:=-Werror
-# do you want dependency on the makefile itself ?!?
-DO_ALL_DEPS:=1
 # optimization with debug info (for disassembly)
 DEBUG:=0
 OPT:=1
@@ -77,13 +75,6 @@ WARN_FLAGS:=-Wall -Wextra -Werror -Wno-unused-parameter -Wno-clobbered -Wno-miss
 CXXFLAGS:=$(CXXFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 CFLAGS:=$(CFLAGS) $(WARN_FLAGS) -I$(US_INCLUDE)
 
-# dependency on the makefile itself
-ifeq ($(DO_ALL_DEPS),1)
-ALL_DEPS:=Makefile
-else
-ALL_DEPS:=
-endif
-
 # silent stuff
 ifeq ($(DO_MKDBG),1)
 Q:=
@@ -95,7 +86,8 @@ endif # DO_MKDBG
 
 # sources from the git perspective
 GIT_SOURCES:=$(shell scripts/git_wrapper.sh ls-files)
-ALL:=
+ALL_DEPS:=$(TEMPLAR_ALL_DEPS)
+ALL:=$(TEMPLAR_ALL)
 CLEAN:=
 CLEAN_DIRS:=
 
