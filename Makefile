@@ -1,5 +1,7 @@
 # first lets include the common makefile
 include Makefile.mk
+# include the templates makefile
+include /usr/share/templar/Makefile
 ##############
 # parameters #
 ##############
@@ -149,15 +151,12 @@ MK_FLD:=$(dir $(MK_SRC))
 MK_STP:=$(addsuffix .stamp,$(MK_SRC))
 ALL:=$(ALL) $(MK_STP)
 
-# prep
-ALL_MAKO_PREP_SRC:=$(shell find mako.prep -type f -and -name "*.mako")
-ALL_MAKO_PREP_TGT:=$(shell scripts/remove_first_dir_and_suffix.py $(ALL_MAKO_PREP_SRC))
-
 #########
 # rules #
 #########
 
 # generic section
+.DEFAULT_GOAL=all
 .PHONY: all
 all: $(ALL)
 
@@ -543,6 +542,3 @@ install: $(ALL_DEPS)
 	$(Q)mkdir $(WEB_DIR)
 	$(Q)cp -r index.html $(WEB_FOLDER) $(WEB_DIR)
 	$(Q)chmod -R go+rx $(WEB_DIR)
-
-# include the templates makefile
-include /usr/share/templar/Makefile.prep
