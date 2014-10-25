@@ -545,4 +545,4 @@ install: $(ALL_DEPS)
 	$(Q)chmod -R go+rx $(WEB_DIR)
 
 # include the templates makefile
-include Makefile.prep
+include /usr/share/templar/Makefile.prep
