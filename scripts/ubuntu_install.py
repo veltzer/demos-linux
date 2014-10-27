@@ -229,6 +229,9 @@ packs=[
 	'kexec-tools',
 	'linux-crashdump',
 	'makedumpfile',
+
+	# my own stuff
+	'templar',
 ]
 
 if opt_do_kernel:
