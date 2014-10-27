@@ -1,5 +1,10 @@
+demos-linux
+===========
+
+version: no git tag yet
+
 The Linux API project
-=====================
+
 This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
 It has about 800 examples (as of 9/2013) I found are useful in explaining the Linux API.
@@ -50,25 +55,27 @@ it here http://man7.org/tlpi/code/.
 Using it
 --------
 * you need python on your machine:
-	try:
-		`python --version`
-	if python is missing then:
-		for deb based distributions (debian, ubuntu, ...) do:
-			`sudo apt-get install python`
-		for rpm based distributions (fedora, redhat, centos,...) do:
-			`sudo yum install python`
+try:
+`python --version`
+if python is missing then:
+for deb based distributions (debian, ubuntu, ...) do:
+`sudo apt-get install python`
+for rpm based distributions (fedora, redhat, centos,...) do:
+`sudo yum install python`
 * clone the examples: `git clone git@github.com:veltzer/linuxapi.git`
 * cd into it: `cd linuxapi`
 * install the missing packages and headers needed to compile and run this project `./scripts/ubuntu_install.py`
-	if you are on a different Linux distribution try to get as much of these for your platform
-	as you can. If you really into contributing I would love a `redhat_install.py` or some such...
+if you are on a different Linux distribution try to get as much of these for your platform
+as you can. If you really into contributing I would love a `redhat_install.py` or some such...
 * compile: `make`
 * some of the examples may not compile for you because of missing libraries. Don't worry:
-	you can build each specific example by issuing:
-		`make src/examples/performance/cache_misser.elf`
-	the name of the elf binary is the same as the example source code with .elf instead of
-	.[c|cc].
-	You must be at the root of the project to issue the `make` command.
+you can build each specific example by issuing:
+`make src/examples/performance/cache_misser.elf`
+the name of the elf binary is the same as the example source code with .elf instead of
+.[c|cc].
+You must be at the root of the project to issue the `make` command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
+
+${attr.personal_origin}, 2010-${attr.general_current_year}
 
 	Mark Veltzer <mark.veltzer@gmail.com>, 2010-2014
