@@ -149,6 +149,7 @@ packs=[
 	'python3-uno', # for soffice conversion
 	'electric-fence',
 	'schedtool',
+	'fdutils', # floppy disk utilities ?!?
 	'iotop', # for the iotop command
 	'jnettop', # for the jnettop command
 	'htop',
@@ -242,10 +243,16 @@ packs=[
 if opt_do_kernel:
 	packs.extend([
 		# kernel stuff
+		'linux-image-'+release_generic+'-generic',
+		'linux-image-'+release_lowlatency+'-lowlatency',
 		'linux-headers-generic',
 		'linux-headers-lowlatency',
 		'linux-headers-'+release_generic+'-generic',
 		'linux-headers-'+release_lowlatency+'-lowlatency',
+		#'linux-tools', # there is no such package
+		'linux-tools-generic',
+		'linux-tools-lowlatency',
+		'linux-tools-'+release_generic+'-generic',
 		'linux-tools-'+release_lowlatency+'-lowlatency',
 		'linux-source',
 		'linux-source-'+source_release,
