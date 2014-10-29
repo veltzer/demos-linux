@@ -112,7 +112,7 @@ packs=[
 	'libnetfilter-queue1',
 	'libnetfilter-queue-dev',
 	'libcap-dev', # for capability.h
-	'liburcu1', # rcu library
+	'liburcu2', # rcu library
 	'liburcu-dev', # rcu library
 	'libunwind8', # unwind library
 	'libunwind8-dev', # unwind library
