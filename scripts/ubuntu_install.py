@@ -268,6 +268,11 @@ if opt_do_ddebs:
 		'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
 	])
 
-args=['sudo','apt-get','install','--assume-yes']
+args=[
+	'sudo',
+	'apt-get',
+	'install',
+	'--assume-yes'
+]
 args.extend(packs)
-subprocess.check_call(args)
+subprocess.check_call(args, stdout=subprocess.DEVNULL)
