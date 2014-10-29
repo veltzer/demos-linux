@@ -17,10 +17,15 @@ import os # for uname
 ##############
 # parameters #
 ##############
+# debug this script?
+opt_debug=False
+# what boost to install?
 opt_boost_version='1.54.0'
 opt_boost_version_short='1.54'
-opt_debug=False
+# install kernels?
 opt_do_kernel=True
+# install debug packages for kernels?
+opt_do_ddebs=False
 
 ########
 # code #
@@ -31,11 +36,11 @@ source_release=short_release[:short_release.rfind('-')]
 release_lowlatency=short_release
 release_generic=short_release
 if opt_debug:
-	print('release is',release)
-	print('short_release is',short_release)
-	print('source_release is',source_release)
-	print('release_lowlatency is',release_lowlatency)
-	print('release_generic is',release_generic)
+	print('release is [{0}]'.format(release))
+	print('short_release is [{0}]'.format(short_release))
+	print('source_release is [{0}]'.format(source_release))
+	print('release_lowlatency is [{0}]'.format(release_lowlatency))
+	print('release_generic is [{0}]'.format(release_generic))
 
 packs=[
         # most important - compiler parts
@@ -244,7 +249,10 @@ if opt_do_kernel:
 		'linux-tools-'+release_lowlatency+'-lowlatency',
 		'linux-source',
 		'linux-source-'+source_release,
+	])
 
+if opt_do_ddebs:
+	packs.extend([
 		# for systemtap - this one does not exist in the regular ubuntu archives
 		# ubuntu does not always carry the "-lowlatency" dbgsym and that why
 		# it is commented out...
