@@ -11,7 +11,7 @@ It has about 800 examples (as of 9/2013) I found are useful in explaining the Li
 The idea is to provide a good coverage of all major features and to resolve disputes
 about exactly how a certain API works.
 
-You can find the project at https://veltzer.net/linuxapi
+You can find the project at https://veltzer.net/demos-linux
 
 Topics covered by the examples
 ------------------------------
@@ -62,8 +62,8 @@ for deb based distributions (debian, ubuntu, ...) do:
 `sudo apt-get install python`
 for rpm based distributions (fedora, redhat, centos,...) do:
 `sudo yum install python`
-* clone the examples: `git clone git@github.com:veltzer/linuxapi.git`
-* cd into it: `cd linuxapi`
+* clone the examples: `git clone git@github.com:veltzer/demos-linux.git`
+* cd into it: `cd demos-linux`
 * install the missing packages and headers needed to compile and run this project `./scripts/ubuntu_install.py`
 if you are on a different Linux distribution try to get as much of these for your platform
 as you can. If you really into contributing I would love a `redhat_install.py` or some such...
