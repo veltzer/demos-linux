@@ -1,7 +1,7 @@
 demos-linux
 ===========
 
-version: 0.1
+version: no git tag yet
 
 The Linux API project
 
@@ -78,4 +78,4 @@ You must be at the root of the project to issue the `make` command.
 
 ${attr.personal_origin}, 2010-${attr.general_current_year}
 
-	Mark Veltzer <mark.veltzer@gmail.com>, 2010-2014
+	Mark Veltzer <mark@veltzer.net>, 2010-2014
