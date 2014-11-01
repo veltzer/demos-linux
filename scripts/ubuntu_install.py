@@ -13,12 +13,15 @@ TODO
 ###########
 import subprocess # for check_call
 import os # for uname
+import sys # for exit
 
 ##############
 # parameters #
 ##############
 # debug this script?
 opt_debug=False
+# exit after debug?
+opt_exit=False
 # what boost to install?
 opt_boost_version='1.54.0'
 opt_boost_version_short='1.54'
@@ -35,12 +38,23 @@ short_release=release[:release.rfind('-')]
 source_release=short_release[:short_release.rfind('-')]
 release_lowlatency=short_release
 release_generic=short_release
+codename=subprocess.check_output(['lsb_release', '--codename', '--short']).decode().rstrip()
+
+if codename=='trusty':
+	opt_urcu_ver=1
+else:
+	opt_urcu_ver=2
+
 if opt_debug:
 	print('release is [{0}]'.format(release))
 	print('short_release is [{0}]'.format(short_release))
 	print('source_release is [{0}]'.format(source_release))
 	print('release_lowlatency is [{0}]'.format(release_lowlatency))
 	print('release_generic is [{0}]'.format(release_generic))
+	print('codename is [{0}]'.format(codename))
+	print('opt_urcu_ver is [{0}]'.format(opt_urcu_ver))
+if opt_exit:
+	sys.exit(0)
 
 packs=[
         # most important - compiler parts
@@ -112,7 +126,7 @@ packs=[
 	'libnetfilter-queue1',
 	'libnetfilter-queue-dev',
 	'libcap-dev', # for capability.h
-	'liburcu2', # rcu library
+	'liburcu{0}'.format(opt_urcu_ver), # rcu library
 	'liburcu-dev', # rcu library
 	'libunwind8', # unwind library
 	'libunwind8-dev', # unwind library
@@ -275,4 +289,4 @@ args=[
 	'--assume-yes'
 ]
 args.extend(packs)
-subprocess.check_call(args, stdout=subprocess.DEVNULL)
+subprocess.check_call(args)
