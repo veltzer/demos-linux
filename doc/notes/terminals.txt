@@ -5,6 +5,6 @@ You can find it's size with:
 	tput lines
 or by:
 	stty size
-or by ioctl on the f created from it.
+or by ioctl on the fd created from it.
 
 on the command line you can know what is your tty using the tty(1) command.
