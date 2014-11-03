@@ -16,12 +16,41 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * The reason we need the "__attribute__((aligned (8)))" tag below is to avoid
+ * a link warning which actually raises the fact the the alignment between
+ * the two object files of that particular symbol is different.
+ * This tag makes the warning go away but in real life taking the warning seriously
+ * could make this bug go away.
+ */
+
 #include <firstinclude.h>
 #include <stdio.h> // for printf(3)
 #include <stdlib.h> // for EXIT_SUCCESS
-#include "add.h"
+#include "file_with_weak_symbol.h"
+
+int mysym=56;
+
+int y=70;
+int __attribute__((aligned (8))) x=58;
+//int x=58;
 
 int main(int argc,char** argv,char** envp) {
-	printf("2+2 is %d\n", func(2, 2));
+	print_mysym();
+	printf("mysym is [%d]\n", mysym);
+	mysym=57;
+	print_mysym();
+	printf("mysym is [%d]\n", mysym);
+	// now lets show how problems happen
+	// lets see that x and y are close together...
+	printf("&x is [%p]\n", &x);
+	printf("&y is [%p]\n", &y);
+	// lets see what the other file thinks...
+	print_details_of_x();
+	printf("x is [%d]\n", x);
+	printf("y is [%d]\n", y);
+	touch_x();
+	printf("x is [%d]\n", x);
+	printf("y is [%d]\n", y);
 	return EXIT_SUCCESS;
 }

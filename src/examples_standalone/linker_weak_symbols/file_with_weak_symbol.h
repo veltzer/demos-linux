@@ -16,12 +16,13 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <firstinclude.h>
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
-#include "add.h"
+#ifndef __file_with_weak_symbol_h
+#define __file_with_weak_symbol_h
 
-int main(int argc,char** argv,char** envp) {
-	printf("2+2 is %d\n", func(2, 2));
-	return EXIT_SUCCESS;
-}
+#include <firstinclude.h>
+
+void print_mysym();
+void print_details_of_x();
+void touch_x();
+
+#endif // __file_with_weak_symbol_h
