@@ -18,10 +18,19 @@
 
 #include <firstinclude.h>
 #include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
-#include "add.h"
 
-int main(int argc,char** argv,char** envp) {
-	printf("2+2 is %d\n", func(2, 2));
-	return EXIT_SUCCESS;
+int mysym;
+double x;
+
+void print_mysym() {
+	printf("mysym is [%d]\n", mysym);
+}
+
+void print_details_of_x() {
+	printf("&x is [%p]\n", &x);
+	printf("sizeof(x) is [%ld]\n", sizeof(x));
+}
+
+void touch_x() {
+	x=7.2;
 }
