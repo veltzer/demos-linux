@@ -244,7 +244,7 @@ $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
 # rule about how to check kernel source files
 $(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)scripts/wrapper.py $(SCRIPT_CHECKPATCH) --file $<
+	$(Q)scripts/wrapper_silent.py $(SCRIPT_CHECKPATCH) --file $<
 	$(Q)touch $@
 # rule about how to create .ko files...
 $(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
