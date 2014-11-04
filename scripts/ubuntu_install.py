@@ -162,7 +162,24 @@ packs=[
 	'linux-tools-common', # for perf(1)
 	'python3-uno', # for soffice conversion
 	'electric-fence',
+	'vnstat',
+	'wireshark-common',
+	'wireshark',
+	'ngrep',
+	'iftop',
+	'traceroute',
+	'valgrind',
+	'dwarves',
+	'kerneltop',
+	'tshark',
+	'vnstati',
+	'google-perftools',
+	'pv',
+	'splint',
+	'patchelf',
 	'schedtool',
+	'blktrace',
+	'systemtap-sdt-dev',
 	'fdutils', # floppy disk utilities ?!?
 	'iotop', # for the iotop command
 	'jnettop', # for the jnettop command
@@ -198,6 +215,20 @@ packs=[
 	'monit',
 	'munin',
 	'lttng-tools',
+	'atop',
+	'isag',
+	'sdparm',
+	'nfs-common',
+	'mytop',
+	'cutils',
+	'jlint',
+	'jlint-doc',
+	'hlint',
+	'dlint',
+	'oprofile',
+	'ioapps',
+	'powertop',
+	'rt-tests',
 	#'lttng-modules-dkms',
 
 	# fun stuff
@@ -249,6 +280,12 @@ packs=[
 	'kexec-tools',
 	'linux-crashdump',
 	'makedumpfile',
+
+	# databases
+	'tora',
+	'postgresql-client',
+	'postgresql-client-common',
+	'postgresql-doc',
 
 	# my own stuff
 	'templar',

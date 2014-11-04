@@ -1,191 +1,285 @@
 process statistics:
-	sar, sadc(8), sa1(8), sa2(8), sadf(1), isag(1).
-	mpstat
-	vmstat
-	dstat
-	pidstat
-	top, htop
-	/proc, /sys, /debugfs filesystems
-	ps pstree pgrep
-	skill, pkill, kill, killall, killall5
-	nice, renice, snice
-	atop, atopsar
-	saidar
-	nmon
+	/sys filesystem - documentation is in the kernel source/Documenation
+	/debugfs filesystems - documentation is in the kernel source/Documenation
+	(1) sar - Collect, report, or save system activity information.
+	(8) sadc - System activity data collector.
+	(8) sa1 - Collect and store binary data in the system activity daily data file.
+	(8) sa2 - Write a daily report in the /var/log/sysstat directory.
+	(1) sadf - Display data collected by sar in multiple formats.
+	(1) isag - Interactive System Activity Grapher
+	(1) mpstat - Report processors related statistics.
+	(8) vmstat - Report virtual memory statistics
+	(1) dstat - versatile tool for generating system resource statistics
+	(1) pidstat - Report statistics for Linux tasks.
+	(1) top - display Linux processes
+	(1) htop - interactive process viewer
+	(5) proc - process information pseudo-filesystem
+	(1) ps - report a snapshot of the current processes.
+	(1) pstree - display a tree of processes
+	(1) pgrep, pkill - look up or signal processes based on name and other attributes
+	(1) killall - kill processes by name
+	(8) killall5 - send a signal to all processes.
+	(1) kill - send a signal to a process
+	(1) nice - run a program with modified scheduling priority
+	(1) renice - alter priority of running processes
+	(1) snice, skill - send a signal or report process status
+	(1) atop - AT Computing's System & Process Monitor
+	(1) atopsar - AT Computing's System Activity Report (atop related)
+	(1) saidar - a curses-based tool for viewing system statistics
+	(1) nmon - systems administrator, tuner, benchmark tool
+	(1) nproc - show number of processors
 
 memory:
-	free
-	smem
+	(1) free - Display amount of free and used memory in the system
+	(8) smem - Report memory usage with shared memory divided proportionally.
+
+shared libraries:
+	(1) sprof - read and display shared object profiling data
 
 system:
-	uptime
+	(1) uptime - Tell how long the system has been running.
 
 locking and deadlocks:
-	mutrace (for lock contention)
+	mutrace - traces lock contention has no manual pages
+		https://wiki.linaro.org/Platform/DevPlatform/Tools/Mutrace
+		http://0pointer.de/blog/projects/mutrace.html
 
 io:
-	iostat
-	iotop, ionice
-	hdparm, sdparm, lsscsi (/proc/scsi/scsi)
-	blktool
+	(1) iostat - Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
+	(8) iotop - simple top-like I/O monitor
+	(1) ionice - set or get process I/O scheduling class and priority
+	(8) hdparm - get/set SATA/IDE device parameters
+	(8) sdparm - access SCSI modes pages; read VPD pages; send simple SCSI commands.
+	(8) lsscsi - list SCSI devices (or hosts) and their attributes
+	(8) blktool - Display or change block device settings
+	(8) blktrace - generate traces of the i/o traffic on block devices
+	(8) btrace - perform live tracing for block devices
+	(8) blkiomon - monitor block device I/O based o blktrace data
+	(1) blkrawverify - verifies an output file produced by blkparse
+	(1) verify_blkparse - verifies an output file produced by blkparse
+	(1) blkparse - produce formatted output of event streams of block devices
+	(1) btt - analyse block i/o traces produces by blktrace
+	(1) bno_plot - generate interactive 3D plot of IO blocks and sizes
+	(8) btreplay - recreate IO loads recorded by blktrace
+	(8) btrecord - recreate IO loads recorded by blktrace
+	(1) ioreplay - IO traces replayer
+	(1) ioprofiler - same package as ioreplay (ioapps).
+		does not have a manual page.
+		graphical viewer for io logs
+	/proc/scsi/scsi - /proc filesystem area where you can find scsi info
+
+network filesystems:
+	(8) nfsiostat - Emulate iostat for NFS mount points using /proc/self/mountstats
+	(1) cifsiostat - Report CIFS statistics.
+	(8) mountstats - Displays NFS client per-mount statistics
+	(8) nfsstat - list NFS statistics
 
 cpu:
-	taskset
-	cpulimit
-	schedtop (doesn't have a package as of yet).
-	schedtool
+	(1) taskset - retrieve or set a process's CPU affinity
+	(1) cpulimit - limits the CPU usage of a process
+	(8) schedtool - query and set CPU scheduling parameters
+	schedtop - scheduler statistics visualization tool
+		doesn't have a package in ubuntu yet
+		https://rt.wiki.kernel.org/index.php/Schedtop_utility
 
 process ids:
-	pidof
-	ptrace
-	strace
-	ltrace
-	pstack
+	(8) pidof - find the process ID of a running program.
+	(1) strace - trace system calls and signals
+	(1) ltrace - A library call tracer
+	(1) sotruss - trace shared library calls through PLT
+	(1) pstack - print a stack trace of running processes
+
+X11:
+	(1) xtrace - trace communication between X11 client and server
 
 used files:
-	fuser, lsof
+	(1) fuser - identify processes using files or sockets
+	(8) lsof - list open files
 
 debugggers:
-	valgrind
+	(1) valgrind - a suite of tools for debugging and profiling programs
 
 profilers:
-	valgrind
-	google-perftools
-	google-pprof
+	(1) gprof - display call graph profile data
+	(1) valgrind - a suite of tools for debugging and profiling programs
+	(1) google-pprof - manual page for google-pprof (part of gperftools)
 
 core dumps:
-	cgdb
-	eclipse
-	xxgdb
-	qtcreator
-	gdb
-	gdbtui
-	gcore
-	resolve_stack_dump
-	dwarves
+	(1) CGDB - curses based frontend to GDB
+	(1) eclipse - extensible tool platform and Java IDE
+	(1) xxgdb - X window system interface to the gdb debugger.
+	(1) qtcreator - Integrated Development Environment for Qt
+	(1) gdb - The GNU Debugger
+	gdbtui - does not have a manual page of its own
+		comes from the same package as gdb(1) (gdb)
+	(1) gcore - Generate a core file of a running program
+	(1) resolve_stack_dump - resolve numeric stack trace dump to symbols
+
+elfs:
+	(1) pahole - Shows and manipulates data structure layout.
 
 kernel:
-	crash
-	slabtop
-	kerneltop
-	btrace
-	kexec
+	(8) crash - Analyze Linux crash dump data or a live system
+	(1) slabtop - display kernel slab cache information in real time
+	(1) kerneltop - shows kernel function usage in an interactive style like 'top'
+	(8) kexec - directly boot into a new kernel
 
 networking:
-	ss (socket statistcs including queue state)
-	ping/ping6
-	traceroute/traceroute6
-	jnettop
-	iftop
-	iptraf
-	ngrep
-	tcpdump
-	wireshark
-	dumpcap
-	rawshark
-	tshark
-	editcap
-	mergecap
-	text2pcap
-	ethtool
-	netstat
-	nc
-	route
-	ifconfig
-	iwconfig
-	iwlist
-	telnet
-	brctl (bridging utilities)
-	vnstat
-	vnstati
-	netperf
-	iptables
-	iperf
+	(8) ss - another utility to investigate sockets
+	(8) ping, ping6 - send ICMP ECHO_REQUEST to network hosts
+	(8) traceroute6 - traces path to a network host
+	(1) traceroute - print the route packets trace to network host
+	(1) itrace - similar to traceroute, yet uses ICMP echo
+	(8) jnettop - View hosts/ports taking up the most network traffic
+	(8) iftop - display bandwidth usage on an interface by host
+	(8) iptraf - Interactive Colorful IP LAN Monitor
+	(8) ngrep - network grep
+	(8) tcpdump - dump traffic on a network
+	(1) tshark - Dump and analyze network traffic
+	(1) wireshark - Interactively dump and analyze network traffic
+	(1) dumpcap - Dump network traffic
+	(1) rawshark - Dump and analyze raw pcap data
+	(1) editcap - Edit and/or translate the format of capture files
+	(1) mergecap - Merges two or more capture files into one
+	(1) text2pcap - Generate a capture file from an ASCII hexdump of packets
+	(8) ethtool - query or control network driver and hardware settings
+	(8) netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+	(1) nc — arbitrary TCP and UDP connections and listens
+	(8) route - show / manipulate the IP routing table
+	(8) ifconfig - configure a network interface
+	(8) ifup - bring a network interface up
+	(8) ifdown - take a network interface down
+	(8) ifquery - parse interface configuration
+	(8) iwconfig - configure a wireless network interface
+	(8) iwlist - Get more detailed wireless information from a wireless interface
+	(1) telnet — user interface to the TELNET protocol
+	(8) brctl - ethernet bridge administration
+	(1) vnStat - a console-based network traffic monitor
+	(1) vnStati - png image output support for vnStat
+	(1) netperf - a network performance benchmark
+	(8) iptables/ip6tables — administration tool for IPv4/IPv6 packet filtering and NAT
+	(1) iperf - perform network throughput tests
 
 java debugging:
-	jstack
-	jdb
+	(1) jstack - Prints Java thread stack traces for a Java process, core file, or remote debug server. This command is experimental and unsupported.
+	(1) jdb - Finds and fixes bugs in Java platform programs.
+	jlint - java source code lint
+		does not have a manual page
+		does have a package in ubuntu (jlint, jlint-doc)
 
 programming tracing:
-	mtrace (muntrace,malloc tracing).
-	dmalloc(1)
-	pthread_trace_* (pthread tracing).
-	electric-fence
+	(1) mtrace - interpret the malloc trace log
+	(1) memusage - profile memory usage of a program
+	(1) dmalloc - program used to set the environment for debugging using the dmalloc debugging library.
+	(3) efence - Electric Fence Malloc Debugger
 
 power management:
-	powertop
-	turbostat
+	(8) powertop - a power consumption and power management diagnosis tool.
+	(8) turbostat - Report processor frequency and idle statistics
 
 general tools (not intended for just one specific utility):
-	systemtap
-	perf
-	oprofile
-	sysprof
-	sysdig
+	(1) dtrace - Dtrace compatibile user application static probe generation tool.
+	(1) stap-prep - prepare system for systemtap use
+	(8) staprun - systemtap runtime
+	(1) stap - systemtap script translator/driver
+	(1) perf - Performance analysis tools for Linux
+	(1) perf-stat - Run a command and gather performance counter statistics
+	(1) perf-top - System profiling tool.
+	(1) perf-record - Run a command and record its profile into perf.data
+	(1) perf-report - Read perf.data (created by perf record) and display the profile
+	(1) perf-list - List all symbolic event types
+	(1) sysprof, sysprof-cli - System-wide Linux Profiler
+	(1) sysdig - the definitive system and process troubleshooting tool
+	(1) oprofile - a system-wide profiler
+	(1) opreport - produce symbol or binary image summaries
+	(1) opannotate - produce source or assembly annotated with profile data
+	(1) oparchive - produce archive of oprofile data for offline analysis
+	(1) opgprof - produce gprof-format profile data
 
 pipe performance:
-	pipemeter: cat /dev/zero | pipemeter | wc -c
-	pv
+	(1) pipemeter - measure speed of data going through a pipe/redirection
+	(1) pv - monitor the progress of data through a pipe
 
 watchdogs/fault helpers:
-	catchsegv: part of libc.
-		run like this: catchsegv [progname] [args...]
-		if your program faults then it will print a stack trace + registers + position + program map.
+	(1) catchsegv - Catch segmentation faults in programs
 
 mysql:
-	mytop
-	sysbench
+	(1p) mytop - display MySQL server performance info like `top'
+	(1) sysbench - A modular, cross-platform and multi-threaded benchmark tool.
 
 programming:
-	cdecl
-	lint (various sorts)
+	(1) cdecl — decode C type declarations
+	(1) HLint - haskell source code suggestions
+	(1) splint - A tool for statically checking C programs
+
+DNS:
+	(1) dlint - Internet Domain Name System (DNS) error checking utility
 
 elf tools:
-	nm
-	ldd
-	pldd
-	ld.so
-	objdump
-	objcopy
-	size
-	readelf
-	chrpath
-	patchelf
+	(1) nm - list symbols from object files
+	(1) ldd - print shared library dependencies
+	(1) pldd - display dynamic shared objects linked into a process
+	(8) ld.so, ld-linux.so* - dynamic linker/loader
+	(1) objdump - display information from object files.
+	(1) objcopy - copy and translate object files
+	(1) ld - The GNU linker
+	(1) readelf - Displays information about ELF files.
+	(1) size - list section sizes and total size.
+	(1) chrpath - change the rpath or runpath in binaries
+	(1) patchelf - Modify ELF files
 
 database admin:
-	tora
-	toad
-	mysql
-	sqlite3
-	psql
+	tora - graphical toolkit for database developers and administrators
+		does not have a manul page
+		comes from the package 'tora'
+	(1) mysql - the MySQL command-line tool
+	(1) psql - PostgreSQL interactive terminal
+	(1) sqlite3 - A command line interface for SQLite version 3
 
 realtime:
-	chrt
-	hwlatdetect
-	latencytop
-	cyclictest (hackbench, ... many other here from rt-tests)
+	(1) chrt - manipulate the real-time attributes of a process
+	(8) hwlatdetect - program to control the kernel hardware latency detection module
+	(8) latencytop - a tool for developers to visualize system latencies
+	(8) cyclictest - High resolution test program
+
+load generators:
+	(8) hackbench - scheduler benchmark/stress test
 
 listing stuff:
-	lshal - list HAL devices
-	lsscsi - list scsi devices
-	lspci - list pci devices
-	lsusb - list usb devices
-	lshw - list hardware for the current machine
-	lscpu - list cpu info for the current machine
-	lsmod - list currently loaded kernel modules
-	lsblk - list block devices on the current machine
-	lspcmia - list pcmcia devices
-	nproc - show number of processing units available
-	x86info - show hardware info on x86.
-	dmidecode - DMI table decoder
+	(8) lsscsi - list SCSI devices (or hosts) and their attributes
+	(8) lspci - list all PCI devices
+	(8) lsusb - list USB devices
+	(1) lshw - list hardware
+	(1) lscpu - display information about the CPU architecture
+	(8) lsmod - Show the status of modules in the Linux Kernel
+	(8) lsblk - list block devices
+	(8) pccardctl - PCMCIA card control utility
+	(8) lspcmcia - display extended PCMCIA debugging information
+	(1) nproc - print the number of processing units available
+	(1) x86info — display x86 CPU diagnostics
+	(8) dmidecode - DMI table decoder
 
 gui:
-	icinga (web app)
-	nagios (web app)
-	ksysguard (GUI app)
-	gnome-system-montor (GUI app)
-	xfce4-taskmanager (GUI app)
-	linux process explorer (procexp) - no package for ubuntu (GUI app)
-	mrtg (GUI app)
-	monit (??)
-	munin (??)
+	(8) icinga - network/systems status monitoring daemon
+	(8) nagios3 - network/systems status monitoring daemon
+	(1) ksysguard - KDE System Monitor
+	(1) gnome-system-monitor — view and control processes
+	(1) xfce4-taskmanager - a task (system process) manager for Xfce.
+	procexp - linux process explorer
+		no package for ubuntu
+	(1) mrtg - What is MRTG ?
+	(1) Monit - utility for monitoring services on a Unix system
+	(1) munin - Munin manpage hub
+
+filesystems:
+	(8) fsck - check and repair a Linux filesystem
+	(8) mkfs - build a Linux filesystem
+	(8) debugfs - ext2/ext3/ext4 file system debugger
+	(8) dumpe2fs - dump ext2/ext3/ext4 filesystem information
+	(8) tune2fs - adjust tunable filesystem parameters on ext2/ext3/ext4 filesystems
+	(8) e2fsck - check a Linux ext2/ext3/ext4 file system
+	(8) mke2fs - create an ext2/ext3/ext4 filesystem
+	(5) ext2 - the second extended file system
+	(5) ext2 - the third extended file system
+	(5) ext4 - the fourth extended file system
+	(1) dd - convert and copy a file
