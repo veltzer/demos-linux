@@ -85,21 +85,21 @@ Q:=@
 endif # DO_MKDBG
 
 # sources from the git perspective
-GIT_SOURCES:=$(shell scripts/git_wrapper.sh ls-files)
-ALL_DEPS:=$(TEMPLAR_ALL_DEPS)
+GIT_SOURCES:=$(shell git ls-files)
+ALL_DEP:=$(TEMPLAR_ALL_DEP)
 ALL:=$(TEMPLAR_ALL)
 CLEAN:=
 CLEAN_DIRS:=
 
 # user space applications (c and c++)
-S_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.S")
-CC_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
-C_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
-ALL_C:=$(shell scripts/find_wrapper.sh . -name "*.c")
-ALL_CC:=$(shell scripts/find_wrapper.sh . -name "*.cc")
-ALL_H:=$(shell scripts/find_wrapper.sh . -name "*.h")
-ALL_HH:=$(shell scripts/find_wrapper.sh . -name "*.hh")
-ALL_US_C:=$(shell scripts/find_wrapper.sh $(US_DIRS) -name "*.c" -or -name "*.h") $(shell scripts/find_wrapper.sh src/include -name "*.h")
+S_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.S")
+CC_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
+C_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
+ALL_C:=$(shell find . -name "*.c")
+ALL_CC:=$(shell find . -name "*.cc")
+ALL_H:=$(shell find . -name "*.h")
+ALL_HH:=$(shell find . -name "*.hh")
+ALL_US_C:=$(shell find $(US_DIRS) -name "*.c" -or -name "*.h") $(shell find src/include -name "*.h")
 ALL_US_CC:=$(ALL_CC) $(ALL_HH)
 ALL_US:=$(ALL_US_C) $(ALL_US_CC)
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
@@ -118,9 +118,9 @@ ALL:=$(ALL) $(S_EXE) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_ASX) $(C_ASX) $(CC_PRE) $(C_PRE)
 
 # kernel modules
-#MOD_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
+#MOD_SRC:=$(shell find $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
 MOD_SRC:=$(filter $(KERNEL_DIR)/%.c,$(GIT_SOURCES))
-#MOD_SA_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_SA_DIR) -name "*.c")
+#MOD_SA_SRC:=$(shell find $(KERNEL_SA_DIR) -name "*.c")
 MOD_SA_SRC:=$(filter $(KERNEL_SA_DIR)/%.c,$(GIT_SOURCES))
 MOD_BAS:=$(basename $(MOD_SRC))
 MOD_SA_BAS:=$(basename $(MOD_SA_SRC))
@@ -205,56 +205,56 @@ git_maintain:
 # general rules...
 
 # how to create regular executables...
-$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
-$(C_OBJ): %.o: %.c $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
+$(C_OBJ): %.o: %.c $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
-$(S_OBJ): %.o: %.S $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+$(S_OBJ): %.o: %.S $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
-$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
+$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
-$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
+$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
-$(S_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
+$(S_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
-$(CC_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
+$(CC_ASX): %.s: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
-$(C_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
+$(C_ASX): %.s: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
-$(CC_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
+$(CC_PRE): %.p: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
-$(C_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
+$(C_PRE): %.p: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
-$(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
+$(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)objdump --disassemble --source --demangle $< > $@
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
 #	$(Q)objdump --demangle --source --disassemble --no-show-raw-insn --section=.text $< > $@
 
 # rule about how to check kernel source files
-$(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
+$(MOD_CHP): %.stamp: %.c $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)wrapper_silent $(SCRIPT_CHECKPATCH) --file $<
 	$(Q)touch $@
 # rule about how to create .ko files...
-$(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
+$(MOD_STP): %.ko.stamp: %.c $(ALL_DEP) scripts/make_wrapper.pl
 	$(info doing [$@])
 	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) W=$(W) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)#scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)touch $@
 
 # rules about makefiles
-$(MK_STP): %.stamp: % $(ALL_DEPS)
+$(MK_STP): %.stamp: % $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)$(MAKE) -C $(dir $<) Q=$(Q)
 	$(Q)touch $@
@@ -279,7 +279,7 @@ debug:
 	$(info CLEAN is $(CLEAN))
 	$(info CLEAN_DIRS is $(CLEAN_DIRS))
 	$(info GIT_SOURCES is $(GIT_SOURCES))
-	$(info ALL_DEPS is $(ALL_DEPS))
+	$(info ALL_DEP is $(ALL_DEP))
 	$(info CXX is $(CXX))
 	$(info CXXFLAGS is $(CXXFLAGS))
 	$(info CC is $(CC))
@@ -496,17 +496,17 @@ kernel_makeeasy:
 
 # This is what I use
 .PHONY: format_uncrustify
-format_uncrustify: $(ALL_DEPS)
+format_uncrustify: $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l C $(ALL_US_C)
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l CPP $(ALL_US_CC)
 .PHONY: format_astyle
-format_astyle: $(ALL_DEPS)
+format_astyle: $(ALL_DEP)
 	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
 .PHONY: format_indent
-format_indent: $(ALL_DEPS)
+format_indent: $(ALL_DEP)
 	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)indent $(ALL_US)
@@ -529,7 +529,7 @@ cloc:
 
 # web page
 .PHONY: install
-install: $(ALL_DEPS)
+install: $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)rm -rf $(WEB_DIR)
 	$(Q)mkdir $(WEB_DIR)
