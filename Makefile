@@ -247,10 +247,10 @@ $(MOD_CHP): %.stamp: %.c $(ALL_DEP)
 	$(Q)wrapper_silent $(SCRIPT_CHECKPATCH) --file $<
 	$(Q)touch $@
 # rule about how to create .ko files...
-$(MOD_STP): %.ko.stamp: %.c $(ALL_DEP) scripts/make_wrapper.pl
+$(MOD_STP): %.ko.stamp: %.c $(ALL_DEP) scripts/wrapper_make.pl
 	$(info doing [$@])
-	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) W=$(W) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
-	$(Q)#scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)scripts/wrapper_make.pl -C $(KDIR) V=$(V) W=$(W) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)#scripts/wrapper_make.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)touch $@
 
 # rules about makefiles
