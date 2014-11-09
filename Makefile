@@ -355,23 +355,23 @@ check_perror:
 .PHONY: check_fixme
 check_fixme:
 	$(info doing [$@])
-	$(Q)wrapper_noerr git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_while1
 check_while1:
 	$(info doing [$@])
-	$(Q)wrapper_noerr git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage
 check_usage:
 	$(info doing [$@])
-	$(Q)wrapper_noerr git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_pthread
 check_pthread:
 	$(info doing [$@])
-	$(Q)wrapper_noerr git grep -l 'CHECK_ZERO(pthread' -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -l 'CHECK_ZERO(pthread' -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage_2
 check_usage_2:
 	$(info doing [$@])
-	$(Q)wrapper_noerr git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_gitignore
 check_gitignore:
 	$(info doing [$@])
@@ -379,7 +379,7 @@ check_gitignore:
 .PHONY: check_exitzero
 check_exitzero:
 	$(info doing [$@])
-	$(Q)wrapper_noerr git grep -l 'exit\(0\)' -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -l 'exit\(0\)' -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_no_symlinks
 check_no_symlinks:
 	$(info doing [$@])
