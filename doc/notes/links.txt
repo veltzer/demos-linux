@@ -130,3 +130,9 @@ Assembly programming:
 =====================
 http://download.savannah.gnu.org/releases/pgubook/
 http://asm.sourceforge.net/resources.html#docs
+
+Object oriented in the C language:
+==================================
+http://www.cs.rit.edu/~ats/books/ooc.pdf
+http://stackoverflow.com/questions/351733/can-you-write-object-oriented-code-in-c/
+http://stackoverflow.com/questions/415452/object-orientation-in-c
