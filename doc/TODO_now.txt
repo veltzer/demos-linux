@@ -1,3 +1,6 @@
+- wrapper_compile.py and wrapper_make.pl should be moved to templar (and the
+	perl should be rewritten in python)
+
 - do a demo of mq_open.
 - do example of backwards compatible C object oriented code.
 	union - to hide data.

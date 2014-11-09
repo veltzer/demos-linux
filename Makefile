@@ -244,7 +244,7 @@ $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEP)
 # rule about how to check kernel source files
 $(MOD_CHP): %.stamp: %.c $(ALL_DEP)
 	$(info doing [$@])
-	$(Q)wrapper_silent $(SCRIPT_CHECKPATCH) --file $<
+	$(Q)make_helper wrapper-silent $(SCRIPT_CHECKPATCH) --file $<
 	$(Q)touch $@
 # rule about how to create .ko files...
 $(MOD_STP): %.ko.stamp: %.c $(ALL_DEP) scripts/wrapper_make.pl
@@ -304,53 +304,53 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)wrapper_ok git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)wrapper_ok git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)wrapper_ok git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)wrapper_ok git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_ace_include
 check_ace_include:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)wrapper_ok git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)wrapper_ok git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
 # enable this when you have the balls...
-#$(Q)wrapper_ok git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
+#$(Q)make_helper wrapper-ok git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_license
 check_license:
 	$(info doing [$@])
 	$(Q)scripts/check_license.py
-#	$(Q)wrapper_ok git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh' '*.S'
+#	$(Q)make_helper wrapper-ok git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh' '*.S'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 # " =" cannot be checked because of void foo(void* =0) and that is the reason for the next
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)wrapper-ok git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	$(Q)git grep -L -e '^#include <firstinclude.h>$$' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v kernel_standalone | grep -v mod_ | grep -v examples_standalone | grep -v firstinclude | grep -v shared.h | wrapper_ok grep -v kernel_helper.h
+	$(Q)git grep -L -e '^#include <firstinclude.h>$$' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v kernel_standalone | grep -v mod_ | grep -v examples_standalone | grep -v firstinclude | grep -v shared.h | make_helper wrapper-ok grep -v kernel_helper.h
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -e 'CHECK_' --and -e '=' --and --not -e '=CHECK_' --and --not -e ')CHECK_' --and --not -e ',CHECK_' --and --not -e 'CHECK_ASSERT' --and --not -e PTHREAD_ERROR --and --not -e ', CHECK_' --and --not -e ERRORCHECK_
+	$(Q)make_helper wrapper-ok git grep -e 'CHECK_' --and -e '=' --and --not -e '=CHECK_' --and --not -e ')CHECK_' --and --not -e ',CHECK_' --and --not -e 'CHECK_ASSERT' --and --not -e PTHREAD_ERROR --and --not -e ', CHECK_' --and --not -e ERRORCHECK_
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])
-	$(Q)git grep 'perror' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v assert_perror | grep -v perror.cc | wrapper_ok grep -v err_utils.h
+	$(Q)git grep 'perror' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v assert_perror | grep -v perror.cc | make_helper wrapper-ok grep -v err_utils.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_fixme
 check_fixme:
@@ -387,34 +387,34 @@ check_no_symlinks:
 .PHONY: check_check_header
 check_check_header:
 	$(info doing [$@])
-	$(Q)git grep include -- '*.c' '*.cc' '*.h' '*.hh' | grep us_helper | wrapper_ok grep CHECK
+	$(Q)git grep include -- '*.c' '*.cc' '*.h' '*.hh' | grep us_helper | make_helper wrapper-ok grep CHECK
 .PHONY: check_veltzer_https
 check_veltzer_https:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep "http:\/\/veltzer.net"
+	$(Q)make_helper wrapper-ok git grep "http:\/\/veltzer.net"
 .PHONY: check_all
 check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2 check_gitignore check_exitzero check_check_header check_veltzer_https check_for check_semisemi
 
 .PHONY: check_semisemi
 check_semisemi:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep ";;" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-ok git grep ";;" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_for
 check_for:
 	$(info doing [$@])
-	$(Q)git grep "for (" -- '*.h' '*.hh' '*.c' '*.cc' | wrapper_ok grep -v kernel
+	$(Q)git grep "for (" -- '*.h' '*.hh' '*.c' '*.cc' | make_helper wrapper-ok grep -v kernel
 .PHONY: check_dots
 check_dots:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
 # checks that dont pass
 .PHONY: check_syn
 check_syn:
 	$(info doing [$@])
-	$(Q)wrapper_ok git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
-	$(Q)wrapper_ok git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
-	$(Q)wrapper_ok git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
-	$(Q)wrapper_ok git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
 
 .PHONY: check_files
 check_files:
