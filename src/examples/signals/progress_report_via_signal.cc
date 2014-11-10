@@ -21,7 +21,7 @@
 #include <unistd.h>	// for alarm(2), write(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
-#include <stdio.h>	// for snprintf(3)
+#include <stdio.h>	// for snprintf(3), STDERR_FILENO
 #include <signal_utils.h>	// for signal_register_handler_sigaction()
 #include <values.h>	// for MAXLONG
 
@@ -44,7 +44,9 @@ volatile unsigned long i;
 /*
  * Remember that this is a signal handler and calls to fprintf(3) or the like
  * are forbidden so we are forced to use async-safe function (see man 7 signal).
- * That is the reason for the cumbersome code
+ * That is the reason for the cumbersome code. Hopefylly snprintf(3) is safe
+ * enough to use and does not do any memory allocation or the like. write(2),
+ * signal(2) and alarm(2) are safe according to the manual.
  */
 static void handler(int sig) {
 	// we have to reschedule the SIGALRM every time since the alarm(2)
@@ -54,7 +56,7 @@ static void handler(int sig) {
 	alarm(1);
 	char buf[100];
 	int len=snprintf(buf, sizeof(buf), "did [%ld] units of work...\n", i);
-	CHECK_NOT_M1(write(2, buf, len));
+	CHECK_NOT_M1(write(STDERR_FILENO, buf, len));
 }
 
 int main(int argc, char** argv, char** envp) {
