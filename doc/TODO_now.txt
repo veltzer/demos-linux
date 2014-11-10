@@ -1,4 +1,6 @@
 find where I have linuxapi and replace with demos-linux
+use templar to state EXACTLY how many demos I have in the REAMDE.md
+	file...:)
 do example of rdtsc on x64.
 fix the get rdtsc examples in low_level.h and move examples from
 	us_helper.h to low_level.h
