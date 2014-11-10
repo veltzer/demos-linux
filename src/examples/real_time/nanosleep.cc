@@ -20,7 +20,7 @@
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <time.h>	// for nanosleep(2), timespec
-#include <us_helper.h>	// for getticks(), get_mic_diff()
+#include <lowlevel_utils.h>	// for getticks(), get_mic_diff()
 #include <sched_utils.h>// for sched_run_priority(), SCHED_FIFO_LOW_PRIORITY:const, SCHED_FIFO_MID_PRIORITY:const, SCHED_FIFO_HIGH_PRIORITY:const
 
 /*

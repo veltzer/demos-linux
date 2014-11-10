@@ -62,8 +62,7 @@ static inline int sched_get_by_name(const char* name) {
 			return sched_tbl[i].val;
 		}
 	}
-	CHECK_ASSERT("bad policy name"==NULL);
-	return -1;
+	CHECK_ERROR("bad policy name");
 }
 
 static inline const char* sched_get_name(int policy) {
@@ -73,8 +72,7 @@ static inline const char* sched_get_name(int policy) {
 			return sched_tbl[i].name;
 		}
 	}
-	CHECK_ASSERT("bad policy value"==NULL);
-	return NULL;
+	CHECK_ERROR("bad policy value");
 }
 
 static inline void sched_print_info() {
@@ -117,7 +115,7 @@ static inline void sched_check_policy(int policy) {
 			return;
 		}
 	}
-	CHECK_ASSERT("bad policy value"==NULL);
+	CHECK_ERROR("bad policy value");
 }
 
 const int SCHED_FIFO_LOW_PRIORITY=1;

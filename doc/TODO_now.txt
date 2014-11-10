@@ -1,3 +1,11 @@
+do demo of __attribute__((noreturn))
+find where I have linuxapi and replace with demos-linux
+do example of rdtsc on x64.
+fix the get rdtsc examples in low_level.h and move examples from
+	us_helper.h to low_level.h
+do example that shows that performance of SCHED_OTHER and SCHED_FIFO
+	is the same when all is quiet.
+
 - wrapper_compile.py and wrapper_make.pl should be moved to templar (and the
 	perl script should be rewritten in python)
 - do a demo of mq_open.

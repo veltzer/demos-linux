@@ -67,8 +67,7 @@ static inline int dir_get_by_name(const char* name) {
 			return dir_tbl[i].val;
 		}
 	}
-	CHECK_ASSERT("bad file type name"==NULL);
-	return -1;
+	CHECK_ERROR("bad file type name");
 }
 
 /*
@@ -81,8 +80,7 @@ static inline const char* dir_get_by_val(int val) {
 			return dir_tbl[i].name;
 		}
 	}
-	CHECK_ASSERT("unknown"==NULL);
-	return NULL;
+	CHECK_ERROR("unknown");
 }
 
 /*
