@@ -22,8 +22,6 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
 #include <stdio.h>	// for snprintf(3), STDERR_FILENO
-#include <signal_utils.h>	// for signal_register_handler_sigaction()
-#include <values.h>	// for MAXLONG
 
 /*
  * This is an example of doing progress reports via the SIGALRM signal every second.
