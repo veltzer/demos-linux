@@ -21,11 +21,12 @@
 
 #include <firstinclude.h>
 #include <unistd.h> // for getpagesize(2)
-#include <stdio.h> // for fprintf(3), stderr(O)
-#include <stdlib.h> // for EXIT_FAILURE, exit(3)
+#include <err_utils.h> // for CHECK_ASSERT()
+#include <cpufreq.h>	// for cpufreq_get_freq_kernel(2)
 
 /*
- * This is a collection of helper function to help with working.
+ * This is a collection of helper function to help with working with low level stuff.
+ * Stacks, registers, barriers, assembly snipplets and more.
  */
 
 /* THIS IS A C FILE, NO C++ here */
@@ -46,8 +47,7 @@ bool stack_vars_direction_up() {
 	if(pa==pu-sizeof(int)) {
 		return true;
 	}
-	fprintf(stderr, "strange stack you have here...\n");
-	exit(EXIT_FAILURE);
+	CHECK_ERROR("strange stack you have here");
 }
 
 /*
@@ -74,8 +74,7 @@ bool stack_function_direction_up() {
 	if(adr<pa) {
 		return false;
 	}
-	fprintf(stderr, "strange stack you have here...\n");
-	exit(EXIT_FAILURE);
+	CHECK_ERROR("strange stack you have here");
 }
 
 /*
@@ -109,7 +108,7 @@ static inline void* stack_align_pointer(void* p) {
 
 /*
  * get the RDTSC register (counter)
- * This functions seems to be wrong since rdtsc should be 64 bit wide register.
+ * This functions seems to be wrong since rdtsc should be a 64 bit wide register, even on 32 bit systems.
  */
 static inline unsigned int getrdtsc() {
 	unsigned int val;
@@ -150,6 +149,52 @@ static inline unsigned long getframepointer() {
 	asm ("movl %%ebp, %0" : "=r" (val));
 	return val;
 #endif
+}
+
+/*
+ * Functions which handle the TSC
+ *
+ * References:
+ * http://en.wikipedia.org/wiki/Time_Stamp_Counter
+ * http://stackoverflow.com/questions/3388134/rdtsc-accuracy-across-cpu-cores
+ */
+
+typedef unsigned long long ticks_t;
+
+static inline ticks_t getticks(void) {
+	unsigned int a, d;
+	// the volatile here is necessary otherwise the compiler does not know that the value
+	// of this register changes and caches it
+	// the difference between 'rdtsc' and 'rdtscp' instruction is that the latter will not
+	// get executed out of order and therefore measurements using it will be more
+	// accurate
+	// asm volatile ("rdtsc":"=a" (a), "=d" (d));
+	asm volatile ("rdtscp" : "=a" (a), "=d" (d));
+	return(((ticks_t)a) | (((ticks_t)d) << 32));
+}
+
+static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
+	CHECK_ASSERT(t2 >= t1);
+	// this is in clicks
+	unsigned long long diff=t2 - t1;
+	// the frquency returned is in tousands of clicks per second so we multiply
+	// unsigned long long freq=cpufreq_get_freq_kernel(0) * 1000;
+
+	// we take the maxiumum frequency for newer Intel machines supporting the
+	// 'constant_tsc' feature (see /proc/cpuinfo...).
+	unsigned long min, max;
+	cpufreq_get_hardware_limits(0, &min, &max);
+	unsigned long long freq=max*1000;
+	// cpufreq_get_freq_kernel can return 0
+	// this is probably a problem with your cpu governor setup
+	// this happens on certain ubuntu systems
+	CHECK_ASSERT(freq!=0);
+	// how many clicks per micro
+	unsigned long long mpart=freq / 1000000;
+	CHECK_ASSERT(mpart!=0);
+	// how many micros have passed
+	unsigned long long mdiff=diff / mpart;
+	return(mdiff);
 }
 
 #endif	/* !__lowlevel_utils_h */

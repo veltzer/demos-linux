@@ -29,7 +29,7 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <sys/time.h>	// for gettimeofday(2), struct timeval
-#include <us_helper.h>	// for micro_diff()
+#include <timeval_utils.h>	// for micro_diff()
 
 typedef struct _measure {
 	struct timeval t1;

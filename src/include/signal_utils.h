@@ -107,8 +107,7 @@ static inline int signal_get_by_name(const char* name) {
 			return signal_tbl[i].val;
 		}
 	}
-	CHECK_ASSERT("bad signal name"==NULL);
-	return -1;
+	CHECK_ERROR("bad signal name");
 }
 
 /*
@@ -121,8 +120,7 @@ static inline const char* signal_get_by_val(int val) {
 			return signal_tbl[i].name;
 		}
 	}
-	CHECK_ASSERT("bad signal value"==NULL);
-	return NULL;
+	CHECK_ERROR("bad signal value");
 }
 
 /*

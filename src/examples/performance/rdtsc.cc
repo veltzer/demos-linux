@@ -17,14 +17,16 @@
  */
 
 #include <firstinclude.h>
-#include <sys/time.h>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <unistd.h>	// for usleep(3)
-#include <cpufreq.h>
-#include <unistd.h>	// for sleep(3)
+#include <sched.h>	// for sched_getcpu(3)
+#include <stdio.h>	// for fprintf(3), printf(3), stderr
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3), system(3)
+#include <unistd.h>	// for usleep(3), sysconf(3)
+#include <cpufreq.h>	// for cpufreq_get_freq_kernel(3), cpufreq_get_freq_hardware(3)
+#include <unistd.h>	// for sleep(3), syscall(2)
+#include <sys/syscall.h>	// for syscall(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO()
+#include <lowlevel_utils.h>	// for getticks(), get_mic_diff()
+#include <us_helper.h>	// for get_clk_tck()
 
 /*
  * This is a demo which shows how, on i386 platforms, to read the rdtsc
