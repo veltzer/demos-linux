@@ -1,3 +1,4 @@
+- make the build system for this package use precompiled headers.
 - add checkpatch.pl on the standalone modules too...
 - my build system does not work well for kernel samples with -j.
 	try to build all (make clean and then make -j 4) and you

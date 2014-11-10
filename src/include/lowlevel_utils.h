@@ -109,6 +109,7 @@ static inline void* stack_align_pointer(void* p) {
 
 /*
  * get the RDTSC register (counter)
+ * This functions seems to be wrong since rdtsc should be 64 bit wide register.
  */
 static inline unsigned int getrdtsc() {
 	unsigned int val;
@@ -117,7 +118,8 @@ static inline unsigned int getrdtsc() {
 }
 
 /*
- * get the stack pointer register on a 32 bit Intel machine
+ * get the stack pointer register
+ * on a 32 bit Intel machine this already works. I need to make it work on x64.
  */
 static inline unsigned long getstackadr() {
 #if __x86_64__
@@ -137,7 +139,8 @@ static inline void* getstackpointer() {
 }
 
 /*
- * get the current frame pointer (need to give examples of how to use this)
+ * get the current frame pointer
+ * This currently works only on i386
  */
 static inline unsigned long getframepointer() {
 #if __x86_64__

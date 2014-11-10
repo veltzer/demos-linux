@@ -1,14 +1,9 @@
 - wrapper_compile.py and wrapper_make.pl should be moved to templar (and the
-	perl should be rewritten in python)
-
+	perl script should be rewritten in python)
 - do a demo of mq_open.
 - do example of backwards compatible C object oriented code.
 	union - to hide data.
-	size passing - to keep size constant.
+	size in the header to pass around variable sized object with no point.
 	methods.
 - web server using splice.
 - do networking select example.
-- precompiled headers:
-	- do standalone gcc precompiled headers example in linuxapi.
-	- do standalone intel precompiled headers example in linuxapi.
-	- make the linuxapi package itself use precompiled headers.
