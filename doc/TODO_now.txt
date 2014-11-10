@@ -1,4 +1,3 @@
-do demo of __attribute__((noreturn))
 find where I have linuxapi and replace with demos-linux
 do example of rdtsc on x64.
 fix the get rdtsc examples in low_level.h and move examples from
