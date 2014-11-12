@@ -1,3 +1,4 @@
+replace the stupid php that I have with github pages.
 find where I have linuxapi and replace with demos-linux
 use templar to state EXACTLY how many demos I have in the REAMDE.md
 	file...:)
