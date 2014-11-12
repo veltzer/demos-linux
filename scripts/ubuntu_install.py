@@ -162,7 +162,8 @@ packs=[
 	'linux-tools-common', # for perf(1)
 	'python3-uno', # for soffice conversion
 	'electric-fence',
-	'vnstat',
+	#'vnstat', # causes performance problems
+	#'vnstati', # causes performance problems
 	'wireshark-common',
 	'wireshark',
 	'ngrep',
@@ -172,7 +173,6 @@ packs=[
 	'dwarves',
 	'kerneltop',
 	'tshark',
-	'vnstati',
 	'google-perftools',
 	'pv',
 	'splint',
@@ -198,7 +198,8 @@ packs=[
 	'devmem2',
 	'elfutils', # for manipulating elf files
 	'dstat',
-	'netperf',
+	#'netperf', # causes performance problems
+	#'netserver', # causes performance problems
 	'sysstat',
 	'nmon',
 	'saidar',
@@ -206,15 +207,16 @@ packs=[
 	'iperf',
 	'smem',
 	'sysbench',
-	'icinga-core',
-	'nagios3-core',
+	#'icinga-core', # causes performance problems
+	#'nagios3-core', # causes performance problems
 	'ksysguard',
 	'gnome-system-monitor',
 	'xfce4-taskmanager',
 	'mrtg',
-	'monit',
-	'munin',
-	'lttng-tools',
+	#'multipath-tools', # causes performance problems
+	#'monit', # causes performance problems
+	#'munin', # causes performance problems
+	#'lttng-tools', # causes performance problems
 	'atop',
 	'isag',
 	'sdparm',
