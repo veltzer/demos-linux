@@ -24,6 +24,11 @@
 /*
  * This example shows how to find out which libraries you are linked to.
  * Sort of a cheap ldd replacement.
+ *
+ * If you don't have ldd(1) on a machine (say on an embedded target)
+ * the you can use ld.so(1) to find the dependencies directly.
+ * example:
+ * /lib64/ld-linux-x86-64.so.2 --list /bin/ls
  */
 static bool verbose=false;
 

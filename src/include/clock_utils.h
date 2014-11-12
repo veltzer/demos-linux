@@ -88,7 +88,6 @@ static inline int clock_get_by_name(const char* name) {
 			return clock_tbl[i].val;
 		}
 	}
-	CHECK_ASSERT("bad clock name"==NULL);
-	return -1;
+	CHECK_ERROR("bad clock name");
 }
 #endif	/* !__clock_utils_h */

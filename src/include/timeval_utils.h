@@ -16,12 +16,30 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <firstinclude.h>
-#include <stdio.h> // for printf(3)
-#include <stdlib.h> // for EXIT_SUCCESS
-#include "add.h"
+#ifndef __timeval_utils_h
+#define __timeval_utils_h
 
-int main(int argc,char** argv,char** envp) {
-	printf("2+2 is %d\n", func(2, 2));
-	return EXIT_SUCCESS;
+/*
+ * This file is here to help you deal with the Linux 'struct timeval'
+ * It seems that there are no such utility functions in the standard
+ * C library
+ */
+
+/* THIS IS A C FILE, NO C++ here */
+
+#include <firstinclude.h>
+#include <time.h>	// for struct timeval
+
+/*
+ * An easy function to return how many micros have passed between
+ * two timeval structures.
+ */
+static inline double micro_diff(struct timeval* t1, struct timeval* t2) {
+	unsigned long long u1, u2;
+	u1=((unsigned long long)t1->tv_sec*1000000)+t1->tv_usec;
+	u2=((unsigned long long)t2->tv_sec*1000000)+t2->tv_usec;
+	double diff=u2-u1;
+	return diff;
 }
+
+#endif	/* !__timeval_utils_h */

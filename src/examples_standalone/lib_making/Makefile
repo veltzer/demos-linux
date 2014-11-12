@@ -11,7 +11,7 @@ LDFLAGS:=-Wall -Werror
 CC:=gcc
 ALL_DEPS:=Makefile
 
-# you can also add -nostdlib to avoid the default ahviour of linking
+# you can also add -nostdlib to avoid the default behaviour of linking
 # with standard C/C++ runtime libraries.
 FLAGS_FOR_SHARED_LIB:=-shared
 # These are the libraries used by your library
