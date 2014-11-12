@@ -28,7 +28,7 @@ void print_mysym() {
 
 void print_details_of_x() {
 	printf("&x is [%p]\n", &x);
-	printf("sizeof(x) is [%ld]\n", sizeof(x));
+	printf("sizeof(x) is [%zd]\n", sizeof(x));
 }
 
 void touch_x() {

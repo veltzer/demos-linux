@@ -1,11 +1,12 @@
-demos-linux
-===========
+'''
+project definitions for templar
+'''
 
-version: no git tag yet
-
-The Linux API project
-
-This project is a source code repository for instructors or expert programmers
+def populate(d):
+	d.project_name='demos-linux'
+	d.project_long_description='The Linux API project'
+	d.project_year_started='2010'
+	d.project_description='''This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
 It has about 800 examples (as of 9/2013) I found are useful in explaining the Linux API.
 The idea is to provide a good coverage of all major features and to resolve disputes
@@ -76,6 +77,9 @@ Using it
 	You must be at the root of the project to issue the `make` command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
 
-	Mark Veltzer <mark@veltzer.net>, 2010-2014
+	{personal_origin}, {project_year_started}-2014'''.format(**d)
 
-	Mark Veltzer <mark@veltzer.net>, 2010-2014
+def getdeps():
+	return [
+		__file__, # myself
+	]
