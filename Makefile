@@ -85,21 +85,21 @@ Q:=@
 endif # DO_MKDBG
 
 # sources from the git perspective
-GIT_SOURCES:=$(shell scripts/git_wrapper.sh ls-files)
-ALL_DEPS:=$(TEMPLAR_ALL_DEPS)
+GIT_SOURCES:=$(shell git ls-files)
+ALL_DEP:=$(TEMPLAR_ALL_DEP)
 ALL:=$(TEMPLAR_ALL)
 CLEAN:=
 CLEAN_DIRS:=
 
 # user space applications (c and c++)
-S_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.S")
-CC_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
-C_SRC:=$(shell scripts/find_wrapper.sh $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
-ALL_C:=$(shell scripts/find_wrapper.sh . -name "*.c")
-ALL_CC:=$(shell scripts/find_wrapper.sh . -name "*.cc")
-ALL_H:=$(shell scripts/find_wrapper.sh . -name "*.h")
-ALL_HH:=$(shell scripts/find_wrapper.sh . -name "*.hh")
-ALL_US_C:=$(shell scripts/find_wrapper.sh $(US_DIRS) -name "*.c" -or -name "*.h") $(shell scripts/find_wrapper.sh src/include -name "*.h")
+S_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.S")
+CC_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.cc")
+C_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.c" -and -not -name "mod_*.c")
+ALL_C:=$(shell find . -name "*.c")
+ALL_CC:=$(shell find . -name "*.cc")
+ALL_H:=$(shell find . -name "*.h")
+ALL_HH:=$(shell find . -name "*.hh")
+ALL_US_C:=$(shell find $(US_DIRS) -name "*.c" -or -name "*.h") $(shell find src/include -name "*.h")
 ALL_US_CC:=$(ALL_CC) $(ALL_HH)
 ALL_US:=$(ALL_US_C) $(ALL_US_CC)
 CC_ASX:=$(addsuffix .s,$(basename $(CC_SRC)))
@@ -118,9 +118,9 @@ ALL:=$(ALL) $(S_EXE) $(CC_EXE) $(C_EXE)
 CLEAN:=$(CLEAN) $(CC_EXE) $(C_EXE) $(CC_OBJ) $(C_OBJ) $(CC_DIS) $(C_DIS) $(CC_ASX) $(C_ASX) $(CC_PRE) $(C_PRE)
 
 # kernel modules
-#MOD_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
+#MOD_SRC:=$(shell find $(KERNEL_DIR) -name "mod_*.c" -and -not -name "mod_*.mod.c")
 MOD_SRC:=$(filter $(KERNEL_DIR)/%.c,$(GIT_SOURCES))
-#MOD_SA_SRC:=$(shell scripts/find_wrapper.sh $(KERNEL_SA_DIR) -name "*.c")
+#MOD_SA_SRC:=$(shell find $(KERNEL_SA_DIR) -name "*.c")
 MOD_SA_SRC:=$(filter $(KERNEL_SA_DIR)/%.c,$(GIT_SOURCES))
 MOD_BAS:=$(basename $(MOD_SRC))
 MOD_SA_BAS:=$(basename $(MOD_SA_SRC))
@@ -168,7 +168,7 @@ clean_soft: clean_standalone
 # -f: force.
 # hard clean (may remove manually created files not yet added to the git index):
 GIT_CLEAN_FLAGS:=-xdf
-# soft clean (only removes .gitignore files)
+# soft clean (only removes stuff mentionaed in .gitignore files)
 #GIT_CLEAN_FLAGS:=-Xdf
 .PHONY: clean_hard
 clean_hard:
@@ -205,56 +205,56 @@ git_maintain:
 # general rules...
 
 # how to create regular executables...
-$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+$(CC_OBJ): %.$(SUFFIX_OO): %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
-$(C_OBJ): %.o: %.c $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CXX) -c $(CXXFLAGS) -o $@ $<
+$(C_OBJ): %.o: %.c $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
-$(S_OBJ): %.o: %.S $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c $(CFLAGS) -o $@ $<
+$(S_OBJ): %.o: %.S $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
-$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) $(CCACHE) 0 $< $@ $(CC) -c -o $@ $<
+$(CC_EXE): %.$(SUFFIX_BIN): %.$(SUFFIX_OO) $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
-$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 1 $(addsuffix .cc,$(basename $<)) $@ $(CXX) $(CXXFLAGS) -o $@ $<
+$(C_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
-$(S_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 1 $(addsuffix .c,$(basename $<)) $@ $(CC) $(CFLAGS) -o $@ $<
+$(S_EXE): %.$(SUFFIX_BIN): %.o $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
-$(CC_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 1 $(addsuffix .S,$(basename $<)) $@ $(CC) -o $@ $<
+$(CC_ASX): %.s: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
-$(C_ASX): %.s: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -S -o $@ $<
+$(C_ASX): %.s: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
-$(CC_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -S -o $@ $<
+$(CC_PRE): %.p: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
-$(C_PRE): %.p: %.cc $(ALL_DEPS) scripts/compile_wrapper.py
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
+$(C_PRE): %.p: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
-	$(Q)scripts/compile_wrapper.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
-$(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEPS)
+	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
+$(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)objdump --disassemble --source --demangle $< > $@
 #	$(Q)objdump --demangle --disassemble --no-show-raw-insn --section=.text $< > $@
 #	$(Q)objdump --demangle --source --disassemble --no-show-raw-insn --section=.text $< > $@
 
 # rule about how to check kernel source files
-$(MOD_CHP): %.stamp: %.c $(ALL_DEPS)
+$(MOD_CHP): %.stamp: %.c $(ALL_DEP)
 	$(info doing [$@])
-	$(Q)scripts/wrapper.py $(SCRIPT_CHECKPATCH) --file $<
+	$(Q)make_helper wrapper-silent $(SCRIPT_CHECKPATCH) --file $<
 	$(Q)touch $@
 # rule about how to create .ko files...
-$(MOD_STP): %.ko.stamp: %.c $(ALL_DEPS) scripts/make_wrapper.pl
+$(MOD_STP): %.ko.stamp: %.c $(ALL_DEP) scripts/wrapper_make.pl
 	$(info doing [$@])
-	$(Q)scripts/make_wrapper.pl -C $(KDIR) V=$(V) W=$(W) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
-	$(Q)#scripts/make_wrapper.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)scripts/wrapper_make.pl -C $(KDIR) V=$(V) W=$(W) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
+	$(Q)#scripts/wrapper_make.pl -C $(KDIR) V=$(V) KCFLAGS=$(KCFLAGS) M=$(abspath $(dir $<)) modules obj-m=$(addsuffix .o,$(notdir $(basename $<)))
 	$(Q)touch $@
 
 # rules about makefiles
-$(MK_STP): %.stamp: % $(ALL_DEPS)
+$(MK_STP): %.stamp: % $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)$(MAKE) -C $(dir $<) Q=$(Q)
 	$(Q)touch $@
@@ -279,7 +279,7 @@ debug:
 	$(info CLEAN is $(CLEAN))
 	$(info CLEAN_DIRS is $(CLEAN_DIRS))
 	$(info GIT_SOURCES is $(GIT_SOURCES))
-	$(info ALL_DEPS is $(ALL_DEPS))
+	$(info ALL_DEP is $(ALL_DEP))
 	$(info CXX is $(CXX))
 	$(info CXXFLAGS is $(CXXFLAGS))
 	$(info CC is $(CC))
@@ -304,74 +304,74 @@ todo:
 .PHONY: check_ws
 check_ws:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)scripts/ok_wrapper.pl git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)scripts/ok_wrapper.pl git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)scripts/ok_wrapper.pl git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "\ \ " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l " $$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "\s$$" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "$$$$" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_main
 check_main:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)scripts/ok_wrapper.pl git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -e " main(" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -e "ACE_TMAIN" --and --not -e argc -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_ace_include
 check_ace_include:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)scripts/ok_wrapper.pl git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "include\"ace" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "include \"ace" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_include
 check_include:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
-	$(Q)scripts/ok_wrapper.pl git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "#include[^ ]" -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l "#include  " -- '*.h' '*.hh' '*.c' '*.cc'
 # enable this when you have the balls...
-#@scripts/ok_wrapper.pl git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
+#$(Q)make_helper wrapper-ok git grep -l -e "#include" --and --not -e "\/\/ for" --and --not -e "firstinclude" -- '*.h' '*.hh' '*.c' '*.cc'
 .PHONY: check_license
 check_license:
 	$(info doing [$@])
 	$(Q)scripts/check_license.py
-#	$(Q)scripts/ok_wrapper.pl git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh' '*.S'
+#	$(Q)make_helper wrapper-ok git grep -L "Copyright (C) 2011-2013 Mark Veltzer <mark.veltzer@gmail.com>" -- '*.c' '*.cc' '*.h' '*.hh' '*.S'
 .PHONY: check_exit
 check_exit:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "exit(1)" -- '*.c' '*.cc' '*.h' '*.hh'
 # " =" cannot be checked because of void foo(void* =0) and that is the reason for the next
 .PHONY: check_pgrep
 check_pgrep:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)wrapper-ok git grep -e $$"$$$$$$" --or -e "= " --or -e "[^\*] =" --or -e "^ " --or -e $$'\t ' --or -e $$" \t" --or -e "\ \ " --or -e $$"\t$$" --or -e " $$" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_firstinclude
 check_firstinclude:
 	$(info doing [$@])
-	$(Q)-git grep -L -e '^#include <firstinclude.h>$$' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v firstinclude | grep -v mod_ | grep -v shared.h | grep -v kernel_helper.h | grep -v kernel_standalone | grep -v examples_standalone | grep -v makefiles
+	$(Q)git grep -L -e '^#include <firstinclude.h>$$' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v kernel_standalone | grep -v mod_ | grep -v examples_standalone | grep -v firstinclude | grep -v shared.h | make_helper wrapper-ok grep -v kernel_helper.h
 .PHONY: check_check
 check_check:
 	$(info doing [$@])
-	$(Q)-git grep 'CHECK_' | grep '=' | grep -v '=CHECK_' | grep -v ')CHECK_' | grep -v ,CHECK_ | grep -v CHECK_ASSERT | grep -v PTHREAD_ERROR | grep -v ', CHECK_' | grep -v ERRORCHECK_
+	$(Q)make_helper wrapper-ok git grep -e 'CHECK_' --and -e '=' --and --not -e '=CHECK_' --and --not -e ')CHECK_' --and --not -e ',CHECK_' --and --not -e 'CHECK_ASSERT' --and --not -e PTHREAD_ERROR --and --not -e ', CHECK_' --and --not -e ERRORCHECK_
 .PHONY: check_perror
 check_perror:
 	$(info doing [$@])
-	$(Q)-git grep 'perror' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v assert_perror | grep -v perror.cc | grep -v err_utils.h
+	$(Q)git grep 'perror' -- '*.c' '*.cc' '*.h' '*.hh' | grep -v assert_perror | grep -v perror.cc | make_helper wrapper-ok grep -v err_utils.h
 #--and --not -e "assert_perror" --and --not -e "perror.cc" --and --not -e "us_helper.h" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_fixme
 check_fixme:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep FIXME -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_while1
 check_while1:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep "while\(1\)" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage
 check_usage:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -e \\\"usage --and -e stderr -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_pthread
 check_pthread:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep -l 'CHECK_ZERO(pthread' -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -l 'CHECK_ZERO(pthread' -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_usage_2
 check_usage_2:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -l "Usage" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_gitignore
 check_gitignore:
 	$(info doing [$@])
@@ -379,7 +379,7 @@ check_gitignore:
 .PHONY: check_exitzero
 check_exitzero:
 	$(info doing [$@])
-	$(Q)scripts/wrapper_noerr.py git grep -l 'exit\(0\)' -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-noerr git grep -l 'exit\(0\)' -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_no_symlinks
 check_no_symlinks:
 	$(info doing [$@])
@@ -387,33 +387,34 @@ check_no_symlinks:
 .PHONY: check_check_header
 check_check_header:
 	$(info doing [$@])
-	$(Q)-git grep include -- '*.c' '*.cc' '*.h' '*.hh' | grep us_helper | grep CHECK
+	$(Q)git grep include -- '*.c' '*.cc' '*.h' '*.hh' | grep us_helper | make_helper wrapper-ok grep CHECK
 .PHONY: check_veltzer_https
 check_veltzer_https:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep "http:\/\/veltzer.net"
+	$(Q)make_helper wrapper-ok git grep "http:\/\/veltzer.net"
 .PHONY: check_all
-check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2 check_gitignore check_exitzero check_no_symlinks check_check_header check_veltzer_https check_for check_semisemi
+check_all: check_ws check_main check_ace_include check_include check_license check_exit check_firstinclude check_perror check_check kernel_check check_fixme check_while1 check_usage check_pthread check_usage_2 check_gitignore check_exitzero check_check_header check_veltzer_https check_for check_semisemi
 
 .PHONY: check_semisemi
 check_semisemi:
 	$(info doing [$@])
-	$(Q)-git grep ";;" -- '*.c' '*.cc' '*.h' '*.hh'
+	$(Q)make_helper wrapper-ok git grep ";;" -- '*.c' '*.cc' '*.h' '*.hh'
 .PHONY: check_for
 check_for:
 	$(info doing [$@])
-	$(Q)-git grep "for (" -- '*.h' '*.hh' '*.c' '*.cc' | grep -v kernel
+	$(Q)git grep "for (" -- '*.h' '*.hh' '*.c' '*.cc' | make_helper wrapper-ok grep -v kernel
 .PHONY: check_dots
 check_dots:
 	$(info doing [$@])
-	$(Q)scripts/ok_wrapper.pl git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
+	$(Q)make_helper wrapper-ok git grep -l " : " -- '*.h' '*.hh' '*.c' '*.cc'
 # checks that dont pass
 .PHONY: check_syn
 check_syn:
-	@scripts/ok_wrapper.pl git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
-	@scripts/ok_wrapper.pl git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
-	@scripts/ok_wrapper.pl git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
-	@scripts/ok_wrapper.pl git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(info doing [$@])
+	$(Q)make_helper wrapper-ok git grep -l "while (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "for (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "if (" -- '*.c' '*.h' '*.cc' '*.hh'
+	$(Q)make_helper wrapper-ok git grep -l "switch (" -- '*.c' '*.h' '*.cc' '*.hh'
 
 .PHONY: check_files
 check_files:
@@ -495,17 +496,17 @@ kernel_makeeasy:
 
 # This is what I use
 .PHONY: format_uncrustify
-format_uncrustify: $(ALL_DEPS)
+format_uncrustify: $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l C $(ALL_US_C)
 	$(Q)uncrustify -c support/uncrustify.cfg --no-backup -l CPP $(ALL_US_CC)
 .PHONY: format_astyle
-format_astyle: $(ALL_DEPS)
+format_astyle: $(ALL_DEP)
 	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)astyle --verbose --suffix=none --formatted --preserve-date --options=support/astyle.cfg $(ALL_US)
 .PHONY: format_indent
-format_indent: $(ALL_DEPS)
+format_indent: $(ALL_DEP)
 	$(error disabled - use format_uncrustify instead)
 	$(info doing [$@])
 	$(Q)indent $(ALL_US)
@@ -528,7 +529,7 @@ cloc:
 
 # web page
 .PHONY: install
-install: $(ALL_DEPS)
+install: $(ALL_DEP)
 	$(info doing [$@])
 	$(Q)rm -rf $(WEB_DIR)
 	$(Q)mkdir $(WEB_DIR)

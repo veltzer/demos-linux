@@ -220,6 +220,7 @@ static inline void print_error_table() {
  * A error handler, will take care of all those pesky error values
  * This is not a C++ framework so I do not throw an exception here.
  */
+static inline void handle_error(int printBadVal, int badVal, int replace_errno, int new_errno, int useerrno, int errnotouse, const char* msg, const char* file, const char* function, const int line, const char* m) __attribute__((noreturn));
 static inline void handle_error(int printBadVal, int badVal, int replace_errno, int new_errno, int useerrno, int errnotouse, const char* msg, const char* file, const char* function, const int line, const char* m) {
 	// this is for pthread type errors
 	if(replace_errno) {
@@ -258,6 +259,10 @@ static inline void handle_error(int printBadVal, int badVal, int replace_errno, 
 	// fprintf(stderr,"error: %s\n",strerror(val));
 	// }
 	// exit(EXIT_FAILURE);
+}
+static inline int check_error(int val, const char* msg, const char* file, const char* function, const int line) __attribute__((noreturn));
+static inline int check_error(int val, const char* msg, const char* file, const char* function, const int line) {
+	handle_error(0, 0, 0, 0, 1, errno, msg, file, function, line, NULL);
 }
 static inline int check_zero(int val, const char* msg, const char* file, const char* function, const int line, const char* m) {
 	if(myunlikely(val!=0)) {
@@ -408,5 +413,6 @@ static inline int check_gezero(int val, const char* msg, const char* file, const
 #define CHECK_IN_RANGE(v, min, max) check_in_range(v, stringify(v), min, max, __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_POSITIVE(v) check_positive(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_GEZERO(v) check_gezero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_ERROR(m) check_error(0, m, __FILE__, __FUNCTION__, __LINE__)
 
 #endif	/* !__err_utils_h */

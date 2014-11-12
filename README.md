@@ -1,7 +1,7 @@
 demos-linux
 ===========
 
-version: no git tag yet
+version: 0.1
 
 The Linux API project
 

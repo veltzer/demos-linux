@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 
-"""
+'''
 This script wraps the running of the compiler with the right flags.
 You must pass the compiler and the flags to it.
 It will scan the source file in order to find specific flags
 to be added to the compilation or linkage.
-"""
-from __future__ import print_function
-
+'''
 import sys # for exit, argv
 import subprocess # for Popen, PIPE, stderr, stdout
 

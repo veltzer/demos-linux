@@ -25,6 +25,7 @@
 #include <fcntl.h>	// for open(2)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system()
+#include <lowlevel_utils.h>	// for getticks(), get_mic_diff()
 #include "shared.h"	// for the ioctl codes
 
 /*

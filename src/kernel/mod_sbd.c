@@ -131,14 +131,17 @@ static void sbd_request(struct request_queue *q)
 		"sectors is %u, pos is %llu, buffer is %p, rq_data_dir is %d",
 				blk_rq_sectors(req),
 				blk_rq_pos(req),
-				req->buffer,
+				bio_data(req->bio),
+				/* req->buffer, */
 				rq_data_dir(req)
 			);
 		}
 		if (dowork) {
 			sbd_transfer(&Device, blk_rq_pos(req),
 					blk_rq_cur_sectors(req),
-					req->buffer, rq_data_dir(req));
+					bio_data(req->bio),
+					/* req->buffer, */
+					rq_data_dir(req));
 			if (!__blk_end_request_cur(req, 0))
 				req = blk_fetch_request(q);
 		}
