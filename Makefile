@@ -1,7 +1,7 @@
 # first lets include the common makefile
 include Makefile.mk
 # include the templates makefile
-include /usr/share/templar/Makefile
+include /usr/share/templar/make/Makefile
 ##############
 # parameters #
 ##############
