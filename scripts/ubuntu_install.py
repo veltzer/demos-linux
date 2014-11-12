@@ -220,7 +220,7 @@ packs=[
 	'atop',
 	'isag',
 	'sdparm',
-	'nfs-common',
+	#'nfs-common', # for nfsiostats(1), mountstats(1), nfsstat(1) cause performance problems
 	'mytop',
 	'cutils',
 	'jlint',
