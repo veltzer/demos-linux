@@ -9,6 +9,7 @@
 *.o
 *.oo
 *.so
+*.a
 *.elf
 *.dis
 *.s
