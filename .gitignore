@@ -64,3 +64,7 @@ __pycache__
 
 # templar generated
 /.tdefs.config
+
+# generated stuff
+/out/
+/web/
