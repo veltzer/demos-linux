@@ -178,9 +178,6 @@ clean_hard:
 clean_hard_test:
 	$(info doing [$@])
 	$(Q)git clean $(GIT_CLEAN_FLAGS) --dry-run
-.PHONY: clean
-clean: clean_hard
-	$(info doing [$@])
 .PHONY: build_standalone
 build_standalone:
 	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
@@ -259,8 +256,8 @@ $(MK_STP): %.stamp: % $(ALL_DEP)
 	$(Q)$(MAKE) -C $(dir $<) Q=$(Q)
 	$(Q)touch $@
 
-.PHONY: debug
-debug:
+.PHONY: debug_me
+debug_me:
 	$(info MOD_MOD is $(MOD_MOD))
 	$(info CC_SRC is $(CC_SRC))
 	$(info CC_DIS is $(CC_DIS))

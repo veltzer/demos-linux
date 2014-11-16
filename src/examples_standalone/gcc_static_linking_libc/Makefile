@@ -1,5 +1,17 @@
 include ../../../Makefile.mk
 
+arch=$(shell uname -m)
+
+ifeq ($(arch),i686)
+STATIC_LIBC:=/usr/lib/i386-linux-gnu/libc.a
+STATIC_LIBM:=/usr/lib/i386-linux-gnu/libm.a
+endif
+
+ifeq ($(arch),x64_86)
+STATIC_LIBC:=/usr/lib/x86_64-linux-gnu/libc.a
+STATIC_LIBM:=/usr/lib/x86_64-linux-gnu/libm.a
+endif
+
 CXXFLAGS:=-I. -I../../include -O2 -Wall -Werror
 ALL:=\
 	static1.$(SUFFIX_BIN)\
@@ -22,7 +34,7 @@ static1.$(SUFFIX_BIN): main.cc
 # this does not work!
 static2.$(SUFFIX_BIN): main.cc
 	$(info doing [$@])
-	$(Q)-g++ $(CXXFLAGS) $^ -o $@ /usr/lib/x86_64-linux-gnu/libc.a
+	$(Q)-g++ $(CXXFLAGS) $^ -o $@ $(STATIC_LIBC)
 	$(Q)touch $@
 
 # produces same executable as the fully dynamic version
@@ -33,7 +45,7 @@ static3.$(SUFFIX_BIN): main.cc
 # produces same executable as the fully dynamic version
 static4.$(SUFFIX_BIN): main.cc
 	$(info doing [$@])
-	$(Q)g++ $(CXXFLAGS) $^ -o $@ /usr/lib/x86_64-linux-gnu/libm.a
+	$(Q)g++ $(CXXFLAGS) $^ -o $@ $(STATIC_LIBM)
 
 dynamic.$(SUFFIX_BIN): main.cc
 	$(info doing [$@])

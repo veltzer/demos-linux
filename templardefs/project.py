@@ -3,8 +3,12 @@ project definitions for templar
 '''
 
 def populate(d):
+	d.project_github_username='veltzer'
 	d.project_name='demos-linux'
-	d.project_long_description='The Linux API project'
+	d.project_website='https://{project_github_username}.github.io/{project_name}'.format(**d)
+	d.project_website_source='https://github.com/{project_github_username}/{project_name}'.format(**d)
+	d.project_website_git='git://github.com/{project_github_username}/{project_name}.git'.format(**d)
+	d.project_long_description='LinuxAPI is a project to demo and explore the Linux user space C/C++ API'
 	d.project_year_started='2010'
 	d.project_description='''This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
@@ -78,6 +82,17 @@ Using it
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
 
 	{personal_origin}, {project_year_started}-2014'''.format(**d)
+	d.project_keywords=[
+		'linux',
+		'API',
+		'C',
+		'C++',
+		'kernel',
+		'userspace',
+		'examples',
+		'samples',
+		'demos',
+	]
 
 def getdeps():
 	return [
