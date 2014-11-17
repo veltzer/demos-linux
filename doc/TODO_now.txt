@@ -1,14 +1,11 @@
-make the README.md file generated have the number of samples that I have.
-replace the stupid php that I have with github pages.
 find where I have linuxapi and replace with demos-linux
 use templar to state EXACTLY how many demos I have in the REAMDE.md
-	file...:)
+	file and the number of lines in them
 do example of rdtsc on x64.
 fix the get rdtsc examples in low_level.h and move examples from
 	us_helper.h to low_level.h
 do example that shows that performance of SCHED_OTHER and SCHED_FIFO
 	is the same when all is quiet.
-
 - wrapper_compile.py and wrapper_make.pl should be moved to templar (and the
 	perl script should be rewritten in python)
 - do a demo of mq_open.
