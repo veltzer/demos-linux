@@ -28,6 +28,11 @@
 /*
  * This is an example of how a parent and child process can
  * share memory across a fork(2)
+ * The idea is simply to allocate a shared area (MAP_SHARED) using
+ * mmap(2) before the fork(2). That area will be accessible to both
+ * parent and child due to inheritance. This is easier than other
+ * methods because we allocate the memory before the fork(2) and do
+ * not require any special code either the parent or the child.
  *
  * References:
  * http://stackoverflow.com/questions/13274786/how-to-share-memory-between-process-fork
