@@ -217,7 +217,7 @@ packs=[
 	#'monit', # causes performance problems
 	#'munin', # causes performance problems
 	#'lttng-tools', # causes performance problems
-	'atop',
+	#'atop', # causes performance problems
 	'isag',
 	'sdparm',
 	#'nfs-common', # for nfsiostats(1), mountstats(1), nfsstat(1) cause performance problems
