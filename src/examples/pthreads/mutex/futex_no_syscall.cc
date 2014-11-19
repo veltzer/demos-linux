@@ -21,6 +21,7 @@
 #include <pthread.h>	// for pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_init(3), pthread_mutex_destory(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system(3)
+#include <pthread_utils.h>	// for pthread_print_mutexattr()
 
 /*
  * This example creates a pthread_mutex which is a futex, grabs it and releases
@@ -33,41 +34,16 @@
  *	which will notify the kernel about this futex.
  *	by default futexes are private.
  *	This means that even creation of futexes is cheap.
+ * - the pthread_mutexattr_getrobust(3), pthread_mutexattr_setrobust(3) are not documented in the
+ * manual pages of linux.
  *
  * Problem:
  * - even if I create a process shared mutex the pthread library calls no syscall at mutex_init time!!!
  *	How can this be if the futex is robust?!? investigate...
+ *   Actually this is not a problem as the futex is robust only if you set it to robust type.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
-
-static void print_mutexattr_data(pthread_mutexattr_t* attr) {
-	int pshared, robust, type;
-	CHECK_ZERO_ERRNO(pthread_mutexattr_getrobust(attr, &robust));
-	CHECK_ZERO_ERRNO(pthread_mutexattr_getpshared(attr, &pshared));
-	CHECK_ZERO_ERRNO(pthread_mutexattr_gettype(attr, &type));
-	if(robust==PTHREAD_MUTEX_STALLED) {
-		printf("robust is PTHREAD_MUTEX_STALLED\n");
-	}
-	if(robust==PTHREAD_MUTEX_ROBUST) {
-		printf("robust is PTHREAD_MUTEX_ROBUST\n");
-	}
-	if(pshared==PTHREAD_PROCESS_SHARED) {
-		printf("pshared is PTHREAD_PROCESS_SHARED\n");
-	}
-	if(pshared==PTHREAD_PROCESS_PRIVATE) {
-		printf("pshared is PTHREAD_PROCESS_PRIVATE\n");
-	}
-	if(type==PTHREAD_MUTEX_FAST_NP) {
-		printf("type is PTHREAD_MUTEX_FAST_NP\n");
-	}
-	if(type==PTHREAD_MUTEX_RECURSIVE_NP) {
-		printf("type is PTHREAD_MUTEX_RECURSIVE_NP\n");
-	}
-	if(type==PTHREAD_MUTEX_ERRORCHECK_NP) {
-		printf("type is PTHREAD_MUTEX_ERRORCHECK_NP\n");
-	}
-}
 
 static int arr_robust[]={
 	PTHREAD_MUTEX_STALLED,
@@ -111,7 +87,7 @@ int main(int argc, char** argv, char** envp) {
 		for(int i=0; i<size; i++) {
 			pthread_mutex_t* mutex=mtxs+i;
 			pthread_mutexattr_t* attr=attrs+i;
-			print_mutexattr_data(attr);
+			pthread_print_mutexattr(attr);
 			printf("before critical section\n");
 			CHECK_ZERO_ERRNO(pthread_mutex_lock(mutex));
 			printf("in critical section\n");
