@@ -1,4 +1,7 @@
 - the man page for getpagesize() does not have a "RETURN VALUE" section.
 - the problems I found with fork and DONT_FORK.
+	It's on the internet in the kernel mailing list.
 - it doesnt say that initstate_r MUST BE CALLED before random_r to initialize
 	the state (neither in the man page nor in the libc info pages)
+- pthread_mutexattr_{get|set}robust are not documented at all!
+	I reported this bug to 
