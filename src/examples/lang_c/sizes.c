@@ -50,6 +50,13 @@ typedef struct _struct_charintchar {
 	int i;
 	char c2;
 } struct_charintchar;
+typedef struct _struct_char5 {
+	char c1;
+	char c2;
+	char c3;
+	char c4;
+	char c5;
+} struct_char5;
 
 int main(int argc, char** argv, char** envp) {
 	struct utsname buf;
@@ -80,5 +87,6 @@ int main(int argc, char** argv, char** envp) {
 	PRINT_SIZEOF(struct_emptyarray);
 	PRINT_SIZEOF(struct_char);
 	PRINT_SIZEOF(struct_charintchar);
+	PRINT_SIZEOF(struct_char5);
 	return EXIT_SUCCESS;
 }
