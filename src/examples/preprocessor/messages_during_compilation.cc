@@ -20,11 +20,29 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
-	This example shows how to emit messages during compilation
+ * This example shows how to emit messages during compilation
+ *
+ * References:
+ * https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html
+ *
+ * TODO:
+ * - I cant seem to print the function name from #pragma message
  */
-#pragma message "outside main function..."
+
+#define quote(a) # a
+#define stringify(x) quote(x)
+
+#pragma message "Compiling " __FILE__ " in line " stringify(__LINE__)
+
+// another way to do any kind of pragma
+_Pragma("message \"foo\"")
+
+#define DO_PRAGMA(x) _Pragma (#x)
+#define TODO(x) DO_PRAGMA(message ("TODO - " #x))
+
+TODO(Remember to fix this)
 
 int main(int argc, char** argv, char** envp) {
-#pragma message "compiling main function..."
+#pragma message "Compiling " __FILE__ " in line " stringify(__LINE__) " in function " quote(__FUNCTION__)
 	return EXIT_SUCCESS;
 }

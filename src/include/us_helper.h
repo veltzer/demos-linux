@@ -52,7 +52,6 @@
  * This MUST be done in 2 levels...
  * Need to explain how this works...
  */
-#define identity(a) a
 #define quote(a) # a
 #define stringify(x) quote(x)
 
