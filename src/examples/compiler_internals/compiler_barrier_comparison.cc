@@ -40,7 +40,7 @@
  * ======================
  * On some platforms/compilers these are also memory barriers but not so in gcc
  * that assumes that functions that are called do not change the content of registers
- * (and if they do, they put back everything the way they found it...). In any case
+ * (and if they do, they put back everything the way they found it). In any case
  * you cannot really rely on them since you are not sure which functions are macros,
  * inlines etc. Better to use an official compiler barrier. I picked a function that
  * is definately not an inlined one and still this it does not perform well as
@@ -62,7 +62,7 @@
  * - if you disassemble the code you see that the compiler writes the loop variable
  * (a in our case) back to it's natural place on the stack right after the loop.
  * - after the loop suprisingly, the compiler is certain that the register is still
- * holding the right value for a and so uses it...
+ * holding the right value for a and so uses it.
  * - without a good compiler barrier the compiler is certain that the value in the
  * register is synchronized with the memory location.
  *
@@ -73,7 +73,7 @@
  * - make this program show the instructions that are emitted for main so
  * that people could see the assembly code generated.
  * - stop using the printing in this example and use the __attribute__((used))
- * gcc feature instead. then I can get ridd of the outfile...
+ * gcc feature instead. then I can get ridd of the outfile.
  * this is actually wrong, the documentation of __attribute__((used)) explicitly
  * states that I cannot use it for non static variables so we would need
  * some other mechanism (__attribute__((unused)) ?!?) to force the compiler
@@ -82,7 +82,7 @@
 
 FILE* outfile;
 
-#define TEST(shortname, desc, code) \
+#define TEST(shortname, desc, expected, code) \
 	void test_ ## shortname() __attribute__((noinline)); \
 	void test_ ## shortname(volatile int& val_before, volatile int& val_after, int& dummy) { \
 		int a=0; \
@@ -101,11 +101,11 @@ FILE* outfile;
 		 * a as a register for the entire scope of this function! */ \
 		int *pa=&a; \
 		/* this printing is essential to keep the compiler from telling us
-		 * that 'pa' is an unused variable... */ \
+		 * that 'pa' is an unused variable. */ \
 		fprintf(outfile, "pa is %p\n", pa); \
 		fprintf(outfile, "p is %p\n", p); \
 		fprintf(outfile, "&a is %p\n", &a); \
-		fprintf(outfile, "now starting...\n"); \
+		fprintf(outfile, "now starting\n"); \
 		/* this loop will force the compiler to load a into a register */ \
 		a=100; \
 		while(a < 3000) { \
@@ -118,7 +118,9 @@ FILE* outfile;
 		code; \
 		val_after=a; \
 		printf("results for [%s]\n", stringify(code)); \
-		printf("description [%s]\n", desc); \
+		/* printf("description [%s]\n", desc); */ \
+		printf("%s", desc); \
+		/* printf("expectation [%d]\n", expected); */ \
 		printf("val_before is %d, val_after is %d\n", val_before, val_after); \
 		if(val_after==WRONG_VAL) { \
 			printf("compiler used register for value\n"); \
@@ -127,84 +129,128 @@ FILE* outfile;
 		} \
 		if(val_after==CORRECT_VAL) { \
 			printf("barrier worked\n"); \
+			if(!expected) \
+				printf("*** NOT AS EXPECTED ***\n"); \
 		} else { \
 			printf("barrier did not work\n"); \
+			if(expected) \
+				printf("*** NOT AS EXPECTED ***\n"); \
 		} \
 		printf("===========================================\n"); \
 	}
 
 TEST(
 	nothing,
-	"doing nothing. this should give you the same values, which are the WRONG values.",
+	"Doing nothing. This should give you the same values, which are the WRONG values.\n",
+	false,
 	);
 TEST(
 	machbar,
-	"This is a full barrier which is both a MACHINE memory barrier\
-	and a compiler barrier. It should work.\
-	the next macro actually inlines a machine instruction...",
+	"This is a full barrier which is both a MACHINE memory barrier and a compiler barrier.\n"
+	"The macro actually inlines a machine instruction.\n",
+	true,
 	__sync_synchronize()
 	);
 TEST(
 	emptasm,
-	"empty assembly block which works on some compilers but not on others \
-	on gcc 4.5.2 it does not and in general expect more modern compiler \
-	to grow smarter and thus see that you are not really doing anything \
-	in between...",
+	"Empty assembly block which works on some compilers but not on others.\n"
+	"On gcc 4.5.2 it did work but newer compilers see that you are not really doing anything in the block.\n",
+	false,
 	asm volatile ("")
 	);
 TEST(
 	funccall,
-	"calling extern function works on some compilers and some functions\
-	because a function is a natural compiler barrier\
-	but watch out for functions annotated with certain annotations\
-	or inlined functions",
+	"Calling extern function works on some compilers and some functions.\n"
+	"But watch out for functions annotated with certain annotations or inlined functions.\n"
+	"Compiler ABI may also state that functions should restore register values which means that even\n"
+	"non-inline non specially annotated functions will not serve as compiler barrier.\n"
+	"This varies across compiler versions.",
+	false,
 	srandom(5)
 	);
 TEST(
 	fullcompbar,
-	"official compiler barrier for gcc which is\
-	a statement telling the GNU assembler not to reorder around it",
+	"Official full compiler barrier for gcc for all variables.\n"
+	"Too strong if all you want is to force just one variable to be read from memory instead of register.\n"
+	"The 'volatile' tells the compiler not to reorder around it.\n",
+	true,
 	asm volatile ("" ::: "memory")
 	);
 TEST(
+	fullcompbar2,
+	"Official full compiler barrier for gcc for all variables.\n"
+	"Too strong if all you want is to force just one variable to be read from memory instead of register.\n"
+	"The 'volatile' tells the compiler not to reorder around it.\n",
+	true,
+	asm ("" ::: "memory")
+	);
+TEST(
 	singvarbar,
-	"a single variable barrier -> this one works",
+	"A single variable barrier -> this is what you should use instead of volatile\n",
+	true,
 	asm volatile ("" : "=g" (a) ::)
 	);
 TEST(
 	singvarbar2,
-	"a single variable barrier -> this one doesnt (bahaha for the people on stackoverflow...)",
+	"A single variable read.\n"
+	"This tells the compiler that someone read the variable, which means nothing since there is no reason to re-read it.\n",
+	false,
 	asm volatile ("" : "=r" (a) ::)
 	);
 TEST(
 	singvarbar3,
-	"a single variable barrier -> works (surprisingly!)",
-	asm volatile ("" : "=r" (dummy) ::)
+	"A single variable barrier on the wrong variable1 (write)\n",
+	false,
+	asm volatile ("" : "=g" (u) ::)
+	);
+TEST(
+	singvarbar4,
+	"A single variable barrier on the wrong variable1 (read)\n"
+	"This actually worked on some gcc versions because of a bug.\n",
+	false,
+	asm volatile ("" : "=r" (u) ::)
 	);
 TEST(
 	singvarvol,
-	"attempt to use volatile on left side to barrier the compiler (this one doesnt work)",
+	"Attempt to use volatile on left side to barrier the compiler.\n"
+	"The compiler sees through this\n",
+	false,
 	*(volatile int *)&a=a;
 	);
 TEST(
 	singvarvolright,
-	"attempt to use volatile on right side to barrier the compiler (this one does work)",
+	"Attempt to use volatile on right side to barrier the compiler\n"
+	"This worked once but no more\n",
+	false,
 	a=*(volatile int*)&a;
 	);
 TEST(
 	singvarvol2,
-	"attempt to use volatile to barrier the compiler (does not work)",
+	"Attempt to use volatile to barrier the compiler\n"
+	"The compiler sees through this\n",
+	false,
 	{ int y=a; *(volatile int*)&a=y; }
 	);
 TEST(
 	singvarvolright2,
-	"attempt to use volatile on right side to barrier the compiler (nope, bad logic)",
+	"Attempt to use volatile on right side to barrier the compiler\n"
+	"This one has bad logic\n",
+	false,
 	{ int y=a; a=*(volatile int*)&y; }
 	);
 TEST(
 	atomicop,
-	"attempt to do an atomic operation on the var (does work)",
+	"Attempt to do an atomic operation on the var in question.\n"
+	"This works because every atomic op is a memory barrier which is also a compiler barrier.\n",
+	true,
 	__sync_bool_compare_and_swap(&a, 0, 0)
+	);
+TEST(
+	atomicop2,
+	"Attempt to do an atomic operation on some other variable.\n"
+	"This works because every atomic op is a memory barrier which is also a compiler barrier.\n",
+	true,
+	__sync_bool_compare_and_swap(&u, 0, 0)
 	);
 
 int main(int argc, char** argv, char** envp) {
@@ -215,13 +261,16 @@ int main(int argc, char** argv, char** envp) {
 	test_emptasm(val_before, val_after, dummy);
 	test_funccall(val_before, val_after, dummy);
 	test_fullcompbar(val_before, val_after, dummy);
+	test_fullcompbar2(val_before, val_after, dummy);
 	test_singvarbar(val_before, val_after, dummy);
 	test_singvarbar2(val_before, val_after, dummy);
 	test_singvarbar3(val_before, val_after, dummy);
+	test_singvarbar4(val_before, val_after, dummy);
 	test_singvarvol(val_before, val_after, dummy);
 	test_singvarvolright(val_before, val_after, dummy);
 	test_singvarvol2(val_before, val_after, dummy);
 	test_singvarvolright2(val_before, val_after, dummy);
 	test_atomicop(val_before, val_after, dummy);
+	test_atomicop2(val_before, val_after, dummy);
 	return EXIT_SUCCESS;
 }

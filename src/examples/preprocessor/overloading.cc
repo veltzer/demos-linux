@@ -21,11 +21,17 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example shows that you cannot redefine preprocessor macros.
+ * This example shows that you cannot redefine preprocessor macros
+ * without 'undef'ing them.
  */
-#define mymacro(a1) printf("one\n")
-// the next line will cause a compile time error...
-// #define mymacro(a1,a2) printf("two\n");
+
+#define mymacro() printf("this is the first version of the macro\n")
+#undef mymacro
+// if you disable the 'undef' above then the next line will cause a compile time error
+// the following pragma will not help
+//#pragma GCC diagnostic ignored "-Werror"
+#define mymacro() printf("this is the second version of the macro\n")
 int main(int argc, char** argv, char** envp) {
+	mymacro();
 	return EXIT_SUCCESS;
 }
