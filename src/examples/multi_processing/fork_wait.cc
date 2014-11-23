@@ -16,33 +16,30 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS
-
 /*
- * This example shows how to emit messages during compilation
- *
- * References:
- * https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html
- *
- * TODO:
- * - I cant seem to print the function name from #pragma message
+ * This is a classic example of fork/wait.
  */
 
-#define quote(a) # a
-#define stringify(x) quote(x)
-
-#pragma message "Compiling " __FILE__ " in line " stringify(__LINE__)
-
-// another way to do any kind of pragma
-_Pragma("message \"foo\"")
-
-#define DO_PRAGMA(x) _Pragma (#x)
-#define TODO(x) DO_PRAGMA(message ("TODO - " #x))
-
-TODO(Remember to fix this)
+#include <firstinclude.h>
+#include <unistd.h>	// for fork(2)
+#include <stdlib.h>	// for EXIT_SUCCCESS
+#include <sys/types.h>	// for wait(2)
+#include <sys/wait.h>	// for wait(2)
+#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <multiproc_utils.h>	// for print_status()
+#include <stdio.h>	// for printf(3)
 
 int main(int argc, char** argv, char** envp) {
-#pragma message "Compiling " __FILE__ " in line " stringify(__LINE__) " in function " quote(__FUNCTION__)
-	return EXIT_SUCCESS;
+	pid_t pid=CHECK_NOT_M1(fork());
+	if(pid) {
+		// parent
+		int status;
+		pid_t child_that_died=CHECK_NOT_M1(wait(&status));
+		printf("child died with pid=%d\n", child_that_died);
+		print_status(status);
+		return EXIT_SUCCESS;
+	} else {
+		// child
+		return 7;
+	}
 }
