@@ -22,3 +22,4 @@ In order to do reverse debugging:
 References:
 http://www.gnu.org/software/gdb/news/reversible.html
 http://stackoverflow.com/questions/1470434/how-does-reverse-debugging-work
+https://www.sourceware.org/gdb/wiki/ProcessRecord/Tutorial
