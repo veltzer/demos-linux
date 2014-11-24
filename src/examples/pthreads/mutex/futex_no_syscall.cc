@@ -40,7 +40,7 @@
  * Problem:
  * - even if I create a process shared mutex the pthread library calls no syscall at mutex_init time!!!
  *	How can this be if the futex is robust?!? investigate...
- *   Actually this is not a problem as the futex is robust only if you set it to robust type.
+ * Actually this is not a problem as the futex is robust only if you set it to robust type.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
