@@ -38,7 +38,10 @@
  * http://stackoverflow.com/questions/13274786/how-to-share-memory-between-process-fork
  */
 
+static int myglobalvalue;
+
 int main(int argc, char** argv, char** envp) {
+	int mystackvalue;
 	int* pvar=(int*)CHECK_NOT_VOIDP(mmap(
 		NULL,
 		getpagesize(),
@@ -47,14 +50,20 @@ int main(int argc, char** argv, char** envp) {
 		-1,
 		0), MAP_FAILED);
 	*pvar=1;
+	mystackvalue=1;
+	myglobalvalue=1;
 	pid_t pid;
 	if(CHECK_NOT_M1(pid=fork())) {
 		TRACE("parent waiting for the child to die");
 		CHECK_ASSERT(wait(NULL)==pid);
-		TRACE("got value %d", *pvar);
+		TRACE("pvar is %d", *pvar);
+		TRACE("mystackvalue is %d", mystackvalue);
+		TRACE("myglobalvalue is %d", myglobalvalue);
 	} else {
 		TRACE("child setting value to 5");
 		*pvar = 5;
+		mystackvalue = 5;
+		myglobalvalue = 5;
 		TRACE("child dying");
 	}
 	return EXIT_SUCCESS;
