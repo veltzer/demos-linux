@@ -82,9 +82,9 @@ int main(int argc, char** argv, char** envp) {
 	free(buf2);
 	printf("After second free\n");
 	// check the status of our allocated chunk...
-	// int status=mprobe(buf);
-	// int status2=mprobe(buf2);
-	// printf("status is %d\n",status);
-	// printf("status is %d\n",status2);
+	int status=mprobe(buf);
+	int status2=mprobe(buf2);
+	printf("status is %d\n",status);
+	printf("status is %d\n",status2);
 	return EXIT_SUCCESS;
 }
