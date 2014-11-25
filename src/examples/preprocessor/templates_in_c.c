@@ -42,6 +42,9 @@ make_add(double);
 int main(int argc, char** argv, char** envp) {
 	float x=4.5f;
 	float y=3.2f;
+	double dx=4.5f;
+	double dy=3.2f;
 	printf("%f+%f=%f\n", x, y, addfloat(x, y));
+	printf("%lf+%lf=%lf\n", dx, dy, adddouble(dx, dy));
 	return EXIT_SUCCESS;
 }

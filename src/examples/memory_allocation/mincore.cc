@@ -27,6 +27,10 @@
 
 /*
  * This is a demo of the mincore(2) syscall.
+ * Using this system call you can determine whether or not a pointer
+ * points to a page which is already realized as a physical page attached
+ * to your process or not. This will allow you to determine whether or not
+ * you will create a minor or major page fault when accessing the page.
  *
  * NOTES:
  * - the address passed to mincore(2) should be on a page boundary. That
