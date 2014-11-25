@@ -53,7 +53,7 @@ int main(int argc, char** argv, char** envp) {
 	mystackvalue=1;
 	myglobalvalue=1;
 	pid_t pid;
-	if(CHECK_NOT_M1(pid=fork())) {
+	if((pid=CHECK_NOT_M1(fork()))) {
 		TRACE("parent waiting for the child to die");
 		CHECK_ASSERT(wait(NULL)==pid);
 		TRACE("pvar is %d", *pvar);
