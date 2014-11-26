@@ -28,6 +28,8 @@
 /*
  * This application demonstrates the use of anonymous memory mappings to get
  * memory from the operating system.
+ * This is the method that malloc(3) is implemented with today.
+ *
  * Notes:
  * - memory returned from mmap is on a page boundry (see the assert).
  * - you can set your own protection on the pages.
