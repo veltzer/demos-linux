@@ -25,7 +25,7 @@
  * Static handle to the library and to the function
  */
 
-static void* handle=NULL;
+//static void* handle=NULL;
 static double (*psin)(double);
 
 /* Initialization function for this library
@@ -35,15 +35,15 @@ static void __attribute__((constructor)) init(void) {
 	TRACE("start");
 	// handle=dlopen("/lib/tls/i686/cmov/libm.so.6", RTLD_LAZY);
 	// handle=dlopen("/lib/libm-2.12.1.so", RTLD_LAZY);
-	handle=CHECK_NOT_NULL(dlopen(NULL, RTLD_LAZY));
-	void* sym=CHECK_NOT_NULL(dlsym(handle, "sin"));
+	//handle=CHECK_NOT_NULL(dlopen(NULL, RTLD_LAZY | RTLD_NEXT));
+	void* sym=CHECK_NOT_NULL(dlsym(RTLD_NEXT, "sin"));
 	psin=(double (*)(double))sym;
 	TRACE("end");
 }
 
 static void __attribute__((destructor)) fini(void) {
 	TRACE("start");
-	CHECK_ZERO(dlclose(handle));
+	//CHECK_ZERO(dlclose(handle));
 	TRACE("end");
 }
 

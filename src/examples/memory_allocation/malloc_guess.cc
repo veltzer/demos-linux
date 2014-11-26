@@ -68,7 +68,7 @@ unsigned int get_block_size(void* p) {
 	if(debug) {
 		printf("*u is %d (char ptr is %d)\n", *u, *((char*)u));
 	}
-	return *u-1;
+	return (*u)-1;
 }
 
 /* initialize the guessing system */
