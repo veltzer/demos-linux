@@ -229,7 +229,7 @@ $(C_ASX): %.s: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 $(CC_PRE): %.p: %.cc $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
 	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CXX) $(CXXFLAGS) -E -o $@ $<
-$(C_PRE): %.p: %.cc $(ALL_DEP) scripts/wrapper_compile.py
+$(C_PRE): %.p: %.c $(ALL_DEP) scripts/wrapper_compile.py
 	$(info doing [$@])
 	$(Q)scripts/wrapper_compile.py $(DO_MKDBG) 0 0 $< $@ $(CC) $(CFLAGS) -E -o $@ $<
 $(CC_DIS) $(C_DIS): %.dis: %.$(SUFFIX_BIN) $(ALL_DEP)

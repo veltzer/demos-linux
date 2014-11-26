@@ -6,3 +6,5 @@ This example shows that:
 
 - if two files do not concur about the type of a symbol, and one of them has the symbol as
 	weak (possibly both) then all hell can break loose.
+
+- Mind you - this whole thing only applies to C. in C++ the linker is more strict.
