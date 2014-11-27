@@ -16,6 +16,13 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * this is a process which is always CPU hungry.
+ * you can see that it context switches about 1000 times per second
+ * by observing its non voluntary context switch number at
+ * '/proc/[pid]/status'.
+ */
+
 #include <firstinclude.h>
 
 int main(int argc, char** argv, char** envp) {
