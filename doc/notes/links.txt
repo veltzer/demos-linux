@@ -136,3 +136,8 @@ Object oriented in the C language:
 http://www.cs.rit.edu/~ats/books/ooc.pdf
 http://stackoverflow.com/questions/351733/can-you-write-object-oriented-code-in-c/
 http://stackoverflow.com/questions/415452/object-orientation-in-c
+
+threads vs processes:
+=====================
+http://elinux.org/images/1/1c/Ben-Yossef-GoodBadUgly.pdf
+http://free-electrons.com/pub/video/2009/elce/elce2009-ben-yossef-threads-processes.ogv
