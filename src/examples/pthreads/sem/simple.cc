@@ -17,10 +17,27 @@
  */
 
 #include <firstinclude.h>
-#include <sched.h>
+#include <unistd.h>	// for sleep(3)
+#include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_destroy(3), pthread_create(3), pthread_join(3)
+#include <trace_utils.h>// for TRACE()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ZERO()
+#include <semaphore.h> // for sem_t
+
+/*
+ * check whether sem_* functions are futex based (implemented in user space).
+ * strace(1) this example to see that these semaphores are implemented
+ * in user space in the uncontended case (futex(2) based).
+ *
+ * EXTRA_LINK_FLAGS=-lpthread
+ */
 
 int main(int argc, char** argv, char** envp) {
-	while(true) {
-		sched_yield();
-	}
+	sem_t sem;
+	printf("Hello, World!\n");
+	CHECK_NOT_M1(sem_init(&sem, 0, 1));
+	CHECK_NOT_M1(sem_wait(&sem));
+	CHECK_NOT_M1(sem_post(&sem));
+	CHECK_NOT_M1(sem_destroy(&sem));
+	printf("Goodbye, Cruel World!\n");
+	return EXIT_SUCCESS;
 }
