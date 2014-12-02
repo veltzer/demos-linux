@@ -35,10 +35,11 @@ void func() {
 	static int counter=0;
 
 	counter++;
+	fprintf(stderr, "setting counter to %d\n", counter);
 	if (counter % 3==0) {
 		longjmp(env, counter);
 	}
-	fprintf(stderr, "this is the continuation of the function\n");
+	fprintf(stderr, "this is the continuation of the function %d\n", counter);
 }
 
 int main(int argc, char** argv, char** envp) {
