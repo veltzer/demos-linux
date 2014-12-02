@@ -31,6 +31,7 @@
 
 int main(int argc, char** argv, char** envp) {
 	std::list<int> l;
+	std::cout << l.size() << std::endl;
 	l.push_back(0);	// Insert a new element at the end
 	l.push_front(0);// Insert a new element at the beginning
 	l.insert(++l.begin(), 2);	// Insert "2" before position of first argument
