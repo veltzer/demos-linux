@@ -1,5 +1,7 @@
 include ../../../Makefile.mk
 
+DO_INTEL:=1
+
 # variables
 CC:=icpc
 # this is no optimization

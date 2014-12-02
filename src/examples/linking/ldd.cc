@@ -30,7 +30,7 @@
  * example:
  * /lib64/ld-linux-x86-64.so.2 --list /bin/ls
  */
-static bool verbose=false;
+static bool verbose=true;
 
 static int callback(struct dl_phdr_info *info, size_t size, void *data) {
 	printf("name=%s (%d segments)\n", info->dlpi_name, info->dlpi_phnum);
