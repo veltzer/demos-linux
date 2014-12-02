@@ -4,9 +4,9 @@ OBJECTS:=main.o rectangle.o
 CFLAGS:=-Wall -Werror -g3
 
 .PHONY: all
-all: main
+all: main.elf
 
-main: $(OBJECTS)
+main.elf: $(OBJECTS)
 	$(info doing [$@])
 	$(Q)gcc -o $@ $(OBJECTS)
 
