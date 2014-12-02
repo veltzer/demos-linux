@@ -2,6 +2,8 @@ include ../../../Makefile.mk
 
 DO_INTEL:=1
 
+GPP:=g++-4.4
+
 # variables
 CC:=icpc
 # this is no optimization
@@ -47,10 +49,10 @@ main5.$(SUFFIX_BIN): main.cc
 	$(Q)$(CC) $(CFLAGS5) main.cc -o main5.$(SUFFIX_BIN)
 main6.$(SUFFIX_BIN): main.cc
 	$(info doing [$@])
-	$(Q)g++ -mtune=native -O4 -I../../include main.cc -o main6.$(SUFFIX_BIN)
+	$(Q)$(GPP) -mtune=native -O2 -I../../include main.cc -o main6.$(SUFFIX_BIN)
 main7.$(SUFFIX_BIN): main.cc
 	$(info doing [$@])
-	$(Q)g++ -I../../include main.cc -o main7.$(SUFFIX_BIN)
+	$(Q)$(GPP) -I../../include main.cc -o main7.$(SUFFIX_BIN)
 
 .PHONY: clean
 clean:
