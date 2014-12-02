@@ -80,9 +80,8 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(listen(sockfd, backlog));
 	printf("listen was successful\n");
 
-	// create the epoll fd
-	const unsigned int max_events=10;
-	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
+	// create the epoll fd, any value > 0 will do as parameter
+	int epollfd=CHECK_NOT_M1(epoll_create(1));
 
 	// add the listening socket to it
 	struct epoll_event ev;
@@ -91,6 +90,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sockfd, &ev));
 	// go into the endless service loop
 	while(true) {
+		const unsigned int max_events=10;
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
 		for(int n=0; n<nfds; n++) {

@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
+#include <stdio.h>	// for printf(3), fprintf(3)
 #include <sys/epoll.h>	// for epoll_create(2), epoll_ctl(2), epoll_wait(2)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, atoi(3)
 #include <sys/types.h>	// for accept4(2)
@@ -30,23 +30,28 @@
 #include <assert.h>	// for assert(3)
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_IN_RANGE(), CHECK_INT()
 #include <network_utils.h>	// for get_backlog()
-#include <trace_utils.h>// for TRACE()
 #include <epoll_utils.h>// for print_events()
+//#define DO_DEBUG
+#include <trace_utils.h>// for DEBUG()
 
 /*
  * This is an example of using the epoll(2) API to write an echo server using
  * just a single thread. You can test it using telnet.
  *
- * The server also listens in on signal to enable clean shutdown of the server.
+ * The server also listens in on signal to enable clean shutdown of the server
+ * when receiving SIGUSR1.
  *
  * NOTES:
  * - events arrive together. One epoll_wait can wake you up on multiple events on the same fd.
  * - EPOLLRDHUP is the event delivered when the other side hangs up.
- * - EPOLLOUT is the event delivered when writing is done. If we work edge triggered then
- * it will be delivered only once. We are supposed to check that the entire write is done.
+ * - EPOLLOUT is the event delivered writing is possible.
+ * If we work edge triggered then it will be delivered only once.
+ * We are supposed to check that the entire write is done.
  * - to stop polling on an fd you must first deregister it from epoll AND ONLY THEN close it (obvious).
  * - we are doing async IO here all over. This means that when you are notified that there is data you
  * to read fast (without blocking) and then you get to write fast.
+ * - the DEBUG are disabled since the printing to the console could be blocking.
+ * enable via DO_DEBUG above.
  *
  * TODO:
  * - check what happens when we write large amounts of data to the output. Will the async write come up short?
@@ -62,7 +67,7 @@ int main(int argc, char** argv, char** envp) {
 
 	// lets open the socket
 	int sockfd=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
-	printf("opened socket with sockfd %d\n", sockfd);
+	printf("opened socket with sockfd [%d]\n", sockfd);
 
 	// lets make the socket reusable
 	int optval=1;
@@ -82,14 +87,14 @@ int main(int argc, char** argv, char** envp) {
 
 	// lets listen in
 	int backlog=get_backlog();
-	printf("backlog is %d\n", backlog);
+	printf("backlog is [%d]\n", backlog);
 	CHECK_NOT_M1(listen(sockfd, backlog));
 	printf("listen was successful\n");
 
 	// create the epoll fd
 	// the parameter to epoll_create(2) really doesn't matter
 	// see the documentation for more details
-	int epollfd=CHECK_NOT_M1(epoll_create(0));
+	int epollfd=CHECK_NOT_M1(epoll_create(1));
 
 	// add the listening socket to it
 	struct epoll_event sockev;
@@ -112,7 +117,8 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_ADD, sigfd, &sigev));
 
 	// go into the endless service loop
-	while(true) {
+	bool over=false;
+	while(!over) {
 		const unsigned int max_events=10;
 		struct epoll_event events[max_events];
 		int nfds=CHECK_NOT_M1(epoll_wait(epollfd, events, max_events, -1));
@@ -132,14 +138,16 @@ int main(int argc, char** argv, char** envp) {
 				// and again
 				struct signalfd_siginfo fdsi;
 				CHECK_INT(read(sigfd, &fdsi, sizeof(struct signalfd_siginfo)), sizeof(struct signalfd_siginfo));
-				printf("got signal %d (%s)\n", fdsi.ssi_signo, strsignal(fdsi.ssi_signo));
-				goto exit;
+				DEBUG("got signal %d (%s)\n", fdsi.ssi_signo, strsignal(fdsi.ssi_signo));
+
+				over=true;
+				continue;
 			}
 			// this is regular IO handling
-			TRACE("got activity on fd %d", events[n].data.fd);
+			DEBUG("got activity on fd %d", events[n].data.fd);
 			char printbuff[1024];
 			print_events(printbuff, 1024, events[n].events);
-			TRACE("got events %s", printbuff);
+			DEBUG("got events %s", printbuff);
 			if(events[n].events & EPOLLIN) {
 				const int buflen=1024;
 				char buffer[buflen];
@@ -150,22 +158,18 @@ int main(int argc, char** argv, char** envp) {
 				 * - how do we know that we do not block here?
 				 */
 				CHECK_INT(write(fd, buffer, len), len);
-				TRACE("read %zd bytes and wrote %zd bytes", len, len);
+				DEBUG("read %zd bytes and wrote %zd bytes", len, len);
 			}
 			if(events[n].events & EPOLLRDHUP) {
 				int fd=events[n].data.fd;
-				TRACE("closing the fd %d", fd);
+				DEBUG("closing the fd %d", fd);
 				CHECK_NOT_M1(epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL));
 				CHECK_NOT_M1(close(fd));
 			}
 		}
 	}
-exit:
-	/*
-	 * TODO:
-	 * - close the socket
-	 * - close the signal fd
-	 * - clean the epollfd
-	 */
+	CHECK_NOT_M1(close(epollfd));
+	CHECK_NOT_M1(close(sockfd));
+	CHECK_NOT_M1(close(sigfd));
 	return EXIT_SUCCESS;
 }
