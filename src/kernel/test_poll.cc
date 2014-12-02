@@ -60,7 +60,8 @@ static void *function_wait(void *p) {
 	thread_data* pd=(thread_data*)p;
 
 	const unsigned int max_events=10;
-	int epollfd=CHECK_NOT_M1(epoll_create(max_events));
+	// any value above 0 will do for epoll_create(2)
+	int epollfd=CHECK_NOT_M1(epoll_create(1));
 	for(int i=0; i<NUM_OF_SLEEPERS; i++) {
 		int curr_fd=pd->fd[i];
 		struct epoll_event my_ev;

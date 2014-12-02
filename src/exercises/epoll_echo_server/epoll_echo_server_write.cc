@@ -82,8 +82,8 @@ int main(int argc, char** argv, char** envp) {
 	int backlog=get_backlog();
 	CHECK_NOT_M1(listen(sockfd, backlog));
 
-	// create the epollfd
-	int epollfd=CHECK_NOT_M1(epoll_create(maxevents));
+	// create the epollfd, any value > 0 will do as parameter
+	int epollfd=CHECK_NOT_M1(epoll_create(1));
 
 	// add the listening socket to it
 	struct epoll_event ev;
