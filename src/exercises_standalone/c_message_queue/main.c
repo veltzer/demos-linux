@@ -17,15 +17,12 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, rand(3), srand(3)
+#include <stdio.h>	// for sprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, rand(3), srand(3), malloc(3), free(3)
 #include <unistd.h>	// for usleep(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
-#include "trace_utils.h"	// for TRACE()
-
-#include "mq.h"	// for ???
-
-// testing starts here...
+#include <trace_utils.h>	// for TRACE()
+#include "mq.h"	// for mq_init(), mq_destroy(), mq_get(), mq_put(), mq struct
 
 typedef struct _thread_data {
 	mq* m;
@@ -33,7 +30,7 @@ typedef struct _thread_data {
 	bool consumer;
 } thread_data;
 
-static bool over=false;
+static volatile bool over=false;
 
 void *worker(void *p) {
 	thread_data* td=(thread_data *)p;
@@ -66,8 +63,8 @@ void *worker(void *p) {
 int main(int argc, char** argv, char** envp) {
 	const unsigned int producers=1;
 	const unsigned int consumers=1;
-	const int thread_num=producers+consumers;
-	int i;
+	const unsigned int thread_num=producers+consumers;
+	unsigned int i;
 	pthread_t* threads=(pthread_t*)malloc(thread_num*sizeof(pthread_t));
 	thread_data* tds=(thread_data*)malloc(thread_num*sizeof(thread_data));
 
@@ -76,7 +73,7 @@ int main(int argc, char** argv, char** envp) {
 	mq_init(&m, 10);
 	for(i=0; i<thread_num; i++) {
 		tds[i].m=&m;
-		tds[i].mynum=i;
+		tds[i].mynum=i<consumers ? i: i-consumers;
 		tds[i].consumer=i<consumers;
 		CHECK_ZERO_ERRNO(pthread_create(threads+i, NULL, worker, tds+i));
 	}
