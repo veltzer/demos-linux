@@ -30,3 +30,11 @@ else # DO_MKDBG
 Q:=@
 #.SILENT:
 endif # DO_MKDBG
+
+##################
+# patterns rules #
+##################
+# replace the regular %.c->%.o rule with a silent one
+%.o: %.c
+	$(info doing [$@])
+	$(Q)gcc $(CFLAGS) -c -o $@ $<

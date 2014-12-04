@@ -13,4 +13,4 @@ main.elf: $(OBJECTS)
 .PHONY: clean
 clean:
 	$(info doing [$@])
-	$(Q)rm -f $(OBJECTS)
+	$(Q)rm -f $(OBJECTS) main.elf
