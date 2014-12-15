@@ -157,6 +157,7 @@ packs=[
 	'gcc-4.8-doc',
 	#'g++-4.9',
 	'gcc-snapshot',
+	'clang',
 
 	# tools for demos
 	'linux-tools-common', # for perf(1)
