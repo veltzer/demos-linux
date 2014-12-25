@@ -6,3 +6,7 @@
 	int ftrylockfile(FILE *filehandle);
 	void funlockfile(FILE *filehandle);
 	unlocked_stdio(3)
+	fmemopen
+	open_memstream
+	open_wmemstream
+	fopencookie
