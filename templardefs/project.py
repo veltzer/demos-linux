@@ -79,9 +79,8 @@ Using it
 	the name of the elf binary is the same as the example source code with .elf instead of
 	.[c|cc].
 	You must be at the root of the project to issue the `make` command.
-* the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
+* the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!'''
 
-	{personal_origin}, {project_year_started}-2014'''.format(**d)
 	d.project_keywords=[
 		'linux',
 		'API',
