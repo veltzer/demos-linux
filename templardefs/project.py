@@ -93,6 +93,9 @@ Using it
 		'demos',
 	]
 
+	# deb section
+	d.deb_package=False
+
 def getdeps():
 	return [
 		__file__, # myself
