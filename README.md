@@ -1,9 +1,9 @@
 demos-linux
 ===========
 
-version: no git tag yet
+version: 1
 
-The Linux API project
+LinuxAPI is a project to demo and explore the Linux user space C/C++ API
 
 This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
@@ -75,7 +75,5 @@ Using it
 	.[c|cc].
 	You must be at the root of the project to issue the `make` command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
-
-	Mark Veltzer <mark@veltzer.net>, 2010-2014
 
 	Mark Veltzer <mark@veltzer.net>, 2010-2014
