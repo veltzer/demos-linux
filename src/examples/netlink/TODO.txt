@@ -2,3 +2,7 @@ add netlink examples here.
 use:
 	man 7 netlink
 for more details
+
+There is libnl which is supposed to be an interface to the netlink library.
+
+There is also libnetlink(3) which is another interface.
