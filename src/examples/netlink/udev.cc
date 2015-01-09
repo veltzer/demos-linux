@@ -18,6 +18,12 @@
 
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <asm/types.h>	// for SOCK_DGRAM
+#include <sys/socket.h>	// for socket(2)
+#include <linux/netlink.h>	// for AF_NETLINK, NETLINK_KOBJECT_UEVENT
+#include <err_utils.h>	// for CHECK_NOT_M1()
+#include <unistd.h>	// for read(2)
+#include <stdio.h>	// for printf(3)
 
 /*
  * This application should show how to listen to udev events using API...
@@ -35,5 +41,11 @@
  */
 
 int main(int argc, char** argv, char** envp) {
+	int netlink_socket=CHECK_NOT_M1(socket(AF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT));
+	const unsigned int SIZE=1024;
+	char buf[SIZE];
+	ssize_t s=CHECK_NOT_M1(read(netlink_socket, buf, SIZE));
+	printf("s is %ld\n", s);
+	CHECK_NOT_M1(close(netlink_socket));
 	return EXIT_SUCCESS;
 }
