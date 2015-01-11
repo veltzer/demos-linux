@@ -44,7 +44,7 @@
  */
 
 /*
- * we use 49 as the PRREMPT_RT linux kernel patch uses 50 as the priority of
+ * we use 49 as the PREEMPT_RT linux kernel patch uses 50 as the priority of
  * kernel tasklets and interrupt handlers by default
  */
 const int MY_PRIORITY=49;
@@ -63,7 +63,7 @@ int main(int argc, char** argv, char** envp) {
 	/* get the current time */
 	struct timespec t;
 	CHECK_NOT_M1(clock_gettime(CLOCK_MONOTONIC, &t));
-	/* start after one second */
+	/* calculate first shot */
 	timespec_add_nanos(&t, interval);
 	while(true) {
 		/* wait untill next shot */
