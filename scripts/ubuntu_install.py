@@ -28,7 +28,7 @@ opt_boost_version_short='1.54'
 # install kernels?
 opt_do_kernel=True
 # install debug packages for kernels?
-opt_do_ddebs=False
+opt_do_ddebs=True
 
 ########
 # code #
