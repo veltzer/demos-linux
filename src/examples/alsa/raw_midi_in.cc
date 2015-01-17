@@ -76,13 +76,14 @@
 
 #include <alsa/asoundlib.h>	// for snd_*(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
-#include <stdio.h>	// for fprintf(3), stderr
+#include <stdio.h>	// for fprintf(3), stderr, printf(3), fflush(3)
 #include <err_utils.h>	// for CHECK_NOT_NEGATIVE(3)
 
 int main(int argc, char** argv, char** envp) {
 	if(argc!=2) {
-		fprintf(stderr, "%s: usage: %s portname\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: usage: %s [portname]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: example: %s hw:3,0,0\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: to list all port names use: amidi -l\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 	const char* portname=argv[1];
