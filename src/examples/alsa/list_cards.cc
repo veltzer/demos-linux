@@ -23,7 +23,8 @@
 #include <err_utils.h>	// for CHECK_NOT_NEGATIVE()
 
 /*
- * Counts how many sound cards ALSA finds in the system.
+ * Lists ALSA cards in the system and counts them.
+ *
  * EXTRA_LINK_FLAGS=-lasound
  */
 
@@ -38,8 +39,10 @@ int main(int argc, char** argv, char** envp) {
 		if(cardNum==-1)
 			break;
 		char* name=NULL;
+		char* longname=NULL;
 		CHECK_NOT_NEGATIVE(snd_card_get_name(cardNum, &name));
-		printf("[%d],[%s]\n", cardNum, name);
+		CHECK_NOT_NEGATIVE(snd_card_get_longname(cardNum, &longname));
+		printf("[%d],[%s],[%s]\n", cardNum, name, longname);
 		// Another card found, so bump the count
 		totalCards++;
 	}

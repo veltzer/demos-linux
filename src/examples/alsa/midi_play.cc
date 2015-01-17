@@ -33,7 +33,7 @@
  * 2. Find the timidity ports (usually 128:0-4)
  *	aplaymidi -l
  * 3. play the demo midi file.
- *	aplaymidi -p 128:0 src/examples/alsa/a_foggy_day.midi
+ *	aplaymidi -p 128:0 support/sample.midi
  *
  * The original example was taken from:
  * http://alsamodular.sourceforge.net/miniArp.c
@@ -46,7 +46,7 @@ const int MAX_SEQ_LEN=64;
 
 int queue_id, port_in_id, port_out_id, transpose, bpm0, bpm, tempo, swing, sequence[3][MAX_SEQ_LEN], seq_len;
 snd_seq_t *seq_handle;
-char seq_filename[1024];
+char* seq_filename;
 snd_seq_tick_time_t tick;
 
 snd_seq_t *open_seq() {
@@ -221,12 +221,14 @@ int main(int argc, char** argv, char** envp) {
 	int npfd;
 	struct pollfd *pfd;
 	if (argc < 3) {
-		fprintf(stderr, "miniArp <beats per minute> <sequence file>\n");
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "%s: %s <beats per minute> <sequence file>\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example 60 file.seq\n", argv[0]);
+		return EXIT_FAILURE;
 	}
 	bpm0=atoi(argv[1]);
+	seq_filename=argv[2];
+
 	bpm=bpm0;
-	strcpy(seq_filename, argv[2]);
 	parse_sequence();
 	seq_handle=open_seq();
 	init_queue();
@@ -246,7 +248,8 @@ int main(int argc, char** argv, char** envp) {
 	while (true) {
 		if (poll(pfd, npfd, 100000) > 0) {
 			for(int i=0; i < npfd; i++) {
-				if (pfd[i].revents > 0) midi_action();
+				if (pfd[i].revents > 0)
+					midi_action();
 			}
 		}
 	}

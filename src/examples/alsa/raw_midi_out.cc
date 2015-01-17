@@ -113,8 +113,8 @@ int main(int argc, char *argv[]) {
 		errormessage("Problem opening MIDI output: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);
 	}
-	char noteon[3]={0x90, 60, 100};
-	char noteoff[3]={0x90, 60, 0};
+	unsigned char noteon[3]={0x90, 60, 100};
+	unsigned char noteoff[3]={0x90, 60, 0};
 	if ((status=snd_rawmidi_write(midiout, noteon, 3)) < 0) {
 		errormessage("Problem writing to MIDI output: %s", snd_strerror(status));
 		exit(EXIT_FAILURE);
