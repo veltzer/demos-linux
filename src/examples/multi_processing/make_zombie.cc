@@ -17,12 +17,11 @@
  */
 
 #include <firstinclude.h>
-#include <unistd.h>	// for fork(2), getpid(2), sleep(3), pipe(2)
+#include <unistd.h>	// for fork(2), sleep(3), pipe(2), close(2)
 #include <stdio.h>	// for printf(3)
-#include <sys/types.h>	// for waitid(2), getpid(2)
+#include <sys/types.h>	// for waitid(2)
 #include <sys/wait.h>	// for waitid(2)
-#include <stdlib.h>	// for exit(3)
-#include <string.h>	// for strsignal(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <proc/readproc.h>	// for get_proc_stats(3)
 #include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), CHECK_1()
 #include <trace_utils.h>// for TRACE()
@@ -52,7 +51,9 @@
  * - catting files from the /proc folder (done in two ways in this example).
  * - top(1)
  *
- * EXTRA_LINK_CMDS=pkg-config --libs libprocps
+ * putting 'pkg-config --libs libprocps' in the next line does not work
+ * since there is no dynamically linked libprocps.
+ * EXTRA_LINK_FLAGS=/usr/lib/x86_64-linux-gnu/libprocps.a
  */
 
 // print the state of a process in 3 different ways...
@@ -61,11 +62,9 @@ static inline void print_state(pid_t pid) {
 	my_system("cat /proc/%d/status | grep State", pid);
 	// the function get_proc_stats is declared by the procps headers
 	// but does not exist in the procps shared object...
-	/*
-	 * proc_t myproc;
-	 * get_proc_stats(pid,&myproc);
-	 * printf("pid is %d, state is %c\n",pid, myproc.state);
-	 */
+	proc_t myproc;
+	get_proc_stats(pid,&myproc);
+	printf("pid is %d, state is %c\n",pid, myproc.state);
 }
 
 int main(int argc, char** argv, char** envp) {
@@ -73,10 +72,11 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO(pipe(pipefd_c2p));
 	int pipefd_p2c[2];
 	CHECK_ZERO(pipe(pipefd_p2c));
+	char c;
 
 	pid_t child_pid=CHECK_NOT_M1(fork());
-	// the child
 	if (child_pid==0) {
+		// the child
 		process_set_name("child");
 		TRACE("this is the child");
 		CHECK_ZERO(close(pipefd_c2p[0]));
@@ -84,18 +84,15 @@ int main(int argc, char** argv, char** envp) {
 		// tell the parent I am ready
 		CHECK_1(write(pipefd_c2p[1], "r", 1));	// r is for ready
 		// lets wait for the parent to tell us to die...
-		char c;
 		CHECK_1(read(pipefd_p2c[0], &c, 1));
 		// now let the child die in order to become a zombie...
-		return 0;
-		// the parent
 	} else {
+		// the parent
 		process_set_name("parent");
 		TRACE("this is the parent");
 		CHECK_ZERO(close(pipefd_c2p[1]));
 		CHECK_ZERO(close(pipefd_p2c[0]));
 		// wait for the child to become ready...
-		char c;
 		CHECK_1(read(pipefd_c2p[0], &c, 1));
 		// print the state of the child (in 3 different ways...)
 		print_state(child_pid);
@@ -104,7 +101,7 @@ int main(int argc, char** argv, char** envp) {
 		TRACE("going to sleep so that the child would become a zombie");
 		TRACE("you can now see the child zombie on the command line");
 		TRACE("using tools like top, ps, /proc and more");
-		CHECK_ZERO(sleep(100));
+		CHECK_ZERO(sleep(2));
 		// print the state of the child (now he should be a zombie...).
 		print_state(child_pid);
 		// now lets take the return code from the child...
