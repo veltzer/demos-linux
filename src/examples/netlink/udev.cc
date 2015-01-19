@@ -45,7 +45,7 @@ int main(int argc, char** argv, char** envp) {
 	const unsigned int SIZE=1024;
 	char buf[SIZE];
 	ssize_t s=CHECK_NOT_M1(read(netlink_socket, buf, SIZE));
-	printf("s is %ld\n", s);
+	printf("s is %zd\n", s);
 	CHECK_NOT_M1(close(netlink_socket));
 	return EXIT_SUCCESS;
 }
