@@ -1,5 +1,5 @@
 Use STL linked list + pthread cond + pthread mutex to create
-a syncronzied message queue to be used to pass messaged between
+a syncronzied message queue to be used to pass messages between
 threads.
 
 The two main methods: get, put

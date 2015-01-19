@@ -17,9 +17,11 @@
  */
 
 #include <firstinclude.h>
+#include <exception>	// for std::exception
 #include <iostream>	// for std::cerr
-#include <signal.h>
-#include <unistd.h>	// for pipe(2)
+#include <signal.h>	// for signal(2)
+#include <unistd.h>	// for pipe(2), syscall(2)
+#include <sys/syscall.h>	// for syscall(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
