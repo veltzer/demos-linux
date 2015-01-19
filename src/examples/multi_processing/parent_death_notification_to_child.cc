@@ -24,6 +24,7 @@
 #include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO(), CHECK_ASSERT()
 #include <sys/prctl.h>	// for prctl(3)
 #include <multiproc_utils.h>	// for print_code(), print_status()
+#include <signal.h>	// for psiginfo(3)
 #include <signal_utils.h>	// for signal_register_handler_sigaction()
 
 /*
@@ -56,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
 	} else {
 		TRACE("this is the child");
 		signal_register_handler_sigaction(SIGUSR1, handler);
-		CHECK_NOT_M1(prctl (PR_SET_PDEATHSIG, SIGUSR1));
+		CHECK_NOT_M1(prctl(PR_SET_PDEATHSIG, SIGUSR1));
 		bool cont=true;
 		while(cont) {
 			int ret=pause();
