@@ -56,6 +56,7 @@ typedef struct _thread_data {
 	int* value;
 	volatile int* vvalue;
 	int usleep_interval;
+	pthread_mutex_t* m;
 } thread_data;
 
 static void *atomic_worker(void *p) {
@@ -101,6 +102,17 @@ static void *volatile_worker(void *p) {
 	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
 	for(int i=0; i<td->attempts; i++) {
 		*(td->vvalue)+=1;
+	}
+	TRACE("end thread %d", td->num);
+	return NULL;
+}
+static void *mutex_worker(void* p) {
+	thread_data* td=(thread_data*)p;
+	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
+	for(int i=0; i<td->attempts; i++) {
+		CHECK_ZERO(pthread_mutex_lock(td->m));
+		*(td->value)+=1;
+		CHECK_ZERO(pthread_mutex_unlock(td->m));
 	}
 	TRACE("end thread %d", td->num);
 	return NULL;
@@ -155,6 +167,7 @@ static int parse_arguments(int& argc, char** argv, bool& doObserver, int& type, 
 		fprintf(stderr, "%s:\ttype=2 means compiler barrier threads\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=3 means regular threads\n", argv[0]);
 		fprintf(stderr, "%s:\ttype=4 means volatile threads\n", argv[0]);
+		fprintf(stderr, "%s:\ttype=5 means mutex based threads\n", argv[0]);
 		fprintf(stderr, "%s: select attempts using --attempts=[argument]\n", argv[0]);
 		fprintf(stderr, "%s: for example: --type=0 --attempts=1000000 0 1 2 3\n", argv[0]);
 		exit(EXIT_FAILURE);
@@ -186,6 +199,8 @@ int main(int argc, char** argv, char** envp) {
 	thread_data* data=new thread_data[thread_num];
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
 	void** rets=new void*[thread_num];
+	pthread_mutex_t m;
+	CHECK_ZERO(pthread_mutex_init(&m, NULL));
 
 	TRACE("start creating threads");
 	for(int i=0; i<thread_num; i++) {
@@ -194,6 +209,7 @@ int main(int argc, char** argv, char** envp) {
 		data[i].value=&value;
 		data[i].vvalue=&vvalue;
 		data[i].usleep_interval=usleep_interval;
+		data[i].m=&m;
 		CPU_ZERO(cpu_sets+i);
 		CPU_SET(atoi(argv[optind+i]), cpu_sets+i);
 		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
@@ -216,6 +232,9 @@ int main(int argc, char** argv, char** envp) {
 				break;
 			case 4:
 				CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, volatile_worker, data + i));
+				break;
+			case 5:
+				CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, mutex_worker, data + i));
 				break;
 			default:
 				fprintf(stderr, "bad type of thread (%d)\n", type);
