@@ -94,6 +94,8 @@ static signal_val_and_name signal_tbl[]={
 	entry(SIGUNUSED),
 	entry(__SIGRTMIN),
 	entry(__SIGRTMAX),
+	entry(SIGRTMIN),
+	entry(SIGRTMAX),
 };
 #undef entry
 
