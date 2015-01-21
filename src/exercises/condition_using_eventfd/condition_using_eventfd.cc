@@ -61,7 +61,8 @@ int mypthread_rwlock_destroy(mypthread_rwlock_t* lock) {
 int mypthread_rwlock_rdlock(mypthread_rwlock_t* lock) {
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&lock->mymutex));
 	lock->readers_waiting++;
-	while(lock->writers>0) {
+	// watch out! next line prevents starvation...
+	while(lock->writers>0 || lock->writers_waiting>0) {
 		CHECK_ZERO(mypthread_cond_wait(&lock->mycond_readers, &lock->mymutex));
 	}
 	lock->readers++;

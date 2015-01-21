@@ -47,13 +47,16 @@ volatile unsigned long i;
  * signal(2) and alarm(2) are safe according to the manual.
  */
 static void handler(int sig) {
+	static int times=0;
 	// we have to reschedule the SIGALRM every time since the alarm(2)
 	// is a one time deal.
 	CHECK_NOT_SIGT(signal(SIGALRM, handler), SIG_ERR);
 	// no error code from alarm(2)
 	alarm(1);
 	char buf[100];
-	int len=snprintf(buf, sizeof(buf), "did [%ld] units of work...\n", i);
+	times+=1;
+	//int len=snprintf(buf, sizeof(buf), "did [%02ld] units of work...\r", i);
+	int len=snprintf(buf, sizeof(buf), "called [%02d] times...\r", times);
 	CHECK_NOT_M1(write(STDERR_FILENO, buf, len));
 }
 

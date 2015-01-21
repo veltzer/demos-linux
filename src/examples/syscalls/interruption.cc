@@ -43,8 +43,11 @@
  * which will kill our program and we do not want that behaviour.
  */
 
+static bool broken=false;
+
 static void handler(int sig) {
 	TRACE("start handler, sig is %d", sig);
+	broken=true;
 	TRACE("end");
 }
 
@@ -54,12 +57,14 @@ int main(int argc, char** argv, char** envp) {
 	signal_register_handler_signal(SIGUSR1, handler);
 	int ret;
 	printf("signal me with [kill -s SIGUSR1 %d]\n", getpid());
-	bool broken=false;
 	bool matchingError=false;
 	while(true) {
 		printf("enter number a: ");
 		fflush(stdout);
 		int a;
+		if(broken) {
+			break;
+		}
 		ret=scanf("%d", &a);
 		if(ret==EOF && errno==EINTR) {
 			printf("\n\n\n\ninterrupted...shutting down...\n");
@@ -68,6 +73,9 @@ int main(int argc, char** argv, char** envp) {
 		}
 		if(ret!=1) {
 			matchingError=true;
+			break;
+		}
+		if(broken) {
 			break;
 		}
 		printf("enter number b: ");
@@ -81,6 +89,9 @@ int main(int argc, char** argv, char** envp) {
 		}
 		if(ret!=1) {
 			matchingError=true;
+			break;
+		}
+		if(broken) {
 			break;
 		}
 		printf("a+b is %d\n", a+b);
