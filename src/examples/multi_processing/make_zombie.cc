@@ -53,8 +53,8 @@
  *
  * putting 'pkg-config --libs libprocps' in the next line does not work
  * since there is no dynamically linked libprocps.
- * EXTRA_LINK_FLAG=/usr/lib/x86_64-linux-gnu/libprocps.a
- * EXTRA_LINK_FLAGS=/usr/lib/i386-linux-gnu/libprocps.a
+ * EXTRA_LINK_FLAGS=/usr/lib/x86_64-linux-gnu/libprocps.a
+ * EXTRA_LINK_FLAG=/usr/lib/i386-linux-gnu/libprocps.a
  */
 
 // print the state of a process in 3 different ways...
