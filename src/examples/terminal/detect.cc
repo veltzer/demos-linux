@@ -20,11 +20,12 @@
 #include <stdio.h>	// for stdin, fileno(3)
 #include <unistd.h>	// for isatty(3), ttyname(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <trace_utils.h>// for DEBUG()
+#include <trace_utils.h>// for TRACE()
 
 /*
  * This is an example of how to detect whether a file you are using is
  * a terminal or not and print it's name in case it is.
+ * This is similar to the tty(1) command line utility.
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -32,9 +33,9 @@ int main(int argc, char** argv, char** envp) {
 	// a terminal (unless you redirect it...)
 	int filedes=fileno(stdin);
 	if (isatty(filedes)) {
-		DEBUG("it is a terminal with name [%s]", ttyname(filedes));
+		TRACE("it is a terminal with name [%s]", ttyname(filedes));
 	} else {
-		DEBUG("it is not a terminal");
+		TRACE("it is not a terminal");
 	}
 	return EXIT_SUCCESS;
 }
