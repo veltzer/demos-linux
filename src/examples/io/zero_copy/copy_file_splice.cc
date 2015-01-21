@@ -33,24 +33,31 @@
 
 void copy_file(const char* filein, const char* fileout, const bool setbufsize, const size_t buf_size) {
 	// lets create a pipe
+	const unsigned int splice_flags=SPLICE_F_MOVE | SPLICE_F_MORE;
+	//const unsigned int splice_flags=SPLICE_F_MOVE;
 	int pipe_fds[2];
 	CHECK_NOT_M1(pipe(pipe_fds));
 	// lets get the pipe size
 	// size_t pipe_size=CHECK_NOT_M1(fcntl(pipe_fds[0],F_GETPIPE_SZ));
 	// printf("pipe_size is %d\n",pipe_size);
 	// lets make the pipe big for better performance
+	size_t size;
 	if(setbufsize) {
 		CHECK_NOT_M1(fcntl(pipe_fds[0], F_SETPIPE_SZ, buf_size));
+		size=buf_size;
+	} else {
+		size=INT_MAX;
+		//size=getpagesize();
 	}
 	int fdin=CHECK_NOT_M1(open(filein, O_RDONLY|O_LARGEFILE, 0666));
 	int fdout=CHECK_NOT_M1(open(fileout, O_WRONLY|O_CREAT|O_TRUNC|O_LARGEFILE, 0666));
 	ssize_t ret;
 	do {
-		ret=CHECK_NOT_M1(splice(fdin, 0, pipe_fds[1], 0, INT_MAX, SPLICE_F_MOVE));
+		ret=CHECK_NOT_M1(splice(fdin, 0, pipe_fds[1], 0, size, splice_flags));
 		ssize_t len=ret;
 		// now splice everything we got...
 		while(len>0) {
-			len-=CHECK_NOT_M1(splice(pipe_fds[0], 0, fdout, 0, INT_MAX, SPLICE_F_MOVE));
+			len-=CHECK_NOT_M1(splice(pipe_fds[0], 0, fdout, 0, size, splice_flags));
 		}
 	} while(ret>0);
 	CHECK_NOT_M1(close(pipe_fds[0]));
