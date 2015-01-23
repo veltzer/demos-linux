@@ -30,6 +30,10 @@
 int main(int argc, char** argv, char** envp) {
 	socklen_t fromaddrlen;
 	struct sockaddr_in fromaddr;
+	// Small fix by RazK: fromaddr initialization
+	bzero(&fromaddr, sizeof(fromaddr));
+	fromaddr.sin_family=AF_INET;
+	fromaddr.sin_addr.s_addr=INADDR_ANY;
 	time_t t;
 	char ibuffer[1000], obuffer[1000];
 	int brsock=CHECK_NOT_M1(socket(AF_INET, SOCK_DGRAM, 0));
@@ -48,16 +52,16 @@ int main(int argc, char** argv, char** envp) {
 		ssize_t datalen=CHECK_NOT_M1(recvfrom(brsock, ibuffer, sizeof(ibuffer), 0, (struct sockaddr *) &fromaddr, &fromaddrlen));
 		ibuffer[datalen-1]='\0';// get rid of '\n'
 		printf("Got==>%s<==\n", ibuffer);
-		sprintf(obuffer, "Bad request");
+		sprintf(obuffer, "Bad request\n");
 		if(strcmp(ibuffer, "date")==0) {
 			t=time(NULL);
 			sprintf(obuffer, "%s", ctime(&t));
 		}
 		if(strcmp(ibuffer, "pid")==0) {
-			sprintf(obuffer, "%d", getpid());
+			sprintf(obuffer, "%d\n", getpid());
 		}
 		int sendsock=CHECK_NOT_M1(socket(AF_INET, SOCK_STREAM, 0));
-		fromaddr.sin_port=htons(6996);	// reply port id
+		fromaddr.sin_port=htons(6996); 	// reply port id
 		CHECK_NOT_M1(connect (sendsock, (struct sockaddr *) &fromaddr, fromaddrlen));
 		ssize_t ret=CHECK_NOT_M1(write(sendsock, obuffer, strlen(obuffer)));
 		CHECK_ASSERT(ret==(ssize_t)strlen(obuffer));
