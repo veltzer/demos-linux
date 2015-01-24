@@ -17,19 +17,30 @@
  */
 
 #include <firstinclude.h>
-#include <sys/types.h>	// for open(2)
-#include <sys/stat.h>	// for open(2)
-#include <fcntl.h>	// for open(2)
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
+#include <sys/types.h>	// for open(2), O_RDONLY(int)
+#include <sys/stat.h>	// for open(2), O_RDONLY(int)
+#include <fcntl.h>	// for open(2), O_RDONLY(int)
+#include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
+#include <errno.h>	// for errno(3)
+#include <string.h>	// for strerror(3)
+#include <error.h>	// for error(3)
 
 /*
- * This shows how to create a macro to help you deal with error coming
+ * This shows how to create a macro to help you deal with errors returned
  * from system calls.
+ *
+ * NOTES:
+ * - we emit the code of the offending line.
+ * - we copy errno immediately to preserve the original error.
+ * - we print errors to stderr and not stdout to correctly separate errors and output.
+ * - we do not use strerror(3) to print error explanations and not just numbers because err(3) already does this for us.
+ * - we surround the macro with 'do {...} while(0)' for preprocessing reasons.
+ * - we do not use err(3) to print the error since it does not accept a custom errno.
+ * - we do use error(3) to print the error since it does a better job than err(3).
+ * - we do not pass newline to error(3) since it will append the reason for the error and a newline itself.
  */
 
-// #define CHK_NOT_M1(a) if(a==-1) { printf("error " # a); printf("\n"); exit(EXIT_FAILURE);}
-#define CHK_NOT_M1(a) if(a==-1) { printf("error %s\n", "" # a); exit(EXIT_FAILURE); }
+#define CHK_NOT_M1(a) do { int ret=a; if(ret==-1) { int myerrno=errno; error(EXIT_FAILURE, myerrno, "error %s", "" # a); } } while(0)
 
 int main(int argc, char** argv, char** envp) {
 	CHK_NOT_M1(open("thisfiledoesnotexist", O_RDONLY));

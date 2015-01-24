@@ -36,6 +36,8 @@
  * and the compiler needs to know not to put it in a register since that
  * will mean that we cannot report it's value correctly from the signal
  * handler.
+ * The volatile is also *critical* to force the compiler not to optimize away
+ * the entire loop in the main function.
  */
 volatile unsigned long i;
 
@@ -43,7 +45,7 @@ volatile unsigned long i;
  * Remember that this is a signal handler and calls to fprintf(3) or the like
  * are forbidden so we are forced to use async-safe function (see man 7 signal).
  * That is the reason for the cumbersome code. Hopefylly snprintf(3) is safe
- * enough to use and does not do any memory allocation or the like. write(2),
+ * enough to use and does not do any memory allocations or the like. write(2),
  * signal(2) and alarm(2) are safe according to the manual.
  */
 static void handler(int sig) {
