@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3), printf(3)
+#include <stdio.h>	// for fprintf(3), stderr(object)
 #include <signal.h>	// for sigaction(2), psiginfo(3), SIGUSR1, SIGUSR2, SIGRTMIN
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for pause(2), getpid(2)
@@ -56,31 +56,31 @@
 static unsigned int counter=0;
 
 static void handler(int sig, siginfo_t *si, void *unused) {
-	printf("sighandler: counter is %d\n", counter);
-	printf("sighandler: got signal %s\n", strsignal(sig));
-	signal_print_siginfo(stdout, si);
-	printf("sighandler: unused is %p...\n", unused);
-	printf("sighandler: psiginfo follows...\n");
+	fprintf(stderr, "sighandler: counter is %d\n", counter);
+	fprintf(stderr, "sighandler: got signal %s\n", strsignal(sig));
+	signal_print_siginfo(stderr, si);
+	fprintf(stderr, "sighandler: unused is %p...\n", unused);
+	fprintf(stderr, "sighandler: psiginfo follows...\n");
 	psiginfo(si, "sighandler");
 	counter++;
 }
 
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
-	printf("started registering signals\n");
+	fprintf(stderr, "started registering signals\n");
 	signal_register_handler_sigaction(SIGUSR1, handler);
 	signal_register_handler_sigaction(SIGUSR2, handler);
 	signal_register_handler_sigaction(SIGRTMIN, handler);
-	printf("ended registering signals\n");
-	printf("signal me with one of the following:\n");
-	printf("\t[kill -s SIGUSR1 %d]\n", getpid());
-	printf("\t[kill -s SIGUSR2 %d]\n", getpid());
-	printf("\t[kill -s SIGRTMIN %d]\n", getpid());
+	fprintf(stderr, "ended registering signals\n");
+	fprintf(stderr, "signal me with one of the following:\n");
+	fprintf(stderr, "[kill -s SIGUSR1 %d]\n", getpid());
+	fprintf(stderr, "[kill -s SIGUSR2 %d]\n", getpid());
+	fprintf(stderr, "[kill -s SIGRTMIN %d]\n", getpid());
 	// This is a non busy wait loop which only wakes up when there are signals
 	while(true) {
 		int ret=pause();
 		CHECK_ASSERT(ret==-1 && errno==EINTR);
-		printf("pause(2) wakeup\n");
+		fprintf(stderr, "pause(2) wakeup\n");
 	}
 	return EXIT_SUCCESS;
 }

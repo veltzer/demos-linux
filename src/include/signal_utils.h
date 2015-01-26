@@ -165,12 +165,14 @@ static inline sighandler_t signal_register_handler_signal(int signum, sighandler
  * easy registration of signals via sigaction(2)
  */
 typedef void (*my_signal_handler)(int, siginfo_t *, void *);
-static inline void signal_register_handler_sigaction(int sig, my_signal_handler handler) {
+static inline my_signal_handler signal_register_handler_sigaction(int sig, my_signal_handler handler) {
 	struct sigaction sa;
 	sa.sa_flags=SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_sigaction=handler;
-	CHECK_NOT_M1(sigaction(sig, &sa, NULL));
+	struct sigaction old;
+	CHECK_NOT_M1(sigaction(sig, &sa, &old));
+	return old.sa_sigaction;
 }
 
 /*

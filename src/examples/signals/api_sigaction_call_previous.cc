@@ -17,19 +17,16 @@
  */
 
 #include <firstinclude.h>
-#include <signal.h>	// for psignal(3)
+#include <stdio.h>	// for fprintf(3), printf(3)
+#include <signal.h>	// for sigaction(2), psiginfo(3), SIGUSR1, SIGUSR2, SIGRTMIN
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <stdio.h>	// for fprintf(3), stderr(object)
-#include <unistd.h>	// for pause(2), getpid(2), sleep(3)
+#include <unistd.h>	// for pause(2), getpid(2)
 #include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for strsignal(3)
-#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_ZERO()
-#include <signal_utils.h>	// for register_handler_signal()
+#include <signal_utils.h>	// for signal_print_siginfo(), signal_register_handler_sigaction()
 
 /*
- * This is a simple example which shows how to do signal handling with the
- * signal(2) syscall. Mind you that this is the old system call and there is a
- * better sigaction(2) syscall at your disposal.
+ * This is an example of using the sigaction(2) API.
  *
  * NOTES:
  * - the same signal handler can be used for handling more than one signal.
@@ -48,28 +45,36 @@
  * (SIGRTMIN - SIGRTMAX) and register on them then you will get full guarantee
  * of delivery (unless you congest the os rt signal queue that is - see ulimit
  * -r for details).
+ *
+ * TODO:
+ * - do not call the third argument to the signal handler 'unused' and instead
+ * get info out of it (registers?!?). See the example of the libcrash library
+ * in order to see how to do that.
  */
 
-static unsigned int counter=0;
+// count the number of signals we get
+static unsigned int counter;
+static my_signal_handler old_action;
 
-static void handler(int sig) {
+static void handler(int sig, siginfo_t *si, void *unused) {
+	fprintf(stderr, "sighandler: counter is %d\n", counter);
+	fprintf(stderr, "sighandler: got signal %s\n", strsignal(sig));
+	signal_print_siginfo(stderr, si);
+	fprintf(stderr, "sighandler: unused is %p...\n", unused);
+	fprintf(stderr, "sighandler: psiginfo follows...\n");
+	psiginfo(si, "sighandler");
 	counter++;
-	psignal(sig, "handler");
-	fprintf(stderr, "handler: start %d handler, sig is %d, name is %s\n", counter, sig, strsignal(sig));
-	fprintf(stderr, "handler: sleeping for 10 seconds...\n");
-	// CHECK_ZERO(sleep(10));
-	fprintf(stderr, "handler: end\n");
+	fprintf(stderr, "sighandler: calling previous\n");
+	//old_action(sig, si, unused);
 }
 
 int main(int argc, char** argv, char** envp) {
 	// set up the signal handler (only need to do this once)
-	signal_register_handler_signal(SIGUSR1, handler);
-	signal_register_handler_signal(SIGUSR2, handler);
-	signal_register_handler_signal(SIGRTMIN, handler);
+	fprintf(stderr, "started registering signals\n");
+	old_action=signal_register_handler_sigaction(SIGUSR1, handler);
+	fprintf(stderr, "ended registering signals\n");
 	fprintf(stderr, "signal me with one of the following:\n");
 	fprintf(stderr, "[kill -s SIGUSR1 %d]\n", getpid());
-	fprintf(stderr, "[kill -s SIGUSR2 %d]\n", getpid());
-	fprintf(stderr, "[kill -s SIGRTMIN %d]\n", getpid());
 	// This is a non busy wait loop which only wakes up when there are signals
 	while(true) {
 		int ret=pause();
