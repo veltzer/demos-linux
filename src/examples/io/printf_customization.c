@@ -27,7 +27,9 @@
  *
  * TODO:
  * - this example fails compilation if compiled as C++. It seems like the glibc
- * folk have not paid attention to making the printf.h file C++ safe.
+ * folk have not paid attention to making the printf.h file C++ safe. This does
+ * not work even if you surround the "#include <printf.h>" statement with an
+ * "extern "C"" declaration.
  * - I have to turn off warning in a lot of sections here because both the
  * 'register_printf_function' is deprecated and the compiler doesn't work
  * well with printf(3) extensions and so issues warnings about format strings
