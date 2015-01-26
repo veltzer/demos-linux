@@ -1,3 +1,5 @@
+- show how to call the signal handler that was installed before you:
+	do that using both signal(2) and sigaction(2).
 - improve the signalfd example and show show to do signal handling in conjunction with io.
 - demonstrate the blocking of signals via sigprocmask.
 - demonstrate the use of sigsuspend.
