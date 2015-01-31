@@ -110,9 +110,9 @@ static void *mutex_worker(void* p) {
 	thread_data* td=(thread_data*)p;
 	TRACE("start thread %d, running on core %d", td->num, sched_getcpu());
 	for(int i=0; i<td->attempts; i++) {
-		CHECK_ZERO(pthread_mutex_lock(td->m));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(td->m));
 		*(td->value)+=1;
-		CHECK_ZERO(pthread_mutex_unlock(td->m));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(td->m));
 	}
 	TRACE("end thread %d", td->num);
 	return NULL;
@@ -200,7 +200,7 @@ int main(int argc, char** argv, char** envp) {
 	cpu_set_t* cpu_sets=new cpu_set_t[thread_num];
 	void** rets=new void*[thread_num];
 	pthread_mutex_t m;
-	CHECK_ZERO(pthread_mutex_init(&m, NULL));
+	CHECK_ZERO_ERRNO(pthread_mutex_init(&m, NULL));
 
 	TRACE("start creating threads");
 	for(int i=0; i<thread_num; i++) {

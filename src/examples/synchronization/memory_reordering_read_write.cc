@@ -37,7 +37,7 @@
  * Each is doing a write and then a read.
  * If, at the end of the procedure rx==rx==0 then you can deduce
  * that at least one pair of machine instruction executed
- * by one of the threads was reordered. 
+ * by one of the threads was reordered.
  *
  * References:
  * http://preshing.com/20120515/memory-reordering-caught-in-the-act

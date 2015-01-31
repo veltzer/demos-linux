@@ -45,7 +45,8 @@ int main(int argc, char** argv, char** envp) {
 	// if the file descriptor is a terminal then lets get it's name
 	// we duplicate the string since it may be overwritten.
 	if (isatty(filedes)) {
-		myttyname=strdup(CHECK_NOT_NULL_CHARP(ttyname(filedes)));
+		myttyname=CHECK_NOT_NULL_CHARP(ttyname(filedes));
+		myttyname=strdup(myttyname);
 	} else {
 		myttyname=NULL;
 	}
