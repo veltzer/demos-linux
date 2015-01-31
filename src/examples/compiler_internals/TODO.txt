@@ -7,3 +7,11 @@
 - is there a user space version of cpu_relax of kernel space ?!?
 - do more examples like the unused result one to show how to use the compiler
 	to guard against problems (checking of constant, more).
+- explain how to turn off compiler optimization.
+	either for a whole code section using:
+		#pragma GCC push_options
+		#pragma GCC optimize ("O0")
+		your code
+		#pragma GCC pop_options
+	or for a whole function (using __attribute__((optimize("O0"))))
+	as per: http://stackoverflow.com/questions/2219829/how-to-prevent-gcc-optimizing-some-statements-in-c

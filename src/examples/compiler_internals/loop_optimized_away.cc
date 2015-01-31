@@ -19,36 +19,50 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for stderr, fprintf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <disassembly_utils.h>	// for disassemble_main()
+#include <disassembly_utils.h>	// for disassemble_function()
 
 /*
- * This is an example of a loop that gcc cannot optimize away...
+ * This example compares all sorts of loops that gcc can and
+ * cannot optimize away.
  * Consider the question why ? Doesn't gcc simulate your code
  * in order to optimize it away ? The answer is that it does
  * not simulate your code but rather understand the underlying
  * construct to deduce what you are doing and use a predefined
  * set of formulas to precalculate the result...
  *
- * You can see that indeed it is not optimized when you disassemble
- * the code.
+ * You can what code is  indeed optimized away and what is
+ * not when you disassemble the code.
  *
- * Compare the second loop to the first.
+ * Currently, in gcc 4.9.1, the first two loops are optimized
+ * away and the third isn't.
  *
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
 int main(int argc, char** argv, char** envp) {
-	int sum=0;
+	unsigned long sum1=0;
 	for(int i=0; i<100; i++) {
-		sum+=i;
+		sum1+=i;
 	}
 	// we print so that the compile does not optimize out the loop
-	fprintf(stderr, "sum is %d\n", sum);
+	fprintf(stderr, "sum1 is %lu\n", sum1);
+
+	// for some strange reason gcc will only optimize the next
+	// loop away if the sum is held in a variable of type 'int'...
+	int sum2=0;
 	for(int i=0; i<100; i++) {
-		sum+=i*i;
+		sum2+=i*i;
 	}
 	// we print so that the compile does not optimize out the loop
-	fprintf(stderr, "sum is %d\n", sum);
-	disassemble_main();
+	fprintf(stderr, "sum2 is %d\n", sum2);
+
+	unsigned long sum3=0;
+	for(int i=0; i<100; i++) {
+		sum3+=i*i*i;
+	}
+	// we print so that the compile does not optimize out the loop
+	fprintf(stderr, "sum3 is %lu\n", sum3);
+
+	disassemble_function("main");
 	return EXIT_SUCCESS;
 }
