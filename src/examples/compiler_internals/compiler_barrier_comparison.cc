@@ -68,6 +68,7 @@
  *
  * References:
  * http://ridiculousfish.com/blog/archives/2007/02/17/barrier/
+ * http://stackoverflow.com/questions/8896092/is-there-a-compiler-memory-barrier-for-a-single-variable
  *
  * TODO:
  * - make this program show the instructions that are emitted for main so
@@ -252,6 +253,20 @@ TEST(
 	true,
 	__sync_bool_compare_and_swap(&u, 0, 0)
 	);
+TEST(
+	lkmla,
+	"A solution suggested on lkml.\n"
+	"this means that someone touched m. This works well.\n",
+	true,
+	asm volatile("":"=m"(a):"m"(a))
+	);
+TEST(
+	lkmlu,
+	"A solution suggested on lkml.\n"
+	"doing the same on the wrong barrier is wrong.\n",
+	false,
+	asm volatile("":"=m"(u):"m"(u))
+	);
 
 int main(int argc, char** argv, char** envp) {
 	outfile=CHECK_NOT_NULL_FILEP(fopen("/dev/null", "w"));
@@ -272,5 +287,7 @@ int main(int argc, char** argv, char** envp) {
 	test_singvarvolright2(val_before, val_after, dummy);
 	test_atomicop(val_before, val_after, dummy);
 	test_atomicop2(val_before, val_after, dummy);
+	test_lkmla(val_before, val_after, dummy);
+	test_lkmlu(val_before, val_after, dummy);
 	return EXIT_SUCCESS;
 }

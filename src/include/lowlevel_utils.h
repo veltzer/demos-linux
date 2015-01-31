@@ -197,4 +197,7 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	return(mdiff);
 }
 
+#define fullmb() asm volatile ("":::"memory")
+#define mb(x) asm volatile ("":"=m"(x):"m"(x))
+
 #endif	/* !__lowlevel_utils_h */

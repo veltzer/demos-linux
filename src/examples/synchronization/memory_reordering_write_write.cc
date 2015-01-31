@@ -19,11 +19,12 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, rand(3)
 #include <pthread.h>	// for pthread_t, pthread_attr_t, pthread_barrier_t, pthread_create(3)
-#include <unistd.h>	// for sysconf(3), usleep(3), sleep(3)
+#include <unistd.h>	// for sysconf(3)
 #include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3), sched_getcpu(3)
 #include <trace_utils.h>// for INFO()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_ONEOFTWO(), CHECK_NOT_M1()
 #include <us_helper.h>	// for no_params()
+#include <lowlevel_utils.h>	// for mb(), fullmb()
 
 /*
  * This example explores write/write memory reordering issues by the machine.
@@ -34,16 +35,18 @@
  *
  * References:
  * http://en.wikipedia.org/wiki/Memory_ordering
+ * http://ridiculousfish.com/blog/posts/barrier.html
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
 typedef struct _shared_data {
 	unsigned int attempts;
-	volatile int small;
-	char buffer[64];
-	volatile int large;
-	volatile bool running;
+	unsigned int small;
+	char buffer1[64];
+	unsigned int large;
+	char buffer2[64];
+	bool running;
 } shared_data;
 
 typedef struct _thread_data {
@@ -62,32 +65,47 @@ void do_some_random_access() {
 static void *worker(void *p) {
 	thread_data* td=(thread_data*)p;
 	shared_data* sd=td->shared;
-	// INFO("start thread (%d), on cpu %d", td->num, sched_getcpu());
-	// 0 is the writer thread
 	if(td->num==0) {
-		int large=sd->large;
-		int small=sd->small;
+		unsigned long attempts=0;
+		volatile unsigned int large=sd->large;
+		volatile unsigned int small=sd->small;
 		for(unsigned int i=0; i<sd->attempts; i++) {
-			large+=2;
-			small+=2;
+			large++;
+			small++;
 			sd->large=large;
+			mb(sd->large);
+			mb(sd->small);
+			//asm volatile ("sfence" ::: "memory");
+			//__sync_synchronize();
+			//fullmb();
 			sd->small=small;
-			do_some_random_access();
-		}
-		sd->running=false;
-		INFO("writer thread %d ended", td->num);
-	} else {
-		unsigned int errors=0;
-		unsigned int attempts=0;
-		while(sd->running) {
-			if(sd->small>sd->large) {
-				errors++;
-			}
 			attempts++;
 		}
-		INFO("end thread %d, attempts=%d, errors=%d", td->num, attempts, errors);
+		INFO("writer thread %d ended, attempts=%ld", td->num, attempts);
+		sd->running=false;
+		mb(sd->running);
+	} else {
+		unsigned long g_errors=0;
+		unsigned long e_errors=0;
+		unsigned long attempts=0;
+		while(sd->running) {
+			unsigned int small=sd->small;
+			// force order between reading small and large, otherwise we may read large first
+			// then wait a bit and then read small which could create errors
+			mb(sd->small);
+			mb(sd->large);
+			unsigned int large=sd->large;
+			if(small>large) {
+				g_errors++;
+			}
+			if(small==large) {
+				e_errors++;
+			}
+			attempts++;
+			mb(sd->running);
+		}
+		INFO("end thread %d, attempts=%ld, g_errors=%ld, e_errors=%ld", td->num, attempts, g_errors, e_errors);
 	}
-	// INFO("end thread %d", td->num);
 	return NULL;
 }
 
@@ -103,7 +121,7 @@ int main(int argc, char** argv, char** envp) {
 	shared_data sd;
 	sd.small=0;
 	sd.large=1;
-	sd.attempts=1000000;
+	sd.attempts=100000000;
 	sd.running=true;
 
 	INFO("start creating threads");
@@ -116,8 +134,6 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, data + i));
 	}
-	// give the threads a chance to print their start messages
-	CHECK_NOT_M1(usleep(1000));
 	INFO("created threads");
 	INFO("joining threads");
 	for(int i=0; i<thread_num; i++) {
