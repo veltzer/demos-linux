@@ -318,6 +318,12 @@ static inline FILE* check_not_null_filep(FILE* val, const char* msg, const char*
 	}
 	return val;
 }
+static inline char* check_not_null_charp(char* val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val==NULL)) {
+		handle_error(0, 0, 0, 0, 0, 0, msg, file, function, line, NULL);
+	}
+	return val;
+}
 static inline int check_oneoftwo(int val, const char* msg, int e1, int e2, const char* file, const char* function, const int line) {
 	if(myunlikely(val!=e1 && val!=e2)) {
 		handle_error(0, 0, 0, 0, 1, errno, msg, file, function, line, NULL);
@@ -401,6 +407,7 @@ static inline int check_gezero(int val, const char* msg, const char* file, const
 #define CHECK_NOT_NULL(v) check_not_null(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_NULL_CONST(v) check_not_null_const(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_NULL_FILEP(v) check_not_null_filep(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_NULL_CHARP(v) check_not_null_charp(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_ONEOFTWO(v, e1, e2) check_oneoftwo(v, stringify(v), e1, e2, __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_ASSERT(v) check_assert(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_VOIDP(v, e) check_not_voidp(v, stringify(v), e, __FILE__, __FUNCTION__, __LINE__)

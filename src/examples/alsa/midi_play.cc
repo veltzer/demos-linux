@@ -22,7 +22,7 @@
 #include <stdlib.h>	// for EXIT_FAIURE, EXIT_SUCCESS
 #include <signal.h>	// for signal(2)
 #include <alsa/asoundlib.h>
-#include <err_utils.h>	// for CHECK_ZERO()
+#include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
 
 /*
  * An example of playing midi.
@@ -205,7 +205,7 @@ void parse_sequence() {
 		sequence[0][seq_len]=TICKS_PER_QUARTER / atoi(&c);
 		seq_len++;
 	}
-	fclose(f);
+	CHECK_NOT_M1(fclose(f));
 }
 
 void sigterm_exit(int sig) {

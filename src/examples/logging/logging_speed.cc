@@ -109,7 +109,7 @@ void* func(void*) {
 		fflush(f);
 	}
 	measure_end(&m);
-	fclose(f);
+	CHECK_NOT_M1(fclose(f));
 	measure_print(&m);
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
@@ -121,7 +121,7 @@ void* func(void*) {
 		fprintf(f, "this is a message %d", i);
 	}
 	measure_end(&m);
-	fclose(f);
+	CHECK_NOT_M1(fclose(f));
 	measure_print(&m);
 	// let io buffers be flushed...
 	CHECK_ZERO(sleep(1));
