@@ -22,11 +22,13 @@
 
 /*
  * An example of GNU extended assembly syntax inlined in C.
+ * Because both ia64 and i386 have 'eax' and 'ebx' registers this
+ * will work on both architectures.
  */
 
 int main(int argc, char** argv, char** envp) {
 	int foo=10, bar=15;
-	__asm__ __volatile__ ("addl %%ebx,%%eax" : "=a" (foo) : "a" (foo), "b" (bar));
+	asm volatile ("addl %%ebx,%%eax" : "=a" (foo) : "a" (foo), "b" (bar));
 	printf("foo+bar=%d\n", foo);
 	return EXIT_SUCCESS;
 }

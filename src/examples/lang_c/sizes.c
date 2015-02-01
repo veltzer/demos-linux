@@ -23,6 +23,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <us_helper.h>	// for stringify(), PRINT_SIZEOF()
 #include <err_utils.h>	// for CHECK_NOT_M1()
+#include <stdint.h>	// for uint8_t, uint16_t, uint32_t, uint64_t, int8_t, int16_t, int32_t, int64_t
 
 /*
  * This is a demo showing the sizes of basic types on the architecture
@@ -88,5 +89,13 @@ int main(int argc, char** argv, char** envp) {
 	PRINT_SIZEOF(struct_char);
 	PRINT_SIZEOF(struct_charintchar);
 	PRINT_SIZEOF(struct_char5);
+	PRINT_SIZEOF(uint8_t);
+	PRINT_SIZEOF(uint16_t);
+	PRINT_SIZEOF(uint32_t);
+	PRINT_SIZEOF(uint64_t);
+	PRINT_SIZEOF(int8_t);
+	PRINT_SIZEOF(int16_t);
+	PRINT_SIZEOF(int32_t);
+	PRINT_SIZEOF(int64_t);
 	return EXIT_SUCCESS;
 }

@@ -23,6 +23,7 @@
 #include <unistd.h> // for getpagesize(2)
 #include <err_utils.h> // for CHECK_ASSERT()
 #include <cpufreq.h>	// for cpufreq_get_freq_kernel(2)
+#include <stdint.h>	// for uint32_t, uint64_t
 
 /*
  * This is a collection of helper function to help with working with low level stuff.
@@ -152,7 +153,7 @@ static inline unsigned long getframepointer() {
 }
 
 /*
- * Functions which handle the TSC
+ * Functions which handle the time stamp counters
  *
  * References:
  * http://en.wikipedia.org/wiki/Time_Stamp_Counter
@@ -160,17 +161,44 @@ static inline unsigned long getframepointer() {
  */
 
 typedef unsigned long long ticks_t;
+typedef union __timestamp {
+	struct {
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+		uint32_t high;
+		uint32_t low;
+#elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+	uint32_t low;
+	uint32_t high;
+#else
+#error "Undetermined endian!"
+#endif
+	} sval;
+	uint64_t cval;
+} timestamp;
 
 static inline ticks_t getticks(void) {
-	unsigned int a, d;
+#if __i386__
+	timestamp t;
 	// the volatile here is necessary otherwise the compiler does not know that the value
 	// of this register changes and caches it
 	// the difference between 'rdtsc' and 'rdtscp' instruction is that the latter will not
 	// get executed out of order and therefore measurements using it will be more
 	// accurate
+	// OLD CODE:
 	// asm volatile ("rdtsc":"=a" (a), "=d" (d));
-	asm volatile ("rdtscp" : "=a" (a), "=d" (d));
-	return(((ticks_t)a) | (((ticks_t)d) << 32));
+	// asm volatile ("rdtscp":"=a" (a), "=d" (d));
+	// return(((ticks_t)a) | (((ticks_t)d) << 32));
+	asm volatile ("rdtscp" : "=a" (t.sval.low), "=d" (t.sval.high));
+	return t.cval;
+#elif __x86_64__
+	unsigned int result=0;
+	//asm volatile ("mov %r12,ar.itc");
+	//asm volatile ("mov %0,%r12" : "=g" (result));
+	//asm volatile ("mov %0=ar.itc" : "=r" (result)::"memory");
+	return result;
+#else
+#error "This platform is not supported"
+#endif
 }
 
 static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
