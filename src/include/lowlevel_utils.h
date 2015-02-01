@@ -177,7 +177,7 @@ typedef union __timestamp {
 } timestamp;
 
 static inline ticks_t getticks(void) {
-#if __i386__
+#if __i386__ || __x86_64__
 	timestamp t;
 	// the volatile here is necessary otherwise the compiler does not know that the value
 	// of this register changes and caches it
@@ -185,16 +185,16 @@ static inline ticks_t getticks(void) {
 	// get executed out of order and therefore measurements using it will be more
 	// accurate
 	// OLD CODE:
-	// asm volatile ("rdtsc":"=a" (a), "=d" (d));
 	// asm volatile ("rdtscp":"=a" (a), "=d" (d));
 	// return(((ticks_t)a) | (((ticks_t)d) << 32));
+	asm volatile ("rdtsc":"=a" (t.sval.low), "=d" (t.sval.high));
 	asm volatile ("rdtscp" : "=a" (t.sval.low), "=d" (t.sval.high));
 	return t.cval;
-#elif __x86_64__
-	unsigned int result=0;
+#elif __IA64__
+	unsigned long result=0;
 	//asm volatile ("mov %r12,ar.itc");
-	//asm volatile ("mov %0,%r12" : "=g" (result));
-	//asm volatile ("mov %0=ar.itc" : "=r" (result)::"memory");
+	asm volatile ("mov %0=ar.itc" : "=r" (result));
+	//asm volatile ("mov ar.itc, %r12");
 	return result;
 #else
 #error "This platform is not supported"
