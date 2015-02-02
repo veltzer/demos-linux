@@ -1,5 +1,5 @@
 '''
-project definitions for templar
+project definitions for demos-linux
 '''
 
 def populate(d):
@@ -8,7 +8,7 @@ def populate(d):
 	d.project_website='https://{project_github_username}.github.io/{project_name}'.format(**d)
 	d.project_website_source='https://github.com/{project_github_username}/{project_name}'.format(**d)
 	d.project_website_git='git://github.com/{project_github_username}/{project_name}.git'.format(**d)
-	d.project_long_description='LinuxAPI is a project to demo and explore the Linux user space C/C++ API'
+	d.project_long_description='{project_name} is a project to demo and explore the Linux user space C/C++ API'.format(**d)
 	d.project_year_started='2010'
 	d.project_description='''This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
@@ -16,7 +16,7 @@ It has about 800 examples (as of 9/2013) I found are useful in explaining the Li
 The idea is to provide a good coverage of all major features and to resolve disputes
 about exactly how a certain API works.
 
-You can find the project at ${tdefs.project_website}
+You can find the project at {project_website}
 
 Topics covered by the examples
 ------------------------------
@@ -79,7 +79,8 @@ Using it
 	the name of the elf binary is the same as the example source code with .elf instead of
 	.[c|cc].
 	You must be at the root of the project to issue the `make` command.
-* the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!'''
+* the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
+'''.format(**d)
 
 	d.project_keywords=[
 		'linux',
