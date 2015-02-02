@@ -33,7 +33,7 @@
 #include <signal.h>	// for siginfo_t, sighandler_t, sigaction(2), signal(2)
 #include <setjmp.h>	// for sigjmp_buf:type, sigsetjmp(3), siglongjmp(3)
 #include <trace_utils.h>// for TRACE()
-#include <us_helper.h>	// for ARRAY_SIZEOF()
+#include <us_helper.h>	// for ARRAY_SIZEOF(), stringify()
 #include <err_utils.h>	// for CHECK_ASSERT(), CHECK_NOT_SIGT(), CHECK_NOT_M1()
 
 /*
@@ -94,8 +94,8 @@ static signal_val_and_name signal_tbl[]={
 	entry(SIGUNUSED),
 	entry(__SIGRTMIN),
 	entry(__SIGRTMAX),
-	entry(SIGRTMIN),
-	entry(SIGRTMAX),
+	//entry(SIGRTMIN),
+	//entry(SIGRTMAX),
 };
 #undef entry
 

@@ -46,6 +46,10 @@ SUFFIX_OO:=oo
 # checkpatch executable...
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
+# what is the web folder ?
+WEB_DIR:=../demos-linux-gh-pages
+# which folders to copy for web?
+COPY_FOLDERS:=web static
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -526,9 +530,9 @@ cloc:
 
 # web page
 .PHONY: install
-install: $(ALL_DEP)
+install: $(ALL) $(ALL_DEP)
 	$(info doing [$@])
-	$(Q)rm -rf $(WEB_DIR)
-	$(Q)mkdir $(WEB_DIR)
-	$(Q)cp -r index.html $(WEB_FOLDER) $(WEB_DIR)
-	$(Q)chmod -R go+rx $(WEB_DIR)
+	$(Q)rm -rf $(WEB_DIR)/*
+	$(Q)for folder in $(COPY_FOLDERS); do cp -r $$folder $(WEB_DIR); done
+	$(Q)cp support/redirector.html $(WEB_DIR)/index.html
+	cd $(WEB_DIR); git commit -a -m "new version"; git push
