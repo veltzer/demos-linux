@@ -1,9 +1,9 @@
 demos-linux
 ===========
 
-version: 3
+version: 4
 
-LinuxAPI is a project to demo and explore the Linux user space C/C++ API
+demos-linux is a project to demo and explore the Linux user space C/C++ API
 
 This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
@@ -11,7 +11,7 @@ It has about 800 examples (as of 9/2013) I found are useful in explaining the Li
 The idea is to provide a good coverage of all major features and to resolve disputes
 about exactly how a certain API works.
 
-You can find the project at ${tdefs.project_website}
+You can find the project at https://veltzer.github.io/demos-linux
 
 Topics covered by the examples
 ------------------------------
@@ -75,5 +75,6 @@ Using it
 	.[c|cc].
 	You must be at the root of the project to issue the `make` command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
+
 
 	Mark Veltzer <mark@veltzer.net>, 2010-2015
