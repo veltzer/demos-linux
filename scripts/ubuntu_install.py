@@ -87,6 +87,8 @@ packs=[
 	'unoconv',
 
         # libraries
+	'libevent-dev',
+	'libevent-2.0-5',
         'libiberty-dev',
 	'libncurses5',
 	'libncurses5-dev',

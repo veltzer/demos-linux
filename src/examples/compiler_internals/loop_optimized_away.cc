@@ -30,7 +30,7 @@
  * construct to deduce what you are doing and use a predefined
  * set of formulas to precalculate the result...
  *
- * You can what code is  indeed optimized away and what is
+ * You can what code is indeed optimized away and what is
  * not when you disassemble the code.
  *
  * Currently, in gcc 4.9.1, the first two loops are optimized

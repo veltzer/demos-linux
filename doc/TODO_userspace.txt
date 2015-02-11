@@ -23,6 +23,14 @@ websites to get ideas from
 
 examples to add
 ===============
+- find out why rdtsc doesnt work well on my multi core machine.
+	fix it.
+- write some few stream examples.
+- add another way of program disassembling itself:
+	use __file__ for the program to compile itself using
+	gcc only to assembly and dump the output to the screen.
+	We have to find a way to pass the flags so that we would know how to compile.
+	create an example specifically for disassembly.
 - add examples of how to pretty print structures in gdb.
 - add examples of doing chattr and lsattr in straight C.
 	write a presentation showing how chattr can be used for security.
