@@ -28,6 +28,10 @@
  * and it is always initialized using the same seed, then
  * it will always produce the EXACT series of "random"
  * numbers.
+ *
+ * This is great especially if you want determinism and
+ * reproducability of your code.
+ * This is bad if you are a security person.
  */
 
 int main(int argc, char** argv, char** envp) {
