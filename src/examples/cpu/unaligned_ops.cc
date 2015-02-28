@@ -30,7 +30,7 @@
  * operations.
  *
  * Results:
- * It seems that on Intel data alignment is not an issue.
+ * It seems that on modern Intel platforms data alignment is not an issue.
  *
  * References:
  * - http://lemire.me/blog/archives/2012/05/31/data-alignment-for-speed-myth-or-reality/
