@@ -6,7 +6,7 @@ include /usr/share/templar/make/Makefile
 # parameters #
 ##############
 # directories
-US_DIRS:=src/examples src/exercises
+US_DIRS:=src/examples src/exercises src/tests
 KERNEL_DIR:=src/kernel
 KERNEL_SA_DIR:=src/kernel_standalone
 US_INCLUDE:=src/include

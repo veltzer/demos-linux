@@ -23,7 +23,7 @@
 #include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
- * This is a test to check my own us_helper.hh file.
+ * This is a test to check my own err_utils.hh file.
  */
 
 int main(int argc, char** argv, char** envp) {
