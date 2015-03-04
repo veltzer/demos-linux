@@ -16,31 +16,27 @@
  * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define _GNU_SOURCE
-#include <dlfcn.h>
-#include <execinfo.h>
-#include <stdio.h>
+#define _GNU_SOURCE	// for RTLD_NEXT
+#include <dlfcn.h>	// for dlsym(3), RTLD_NEXT
+#include <execinfo.h>	// for backtrace(3), backtrace_symbols_fd(3)
+#include <stdio.h>	// for stderr:object, fprintf(3)
 
 typedef void (*cxa_throw_type)(void *, void *, void (*) (void *));
-cxa_throw_type orig_cxa_throw = 0;
+// this is automatically initialized to NULL
+static cxa_throw_type orig_cxa_throw;
+const unsigned int MAX_STACK_SIZE=256;
+// also initialized to 0
+static int throw_count;
 
-void load_orig_throw_code()
-{
-	orig_cxa_throw = (cxa_throw_type) dlsym(RTLD_NEXT, "__cxa_throw");
-}
-
-void __cxa_throw (void *thrown_exception, void *pvtinfo, void (*dest)(void *)) {
-	printf(" ################ DETECT A THROWN !!!!! #############\n");
-	if (orig_cxa_throw == 0)
-		load_orig_throw_code();
-	{
-		static int throw_count = 0;
-		void *array[10];
-		size_t size;
-
-		size = backtrace(array, 10);
-		fprintf(stderr, "#### EXCEPTION THROWN (#%d) ####\n", ++throw_count);
-		backtrace_symbols_fd(array, size, 2); // 2 == stderr
+void __cxa_throw(void *thrown_exception, void *pvtinfo, void (*dest)(void *)) {
+	void *array[MAX_STACK_SIZE];
+	size_t size;
+	if (orig_cxa_throw == NULL) {
+		orig_cxa_throw = (cxa_throw_type) dlsym(RTLD_NEXT, "__cxa_throw");
 	}
+	size = backtrace(array, MAX_STACK_SIZE);
+	fprintf(stderr, "#### START OF STACK TRACE (#%d) ####\n", ++throw_count);
+	backtrace_symbols_fd(array, size, fileno(stderr));
+	fprintf(stderr, "#### END OF STACK TRACE ####\n");
 	orig_cxa_throw(thrown_exception, pvtinfo, dest);
 }
