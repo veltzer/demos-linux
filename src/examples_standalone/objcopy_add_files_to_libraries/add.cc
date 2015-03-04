@@ -17,7 +17,8 @@
  */
 
 #include <firstinclude.h>
+#include <math.h>
 
-int add(int a, int b) {
-	return a+b;
+double mysin(double x) {
+	return sin(x);
 }
