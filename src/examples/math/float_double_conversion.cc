@@ -17,13 +17,11 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>	// for powf(3), pow(3)
-#include <stdlib.h>	// for atof(3)
+#include <stdio.h>	// for printf(3), fprintf(3), stderr:object
+#include <stdlib.h>	// for atof(3), EXIT_FAILURE, EXIT_SUCCESS
 
 /*
- * This is an exploration of how to compiler coverts between float
+ * This is an exploration of how the compiler coverts between float and
  * double.
  *
  * Note:
@@ -54,7 +52,7 @@ double my_double_func(double a, double b) __attribute__((noinline));
 int main(int argc, char** argv, char** envp) {
 	if(argc!=3) {
 		fprintf(stderr, "%s: usage %s [float] [double]\n", argv[0], argv[0]);
-		return -1;
+		return EXIT_FAILURE;
 	}
 	// a float and double which will NEVER be optimized away by the compiler
 	// since their origin is the user...

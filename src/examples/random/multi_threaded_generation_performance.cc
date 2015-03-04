@@ -30,7 +30,7 @@
  * This example explores the performance of creating random numbers in a
  * multi-threaded context.
  * This example spawns one thread per code and tries to allocate as many random
- * number as it can in predefined time frames using various methods:
+ * numbers as it can in predefined time frames using various methods:
  * rand(3)
  * rand_r(3)
  * random(3)
@@ -76,9 +76,10 @@ static void *worker(void *p) {
 		random();
 		counter_random++;
 	}
-	char state[32];
+	const unsigned int state_len=32;
+	char state[state_len];
 	struct random_data data;
-	CHECK_NOT_M1(initstate_r(gettid(), state, 32, &data));
+	CHECK_NOT_M1(initstate_r(gettid(), state, state_len, &data));
 	while(!stop_random_r) {
 		int32_t result;
 		CHECK_NOT_M1(random_r(&data, &result));
@@ -88,7 +89,7 @@ static void *worker(void *p) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	// no errors from either getpid(2) or srand(3)
+	// no errors from either getpid(2), srand(3), srandom(3)
 	srand(getpid());
 	srandom(getpid());
 	counter_rand=0;

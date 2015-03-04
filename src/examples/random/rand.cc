@@ -17,27 +17,49 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for srandom(3), rand(3), EXIT_SUCCESS
-#include <stdio.h>	// for sprintf(3)
+#include <stdlib.h>	// for srandom(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, atoi(3), srand(3), rand_r(3)
+#include <stdio.h>	// for fprintf(3), printf(3), stderr:object
 
 /*
  * This example demos the pseudo random number generator
- * implemented in the glibc functions srandom etc.
+ * implemented by the glibc functions srand(3) etc.
  *
- * Note that since this is a pseudo random number generator
+ * Notes:
+ * - since this is a pseudo random number generator
  * and it is always initialized using the same seed, then
  * it will always produce the EXACT series of "random"
  * numbers.
- *
  * This is great especially if you want determinism and
- * reproducability of your code.
- * This is bad if you are a security person.
+ * reproducibility of your code.
+ * This is bad if you adopt a security standpoint.
+ * - the default seed is 1 (that is if you don't initialize the seed).
+ * - both srandom(3) and srand(3) can be used intechangebly to seed this generator.
  */
 
 int main(int argc, char** argv, char** envp) {
-	srandom(1);
-	for(unsigned int i=0; i<10; i++) {
-		printf("i=%d, rand()=%d\n", i, rand());
+	if(argc!=4) {
+		fprintf(stderr, "%s: usage %s [num] [thread_safe] [seed]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: seed<256 will be used, higher will not\n", argv[0]);
+		fprintf(stderr, "%s: seed=1 is the default seed\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+	printf("RAND_MAX is %20d\n", RAND_MAX);
+	printf("2^31-1 is %22lld\n", (2ll<<30)-1);
+	unsigned int num=atoi(argv[1]);
+	int ts=atoi(argv[2]);
+	unsigned int seed=(unsigned int)atoi(argv[3]);
+	if(seed<256) {
+		if(!ts) {
+			//srandom(seed);
+			srand(seed);
+		}
+	}
+	for(unsigned int i=0; i<num; i++) {
+		if(ts) {
+			printf("i=%d, rand_r(&seed)=%d\n", i, rand_r(&seed));
+		} else {
+			printf("i=%d, rand()=%d\n", i, rand());
+		}
 	}
 	return EXIT_SUCCESS;
 }
