@@ -37,8 +37,8 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=4) {
-		fprintf(stderr, "%s: usage %s [num] [thread_safe] [seed]\n", argv[0], argv[0]);
+	if(argc!=5) {
+		fprintf(stderr, "%s: usage %s [num] [be_thread_safe] [use_srandom] [seed]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: seed<256 will be used, higher will not\n", argv[0]);
 		fprintf(stderr, "%s: seed=1 is the default seed\n", argv[0]);
 		return EXIT_FAILURE;
@@ -46,16 +46,22 @@ int main(int argc, char** argv, char** envp) {
 	printf("RAND_MAX is %20d\n", RAND_MAX);
 	printf("2^31-1 is %22lld\n", (2ll<<30)-1);
 	unsigned int num=atoi(argv[1]);
-	int ts=atoi(argv[2]);
-	unsigned int seed=(unsigned int)atoi(argv[3]);
+	int be_thread_safe=atoi(argv[2]);
+	int use_srandom=atoi(argv[3]);
+	unsigned int seed=(unsigned int)atoi(argv[4]);
 	if(seed<256) {
-		if(!ts) {
-			//srandom(seed);
-			srand(seed);
+		if(!be_thread_safe) {
+			if(use_srandom) {
+				printf("initializing seed to %u using srandom\n", seed);
+				srandom(seed);
+			} else {
+				printf("initializing seed to %u using srand\n", seed);
+				srand(seed);
+			}
 		}
 	}
 	for(unsigned int i=0; i<num; i++) {
-		if(ts) {
+		if(be_thread_safe) {
 			printf("i=%d, rand_r(&seed)=%d\n", i, rand_r(&seed));
 		} else {
 			printf("i=%d, rand()=%d\n", i, rand());
