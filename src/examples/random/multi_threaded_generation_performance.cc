@@ -20,7 +20,7 @@
 #include <pthread.h>	// for pthread_t:struct, pthread_create(3), pthread_join(3)
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, rand(3), srand(3), rand_r(3), srandom(3), random(3), initstate_r(3), random_r(3)
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 #include <atomic>	// for std::atomic
@@ -78,7 +78,7 @@ static void *worker(void *p) {
 	}
 	const unsigned int state_len=32;
 	char state[state_len];
-	struct random_data data;
+	struct random_data data={0};
 	CHECK_NOT_M1(initstate_r(gettid(), state, state_len, &data));
 	while(!stop_random_r) {
 		int32_t result;
