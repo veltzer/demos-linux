@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
-"""
+'''
 This script moves over all source file and switches their license. It
 only does so if they carry the old license
-"""
+'''
 
 import sys # for argv
 import os # for walk
@@ -11,10 +11,10 @@ import os # for walk
 if len(sys.argv)>1:
 	raise ValueError('no parameters on the cmd line')
 
-f_old=open("support/old_license.txt")
+f_old=open('support/old_license.txt')
 old_lic=f_old.read()
 f_old.close()
-f_new=open("support/license.txt")
+f_new=open('support/license.txt')
 new_lic=f_new.read()
 f_new.close()
 
