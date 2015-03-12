@@ -1,6 +1,6 @@
 /*
  * This file is part of the linuxapi package.
- * Copyright (C) 2011-2014 Mark Veltzer <mark.veltzer@gmail.com>
+ * Copyright (C) 2011-2015 Mark Veltzer <mark.veltzer@gmail.com>
  *
  * linuxapi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -166,7 +166,7 @@ TEST(
 	"Compiler ABI may also state that functions should restore register values which means that even\n"
 	"non-inline non specially annotated functions will not serve as compiler barrier.\n"
 	"This varies across compiler versions.",
-	false,
+	true,
 	srandom(5)
 	);
 TEST(
