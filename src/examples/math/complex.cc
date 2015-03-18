@@ -31,7 +31,7 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 int main(int argc, char** argv, char** envp) {
-	double pi=4*atan(1.0);
+	double pi=4.0*atan(1.0);
 	double complex z=cexp(I*pi);
 	printf("%f+%f*i\n", creal(z), cimag(z));
 	return EXIT_SUCCESS;
