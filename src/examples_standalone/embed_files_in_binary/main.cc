@@ -25,7 +25,7 @@
 #include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
- * This example shows how to read bindy data from an attached object file.
+ * This example shows how to read binary data from an attached object file.
  *
  * TODO:
  * - take the code here that reads a whole file and add it to my utils.
