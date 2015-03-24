@@ -186,6 +186,11 @@ packs=[
 	'fdutils', # floppy disk utilities ?!?
 	'iotop', # for the iotop command
 	'jnettop', # for the jnettop command
+	'smartmontools',
+	'gsmartcontrol',
+	'lm-sensors',
+	'inxi',
+	'hddtemp',
 	'htop',
 	'sysprof',
 	'mutrace',
