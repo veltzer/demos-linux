@@ -13,6 +13,7 @@ hello.elf: hello.o
 hello.o: hello.asm
 	$(info doing [$@])
 	$(Q)nasm -f elf64 -o $@ $<
+#	$(Q)nasm -f elf32 -o $@ $<
 
 .PHONY: clean
 clean:

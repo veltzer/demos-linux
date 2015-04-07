@@ -113,6 +113,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	int32_t base=(int32_t)atoi(argv[1]);
 	uint8_t exp=(uint8_t)atoi(argv[2]);
-	printf("ipow(base,exp)=%ld\n", ipow(base, exp));
+	// next %lld is for 32 bit
+	printf("ipow(base,exp)=%lld\n", ipow(base, exp));
 	return EXIT_SUCCESS;
 }
