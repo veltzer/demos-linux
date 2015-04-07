@@ -29,6 +29,13 @@ process statistics:
 	(1) nmon - systems administrator, tuner, benchmark tool
 	(1) nproc - show number of processors
 
+os version:
+	/etc/debian_version
+	/etc/lsb-release
+	/etc/issue
+	/etc/issue.net
+	(1) lsb_release - print distribution-specific information
+
 memory:
 	(1) free - Display amount of free and used memory in the system
 	(8) smem - Report memory usage with shared memory divided proportionally.
@@ -43,6 +50,13 @@ locking and deadlocks:
 	mutrace - traces lock contention has no manual pages
 		https://wiki.linaro.org/Platform/DevPlatform/Tools/Mutrace
 		http://0pointer.de/blog/projects/mutrace.html
+
+disk:
+	(1) df - report file system disk space usage
+	(1) du - estimate file space usage
+	(8) smartctl - Control and Monitor Utility for SMART Disks
+	(1) GSmartControl - Hard disk drive health inspection tool
+	(8) hddtemp - Utility to monitor hard drive temperature
 
 io:
 	(1) iostat - Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
@@ -81,6 +95,7 @@ cpu:
 	schedtop - scheduler statistics visualization tool
 		doesn't have a package in ubuntu yet
 		https://rt.wiki.kernel.org/index.php/Schedtop_utility
+	(1) sensors - print sensors information
 
 process ids:
 	(8) pidof - find the process ID of a running program.
@@ -283,3 +298,6 @@ filesystems:
 	(5) ext2 - the third extended file system
 	(5) ext4 - the fourth extended file system
 	(1) dd - convert and copy a file
+
+total system info:
+	(1) inxi  - Command line system information script for console and IRC
