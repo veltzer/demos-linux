@@ -23,8 +23,8 @@ opt_debug=False
 # exit after debug?
 opt_exit=False
 # what boost to install?
-opt_boost_version='1.54.0'
-opt_boost_version_short='1.54'
+opt_boost_version='1.55.0'
+opt_boost_version_short='1.55'
 # install kernels?
 opt_do_kernel=True
 # install debug packages for kernels?
@@ -270,7 +270,7 @@ packs=[
 
 	# papi
 	'libpapi-dev', # PAPI development files (headers and API documentation)
-	'libpapi5.3', # PAPI runtime (shared libraries)
+	'libpapi5.4', # PAPI runtime (shared libraries)
 	'papi-dbg', # PAPI debug symbols
 	'papi-examples', # PAPI example files and test programs
 	'papi-tools', # PAPI utilities
