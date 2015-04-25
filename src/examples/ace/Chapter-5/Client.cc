@@ -29,6 +29,7 @@
  *
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
  * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ * EXTRA_LINK_FLAGS=-lACE -ldl -lrt -lpthread
  */
 
 int Client::open(void* p) {

@@ -30,6 +30,7 @@
 /*
  * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
  * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ * EXTRA_LINK_FLAGS=-lACE -ldl -lrt -lpthread
  */
 
 class ClientService : public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> {
