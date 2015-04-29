@@ -1,6 +1,11 @@
 include ../../../Makefile.mk
 
+ARCH:=$(shell arch)
+ifneq ($(ARCH), i686)
 ALL:=hello.elf
+endif
+#ARCH:=elf32
+ARCH:=elf64
 
 .PHONY: all
 all: $(ALL)
@@ -12,8 +17,7 @@ hello.elf: hello.o
 
 hello.o: hello.asm
 	$(info doing [$@])
-	$(Q)nasm -f elf64 -o $@ $<
-#	$(Q)nasm -f elf32 -o $@ $<
+	$(Q)nasm -f $(ARCH) -o $@ $<
 
 .PHONY: clean
 clean:
