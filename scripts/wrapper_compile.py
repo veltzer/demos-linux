@@ -40,10 +40,17 @@ link=int(sys.argv.pop(0))
 source=sys.argv.pop(0)
 target=sys.argv.pop(0)
 args=sys.argv
+
+# substitutions
+
 if doDebug:
 	print('script is',script)
 	print('source is',source)
 	print('target is',target)
+subs=dict()
+subs['arch']=subprocess.check_output(['arch']).decode().rstrip()
+subs['source']=source
+subs['target']=target
 # scan the source code
 for line in open(source):
 	line=line.strip()
@@ -52,8 +59,7 @@ for line in open(source):
 		if f!=-1:
 			f=line.find('EXTRA_LINK_CMDS=')+len('EXTRA_LINK_CMDS=')
 			cmd=line[f:]
-			cmd=cmd.replace('SOURCE',source)
-			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.format(**subs)
 			cmd=cmd.split()
 			out=subprocess.check_output(cmd).decode()
 			out=out.split()
@@ -62,8 +68,7 @@ for line in open(source):
 		if f!=-1:
 			f=line.find('EXTRA_LINK_FLAGS=')+len('EXTRA_LINK_FLAGS=')
 			cmd=line[f:]
-			cmd=cmd.replace('SOURCE',source)
-			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.format(**subs)
 			cmd=cmd.split()
 			args.extend(cmd)
 		f=line.find('LINKER=')
@@ -75,8 +80,7 @@ for line in open(source):
 		if f!=-1:
 			f=line.find('EXTRA_COMPILE_CMDS=')+len('EXTRA_COMPILE_CMDS=')
 			cmd=line[f:]
-			cmd=cmd.replace('SOURCE',source)
-			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.format(**subs)
 			out=system_check_output(cmd)
 			if doDebug:
 				print('out is',out)
@@ -86,15 +90,13 @@ for line in open(source):
 		if f!=-1:
 			f=line.find('EXTRA_COMPILE_FLAGS=')+len('EXTRA_COMPILE_FLAGS=')
 			cmd=line[f:]
-			cmd=cmd.replace('SOURCE',source)
-			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.format(**subs)
 			args[1:1]=cmd.split()
 		f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')
 		if f!=-1:
 			f=line.find('EXTRA_COMPILE_FLAGS_AFTER=')+len('EXTRA_COMPILE_FLAGS_AFTER=')
 			cmd=line[f:]
-			cmd=cmd.replace('SOURCE',source)
-			cmd=cmd.replace('TARGET',target)
+			cmd=cmd.format(**subs)
 			args.extend(cmd.split())
 		f=line.find('COMPILER=')
 		if f!=-1:
