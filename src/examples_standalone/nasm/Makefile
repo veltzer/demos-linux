@@ -1,7 +1,7 @@
 include ../../../Makefile.mk
 
 ARCH:=$(shell arch)
-ifneq ($(ARCH), i686)
+ifeq ($(arch),x64_86)
 ALL:=hello.elf
 endif
 #ARCH:=elf32
