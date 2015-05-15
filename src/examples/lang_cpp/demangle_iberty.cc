@@ -24,8 +24,15 @@
 #include <us_helper.h>	// for ARRAY_SIZEOF()
 
 /*
- * Demangle c++ symbols using libiberly (which is -liberly when linking on
+ * Demangle c++ symbols using libiberty (which is -liberty when linking on
  * the command line...)
+ *
+ * NOTES:
+ * - This is not the only API for demangling. There is a abi::__cxa_demangle for this too.
+ * - From this example it seems tha the right flag to use for demangling is 'DMGL_PARAMS'.
+ * - the HAVE_DECL_BASENAME definition above is critical if you want to compile...:)
+ * - it does not seem that pkg-config knows about libiberty so we have to use explicit
+ * command line flags to link with it.
  *
  * EXTRA_LINK_FLAGS=-liberty
  */

@@ -21,6 +21,8 @@
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE
 #include <libunwind.h>	// for unw_cursor_t:object, unw_context_t:object, unw_getcontext(), unw_init_local(), unw_step(),
 // unw_get_reg(), unw_word_t:object, unw_get_proc_name()
+#define HAVE_DECL_BASENAME 1
+#include <libiberty/demangle.h>	// for cplus_demangle(3)
 
 /*
  * This example uses libunwind to print a stack trace.
@@ -32,8 +34,11 @@
  * - the factorial example doesn't work right because GCC is smart enough to understand
  * that this is not real recursion and makes it a loop instead. Fibonacci is enough to
  * confuse the compiler.
+ * - as you can see you do not need to compile with debug info for this to work.
+ * - you do need to unmangle the names if you are working with C++.
  *
  * EXTRA_LINK_CMDS=pkg-config --libs libunwind-generic
+ * EXTRA_LINK_FLAGS=-liberty
  */
 
 void do_backtrace() {
@@ -48,7 +53,11 @@ void do_backtrace() {
 		unw_get_reg(&cursor, UNW_REG_IP, &pc);
 		fname[0] = '\0';
 		(void)unw_get_proc_name(&cursor, fname, sizeof(fname), &offset);
-		printf ("%p : (%s+%p) [%p]\n", (void*)pc, fname, (void*)offset, (void*)pc);
+		char* fname_demangled=cplus_demangle(fname, DMGL_PARAMS);
+		if(fname_demangled==NULL) {
+			fname_demangled=fname;
+		}
+		printf ("%p : (%s+%p) [%p]\n", (void*)pc, fname_demangled, (void*)offset, (void*)pc);
 	}
 }
 
