@@ -49,6 +49,10 @@ if doDebug:
 	print('target is',target)
 subs=dict()
 subs['arch']=subprocess.check_output(['arch']).decode().rstrip()
+subs['deb_build_arch']=subprocess.check_output([
+	'dpkg-architecture',
+	'-qDEB_BUILD_ARCH',
+]).decode().rstrip()
 subs['source']=source
 subs['target']=target
 # scan the source code
