@@ -28,7 +28,12 @@ opt_boost_version_short='1.55'
 # install kernels?
 opt_do_kernel=True
 # install debug packages for kernels?
-opt_do_ddebs=True
+opt_do_ddebs=False
+# version of the papi library
+# for ubuntu 14.10
+opt_papiversion='5.3'
+# for ubuntu 15.04
+#opt_papiversion='5.4'
 
 ########
 # code #
@@ -272,7 +277,7 @@ packs=[
 
 	# papi
 	'libpapi-dev', # PAPI development files (headers and API documentation)
-	'libpapi5.4', # PAPI runtime (shared libraries)
+	'libpapi'+opt_papiversion, # PAPI runtime (shared libraries)
 	'papi-dbg', # PAPI debug symbols
 	'papi-examples', # PAPI example files and test programs
 	'papi-tools', # PAPI utilities
