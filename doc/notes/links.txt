@@ -133,6 +133,7 @@ Assembly programming:
 =====================
 http://download.savannah.gnu.org/releases/pgubook/
 http://asm.sourceforge.net/resources.html#docs
+http://ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html
 
 Object oriented in the C language:
 ==================================
