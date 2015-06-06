@@ -53,6 +53,10 @@ subs['deb_build_arch']=subprocess.check_output([
 	'dpkg-architecture',
 	'-qDEB_BUILD_ARCH',
 ]).decode().rstrip()
+subs['deb_build_gnu_cpu']=subprocess.check_output([
+	'dpkg-architecture',
+	'-qDEB_BUILD_GNU_CPU',
+]).decode().rstrip()
 subs['source']=source
 subs['target']=target
 # scan the source code
