@@ -1,9 +1,27 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+/*
+ * This file is part of the linuxapi package.
+ * Copyright (C) 2011-2015 Mark Veltzer <mark.veltzer@gmail.com>
+ *
+ * linuxapi is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * linuxapi is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with linuxapi. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-#define MAX_STR_LEN 64
+#include <firstinclude.h>
+#include <string.h>	// for strcpy(3), strlen(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdio.h>	// for printf(3)
+
+const unsigned int MAX_STR_LEN=64;
 
 void maximum_subset(char str[], int index, char curr[], char best[]) {
 	int length_of_curr, length_of_best;
@@ -34,7 +52,7 @@ void maximum_subset(char str[], int index, char curr[], char best[]) {
 	strcpy(curr, tmp_curr);
 	length_of_curr=tmp_length_of_curr;
 	/* skip the current character */
-	maximum_subset(str, index+1, curr,  best);
+	maximum_subset(str, index+1, curr, best);
 }
 
 void check(const char* val, const char* expected) {
