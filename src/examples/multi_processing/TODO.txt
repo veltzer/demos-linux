@@ -1,4 +1,6 @@
 - show a primitive example of pstree.
+- write an example of a child reaper using prctl(2)
+	and PR_SET_CHILD_SUBREAPER
 - extend the make_zombie example.
 	Show that if the parent dies then the child gets
 		adopted by init(1) and is cleared.
