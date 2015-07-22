@@ -301,3 +301,10 @@ filesystems:
 
 total system info:
 	(1) inxi  - Command line system information script for console and IRC
+
+hardware:
+	(1) hardinfo - shows hardware information in a GTK+ window
+	(1) acpi - Shows battery status and other ACPI information
+	(1) psensor - Temperature monitoring application
+	(1) sensors - print sensors information
+	(1) xsensors - display hardware sensor information as a graphical read-out.
