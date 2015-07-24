@@ -21,11 +21,16 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example explains the command do { ... } while(0) macro construct.
+ * This example explores the do { ... } while(0) macro construct.
  *
  * Notes:
  * - do-while(0) allows you to break in the middle of a multi-statement macro.
  * see the example below.
+ * - if you use do-while(0) correctly and define your macro WITHOUT a semi-colon
+ * at the end of the definition then your user will be forced to put a semi-colon
+ * him/her self. This is good since this means that the do-while(0) construct
+ * behaves like a real function call, which means that if, in the future, you would
+ * like to substitute the macro for a real (inline?) function, you could.
  *
  * References:
  * http://stackoverflow.com/questions/1067226/c-multi-line-macro-do-while0-vs-scope-block
