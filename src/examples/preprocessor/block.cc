@@ -34,7 +34,7 @@ int main(int argc, char** argv, char** envp) {
 	// own block: it doesn't require a semi-colon after it and thus does
 	// not look like a function call. Which means that if, in the future,
 	// you will want to turn it into a function call you may need to
-	// add semi-colons.
+	// add semi-colons. This code actually compiles...:)
 	simple("you must end this with a semi-colon")
 	// this is another example of whats wrong with a block macro: it doesn't
 	// behave well in an if-else context. The next example WILL NOT COMPILE
