@@ -308,3 +308,5 @@ hardware:
 	(1) psensor - Temperature monitoring application
 	(1) sensors - print sensors information
 	(1) xsensors - display hardware sensor information as a graphical read-out.
+	(1) memtester - stress test to find memory subsystem faults.
+	(boot) memtest86+ - thorough real-mode memory tester
