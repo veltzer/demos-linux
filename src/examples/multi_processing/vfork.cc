@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <unistd.h>	// for fork(2)
+#include <unistd.h>	// for fork(2), _exit(2)
 #include <stdio.h>	// for fgets(3)
 #include <sys/types.h>	// for waitid(2)
 #include <sys/wait.h>	// for waitid(2)
@@ -32,9 +32,12 @@
  * An example of using vfork(2)
  *
  * Notes:
- * - if you let the child return from main it will cause a problem.
+ * - if you let the child return from main it will cause a segfault.
+ * - this is ok because the documentation of vfork states explicitly that you
+ * should not return from the function.
  * - tracing seems to work fine and sleep(3) also.
- * - writing to the parent data does not seem to be harmful too.
+ * - writing to the parent data does not seem to be harmful. The parent sees these
+ * writes as the pages are shared.
  * - result: the return from the function in which vfork was called is the one
  * causing the segfault.
  * - the segfault seems to be in the parent not in the child. Need to check this
@@ -44,27 +47,23 @@
 int global_data=42;
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("this is the parent");
+	TRACE("this is the parent. global_data is %d", global_data);
 	pid_t child_pid=CHECK_NOT_M1(vfork());
 	if (child_pid==0) {
 		TRACE("this is the child");
 		global_data++;
 		// while(true) {
 		// }
-		CHECK_ZERO(sleep(10));
+		//CHECK_ZERO(sleep(10));
+		TRACE("child is dying...");
+		_exit(0);
 	} else {
-		TRACE("this is the parent");
-		bool over=false;
-		while(!over) {
-			TRACE("waiting for the child...");
-			siginfo_t info;
-			CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED | WSTOPPED | WCONTINUED));
-			print_code(info.si_code);
-			print_status(info.si_status);
-			if ((info.si_code==CLD_EXITED) || (info.si_code==CLD_KILLED)) {
-				over=true;
-			}
-		}
+		TRACE("this is the parent. global_data is %d", global_data);
+		siginfo_t info;
+		CHECK_NOT_M1(waitid(P_PID, child_pid, &info, WEXITED));
+		print_code(info.si_code);
+		print_status(info.si_status);
+		TRACE("parent is dying...");
 	}
 	return EXIT_SUCCESS;
 }
