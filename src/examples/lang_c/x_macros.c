@@ -21,31 +21,33 @@
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * An example showing how to use the preprocessor in order to avoid
- * repetative code. In this case we do something like C++ templates
- * (type independent code) but in C.
+ * This example shows how to use C99 designated initializers.
+ *
+ * References:
+ * http://www.drdobbs.com/the-new-c-x-macros/184401387
  */
 
-#define make_add(t) t add ## t(t a, t b) { return a+b; }
+#include <stdio.h>
 
-make_add(float);
-make_add(double);
+#define COLOR_TABLE \
+X(red, "red")       \
+X(green, "green")   \
+X(blue, "blue")
 
-/*
- * float addfloat(float a,float b) {
- *	return a+b;
- * }
- * double adddouble(double a,double b) {
- *	return a+b;
- * }
- */
+#define X(a, b) a,
+enum COLOR {
+	COLOR_TABLE
+};
+#undef X
+
+#define X(a, b) b,
+char *color_name[] = {
+	COLOR_TABLE
+};
+#undef X
 
 int main(int argc, char** argv, char** envp) {
-	float x=4.5f;
-	float y=3.2f;
-	double dx=4.5f;
-	double dy=3.2f;
-	printf("%f+%f=%f\n", x, y, addfloat(x, y));
-	printf("%lf+%lf=%lf\n", dx, dy, adddouble(dx, dy));
+	enum COLOR c = red;
+	printf("c=%s\n", color_name[c]);
 	return EXIT_SUCCESS;
 }
