@@ -17,22 +17,15 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example shows how to create "varargs" macros using the preprocessor.
+ * This example will not compile...:)
  */
 
-#define DEBUG
-
-#ifdef DEBUG
-#define TRACE(fmt, args ...) do { printf(fmt, ## args); } while(0)
-#else
-#define TRACE(fmt, args ...) do { } while(0)
-#endif // DEBUG
+// disabled this line so that this example will compile...
+//#error "You shall not pass"
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("this is trace number %d\n", 17);
 	return EXIT_SUCCESS;
 }

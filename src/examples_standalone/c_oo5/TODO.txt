@@ -1,0 +1,1 @@
+- add a demo fo inheritance to this example.
