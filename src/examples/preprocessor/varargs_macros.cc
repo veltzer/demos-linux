@@ -17,11 +17,14 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
+#include <stdio.h>	// for printf(3), for fprintf(3), stderr:object
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
  * This example shows how to create "varargs" macros using the preprocessor.
+ *
+ * References:
+ * https://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html
  */
 
 #define DEBUG
@@ -32,7 +35,21 @@
 #define TRACE(fmt, args ...) do { } while(0)
 #endif // DEBUG
 
+#define INFO(...) fprintf(stderr, __VA_ARGS__)
+// this cannot be called without extra arguments
+#define WARNING(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)
+// this can!
+#define ERROR(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
+
 int main(int argc, char** argv, char** envp) {
-	TRACE("this is trace number %d\n", 17);
+	TRACE("TRACE: without args\n");
+	TRACE("TRACE: with args (%d)\n", 17);
+	INFO("INFO: without args\n");
+	INFO("INFO: with args (%d)\n", 17);
+	// the next line does not compile
+	//WARNING("WARNING: without args\n");
+	WARNING("WARNING: with args (%d)\n", 17);
+	ERROR("ERROR: without args\n");
+	ERROR("ERROR: with args (%d)\n", 17);
 	return EXIT_SUCCESS;
 }
