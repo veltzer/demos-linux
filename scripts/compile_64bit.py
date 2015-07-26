@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-"""
+'''
 This script will ultimately:
 - run a 64 bit virtual machine.
 - wait till it's up
@@ -9,7 +9,7 @@ This script will ultimately:
 - return the result and logs from that compilation.
 
 Currently it just runs the virtual machine...
-"""
+'''
 
 from __future__ import print_function
 import sys # for argv
