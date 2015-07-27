@@ -22,6 +22,17 @@
 
 /*
  * This example investigates the sizeof() of C++ object.
+ *
+ * NOTES:
+ * - why is the size of an empty class in C++ 1 and not 0?
+ * why is the size of an empty struct in C++ 1 and not 0?
+ * this is in contrast to a C struct which, when empty, has size 0. 
+ * the answer lies in allocating many these structs/instances. If the size of
+ * a single struct/instance is 0 then different structs/instances will
+ * have the same pointer pointing to them. This conflict with the C++ ==
+ * operator which considers two objects which have the same pointer
+ * to them as equal. So C++ has philosphical issues that prevent the possibility
+ * of having structs/instances of size 0.
  */
 
 class A {
@@ -53,10 +64,14 @@ public:
 class C {
 };
 
+struct empty {
+};
+
 int main(int argc, char** argv, char** envp) {
 	std::cout << "sizeof(A) is " << sizeof(A) << std::endl;
 	std::cout << "sizeof(B) is " << sizeof(B) << std::endl;
 	std::cout << "sizeof(C) is " << sizeof(C) << std::endl;
+	std::cout << "sizeof(struct empty) is " << sizeof(struct empty) << std::endl;
 	// std::cout << "__builtin_offsetof(e,B) " << __builtin_offsetof(e,B) << std::endl;
 	std::cout << "CppOffsetOf(B,e) " << CppOffsetOf(B, e) << std::endl;
 	std::cout << "CppOffsetOf(A,a) " << CppOffsetOf(A, a) << std::endl;
