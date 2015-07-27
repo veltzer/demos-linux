@@ -51,12 +51,17 @@
  * - catting files from the /proc folder (done in two ways in this example).
  * - top(1)
  *
- * putting 'pkg-config --libs libprocps' in the next line does not work
- * since there is no dynamically linked libprocps.
  * TODO: this static lib crap is blocking this code from being
  * 32/64 bit agnostic
- * EXTRA_LINK_FLAGS=/usr/lib/{deb_build_arch}-linux-gnu/libprocps.a
- * XTRA_LINK_FLAGS=/usr/lib/{deb_build_gnu_cpu}-linux-gnu/libprocps.a
+ *
+ * the dynamically linked procps does not work since it is missing the
+ * 'get_proc_stats' symbol.
+ * XTRA_LINK_CMDS=pkg-config --libs libprocps
+ * libprocps .pc configuration for pkg-config does not correctly specify
+ * how to statically link with static versions of libprocps
+ * XTRA_LINK_CMDS=pkg-config --static libprocps
+ * XTRA_LINK_FLAGS=/usr/lib/{deb_build_arch}-linux-gnu/libprocps.a
+ * EXTRA_LINK_FLAGS=/usr/lib/{deb_build_gnu_cpu}-linux-gnu/libprocps.a
  */
 
 // print the state of a process in 3 different ways...

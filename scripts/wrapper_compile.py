@@ -17,7 +17,6 @@ doDebug=False
 #############
 # functions #
 #############
-
 def system_check_output(cmd, input=None, cwd=None, env=None):
 	pipe=subprocess.Popen(cmd, shell=True, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	(out_stdout,out_stderr)=pipe.communicate(input=input)
