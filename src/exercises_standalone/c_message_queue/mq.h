@@ -22,18 +22,13 @@
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_mutex_t(3), pthread_cond_t(3)
 
-// this is out message queue
-typedef struct _mq {
-	pthread_mutex_t mutex;
-	pthread_cond_t cond;
-	void** messages;
-	int maxsize;
-	int size;
-} mq;
+// our message queue is obfuscated so that the user will not tempted
+// to fiddle with it's innards
+typedef struct _mq *mq;
 
 int mq_init(mq* m, const int maxsize);
-int mq_destroy(mq* m);
-int mq_put(mq* m, void* message);
-void* mq_get(mq* m);
+int mq_destroy(mq m);
+int mq_put(mq m, void* message);
+void* mq_get(mq m);
 
 #endif // __mq_h
