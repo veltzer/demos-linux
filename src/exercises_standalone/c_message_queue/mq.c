@@ -17,12 +17,10 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3)
-#include <unistd.h>	// for sysconf(3), usleep(3)
-#include <sched.h>	// for CPU_ZERO(3), CPU_SET(3)
-#include <stdlib.h>	// for EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
+#include <err_utils.h> // for CHECK_ZERO_ERRNO
+#include <stdlib.h> // for malloc(3)
 #include "mq.h"	// for mq_init(), mq_destroy(), mq_put(), mq_get(), struct mq
+#include <pthread.h>	// for pthread_mutex_t(3), pthread_cond_t(3)
 
 /*
  * This is the solution to the mq exercise.
@@ -51,6 +49,7 @@ int mq_destroy(mq m) {
 	CHECK_ZERO_ERRNO(pthread_cond_destroy(&m->cond));
 	CHECK_ZERO_ERRNO(pthread_mutex_destroy(&m->mutex));
 	free(m->messages);
+	free(m);
 	return 0;
 }
 
@@ -73,8 +72,8 @@ void* mq_get(mq m) {
 		CHECK_ZERO_ERRNO(pthread_cond_wait(&m->cond, &m->mutex));
 	}
 	// here we have the mutex, and we data in the mq
-	void* ret=m->messages[m->size-1];
 	m->size--;
+	void* ret=m->messages[m->size];
 	CHECK_ZERO_ERRNO(pthread_cond_broadcast(&m->cond));
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&m->mutex));
 	return ret;

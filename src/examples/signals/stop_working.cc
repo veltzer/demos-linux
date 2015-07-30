@@ -17,54 +17,33 @@
  */
 
 #include <firstinclude.h>
+#include <signal.h>	// for psignal(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <iostream>	// for std::cout, std::endl
+#include <stdio.h>	// for fprintf(3), stderr(object)
+#include <unistd.h>	// for pause(2), getpid(2), sleep(3)
+#include <sys/types.h>	// for getpid(2)
+#include <string.h>	// for strsignal(3)
+#include <err_utils.h>	// for CHECK_ASSERT(), CHECK_ZERO()
+#include <signal_utils.h>	// for register_handler_signal()
 
 /*
- * This example shows the decorator pattern implemented in C++.
  */
 
-class Base {
-public:
-	virtual void act(void) {
-		std::cout << "in Base" << std::endl;
-	}
-	virtual ~Base(void) {
-	}
-};
-class Derived1 : public Base {
-private:
-	Base& base;
-
-public:
-	Derived1(Base& ibase) : base(ibase) {
-	}
-	virtual void act(void) {
-		base.act();
-		std::cout << "in Derived1" << std::endl;
-	}
-};
-class Derived2 : public Base {
-private:
-	Base& base;
-
-public:
-	Derived2(Base& ibase) : base(ibase) {
-	}
-	virtual void act(void) {
-		base.act();
-		std::cout << "in Derived2" << std::endl;
-	}
-};
+static void handler(int sig) {
+	fprintf(stderr, "Im inside the signal handler\n");
+}
 
 int main(int argc, char** argv, char** envp) {
-	Base base;
-	Derived1 derived1(base);
-	Derived2 derived2(derived1);
-	derived2.act();
-	Base base_2;
-	Derived2 derived2_2(base_2);
-	Derived1 derived1_2(derived2_2);
-	derived1_2.act();
+	// set up the signal handler (only need to do this once)
+	signal_register_handler_signal(SIGUSR1, handler);
+	fprintf(stderr, "signal me with one of the following:\n");
+	fprintf(stderr, "[kill -s SIGUSR1 %d]\n", getpid());
+	// lets not stop working...
+	double sum=0;
+	double n=1;
+	while(true) {
+		sum+=1.0f/(n*n);
+		n+=1;
+	}
 	return EXIT_SUCCESS;
 }

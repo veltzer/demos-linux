@@ -32,10 +32,13 @@ int main(int argc, char** argv, char** envp) {
 	printf("r2 is at %p\n", r2);
 	printf("the area of the rectangle is %d\n", rectangle_area(r2));
 
+	/*
+	int i;
 	rectangle* myrectangles=(rectangle*)malloc(100*sizeof_rectangle());
-	for(int i=0;i<100;i++) {
+	for(i=0;i<100;i++) {
 		construct_rectangle(myrectangles+i, 7, 8);
 	}
+	*/
 
 	return 0;
 }

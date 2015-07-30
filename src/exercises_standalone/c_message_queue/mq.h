@@ -20,7 +20,6 @@
 #define __mq_h
 
 #include <firstinclude.h>
-#include <pthread.h>	// for pthread_mutex_t(3), pthread_cond_t(3)
 
 // our message queue is obfuscated so that the user will not tempted
 // to fiddle with it's innards
