@@ -19,3 +19,8 @@ API:
 	void* mq_get(mq*);
 		get a message from the queue.
 		goes to sleep if the queue is empty.
+
+Demonstrate the use of this API.
+
+make the mq type opaque so that changes to that type will not require recompilation
+of your clients.

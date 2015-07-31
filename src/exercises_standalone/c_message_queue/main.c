@@ -25,7 +25,7 @@
 #include "mq.h"	// for mq_init(), mq_destroy(), mq_get(), mq_put(), mq struct
 
 typedef struct _thread_data {
-	mq* m;
+	mq m;
 	int mynum;
 	bool consumer;
 } thread_data;
@@ -34,7 +34,7 @@ static volatile bool over=false;
 
 void *worker(void *p) {
 	thread_data* td=(thread_data *)p;
-	mq* m=td->m;
+	mq m=td->m;
 	int mynum=td->mynum;
 	bool consumer=td->consumer;
 	if(consumer) {
@@ -72,7 +72,7 @@ int main(int argc, char** argv, char** envp) {
 	mq m;
 	mq_init(&m, 10);
 	for(i=0; i<thread_num; i++) {
-		tds[i].m=&m;
+		tds[i].m=m;
 		tds[i].mynum=i<consumers ? i: i-consumers;
 		tds[i].consumer=i<consumers;
 		CHECK_ZERO_ERRNO(pthread_create(threads+i, NULL, worker, tds+i));
@@ -81,7 +81,7 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
 
-	mq_destroy(&m);
+	mq_destroy(m);
 	free(threads);
 	free(tds);
 	return EXIT_SUCCESS;

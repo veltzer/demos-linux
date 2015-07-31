@@ -60,8 +60,7 @@
  * libprocps .pc configuration for pkg-config does not correctly specify
  * how to statically link with static versions of libprocps
  * XTRA_LINK_CMDS=pkg-config --static libprocps
- * XTRA_LINK_FLAGS=/usr/lib/{deb_build_arch}-linux-gnu/libprocps.a
- * EXTRA_LINK_FLAGS=/usr/lib/{deb_build_gnu_cpu}-linux-gnu/libprocps.a
+ * EXTRA_LINK_FLAGS=/usr/lib/{deb_build_multiarch}/libprocps.a
  */
 
 // print the state of a process in 3 different ways...
