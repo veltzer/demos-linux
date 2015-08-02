@@ -31,9 +31,9 @@ opt_do_kernel=True
 opt_do_ddebs=False
 # version of the papi library
 # for ubuntu 14.10
-opt_papiversion='5.3'
+#opt_papiversion='5.3'
 # for ubuntu 15.04
-#opt_papiversion='5.4'
+opt_papiversion='5.4'
 
 ########
 # code #
