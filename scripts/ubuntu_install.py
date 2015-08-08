@@ -284,6 +284,7 @@ packs=[
 
 	# assmebly
 	'nasm',
+	'yasm',
 
 	# kernel debugging
 	'systemtap',
