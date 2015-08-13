@@ -307,6 +307,12 @@ packs=[
 
 	# my own stuff
 	'templar',
+
+	# watchdogs
+	'rtkit',
+	'watchdog',
+	'supervisor',
+	'daemontools',
 ]
 
 if opt_do_kernel:
