@@ -313,6 +313,8 @@ packs=[
 	'watchdog',
 	'supervisor',
 	'daemontools',
+	'ruby-god',
+	'monit',
 ]
 
 if opt_do_kernel:
