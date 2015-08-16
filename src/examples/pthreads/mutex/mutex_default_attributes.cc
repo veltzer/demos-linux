@@ -20,18 +20,27 @@
 #include <pthread.h>	// for pthread_mutex_init(3), pthread_mutex_t(o)
 #include <stdlib.h>	// for EXIT_SUCCESS, NULL
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
+#include <pthread_utils.h>	// for pthread_print_mutexattr()
 
 /*
- * This example explores what default protocol is used by ptread_mutex.
- * It seems that this is not explicitly stated by:
+ * This example explores what attributes linux provides for mutexes.
+ * Attributes include: type, pshared, protocol, prioceiling and robustness which is not documented at all!
+ *
+ * Why do you need this example? For instance, the default protocol that a mutex
+ * uses is not is not explicitly stated by:
  * pthread_mutexattr_getprotocol(3)
  * pthread_mutexattr_setprotocol(3)
+ *
+ * References:
+ * http://stackoverflow.com/questions/4252005/what-is-the-attribute-of-a-pthread-mutex
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
 int main(int argc, char** argv, char** envp) {
-	pthread_mutex_t mylock;
-	CHECK_ZERO_ERRNO(pthread_mutex_init(&mylock, NULL));
+	pthread_mutexattr_t myattr;
+	CHECK_ZERO_ERRNO(pthread_mutexattr_init(&myattr));
+	pthread_print_mutexattr(&myattr);
+	CHECK_ZERO_ERRNO(pthread_mutexattr_destroy(&myattr));
 	return EXIT_SUCCESS;
 }

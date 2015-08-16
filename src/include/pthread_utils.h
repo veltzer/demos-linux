@@ -169,30 +169,61 @@ static inline void* pthread_get_stack_self() {
  * Print the data for mutex attributes
  */
 static inline void pthread_print_mutexattr(pthread_mutexattr_t* attr) {
-	int pshared, robust, type;
-	CHECK_ZERO_ERRNO(pthread_mutexattr_getrobust(attr, &robust));
-	CHECK_ZERO_ERRNO(pthread_mutexattr_getpshared(attr, &pshared));
-	CHECK_ZERO_ERRNO(pthread_mutexattr_gettype(attr, &type));
-	if(robust==PTHREAD_MUTEX_STALLED) {
-		printf("robust is PTHREAD_MUTEX_STALLED\n");
+	// robust
+	{
+		int robust;
+		CHECK_ZERO_ERRNO(pthread_mutexattr_getrobust(attr, &robust));
+		if(robust==PTHREAD_MUTEX_STALLED) {
+			printf("robust is PTHREAD_MUTEX_STALLED\n");
+		}
+		if(robust==PTHREAD_MUTEX_ROBUST) {
+			printf("robust is PTHREAD_MUTEX_ROBUST\n");
+		}
 	}
-	if(robust==PTHREAD_MUTEX_ROBUST) {
-		printf("robust is PTHREAD_MUTEX_ROBUST\n");
+	// pshared
+	{
+		int pshared;
+		CHECK_ZERO_ERRNO(pthread_mutexattr_getpshared(attr, &pshared));
+		if(pshared==PTHREAD_PROCESS_SHARED) {
+			printf("pshared is PTHREAD_PROCESS_SHARED\n");
+		}
+		if(pshared==PTHREAD_PROCESS_PRIVATE) {
+			printf("pshared is PTHREAD_PROCESS_PRIVATE\n");
+		}
 	}
-	if(pshared==PTHREAD_PROCESS_SHARED) {
-		printf("pshared is PTHREAD_PROCESS_SHARED\n");
+	// type
+	{
+		int type;
+		CHECK_ZERO_ERRNO(pthread_mutexattr_gettype(attr, &type));
+		if(type==PTHREAD_MUTEX_FAST_NP) {
+			printf("type is PTHREAD_MUTEX_FAST_NP\n");
+		}
+		if(type==PTHREAD_MUTEX_RECURSIVE_NP) {
+			printf("type is PTHREAD_MUTEX_RECURSIVE_NP\n");
+		}
+		if(type==PTHREAD_MUTEX_ERRORCHECK_NP) {
+			printf("type is PTHREAD_MUTEX_ERRORCHECK_NP\n");
+		}
 	}
-	if(pshared==PTHREAD_PROCESS_PRIVATE) {
-		printf("pshared is PTHREAD_PROCESS_PRIVATE\n");
+	// protocol
+	{
+		int protocol;
+		CHECK_ZERO_ERRNO(pthread_mutexattr_getprotocol(attr, &protocol));
+		if(protocol==PTHREAD_PRIO_NONE) {
+			printf("protocol is PTHREAD_PRIO_NONE\n");
+		}
+		if(protocol==PTHREAD_PRIO_INHERIT) {
+			printf("protocol is PTHREAD_PRIO_INHERIT\n");
+		}
+		if(protocol==PTHREAD_PRIO_PROTECT) {
+			printf("protocol is PTHREAD_PRIO_PROTECT\n");
+		}
 	}
-	if(type==PTHREAD_MUTEX_FAST_NP) {
-		printf("type is PTHREAD_MUTEX_FAST_NP\n");
-	}
-	if(type==PTHREAD_MUTEX_RECURSIVE_NP) {
-		printf("type is PTHREAD_MUTEX_RECURSIVE_NP\n");
-	}
-	if(type==PTHREAD_MUTEX_ERRORCHECK_NP) {
-		printf("type is PTHREAD_MUTEX_ERRORCHECK_NP\n");
+	// prioceiling
+	{
+		int prioceiling;
+		CHECK_ZERO_ERRNO(pthread_mutexattr_getprioceiling(attr, &prioceiling));
+		printf("prioceiling is %d\n", prioceiling);
 	}
 }
 
