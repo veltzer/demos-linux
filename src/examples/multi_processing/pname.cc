@@ -48,13 +48,13 @@ int main(int argc, char** argv, char** envp) {
 	TRACE("start");
 	const char* newname="newpname";
 	process_print_name();
-	print_process_name_from_proc();
+	print_process_name_proc();
 	char myname[256];
 	process_get_name(myname, 256);
 	my_system("ps -o comm | grep %s | grep -v grep", myname);
 	process_set_name(newname);
 	process_print_name();
-	print_process_name_from_proc();
+	print_process_name_proc();
 	my_system("ps -o comm | grep %s | grep -v grep", newname);
 	TRACE("end");
 	return EXIT_SUCCESS;
