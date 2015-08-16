@@ -35,7 +35,7 @@
 #include <sys/resource.h>	// for getrusage(2), rusage:struct
 #include <string.h>	// for strstr(3)
 #include <multiproc_utils.h>	// for my_system()
-#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_NULL(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_ASSERT()
+#include <err_utils.h>	// for CHECK_NOT_NULL_FILEP(), CHECK_NOT_NULL(), CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_ASSERT(), CHECK_NOT_NEGATIVE()
 
 /*
  * Function to print the resident memory of the current process as
@@ -169,6 +169,26 @@ static inline void my_print_process_name_from_proc_self() {
  */
 static inline void print_thread_name_from_proc() {
 	my_system("cat /proc/%d/comm", gettid());
+}
+
+/*
+ * Get the current threads name from /proc
+ */
+static inline void get_thread_name_from_proc_self(char* name, const size_t len) {
+	FILE* fp=CHECK_NOT_NULL_FILEP(fopen("/proc/self/comm", "r"));
+	CHECK_NOT_NEGATIVE(fread(name, len, 1, fp));
+	CHECK_ZERO_ERRNO(fclose(fp));
+}
+
+/*
+ * Get the current threads name from /proc
+ */
+static inline void get_thread_name_from_proc(char* name, const size_t len) {
+	char filename[256];
+	snprintf(filename, 256, "/proc/%d/comm", gettid());
+	FILE* fp=CHECK_NOT_NULL_FILEP(fopen(filename, "r"));
+	CHECK_NOT_NEGATIVE(fread(name, len, 1, fp));
+	CHECK_ZERO_ERRNO(fclose(fp));
 }
 
 /*

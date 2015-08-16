@@ -27,47 +27,51 @@
 #include <proc_utils.h>	// for print_thread_name_from_proc()
 
 /*
- * This exapmle shows how to set thread names in Linux.
- * The heart of the idea is to call prctl(2).
- * If you look at the documentation of prctl(2), it states that it only sets PROCESS
- * names, but this is actually wrong since it sets the name of the current schedualable
- * entity which may be a thread or a process. The reason that it says what is says is
- * mostly historical.
+ * This example shows the new way to set thread names in linux.
+ * Not via prctl(2) but rather through pthread_setname_np(3).
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
+const int name_length=256;
 typedef struct _thread_data {
 	pthread_mutex_t start_mutex;
 	pthread_mutex_t end_mutex;
-	char name[256];
+	char name[name_length];
 } thread_data;
 
-void* doit(void* arg) {
-	char orig_name[256];
-	get_thread_name(orig_name, 256);
-	TRACE("original thread name is [%s]", orig_name);
+void* worker(void* arg) {
 	thread_data* td=(thread_data*)arg;
 
-	set_thread_name(td->name);
-	TRACE("gettid() is %d", gettid());
-	TRACE("getpid() is %d", getpid());
-	TRACE("pthread_self() is %u", (unsigned int)pthread_self());
-	print_thread_name_from_proc();
+	char name[name_length];
+
+	get_thread_name(name, name_length);
+	TRACE("get_thread_name is [%s]", name);
+	get_thread_name_from_proc(name, name_length);
+	TRACE("get_thread_name_from_proc is [%s]", name);
+	CHECK_ZERO_ERRNO(pthread_getname_np(pthread_self(), name, name_length));
+	TRACE("pthread_getname_np is [%s]...\n", name);
+
+	CHECK_ZERO_ERRNO(pthread_setname_np(pthread_self(), td->name));
+
+	get_thread_name(name, name_length);
+	TRACE("get_thread_name is [%s]", name);
+	get_thread_name_from_proc(name, name_length);
+	TRACE("get_thread_name_from_proc is [%s]", name);
+	CHECK_ZERO_ERRNO(pthread_getname_np(pthread_self(), name, name_length));
+	TRACE("pthread_getname_np is [%s]...\n", name);
+
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&(td->start_mutex)));
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&(td->end_mutex)));
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("gettid() is %d", gettid());
-	TRACE("getpid() is %d", getpid());
-	TRACE("pthread_self() is %lu", pthread_self());
 	pthread_t t1, t2;
 	thread_data td1, td2;
-	strncpy(td1.name, "thread one", 256);
-	// strncpy(td2.name, "thread two", 256);
-	strncpy(td2.name, "תהליכון", 256);
+	strncpy(td1.name, "thread one", name_length);
+	// strncpy(td2.name, "thread two", name_length);
+	strncpy(td2.name, "תהליכון", name_length);
 	CHECK_ZERO_ERRNO(pthread_mutex_init(&td1.start_mutex, NULL));
 	CHECK_ZERO_ERRNO(pthread_mutex_init(&td2.start_mutex, NULL));
 	CHECK_ZERO_ERRNO(pthread_mutex_init(&td1.end_mutex, NULL));
@@ -76,8 +80,8 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.start_mutex));
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.end_mutex));
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.end_mutex));
-	CHECK_ZERO_ERRNO(pthread_create(&t1, NULL, doit, &td1));
-	CHECK_ZERO_ERRNO(pthread_create(&t2, NULL, doit, &td2));
+	CHECK_ZERO_ERRNO(pthread_create(&t1, NULL, worker, &td1));
+	CHECK_ZERO_ERRNO(pthread_create(&t2, NULL, worker, &td2));
 
 	// wait for the threads to be initialized, if we got the lock then they are...
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.start_mutex));
