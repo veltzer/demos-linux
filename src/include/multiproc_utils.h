@@ -107,7 +107,7 @@ void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 /*
  * Print the process name from /proc
  */
-static inline void print_process_name_from_proc(void) {
+static inline void print_process_name_proc(void) {
 	// my_system("cat /proc/%d/comm", getpid());
 	my_system("cat /proc/self/comm");
 }

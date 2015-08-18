@@ -107,6 +107,7 @@ real time:
 https://www.osadl.org/QA-Farm-Realtime.qa-farm-about.0.html
 http://free-electrons.com/blog/elce-2011-videos/
 https://rt.wiki.kernel.org/index.php/Main_Page
+http://www.litmus-rt.org
 
 perf:
 =====

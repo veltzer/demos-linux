@@ -17,17 +17,15 @@
  */
 
 #include <firstinclude.h>
-#include <libnetfilter_queue/libnetfilter_queue.h>
-#include <netinet/in.h>
-#include <linux/types.h>
-#include <linux/netfilter.h>	/* for NF_ACCEPT */
-#include <arpa/inet.h>
-#include <netinet/udp.h>
-#include <netinet/ip.h>
+#include <stdint.h>	// for uint32_t, uint16_t, uint8_t
+#include <signal.h>	// for SIGINT, SIGTERM
+#include <arpa/inet.h>	// for ntohl
+#include <netinet/in.h>	// for in_addr, in6_addr
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <string.h>
-#include <stdio.h>
-#include <sys/socket.h>
+#include <stdio.h>	// for puts(3)
+#include <libnetfilter_queue/libnetfilter_queue.h>	// for nfq_data
+#include <linux/netfilter.h>	// for NF_ACCEPT
+#include <linux/netfilter_ipv4.h>	// for NF_IP_LOCAL_IN, NF_IP_FORWARD, NF_IP_LOCAL_OUT
 #include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_NEGATIVE(), CHECK_NOT_M1()
 #include <security_utils.h>	// for check_root()
 #include <multiproc_utils.h>	// for my_system()
@@ -50,20 +48,7 @@
  *
  * TODO:
  * - make this program shut down nicer when we do CTRL+C.
- * - cant we get the NF_IP_* constants from somewhere ?
  */
-
-/* After promisc drops, checksum checks. */
-#define NF_IP_PRE_ROUTING 0
-/* If the packet is destined for this box. */
-#define NF_IP_LOCAL_IN 1
-/* If the packet is destined for another interface. */
-#define NF_IP_FORWARD 2
-/* Packets coming from a local process. */
-#define NF_IP_LOCAL_OUT 3
-/* Packets about to hit the wire. */
-#define NF_IP_POST_ROUTING 4
-#define NF_IP_NUMHOOKS 5
 
 static uint32_t nfqueue_packet_get_id(struct nfq_data *packet) {
 	uint32_t id = -1;

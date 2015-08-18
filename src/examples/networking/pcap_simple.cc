@@ -27,7 +27,7 @@
  * to defined filters.
  * Remmember that you have to install the development package and link with the pcap library.
  * In addition you have to run it as root.
- * Example: sudo ./src/examples/networking/pcap_simple.exe any ip -1
+ * Example: sudo ./src/examples/networking/pcap_simple.elf any ip -1
  *
  * EXTRA_LINK_FLAGS=-lpcap
  */

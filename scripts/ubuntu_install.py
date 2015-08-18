@@ -284,6 +284,7 @@ packs=[
 
 	# assmebly
 	'nasm',
+	'yasm',
 
 	# kernel debugging
 	'systemtap',
@@ -306,6 +307,14 @@ packs=[
 
 	# my own stuff
 	'templar',
+
+	# watchdogs
+	'rtkit',
+	'watchdog',
+	'supervisor',
+	'daemontools',
+	'ruby-god',
+	'monit',
 ]
 
 if opt_do_kernel:

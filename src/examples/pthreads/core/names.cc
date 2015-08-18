@@ -17,79 +17,122 @@
  */
 
 #include <firstinclude.h>
-#include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_t:struct
+#include <pthread.h>	// for pthread_create(3), pthread_join(3), pthread_t:struct, pthread_setname_np(3), pthread_getname_np(3)
+	// pthread_mutex_init(3), pthread_mutex_lock(3), pthread_mutex_unlock(3), pthread_mutex_destroy(3)
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 #include <string.h>	// for strncpy(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system(), gettid()
 #include <pthread_utils.h>	// for set_thread_name(), get_thread_name()
-#include <proc_utils.h>	// for print_thread_name_from_proc()
+#include <proc_utils.h>	// for print_thread_name_proc()
 
 /*
  * This exapmle shows how to set thread names in Linux.
- * The heart of the idea is to call prctl(2).
+ * There are 3 ways to do that:
+ * - prctl(2) with PR_SET_NAME/PR_GET_NAME.
  * If you look at the documentation of prctl(2), it states that it only sets PROCESS
  * names, but this is actually wrong since it sets the name of the current schedualable
  * entity which may be a thread or a process. The reason that it says what is says is
- * mostly historical.
+ * because in Linux threads are really processes.
+ * - pthread_setname_np/pthread_getname_np.
+ * This is the new non-portable/non-posix API for setting and getting thread names.
+ * - Reading and writing from /proc/self/task/[tid]/comm.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
+const int name_length=16;
+
+typedef enum _method {
+	PRCTL,
+	PTHREAD_SET_NAME,
+	PROC,
+} method;
+
+typedef struct _todo_item {
+	method m;
+	char name[name_length];
+} todo_item;
+
+todo_item todo[]={
+	{ PRCTL, "hello" },
+	{ PTHREAD_SET_NAME, "hello" },
+	{ PROC, "hello" },
+	{ PRCTL, "תהליכון" },
+	{ PTHREAD_SET_NAME, "תהליכון" },
+	{ PROC, "תהליכון" },
+};
+
 typedef struct _thread_data {
 	pthread_mutex_t start_mutex;
 	pthread_mutex_t end_mutex;
-	char name[256];
+	char name[name_length];
+	method m;
 } thread_data;
 
-void* doit(void* arg) {
-	char orig_name[256];
-	get_thread_name(orig_name, 256);
-	TRACE("original thread name is [%s]", orig_name);
+void* worker(void* arg) {
 	thread_data* td=(thread_data*)arg;
+	
+	char name[name_length];
 
-	set_thread_name(td->name);
-	TRACE("gettid() is %d", gettid());
-	TRACE("getpid() is %d", getpid());
-	TRACE("pthread_self() is %u", (unsigned int)pthread_self());
-	print_thread_name_from_proc();
+	get_thread_name(name, name_length);
+	TRACE("get_thread_name is [%s]", name);
+	get_thread_name_proc(name, name_length);
+	TRACE("get_thread_name_proc is [%s]", name);
+	CHECK_ZERO_ERRNO(pthread_getname_np(pthread_self(), name, name_length));
+	TRACE("pthread_getname_np is [%s]...\n", name);
+
+	switch(td->m) {
+		case PRCTL:
+			set_thread_name(td->name);
+			break;
+		case PTHREAD_SET_NAME:
+			CHECK_ZERO_ERRNO(pthread_setname_np(pthread_self(), td->name));
+			break;
+		case PROC:
+			set_thread_name_proc(td->name);
+			break;
+	}
+
+	get_thread_name(name, name_length);
+	TRACE("get_thread_name is [%s]", name);
+	get_thread_name_proc(name, name_length);
+	TRACE("get_thread_name_proc is [%s]", name);
+	CHECK_ZERO_ERRNO(pthread_getname_np(pthread_self(), name, name_length));
+	TRACE("pthread_getname_np is [%s]...\n", name);
+
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&(td->start_mutex)));
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&(td->end_mutex)));
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	TRACE("gettid() is %d", gettid());
-	TRACE("getpid() is %d", getpid());
-	TRACE("pthread_self() is %lu", pthread_self());
-	pthread_t t1, t2;
-	thread_data td1, td2;
-	strncpy(td1.name, "thread one", 256);
-	// strncpy(td2.name, "thread two", 256);
-	strncpy(td2.name, "תהליכון", 256);
-	CHECK_ZERO_ERRNO(pthread_mutex_init(&td1.start_mutex, NULL));
-	CHECK_ZERO_ERRNO(pthread_mutex_init(&td2.start_mutex, NULL));
-	CHECK_ZERO_ERRNO(pthread_mutex_init(&td1.end_mutex, NULL));
-	CHECK_ZERO_ERRNO(pthread_mutex_init(&td2.end_mutex, NULL));
-	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.start_mutex));
-	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.start_mutex));
-	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.end_mutex));
-	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.end_mutex));
-	CHECK_ZERO_ERRNO(pthread_create(&t1, NULL, doit, &td1));
-	CHECK_ZERO_ERRNO(pthread_create(&t2, NULL, doit, &td2));
+	for(unsigned int i=0;i<ARRAY_SIZEOF(todo);i++) {
+		pthread_t t;
+		thread_data td;
+		strncpy(td.name, todo[i].name, name_length);
+		td.m=todo[i].m;
+		CHECK_ZERO_ERRNO(pthread_mutex_init(&td.start_mutex, NULL));
+		CHECK_ZERO_ERRNO(pthread_mutex_init(&td.end_mutex, NULL));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&td.start_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&td.end_mutex));
+		CHECK_ZERO_ERRNO(pthread_create(&t, NULL, worker, &td));
 
-	// wait for the threads to be initialized, if we got the lock then they are...
-	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td1.start_mutex));
-	CHECK_ZERO_ERRNO(pthread_mutex_lock(&td2.start_mutex));
+		// wait for the threads to be initialized, if we got the lock then they are...
+		CHECK_ZERO_ERRNO(pthread_mutex_lock(&td.start_mutex));
 
-	// now that both threads have set their name, show the threads with their names...
-	my_system("ps -p %d -L", getpid());
-	// let the threads die (if we do not unlock they will wait forever...)
-	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td1.end_mutex));
-	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td2.end_mutex));
-	// join the theads so that everything will be clean...
-	CHECK_ZERO_ERRNO(pthread_join(t1, NULL));
-	CHECK_ZERO_ERRNO(pthread_join(t2, NULL));
+		// now that both threads have set their name, show the threads with their names...
+		my_system("ps -p %d -L", getpid());
+		// let the threads die (if we do not unlock they will wait forever...)
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td.end_mutex));
+		// join the theads so that everything will be clean...
+		CHECK_ZERO_ERRNO(pthread_join(t, NULL));
+		// destroy all the mutexes
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td.start_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_unlock(&td.end_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&td.start_mutex));
+		CHECK_ZERO_ERRNO(pthread_mutex_destroy(&td.end_mutex));
+	}
 	return EXIT_SUCCESS;
 }
