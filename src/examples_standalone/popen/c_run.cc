@@ -20,7 +20,7 @@
 #include <stdio.h>	// for fopen(3), fprintf(3), fclose(3), getline(3), popen(3), pclose(3)
 #include <stdlib.h>	// for system(3), abort(3), mkstemp(3), malloc(3), EXIT_SUCCESS, EXIT_FAILURE
 #include <unistd.h>	// for close(2)
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL_FILEP()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_INT(), CHECK_NOT_NULL_FILEP(), CHECK_ZERO_ERRNO()
 #include <multiproc_utils.h>	// for my_system()
 
 /*
@@ -49,7 +49,7 @@ void cut_first_line(const char* filename, FILE* output) {
 		}
 		ret=getline(&lineptr, &n, input);
 	}
-	CHECK_ZERO(fclose(input));
+	CHECK_ZERO_ERRNO(fclose(input));
 }
 
 int main(int argc, char** argv, char** envp) {

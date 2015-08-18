@@ -14,9 +14,7 @@ various replacements for malloc:
 - show an example of writing a good cache allocator with little contention (using spin locks for multi thread access).
 
 glibc malloc issues:
-- demo mallinfo and more of the functions in info libc.
 - do example of using the mtrace function.
-- demo obstacks in GNU.
 
 malloc and cache lines:
 - show how to modify malloc options so that it will align the pointers it
