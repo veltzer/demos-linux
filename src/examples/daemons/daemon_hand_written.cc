@@ -106,6 +106,6 @@ int main(int argc, char** argv, char** envp) {
 	syslog(LOG_ERR, "daemon dying\n");
 	CHECK_POSITIVE(fprintf(newout, "daemon dying\n"));
 	closelog();
-	CHECK_NOT_M1(fclose(newout));
+	CHECK_ZERO_ERRNO(fclose(newout));
 	return EXIT_SUCCESS;
 }

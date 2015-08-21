@@ -1,0 +1,44 @@
+These are hints about using strace effectively:
+
+- strace ls
+	simple, trace all system calls, output to standard error
+- strace ls 2>&1 | grep mmap
+	filter only mmap system call
+- strace -e mmap ls
+	better filtering, trace just one syscall
+- strace -e trace=open,read
+	better filtering, trace just the system calls you like.
+- strace -e trace=!open
+	trace all system calls EXCEPT open.
+- strace -o output.txt ls
+	output to a fixed file
+- strace -p `pidof firefox`
+	attach and trace the running 'firefox' process
+	You may need sudo(1) or permissions for this one.
+- strace -t ls
+	print timestamps.
+	These are not very accurate for RT.
+- strace -tt ls
+	better timestamps, including micros.
+- strace -ttt ls
+	even better timestamps, kernel log like.
+- strace -r ls
+	shows a time stamp for each call relative to the last system call.
+	could to be used to find syscalls that took long time, but you need to make
+	sure that the time difference is not from userspace code.
+- strace -c ls
+	generate statistics about the entire run.
+	This includes number of times each system call was called and
+	the commulative time over all calls for that system call.
+	this is sorted by time.
+- strace -c -S calls ls
+	same as above but sorted by number of calls.
+- strace -f ls
+	trace children as well
+- strace -T ls
+	show the time spent in system calls as well (in micros).
+- strace -e trace=memory ls
+	Trace all memory mapping related system calls.
+
+References:
+http://www.thegeekstuff.com/2011/11/strace-examples

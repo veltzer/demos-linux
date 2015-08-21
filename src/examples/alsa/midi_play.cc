@@ -205,7 +205,7 @@ void parse_sequence() {
 		sequence[0][seq_len]=TICKS_PER_QUARTER / atoi(&c);
 		seq_len++;
 	}
-	CHECK_NOT_M1(fclose(f));
+	CHECK_ZERO_ERRNO(fclose(f));
 }
 
 void sigterm_exit(int sig) {
