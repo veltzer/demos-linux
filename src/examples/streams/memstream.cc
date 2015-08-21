@@ -39,7 +39,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_INT_NOERRNO(fwrite(to_print, strlen(to_print), 1, fp), 1);
 	CHECK_ZERO_ERRNO(fclose(fp));
 	printf("ptr is now [%s]\n", ptr);
-	printf("sizeloc is now [%d]\n", sizeloc);
+	printf("sizeloc is now [%zd]\n", sizeloc);
 	// we must free the pointer outselves! (free(3) does not return a success code)
 	free(ptr);
 	return EXIT_SUCCESS;
