@@ -298,6 +298,7 @@ filesystems:
 	(5) ext2 - the third extended file system
 	(5) ext4 - the fourth extended file system
 	(1) dd - convert and copy a file
+	(1) e4defrag - online defragmenter for ext4 filesystem
 
 total system info:
 	(1) inxi  - Command line system information script for console and IRC
