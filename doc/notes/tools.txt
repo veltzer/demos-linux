@@ -35,6 +35,8 @@ os version:
 	/etc/issue
 	/etc/issue.net
 	(1) lsb_release - print distribution-specific information
+	(1) uname - print system information
+	(1) unity - wrapper for starting the unity shell and handling fallback
 
 memory:
 	(1) free - Display amount of free and used memory in the system
@@ -57,6 +59,18 @@ disk:
 	(8) smartctl - Control and Monitor Utility for SMART Disks
 	(1) GSmartControl - Hard disk drive health inspection tool
 	(8) hddtemp - Utility to monitor hard drive temperature
+	(1) swapon, swapoff - enable/disable devices and files for paging and swapping
+	(8) fdisk - manipulate disk partition table
+	(8) cfdisk - display or manipulate a disk partition table
+	(8) sfdisk - partition table manipulator for Linux
+	(8) partx - tell the Linux kernel about the presence and numbering of on-disk partitions
+	(8) addpart - a simple wrapper around the "add partition" ioctl
+	(8) delpart - simple wrapper around the "del partition" ioctl
+	(8) partprobe - inform the OS of partition table changes
+	(8) GNU Parted - a partition manipulation program
+	(8) blkid - locate/print block device attributes
+	(8) findfs - find a filesystem by label or UUID
+	(8) wipefs - wipe a signature from a device
 
 io:
 	(1) iostat - Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
@@ -138,8 +152,24 @@ kernel:
 	(1) slabtop - display kernel slab cache information in real time
 	(1) kerneltop - shows kernel function usage in an interactive style like 'top'
 	(8) kexec - directly boot into a new kernel
+	(8) sysctl - configure kernel parameters at runtime
+	(1) getconf - Query system configuration variables
+	(1) arch - print machine hardware name (same as uname -m)
+
+modules:
+	(8) lsmod - Show the status of modules in the Linux Kernel
+	(8) modinfo - Show information about a Linux Kernel module
+	(8) rmmod - Simple program to remove a module from the Linux Kernel
+	(8) insmod - Simple program to insert a module into the Linux Kernel
+	(8) modprobe - Add and remove modules from the Linux Kernel
+	(8) depmod - Generate modules.dep and map files.
 
 networking:
+	(1) hostname - show or set the system's host name
+	(1) domainname - show or set the system's NIS/YP domain name
+	(1) ypdomainname - show or set the system's NIS/YP domain name
+	(1) nisdomainname - show or set the system's NIS/YP domain name
+	(1) dnsdomainname - show the system's DNS domain name
 	(8) ss - another utility to investigate sockets
 	(8) ping, ping6 - send ICMP ECHO_REQUEST to network hosts
 	(8) traceroute6 - traces path to a network host
@@ -161,19 +191,33 @@ networking:
 	(8) netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
 	(1) nc — arbitrary TCP and UDP connections and listens
 	(8) route - show / manipulate the IP routing table
+	(8) ip - show / manipulate routing, devices, policy routing and tunnels
 	(8) ifconfig - configure a network interface
 	(8) ifup - bring a network interface up
 	(8) ifdown - take a network interface down
 	(8) ifquery - parse interface configuration
 	(8) iwconfig - configure a wireless network interface
 	(8) iwlist - Get more detailed wireless information from a wireless interface
+	(1) wavemon - a wireless network monitor
 	(1) telnet — user interface to the TELNET protocol
-	(8) brctl - ethernet bridge administration
 	(1) vnStat - a console-based network traffic monitor
 	(1) vnStati - png image output support for vnStat
 	(1) netperf - a network performance benchmark
-	(8) iptables/ip6tables — administration tool for IPv4/IPv6 packet filtering and NAT
 	(1) iperf - perform network throughput tests
+
+Network firewalls:
+	(8) iptables/ip6tables — administration tool for IPv4/IPv6 packet filtering and NAT
+	(8) iptables-restore — Restore IP Tables
+	(8) ip6tables-restore — Restore IPv6 Tables
+	(8) iptables-save — dump iptables rules to stdout
+	(8) ip6tables-save — dump iptables rules to stdout
+	(8) iptables-apply - a safer way to update iptables remotely
+	(8) ufw - program for managing a netfilter firewall
+	(8) ufw-framework - using the ufw framework
+
+Network bridges:
+	(8) bridge - show / manipulate bridge addresses and devices
+	(8) brctl - ethernet bridge administration
 
 java debugging:
 	(1) jstack - Prints Java thread stack traces for a Java process, core file, or remote debug server. This command is experimental and unsupported.
@@ -191,6 +235,7 @@ programming tracing:
 power management:
 	(8) powertop - a power consumption and power management diagnosis tool.
 	(8) turbostat - Report processor frequency and idle statistics
+	(1) upower - UPower command line tool
 
 general tools (not intended for just one specific utility):
 	(1) dtrace - Dtrace compatibile user application static probe generation tool.
@@ -260,13 +305,20 @@ realtime:
 load generators:
 	(8) hackbench - scheduler benchmark/stress test
 
+multi-user:
+	(1) who - show who is logged on
+	(1) w - Show who is logged on and what they are doing.
+	(1) last, lastb - show listing of last logged in users
+
 listing stuff:
 	(8) lsscsi - list SCSI devices (or hosts) and their attributes
 	(8) lspci - list all PCI devices
 	(8) lsusb - list USB devices
+	(8) lsdev - display information about installed hardware
+	(8) socklist - display list of open sockets
+	(8) procinfo - display system statistics gathered from /proc
 	(1) lshw - list hardware
 	(1) lscpu - display information about the CPU architecture
-	(8) lsmod - Show the status of modules in the Linux Kernel
 	(8) lsblk - list block devices
 	(8) pccardctl - PCMCIA card control utility
 	(8) lspcmcia - display extended PCMCIA debugging information
@@ -295,6 +347,7 @@ filesystems:
 	(8) tune2fs - adjust tunable filesystem parameters on ext2/ext3/ext4 filesystems
 	(8) e2fsck - check a Linux ext2/ext3/ext4 file system
 	(8) mke2fs - create an ext2/ext3/ext4 filesystem
+	(8) e2label - Change the label on an ext2/ext3/ext4 filesystem
 	(5) ext2 - the second extended file system
 	(5) ext2 - the third extended file system
 	(5) ext4 - the fourth extended file system
@@ -312,3 +365,24 @@ hardware:
 	(1) xsensors - display hardware sensor information as a graphical read-out.
 	(1) memtester - stress test to find memory subsystem faults.
 	(boot) memtest86+ - thorough real-mode memory tester
+
+nvidia: (graphics card)
+	nvidia-smi
+	nvidia-settings
+ATI: (graphics card)
+	fglrxinfo
+
+services:
+	(8) service - run a System V init script
+	(8) initctl - init daemon control tool
+	(8) telinit - change system runlevel
+	(8) runlevel - output previous and current runlevel
+	(8) shutdown - bring the system down
+	(8) reboot, halt, poweroff - reboot or stop the system
+	(1) systemd, init - systemd system and service manager
+	(8) update-rc.d - install and remove System-V style init script links
+	(8) invoke-rc.d - executes System-V style init script actions
+	(8) Boot-Up Manager - Graphical runlevel configuration tool
+
+security:
+	(1) chage - change user password expiry information

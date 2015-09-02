@@ -247,6 +247,9 @@ packs=[
 	'powertop',
 	'rt-tests',
 	#'lttng-modules-dkms',
+	'procinfo',
+	'wavemon',
+	'bum',
 
 	# fun stuff
 	'figlet',
