@@ -291,6 +291,7 @@ filesystems:
 	(8) mkfs - build a Linux filesystem
 	(8) debugfs - ext2/ext3/ext4 file system debugger
 	(8) dumpe2fs - dump ext2/ext3/ext4 filesystem information
+	(8) dump - ext2/3/4 filesystem backup
 	(8) tune2fs - adjust tunable filesystem parameters on ext2/ext3/ext4 filesystems
 	(8) e2fsck - check a Linux ext2/ext3/ext4 file system
 	(8) mke2fs - create an ext2/ext3/ext4 filesystem
