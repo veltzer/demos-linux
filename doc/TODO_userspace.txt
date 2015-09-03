@@ -134,3 +134,8 @@ examples to add
 	on the gcc command line...
 - demo the use of "setarch(8)" to create a shell where applications run differently
 	(with ASLR disabled, or whatever...)
+- do a demo of getrandom(2). A new syscall to get random numbers in 3.17.
+	https://lwn.net/Articles/605828/
+	https://lwn.net/Articles/606141/
+- do a demo of lockdep library.
+	http://lwn.net/Articles/536363/
