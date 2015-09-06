@@ -1,11 +1,16 @@
 include ../../../Makefile.mk
 
-OBJECTS:=leak.dbg.oo leak.opt.oo
-OBJECTS_DBG:=leak.dbg.oo
-OBJECTS_OPT:=leak.opt.oo
+#SRC_NAME:=leak
+SRC_NAME:=tls_pthread_style.cc
+SRC_BASE:=$(basename $(SRC_NAME))
+
+OBJECTS_DBG:=$(SRC_BASE).dbg.oo
+OBJECTS_OPT:=$(SRC_BASE).opt.oo
+OBJECTS:=$(OBJECTS_DBG) $(OBJECTS_OPT)
 CXXFLAGS_DBG:=-Wall -Werror -g3 -I../../include
 CXXFLAGS_OPT:=-Wall -Werror -O2 -I../../include
 LDFLAGS:=
+LDLIBS:=-lpthread
 ALL:=main.dbg.elf main.opt.elf
 
 .PHONY: all
@@ -13,11 +18,11 @@ all: $(ALL)
 
 main.dbg.elf: $(OBJECTS_DBG)
 	$(info doing [$@])
-	$(Q)$(CXX) $(LDFLAGS) -o $@ $(OBJECTS_DBG)
+	$(Q)$(CXX) $(LDFLAGS) -o $@ $(OBJECTS_DBG) $(LDLIBS)
 
 main.opt.elf: $(OBJECTS_OPT)
 	$(info doing [$@])
-	$(Q)$(CXX) $(LDFLAGS) -o $@ $(OBJECTS_OPT)
+	$(Q)$(CXX) $(LDFLAGS) -o $@ $(OBJECTS_OPT) $(LDLIBS)
 
 %.dbg.oo: %.cc
 	$(info doing [$@])
