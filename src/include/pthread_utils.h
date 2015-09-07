@@ -231,6 +231,9 @@ static inline void pthread_print_mutexattr(pthread_mutexattr_t* attr) {
 /*
  * The name of this function is not my own idea. It actually exists
  * on Mac OSX and FreeBsd. It does not exist on Linux.
+ *
+ * References:
+ * http://stackoverflow.com/questions/4867839/how-can-i-tell-if-pthread-self-is-the-main-first-thread-in-the-process
  */
 static inline int pthread_main_np(void) {
 	return getpid()==gettid();
