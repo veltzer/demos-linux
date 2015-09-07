@@ -27,7 +27,8 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_getattr_np(3), pthread_attr_getstack(3), pthread_attr_t
-#include <unistd.h>	// for getpagesize(2)
+#include <unistd.h>	// for getpagesize(2), getpid(2)
+#include <sys/types.h>	// for getpid(2)
 #include <string.h>	// for memset(3), strncpy(3)
 #include <sys/prctl.h>	// for prctl(2), PR_GET_NAME:const, PR_SET_NAME:const
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
@@ -225,6 +226,10 @@ static inline void pthread_print_mutexattr(pthread_mutexattr_t* attr) {
 		CHECK_ZERO_ERRNO(pthread_mutexattr_getprioceiling(attr, &prioceiling));
 		printf("prioceiling is %d\n", prioceiling);
 	}
+}
+
+static inline int pthread_main_np(void) {
+	return getpid()==gettid();
 }
 
 #endif	/* !__pthread_utils_h */
