@@ -228,6 +228,10 @@ static inline void pthread_print_mutexattr(pthread_mutexattr_t* attr) {
 	}
 }
 
+/*
+ * The name of this function is not my own idea. It actually exists
+ * on Mac OSX and FreeBsd. It does not exist on Linux.
+ */
 static inline int pthread_main_np(void) {
 	return getpid()==gettid();
 }
