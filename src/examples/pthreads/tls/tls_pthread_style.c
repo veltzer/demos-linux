@@ -20,13 +20,17 @@
 #include <pthread.h>	// for pthread_key_t, pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3), pthread_create(3), pthread_join(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), free(3)
 #include <trace_utils.h>// for TRACE()
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_ZERO_ERRNO(), CHECK_NOT_NULL()
 
 /*
  * This is a demo of thread local storage using the pthread API.
  *
- * TODO:
- * - destroy the ptherad_key_t...
+ * Notes:
+ * - notes that all threads *except* the main thread are using the TLS api to store
+ * and retrieve that. This is because the main thread does not call pthread_exit(3)
+ * but rather exit(3) and *does not therefore destroy it's own TLS allocated variables*
+ * This is why, as in this example, it is customary for the main thread to avoid doing
+ * any interesting code but rather just collect dead threads via pthread_join(3).
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
@@ -36,8 +40,8 @@ pthread_key_t key_myid;
 void* worker(void* arg) {
 	CHECK_ZERO_ERRNO(pthread_setspecific(key_myid, arg));
 	// now lets pull our id
-	int myid=*(int*)pthread_getspecific(key_myid);
-	TRACE("my id is %d\n", myid);
+	int myid=*(int*)CHECK_NOT_NULL(pthread_getspecific(key_myid));
+	TRACE("my id is %d", myid);
 	return NULL;
 }
 
@@ -55,6 +59,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
 	for(i=0; i<num; i++) {
 		int* p=(int*)malloc(sizeof(int));
+		*p=i;
 		TRACE("allocated %p", p);
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
 	}
@@ -62,6 +67,7 @@ int main(int argc, char** argv, char** envp) {
 	for(i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
+	CHECK_ZERO_ERRNO(pthread_key_delete(key_myid));
 	TRACE("end");
 	return EXIT_SUCCESS;
 }

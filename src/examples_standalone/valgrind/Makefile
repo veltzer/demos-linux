@@ -1,7 +1,6 @@
 include ../../../Makefile.mk
 
-#SRC_NAME:=leak
-SRC_NAME:=tls_pthread_style.cc
+SRC_NAME:=leak
 SRC_BASE:=$(basename $(SRC_NAME))
 
 OBJECTS_DBG:=$(SRC_BASE).dbg.oo
