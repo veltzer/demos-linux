@@ -37,37 +37,37 @@
 
 pthread_key_t key_myid;
 
-void* worker(void* arg) {
+static void* worker(void* arg) {
 	CHECK_ZERO_ERRNO(pthread_setspecific(key_myid, arg));
 	// now lets pull our id
 	int myid=*(int*)CHECK_NOT_NULL(pthread_getspecific(key_myid));
-	TRACE("my id is %d", myid);
+	TRACE("myid is [%d]", myid);
 	return NULL;
 }
 
-void id_dealloc(void* ptr) {
-	TRACE("deleting %p", ptr);
+static void id_dealloc(void* ptr) {
+	TRACE("deallocated [%p]", ptr);
 	int* p=(int*)ptr;
 	free(p);
 }
 
-int main(int argc, char** argv, char** envp) {
-	unsigned int i;
+static void run_threads() {
 	const unsigned int num=4;
 	pthread_t threads[num];
-	TRACE("start");
-	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
-	for(i=0; i<num; i++) {
+	for(unsigned int i=0; i<num; i++) {
 		int* p=(int*)malloc(sizeof(int));
 		*p=i;
-		TRACE("allocated %p", p);
+		TRACE("allocated [%p]", p);
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
 	}
-	TRACE("created threads, now joining...");
-	for(i=0; i<num; i++) {
+	for(unsigned int i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
+}
+
+int main(int argc, char** argv, char** envp) {
+	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
+	run_threads();
 	CHECK_ZERO_ERRNO(pthread_key_delete(key_myid));
-	TRACE("end");
 	return EXIT_SUCCESS;
 }

@@ -27,31 +27,31 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-__thread int myid;
+static __thread int myid;
 
-void* worker(void* arg) {
+static void* worker(void* arg) {
 	int* pint=(int*)arg;
 	myid=*pint;
 	free(pint);
+	TRACE("dellocated [%p]", pint);
 	// now lets pull our id
-	TRACE("myid is %d\n", myid);
+	TRACE("myid is [%d]", myid);
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	unsigned int i;
 	const unsigned int num=4;
 	pthread_t threads[num];
-	TRACE("start");
-	for(i=0; i<num; i++) {
+	for(unsigned int i=0; i<num; i++) {
 		int* p=(int*)malloc(sizeof(int));
-		TRACE("allocated %p", p);
+		*p=i;
+		TRACE("allocated [%p]", p);
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, NULL, worker, p));
 	}
-	TRACE("created threads, now joining...");
-	for(i=0; i<num; i++) {
+	myid=1000;
+	TRACE("myid is [%d]", myid);
+	for(unsigned int i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
-	TRACE("end");
 	return EXIT_SUCCESS;
 }

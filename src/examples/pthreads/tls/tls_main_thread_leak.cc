@@ -44,9 +44,9 @@
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-pthread_key_t key_myid;
+static pthread_key_t key_myid;
 
-void id_dealloc(void* ptr) {
+static void id_dealloc(void* ptr) {
 	abort();
 }
 
