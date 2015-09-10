@@ -71,7 +71,6 @@ static void run_threads() {
 	}
 }
 
-
 int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO_ERRNO(pthread_key_create(&key_myid, id_dealloc));
 	int* p=(int*)malloc(sizeof(int));
