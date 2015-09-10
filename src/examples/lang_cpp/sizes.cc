@@ -26,7 +26,7 @@
  * NOTES:
  * - why is the size of an empty class in C++ 1 and not 0?
  * why is the size of an empty struct in C++ 1 and not 0?
- * this is in contrast to a C struct which, when empty, has size 0. 
+ * this is in contrast to a C struct which, when empty, has size 0.
  * the answer lies in allocating many these structs/instances. If the size of
  * a single struct/instance is 0 then different structs/instances will
  * have the same pointer pointing to them. This conflict with the C++ ==

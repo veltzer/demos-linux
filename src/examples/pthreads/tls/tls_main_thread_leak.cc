@@ -18,7 +18,7 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_key_t, pthread_key_create(3), pthread_setspecific(3), pthread_getspecific(3)
-#include <stdlib.h>	// for EXIT_SUCCESS, malloc(3),  abort(3)
+#include <stdlib.h>	// for EXIT_SUCCESS, malloc(3), abort(3)
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_NULL()
 
 /*

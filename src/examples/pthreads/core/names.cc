@@ -73,7 +73,7 @@ typedef struct _thread_data {
 
 void* worker(void* arg) {
 	thread_data* td=(thread_data*)arg;
-	
+
 	char name[name_length];
 
 	get_thread_name(name, name_length);

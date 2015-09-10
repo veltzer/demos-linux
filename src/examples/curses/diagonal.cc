@@ -74,7 +74,7 @@ static void demo_old(WINDOW* stdscr) {
 		getch();
 		break;
 	}
-        endwin();
+	endwin();
 }
 
 int main(int argc,char** argv,char** envp) {

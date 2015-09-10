@@ -24,7 +24,7 @@
 #include <unistd.h>	// for getpid(2)
 
 /*
- * This example shows a 'non busy busy wait' loop. 
+ * This example shows a 'non busy busy wait' loop.
  * The program wait's indefinately.
  * You could do the same with 'sleep(5)' inside the loop
  * but with the following disadvantages:

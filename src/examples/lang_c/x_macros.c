@@ -30,8 +30,8 @@
 #include <stdio.h>
 
 #define COLOR_TABLE \
-X(red, "red")       \
-X(green, "green")   \
+X(red, "red") \
+X(green, "green") \
 X(blue, "blue")
 
 #define X(a, b) a,
