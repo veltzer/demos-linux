@@ -24,21 +24,29 @@
 
 /*
  * Demo for a performance counter on i64...
+ *
+ * TODO:
+ * - This example does not compile. Something is wrong with the assembly, I need to fix it.
+ *
+ * References:
+ * https://software.intel.com/en-us/forums/watercooler-catchall/topic/301741
  */
 
-static inline unsigned long getstackpointer(void) {
-#if __x86_64
+static inline unsigned long getitc(void) {
+	/*
+	unsigned long result;
+	// gcc-IA64 version
+	__asm__ __volatile__("mov %0=ar.itc" : "=r"(result) :: "memory");
+	while (__builtin_expect ((int) result == -1, 0))
+		__asm__ __volatile__("mov %0=ar.itc" : "=r"(result) :: "memory");
+	return result;
+	*/
 	return 0;
-#else
-	unsigned long ret;
-	asm ("movl %%esp, %0" : "=r" (ret));
-	return ret;
-#endif	// __x86_64__
 }
 
 int main(int argc, char** argv, char** envp) {
-	printf("stackpointer is %lu\n", getstackpointer());
+	printf("itc is %lu\n", getitc());
 	CHECK_ZERO(sleep(1));
-	printf("stackpointer is %lu\n", getstackpointer());
+	printf("itc is %lu\n", getitc());
 	return EXIT_SUCCESS;
 }
