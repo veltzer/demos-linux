@@ -146,3 +146,8 @@ threads vs processes:
 =====================
 http://elinux.org/images/1/1c/Ben-Yossef-GoodBadUgly.pdf
 http://free-electrons.com/pub/video/2009/elce/elce2009-ben-yossef-threads-processes.ogv
+
+references manuals:
+===================
+Lots of reference manuals (for intel processors, LSB and more) at the linux foundation site:
+http://refspecs.linux-foundation.org/
