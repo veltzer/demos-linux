@@ -21,32 +21,15 @@
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <err_utils.h>	// for CHECK_ZERO()
+#include <lowlevel_utils.h>	// for getrdtsc()
 
 /*
- * Demo for a performance counter on i64...
- *
- * TODO:
- * - This example does not compile. Something is wrong with the assembly, I need to fix it.
- *
- * References:
- * https://software.intel.com/en-us/forums/watercooler-catchall/topic/301741
+ * Demo for a performance counter on i386...
  */
 
-static inline unsigned long getitc(void) {
-	/*
-	unsigned long result;
-	// gcc-IA64 version
-	__asm__ __volatile__("mov %0=ar.itc" : "=r"(result) :: "memory");
-	while (__builtin_expect ((int) result == -1, 0))
-		__asm__ __volatile__("mov %0=ar.itc" : "=r"(result) :: "memory");
-	return result;
-	*/
-	return 0;
-}
-
 int main(int argc, char** argv, char** envp) {
-	printf("itc is %lu\n", getitc());
+	printf("getrdtsc() is %lu\n", getrdtsc());
 	CHECK_ZERO(sleep(1));
-	printf("itc is %lu\n", getitc());
+	printf("getrdtsc() is %lu\n", getrdtsc());
 	return EXIT_SUCCESS;
 }

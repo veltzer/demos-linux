@@ -108,11 +108,13 @@ static inline void* stack_align_pointer(void* p) {
 }
 
 /*
- * get the RDTSC register (counter)
- * This functions seems to be wrong since rdtsc should be a 64 bit wide register, even on 32 bit systems.
+ * get the TSC register (counter),  this is done via the 'rdtsc' machine instruction.
+ * actually the new machine instruction 'rdtscp' should be better.
+ * You know if you have it by seeing it in /proc/cpuinfo.
+ * read more about it in the Intel paper about doing micro benchmarks.
  */
-static inline unsigned int getrdtsc() {
-	unsigned int val;
+static inline uint64_t getrdtsc() {
+	uint64_t val;
 	asm ("rdtsc" : "=val" (val));
 	return val;
 }
