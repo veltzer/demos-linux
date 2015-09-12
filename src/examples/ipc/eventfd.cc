@@ -33,16 +33,19 @@
  *
  * Notes:
  * - the child may make several calls to write and the parent will only
- *	get one wakeup for these calls. This is because eventfd is made for
- *	signaling and two signals are just as good as one. The parent can
- *	notice that it has been signaled more than once since the sum of the
- *	childs passed values is passed to it.
+ * get one wakeup for these calls. This is because eventfd is made for
+ * signaling and two signals are just as good as one. The parent can
+ * notice that it has been signaled more than once since the sum of the
+ * childs passed values is passed to it.
+ * - by sending lots of messages from the child on the eventfd you can see
+ * the parent missing some of them.
  * - eventfd can be multiplexed using select, poll or epoll.
  */
 
 int main(int argc, char** argv, char** envp) {
 	if (argc !=3) {
 		fprintf(stderr, "%s: usage: %s [loop count] [max_rand]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 10000 2\n", argv[0], argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	// parameters
@@ -52,14 +55,18 @@ int main(int argc, char** argv, char** envp) {
 	// create the event fd
 	int efd=CHECK_NOT_M1(eventfd(0, EFD_NONBLOCK));
 
+	unsigned long long sum=0;
 	pid_t child_pid;
 	if((child_pid=CHECK_NOT_M1(fork()))) {
 		// parent branch
-		unsigned long long sum=0;
 		unsigned int counter=0;
 		bool child_dead=false;
 		while(child_dead==false) {
 			int status;
+			// waitpid can return child_pid, 0 or -1
+			// child_pid - means the child is dead
+			// 0 - means the child is alive
+			// -1 - means an error
 			pid_t p=CHECK_NOT_M1(waitpid(child_pid, &status, WNOHANG));
 			if(p==child_pid) {
 				child_dead=true;
@@ -85,12 +92,10 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_NOT_M1(close(efd));
 		printf("parent counter is %u\n", counter);
 		printf("parent sum is %llu\n", sum);
-		return EXIT_SUCCESS;
 	} else {
 		// child branch
 		// so we will get good random numbers
 		srand(getpid());
-		unsigned long long sum=0;
 		for(unsigned int i=0; i<loop_count; i++) {
 			uint64_t u=rand()%max_rand;
 			CHECK_INT(write(efd, &u, sizeof(uint64_t)), sizeof(uint64_t));
@@ -98,6 +103,6 @@ int main(int argc, char** argv, char** envp) {
 		}
 		CHECK_NOT_M1(close(efd));
 		printf("child sum is %llu\n", sum);
-		return EXIT_SUCCESS;
 	}
+	return EXIT_SUCCESS;
 }

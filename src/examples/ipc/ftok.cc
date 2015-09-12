@@ -17,20 +17,27 @@
  */
 
 #include <firstinclude.h>
-#include <sys/types.h>	// for ftok(3)
-#include <sys/ipc.h>	// for ftok(3)
+#include <sys/types.h>	// for ftok(3), key_t
+#include <sys/ipc.h>	// for ftok(3), key_t
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
  * This example shows that you actually need to point to a real existing file
  * name in order for ftok to succeed...
+ * Notes
+ * - ftok(3) is a userspace function. if you strace this program
+ * you will not see any ftok(2) system call or the like.
+ * - ftok(3) is deteministic. You can see this if you run this program several times.
+ * - the 'proj_id' is just an arbitrary integer that the client and server have to
+ * agree upon.
  */
 
 int main(int argc, char** argv, char** envp) {
-	key_t k1=ftok("/tmp/no_such_file", 17);
+	const int proj_id=17;
+	key_t k1=ftok("/tmp/no_such_file", proj_id);
 	printf("key with no file is %d\n", k1);
-	key_t k2=ftok("/etc/passwd", 17);
+	key_t k2=ftok("/etc/passwd", proj_id);
 	printf("key with file is %d\n", k2);
 	return EXIT_SUCCESS;
 }
