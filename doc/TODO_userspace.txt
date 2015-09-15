@@ -23,10 +23,8 @@ websites to get ideas from
 
 examples to add
 ===============
-- write slides and examples about tuning the glibc malloc library.
-	write example about contention of malloc.
-- write slides and examples about turning the glibc malloc library
-	"rt".
+- write example of how to turn the glibc malloc library into "rt"...:)
+	then write slides about it in the 'slides' repo.
 - do example of the 'rdtscp' machine instruction which is supposed to
 	be superior to the 'rdtsc' instruction.
 	See the intel paper on micro measurements for details.
