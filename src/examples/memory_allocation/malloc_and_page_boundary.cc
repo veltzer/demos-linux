@@ -19,33 +19,29 @@
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
 #include <stdlib.h>	// for malloc(3), EXIT_SUCCESS
-#include <unistd.h>	// for sleep(3)
 #include <sys/mman.h>	// for mlock(2)
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_NULL()
 
 /*
  * This example shows that when the OS finally catches
  * you on an illegal access then the pointer is a page
- * bounded pointer
+ * bounded pointer.
+ *
+ * Remember that it is actually the CPU/MMU that catches
+ * you for accessing the illegal address. The CPU jumps
+ * from your program to the OS and the OS responds by
+ * sending you a SIGSEGV (at least on UNIX).
  */
 
 int main(int argc, char** argv, char** envp) {
-	int res=mlockall(MCL_CURRENT|MCL_FUTURE);
-	if(res==-1) {
-		fprintf(stderr, "mlockall failed\n");
-		return EXIT_FAILURE;
-	}
-	char* p=(char*)malloc(20);
-	/*
-	 * int res=mlock(p,128*1024);
-	 * if(res==-1) {
-	 * fprintf(stderr, "mlock failed\n");
-	 * return EXIT_FAILURE;
-	 * }
-	 */
-	for(int i=0; i<10000000; i+=4096) {
+	CHECK_NOT_M1(mlockall(MCL_CURRENT|MCL_FUTURE));
+	char* p=(char*)CHECK_NOT_NULL(malloc(20));
+	//CHECK_NOT_M1(mlock(p,128*1024));
+	int i=0;
+	while(true) {
 		printf("i is %i, p+i is %p\n", i, p+i);
 		p[i]=0;
-		sleep(1);
+		i+=1;
 	}
 	return EXIT_SUCCESS;
 }
