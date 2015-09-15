@@ -108,7 +108,7 @@ static inline void* stack_align_pointer(void* p) {
 }
 
 /*
- * get the TSC register (counter),  this is done via the 'rdtsc' machine instruction.
+ * get the TSC register (counter), this is done via the 'rdtsc' machine instruction.
  * actually the new machine instruction 'rdtscp' should be better.
  * You know if you have it by seeing it in /proc/cpuinfo.
  * read more about it in the Intel paper about doing micro benchmarks.

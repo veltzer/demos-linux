@@ -18,12 +18,10 @@
 
 #include <firstinclude.h>
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
+#include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3)
 #include <unistd.h>	// for sysconf(3)
-#include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
 #include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS, malloc(3), free(3)
-#include <cpu_set_utils.h>	// for cpu_set_print()
 
 /*
  * This example is designed to cause as much contention as possible
@@ -31,6 +29,7 @@
  * these conditions.
  *
  * TODO:
+ * - Add the possibility to do more than one allocation at a time (do them in batches).
  * - Analyze the results of this example.
  * - Show that we block sometimes and sometimes we dont.
  * - Show that we can block on futex in user space and in kernel space on the mmap(2) semaphore.
@@ -87,7 +86,6 @@ int main(int argc, char** argv, char** envp) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
-		//cpu_set_print(cpu_sets + i);
 		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, ids + i));

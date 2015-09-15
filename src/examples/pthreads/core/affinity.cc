@@ -19,7 +19,7 @@
 #include <firstinclude.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
-#include <sched.h>	// for CPU_COUNT(3), CPU_SETSIZE, CPU_ISSET(3)
+#include <sched.h>	// for cpu_set_t, CPU_ZERO(3), CPU_SET(3)
 #include <unistd.h>	// for sysconf(3)
 #include <trace_utils.h>// for TRACE()
 #include <err_utils.h>	// for CHECK_ZERO_ERRNO(), CHECK_NOT_M1()
@@ -30,8 +30,11 @@
  *
  * Notes:
  * - Affinity in Linux is to a *group* of CPUs.
- * - If the group contains just one CPU then you dictate the CPU on which
+ * - If the group contains just one CPU then you dictate the exact CPU on which
  * the thread or process will run.
+ * - If the group contains more than one CPU you allow the OS to schedule on any
+ * of the specified cores (ofcourse, at any one time, the thread will only run
+ * on one of these cores or on no one at all).
  * - You can see the affinity of a process [pid] this way:
  * cat /proc/[pid]/status | grep Cpus_allowed
  * - Threads and processes inherit the affinity of their parents and cannot
