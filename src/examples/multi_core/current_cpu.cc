@@ -23,6 +23,7 @@
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
+#include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
  * This is an example of a process that prints the CPU it is running on
@@ -35,7 +36,7 @@ int main(int argc, char** argv, char** envp) {
 	int cpunum=sched_getcpu();
 	printf("sched_getcpu() says I'm running on core %d\n", cpunum);
 	while(true) {
-		int newcpunum=sched_getcpu();
+		int newcpunum=CHECK_NOT_M1(sched_getcpu());
 		if(cpunum!=newcpunum) {
 			cpunum=newcpunum;
 			printf("I've switched to running on core %d\n", cpunum);

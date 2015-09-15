@@ -25,40 +25,51 @@
 #include <cpu_set_utils.h>	// for cpu_set_print()
 
 /*
- * This shows how to create threads with a certain affinity
+ * This shows how to create threads with a certain affinity.
+ *
+ * Notes:
+ * - Affinity in Linux is to a *group* of CPUs.
+ * - If the group contains just one CPU then you dictate the CPU on which
+ * the thread or process will run.
+ * - You can see the affinity of a process [pid] this way:
+ * cat /proc/[pid]/status | grep Cpus_allowed
+ * - Threads and processes inherit the affinity of their parents and cannot
+ * extend that affinity (unless they are root or have special privileges).
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
 void *worker(void *p) {
 	int num=*(int *)p;
-	TRACE("starting thread %d", num);
-	TRACE("ending thread %d", num);
+	//TRACE("starting thread [%d]", num);
+	int cpunum=CHECK_NOT_M1(sched_getcpu());
+	TRACE("thread [%d] running on cpu [%d]", num, cpunum);
+	//TRACE("ending thread [%d]", num);
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
 	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
-	const int num=10;
+	const int num=cpu_num;
 	pthread_t threads[num];
 	pthread_attr_t attrs[num];
 	cpu_set_t cpu_sets[num];
 	int ids[num];
 
-	TRACE("main starting");
+	//TRACE("main starting");
 	for(int i=0; i<num; i++) {
 		ids[i]=i;
 		CPU_ZERO(cpu_sets + i);
 		CPU_SET(i % cpu_num, cpu_sets + i);
-		cpu_set_print(cpu_sets + i);
+		//cpu_set_print(cpu_sets + i);
 		CHECK_ZERO_ERRNO(pthread_attr_init(attrs + i));
 		CHECK_ZERO_ERRNO(pthread_attr_setaffinity_np(attrs + i, sizeof(cpu_set_t), cpu_sets + i));
 		CHECK_ZERO_ERRNO(pthread_create(threads + i, attrs + i, worker, ids + i));
 	}
-	fprintf(stderr, "main ended creating threads\n");
+	//TRACE("finished creating threads");
 	for(int i=0; i<num; i++) {
 		CHECK_ZERO_ERRNO(pthread_join(threads[i], NULL));
 	}
-	TRACE("main ended");
+	//TRACE("main ended");
 	return EXIT_SUCCESS;
 }
