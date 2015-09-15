@@ -56,7 +56,7 @@ const void* mymalloc(unsigned int size, int protect) {
 		 * return newaddress;
 		 */
 	} else {
-		return malloc(size);
+		return CHECK_NOT_NULL(malloc(size));
 	}
 }
 

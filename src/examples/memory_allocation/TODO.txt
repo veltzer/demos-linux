@@ -1,9 +1,7 @@
-TODO:
-
-look at apt-cache search malloc
+- look at apt-cache search malloc
 	there are many interesting things to show here.
-various replacements for malloc:
-- here is a link:
+- various replacements for malloc:
+	here is a link:
 	http://hackingheaven.com/
 	there is a mmalloc library there - check it out.
 		demo it.
@@ -12,23 +10,4 @@ various replacements for malloc:
 		create a pool per thread and thus have no contention between threads.
 - demo slab allocation (is there a library for it ?!?)
 - show an example of writing a good cache allocator with little contention (using spin locks for multi thread access).
-
-glibc malloc issues:
-- do example of using the mtrace function.
-
-malloc and cache lines:
-- show how to modify malloc options so that it will align the pointers it
-	returns differently (more tightly or more loosly). This is useful to
-	make the data better aligned to CPU cache lines. Find out what the Intel
-	CPU cache line and show how to allocate aligned to that.
-	you can see the cache lines in /proc/cpuinfo on recent linux kernels.
-- do an example of checking at compile time that a structure fits in a CPU cache line.
-- do an example of finding out the cache line of the cpu at runtime or compile time.
-	show how to allocate memory which is aligned to that cache line.
-
-allocating memory from kernel:
 - show how to map hugetlbfs pages (huge pages) into user memory.
-
-malloc debuggers:
-- memwatch http://www.linkdata.se/sourcecode.html
-- yamd (yet another malloc debugger).

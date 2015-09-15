@@ -27,7 +27,7 @@
  * The use of the alloc_size attribute allows the compiled built in functions to know
  * the size of the object.
  *
- * use the mallocto know that the pointer returned by the functions is a new
+ * The compiler uses these hints to know that the pointer returned by the functions is a new
  * pointer and therefore will not be equal to any pointer seen the in the past
  * (malloc and calloc should have it, realloc will not).
  *
