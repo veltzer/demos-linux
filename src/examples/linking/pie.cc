@@ -22,15 +22,23 @@
 
 /*
  * This example shows how to compile an executable with position
- * independent code. You just use the -fpie/-fPIE flags to the compiler.
+ * independent code.
  * You can see that it is position independent by running this one again
  * and again and seeing the different addresses from the kernel ASLR.
  *
- * NOTES:
- * THIS EXAMPLE DOES NOT WORK. PROBABLY AN X86 THING.
+ * What you need to do?
+ * - compile object with -fpie/-fPIE.
+ * - link with -pie.
+ *
+ * Notes:
+ * - -fpie/-fPIE make your code run a little slower on some platformas that do
+ * not have elegant relative jump instructions (like i386 but not ia64).
+ * - The PIE feature combined with ASLR (Address Space Layout Randomization) which
+ * has been a feature of the Linux kernel for some time now, will give you better
+ * protection against hackers.
  *
  * EXTRA_COMPILE_FLAGS=-fPIE
- * EXTRA_LINK_FLAGS=-fPIE
+ * EXTRA_LINK_FLAGS=-pie
  */
 
 int main(int argc, char** argv, char** envp) {
