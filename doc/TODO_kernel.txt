@@ -1,3 +1,5 @@
+- do example of dynamic loading of modules using these:
+	symbol_request(x) try_then_request_module(symbol_get(x), "symbol:" #x)
 - add example of using the in_interrupt function to find out if we're in interrupt context or not.
 - do a simple example of exposing stuff via proc. (using the old non seq API).
 - improve the kmem_cache demo with the user space program.
