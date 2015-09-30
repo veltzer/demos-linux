@@ -129,6 +129,7 @@ http://oprofile.sourceforge.net/docs/
 ELF and size of executable:
 ===========================
 http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html
+http://linux-audit.com/elf-binaries-on-linux-understanding-and-analysis/
 
 Assembly programming:
 =====================

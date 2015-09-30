@@ -212,6 +212,11 @@ packs=[
 	'latencytop',
 	'devmem2',
 	'elfutils', # for manipulating elf files
+	#'elfkickers',
+	'pax-utils',
+	'paxctl',
+	'execstack',
+	'prelink',
 	'dstat',
 	#'netperf', # causes performance problems
 	#'netserver', # causes performance problems
