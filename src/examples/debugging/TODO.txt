@@ -1,1 +1,1 @@
-- checkout trace.h and show how to use it.
+- show how to create a simple debugger using the ptrace(2) syscall.

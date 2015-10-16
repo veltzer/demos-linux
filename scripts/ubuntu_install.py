@@ -168,6 +168,10 @@ packs=[
 	'gcc-snapshot',
 	'clang',
 
+	# libc
+	'glibc-doc',
+	'glibc-doc-reference',
+
 	# tools for demos
 	'linux-tools-common', # for perf(1)
 	'python3-uno', # for soffice conversion
