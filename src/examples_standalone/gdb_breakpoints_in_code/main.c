@@ -17,7 +17,8 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h> // for EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <signal.h>	// for raise(2), SIGTRAP
 
 /*
 * This is a simple application that creates a segmentation fault.
@@ -28,5 +29,7 @@ int main(int argc,char** argv,char** envp) {
 	volatile int i=5;
 	asm("int $3");
 	i=7;
+	raise(SIGTRAP);
+	i=9;
 	return EXIT_SUCCESS;
 }
