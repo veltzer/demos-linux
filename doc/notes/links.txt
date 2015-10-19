@@ -152,3 +152,9 @@ references manuals:
 ===================
 Lots of reference manuals (for intel processors, LSB and more) at the linux foundation site:
 http://refspecs.linux-foundation.org/
+
+debugger implementation:
+========================
+http://mohit.io/blog/software-breakpoints/
+http://eli.thegreenplace.net/2011/01/23/how-debuggers-work-part-1
+http://stackoverflow.com/questions/859023/how-are-debugger-breakpoints-implemented-efficiently
