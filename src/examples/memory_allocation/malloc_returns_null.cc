@@ -30,7 +30,7 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	printf("sizeof(size_t) is [%ld]...\n", sizeof(size_t));
+	printf("sizeof(size_t) is [%zd]...\n", sizeof(size_t));
 	unsigned int num_gigs=4;
 	size_t size=num_gigs*1024L*1024L*1024L;
 	unsigned int counter=0;

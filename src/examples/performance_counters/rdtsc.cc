@@ -28,8 +28,8 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	printf("getrdtsc() is %lu\n", getrdtsc());
+	printf("getrdtsc() is %llu\n", getrdtsc());
 	CHECK_ZERO(sleep(1));
-	printf("getrdtsc() is %lu\n", getrdtsc());
+	printf("getrdtsc() is %llu\n", getrdtsc());
 	return EXIT_SUCCESS;
 }
