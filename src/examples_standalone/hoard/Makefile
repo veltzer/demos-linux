@@ -6,7 +6,7 @@ URL:=https://github.com/emeryberger/Hoard/releases/download/3.10/Hoard-3.10-sour
 
 # rules
 .PHONY: all
-all: download
+all:
 	$(info doing [$@])
 .PHONY: download
 download: $(FILENAME)
