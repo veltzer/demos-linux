@@ -26,14 +26,25 @@
 
 /*
  * This is an example of how to implement the sleep function using
- * alarm(2) and pause(2)
+ * alarm(2) and pause(2).
+ * The real sleep(3) function is indeed implemented in a similar (albeit
+ * more professional) way.
+ * The sleep(3) function is considered a bad function in several aspects:
+ * - first it's resolution is in seconds which is really not adequate for many
+ * of today's uses.
+ * - second it's use of signals may interfere with other stuff running on the
+ * system.
+ * In case of need use nanosleep(2) instead.
+ *
+ * TODO:
+ * - only wait for SIGALRM in the mysleep() function.
  */
 
 static void handler(int sig, siginfo_t *si, void *unused) {
 	// do nothing?!?
 }
 
-void my_sleep(int seconds) {
+void mysleep(int seconds) {
 	CHECK_ZERO(alarm(seconds));
 	int ret=pause();
 	CHECK_ASSERT(ret==-1 && errno==EINTR);
@@ -53,7 +64,7 @@ int main(int argc, char** argv, char** envp) {
 	// demonstrate the use of our sleep function
 	while(true) {
 		printf("before sleep\n");
-		my_sleep(seconds);
+		mysleep(seconds);
 		printf("woke up\n");
 	}
 	return EXIT_SUCCESS;
