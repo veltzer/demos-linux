@@ -36,9 +36,9 @@ MODULE_VERSION("1.12.43b");
 /* yes, actually activate copy_to_user, copy_from_user */
 #define DO_COPY
 /* should we use spinlocks to synchronize readers and writes */
-#define DO_SPINLOCK
+/* #define DO_SPINLOCK */
 /* should we use mutexes to synchronize readers and writes */
-/* #define DO_MUTEX */
+#define DO_MUTEX
 /* do we want to use the waitqueue API? */
 #define DO_WAITQUEUE
 /* #define DO_WAITQUEUE_RISQUE */
