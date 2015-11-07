@@ -17,27 +17,30 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for malloc(3), EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_NOT_NULL()
+#include <signal.h>	// for psignal(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
+#include <stdio.h>	// for fprintf(3), stderr(object)
+#include <unistd.h>	// for getpid(2)
+#include <sys/types.h>	// for getpid(2)
+#include <signal_utils.h>	// for signal_register_handler_signal()
 
 /*
- * This example explores when it is exactly that malloc(3) returns NULL.
- * The answer is when virtual memory is over.
- * On a 64bit box this seems to be around 100,000 gigs.
- * Need to see how this works on a 32 bit box.
- * Another note is that malloc, even on a 64bit box, does not allocate more than 4gigs in one allocation.
+ * This example shows that signal handling can break a process
+ * from a busy wait loop, jump to the signal handling function
+ * and then return to the busy wait code transparently.
  */
 
+static void handler(int sig) {
+	psignal(sig, "handler");
+}
+
 int main(int argc, char** argv, char** envp) {
-	printf("sizeof(size_t) is [%zd]...\n", sizeof(size_t));
-	unsigned int num_gigs=4;
-	size_t size=num_gigs*1024L*1024L*1024L;
-	unsigned int counter=0;
+	// set up the signal handler (only need to do this once)
+	signal_register_handler_signal(SIGUSR1, handler);
+	fprintf(stderr, "signal me with one of the following:\n");
+	fprintf(stderr, "[kill -s SIGUSR1 %d]\n", getpid());
+	// NOTE! This is a busy wait loop...
 	while(true) {
-		CHECK_NOT_NULL(malloc(size));
-		counter+=num_gigs;
-		printf("allocted %d gigs..\n", counter);
 	}
 	return EXIT_SUCCESS;
 }

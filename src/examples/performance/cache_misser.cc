@@ -41,6 +41,7 @@ int main(int argc, char** argv, char** envp) {
 		fprintf(stderr, "%s: usage: %s [size] [times]\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
+	printf("RAND_MAX is %d\n", RAND_MAX);
 	unsigned int size=atoi(argv[1]);
 	unsigned int times=atoi(argv[2]);
 	char* p=(char*)malloc(size);
