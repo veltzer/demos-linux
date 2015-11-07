@@ -32,7 +32,7 @@ opt_do_ddebs=False
 # version of the papi library
 opt_papiversion='5.4.1'
 # do templar?
-opt_do_templar=False
+opt_do_templar=True
 
 ########
 # code #
