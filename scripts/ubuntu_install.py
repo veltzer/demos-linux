@@ -23,17 +23,16 @@ opt_debug=False
 # exit after debug?
 opt_exit=False
 # what boost to install?
-opt_boost_version='1.55.0'
-opt_boost_version_short='1.55'
+opt_boost_version='1.58.0'
+opt_boost_version_short='1.58'
 # install kernels?
 opt_do_kernel=True
 # install debug packages for kernels?
-opt_do_ddebs=True
+opt_do_ddebs=False
 # version of the papi library
-# for ubuntu 14.10
-#opt_papiversion='5.3'
-# for ubuntu 15.04
-opt_papiversion='5.4'
+opt_papiversion='5.4.1'
+# do templar?
+opt_do_templar=False
 
 ########
 # code #
@@ -105,7 +104,7 @@ packs=[
 	'libgnomeui-0',
 	'libgnomeui-dev',
 	'libgnomeui-doc',
-	'libsigc++-2.0-0c2a',
+	'libsigc++-2.0-0v5',
 	'libsigc++-2.0-dev',
 	'libsigc++-2.0-doc',
 	'libgtkmm-2.4-dev',
@@ -144,20 +143,15 @@ packs=[
 	'libdw-dev',
 	'libasm1',
 	'libasm-dev',
-	'libstdc++6-4.4-doc',
+	'libstdc++6-4.7-doc',
 	'aspell-doc',
 	'libaspell-dev',
 	'libacl1-dev',
 	'libattr1-dev',
 
 	# compilers
-	'g++-4.4',
-	'gcc-4.6-plugin-dev',
 	'gcc-4.7-plugin-dev',
 	'gcc-4.8-plugin-dev',
-	'gcc-4.6',
-	'g++-4.6',
-	'gcc-4.6-doc',
 	'gcc-4.7',
 	'g++-4.7',
 	'gcc-4.7-doc',
@@ -317,9 +311,6 @@ packs=[
 	'postgresql-client-common',
 	'postgresql-doc',
 
-	# my own stuff
-	'templar',
-
 	# watchdogs
 	'rtkit',
 	'watchdog',
@@ -328,6 +319,12 @@ packs=[
 	'ruby-god',
 	'monit',
 ]
+
+if opt_do_templar:
+	packs.extend([
+		# my own stuff
+		'templar',
+	])
 
 if opt_do_kernel:
 	packs.extend([
@@ -364,4 +361,7 @@ args=[
 	'--assume-yes'
 ]
 args.extend(packs)
-subprocess.check_call(args)
+try:
+	subprocess.check_call(args)
+except:
+	pass
