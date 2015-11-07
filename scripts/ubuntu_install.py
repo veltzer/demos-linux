@@ -148,6 +148,7 @@ packs=[
 	'libaspell-dev',
 	'libacl1-dev',
 	'libattr1-dev',
+	'libdaemon-dev',
 
 	# compilers
 	'gcc-4.7-plugin-dev',

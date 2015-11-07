@@ -28,7 +28,7 @@
  * In this case this is an array of integers.
  */
 
-inline void* array_construct(int size) {
+static inline void* array_construct(int size) {
 	int* p=(int*)CHECK_NOT_NULL(malloc(size*sizeof(int)));
 	bzero(p, size*sizeof(int));
 	return p;
