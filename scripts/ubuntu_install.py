@@ -159,7 +159,7 @@ packs=[
 	'gcc-4.8',
 	'g++-4.8',
 	'gcc-4.8-doc',
-	#'g++-4.9',
+	'g++-4.9',
 	'gcc-snapshot',
 	'clang',
 
