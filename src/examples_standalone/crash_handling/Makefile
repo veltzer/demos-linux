@@ -80,7 +80,7 @@ tests: test.elf auto_test.elf naive_test.elf
 
 test.elf: libcrash.so.$(LIB_VERSION) test.c crash.c crashd.c crash.h crash_msg.h Makefile
 	$(info doing [$@])
-	$(Q)$(CC) test.c crash.c crashd.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o test.elf
+	$(Q)$(CC) test.c crashd.c crash.c $(TESTS_CFLAGS) $(TESTS_LDFLAGS) -o test.elf
 
 auto_test.elf: libauto_crash.so.$(LIB_VERSION) auto_test.c crash.h crash_msg.h Makefile
 	$(info doing [$@])

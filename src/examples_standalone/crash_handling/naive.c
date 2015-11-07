@@ -36,7 +36,7 @@
 
 
 /* gettid in non offical so not in glibc headers. This works though */
-inline pid_t gettid (void) {
+pid_t gettid (void) {
 	return syscall(__NR_gettid);
 }
 

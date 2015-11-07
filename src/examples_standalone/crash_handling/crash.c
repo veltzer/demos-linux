@@ -58,7 +58,7 @@ static pthread_spinlock_t g_thread_lock;
 #endif /* USE_THREADS */
 
 /* gettid in non offical so not in glibc headers. This works though */
-inline pid_t gettid(void) {
+pid_t gettid(void) {
 	return syscall(__NR_gettid);
 }
 
@@ -69,7 +69,7 @@ inline pid_t gettid(void) {
 * distance is the distance is calls from the signal handler
 *
 */
-inline unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_t * context, unsigned int distance) {
+unsigned int signal_backtrace(void ** array, unsigned int size, ucontext_t * context, unsigned int distance) {
 
 	/* WARNING: If you ever remove the inline from the function prototype,
 	* adjust this to match!!!
