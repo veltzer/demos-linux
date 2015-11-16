@@ -96,27 +96,26 @@ inline error_data *error_setjmp() {
 #define mac_error_setjmp() ((error_data *)(unsigned long)setjmp(env))
 
 /* this simulates a function which sometimes encounters errors */
-void func() {
-	static int counter=0;
-
-	counter++;
+void func(int counter) {
 	if (counter % 3==0) {
 		error_create("some error");
 	}
+	counter++;
 	fprintf(stderr, "this is the continuation of the function\n");
 }
 
+void myfunc(int c) {
+	func(c);
+}
+
 int main(int argc, char** argv, char** envp) {
-	for(int c=0; c<10; c++) {
-		// int ret=setjmp(env);
-		// error_data* p=(error_data*)ret;
-		// error_data* p=error_setjmp();
+	for(int c=1; c<10; c++) {
 		error_data *p=mac_error_setjmp();
 		if (p==NULL) {
 			// This is the regular code. We get here when setting doing the
 			// setjmp for the first time
 			fprintf(stderr, "c is %d\n", c);
-			func();
+			myfunc(c);
 		} else {
 			// we got an error
 			error_print(stderr, p);
