@@ -21,6 +21,7 @@
 #include <linux/slab.h> /* for the kmalloc API */
 #include <linux/pagemap.h> /* for vma structures */
 #include <linux/sched.h> /* for current */
+#include <linux/vmalloc.h> /* for vmap */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
 

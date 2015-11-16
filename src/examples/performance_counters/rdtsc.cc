@@ -28,8 +28,10 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	printf("getrdtsc() is %llu\n", getrdtsc());
+	// this is giving me problems on i386 vs x64 (llu vs lu)
+	printf("getrdtsc() is %lu\n", getrdtsc());
 	CHECK_ZERO(sleep(1));
-	printf("getrdtsc() is %llu\n", getrdtsc());
+	// this is giving me problems on i386 vs x64 (llu vs lu)
+	printf("getrdtsc() is %lu\n", getrdtsc());
 	return EXIT_SUCCESS;
 }

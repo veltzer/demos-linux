@@ -47,3 +47,6 @@
 	Question: is going to sleep in the kernel actually release the BLK ? probably so.
 	This is what everyone says. This means that we should busy wait in the kernel instead... Do both.
 - do example that explains wait queues.
+- add kernel example of netlink:
+	add https://github.com/mdcb/kernel-howto/tree/master/netlink-libnl
+        demo for netlink.

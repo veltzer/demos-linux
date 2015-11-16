@@ -25,7 +25,8 @@
  * A simple boost threads app
  *
  * the next one should be "-lboost_thread" but ubuntu has no symlink to that...
- * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.55.0 -l:libboost_system.so.1.55.0
+ * this is ugly since we have to update this every time version of boost changes
+ * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.58.0 -l:libboost_system.so.1.58.0
  */
 
 int main(int argc, char** argv, char** envp) {

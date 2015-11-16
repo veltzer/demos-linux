@@ -42,7 +42,7 @@ inline void _check_bounds(void* array, int pos) {
 #define CHECK_BOUNDS(array, pos)
 #endif // DEBUG
 
-inline void* array_construct(int size) {
+static inline void* array_construct(int size) {
 	int* p=(int*)CHECK_NOT_NULL(malloc((size+1)*sizeof(int)));
 	bzero(p, (size+1)*sizeof(int));
 	p[0]=size;

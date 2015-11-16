@@ -24,25 +24,34 @@
 #include <err_utils.h>	// for CHECK_NOT_NULL(), CHECK_NOT_M1()
 
 /*
- * This example explores the use of limits. You can limit the size of your programs RAM
+ * This example explores the use of limits in source code.
+ * You can limit the size of your programs RAM
  * and crash long before you get into swapping (recommended).
- * Many more limits exist. Try to use as much of them as possible.
+ * Many more types of limits exist. Try to use as much of them as possible.
  * set setrlimit(2) for more details.
  *
- * You can ofcourse skip the setting of ulimit in the source code and use ulimit(1) on the
- * command line instead.
+ * Note that if you do not set a limit on your memory size then on a 64 bit
+ * system you can allocate ludicrous amounts of ram (131,000 GB anyone?).
+ *
+ * Setting of limits is controlled:
+ * - at login time from /etc/security/{limits.conf,limits.d}
+ * - from the command line using such shell builtins as ulimit(1) of bash (here you can only lower limits).
+ * - from your source code (here you can only lower limits).
+ * This is an example of the third option.
  */
 
 int main(int argc, char** argv, char** envp) {
-	const int max_megs=50;
+	const size_t size_to_alloc=1024*1024*1024;
+	const char* desc="gigs";
+	const int max_gigs=50;
 	struct rlimit rlim;
-	rlim.rlim_max=max_megs*1024*1024;
-	rlim.rlim_cur=max_megs*1024*1024;
+	rlim.rlim_max=max_gigs*size_to_alloc;
+	rlim.rlim_cur=max_gigs*size_to_alloc;
 	CHECK_NOT_M1(setrlimit(RLIMIT_AS, &rlim));
 	int d=0;
 	while(true) {
-		CHECK_NOT_NULL(malloc(1024*1024));
-		printf("managed to allocate %d megs\n", d);
+		CHECK_NOT_NULL(malloc(size_to_alloc));
+		printf("managed to allocate %d %s\n", d, desc);
 		d++;
 	}
 	return EXIT_SUCCESS;

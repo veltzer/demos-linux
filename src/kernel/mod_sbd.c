@@ -20,6 +20,7 @@
 #include <linux/module.h> /* for the MODULE_* stuff */
 #include <linux/hdreg.h> /* for geometry of hard drive */
 #include <linux/blkdev.h> /* for block operations */
+#include <linux/vmalloc.h> /* for vmalloc */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
 
