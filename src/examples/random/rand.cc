@@ -22,24 +22,23 @@
 
 /*
  * This example demos the pseudo random number generator
- * implemented by the glibc functions srand(3) etc.
+ * implemented by the glibc functions srand(3), rand(3) etc.
  *
  * Notes:
  * - since this is a pseudo random number generator
  * and it is always initialized using the same seed, then
  * it will always produce the EXACT series of "random"
  * numbers.
- * This is great especially if you want determinism and
+ * - This is great especially if you want determinism and
  * reproducibility of your code.
- * This is bad if you adopt a security standpoint.
+ * - This is bad if you adopt a security standpoint.
  * - the default seed is 1 (that is if you don't initialize the seed).
  * - both srandom(3) and srand(3) can be used intechangebly to seed this generator.
  */
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=5) {
-		fprintf(stderr, "%s: usage %s [num] [be_thread_safe] [use_srandom] [seed]\n", argv[0], argv[0]);
-		fprintf(stderr, "%s: seed<256 will be used, higher will not\n", argv[0]);
+	if(argc!=6) {
+		fprintf(stderr, "%s: usage %s [num] [be_thread_safe] [use_srandom] [use_seed] [seed]\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: seed=1 is the default seed\n", argv[0]);
 		return EXIT_FAILURE;
 	}
@@ -48,8 +47,9 @@ int main(int argc, char** argv, char** envp) {
 	unsigned int num=atoi(argv[1]);
 	int be_thread_safe=atoi(argv[2]);
 	int use_srandom=atoi(argv[3]);
-	unsigned int seed=(unsigned int)atoi(argv[4]);
-	if(seed<256) {
+	int use_seed=atoi(argv[4]);
+	unsigned int seed=(unsigned int)atoi(argv[5]);
+	if(use_seed) {
 		if(!be_thread_safe) {
 			if(use_srandom) {
 				printf("initializing seed to %u using srandom\n", seed);
