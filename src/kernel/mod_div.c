@@ -111,7 +111,7 @@ static const struct file_operations my_fops = {
 * See the following code...
 */
 
-unsigned long long __udivdi3(unsigned long long divided,
+static unsigned long long __udivdi3(unsigned long long divided,
 		unsigned long long divisor)
 {
 	unsigned int reminder;
@@ -121,8 +121,7 @@ unsigned long long __udivdi3(unsigned long long divided,
 	return div_u64_rem(divided, divisor, &reminder);
 }
 
-
-long long __divdi3(long long divided, long long divisor)
+static long long __divdi3(long long divided, long long divisor)
 {
 	unsigned int reminder;
 

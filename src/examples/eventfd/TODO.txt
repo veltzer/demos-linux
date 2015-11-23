@@ -1,0 +1,2 @@
+demonstrate the use of eventfd as semaphoe/mutex using
+	EFD_SEMAPHORE

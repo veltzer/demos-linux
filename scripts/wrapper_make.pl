@@ -1,12 +1,16 @@
 #!/usr/bin/perl -w
 
-# This is a script that wraps the running of make.
-#
-# Why do I need this ?
-# To wrap stuff like building kernel module which prints way too much stuff on the screen.
-#
-# Design:
-# - this script runs make as a child process
+=head
+
+This is a script that wraps the running of make.
+
+Why do I need this ?
+To wrap stuff like building kernel module which prints way too much stuff on the screen.
+
+Design:
+- this script runs make as a child process
+
+=cut
 
 use strict;
 use diagnostics;
