@@ -21,9 +21,9 @@
 #include <signal.h>	// for raise(2), SIGTRAP
 
 /*
-* This is a simple application that creates a segmentation fault.
-* The kernel does not map address 0 on purpose to processes.
-*/
+ * This is a simple example that shows how to raise a debugger breakpoint.
+ * Even one which is not set in the debugger.
+ */
 
 int main(int argc,char** argv,char** envp) {
 	volatile int i=5;
