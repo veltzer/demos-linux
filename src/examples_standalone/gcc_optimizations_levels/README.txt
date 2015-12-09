@@ -1,2 +1,1 @@
-The makefile here helps you in seeing what optimizations in the compiler are enabled for
-each -O[N] number.
+The makefile here helps you in seeing what optimizations in the compiler are enabled for each -O[N] number. Note that -O4 and onwards are accepted by gcc but are useless as they provide the same optimizations as -O3...
