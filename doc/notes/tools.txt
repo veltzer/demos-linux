@@ -110,6 +110,7 @@ cpu:
 		doesn't have a package in ubuntu yet
 		https://rt.wiki.kernel.org/index.php/Schedtop_utility
 	(1) sensors - print sensors information
+	(1) cpuid - Dump CPUID information for each CPU
 
 process ids:
 	(8) pidof - find the process ID of a running program.

@@ -219,6 +219,7 @@ packs=[
 	'dstat',
 	#'netperf', # causes performance problems
 	#'netserver', # causes performance problems
+	'cpuid',
 	'sysstat',
 	'nmon',
 	'saidar',
