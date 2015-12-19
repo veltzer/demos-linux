@@ -25,7 +25,6 @@ rectangle* create_rectangle(const int width, const int height);
 int sizeof_rectangle();
 void construct_rectangle(rectangle*, const int width, const int height);
 void rectangle_destroy(rectangle*);
-void destroy_rectangle(rectangle*);
 int rectangle_get_width(const rectangle const * r);
 int rectangle_get_height(const rectangle const * r);
 void rectangle_set_width(rectangle * r, const int width);

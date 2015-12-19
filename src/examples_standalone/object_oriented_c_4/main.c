@@ -41,9 +41,9 @@ int main(int argc, char** argv, char** envp) {
 	}
 	p=(char*)myrectangles;
 	for(i=0;i<100;i++) {
-		destroy_rectangle((rectangle*)p, 7, 8);
+		rectangle_destroy((rectangle*)p);
 		p+=sizeof_rectangle();
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

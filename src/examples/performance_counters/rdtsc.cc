@@ -29,9 +29,9 @@
 
 int main(int argc, char** argv, char** envp) {
 	// this is giving me problems on i386 vs x64 (llu vs lu)
-	printf("getrdtsc() is %lu\n", getrdtsc());
+	printf("getrdtsc() is %llu\n", getrdtsc());
 	CHECK_ZERO(sleep(1));
 	// this is giving me problems on i386 vs x64 (llu vs lu)
-	printf("getrdtsc() is %lu\n", getrdtsc());
+	printf("getrdtsc() is %llu\n", getrdtsc());
 	return EXIT_SUCCESS;
 }
