@@ -96,10 +96,7 @@ static inline void my_system(const char *fmt, ...) {
 #ifdef MULTIPROC_DEBUG
 	fprintf(stderr, "doing [%s]\n", str);
 #endif
-	int ret=CHECK_NOT_M1(system(str));
-	if(!child_ok(ret)) {
-		CHECK_ASSERT(ret==0);
-	}
+	CHECK_ZERO(system(str));
 }
 
 void my_system(const char *fmt, ...) __attribute__((format(printf, 1, 2)));

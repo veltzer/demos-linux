@@ -18,16 +18,20 @@
 
 /* #define DEBUG */
 #include <linux/module.h> /* for MODULE_* */
+#include <linux/device.h> /* for dev_[warn|info|..] */
 #include <linux/fs.h> /* for fops */
-#include <linux/device.h> /* for struct device */
-#include <linux/delay.h> /* for ssleep() */
-#include "shared.h" /* for ioctl numbers */
 /* #define DO_DEBUG */
 #include "kernel_helper.h" /* our own helper */
 
+/*
+* This is a driver which prints stuff at open and release and allows you
+* to explore how open and close in user space translate to open and release
+* calls in the kernel
+*/
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Mark Veltzer");
-MODULE_DESCRIPTION("explore the race condition between ioctl and close");
+MODULE_DESCRIPTION("module to investigate fork(2) behaviour");
 
 /* static data */
 static struct device *my_device;
@@ -45,42 +49,20 @@ static int kern_open(struct inode *inode, struct file *filp)
 }
 
 /*
-* This is the ioctl implementation.
-*/
-static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
-		unsigned long arg)
-{
-	/* dev_info(my_device, "ioctl start"); */
-	switch (cmd) {
-	case IOCTL_RACE_EMPTY:
-		/* empty ioctl to 'just work'; */
-		/* PR_INFO("end"); */
-		return 0;
-	case IOCTL_RACE_SLEEP_SHORT:
-		/* long ioctl to stall for time */
-		msleep_interruptible(10000);
-		PR_INFO("end");
-		return 0;
-	case IOCTL_RACE_SLEEP_LONG:
-		/* long ioctl to stall for time */
-		/* ssleep(10000); */
-		msleep_interruptible(20000);
-		PR_INFO("end");
-		return 0;
-	}
-	/* dev_info(my_device, "ioctl end"); */
-	return -EINVAL;
-}
-
-/*
-* The release implementation.
+* The release implementation. Currently this does nothing
 */
 static int kern_release(struct inode *inode, struct file *filp)
 {
 	dev_info(my_device, "release start");
-	ssleep(2);
 	dev_info(my_device, "release end");
 	return 0;
+}
+
+static ssize_t kern_read(struct file *file, char __user *buf, size_t count,
+		loff_t *ppos) {
+	*ppos += count;
+	dev_info(my_device, "position %ld, filp %p", *ppos, file);
+	return count;
 }
 
 /*
@@ -90,7 +72,7 @@ static const struct file_operations my_fops = {
 	.owner = THIS_MODULE,
 	.open = kern_open,
 	.release = kern_release,
-	.unlocked_ioctl = kern_unlocked_ioctl,
+	.read = kern_read,
 };
 
 #include "device.inc"

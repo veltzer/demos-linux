@@ -2,7 +2,7 @@
 #include<linux/moduleparam.h> // for module_param, MODULE_PARM_DESC
 #include<linux/init.h> // for __init, __exit
 #include<linux/slab.h> // for kmalloc
-#include<linux/cdev.h> // for char device
+#include<linux/cdev.h> // for struct cdev, cdev_init, cdev_add, cdev_del
 #include<linux/fs.h> // for fops
 #include<linux/device.h> // for device support
 

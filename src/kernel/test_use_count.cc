@@ -23,6 +23,7 @@
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <unistd.h>	// for close(2), sleep(3), usleep(3)
 #include <stdio.h>	// for printf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <err_utils.h>	// for CHECK_NOT_M1()
 #include <multiproc_utils.h>	// for my_system()
 #include "shared.h"	// for ioctl numbers
@@ -50,5 +51,5 @@ int main(int argc, char** argv, char** envp) {
 		CHECK_NOT_M1(usleep(1000000));
 		// CHECK_ZERO(sleep(1));
 	}
-	return(0);
+	return EXIT_SUCCESS;
 }

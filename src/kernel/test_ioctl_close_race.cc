@@ -18,6 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3), fflush(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>	// for sleep(3), close(2)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <sys/types.h>	// for open(2)
@@ -29,10 +30,10 @@
 #include "shared.h"	// for ioctl numbers
 
 /*
- * This application has two threads:
- *	- one running like crazy doing ioctls.
+ * This application has at least two threads:
+ *	- one running like crazy doing ioctls (and stopping when there are too many errors).
  *	- one asking to close the driver (which halts).
- *	- main asking for input and releases the close process...
+ *	- main which joins these threads (waits for them to die...)
  *
  * What do we learn from this?
  *	- closing a file descriptor only schedules release to be called in the kernel.
@@ -44,7 +45,7 @@
  */
 
 // file descriptor
-int fd, fd2;
+int fd;
 
 void *function_empty(void *p) {
 	bool over=false;
@@ -92,7 +93,7 @@ void *function_short(void *p) {
 void *function_long(void *p) {
 	fprintf(stdout, "sl");
 	fflush(stdout);
-	CHECK_NOT_M1(ioctl(fd2, IOCTL_RACE_SLEEP_LONG, NULL));
+	CHECK_NOT_M1(ioctl(fd, IOCTL_RACE_SLEEP_LONG, NULL));
 	fprintf(stdout, "fl");
 	fflush(stdout);
 	return NULL;
@@ -105,8 +106,6 @@ void *function_close(void *p) {
 	CHECK_NOT_M1(close(fd));
 	fprintf(stdout, "C");
 	fflush(stdout);
-	// this will create an error
-	// CHECK_NOT_M1(ioctl(d,IOCTL_RACE_EMPTY,NULL));
 	return NULL;
 }
 
@@ -118,7 +117,6 @@ int main(int argc, char** argv, char** envp) {
 	my_system("sudo chmod 666 %s", filename);
 
 	fd=CHECK_NOT_M1(open(filename, O_RDWR));
-	fd2=CHECK_NOT_M1(open(filename, O_RDWR));
 
 	pthread_t thread_empty, thread_short, thread_long, thread_close;
 	CHECK_ZERO_ERRNO(pthread_create(&thread_empty, NULL, function_empty, NULL));
@@ -129,8 +127,6 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO_ERRNO(pthread_join(thread_short, NULL));
 	CHECK_ZERO_ERRNO(pthread_join(thread_long, NULL));
 	CHECK_ZERO_ERRNO(pthread_join(thread_close, NULL));
-	// CHECK_NOT_M1(close(fd));
-	CHECK_NOT_M1(close(fd2));
 	fprintf(stdout, "\nALL DONE\n");
-	return(0);
+	return EXIT_SUCCESS;
 }

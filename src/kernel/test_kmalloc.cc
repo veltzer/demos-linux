@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdlib.h>
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <err_utils.h>	// for CHECK_NOT_M1()
@@ -52,5 +52,5 @@ int main(int argc, char** argv, char** envp) {
 		// printf("dma_alloc_coherent: i is %d",i);
 	}
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

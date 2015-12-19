@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdlib.h>
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <string.h>
@@ -105,5 +105,5 @@ int main(int argc, char** argv, char** envp) {
 	// klog_show_clear();
 	waitkey(NULL);
 
-	return(0);
+	return EXIT_SUCCESS;
 }

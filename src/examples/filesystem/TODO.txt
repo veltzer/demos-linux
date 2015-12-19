@@ -1,6 +1,17 @@
 - add an example of seek with SEEK_HOLE and SEEK_DATA.
 - add an example of the fiemap system call (look it up online).
+	(only for XFS?!?)
 - do an example that shows that race condition inherent in close(2)
 	calls. It is stated that close(2) can return EINTR but it
 	is not clear if the file descriptor in this case is open
 	or closed. Check this on linux and document it.
+	Also state that you should not retry to close twice.
+	If you do - you may close a different file than the one
+	that you intended (this is in a multi-threaded app where the
+	first close succeeded and some other thread opened a file and
+	got the same file descriptor number).
+- do example of ftell(3) but on a file descriptor. Since there is no
+	system call for this one must execute:
+		position = lseek(fd, 0, SEEK_CUR);
+	References:
+	http://stackoverflow.com/questions/3399236/ftell-on-a-file-descriptor
