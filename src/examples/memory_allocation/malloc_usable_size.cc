@@ -31,6 +31,6 @@
 
 int main(int argc, char** argv, char** envp) {
 	void* p=CHECK_NOT_NULL(malloc(4));
-	printf("malloc_usage_size is %d\n", malloc_usable_size(p));
+	printf("malloc_usage_size is %zd\n", malloc_usable_size(p));
 	return EXIT_SUCCESS;
 }
