@@ -34,6 +34,9 @@
  * another (CLONE_FILES is NOT set in clone(2)). This means that the processes
  * do not effect each other (as good theory suggests).
  *
+ * At fork(2) time child gets a copy of it's files file descriptors with their
+ * state (mode, offset etc).
+ *
  * The same applies for closing the file descriptors, changing attributes on
  * them (using fcntl(2) or the like), seeking the files and more.
  *
@@ -49,6 +52,8 @@
 int main(int argc, char** argv, char** envp) {
 	pid_t child_pid=CHECK_NOT_M1(fork());
 	int fd=CHECK_NOT_M1(open("/etc/passwd", O_RDONLY));
+	char buf[2];
+	CHECK_NOT_M1(read(fd,&buf,2));
 	const int count=10;
 	if(child_pid) {
 		// the parent

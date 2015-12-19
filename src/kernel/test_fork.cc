@@ -29,6 +29,17 @@
 /*
  * This application simply tests what happens at the driver level when user space
  * calls the fork(2) system call.
+ *
+ * The results:
+ * - no call is made to the device driver at fork(2) time.
+ * - this is identical to what happens when user space calls clone(2) to create more threads.
+ * - this means that at the driver level you cannot distinguish between multi-threaded and
+ * processed applications using your driver.
+ * - this means that a driver which can only server one "struct filp*" (supports only a single
+ * open(2) call) can serve both multi-processed and multi-threaded applications.
+ * - this is good.
+ * - in this case files backed by device drivers as different from files backed by regular
+ * file systems where on fork(2) you get a different offset and options for parent and child.
  */
 
 int main(int argc, char** argv, char** envp) {
