@@ -18,6 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for printf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
@@ -55,5 +56,5 @@ int main(int argc, char** argv, char** envp) {
 		printf("kernel returned %d, I got %d and errno is %d\n", i, res, myerrno);
 	}
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

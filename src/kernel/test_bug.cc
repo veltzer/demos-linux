@@ -23,6 +23,7 @@
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <unistd.h>	// for close(2)
 #include <err_utils.h>	// for CHECK_NOT_M1()
+#include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
  * This is a demo of how to use the BUG() macro in the kernel to find bugs.
@@ -37,5 +38,5 @@ int main(int argc, char** argv, char** envp) {
 	int d=CHECK_NOT_M1(open(filename, O_RDWR));
 	CHECK_NOT_M1(ioctl(d, 0, NULL));
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

@@ -21,7 +21,7 @@
 #include <sys/types.h>	// for open(2)
 #include <sys/stat.h>	// for open(2)
 #include <fcntl.h>	// for open(2)
-#include <stdlib.h>	// for free(3), malloc(3)
+#include <stdlib.h>	// for free(3), malloc(3), EXIT_SUCCESS
 #include <string.h>	// for strncpy(3)
 #include <sys/mman.h>	// for mmap(2), munmap(2)
 #include <sys/ioctl.h>	// for ioctl(2)
@@ -132,5 +132,5 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(munmap(data2, size));
 	proc_print_mmap("demo");
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

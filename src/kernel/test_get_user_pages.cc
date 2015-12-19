@@ -18,6 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -122,5 +123,5 @@ int main(int argc, char** argv, char** envp) {
 		do_test(data, csize, "stacks");
 	}
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }

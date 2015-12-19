@@ -18,6 +18,7 @@
 
 #include <firstinclude.h>
 #include <stdio.h>	// for fprintf(3)
+#include <stdlib.h>	// for EXIT_SUCCESS
 #include <sys/ioctl.h>	// for ioctl(2)
 #include <pthread.h>	// for pthread_create(3), pthread_join(3)
 #include <sys/types.h>	// for open(2)
@@ -72,5 +73,5 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_ZERO_ERRNO(pthread_join(thread_wait1, NULL));
 	CHECK_ZERO_ERRNO(pthread_join(thread_wait2, NULL));
 	CHECK_NOT_M1(close(fd));
-	return(0);
+	return EXIT_SUCCESS;
 }

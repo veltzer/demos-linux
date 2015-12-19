@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <stdlib.h>	// for malloc(3), free(3)
+#include <stdlib.h>	// for malloc(3), free(3), EXIT_SUCCESS
 #include <string.h>	// for strncpy(3)
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -146,5 +146,5 @@ int main(int argc, char** argv, char** envp) {
 		}
 	}
 	CHECK_NOT_M1(close(d));
-	return(0);
+	return EXIT_SUCCESS;
 }
