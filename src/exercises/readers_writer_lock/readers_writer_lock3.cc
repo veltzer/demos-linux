@@ -59,23 +59,23 @@ int mypthread_rwlock_destroy(mypthread_rwlock_t* lock) {
 }
 int mypthread_rwlock_rdlock(mypthread_rwlock_t* lock) {
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&lock->mymutex));
-	lock->readers_waiting++;
 	while(lock->writers>0) {
+		lock->readers_waiting++;
 		CHECK_ZERO_ERRNO(pthread_cond_wait(&lock->mycond_readers, &lock->mymutex));
+		lock->readers_waiting--;
 	}
 	lock->readers++;
-	lock->readers_waiting--;
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&lock->mymutex));
 	return 0;
 }
 int mypthread_rwlock_wrlock(mypthread_rwlock_t* lock) {
 	CHECK_ZERO_ERRNO(pthread_mutex_lock(&lock->mymutex));
-	lock->writers_waiting++;
 	while(lock->readers>0 || lock->writers>0) {
+		lock->writers_waiting++;
 		CHECK_ZERO_ERRNO(pthread_cond_wait(&lock->mycond_writers, &lock->mymutex));
+		lock->writers_waiting--;
 	}
 	lock->writers++;
-	lock->writers_waiting--;
 	CHECK_ZERO_ERRNO(pthread_mutex_unlock(&lock->mymutex));
 	return 0;
 }
