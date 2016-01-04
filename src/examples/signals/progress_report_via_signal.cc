@@ -20,7 +20,7 @@
 #include <signal.h>	// for signal(2), SIG_ERR
 #include <unistd.h>	// for alarm(2), write(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT()
+#include <err_utils.h>	// for CHECK_NOT_M1(), CHECK_NOT_SIGT(), CHECK_ZERO()
 #include <stdio.h>	// for snprintf(3), STDERR_FILENO
 
 /*
@@ -39,33 +39,33 @@
  * The volatile is also *critical* to force the compiler not to optimize away
  * the entire loop in the main function.
  */
-volatile unsigned long i;
+volatile unsigned long long i;
+
+/*
+ * The time interval for updating the progress display, in seconds.
+ */
+const int interval=1;
 
 /*
  * Remember that this is a signal handler and calls to fprintf(3) or the like
  * are forbidden so we are forced to use async-safe function (see man 7 signal).
  * That is the reason for the cumbersome code. Hopefylly snprintf(3) is safe
- * enough to use and does not do any memory allocations or the like. write(2),
- * signal(2) and alarm(2) are safe according to the manual.
+ * enough to use and does not do any memory allocations or the like. write(2)
+ * alarm(2) are safe according to the manual.
  */
 static void handler(int sig) {
 	static int times=0;
-	// we have to reschedule the SIGALRM every time since the alarm(2)
-	// is a one time deal.
-	CHECK_NOT_SIGT(signal(SIGALRM, handler), SIG_ERR);
-	// no error code from alarm(2)
-	alarm(1);
+	// we have to reschedule the SIGALRM every time since the alarm(2) is a one time deal.
+	CHECK_ZERO(alarm(interval));
 	char buf[100];
 	times+=1;
-	//int len=snprintf(buf, sizeof(buf), "did [%02ld] units of work...\r", i);
-	int len=snprintf(buf, sizeof(buf), "called [%02d] times...\r", times);
+	int len=snprintf(buf, sizeof(buf), "progress report number [%02d], [%012lld] units of work done...\r", times, i);
 	CHECK_NOT_M1(write(STDERR_FILENO, buf, len));
 }
 
 int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_SIGT(signal(SIGALRM, handler), SIG_ERR);
-	// no error code from alarm(2)
-	alarm(1);
+	CHECK_ZERO(alarm(interval));
 	// a very long calculation
 	while(true) {
 		/* Do some real work here */
