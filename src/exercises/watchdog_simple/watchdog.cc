@@ -27,7 +27,7 @@ int main(int argc, char** argv, char** envp) {
 			printf("This is the parent\n");
 			printf("The child pid is %d\n", child_pid);
 			int status;
-			pid_t res=handle_error(wait(&status));
+			handle_error(wait(&status));
 			if(WIFEXITED(status)) {
 				need_to_run_child=0;
 			} else {
