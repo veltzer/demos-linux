@@ -17,9 +17,9 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>
+#include <stdio.h>	// for fprintf(3)
 #include <unistd.h>	// for sleep(3)
-#include <stdlib.h>	// for EXIT_FAIURE, EXIT_SUCCESS
+#include <stdlib.h>	// for EXIT_FAILURE, EXIT_SUCCESS
 #include <signal.h>	// for signal(2)
 #include <alsa/asoundlib.h>
 #include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1()
@@ -44,10 +44,10 @@
 const int TICKS_PER_QUARTER=128;
 const int MAX_SEQ_LEN=64;
 
-int queue_id, port_in_id, port_out_id, transpose, bpm0, bpm, tempo, swing, sequence[3][MAX_SEQ_LEN], seq_len;
-snd_seq_t *seq_handle;
-char* seq_filename;
-snd_seq_tick_time_t tick;
+static int queue_id, port_in_id, port_out_id, transpose, bpm0, bpm, tempo, swing, sequence[3][MAX_SEQ_LEN], seq_len;
+static snd_seq_t *seq_handle;
+static char* seq_filename;
+static snd_seq_tick_time_t tick;
 
 snd_seq_t *open_seq() {
 	snd_seq_t *seq_handle;
@@ -122,8 +122,8 @@ void arpeggio() {
 }
 
 void midi_action() {
-	snd_seq_event_t *ev;
 	do {
+		snd_seq_event_t *ev;
 		snd_seq_event_input(seq_handle, &ev);
 		switch (ev->type) {
 		case SND_SEQ_EVENT_ECHO:
@@ -218,9 +218,7 @@ void sigterm_exit(int sig) {
 }
 
 int main(int argc, char** argv, char** envp) {
-	int npfd;
-	struct pollfd *pfd;
-	if (argc < 3) {
+	if (argc !=3) {
 		fprintf(stderr, "%s: %s <beats per minute> <sequence file>\n", argv[0], argv[0]);
 		fprintf(stderr, "%s: example 60 file.seq\n", argv[0]);
 		return EXIT_FAILURE;
@@ -236,8 +234,8 @@ int main(int argc, char** argv, char** envp) {
 	arpeggio();
 	snd_seq_start_queue(seq_handle, queue_id, NULL);
 	snd_seq_drain_output(seq_handle);
-	npfd=snd_seq_poll_descriptors_count(seq_handle, POLLIN);
-	pfd=(struct pollfd *)alloca(npfd * sizeof(struct pollfd));
+	int npfd=snd_seq_poll_descriptors_count(seq_handle, POLLIN);
+	struct pollfd *pfd=(struct pollfd *)alloca(npfd * sizeof(struct pollfd));
 	snd_seq_poll_descriptors(seq_handle, pfd, npfd, POLLIN);
 	transpose=0;
 	swing=0;
