@@ -8,3 +8,5 @@
 		(grandchildren). They will die since their parent (the zombie)
 		is dead and will never clear them and so they will be adopted
 		by init and are cleared.
+- show how to use SA_NOCLDWAIT when setting up a signal hander for SIGCHLD
+	in order to avoid zombies.
