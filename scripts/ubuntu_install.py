@@ -360,7 +360,7 @@ args=[
 	'sudo',
 	'apt-get',
 	'install',
-	'--assume-yes'
+	'--assume-yes',
 ]
 args.extend(packs)
 try:
