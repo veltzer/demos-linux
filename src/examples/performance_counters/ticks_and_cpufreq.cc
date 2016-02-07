@@ -98,9 +98,9 @@ int main(int argc, char** argv, char** envp) {
 	printf("finished...\n");
 	printf("sum=%lu\n", sum);
 	ticks_t diff=end - start;
-	printf("start RDTSC is %llu\n", start);
-	printf("end RDTSC is %llu\n", end);
-	printf("diff RDTSC is %llu\n", diff);
+	printf("start RDTSC is %lu\n", start);
+	printf("end RDTSC is %lu\n", end);
+	printf("diff RDTSC is %lu\n", diff);
 	printf("time expired in micros is %u\n", get_mic_diff(start, end));
 
 	// get_clk_tck is no good at giviing you the cpu frequency

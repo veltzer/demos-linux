@@ -55,8 +55,8 @@ int main(int argc, char** argv, char** envp) {
 	printf("c1(papi) is %lld\n", c1);
 	printf("c2(papi) is %lld\n", c2);
 	printf("diff (papi): %lld\n", c2-c1);
-	printf("t1(tsc) is %lld\n", t1);
-	printf("t2(tsc) is %lld\n", t2);
-	printf("diff (tsc): %lld\n", t2-t1);
+	printf("t1(tsc) is %ld\n", t1);
+	printf("t2(tsc) is %ld\n", t2);
+	printf("diff (tsc): %ld\n", t2-t1);
 	return EXIT_SUCCESS;
 }

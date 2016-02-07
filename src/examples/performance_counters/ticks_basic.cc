@@ -20,42 +20,25 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_ZERO()
+#include <lowlevel_utils.h>	// for ticks_t, getticks(), getrdtsc(), getrdtscp()
 
 /*
- * Demo for a performance counter on i64...
- *
- * TODO:
- * - This example does not compile. Something is wrong with the assembly, I need to fix it.
- *
- * References:
- * https://software.intel.com/en-us/forums/watercooler-catchall/topic/301741
+ * Demo of working with my low level getticks(), getrdtsc(), getrdtscp() functions.
  */
 
-/*
-static inline unsigned long getitc(void) {
-	unsigned long result;
-	// gcc-IA64 version
-	__asm__ __volatile__("mov %0=ar.itc" : "=r"(result) :: "memory");
-	while (__builtin_expect ((int) result == -1, 0))
-		__asm__ __volatile__("mov %0=ar.itc" : "=r"(result) :: "memory");
-	return result;
-	return 0;
-}
-*/
-
-static inline unsigned long int getitc(void) {
-	//unsigned long int val;
-	//__asm__ __volatile__("mov %0=ar.itc" : "=r" (val) :: "memory");
-	//__asm__ __volatile__("mov %0,%itc" : "=r" (val) :: "memory");
-	//__asm__ __volatile__("mov %0=ar.itc" : "=r" (val) :: "memory");
-	//return val;
-	return 0;
-}
-
 int main(int argc, char** argv, char** envp) {
-	printf("itc is %lu\n", getitc());
+	ticks_t t1=getticks();
+	ticks_t t1_rd=getrdtsc();
+	ticks_t t1_p=getrdtscp();
 	CHECK_ZERO(sleep(1));
-	printf("itc is %lu\n", getitc());
+	ticks_t t2=getticks();
+	ticks_t t2_rd=getrdtsc();
+	ticks_t t2_p=getrdtscp();
+	printf("t1 is %lu\n", t1);
+	printf("t1_rd is %lu\n", t1_rd);
+	printf("t1_p is %lu\n", t1_p);
+	printf("t2 is %lu\n", t2);
+	printf("t2_rd is %lu\n", t2_rd);
+	printf("t2_p is %lu\n", t2_p);
 	return EXIT_SUCCESS;
 }
