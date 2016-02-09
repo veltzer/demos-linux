@@ -1,6 +1,6 @@
 /*
  * This file is part of the linuxapi package.
- * Copyright (C) 2011-2015 Mark Veltzer <mark.veltzer@gmail.com>
+ * Copyright (C) 2011-2016 Mark Veltzer <mark.veltzer@gmail.com>
  *
  * linuxapi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,20 +20,25 @@
 #include <stdio.h>	// for printf(3)
 #include <unistd.h>	// for sleep(3)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <err_utils.h>	// for CHECK_ZERO()
-#include <lowlevel_utils.h>	// for getrdtsc()
+#include <lowlevel_utils.h>	// for ticks_t, getticks(), getrdtsc(), getrdtscp()
 
 /*
- * Demo for a performance counter on i386...
+ * Demo of working with my low level getticks(), getrdtsc(), getrdtscp() functions.
  */
 
 int main(int argc, char** argv, char** envp) {
-#if __i386__
-	// this is giving me problems on i386 vs x64 (llu vs lu)
-	printf("getrdtsc() is %llu\n", getrdtsc());
+	ticks_t t1=getticks();
+	ticks_t t1_rd=getrdtsc();
+	ticks_t t1_p=getrdtscp();
 	CHECK_ZERO(sleep(1));
-	// this is giving me problems on i386 vs x64 (llu vs lu)
-	printf("getrdtsc() is %llu\n", getrdtsc());
-#endif	// __i386__
+	ticks_t t2=getticks();
+	ticks_t t2_rd=getrdtsc();
+	ticks_t t2_p=getrdtscp();
+	printf("t1 is %lu\n", t1);
+	printf("t1_rd is %lu\n", t1_rd);
+	printf("t1_p is %lu\n", t1_p);
+	printf("t2 is %lu\n", t2);
+	printf("t2_rd is %lu\n", t2_rd);
+	printf("t2_p is %lu\n", t2_p);
 	return EXIT_SUCCESS;
 }

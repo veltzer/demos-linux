@@ -1,6 +1,6 @@
 /*
  * This file is part of the linuxapi package.
- * Copyright (C) 2011-2015 Mark Veltzer <mark.veltzer@gmail.com>
+ * Copyright (C) 2011-2016 Mark Veltzer <mark.veltzer@gmail.com>
  *
  * linuxapi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,18 +108,6 @@ static inline void* stack_align_pointer(void* p) {
 }
 
 /*
- * get the TSC register (counter), this is done via the 'rdtsc' machine instruction.
- * actually the new machine instruction 'rdtscp' should be better.
- * You know if you have it by seeing it in /proc/cpuinfo.
- * read more about it in the Intel paper about doing micro benchmarks.
- */
-static inline uint64_t getrdtsc() {
-	uint64_t val;
-	asm ("rdtsc" : "=val" (val));
-	return val;
-}
-
-/*
  * get the stack pointer register
  * on a 32 bit Intel machine this already works. I need to make it work on x64.
  */
@@ -162,7 +150,7 @@ static inline unsigned long getframepointer() {
  * http://stackoverflow.com/questions/3388134/rdtsc-accuracy-across-cpu-cores
  */
 
-typedef unsigned long long ticks_t;
+typedef unsigned long ticks_t;
 typedef union __timestamp {
 	struct {
 #if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -190,9 +178,11 @@ static inline ticks_t getticks(void) {
 	// asm volatile ("rdtscp":"=a" (a), "=d" (d));
 	// return(((ticks_t)a) | (((ticks_t)d) << 32));
 	asm volatile ("rdtsc":"=a" (t.sval.low), "=d" (t.sval.high));
-	asm volatile ("rdtscp" : "=a" (t.sval.low), "=d" (t.sval.high));
+	//asm volatile ("rdtscp" : "=a" (t.sval.low), "=d" (t.sval.high));
 	return t.cval;
 #elif __IA64__
+	// https://software.intel.com/en-us/forums/watercooler-catchall/topic/301741
+	#error you are here
 	unsigned long result=0;
 	//asm volatile ("mov %r12,ar.itc");
 	asm volatile ("mov %0=ar.itc" : "=r" (result));
@@ -225,6 +215,23 @@ static inline unsigned int get_mic_diff(ticks_t t1, ticks_t t2) {
 	// how many micros have passed
 	unsigned long long mdiff=diff / mpart;
 	return(mdiff);
+}
+
+/*
+ * get the TSC register (counter), this is done via the 'rdtsc' machine instruction.
+ * actually the new machine instruction 'rdtscp' should be better.
+ * You know if you have it by seeing it in /proc/cpuinfo.
+ * read more about it in the Intel paper about doing micro benchmarks.
+ */
+static inline ticks_t getrdtsc() {
+	timestamp t;
+	asm volatile ("rdtsc":"=a" (t.sval.low), "=d" (t.sval.high));
+	return t.cval;
+}
+static inline ticks_t getrdtscp() {
+	timestamp t;
+	asm volatile ("rdtscp":"=a" (t.sval.low), "=d" (t.sval.high));
+	return t.cval;
 }
 
 #define fullmb() asm volatile ("":::"memory")

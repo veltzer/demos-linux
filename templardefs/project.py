@@ -12,7 +12,7 @@ def populate(d):
 	d.project_year_started='2010'
 	d.project_description='''This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
-It has about 800 examples (as of 9/2013) I found are useful in explaining the Linux API.
+It has about 953 examples (as of 1/2016) I found are useful in explaining the Linux API.
 The idea is to provide a good coverage of all major features and to resolve disputes
 about exactly how a certain API works.
 
@@ -31,11 +31,10 @@ Topics covered by the examples
 
 Platforms supported
 -------------------
-* i386
-* ia64
-* Other platforms will be supported if someone is willing to do the work.
-I usually work on intel 32 bit so I regularly check the code on ia32 and occasionaly
-use a virtual machine to check that the code works on ia64.
+Only ia64 is supported. I used to support i386 but I don't have a 32 bit
+machine anymore. 
+Other platforms will be supported if someone is willing to do the work and submit
+the patches.
 
 Contributing
 ------------
@@ -70,11 +69,13 @@ Using it
 * clone the examples: `git clone git@github.com:veltzer/demos-linux.git`
 * cd into it: `cd demos-linux`
 * install the missing packages and headers needed to compile and run this project `./scripts/ubuntu_install.py`
+	Mind you this only works for 15.10 and will install a ton of stuff.
+	If you don't want this ton of installations and only want to checkout specific examples
+	compile the individual examples as described below.
 	if you are on a different Linux distribution try to get as much of these for your platform
 	as you can. If you really into contributing I would love a `redhat_install.py` or some such...
-* compile: `make`
-* some of the examples may not compile for you because of missing libraries. Don't worry:
-	you can build each specific example by issuing:
+	then use `make`
+* compiling a specific example
 		`make src/examples/performance/cache_misser.elf`
 	the name of the elf binary is the same as the example source code with .elf instead of
 	.[c|cc].
