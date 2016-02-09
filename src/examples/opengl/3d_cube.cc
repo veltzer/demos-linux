@@ -17,17 +17,19 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for fprintf(3), stderr
+#include <stdio.h>	// for fprintf(3), stderr, printf(3)
 #include <stdlib.h>	// for EXIT_SUCCESS, EXIT_FAILURE, exit(3)
-#include <string.h>
 #include <unistd.h>	// for usleep(3)
+#include <string.h>
 #include <math.h>
 #include <time.h>
 #include <sys/time.h>
+
 #include <X11/Xlib.h>
 #include <GL/glx.h>
 #include <GL/glext.h>
 #include <GL/glu.h>
+
 #include <err_utils.h>	// for CHECK_NOT_M1()
 
 /*
@@ -60,9 +62,13 @@ static int Frame=1, FramesPerFPS;
 
 static GLfloat rotation_matrix[16];
 static float rot_z_vel=50.0, rot_y_vel=30.0;
+static bool do_debug=true;
 
 // DRAW A CUBE
 void DrawCube(float size) {
+	if(do_debug) {
+		printf("DrawCube\n");
+	}
 	glBegin(GL_QUADS);
 
 	glColor3f(0.7, 0.0, 0.0);
