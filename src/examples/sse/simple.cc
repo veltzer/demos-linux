@@ -1,5 +1,5 @@
 /*
- * EXTRA_COMPILE_FLAGS=-mmmx -g -march=native
+ * EXTRA_COMPILE_FLAGS=-mmmx -march=native -g
  */
 
 /*
