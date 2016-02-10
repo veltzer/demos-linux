@@ -387,3 +387,6 @@ services:
 
 security:
 	(1) chage - change user password expiry information
+
+all round:
+	(1) glances - A cross-platform curses-based system monitoring tool

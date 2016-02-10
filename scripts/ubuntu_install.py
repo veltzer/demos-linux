@@ -198,6 +198,7 @@ packs=[
 	'inxi',
 	'hddtemp',
 	'htop',
+	'glances',
 	'sysprof',
 	'mutrace',
 	'cpulimit', # for the cpulimit command
