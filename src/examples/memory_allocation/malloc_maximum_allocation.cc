@@ -17,20 +17,29 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for printf(3)
-#include <stdlib.h>	// for malloc(3)
-#include <malloc.h>	// for malloc_usable_size(3)
-#include <err_utils.h>	// for CHECK_NOT_NULL()
+#include <stdio.h>	// for printf(3), stdout:object, fflush(3)
+#include <stdlib.h>	// for malloc(3), free(3)
+#include <err_utils.h>	// for CHECK_NOT_EOF(), CHECK_NOT_NULL()
 
 /*
- * This example shows the use of the malloc_usable_size(3) function.
+ * This example explores what is the largest area that can be allocated
+ * using malloc(3).
  *
- * The result is that on an Intel 64 bit architecture I get 24 bytes used by malloc
- * even for small allocations. On 32 bit I remember I got 16 bytes (but I may be wrong).
+ * The results are that on 64 bit systems the limit seems to be around 17GB.
+ * On 32 bit systems it should be around 2GB.
  */
 
 int main(int argc, char** argv, char** envp) {
-	void* p=CHECK_NOT_NULL(malloc(4));
-	printf("malloc_usage_size is %zd\n", malloc_usable_size(p));
+	printf("sizeof(pointer)=%ld (should be 8 on 64 bit and 4 on 32 bit)\n", sizeof(NULL));
+	printf("sizeof(size_t)=%ld (should be 8 on 64 bit and 4 on 32 bit)\n", sizeof(size_t));
+	size_t size_to_alloc=1;
+	while(true) {
+		printf("attempting size %ld...", size_to_alloc);
+		CHECK_NOT_EOF(fflush(stdout));
+		void* p=CHECK_NOT_NULL(malloc(size_to_alloc));
+		printf("OK\n");
+		free(p);
+		size_to_alloc+=size_to_alloc;
+	}
 	return EXIT_SUCCESS;
 }
