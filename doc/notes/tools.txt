@@ -205,6 +205,7 @@ networking:
 	(1) vnStati - png image output support for vnStat
 	(1) netperf - a network performance benchmark
 	(1) iperf - perform network throughput tests
+	(1) nmcli - command‐line tool for controlling NetworkManager
 
 Network firewalls:
 	(8) iptables/ip6tables — administration tool for IPv4/IPv6 packet filtering and NAT

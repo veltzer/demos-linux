@@ -288,6 +288,12 @@ static inline int check_not_m1(int val, const char* msg, const char* file, const
 	}
 	return val;
 }
+static inline int check_not_eof(int val, const char* msg, const char* file, const char* function, const int line) {
+	if(myunlikely(val==EOF)) {
+		handle_error(0, 0, 0, 0, 1, errno, msg, file, function, line, NULL);
+	}
+	return val;
+}
 static inline int check_1(int val, const char* msg, const char* file, const char* function, const int line) {
 	if(myunlikely(val!=1)) {
 		handle_error(0, 0, 0, 0, 1, errno, msg, file, function, line, NULL);
@@ -402,6 +408,7 @@ static inline int check_gezero(int val, const char* msg, const char* file, const
 #define CHECK_ZERO_ERRNO(v) check_zero_errno(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_ZERO(v) check_not_zero(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_M1(v) check_not_m1(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
+#define CHECK_NOT_EOF(v) check_not_eof(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_1(v) check_1(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_NEGATIVE(v) check_not_negative(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)
 #define CHECK_NOT_NULL(v) check_not_null(v, stringify(v), __FILE__, __FUNCTION__, __LINE__)

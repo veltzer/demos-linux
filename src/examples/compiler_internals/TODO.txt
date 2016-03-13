@@ -15,3 +15,4 @@
 		#pragma GCC pop_options
 	or for a whole function (using __attribute__((optimize("O0"))))
 	as per: http://stackoverflow.com/questions/2219829/how-to-prevent-gcc-optimizing-some-statements-in-c
+- demo the use of __builtin_frame_address and __builtin_return_address

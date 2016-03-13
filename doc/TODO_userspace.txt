@@ -149,3 +149,4 @@ examples to add
 	https://lwn.net/Articles/606141/
 - do a demo of lockdep library.
 	http://lwn.net/Articles/536363/
+- do a demo of glob and regex functions of glibc.
