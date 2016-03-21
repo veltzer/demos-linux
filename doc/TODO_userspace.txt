@@ -28,6 +28,12 @@ examples to add
 	protect your code.
 - write example of how to turn the glibc malloc library into "rt"...:)
 	then write slides about it in the 'slides' repo.
+	The simple solution: wrap calls to malloc with locks with priority
+	inheritance. That would give lously performance but will at least
+	not block for time slices.
+	What about the current->mm->mmap_sem which does not handle
+	priority inversion? That is not a problem since we wrap it
+	with pthread mutexes which are priority inverted.
 - do example of the 'rdtscp' machine instruction which is supposed to
 	be superior to the 'rdtsc' instruction.
 	See the intel paper on micro measurements for details.
