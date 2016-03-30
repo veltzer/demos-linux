@@ -216,6 +216,7 @@ Network firewalls:
 	(8) iptables-apply - a safer way to update iptables remotely
 	(8) ufw - program for managing a netfilter firewall
 	(8) ufw-framework - using the ufw framework
+	(8) shorewall - Administration tool for Shoreline Firewall (Shorewall)
 
 Network bridges:
 	(8) bridge - show / manipulate bridge addresses and devices

@@ -129,6 +129,8 @@ packs=[
 	'libdmalloc5',
 	'libdmalloc-dev',
 	'libcpufreq-dev', # for cpufreq.h
+	'cpufrequtils',
+	'netperf',
 	'libnetfilter-queue1',
 	'libnetfilter-queue-dev',
 	'libcap-dev', # for capability.h
@@ -321,6 +323,10 @@ packs=[
 	'daemontools',
 	'ruby-god',
 	'monit',
+
+	# firewalls
+	'ufw',
+	'shorewall',
 ]
 
 if opt_do_templar:
@@ -361,7 +367,7 @@ args=[
 	'sudo',
 	'apt-get',
 	'install',
-	'--assume-yes',
+#	'--assume-yes',
 ]
 args.extend(packs)
 try:
