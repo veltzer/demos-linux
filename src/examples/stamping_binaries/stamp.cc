@@ -43,8 +43,8 @@
  * EXTRA_COMPILE_FLAGS=-g3
  */
 
-#define STRING_VERSION "1.23.56"
-#define NUMERIC_VERSION 1.23 .56
+#define STRING_VERSION "1.23.45"
+#define NUMERIC_VERSION 1.23.45
 
 // this macro does two things:
 // - makes sure that the compiler does not issue "unused variable" or tried to make
