@@ -28,55 +28,75 @@
  * for the malloc(3) library and to investigate it's behaviour under
  * these conditions.
  *
+ * trace this example using:
+ * small allocations:
+ * strace -f ./src/examples/memory_allocation/contention.elf 1000000 100 10 300 1
+ * large (mmap) allocations:
+ * strace -f ./src/examples/memory_allocation/contention.elf 1000000 100 1 400 4096
+ * strace -f -e trace=mmap ./src/examples/memory_allocation/contention.elf 1000000 100 1 400 4096
+ *
  * TODO:
  * - Add the possibility to do more than one allocation at a time (do them in batches).
  * - Analyze the results of this example.
  * - Show that we block sometimes and sometimes we dont.
  * - Show that we can block on futex in user space and in kernel space on the mmap(2) semaphore.
  * - Show that we can play around with the blocking using MALLOC_ARENA_MAX.
+ * MALLOC_ARENA_MAX is quite large. 32-bit systems get twice the number of cores and 64-bit systems get 8 times the number of cores.
  *
  * References:
  * - https://devcenter.heroku.com/articles/tuning-glibc-memory-behavior
  * - https://www.infobright.com/index.php/malloc_arena_max/#.VfhyG7PtD0o
  * - http://journal.siddhesh.in/posts/malloc-per-thread-arenas-in-glibc.html
+ * - http://www.gnu.org/software/libc/manual/html_node/Malloc-Tunable-Parameters.html
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
 
-static int num_threads;
+// data available to the threads
 static int num_iterations;
+static int num_allocations;
 static int size_min;
 static int size_max;
+static int mul;
 
 void *worker(void *p) {
 	//int num=*(int *)p;
 	int diff=size_max-size_min;
 	for(int i=0;i<num_iterations;i++) {
-		int size_to_alloc;
-		if(diff==0) {
-			size_to_alloc=size_min;
-		} else {
-			size_to_alloc=size_min+rand()%diff;
+		void* buffers[num_allocations];
+		for(int j=0;j<num_allocations;j++) {
+			int size_to_alloc;
+			if(diff==0) {
+				size_to_alloc=size_min*mul;
+			} else {
+				size_to_alloc=(size_min+rand()%diff)*mul;
+			}
+			buffers[j]=CHECK_NOT_NULL(malloc(size_to_alloc));
 		}
-		void* p=CHECK_NOT_NULL(malloc(size_to_alloc));
-		// free(3) has not return value
-		free(p);
+		for(int j=0;j<num_allocations;j++) {
+			// free(3) has not return value
+			free(buffers[j]);
+		}
 	}
 	return NULL;
 }
 
 int main(int argc, char** argv, char** envp) {
-	if(argc!=5) {
-		fprintf(stderr, "%s: usage: %s [num_threads] [num_iterations] [size_min] [size_max]\n", argv[0], argv[0]);
-		fprintf(stderr, "%s: example: %s 8 1048576 4096 4096\n", argv[0], argv[0]);
+	if(argc!=6) {
+		fprintf(stderr, "argc is %d\n", argc);
+		fprintf(stderr, "%s: usage: %s [num_iterations] [num_allocations] [size_min] [size_max] [mul]\n", argv[0], argv[0]);
+		fprintf(stderr, "%s: example: %s 1000000 100 1 100 4096\n", argv[0], argv[0]);
 		return EXIT_FAILURE;
 	}
-	num_threads=atoi(argv[1]);
-	num_iterations=atoi(argv[2]);
+	num_iterations=atoi(argv[1]);
+	num_allocations=atoi(argv[2]);
 	size_min=atoi(argv[3]);
 	size_max=atoi(argv[4]);
+	mul=atoi(argv[5]);
 
 	const int cpu_num=CHECK_NOT_M1(sysconf(_SC_NPROCESSORS_ONLN));
+	const int num_threads=cpu_num;
+
 	pthread_t threads[num_threads];
 	pthread_attr_t attrs[num_threads];
 	cpu_set_t cpu_sets[num_threads];
