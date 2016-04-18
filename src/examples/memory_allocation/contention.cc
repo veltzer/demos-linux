@@ -32,8 +32,7 @@
  * small allocations:
  * strace -f ./src/examples/memory_allocation/contention.elf 1000000 100 10 300 1
  * large (mmap) allocations:
- * strace -f ./src/examples/memory_allocation/contention.elf 1000000 100 1 400 4096
- * strace -f -e trace=mmap ./src/examples/memory_allocation/contention.elf 1000000 100 1 400 4096
+ * strace -f -e trace=mmap,munmap ./src/examples/memory_allocation/contention.elf 1000000 100 1 4000 4096
  *
  * TODO:
  * - Add the possibility to do more than one allocation at a time (do them in batches).
