@@ -11,3 +11,12 @@
 - demo slab allocation (is there a library for it ?!?)
 - show an example of writing a good cache allocator with little contention (using spin locks for multi thread access).
 - show how to map hugetlbfs pages (huge pages) into user memory.
+
+
+- do example of using the mtrace from glibc function.
+- show that malloc always aligns it's return points to 4 or 8 bytes.
+	(example that allocates memory chunks of random size and shows that
+	the returned pointers from malloc are always 4 or 8 aligned).
+malloc debuggers:
+- memwatch http://www.linkdata.se/sourcecode.html
+- yamd (yet another malloc debugger).
