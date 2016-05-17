@@ -97,7 +97,7 @@ int main(int argc, char** argv, char** envp) {
 			break;
 		case TYPE_NOTSET:
 			fprintf(stderr, "Uh uh!\n");
-			exit(1);
+			exit(EXIT_FAILURE);
 			break;
 	}
 

@@ -153,7 +153,6 @@ packs=[
 	'libdaemon-dev',
 
 	# compilers
-	'gcc-4.7-plugin-dev',
 	'gcc-4.8-plugin-dev',
 	'gcc-4.7',
 	'g++-4.7',
@@ -289,7 +288,6 @@ packs=[
 	# papi
 	'libpapi-dev', # PAPI development files (headers and API documentation)
 	'libpapi'+opt_papiversion, # PAPI runtime (shared libraries)
-	'papi-dbg', # PAPI debug symbols
 	'papi-examples', # PAPI example files and test programs
 	'papi-tools', # PAPI utilities
 
