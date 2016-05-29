@@ -320,7 +320,7 @@ packs=[
 	'supervisor',
 	'daemontools',
 	'ruby-god',
-	'monit',
+	#'monit',
 
 	# firewalls
 	'ufw',
