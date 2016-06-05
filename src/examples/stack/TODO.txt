@@ -1,0 +1,8 @@
+- I should be able to allocate a stack using mmap(2) with some parameters.
+	I tried to do it and failed in the sense that pmap(1) shows my
+	new mmap area as "[ anon ]" and not "[ stack ]".
+	Why is that?
+	Do an example that manages to allocte a stack which is marked as such.
+	How do you mark it as such?
+	It is a paremeter for mmap(2) or some prctl(2) or whatever?
+	See how glibc does it by stracing a small executable.
