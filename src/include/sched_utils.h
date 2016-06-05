@@ -124,6 +124,11 @@ const int SCHED_FIFO_HIGH_PRIORITY=90;
 
 /*
  * a function to run another function in a high priority thread and wait for it to finish...
+ * TODO:
+ * - check that we indeed do not context switch out during the measurements.
+ * this can be done using /proc/self/status and the nonvoluntary_ctxt_switches
+ * parameter.
+ *
  */
 static inline void* sched_run_priority(void* (*func)(void*), void* pval, int prio, int policy) {
 	sched_check_policy(policy);
