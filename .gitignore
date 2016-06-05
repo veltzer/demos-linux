@@ -18,7 +18,7 @@
 *.stamp
 *.out
 *.p
-core
+/core
 # libraries
 lib*.so.?.?.?
 # gnu precompiled headers
