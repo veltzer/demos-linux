@@ -42,11 +42,7 @@
  * to get the time in the kernel.
  * - notice that getpid() is MUCH faster than syscall(__NR_getpid) because it caches the pid in user
  * space. It does not get optimized out (checked the disassembly). It also states that it is cached in user space since some version of glibc (check out man getpid())
- *
- * TODO:
- * - check that we indeed do not context switch out during the measurements.
- * this can be done using /proc/self/status and the nonvoluntary_ctxt_switches
- * parameter.
+ * - we also measure the time of a function call in user space, which, as expected, is a lot faster than even simple system calls.
  *
  * EXTRA_LINK_FLAGS=-lpthread
  */
@@ -56,6 +52,7 @@ typedef enum _measure_type {
 	MEASURE_SYSCALL_GETPID,
 	MEASURE_GETPID,
 	MEASURE_GETPPID,
+	MEASURE_EMPTYFUNC,
 } measure_type;
 
 typedef struct _measure_val_and_name {
@@ -69,6 +66,7 @@ static measure_val_and_name measure_tbl[]={
 	entry(MEASURE_SYSCALL_GETPID),
 	entry(MEASURE_GETPID),
 	entry(MEASURE_GETPPID),
+	entry(MEASURE_EMPTYFUNC),
 };
 
 typedef struct _thread_data {
@@ -76,6 +74,10 @@ typedef struct _thread_data {
 	measure_type type;
 	const char* name;
 } thread_data;
+
+void emptyfunc() {
+}
+void emptyfunc() __attribute__((noinline));
 
 void* func(void* p) {
 	thread_data* td=(thread_data*)p;
@@ -100,6 +102,9 @@ void* func(void* p) {
 				break;
 			case MEASURE_GETPPID:
 				getppid();
+				break;
+			case MEASURE_EMPTYFUNC:
+				emptyfunc();
 				break;
 		}
 	}
