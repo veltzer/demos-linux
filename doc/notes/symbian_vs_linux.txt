@@ -1,0 +1,135 @@
+Symbian vs linux
+
+Hardware:
+	Symbian - runs on ARM archs with an emulator on i386 for development.
+	Can not be adapted easily for new platforms (and it is not legal to
+	do this anyway).
+	Linux - runs on many architectures ( > 20 ) including ARM.
+	can be adapted to other architectures by the vendors relativly easily
+	and it is legal to do so.
+
+	Result: Linux
+
+OS:
+	Both - have protection, memory paging.
+	Symbian - has networking and filesystem in user space thus gaining more
+	stability (although if those crash it is a serious problem) while
+	paying for performance.
+	Linux - has a lot more in kernel but this introduces instability.
+
+	Result: tie
+
+Cost (license cost per phone deployed):
+	Symbian - proprietary (considered cheaper than WM).
+
+	Windows Mobile - proprietary (considered expensive).
+
+	Linux - free.
+
+	Result: Linux
+
+Realtime:
+	Symbian - has an "Event" driven model for development.
+	also has the ability to run both the real time event system
+	and user applications on a single CPU and guaranteeing performance.
+
+	Linux - API is also Event driven. Has priority support. Real time
+	better than symbian. Expected to get very good realtime in
+	the upcoming years.
+
+	Result: tie (at this point in time and linux in the long term).
+
+Development languages:
+	Symbian - usually a special version of C++ with eclipse plugin.
+	Some other language packs exist but are more rarely used.
+	Special version of java exists.
+
+	Linux - Almost any language you like with no need to
+	beg for the vendor for it.
+
+	Result: Linux (if you have the time to config your dev env)
+
+Configuration:
+	Symbian is an end product - this means it's almost a no
+	brainer to configure.
+
+	Linux is a very flexible kernel - you have to be a rocket
+	scientist to configure it.
+	- On the other hand - you can ask your vendor to do it or
+	the core team at your enterprise.
+
+	Result: tie (Symbian better for smaller businesses and
+	Linux for bigger).
+
+Pace of progress:
+	Symbian - commercial - rate of progress is quite slow.
+
+	Linux - quite fast (tousands of lines per day).
+
+	Result: Linux
+
+Openess of code:
+	Symbian - clients can get an SDK with the code and adjust it.
+	NOT OPEN SOURCE.
+	Linux - truly open source (GPL).
+
+	Result: Linux
+
+Ability to hide kernel code:
+	Symbian - clients can hide their extensions to the kernel.
+
+	Linux - theoretically clients CAN'T hide their extensions
+	altough no one has been sued till now.
+
+	Result: Symbian
+
+Industry:
+	Symbian - Already a running system on 110 million phones.
+
+	Linux - quite a newcommer.
+
+	Windows mobile - also a strong contender.
+
+	Result: Symbian
+
+Business:
+	Symbian - Nokia has quite a hand in Symbian but wants Symbian to
+	become a standard and so is releasing some of the control.
+	The motivation: to create a market for Symbian applications.
+
+	Some competitors of Nokia are fearful but Nokia does try
+	to alleviate the problem.
+
+	Linux - Very little control of vendor on client.
+
+	Result: Linux 
+
+Exendibility:
+	Symbian - has a few extensions by third party and Nokia.
+
+	Windows mobile - already has a small market of applications.
+
+	Linux - any open source application (vendor has to make a
+	repository).
+
+	Result: Linux
+
+Future:
+	It is expected that the market will fragment into 2 segments:
+	
+	1. Embedded devices which will only be used as phone + some
+	applications and will be cheap.
+
+	- in this market Symbian will be a valid choice for some time
+	to come.
+
+Future (2):
+	It is expected that the market will fragment into 2 segments:
+
+	2. Full devices which will have everything and the kitchen sink.
+
+	Full devices will be a challenge both for WM and Symbian which
+	will have to add core functionality.
+	Linux has all the advanced features for both.
+
+	Result: Linux
