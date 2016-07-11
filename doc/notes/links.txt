@@ -115,6 +115,8 @@ perf events explanation:
 http://web.eecs.utk.edu/~vweaver1/projects/perf-events/
 perf wiki
 https://perf.wiki.kernel.org/
+perf extensive resource:
+http://www.brendangregg.com/perf.html
 
 oprofile:
 =========
