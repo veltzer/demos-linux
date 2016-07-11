@@ -23,6 +23,10 @@
 
 /*
  * This example compares the adding of integers and the adding of atomics
+ * This next line is to avoid optimization which will make
+ * the second loop go away all together...
+ * this is not really needed since we use a compiler barrier instead (see below).
+ * EXTRA_COMPILE_FLAGS_AFTER_DUMMY=-O0
  */
 
 int main(int argc, char** argv, char** envp) {
@@ -49,7 +53,8 @@ int main(int argc, char** argv, char** envp) {
 	measure_start(&m);
 	for(int i=0; i<attempts; i++) {
 		counter++;
-		// this is to make the compiler actually do the loop
+		// this is a compiler barrier that forces the compiler
+		// to actually instantiate a loop here...
 		asm volatile ("" ::: "memory");
 	}
 	measure_end(&m);
