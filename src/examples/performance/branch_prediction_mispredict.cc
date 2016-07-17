@@ -17,23 +17,40 @@
  */
 
 #include <firstinclude.h>
-#include <stdlib.h>	// for EXIT_SUCCESS, rand(3)
+#include <stdlib.h>	// for srand(3), rand(3), EXIT_SUCCESS, EXIT_FAILURE, fprintf(3), stderr:symbol
 #include <stdio.h>	// for printf(3)
 #include <sys/types.h>	// for getpid(2)
 #include <unistd.h>	// for getpid(2)
 
 /*
  * This example abuses the CPU as far as branch prediction goes...
+ *
+ * Test this application with:
+ * perf -e branch-misses ./src/examples/performance/branch_prediction_mispredict.elf 1|0
  */
 
 int main(int argc, char** argv, char** envp) {
+	if(argc!=2) {
+		fprintf(stderr, "%s: usage: %s [miss]\n", argv[0], argv[0]);
+		return EXIT_FAILURE;
+	}
+	int miss=atoi(argv[1]);
 	srand(getpid());
 	long long sum=0;
 	for(unsigned int i=0; i<100000000; i++) {
-		if(rand()%2) {
-			sum+=i*i;
+		if(miss) {
+			if(rand()%2) {
+				sum+=i*i;
+			} else {
+				sum-=i*i;
+			}
 		} else {
-			sum-=i*i;
+			rand();
+			if(i<50000000) {
+				sum+=i*i;
+			} else {
+				sum-=i*i;
+			}
 		}
 	}
 	printf("the sum is %lld\n", sum);
