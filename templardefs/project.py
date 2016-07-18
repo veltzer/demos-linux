@@ -10,6 +10,7 @@ def populate(d):
 	d.project_website_git='git://github.com/{project_github_username}/{project_name}.git'.format(**d)
 	d.project_long_description='{project_name} is a project to demo and explore the Linux user space C/C++ API'.format(**d)
 	d.project_year_started='2010'
+	d.project_google_analytics_tracking_id='UA-80940105-1'
 	d.project_description='''This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
 It has about 953 examples (as of 1/2016) I found are useful in explaining the Linux API.

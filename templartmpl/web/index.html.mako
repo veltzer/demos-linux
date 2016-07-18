@@ -7,6 +7,7 @@
 		<link rel="icon" type="image/x-icon" href="../static/favicon.ico"/>
 		<meta name="Description" content="${tdefs.project_long_description}"/>
 		<meta name="Keywords" content="${tdefs.personal_fullname}, ${tdefs.personal_slug}, ${tdefs.project_name}, ${', '.join(tdefs.project_keywords)}"/>
+		${tdefs.project_google_analytics_snipplet}
 	</head>
 	<body>
 		<h1>Welcome to the <i>${tdefs.project_name}</i> web site</h1>
