@@ -1,5 +1,6 @@
+- have a better favicon for this site.
 - the idea is to have a web site that discusses the C linuxapi.
 - it should show the code samples from the git (or parts of them with references to the full example).
-- you could seach for examples according to tags too.
+- you could search for examples according to tags too.
 - and ofcourse we need a discussion forum about each example.
 - and we need to host it on a google webapp or amazon machine.
