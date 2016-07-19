@@ -34,9 +34,6 @@ DO_MKDBG:=0
 # the c++ compiler to be used
 CXX:=g++
 CC:=gcc
-# web stuff
-WEB_DIR:=~/public_html/public/linuxapi
-WEB_FOLDER:=web
 # do you want ccache support?
 CCACHE:=1
 # suffix for binary files
@@ -288,7 +285,6 @@ debug_me:
 	$(info MK_FLD is $(MK_FLD))
 	$(info MK_STP is $(MK_STP))
 	$(info WEB_DIR is $(WEB_DIR))
-	$(info WEB_FOLDER is $(WEB_FOLDER))
 	$(info ALL_H is $(ALL_H))
 	$(info ALL_HH is $(ALL_HH))
 	$(info ALL_US_C is $(ALL_US_C))

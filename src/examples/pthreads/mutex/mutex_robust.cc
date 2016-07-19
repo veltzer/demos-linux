@@ -79,7 +79,7 @@ int main(int argc, char** argv, char** envp) {
 	pthread_mutex_t* mylock=(pthread_mutex_t*)shared;
 	// create the mutex with the SHARED attribute
 	CHECK_ZERO_ERRNO(pthread_mutex_init(mylock, &attr));
-	//CHECK_ZERO_ERRNO(pthread_mutexattr_destroy(&attr));
+	CHECK_ZERO_ERRNO(pthread_mutexattr_destroy(&attr));
 	if(CHECK_NOT_M1(fork())) {
 		TRACE("parent");
 		signal_register_handler_sigaction(SIGCHLD, handler);
