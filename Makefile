@@ -45,8 +45,6 @@ SUFFIX_OO:=oo
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
 # what is the web folder ?
 WEB_DIR:=../demos-linux-gh-pages
-# which folders to copy for web?
-COPY_FOLDERS:=web static
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -149,8 +147,7 @@ ALL:=$(ALL) $(MK_STP)
 #########
 
 # generic section
-.DEFAULT_GOAL=all
-.PHONY: all
+# do not touch this recipe
 all: $(ALL)
 
 .PHONY: clean_standalone
@@ -524,10 +521,7 @@ cloc:
 	$(Q)cloc .
 
 # web page
-.PHONY: install
-install: $(ALL) $(ALL_DEP)
+.PHONY: gh-pages
+gh-pages: $(ALL) $(ALL_DEPS)
 	$(info doing [$@])
-	$(Q)rm -rf $(WEB_DIR)/*
-	$(Q)for folder in $(COPY_FOLDERS); do cp -r $$folder $(WEB_DIR); done
-	$(Q)cp support/redirector.html $(WEB_DIR)/index.html
-	cd $(WEB_DIR); git commit -a -m "new version"; git push
+	$(Q)node_modules/gh-pages/bin/gh-pages --dist out/web

@@ -63,9 +63,8 @@ __pycache__
 # downloaded packages
 *.tar.gz
 
-# templar generated
-/.tdefs.config
-
 # generated stuff
-/out/
-/web/
+/out
+
+# node modules
+/node_modules
