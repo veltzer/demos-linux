@@ -78,4 +78,4 @@ Using it
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
 
 
-	Mark Veltzer <mark@veltzer.net>, 2010-2016
+	Mark Veltzer <mark.veltzer@gmail.com>, 2010-2016
