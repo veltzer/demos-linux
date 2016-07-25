@@ -1,13 +1,6 @@
 malloc debugging:
-	mpatrol
-	valgrind
-	yamd
-	ccmalloc
-	dmalloc
-	njamd
-	insure++
-	electric-fence
-
+	mpatrol valgrind yamd ccmalloc dmalloc
+	njamd insure++ electric-fence
 scalable malloc:
 	hoard
 		author(s): Emery David Berger
@@ -16,13 +9,21 @@ scalable malloc:
 		ubuntu packages: NONE
 		notes: used by some very heavy weight companies
 	tcmalloc:
-		author(s): Sanjay Ghemawat, Paul Menage
+		author(s): Sanjay Ghemawat, Paul Menage from google
 		url: http://google-perftools.googlecode.com/svn/trunk/doc/tcmalloc.html
 		license: BSD
 		ubuntu packages:
 			libtcmalloc-minimal0
 			libtcmalloc-minimal0-dbg
 		notes: includes heap-checker, heap-profiler, cpu-profiler
+	jemalloc
+		author(s): many BSD contributors
+		url: http://www.canonware.com/jemalloc
+		ubuntu packages:
+			libjemalloc-dev
+			libjemalloc1
+			libjemalloc1-dbg
+		notes: has many features, used by facebook.
 
 reference counted mallocs:
 	libtalloc (from samba)
