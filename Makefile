@@ -43,8 +43,6 @@ SUFFIX_OO:=oo
 # checkpatch executable...
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
-# what is the web folder ?
-WEB_DIR:=../demos-linux-gh-pages
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -281,7 +279,6 @@ debug_me:
 	$(info MK_SRC is $(MK_SRC))
 	$(info MK_FLD is $(MK_FLD))
 	$(info MK_STP is $(MK_STP))
-	$(info WEB_DIR is $(WEB_DIR))
 	$(info ALL_H is $(ALL_H))
 	$(info ALL_HH is $(ALL_HH))
 	$(info ALL_US_C is $(ALL_US_C))
@@ -519,9 +516,3 @@ count_files:
 cloc:
 	$(info doing [$@])
 	$(Q)cloc .
-
-# web page
-.PHONY: gh-pages
-gh-pages: $(ALL) $(ALL_DEPS)
-	$(info doing [$@])
-	$(Q)node_modules/gh-pages/bin/gh-pages --dist out/web
