@@ -42,7 +42,7 @@
 // const unsigned int port=7000;
 const char* serv_name="http-alt";
 const char* serv_proto="tcp";
-const char* input_file="src/examples/networking/pthread_web_server.http";
+const char* input_file="src/exercises/pthread_web_server/pthread_web_server.http";
 
 void *worker(void* arg) {
 	int fd=*((int*)arg);

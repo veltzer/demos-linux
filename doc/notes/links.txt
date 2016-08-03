@@ -16,6 +16,8 @@ Memory mgmt:
 	http://linux-mm.org/
 embedded linux:
 	http://elinux.org/Main_Page
+Rovert Love's book:
+	http://www.makelinux.net/books/lkd2
 
 Memory reordering links:
 ========================

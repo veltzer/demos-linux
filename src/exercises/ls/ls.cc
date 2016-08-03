@@ -44,7 +44,7 @@
 // see 'info ls' for more info...
 const double oldsecs=192*24*60*60;
 
-static int strcmp_wrap(const void* pa, const void* pb) {
+static int strcmp_wrap(const void* pa, const void* pb, void*) {
 	const char** ppa=(const char**)pa;
 	const char** ppb=(const char**)pb;
 	return strcasecmp(*ppa, *ppb);
@@ -123,7 +123,7 @@ int main(int argc, char** argv, char** envp) {
 	}
 	char** arr=(char**)malloc(sizeof(char*)*num_files);
 	int i=0;
-	// this function does not have an error statte
+	// this function does not have an error state
 	rewinddir(d);
 	int max_size=0;
 	nlink_t max_link=0;
@@ -147,7 +147,7 @@ int main(int argc, char** argv, char** envp) {
 	CHECK_NOT_M1(closedir(d));
 	int size_width=lrint(ceil(log10(max_size)));
 	int size_link=lrint(ceil(log10(max_link+1)));
-	qsort(arr, num_files, sizeof(char*), strcmp_wrap);
+	qsort_r(arr, num_files, sizeof(char*), strcmp_wrap, NULL);
 	printf("total %d\n", num_blocks/2);
 	for(int i=0; i<num_files; i++) {
 		// dont show . files...

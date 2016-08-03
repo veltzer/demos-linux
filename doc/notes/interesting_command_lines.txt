@@ -20,3 +20,7 @@ to turn on ASLR:
 references:
 	http://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization
 	$KERNEL_SOURCE/Documentation/sysctl/kernel.txt, grep for randomize_va_space
+
+Cyclic test
+===========
+taskset 2 cyclictest -m -t3 -n -p99 -i500 -d500
