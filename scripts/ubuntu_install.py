@@ -47,7 +47,7 @@ codename=subprocess.check_output(['lsb_release', '--codename', '--short']).decod
 if codename=='trusty':
 	opt_urcu_ver=1
 else:
-	opt_urcu_ver=2
+	opt_urcu_ver=4
 
 if opt_debug:
 	print('release is [{0}]'.format(release))
@@ -99,8 +99,8 @@ packs=[
 	'libncursesw5',
 	'libncursesw5-dev',
 	'ncurses-doc',
-	'libprocps3',
-	'libprocps3-dev',
+	'libprocps4',
+	'libprocps4-dev',
 	'libgnomeui-0',
 	'libgnomeui-dev',
 	'libgnomeui-doc',
