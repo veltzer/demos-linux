@@ -30,7 +30,9 @@ opt_do_kernel=True
 # install debug packages for kernels?
 opt_do_ddebs=True
 # version of the papi library
-opt_papiversion='5.4.1'
+opt_papiversion='5.4.3'
+# what version of wxgtk to install?
+opt_wxgtk_ver='3.0'
 # do templar?
 opt_do_templar=True
 
@@ -101,6 +103,8 @@ packs=[
 	'ncurses-doc',
 	'libprocps4',
 	'libprocps4-dev',
+	'libsystemd0',
+	'libsystemd-dev',
 	'libgnomeui-0',
 	'libgnomeui-dev',
 	'libgnomeui-doc',
@@ -116,7 +120,7 @@ packs=[
 	'libmysqlclient-dev',
 	'libcwd',
 	'libqt4-dev',
-	'libwxgtk2.8-dev',
+	'libwxgtk{0}-dev'.format(opt_wxgtk_ver),
 	'libmysql++-dev',
 	'libsdl1.2-dev',
 	'libace-dev',
@@ -245,12 +249,12 @@ packs=[
 	#'nfs-common', # for nfsiostats(1), mountstats(1), nfsstat(1) cause performance problems
 	'mytop',
 	'cutils',
-	'jlint',
-	'jlint-doc',
+	#'jlint',
+	#'jlint-doc',
 	'hlint',
 	'dlint',
 	'oprofile',
-	'ioapps',
+	#'ioapps',
 	'powertop',
 	'rt-tests',
 	#'lttng-modules-dkms',
