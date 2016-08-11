@@ -155,6 +155,8 @@ packs=[
 	'libacl1-dev',
 	'libattr1-dev',
 	'libdaemon-dev',
+	'libsystemd-dev',
+	'libsystemd0',
 
 	# compilers
 	'gcc-4.8-plugin-dev',
