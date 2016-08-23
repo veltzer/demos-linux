@@ -11,7 +11,7 @@ import sys # for argv
 import os # for walk
 
 if len(sys.argv)>1:
-	raise ValueError('no parameters on the cmd line')
+    raise ValueError('no parameters on the cmd line')
 
 f_new=open("support/license.txt")
 new_lic=f_new.read()
@@ -22,21 +22,21 @@ bad_suffixes=['.mod.c']
 error=False
 root_folder='.'
 for root,dirs,files in os.walk(root_folder):
-	for file in files:
-		current_file=os.path.join(root,file)
-		doit=False
-		for suf in suffixes:
-			if current_file.endswith(suf):
-				doit=True
-		for suf in bad_suffixes:
-			if current_file.endswith(suf):
-				doit=False
-		if doit:
-			#print('doing',current_file)
-			with open(current_file) as in_f:
-				f=in_f.read()
-				if not f.startswith(new_lic):
-					error=True;
-					print("bad license for",current_file)
+    for file in files:
+        current_file=os.path.join(root,file)
+        doit=False
+        for suf in suffixes:
+            if current_file.endswith(suf):
+                doit=True
+        for suf in bad_suffixes:
+            if current_file.endswith(suf):
+                doit=False
+        if doit:
+            #print('doing',current_file)
+            with open(current_file) as in_f:
+                f=in_f.read()
+                if not f.startswith(new_lic):
+                    error=True;
+                    print("bad license for",current_file)
 if error:
-	raise ValueError("had errors")
+    raise ValueError("had errors")

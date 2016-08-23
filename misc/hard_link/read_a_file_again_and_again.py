@@ -13,7 +13,7 @@ shutil.copy('/etc/passwd', filename)
 print('while I am working please remove [{0}] and see that I keep working right...'.format(filename))
 f=open(filename, 'r')
 while True:
-	for line in f:
-		print(line, end="")
-		time.sleep(1)
-	f.seek(0)
+    for line in f:
+        print(line, end="")
+        time.sleep(1)
+    f.seek(0)

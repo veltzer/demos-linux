@@ -3,15 +3,15 @@ project definitions for demos-linux
 '''
 
 def populate(d):
-	d.project_github_username='veltzer'
-	d.project_name='demos-linux'
-	d.project_website='https://{project_github_username}.github.io/{project_name}'.format(**d)
-	d.project_website_source='https://github.com/{project_github_username}/{project_name}'.format(**d)
-	d.project_website_git='git://github.com/{project_github_username}/{project_name}.git'.format(**d)
-	d.project_long_description='{project_name} is a project to demo and explore the Linux user space C/C++ API'.format(**d)
-	d.project_year_started='2010'
-	d.project_google_analytics_tracking_id='UA-80940105-1'
-	d.project_description='''This project is a source code repository for instructors or expert programmers
+    d.project_github_username='veltzer'
+    d.project_name='demos-linux'
+    d.project_website='https://{project_github_username}.github.io/{project_name}'.format(**d)
+    d.project_website_source='https://github.com/{project_github_username}/{project_name}'.format(**d)
+    d.project_website_git='git://github.com/{project_github_username}/{project_name}.git'.format(**d)
+    d.project_long_description='{project_name} is a project to demo and explore the Linux user space C/C++ API'.format(**d)
+    d.project_year_started='2010'
+    d.project_google_analytics_tracking_id='UA-80940105-1'
+    d.project_description='''This project is a source code repository for instructors or expert programmers
 who want to explore the Linux C/C++ API.
 It has about 953 examples (as of 1/2016) I found are useful in explaining the Linux API.
 The idea is to provide a good coverage of all major features and to resolve disputes
@@ -60,46 +60,46 @@ it here http://man7.org/tlpi/code/.
 Using it
 --------
 * you need python on your machine:
-	try:
-		`python --version`
-	if python is missing then:
-		for deb based distributions (debian, ubuntu, ...) do:
-			`sudo apt-get install python`
-		for rpm based distributions (fedora, redhat, centos,...) do:
-			`sudo yum install python`
+    try:
+        `python --version`
+    if python is missing then:
+        for deb based distributions (debian, ubuntu, ...) do:
+            `sudo apt-get install python`
+        for rpm based distributions (fedora, redhat, centos,...) do:
+            `sudo yum install python`
 * clone the examples: `git clone git@github.com:veltzer/demos-linux.git`
 * cd into it: `cd demos-linux`
 * install the missing packages and headers needed to compile and run this project `./scripts/ubuntu_install.py`
-	Mind you this only works for 15.10 and will install a ton of stuff.
-	If you don't want this ton of installations and only want to checkout specific examples
-	compile the individual examples as described below.
-	if you are on a different Linux distribution try to get as much of these for your platform
-	as you can. If you really into contributing I would love a `redhat_install.py` or some such...
-	then use `make`
+    Mind you this only works for 15.10 and will install a ton of stuff.
+    If you don't want this ton of installations and only want to checkout specific examples
+    compile the individual examples as described below.
+    if you are on a different Linux distribution try to get as much of these for your platform
+    as you can. If you really into contributing I would love a `redhat_install.py` or some such...
+    then use `make`
 * compiling a specific example
-		`make src/examples/performance/cache_misser.elf`
-	the name of the elf binary is the same as the example source code with .elf instead of
-	.[c|cc].
-	You must be at the root of the project to issue the `make` command.
+        `make src/examples/performance/cache_misser.elf`
+    the name of the elf binary is the same as the example source code with .elf instead of
+    .[c|cc].
+    You must be at the root of the project to issue the `make` command.
 * the most important part: tweak the examples, try to prove me (my comments) wrong, have fun!
 '''.format(**d)
 
-	d.project_keywords=[
-		'linux',
-		'API',
-		'C',
-		'C++',
-		'kernel',
-		'userspace',
-		'examples',
-		'samples',
-		'demos',
-	]
+    d.project_keywords=[
+        'linux',
+        'API',
+        'C',
+        'C++',
+        'kernel',
+        'userspace',
+        'examples',
+        'samples',
+        'demos',
+    ]
 
-	# deb section
-	d.deb_package=False
+    # deb section
+    d.deb_package=False
 
 def getdeps():
-	return [
-		__file__, # myself
-	]
+    return [
+        __file__, # myself
+    ]
