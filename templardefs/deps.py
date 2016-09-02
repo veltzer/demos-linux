@@ -4,6 +4,7 @@ dependencies for this project
 
 import os # for uname
 import sys # for exit
+import subprocess # for check_output
 
 ##############
 # parameters #
