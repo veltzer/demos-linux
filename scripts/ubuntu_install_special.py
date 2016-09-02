@@ -378,17 +378,3 @@ try:
     subprocess.check_call(args)
 except:
     pass
-
-node_packs=[
-    'htmlhint', # for htmlhint(1)
-    'gh-pages', # for gh-pages(1)
-]
-
-for node_pack in node_packs:
-    print('getting npm for [{0}]'.format(node_pack))
-    subprocess.check_call([
-        'npm',
-        '--silent',
-        'install',
-        node_pack,
-    ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

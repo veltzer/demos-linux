@@ -43,6 +43,8 @@ SUFFIX_OO:=oo
 # checkpatch executable...
 #SCRIPT_CHECKPATCH:=$(KDIR)/scripts/checkpatch.pl
 SCRIPT_CHECKPATCH:=scripts/checkpatch.pl
+# do tools?
+DO_TOOLS:=1
 
 # export all variables to sub-make processes...
 # this could cause command line too long problems because all the make variables
@@ -87,6 +89,10 @@ ALL_DEP:=$(TEMPLAR_ALL_DEP)
 ALL:=$(TEMPLAR_ALL)
 CLEAN:=
 CLEAN_DIRS:=
+
+ifeq ($(DO_TOOLS),1)
+ALL_DEP+=out/tools.stamp
+endif # DO_TOOLS
 
 # user space applications (c and c++)
 S_SRC:=$(shell find $(US_DIRS) $(KERNEL_DIR) -name "*.S")
@@ -148,8 +154,14 @@ ALL:=$(ALL) $(MK_STP)
 # do not touch this recipe
 all: $(ALL)
 
+out/tools.stamp: package.json
+	$(info doing [$@])
+	$(Q)templar_cmd install_deps
+	$(Q)make_helper touch-mkdir $@
+
 .PHONY: clean_standalone
 clean_standalone:
+	$(info doing [$@])
 	$(Q)for x in $(MK_FLD); do $(MAKE) -C "$$x" clean Q=$(Q); if [ ! $$? -eq 0 ]; then exit $$?; fi; done
 	$(Q)rm -f $(MK_STP)
 .PHONY: clean_soft
