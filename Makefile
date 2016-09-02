@@ -154,7 +154,7 @@ ALL:=$(ALL) $(MK_STP)
 # do not touch this recipe
 all: $(ALL)
 
-out/tools.stamp: package.json
+out/tools.stamp: package.json templardefs/deps.py
 	$(info doing [$@])
 	$(Q)templar_cmd install_deps
 	$(Q)make_helper touch-mkdir $@
