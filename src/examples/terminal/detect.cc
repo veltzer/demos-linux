@@ -17,7 +17,7 @@
  */
 
 #include <firstinclude.h>
-#include <stdio.h>	// for stdin, fileno(3), fprintf(3), stderr, fopen(3), fclose(3), fwrite(3)
+#include <stdio.h>	// for stdout, fileno(3), fprintf(3), stderr, fopen(3), fclose(3), fwrite(3)
 #include <unistd.h>	// for isatty(3), ttyname(3), close(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
 #include <string.h>	// for strdup(3)
@@ -38,9 +38,9 @@
  */
 
 int main(int argc, char** argv, char** envp) {
-	// lets take the file descriptor number from stdin which is usually
+	// lets take the file descriptor number from stdout which is usually
 	// a terminal (unless you redirect it...)
-	int filedes=fileno(stdin);
+	int filedes=fileno(stdout);
 	const char* myttyname;
 	// if the file descriptor is a terminal then lets get it's name
 	// we duplicate the string since it may be overwritten.
@@ -51,9 +51,9 @@ int main(int argc, char** argv, char** envp) {
 		myttyname=NULL;
 	}
 	if (myttyname) {
-		fprintf(stderr, "it is a terminal with name [%s]\n", myttyname);
+		fprintf(stderr, "stdout is a terminal with name [%s]\n", myttyname);
 	} else {
-		fprintf(stderr, "it is not a terminal\n");
+		fprintf(stderr, "stdout is not a terminal\n");
 	}
 	CHECK_NOT_M1(close(fileno(stdin)));
 	CHECK_NOT_M1(close(fileno(stdout)));
