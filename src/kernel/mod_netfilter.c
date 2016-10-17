@@ -52,12 +52,20 @@ static const char *skb_filter_name = KBUILD_MODNAME;
 static struct proc_dir_entry *skb_filter;
 #endif /* DO_PROC */
 
+/*
+old API
 static unsigned int hook_func(
 	unsigned int hooknum,
 	struct sk_buff *skb,
 	const struct net_device *in,
 	const struct net_device *out,
 	int (*okfn)(struct sk_buff *)) {
+*/
+static unsigned int hook_func(
+	void *priv,
+	struct sk_buff *skb,
+	const struct nf_hook_state *state
+) {
 	struct iphdr *ip_header; /* IP header struct */
 	struct udphdr *udp_header; /* UDP header struct */
 	struct icmphdr *icmp_header; /* ICMP Header */

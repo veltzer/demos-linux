@@ -17,8 +17,8 @@
  */
 
 #include <firstinclude.h>
-#include <iostream>
-#include <string>
+#include <iostream>	// for std::cout
+#include <string>	// for std::string
 #include <sigc++/sigc++.h>
 #include <stdlib.h>	// for EXIT_SUCCESS
 
@@ -29,17 +29,13 @@
  * EXTRA_LINK_CMDS=pkg-config --libs sigc++-2.0
  */
 
-SIGC_USING_STD(cout)
-SIGC_USING_STD(endl)
-SIGC_USING_STD(string)
-
 void on_print(const std::string& str) {
 	std::cout << str;
 }
 
 int main(int argc, char** argv, char** envp) {
 	sigc::signal<void, const std::string&> signal_print;
-	signal_print.connect( sigc::ptr_fun(&on_print));
+	signal_print.connect(sigc::ptr_fun(&on_print));
 	signal_print.emit("hello world\n");
 	return EXIT_SUCCESS;
 }

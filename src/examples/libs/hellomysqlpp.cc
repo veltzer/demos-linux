@@ -26,7 +26,8 @@
  * You need all of these folders added with -I because of how the h files
  * for mysql++ are written.
  *
- * EXTRA_COMPILE_FLAGS=-I/usr/include/mysql++ -I/usr/include/mysql
+ * The mysql++ and mysql libraries are stupid and require -I to them
+ * EXTRA_COMPILE_FLAGS=-I/usr/include/mysql++ -I/usr/include/mysql -Wno-deprecated-declarations
  * EXTRA_LINK_FLAGS=-lmysqlpp
  */
 

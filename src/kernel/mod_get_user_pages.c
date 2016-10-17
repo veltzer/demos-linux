@@ -90,7 +90,7 @@ static inline void pages_unmap(void)
 	for (i = 0; i < nr_pages; i++) {
 		if (!PageReserved(pages[i]))
 			SetPageDirty(pages[i]);
-		page_cache_release(pages[i]);
+		put_page(pages[i]);
 	}
 }
 
@@ -165,8 +165,8 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		down_write(&current->mm->mmap_sem);
 		/* rw==READ means read from drive, write into memory area */
 		res = get_user_pages(
-			current,
-			current->mm,
+			/* current->mm,
+			current, */
 			aligned,
 			nr_pages,
 			1,/* write */
@@ -228,7 +228,7 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 		sloop = min_t(unsigned int, size, (unsigned int)10);
 		PR_DEBUG("sloop is %d", sloop);
 		for (i = 0; i < sloop; i++)
-			PR_DEBUG("value of %d is %c", i, cptr[i]);
+			PR_INFO("value of %d is %c", i, cptr[i]);
 		return 0;
 	/*
 	*	This is asking the kernel to write on our data
