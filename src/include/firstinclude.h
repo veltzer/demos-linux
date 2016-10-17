@@ -58,8 +58,8 @@
  * needed for
  * MAP_ANONYMOUS definition from <sys/mman.h>
  */
-#ifndef _BSD_SOURCE
-#define _BSD_SOURCE
-#endif	// _BSD_SOURCE
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif	// _DEFAULT_SOURCE
 
 #endif	/* !__firstinclude_h */

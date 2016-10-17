@@ -57,9 +57,9 @@ bool stack_vars_direction_up() {
  */
 unsigned long stack_function_direction_up_inner() __attribute__((noinline));
 unsigned long stack_function_direction_up_inner() {
-	int a;
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wreturn-local-addr"
+	int a;
 	return (unsigned long)&a;
 	#pragma GCC diagnostic pop
 }

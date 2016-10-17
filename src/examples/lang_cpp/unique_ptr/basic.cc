@@ -18,11 +18,12 @@
 
 #include <firstinclude.h>
 #include <iostream>	// for std::cout, std::endl
-#include <memory>	// for std::auto_ptr<T>
+#include <memory>	// for std::unique_ptr<T>
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example demonstrates the use of auto_ptr of the standard C++ library.
+ * This example demonstrates the use of unique_ptr of the standard C++ library.
+ * This replaced the old 'auto_ptr' which is now deprecated.
  *
  * Notes:
  * - note that there is no need to call the destructor (that is the whole
@@ -30,6 +31,7 @@
  *
  * Refernces:
  * - http://en.wikipedia.org/wiki/Auto_ptr
+ * - http://en.cppreference.com/w/cpp/memory/unique_ptr
  */
 
 class A {
@@ -46,7 +48,7 @@ public:
 };
 
 int main(int argc, char** argv, char** envp) {
-	std::auto_ptr<A> a(new A);
+	std::unique_ptr<A> a(new A);
 	a->doit();
 	return EXIT_SUCCESS;
 }
