@@ -14,8 +14,8 @@ opt_debug=False
 # exit after debug?
 opt_exit=False
 # what boost to install?
-opt_boost_version='1.58.0'
-opt_boost_version_short='1.58'
+opt_boost_version='1.61.0'
+opt_boost_version_short='1.61'
 # install kernels?
 opt_do_kernel=True
 # install debug packages for kernels?
@@ -88,8 +88,8 @@ def populate(d):
         'libncursesw5',
         'libncursesw5-dev',
         'ncurses-doc',
-        'libprocps4',
-        'libprocps4-dev',
+        'libprocps6',
+        'libprocps-dev',
         'libsystemd0',
         'libsystemd-dev',
         'libgnomeui-0',
@@ -249,7 +249,7 @@ def populate(d):
         #'lttng-modules-dkms',
         'procinfo',
         'wavemon',
-        'bum',
+        #'bum',
 
         # fun stuff
         'figlet',

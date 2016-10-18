@@ -26,7 +26,8 @@
  *
  * the next one should be "-lboost_thread" but ubuntu has no symlink to that...
  * this is ugly since we have to update this every time version of boost changes
- * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.58.0 -l:libboost_system.so.1.58.0
+ * EXTRA_LINK_FLAGS=-l:libboost_thread.so.1.61.0 -l:libboost_system.so.1.61.0
+ * XTRA_LINK_FLAGS=-lboost_thread -lboost_system
  */
 
 int main(int argc, char** argv, char** envp) {
