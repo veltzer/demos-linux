@@ -90,7 +90,7 @@ public:
 		ACE_TRACE(ACE_TEXT("Scheduler::svc"));
 		while(true) {
 			// Dequeue the next method object
-			auto_ptr<ACE_Method_Request>
+			std::unique_ptr<ACE_Method_Request>
 			request(this->activation_queue_.dequeue());
 			// Invoke the method request.
 			if(request->call()==-1) {

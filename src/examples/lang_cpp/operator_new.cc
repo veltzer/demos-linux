@@ -82,8 +82,13 @@ inline void *operator new[] (const size_t size, const unsigned int type) {
 	return(p);
 }
 
-inline void operator delete[] (void *p, const unsigned int type) {
-	fprintf(stderr, "in operator delete[] with p=%p,type=%d\n", p, type);
+inline void operator delete[] (void *p, const long unsigned int type) {
+	fprintf(stderr, "in operator delete[] with p=%p,type=%ld\n", p, type);
+	free(p);
+}
+
+inline void operator delete(void *p, const long unsigned int type) {
+	fprintf(stderr, "in operator delete[] with p=%p,type=%ld\n", p, type);
 	free(p);
 }
 

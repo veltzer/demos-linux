@@ -22,10 +22,10 @@
 #include <sys/types.h>	// for waitid(2)
 #include <sys/wait.h>	// for waitid(2)
 #include <stdlib.h>	// for EXIT_SUCCESS
-#include <proc/readproc.h>	// for get_proc_stats(3)
 #include <err_utils.h>	// for CHECK_ZERO(), CHECK_NOT_M1(), CHECK_1()
 #include <trace_utils.h>// for TRACE()
 #include <multiproc_utils.h>	// for print_code(), print_status(), process_set_name()
+#include <proc/readproc.h>	// for get_proc_stats(3)
 
 /*
  * This example demostrates how processes become zombies in Linux...
@@ -59,8 +59,8 @@
  * XTRA_LINK_CMDS=pkg-config --libs libprocps
  * libprocps .pc configuration for pkg-config does not correctly specify
  * how to statically link with static versions of libprocps
- * XTRA_LINK_CMDS=pkg-config --static libprocps
- * EXTRA_LINK_FLAGS=/usr/lib/{deb_build_multiarch}/libprocps.a -lsystemd
+ * EXTRA_LINK_CMDS=pkg-config --static libprocps
+ * XTRA_LINK_FLAGS=/usr/lib/{deb_build_multiarch}/libprocps.a -lsystemd
  */
 
 // print the state of a process in 3 different ways...

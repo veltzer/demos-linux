@@ -17,34 +17,38 @@
  */
 
 #include <firstinclude.h>
-#include <ace/Auto_Ptr.h>
 #include <iostream>	// for std::cout, std::endl
+#include <memory>	// for std::unique_ptr<T>
 #include <stdlib.h>	// for EXIT_SUCCESS
 
 /*
- * This example demonstrates the use of auto_ptr which takes
- * care of doing the "delete" when the auto_ptr object is destroyed
- * (goes out of scope)
+ * This example demonstrates the use of unique_ptr of the standard C++ library.
+ * This replaced the old 'auto_ptr' which is now deprecated.
  *
- * EXTRA_COMPILE_CMDS=pkg-config --cflags ACE
- * EXTRA_LINK_CMDS=pkg-config --libs ACE
+ * Notes:
+ * - note that there is no need to call the destructor (that is the whole
+ * point of the automatic pointer...)
+ *
+ * Refernces:
+ * - http://en.wikipedia.org/wiki/Auto_ptr
+ * - http://en.cppreference.com/w/cpp/memory/unique_ptr
  */
 
 class A {
-private:
-	const char *p;
-
 public:
-	A(const char *ip) : p(ip) {
-		std::cout << "in constructor of " << p << std::endl;
+	A() {
+		std::cout << "in constructor" << std::endl;
 	}
 	~A() {
-		std::cout << "in destructor of " << p << std::endl;
+		std::cout << "in destructor" << std::endl;
+	}
+	void doit() {
+		std::cout << "in doit" << std::endl;
 	}
 };
 
-int ACE_TMAIN(int argc, ACE_TCHAR** argv, ACE_TCHAR** envp) {
-	auto_ptr<A> a(new A("a"));
-	new A("b");
+int main(int argc, char** argv, char** envp) {
+	std::unique_ptr<A> a(new A);
+	a->doit();
 	return EXIT_SUCCESS;
 }

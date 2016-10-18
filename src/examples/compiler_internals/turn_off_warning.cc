@@ -28,9 +28,9 @@
 
 int* get_address_on_the_stack() __attribute__((noinline));
 int* get_address_on_the_stack() {
-	int a=7;
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wreturn-local-addr"
+	int a=7;
 	return &a;
 	#pragma GCC diagnostic pop
 }

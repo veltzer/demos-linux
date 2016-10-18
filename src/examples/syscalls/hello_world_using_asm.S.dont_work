@@ -18,14 +18,21 @@
 
 /*
  * An example of how to write a classic "Hello, World!\n" program in assembly
+ * EXTRA_COMPILE_FLAGS=-fPIC
+ * EXTRA_LINK_FLAGS=-fPIC
  */
 
 #include <asm/unistd.h>
 #include <syscall.h>
 
-.section	.rodata
+.data
 hello:
-	.string	"Hello, World!\n"
+	.ascii "Hello World!\n\0"
+
+//.section	.rodata
+//hello:
+//	.string	"Hello, World!\n"
+
 .text
 .global	main
 .type main, @function

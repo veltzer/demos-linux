@@ -96,7 +96,7 @@ public:
 		while(true) {
 			// Dequeue the next method object
 			ACE_DEBUG((LM_DEBUG, ACE_TEXT("%N - In Scheduler::svc waiting for queue data dequeue\n")));
-			auto_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
+			std::unique_ptr<ACE_Method_Request> request(this->activation_queue_.dequeue());
 			// Invoke the method request.
 			if(request->call()==-1) {
 				break;
