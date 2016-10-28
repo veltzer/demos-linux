@@ -1,2 +1,0 @@
-add -Ofast -Og -Os
-and add -O1 (which is the same as -O).
