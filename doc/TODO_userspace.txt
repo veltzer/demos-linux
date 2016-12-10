@@ -156,3 +156,4 @@ examples to add
 - do a demo of lockdep library.
 	http://lwn.net/Articles/536363/
 - do a demo of glob and regex functions of glibc.
+- demo of O_TMPFILE as argument to open(2) to create temporary files.
