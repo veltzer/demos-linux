@@ -37,7 +37,7 @@ int always_false() {
 int main(int argc, char** argv, char** envp) {
 	global=0;
 	if(always_false() && always_false()) {
-		printf("You should be here...\n");
+		printf("You should not be here...\n");
 	}
 	printf("global is %d\n", global);
 	return EXIT_SUCCESS;

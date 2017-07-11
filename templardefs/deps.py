@@ -19,7 +19,7 @@ opt_boost_version_short='1.61'
 # install kernels?
 opt_do_kernel=True
 # install debug packages for kernels?
-opt_do_ddebs=True
+opt_do_ddebs=False
 # version of the papi library
 opt_papiversion='5.4.3'
 # what version of wxgtk to install?
@@ -348,7 +348,7 @@ def populate(d):
             'linux-image-'+release_lowlatency+'-lowlatency'+'-dbgsym',
         ])
 
-def getdeps():
+def get_deps():
     return [
         __file__, # myself
     ]

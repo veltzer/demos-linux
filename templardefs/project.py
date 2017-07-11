@@ -99,7 +99,7 @@ Using it
     # deb section
     d.deb_package=False
 
-def getdeps():
+def get_deps():
     return [
         __file__, # myself
     ]

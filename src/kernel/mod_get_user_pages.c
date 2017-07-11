@@ -170,7 +170,6 @@ static long kern_unlocked_ioctl(struct file *filp, unsigned int cmd,
 			aligned,
 			nr_pages,
 			1,/* write */
-			0,/* force */
 			pages,
 			NULL
 		);

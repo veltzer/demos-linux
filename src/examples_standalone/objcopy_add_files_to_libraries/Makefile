@@ -1,6 +1,7 @@
 include ../../../Makefile.mk
 
-LIB:=/usr/lib/libmpi.so.12
+LIB:=/usr/lib/x86_64-linux-gnu/libmpi.so.20
+# LIB:=/usr/lib/libmpi.so.12
 ALL:=libmpi.so
 
 .PHONY: all

@@ -93,7 +93,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr,
 	/* the user space address to be returned */
 	unsigned long uptr;
 	/* the mmap struct to hold the semaphore of */
-	struct mm_struct *mm;
+	/* struct mm_struct *mm; */
 	/* flags to pass to do_mmap_pgoff */
 	unsigned long flags;
 	/* old value in private field */
@@ -102,7 +102,7 @@ static unsigned long map_to_user(struct file *filp, void *kptr,
 	/* print some debug info... */
 	PR_DEBUG("size is (d) %d", size);
 
-	mm = current->mm;
+	/* mm = current->mm; */
 	/* must NOT add MAP_LOCKED to the flags (it causes a hang) */
 	flags = MAP_POPULATE | MAP_SHARED;
 	/* flags=MAP_POPULATE|MAP_PRIVATE; */
@@ -263,7 +263,10 @@ static int kern_vma_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 	unsigned long offset;
 
 	PR_DEBUG("start");
-	offset = (unsigned long)vmf->virtual_address - vma->vm_start;
+	/* for old kernels */
+	/* offset = (unsigned long)vmf->virtual_address - vma->vm_start; */
+	/* for new kernels */
+	offset = (unsigned long)vmf->address - vma->vm_start;
 	kaddr = vma->vm_private_data;
 	kaddr += offset;
 	page = virt_to_page(kaddr);
