@@ -235,7 +235,6 @@ src_exclude_paths = [
 src_dirs = ["src"]
 src_exclude_dirs = "${kernel_excludes}"
 config_file = ".cpplint"
-dep_inputs = [".cpplint"]
 
 # Every C/C++ source starts with the project license (support/license_new.txt,
 # which scripts/switch_license.py writes; keep the two in sync). Kernel
