@@ -4,6 +4,8 @@ version = "0.0.0"
 requires-python = ">=3.14"
 dependencies = [
     "pymakehelper",
+    # scripts/cc_project.py and scripts/linux_module.py read their yaml manifests
+    "pyyaml",
 ]
 
 [dependency-groups]

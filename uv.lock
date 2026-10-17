@@ -21,6 +21,7 @@ version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "pymakehelper" },
+    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -31,7 +32,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pymakehelper" }]
+requires-dist = [
+    { name = "pymakehelper" },
+    { name = "pyyaml" },
+]
 
 [package.metadata.requires-dev]
 dev = [

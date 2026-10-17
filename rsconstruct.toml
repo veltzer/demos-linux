@@ -276,11 +276,38 @@ src_dirs = ["src"]
 # src_dirs = ["src/kernel"]
 # args = ["--no-tree"]
 
-[processor.creator.linux_module]
-src_dirs = ["src/kernel_standalone"]
+# ─── kernel modules ──────────────────────────────────────────────────────────
 
-[processor.creator.cc]
+# Every linux-module.yaml under src/kernel_standalone, built by kbuild through
+# scripts/linux_module.py: `plan` names each .ko the manifests promise, `build`
+# compiles them all. A mass generator rather than a creator so every .ko is a
+# product of its own with its own cache entry. The scan fields declare what
+# the plan reads (the manifests only), which keys the plan cache.
+[processor.mass_generator.generic.linux_module]
+command = "scripts/linux_module.py"
+args = ["build", "src/kernel_standalone", "out/processor.mass_generator.generic.linux_module"]
+predict_command = "scripts/linux_module.py"
+predict_args = ["plan", "src/kernel_standalone", "out/processor.mass_generator.generic.linux_module"]
+output_dirs = ["out/processor.mass_generator.generic.linux_module"]
+src_dirs = ["src/kernel_standalone"]
+src_extensions = ["linux-module.yaml"]
+required_tools = ["make", "uname"]
+
+# ─── multi-file C projects ───────────────────────────────────────────────────
+
+# Every cc.yaml under src (libraries and programs of more than one source
+# file; single-file programs are cc_single_file above), built by
+# scripts/cc_project.py the same way: `plan` names every object, library and
+# program, `build` compiles and links them.
+[processor.mass_generator.generic.cc]
+command = "scripts/cc_project.py"
+args = ["build", "src", "out/processor.mass_generator.generic.cc"]
+predict_command = "scripts/cc_project.py"
+predict_args = ["plan", "src", "out/processor.mass_generator.generic.cc"]
+output_dirs = ["out/processor.mass_generator.generic.cc"]
 src_dirs = ["src"]
+src_extensions = ["cc.yaml"]
+required_tools = ["gcc", "g++", "ar"]
 
 [processor.checker.script.check_all]
 enabled=false
