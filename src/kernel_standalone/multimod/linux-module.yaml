@@ -1,0 +1,5 @@
+modules:
+  - name: multifile
+    sources: [main.c, another_file.c]
+  - name: multifile2
+    sources: [main2.c, another_file2.c]

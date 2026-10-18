@@ -1,0 +1,89 @@
+modules:
+  - name: mod_bootmem_mod
+    sources: [mod_bootmem.c]
+  - name: mod_bug_mod
+    sources: [mod_bug.c]
+  - name: mod_complete_mod
+    sources: [mod_complete.c]
+  - name: mod_context_mod
+    sources: [mod_context.c]
+  - name: mod_cpu_info_mod
+    sources: [mod_cpu_info.c]
+  - name: mod_dev_print_mod
+    sources: [mod_dev_print.c]
+  - name: mod_div_mod
+    sources: [mod_div.c]
+  - name: mod_dma_mod
+    sources: [mod_dma.c]
+  - name: mod_dump_stack_mod
+    sources: [mod_dump_stack.c]
+  - name: mod_errno_mod
+    sources: [mod_errno.c]
+  - name: mod_error_mod
+    sources: [mod_error.c]
+  - name: mod_eventfd_mod
+    sources: [mod_eventfd.c]
+  - name: mod_fork_mod
+    sources: [mod_fork.c]
+  - name: mod_get_free_pages_mod
+    sources: [mod_get_free_pages.c]
+  - name: mod_get_user_pages_mod
+    sources: [mod_get_user_pages.c]
+  - name: mod_hello_mod
+    sources: [mod_hello.c]
+  - name: mod_hrtimer_mod
+    sources: [mod_hrtimer.c]
+  - name: mod_ioctl_mod
+    sources: [mod_ioctl.c]
+  - name: mod_ioctl_close_race_mod
+    sources: [mod_ioctl_close_race.c]
+  - name: mod_iomem_mod
+    sources: [mod_iomem.c]
+  - name: mod_iserr_mod
+    sources: [mod_iserr.c]
+  - name: mod_kmalloc_mod
+    sources: [mod_kmalloc.c]
+  - name: mod_kmem_cache_mod
+    sources: [mod_kmem_cache.c]
+  - name: mod_list_mod
+    sources: [mod_list.c]
+  - name: mod_mb_mod
+    sources: [mod_mb.c]
+  - name: mod_mmap_mod
+    sources: [mod_mmap.c]
+  - name: mod_mmap_simple_mod
+    sources: [mod_mmap_simple.c]
+  - name: mod_mmap_to_user_mod
+    sources: [mod_mmap_to_user.c]
+  - name: mod_module_name_mod
+    sources: [mod_module_name.c]
+  - name: mod_name_mod
+    sources: [mod_name.c]
+  - name: mod_netfilter_mod
+    sources: [mod_netfilter.c]
+  - name: mod_null_mod
+    sources: [mod_null.c]
+  - name: mod_online_cpus_mod
+    sources: [mod_online_cpus.c]
+  - name: mod_open_close_release_mod
+    sources: [mod_open_close_release.c]
+  - name: mod_param_mod
+    sources: [mod_param.c]
+  - name: mod_poll_mod
+    sources: [mod_poll.c]
+  - name: mod_printk_mod
+    sources: [mod_printk.c]
+  - name: mod_request_module_mod
+    sources: [mod_request_module.c]
+  - name: mod_spin_lock_mod
+    sources: [mod_spin_lock.c]
+  - name: mod_syscall_hijack_mod
+    sources: [mod_syscall_hijack.c]
+  - name: mod_timer_mod
+    sources: [mod_timer.c]
+  - name: mod_timing_mod
+    sources: [mod_timing.c]
+  - name: mod_use_count_mod
+    sources: [mod_use_count.c]
+  - name: mod_version_mod
+    sources: [mod_version.c]

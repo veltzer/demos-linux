@@ -1,0 +1,5 @@
+modules:
+  - name: mod1
+    sources: [main1.c]
+  - name: mod2
+    sources: [main2.c]

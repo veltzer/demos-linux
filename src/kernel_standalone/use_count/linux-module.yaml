@@ -1,0 +1,3 @@
+modules:
+  - name: use_count
+    sources: [main.c]

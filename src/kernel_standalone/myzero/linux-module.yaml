@@ -1,0 +1,3 @@
+modules:
+  - name: myzero
+    sources: [main.c]

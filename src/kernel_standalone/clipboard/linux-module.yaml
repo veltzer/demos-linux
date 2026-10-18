@@ -1,0 +1,3 @@
+modules:
+  - name: clipboard
+    sources: [main.c]

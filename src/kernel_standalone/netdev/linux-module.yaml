@@ -1,0 +1,3 @@
+modules:
+  - name: netdev
+    sources: [main.c]
