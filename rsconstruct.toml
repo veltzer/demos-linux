@@ -281,7 +281,7 @@ src_dirs = ["src"]
 # Every linux-module.yaml under src (one per module directory in
 # src/kernel_standalone, a single one naming all the mod_*.c of src/kernel),
 # built by kbuild through scripts/linux_module.py: `plan` names each .ko the
-# manifests promise, `build` compiles them all. A mass generator rather than a creator so every .ko is a
+# manifests promise, `build` compiles them all. A mass generator so every .ko is a
 # product of its own with its own cache entry. The scan fields declare what
 # the plan reads (the manifests only), which keys the plan cache.
 [processor.mass_generator.generic.linux_module]
