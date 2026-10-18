@@ -18,10 +18,11 @@ built there (the format rsconstruct's linux_module creator used to read):
     modules:
       - name: hello              # produces hello.ko
         sources: [main.c]        # relative to the yaml directory
-        extra_cflags: [-DDEBUG]  # optional, becomes ccflags-y
+        extra_cflags: [-DDEBUG]  # optional, CFLAGS_ of its objects
 
-For every module the build writes a Kbuild next to the yaml, runs
-`make -C KDIR M=<that directory> modules`, keeps the .ko in memory, runs
+For every manifest the build writes one Kbuild naming all its modules next to
+the yaml (one kbuild pass, so a module can use symbols another one exports), runs
+`make -C KDIR M=<that directory> modules`, keeps the .ko files in memory, runs
 `make ... clean`, removes the Kbuild again and writes the .ko to
 OUT_DIR/<yaml directory>/<name>.ko. kbuild needs an absolute M= pointing at
 the sources, which is why the build cannot happen inside OUT_DIR.
@@ -182,31 +183,42 @@ def kbuild_command(
     return cmd
 
 
-def build_module(project: Project, module: Module, kdir: str, out_dir: str) -> None:
+def kbuild_content(project: Project) -> str:
+    lines = [f"obj-m := {' '.join(m.name + '.o' for m in project.modules)}"]
+    for module in project.modules:
+        objects = [os.path.splitext(s)[0] + ".o" for s in module.sources]
+        lines.append(f"{module.name}-objs := {' '.join(objects)}")
+        if module.extra_cflags:
+            # Per object, since ccflags-y would reach every module of the directory.
+            lines.extend(
+                f"CFLAGS_{o} := {' '.join(module.extra_cflags)}" for o in objects
+            )
+    return "\n".join(lines) + "\n"
+
+
+def build_project(project: Project, kdir: str, out_dir: str) -> None:
     module_dir = os.path.abspath(project.directory)
     kbuild = os.path.join(module_dir, "Kbuild")
-    objects = " ".join(os.path.splitext(s)[0] + ".o" for s in module.sources)
-    content = f"obj-m := {module.name}.o\n{module.name}-objs := {objects}\n"
-    if module.extra_cflags:
-        content += f"ccflags-y := {' '.join(module.extra_cflags)}\n"
     with open(kbuild, "w", encoding="utf-8") as handle:
-        handle.write(content)
-    ko_bytes: bytes | None = None
+        handle.write(kbuild_content(project))
+    ko_bytes: dict[str, bytes] = {}
     try:
         run(kbuild_command(project, kdir, module_dir, "modules"), cwd=module_dir)
-        ko_source = os.path.join(module_dir, f"{module.name}.ko")
-        if not os.path.exists(ko_source):
-            fail(f"make succeeded but produced no {ko_source}; check the module name")
-        # Read the .ko before `make clean`, which deletes every .ko under M=.
-        with open(ko_source, "rb") as handle:
-            ko_bytes = handle.read()
+        for module in project.modules:
+            ko_source = os.path.join(module_dir, f"{module.name}.ko")
+            if not os.path.exists(ko_source):
+                fail(f"make succeeded but produced no {ko_source}; check the module name")
+            # Read the .ko before `make clean`, which deletes every .ko under M=.
+            with open(ko_source, "rb") as handle:
+                ko_bytes[module.name] = handle.read()
     finally:
         run(kbuild_command(project, kdir, module_dir, "clean"), cwd=module_dir)
         os.remove(kbuild)
-    destination = ko_path(project, module, out_dir)
-    os.makedirs(os.path.dirname(destination), exist_ok=True)
-    with open(destination, "wb") as handle:
-        handle.write(ko_bytes)
+    for module in project.modules:
+        destination = ko_path(project, module, out_dir)
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        with open(destination, "wb") as handle:
+            handle.write(ko_bytes[module.name])
 
 
 def main() -> None:
@@ -220,8 +232,7 @@ def main() -> None:
         return
     for project in projects:
         kdir = project.kdir or running_kernel_build_dir()
-        for module in project.modules:
-            build_module(project, module, kdir, out_dir)
+        build_project(project, kdir, out_dir)
 
 
 if __name__ == "__main__":

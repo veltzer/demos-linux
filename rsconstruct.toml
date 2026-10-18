@@ -278,18 +278,19 @@ src_dirs = ["src"]
 
 # ─── kernel modules ──────────────────────────────────────────────────────────
 
-# Every linux-module.yaml under src/kernel_standalone, built by kbuild through
-# scripts/linux_module.py: `plan` names each .ko the manifests promise, `build`
-# compiles them all. A mass generator rather than a creator so every .ko is a
+# Every linux-module.yaml under src (one per module directory in
+# src/kernel_standalone, a single one naming all the mod_*.c of src/kernel),
+# built by kbuild through scripts/linux_module.py: `plan` names each .ko the
+# manifests promise, `build` compiles them all. A mass generator rather than a creator so every .ko is a
 # product of its own with its own cache entry. The scan fields declare what
 # the plan reads (the manifests only), which keys the plan cache.
 [processor.mass_generator.generic.linux_module]
 command = "scripts/linux_module.py"
-args = ["build", "src/kernel_standalone", "out/processor.mass_generator.generic.linux_module"]
+args = ["build", "src", "out/processor.mass_generator.generic.linux_module"]
 predict_command = "scripts/linux_module.py"
-predict_args = ["plan", "src/kernel_standalone", "out/processor.mass_generator.generic.linux_module"]
+predict_args = ["plan", "src", "out/processor.mass_generator.generic.linux_module"]
 output_dirs = ["out/processor.mass_generator.generic.linux_module"]
-src_dirs = ["src/kernel_standalone"]
+src_dirs = ["src/kernel", "src/kernel_standalone"]
 src_extensions = ["linux-module.yaml"]
 required_tools = ["make", "uname"]
 
