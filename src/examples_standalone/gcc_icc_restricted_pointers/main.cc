@@ -47,7 +47,7 @@ void add_check_restrict(int* arr, int num, int* result) {
 	}
 }
 
-void add_no_restrict(int* arr, int num, int* result) __attribute__ ((noinline));
+void add_no_restrict(const int* arr, int num, int* result) __attribute__ ((noinline));
 void add_no_restrict(const int* arr, int num, int* result) {
 	*result=0;
 	for(int i=0; i<num; i++) {
@@ -55,7 +55,7 @@ void add_no_restrict(const int* arr, int num, int* result) {
 	}
 }
 
-void add_restrict(int* myrestrict arr, int num, int* myrestrict result) __attribute__ ((noinline));
+void add_restrict(const int* myrestrict arr, int num, int* myrestrict result) __attribute__ ((noinline));
 void add_restrict(const int* myrestrict arr, int num, int* myrestrict result) {
 	*result=0;
 	for(int i=0; i<num; i++) {
@@ -63,7 +63,7 @@ void add_restrict(const int* myrestrict arr, int num, int* myrestrict result) {
 	}
 }
 
-void add_temp(int* arr, int num, int* result) __attribute__ ((noinline));
+void add_temp(const int* arr, int num, int* result) __attribute__ ((noinline));
 void add_temp(const int* arr, int num, int* result) {
 	int temp=0;
 	for(int i=0; i<num; i++) {
